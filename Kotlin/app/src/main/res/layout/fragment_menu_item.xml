@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/ContentLayout"
+    android:orientation="vertical">
+
+    <com.huy.kotlin.lib.widget.AppBarView
+        android:id="@+id/appBarView"
+        style="@style/AppBar.Layout"
+        android:text="Menu Item" />
+
+    <androidx.core.widget.NestedScrollView style="@style/MatchWidth">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            style="@style/MatchWidth"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <include layout="@layout/view_developer" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.appcompat.widget.LinearLayoutCompat>
+
+
+
+

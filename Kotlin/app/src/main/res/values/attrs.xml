@@ -1,0 +1,52 @@
+<resources>
+
+    <declare-styleable name="AppBarView">
+        <attr name="android:text" format="string" />
+        <attr name="android:textAllCaps" format="boolean" />
+        <attr name="android:textStyle" format="integer" />
+        <attr name="android:background" format="reference" />
+        <attr name="android:drawableStart" format="reference" />
+        <attr name="android:drawableEnd" format="reference" />
+        <attr name="android:tint" format="integer" />
+        <attr name="android:textColor" format="integer" />
+        <attr name="appBar_tintEnable" format="boolean" />
+        <attr name="appBar_mostForward" format="boolean" />
+        <attr name="appBar_actionBack" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="SettingView">
+        <attr name="android:hint" format="string" />
+        <attr name="android:textColorHint" format="integer" />
+        <attr name="android:text" format="string" />
+        <attr name="android:textColor" format="integer" />
+        <attr name="android:textAllCaps" format="boolean" />
+        <attr name="android:checked" format="boolean" />
+        <attr name="android:checkable" format="boolean" />
+        <attr name="setting_separator" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="InputView">
+        <attr name="android:text" format="string" />
+        <attr name="android:textColor" format="integer" />
+        <attr name="android:textAllCaps" format="boolean" />
+        <attr name="android:maxLength" format="integer" />
+        <attr name="android:inputType" format="reference" />
+        <attr name="android:maxLines" format="integer" />
+        <attr name="android:nextFocusForward" format="integer" />
+        <attr name="android:imeOptions" format="reference" />
+        <attr name="android:src" format="reference" />
+        <attr name="android:gravity" format="reference" />
+        <attr name="android:drawableStart" format="reference" />
+        <attr name="android:drawableEnd" format="reference" />
+        <attr name="android:drawable" format="integer" />
+    </declare-styleable>
+
+    <declare-styleable name="NavigateMenu">
+        <attr name="android:text" format="string" />
+        <attr name="android:textColor" format="integer" />
+        <attr name="android:textAllCaps" format="boolean" />
+        <attr name="android:src" format="reference" />
+        <attr name="android:background" format="reference" />
+    </declare-styleable>
+
+</resources>

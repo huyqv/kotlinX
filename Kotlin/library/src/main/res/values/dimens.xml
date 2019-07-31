@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="tinySize">@dimen/_16sdp</dimen>
+    <dimen name="tinySizeExtra">@dimen/_20sdp</dimen>
+    <dimen name="smallSize">@dimen/_30sdp</dimen>
+    <dimen name="smallSizeExtra">@dimen/_32sdp</dimen>
+    <dimen name="mediumSize">@dimen/_40sdp</dimen>
+    <dimen name="mediumSizeExtra">@dimen/_44sdp</dimen>
+    <dimen name="largeSize">@dimen/_50sdp</dimen>
+    <dimen name="largeSizeExtra">@dimen/_54sdp</dimen>
+
+    <dimen name="microDist">@dimen/_4sdp</dimen>
+    <dimen name="tinyDist">@dimen/_8sdp</dimen>
+    <dimen name="smallDist">@dimen/_10sdp</dimen>
+    <dimen name="mediumDist">@dimen/_16sdp</dimen>
+    <dimen name="largeDist">@dimen/_24sdp</dimen>
+    <dimen name="extraDist">@dimen/_32sdp</dimen>
+
+    <dimen name="tinyText">@dimen/_9ssp</dimen>
+    <dimen name="smallText">@dimen/_11ssp</dimen>
+    <dimen name="mediumText">@dimen/_13ssp</dimen>
+    <dimen name="largeText">@dimen/_15ssp</dimen>
+    <dimen name="extraText">@dimen/_17ssp</dimen>
+
+    <dimen name="smallRadius">@dimen/_7sdp</dimen>
+
+</resources>

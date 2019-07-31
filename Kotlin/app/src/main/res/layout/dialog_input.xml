@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/Dialog.Layout">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textViewLabel"
+        style="@style/TextView.Medium"
+        android:layout_marginTop="@dimen/mediumDist"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/mediumText" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/editTextInput"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_76sdp"
+        android:layout_marginHorizontal="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:height="@dimen/mediumText"
+        android:background="@drawable/drw_rect_outline"
+        android:backgroundTint="@android:color/darker_gray"
+        android:gravity="top"
+        android:hint="..."
+        android:padding="@dimen/_6sdp"
+        android:textColor="@color/colorDark"
+        android:textSize="@dimen/mediumText" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textViewError"
+        style="@style/TextView.Small"
+        android:layout_marginTop="@dimen/smallDist"
+        android:textColor="@color/colorIndianRed" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/viewConfirm"
+        style="@style/Dialog.Button"
+        android:layout_marginTop="@dimen/mediumDist"
+        android:text="ok" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/setting_view"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/_62sdp"
+    android:background="@drawable/drw_ripple_light"
+    android:clickable="true"
+    android:paddingStart="@dimen/largeDist">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/setting_title"
+        style="@style/TextView.Large"
+        android:clickable="false"
+        app:layout_constraintBottom_toTopOf="@+id/guideline5"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/setting_text"
+        style="@style/TextView.Small"
+        android:layout_marginTop="@dimen/_2sdp"
+        android:clickable="false"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline5" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline5"
+        style="@style/HorizontalGuideLine"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <androidx.appcompat.widget.AppCompatCheckBox
+        android:id="@+id/setting_checkbox"
+        android:layout_width="@dimen/_16sdp"
+        android:layout_height="@dimen/_16sdp"
+        android:layout_marginEnd="@dimen/largeDist"
+        android:background="@drawable/ic_checkbox"
+        android:button="@null"
+        android:clickable="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/setting_separator"
+        android:layout_width="match_parent"
+        android:layout_height="0.5px"
+        android:background="@color/colorLightGray"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

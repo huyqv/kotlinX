@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/ContentLayout"
+    android:gravity="bottom"
+    android:orientation="vertical">
+
+    <com.huy.kotlin.lib.widget.AppBarView
+        android:id="@+id/appBarView"
+        style="@style/AppBar.Layout"
+        android:drawableStart="@drawable/ic_back"
+        android:text="Multi View Recycler" />
+
+    <FrameLayout
+        style="@style/VerticalItem"
+        app:layout_constraintBottom_toTopOf="@+id/cardView"
+        app:layout_constraintTop_toBottomOf="@+id/appBarView">
+
+        <androidx.appcompat.widget.AppCompatImageView style="@style/PatternImage" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            style="@style/RecyclerView"
+            android:layout_gravity="bottom"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/appBarView"
+            app:layout_constraintVertical_bias="0.0"
+            tools:itemCount="8"
+            tools:listitem="@layout/item_text_left" />
+
+    </FrameLayout>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        style="@style/MatchWidth"
+        app:cardBackgroundColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40sdp"
+            android:background="@android:color/white"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                style="@style/Chat.Button"
+                android:paddingTop="@dimen/_12sdp"
+                android:paddingBottom="@dimen/_12sdp"
+                app:srcCompat="@drawable/ic_image" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                style="@style/Chat.Button"
+                android:tint="@android:color/darker_gray"
+                app:srcCompat="@drawable/ic_emoticon" />
+
+            <EditText
+                style="@style/HorizontalItem"
+                android:layout_gravity="center_vertical"
+                android:background="@null"
+                android:gravity="center_vertical"
+                android:hint="Type..."
+                android:includeFontPadding="false"
+                android:inputType="text"
+                android:maxLines="1"
+                android:paddingStart="@dimen/smallDist"
+                android:paddingEnd="@dimen/smallDist"
+                android:textColor="@color/colorTextSecondary"
+                android:textColorHint="@color/colorLightSmoke"
+                android:textSize="@dimen/_13ssp" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                style="@style/Chat.Button"
+                android:tint="@android:color/darker_gray"
+                app:srcCompat="@drawable/ic_send" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.appcompat.widget.LinearLayoutCompat>
+
+
+
+

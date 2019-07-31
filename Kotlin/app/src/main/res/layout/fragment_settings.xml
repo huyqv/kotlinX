@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/ContentLayout"
+    android:orientation="vertical">
+
+    <com.huy.kotlin.lib.widget.AppBarView
+        android:id="@+id/appBarView"
+        style="@style/AppBar.Layout"
+        android:text="Settings" />
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/settingScrollView"
+        style="@style/MatchParent">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            style="@style/MatchWidth"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/text"
+                style="@style/Setting.Title"
+                android:text="@string/account" />
+
+            <com.huy.kotlin.lib.widget.SettingView
+                android:id="@+id/settingItem1"
+                style="@style/Setting.Item"
+                android:checkable="true"
+                android:checked="true"
+                android:hint="Synchronize"
+                android:text="@string/enabled" />
+
+            <com.huy.kotlin.lib.widget.SettingView
+                style="@style/Setting.Item"
+                android:hint="@string/email"
+                android:text="****@gmail.com" />
+
+            <com.huy.kotlin.lib.widget.SettingView
+                style="@style/Setting.Item"
+                android:hint="@string/password"
+                android:text="******" />
+
+            <com.huy.kotlin.lib.widget.SettingView
+                android:id="@+id/settingItem4"
+                style="@style/Setting.Item"
+                android:hint="Payment"
+                android:text="@string/enabled"
+                app:setting_separator="false" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/text1"
+                style="@style/Setting.Title"
+                android:text="@string/appearance" />
+
+            <com.huy.kotlin.lib.widget.SettingView
+                android:id="@+id/settingItem5"
+                style="@style/Setting.Item"
+                android:hint="Theme"
+                android:text="Light" />
+
+            <com.huy.kotlin.lib.widget.SettingView
+                android:id="@+id/settingItem7"
+                style="@style/Setting.Item"
+                android:checkable="true"
+                android:checked="true"
+                android:hint="Notification"
+                android:text="@string/enabled" />
+
+            <com.huy.kotlin.lib.widget.SettingView
+                style="@style/Setting.Item"
+                android:checkable="true"
+                android:checked="false"
+                android:hint="Location"
+                android:text="@string/disabled" />
+
+            <com.huy.kotlin.lib.widget.SettingView
+                style="@style/Setting.Item"
+                android:hint="Language"
+                android:text="Default"
+                app:setting_separator="false" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/text2"
+                style="@style/Setting.Title"
+                android:text="@string/application" />
+
+            <com.huy.kotlin.lib.widget.SettingView
+                android:id="@+id/settingItem9"
+                style="@style/Setting.Item"
+                android:hint="@string/develop"
+                android:text="@string/develop_name" />
+
+            <com.huy.kotlin.lib.widget.SettingView
+                android:id="@+id/settingTextViewAppVersion"
+                style="@style/Setting.Item"
+                android:hint="@string/version" />
+
+            <com.huy.kotlin.lib.widget.SettingView
+                android:id="@+id/settingItem11"
+                style="@style/Setting.Item"
+                android:hint="Check for update"
+                android:text="Last update 2018/09/28"
+                app:setting_separator="false" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/text3"
+                style="@style/Setting.Title"
+                android:text="System" />
+
+            <com.huy.kotlin.lib.widget.SettingView
+                android:id="@+id/settingTextViewOsName"
+                style="@style/Setting.Item"
+                android:hint="OS" />
+
+            <com.huy.kotlin.lib.widget.SettingView
+                android:id="@+id/settingTextViewSdkVersion"
+                style="@style/Setting.Item"
+                android:hint="SDK" />
+
+            <com.huy.kotlin.lib.widget.SettingView
+                android:id="@+id/settingTextViewDeviceName"
+                style="@style/Setting.Item"
+                android:hint="@string/name" />
+
+            <com.huy.kotlin.lib.widget.SettingView
+                android:id="@+id/settingTextViewDeviceId"
+                style="@style/Setting.Item"
+                android:hint="ID/IMEI/ESN"
+                app:setting_separator="false" />
+
+            <include layout="@layout/view_developer" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.appcompat.widget.LinearLayoutCompat>
+
+
+
+

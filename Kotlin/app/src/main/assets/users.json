@@ -1,0 +1,242 @@
+[
+  {
+    "id": 1,
+    "firstName": null,
+    "lastName": "Android 16",
+    "avatar": "http://raw.githubusercontent.com/huyqv/assets/master/users/android16.jpg"
+  },
+  {
+    "id": 2,
+    "firstName": null,
+    "lastName": "Android 19",
+    "avatar": "http://raw.githubusercontent.com/huyqv/assets/master/users/android19.jpg"
+  },
+  {
+    "id": 3,
+    "firstName": null,
+    "lastName": "Android 20",
+    "avatar": "http://raw.githubusercontent.com/huyqv/assets/master/users/android20.jpg"
+  },
+  {
+    "id": 4,
+    "firstName": null,
+    "lastName": "Android 21",
+    "avatar": "http://raw.githubusercontent.com/huyqv/assets/master/users/android21.jpg"
+  },
+  {
+    "id": 5,
+    "firstName": null,
+    "lastName": "Biden",
+    "avatar": "http://raw.githubusercontent.com/huyqv/assets/master/users/biden.jpg"
+  },
+  {
+    "id": 6,
+    "firstName": "Black",
+    "lastName": "Goku",
+    "avatar": "http://raw.githubusercontent.com/huyqv/assets/master/users/black%20goku.jpg"
+  },
+  {
+    "id": 7,
+    "firstName": null,
+    "lastName": "Broly",
+    "avatar": "http://raw.githubusercontent.com/huyqv/assets/master/users/broly.jpg"
+  },
+  {
+    "id": 8,
+    "firstName": null,
+    "lastName": "Bulma",
+    "avatar": "http://raw.githubusercontent.com/huyqv/assets/master/users/bulma.jpg"
+  },
+  {
+    "id": 9,
+    "firstName": null,
+    "lastName": "Buu",
+    "avatar": "http://raw.githubusercontent.com/huyqv/assets/master/users/buu.jpg"
+  },
+  {
+    "id": 10,
+    "firstName": "Byakuya",
+    "lastName": "Kuchiki",
+    "avatar": "http://raw.githubusercontent.com/huyqv/assets/master/users/buu.jpg"
+  },
+  {
+    "id": 11,
+    "firstName": null,
+    "lastName": "Cell",
+    "avatar": "http://raw.githubusercontent.com/huyqv/assets/master/users/cell.jpg"
+  },
+  {
+    "id": 12,
+    "firstName": "East",
+    "lastName": "Kaioshin",
+    "avatar": "http://raw.githubusercontent.com/huyqv/assets/master/users/east%20kaioshin.jpg"
+  },
+  {
+    "id": 13,
+    "firstName": "Fat",
+    "lastName": "Buu",
+    "avatar": "http://raw.githubusercontent.com/huyqv/assets/master/users/fat%20buu.jpg"
+  },
+  {
+    "id": 14,
+    "firstName": null,
+    "lastName": "Freiza",
+    "avatar": "http://raw.githubusercontent.com/huyqv/assets/master/users/freiza.jpg"
+  },
+  {
+    "id": 15,
+    "firstName": null,
+    "lastName": "Gohan",
+    "avatar": "http://raw.githubusercontent.com/huyqv/assets/master/users/gohan.jpg"
+  },
+  {
+    "id": 16,
+    "firstName": null,
+    "lastName": "Goku",
+    "avatar": "http://raw.githubusercontent.com/huyqv/assets/master/users/goku.jpg"
+  },
+  {
+    "id": 17,
+    "firstName": "Hitsugaya",
+    "lastName": "Toushirou",
+    "avatar": "http://raw.githubusercontent.com/huyqv/assets/master/users/hitsugaya%20toushirou.jpg"
+  },
+  {
+    "id": 18,
+    "firstName": null,
+    "lastName": "Ichigo",
+    "avatar": "http://raw.githubusercontent.com/huyqv/assets/master/users/ichigo.jpg"
+  },
+  {
+    "id": 19,
+    "firstName": "Inu",
+    "lastName": "Yasha",
+    "avatar": "http://raw.githubusercontent.com/huyqv/assets/master/users/inu%20yasha.jpg"
+  },
+  {
+    "id": 20,
+    "firstName": "Kame",
+    "lastName": "Shennin",
+    "avatar": "https://raw.githubusercontent.com/huyqv/assets/master/users/kame%20shennin.jpg"
+  },
+  {
+    "id": 21,
+    "firstName": null,
+    "lastName": "Krillin",
+    "avatar": "http://raw.githubusercontent.com/huyqv/assets/master/users/krilin.jpg"
+  },
+  {
+    "id": 22,
+    "firstName": null,
+    "lastName": "Launch",
+    "avatar": "http://raw.githubusercontent.com/huyqv/assets/master/users/launch.jpg"
+  },
+  {
+    "id": 23,
+    "firstName": null,
+    "lastName": "Luffy",
+    "avatar": "http://raw.githubusercontent.com/huyqv/assets/master/users/luffy.jpg"
+  },
+  {
+    "id": 24,
+    "firstName": null,
+    "lastName": "Nami",
+    "avatar": "http://raw.githubusercontent.com/huyqv/assets/master/users/nami.jpg"
+  },
+  {
+    "id": 25,
+    "firstName": null,
+    "lastName": "Natsu",
+    "avatar": "http://raw.githubusercontent.com/huyqv/assets/master/users/natsu.jpg"
+  },
+  {
+    "id": 26,
+    "firstName": null,
+    "lastName": "Pic",
+    "avatar": "http://raw.githubusercontent.com/huyqv/assets/master/users/pic.jpg"
+  },
+  {
+    "id": 27,
+    "firstName": null,
+    "lastName": "Picolo",
+    "avatar": "http://raw.githubusercontent.com/huyqv/assets/master/users/picolo.jpg"
+  },
+  {
+    "id": 28,
+    "firstName": null,
+    "lastName": "Poc",
+    "avatar": "http://raw.githubusercontent.com/huyqv/assets/master/users/poc.jpg"
+  },
+  {
+    "id": 29,
+    "firstName": null,
+    "lastName": "Satan",
+    "avatar": "http://raw.githubusercontent.com/huyqv/assets/master/users/satan.jpg"
+  },
+  {
+    "id": 30,
+    "firstName": null,
+    "lastName": "Sesshomaru",
+    "avatar": "http://raw.githubusercontent.com/huyqv/assets/master/users/sesshomaru.jpg"
+  },
+  {
+    "id": 31,
+    "firstName": null,
+    "lastName": "Soifon",
+    "avatar": "http://raw.githubusercontent.com/huyqv/assets/master/users/soifon.jpg"
+  },
+  {
+    "id": 32,
+    "firstName": null,
+    "lastName": "Tao",
+    "avatar": "http://raw.githubusercontent.com/huyqv/assets/master/users/tao.jpg"
+  },
+  {
+    "id": 33,
+    "firstName": null,
+    "lastName": "Tapion",
+    "avatar": "http://raw.githubusercontent.com/huyqv/assets/master/users/tapion.jpg"
+  },
+  {
+    "id": 34,
+    "firstName": "Tien",
+    "lastName": "Shinhan",
+    "avatar": "http://raw.githubusercontent.com/huyqv/assets/master/users/tien%20shinhan.jpg"
+  },
+  {
+    "id": 35,
+    "firstName": null,
+    "lastName": "Trunks",
+    "avatar": "http://raw.githubusercontent.com/huyqv/assets/master/users/trunks.jpg"
+  },
+  {
+    "id": 36,
+    "firstName": "Uzumaki",
+    "lastName": "Naruto",
+    "avatar": "http://raw.githubusercontent.com/huyqv/assets/master/users/uzumaki%20naruto.jpg"
+  },
+  {
+    "id": 37,
+    "firstName": null,
+    "lastName": "Vegeta",
+    "avatar": "http://raw.githubusercontent.com/huyqv/assets/master/users/vegeta.jpg"
+  },
+  {
+    "id": 38,
+    "firstName": null,
+    "lastName": "Yamcha",
+    "avatar": "http://raw.githubusercontent.com/huyqv/assets/master/users/yamcha.jpg"
+  },
+  {
+    "id": 39,
+    "firstName": null,
+    "lastName": "Zamasu",
+    "avatar": "http://raw.githubusercontent.com/huyqv/assets/master/users/zamasu.jpg"
+  },
+  {
+    "id": 40,
+    "firstName": null,
+    "lastName": "Zoro",
+    "avatar": "http://raw.githubusercontent.com/huyqv/assets/master/users/zoro.jpg"
+  }
+]

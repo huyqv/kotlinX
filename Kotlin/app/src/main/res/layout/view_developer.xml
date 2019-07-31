@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/MatchWidth"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/_24sdp">
+
+    <View
+        android:id="@+id/viewIcon"
+        android:layout_width="@dimen/_20sdp"
+        android:layout_height="@dimen/_20sdp"
+        android:layout_marginTop="@dimen/_24sdp"
+        android:background="@drawable/ic_kotlin" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textCWDTeam"
+        style="@style/TextView.Small"
+        android:layout_height="20dp"
+        android:layout_marginTop="@dimen/_4sdp"
+        android:text="CWD SWAG 2017" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        style="@style/TextView.Small"
+        android:text="All right reserved."
+        android:textColor="@color/colorTextSecondary" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>

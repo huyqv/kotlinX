@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/Dialog.Layout">
+
+    <include layout="@layout/dialog_title" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/view"
+        android:layout_width="@dimen/_50sdp"
+        android:layout_height="@dimen/_50sdp"
+        android:layout_marginTop="@dimen/_60sdp"
+        app:srcCompat="@mipmap/ic_kotlin" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        style="@style/TextView.Small"
+        android:layout_marginStart="@dimen/_20sdp"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_marginEnd="@dimen/_20sdp"
+        android:layout_marginBottom="@dimen/_60sdp"
+
+        android:text="@string/network_error_message" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/viewClose"
+        style="@style/Dialog.Button"
+        android:text="@string/close" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>

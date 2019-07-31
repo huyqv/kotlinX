@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_view"
+    style="@style/ContentLayout">
+
+    <com.huy.kotlin.lib.widget.AppBarView
+        android:id="@+id/appBarView"
+        style="@style/AppBar.Layout"
+        android:text="Kotlin"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.core.widget.NestedScrollView
+        style="@style/MatchParent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appBarView">
+
+        <androidx.appcompat.widget.LinearLayoutCompat style="@style/VerticalView">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/itemHandlerThread"
+                style="@style/Button.Match"
+                android:text="Handler thread" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/itemLoadMore"
+                style="@style/Button.Match"
+                android:text="Load more" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/itemMultiView"
+                style="@style/Button.Match"
+                android:text="Multi view" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/itemImages"
+                style="@style/Button.Match"
+                android:text="Images" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/itemSetting"
+                style="@style/Button.Match"
+                android:text="Setting" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/itemEditText"
+                style="@style/Button.Match"
+                android:text="EditText" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/itemMenu"
+                style="@style/Button.Match"
+                android:text="MenuItem" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/itemAppBar"
+                style="@style/Button.Match"
+                android:text="AppBarView" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/itemDialog"
+                style="@style/Button.Match"
+                android:text="Dialog" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/itemTab"
+                style="@style/Button.Match"
+                android:text="Tab" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/itemPaging"
+                style="@style/Button.Match"
+                android:text="Paging" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/itemAnimation"
+                style="@style/Button.Match"
+                android:text="Animation" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/itemTransaction"
+                style="@style/Button.Match"
+                android:text="Fragment Transaction" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <FrameLayout
+        android:id="@+id/container"
+        style="@style/MatchParent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

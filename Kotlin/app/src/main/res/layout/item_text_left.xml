@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/Chat.Item">
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/textLeftImageViewAvatar"
+        style="@style/Chat.Avatar"
+        app:layout_constraintBottom_toBottomOf="@+id/textLeftTextViewContent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:riv_border_color="@color/colorBubbleBorder"
+        app:riv_border_width="@dimen/bubbleAvatarBorder"
+        app:riv_corner_radius="@dimen/bubbleAvatarRadius" />
+
+    <View
+        android:id="@+id/view1"
+        style="@style/Chat.ArrowLeft"
+        app:layout_constraintBottom_toBottomOf="@+id/textLeftTextViewContent"
+        app:layout_constraintStart_toEndOf="@+id/textLeftImageViewAvatar" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textLeftTextViewContent"
+        style="@style/Chat.Text"
+        android:background="@drawable/drw_bubble_left"
+        android:breakStrategy="simple"
+        android:text="Lorem ipsum dolor sit amet, choncus id velit vitae mollis"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/view1"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textLeftTextViewTime"
+        style="@style/Chat.Date"
+        app:layout_constraintStart_toStartOf="@+id/textLeftTextViewContent"
+        app:layout_constraintTop_toBottomOf="@+id/textLeftTextViewContent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

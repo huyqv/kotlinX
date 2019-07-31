@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/ContentLayout"
+    android:background="@android:color/black">
+
+    <com.huy.library.widget.AppViewPager
+        android:id="@+id/imageView_viewPager"
+        style="@style/MatchParent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/imageView_view_back"
+        style="@style/TextView.Large"
+        android:layout_width="@dimen/_100sdp"
+        android:layout_height="@dimen/_50sdp"
+        android:layout_marginTop="@dimen/tinyDist"
+        android:gravity="center_vertical"
+        android:paddingStart="@dimen/mediumDist"
+        android:text="@string/back"
+        android:textColor="@android:color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_back" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/imageView_textView_index"
+        style="@style/TextView.Extra"
+        android:text="0"
+        android:textColor="@android:color/white"
+        app:layout_constraintBaseline_toBaselineOf="@+id/imageView_textView_count"
+        app:layout_constraintEnd_toStartOf="@+id/imageView_textView_count"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/imageView_textView_count"
+        style="@style/TextView.Extra"
+        android:layout_margin="@dimen/mediumDist"
+        android:fontFamily="monospace"
+        android:text="/0"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView_view_back"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageView_view_back" />
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/imageView_imageView_name"
+        style="@style/TextView.Small"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/_50sdp"
+        android:layout_marginStart="@dimen/smallDist"
+        android:layout_marginEnd="@dimen/smallDist"
+        android:gravity="center_vertical"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

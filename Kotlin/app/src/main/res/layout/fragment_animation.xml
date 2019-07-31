@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/ContentLayout"
+    android:orientation="vertical">
+
+    <com.huy.library.widget.SquareLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/viewKotlin"
+            android:layout_width="@dimen/_32sdp"
+            android:layout_height="@dimen/_32sdp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/ic_kotlin" />
+
+    </com.huy.library.widget.SquareLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        style="@style/RecyclerView" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>

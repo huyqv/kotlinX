@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/viewAppBar"
+    style="@style/MatchWidth"
+    android:background="@color/colorPrimary"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/viewElevation"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        android:clickable="false"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imageViewDrawableStart"
+        style="@style/AppBar.Icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textViewTitle"
+        android:layout_width="0dp"
+        android:layout_height="?android:attr/actionBarSize"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="@string/app_name"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/_12ssp"
+        app:layout_constraintEnd_toStartOf="@+id/imageViewDrawableEnd"
+        app:layout_constraintStart_toEndOf="@+id/imageViewDrawableStart"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imageViewDrawableEnd"
+        style="@style/AppBar.Icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <FrameLayout xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:ignore="UselessParent">
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="16dp"
+            android:layout_gravity="center_vertical"
+            android:indeterminate="true"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent" />
+    </FrameLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+

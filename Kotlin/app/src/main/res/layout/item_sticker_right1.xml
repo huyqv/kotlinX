@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/Chat.Item"
+    android:gravity="end|right"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/stickerRightImageViewSticker"
+        style="@style/Chat.Ticker" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/stickerRightTextViewTime"
+        style="@style/Chat.Date" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>

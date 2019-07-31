@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Dialog.Layout">
+
+    <include layout="@layout/dialog_title" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imageViewIcon"
+        android:layout_width="@dimen/_30sdp"
+        android:layout_height="@dimen/_30sdp"
+        android:padding="@dimen/_2sdp"
+        android:visibility="gone"
+        app:srcCompat="@mipmap/ic_kotlin"
+        tools:visibility="visible" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textViewMessage"
+        style="@style/TextView.Medium"
+        android:layout_marginStart="@dimen/extraDist"
+        android:layout_marginTop="@dimen/smallDist"
+        android:layout_marginEnd="@dimen/extraDist"
+        android:layout_marginBottom="@dimen/extraDist"
+        tools:text="Hello, you can hide this message by just touch outside the dialog box" />
+
+    <LinearLayout
+        style="@style/MatchWidth"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/viewClose"
+            style="@style/Dialog.Button"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="@string/close" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/viewConfirm"
+            style="@style/Dialog.Button"
+            android:layout_width="0dp"
+            android:layout_marginStart="0dp"
+            android:layout_weight="1"
+            android:text="@string/ok" />
+
+    </LinearLayout>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

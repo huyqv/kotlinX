@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/ContentLayout"
+    android:orientation="vertical">
+
+    <com.huy.kotlin.lib.widget.AppBarView
+        android:id="@+id/appBarView"
+        style="@style/AppBar.Layout"
+        android:text="EditText" />
+
+
+    <androidx.core.widget.NestedScrollView style="@style/MatchWidth">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            style="@style/MatchWidth"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <com.huy.kotlin.lib.widget.InputViewCenter
+                android:layout_width="@dimen/_200sdp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/extraDist"
+                android:drawableStart="@drawable/ic_adb"
+                android:text="center"
+                android:textColor="@color/colorGreenSea"
+                app:srcCompat="@drawable/drw_under_tray" />
+
+            <com.huy.kotlin.lib.widget.InputViewCenter
+                android:layout_width="@dimen/_200sdp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/extraDist"
+                android:drawableEnd="@drawable/ic_adb"
+                android:inputType="textPassword"
+                android:text="center"
+                android:textColor="@color/colorWisteria"
+                app:srcCompat="@drawable/drw_under_line" />
+
+            <com.huy.kotlin.lib.widget.InputViewCenter
+                android:layout_width="@dimen/_200sdp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/extraDist"
+                android:drawableStart="@drawable/ic_adb"
+                android:inputType="number"
+                android:text="center"
+                android:textColor="@color/colorBelizeHole"
+                app:srcCompat="@drawable/drw_rounded_outline" />
+
+            <com.huy.kotlin.lib.widget.InputViewMaterial
+                android:layout_width="@dimen/_200sdp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/extraDist"
+                android:drawableEnd="@drawable/ic_adb"
+                android:text="material"
+                android:textColor="@color/colorGreenSea"
+                app:srcCompat="@drawable/drw_under_tray" />
+
+            <com.huy.kotlin.lib.widget.InputViewMaterial
+                android:layout_width="@dimen/_200sdp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/extraDist"
+                android:drawableStart="@drawable/ic_adb"
+                android:drawableEnd="@drawable/ic_adb"
+                android:inputType="textPassword"
+                android:text="material"
+                android:textColor="@color/colorWisteria"
+                app:srcCompat="@drawable/drw_under_line" />
+
+            <com.huy.kotlin.lib.widget.InputViewMaterial
+                android:layout_width="@dimen/_200sdp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/extraDist"
+                android:drawableStart="@drawable/ic_adb"
+                android:drawableEnd="@drawable/ic_adb"
+                android:inputType="number"
+                android:text="material"
+                android:textColor="@color/colorBelizeHole"
+                app:srcCompat="@drawable/drw_circular_outline" />
+
+            <com.huy.kotlin.lib.widget.InputViewIcon
+                android:layout_width="@dimen/_200sdp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/extraDist"
+                android:drawable="@drawable/ic_send"
+                android:text="left icon"
+                android:textColor="@color/colorGreenSea"
+                app:srcCompat="@drawable/drw_under_tray" />
+
+            <com.huy.kotlin.lib.widget.InputViewIcon
+                android:layout_width="@dimen/_200sdp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/extraDist"
+                android:drawable="@drawable/ic_call"
+                android:drawableStart="@drawable/ic_adb"
+                android:drawableEnd="@drawable/ic_adb"
+                android:inputType="textPassword"
+                android:text="left icon"
+                android:textColor="@color/colorWisteria"
+                app:srcCompat="@drawable/drw_under_line" />
+
+            <com.huy.kotlin.lib.widget.InputViewIcon
+                android:layout_width="@dimen/_200sdp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/extraDist"
+                android:layout_marginBottom="@dimen/extraDist"
+                android:drawable="@drawable/ic_adb"
+                android:inputType="number"
+                android:text="left icon"
+                android:textColor="@color/colorBelizeHole"
+                app:srcCompat="@drawable/drw_circular_outline" />
+
+            <include layout="@layout/view_developer" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.appcompat.widget.LinearLayoutCompat>
+
+
+
+

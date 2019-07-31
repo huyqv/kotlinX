@@ -1,0 +1,146 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+
+apply plugin: 'kotlin-kapt'
+
+android {
+
+    compileSdkVersion rootProject.ext.compileSdkVersion
+
+    defaultConfig {
+
+        applicationId "com.huy.kotlin"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode rootProject.ext.versionCode
+        versionName rootProject.ext.versionName
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
+        flavorDimensions "default"
+        resConfigs "en"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kapt {
+        generateStubs = true
+        mapDiagnosticLocations = true
+    }
+
+    productFlavors {
+        prod {
+            applicationIdSuffix ".x"
+            buildConfigField "String", "SHARED_PREF", SHARED_PREF
+            buildConfigField "String", "SERVICE_URL", SERVICE_URL_PROD
+            buildConfigField "String", "RESOURCE_URL", RESOURCE_URL_PROD
+            buildConfigField "String", "DATABASE_NAME", DATABASE_NAME_PROD
+            buildConfigField "int", "DATABASE_VERSION", DATABASE_VERSION_PROD
+        }
+        dev {
+            applicationIdSuffix ".x.dev"
+            buildConfigField "String", "SHARED_PREF", SHARED_PREF
+            buildConfigField "String", "SERVICE_URL", SERVICE_URL_DEV
+            buildConfigField "String", "RESOURCE_URL", RESOURCE_URL_DEV
+            buildConfigField "String", "DATABASE_NAME", DATABASE_NAME_DEV
+            buildConfigField "int", "DATABASE_VERSION", DATABASE_VERSION_DEV
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation project(":library")
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "androidx.appcompat:appcompat:1.1.0-rc01"
+    implementation "androidx.vectordrawable:vectordrawable:1.1.0-rc01"
+    implementation "androidx.cardview:cardview:1.0.0"
+    implementation "androidx.recyclerview:recyclerview:1.1.0-beta01"
+    implementation "androidx.browser:browser:1.0.0"
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta2'
+    implementation 'androidx.core:core-ktx:1.2.0-alpha02'
+    implementation 'com.google.android.material:material:1.1.0-alpha08'
+    kapt "androidx.annotation:annotation:1.1.0"
+
+    // ROOM PERSISTENCE
+    def room_version = '2.2.0-alpha01'
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+
+    // LIFECYCLE
+    def lifecycle_version = '2.2.0-alpha02'
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-reactivestreams:$lifecycle_version"
+
+    // NETWORK
+    def retrofit_version = '2.6.0'
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.0.1'
+
+    // JSON CONVERT
+    implementation "com.google.code.gson:gson:2.8.5"
+
+    // REACTIVE X
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.10'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    implementation 'io.reactivex.rxjava2:rxkotlin:2.4.0'
+    implementation 'com.jakewharton.rxbinding2:rxbinding:2.2.0'
+
+    // GLIDE
+    def glide_version = '4.9.0'
+    implementation "com.github.bumptech.glide:glide:$glide_version"
+    kapt "com.github.bumptech.glide:compiler:$glide_version"
+
+    // DIMENSION RESOURCE
+    implementation "com.intuit.sdp:sdp-android:$dimens_version"
+    implementation "com.intuit.ssp:ssp-android:$dimens_version"
+
+    // PAGING
+    implementation "android.arch.paging:runtime:1.0.1"
+    implementation "android.arch.paging:rxjava2:1.0.1"
+
+    // PERMISSION
+    implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
+
+    // GOOGLE PLAY SERVICE
+    implementation 'com.google.firebase:firebase-core:17.0.1'
+    implementation 'com.google.firebase:firebase-messaging:19.0.1'
+
+    // CUSTOM VIEWS
+    implementation "com.github.IntruderShanky:Squint:3.0.1"
+    implementation "com.makeramen:roundedimageview:2.3.0"
+
+    // TEST
+    testImplementation 'junit:junit:4.13-beta-3'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    //implementation 'net.cachapa.expandablelayout:expandablelayout:2.9.2'
+    //implementation 'com.flaviofaria:kenburnsview:1.0.7'
+
+    //implementation 'com.mlsdev.rximagepicker:library:2.0.2'
+    //implementation 'com.github.hkk595:Resizer:v1.5'
+    //implementation 'id.zelory:compressor:2.1.0'
+
+    // WEB SOCKET
+    //implementation('io.socket:socket.io-client:1.0.0') {
+    //    exclude group: 'org.json', module: 'json'
+    //}
+
+}

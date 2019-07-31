@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/Chat.Item">
+
+    <View
+        android:id="@+id/view1"
+        style="@style/Chat.ArrowRight"
+        app:layout_constraintBottom_toBottomOf="@+id/msgFrame"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <FrameLayout
+        android:id="@+id/msgFrame"
+        style="@style/WrapContent"
+        android:layout_marginStart="@dimen/_50sdp"
+        android:background="@drawable/drw_bubble_right"
+        android:padding="@dimen/microDist"
+        app:layout_constraintEnd_toStartOf="@+id/view1"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.huy.library.widget.ThumbnailWebView
+            android:id="@+id/linkRightWebView"
+            style="@style/Chat.Image" />
+
+    </FrameLayout>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/linkRightTextViewTime"
+        style="@style/Chat.Date"
+        app:layout_constraintEnd_toStartOf="@+id/view1"
+        app:layout_constraintTop_toBottomOf="@+id/msgFrame" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
