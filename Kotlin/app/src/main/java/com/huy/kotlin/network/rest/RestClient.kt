@@ -19,7 +19,7 @@ class RestClient private constructor() : Logger(RestClient::class.java, LOG) {
      * Linked list of post code
      * Guaranteed api post job as a post execute if it being not executing
      */
-    var requestQueue: Queue<String> = LinkedList<String>()
+    var requestQueue: Queue<String> = LinkedList()
 
     var service: RestService = RestHelper.retrofit(BuildConfig.SERVICE_URL)
             .build()

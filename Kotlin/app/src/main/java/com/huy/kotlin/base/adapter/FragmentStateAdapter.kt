@@ -12,7 +12,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter
  * All Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-class FragmentStateAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
+class FragmentStateAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
     interface InitFragmentChanged {
         fun onInitFragmentChanged(obj: Any): Boolean

@@ -9,7 +9,6 @@ import android.content.res.Resources
 import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
-import android.net.ConnectivityManager
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
@@ -29,7 +28,6 @@ import androidx.core.content.ContextCompat
 import com.bumptech.glide.util.Util
 import com.huy.kotlin.app.App
 import com.huy.library.extension.UI_HANDLER
-import com.huy.library.extension.grantedNetworkPermission
 import java.io.BufferedReader
 import java.io.ByteArrayOutputStream
 import java.io.Closeable
@@ -112,17 +110,6 @@ val chipSet: String
             "<$e>"
         }
     }
-
-val networkConnected: Boolean
-    get() {
-        if (!App.instance.grantedNetworkPermission()) return false
-        val cm = App.instance.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val activeNetworkInfo = cm.activeNetworkInfo
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected
-    }
-
-val networkDisconnected: Boolean
-    get() = !networkConnected
 
 val screenWidth: Int
     get() {

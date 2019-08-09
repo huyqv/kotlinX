@@ -2,6 +2,7 @@ package com.huy.library.view
 
 import android.view.View
 import androidx.viewpager.widget.ViewPager
+import kotlin.math.abs
 
 
 /**
@@ -140,6 +141,18 @@ class PageTransformer {
                 view.translationY = position * -view.height
             }
 
+        }
+    }
+
+    class Fade : ViewPager.PageTransformer {
+        override fun transformPage(page: View, position: Float) {
+            if (position <= -1.0F || position >= 1.0F) {
+                page.alpha = 0.0F
+            } else if (position == 0.0F) {
+                page.alpha = 1.0F
+            } else {
+                page.alpha = 1.0F - abs(position)
+            }
         }
     }
 

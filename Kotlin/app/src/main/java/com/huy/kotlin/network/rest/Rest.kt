@@ -354,8 +354,7 @@ private fun HttpException.getErrorMessage(): String {
     }
 }
 
-private fun Throwable.isNetworkError(): Boolean {
-
+fun Throwable.isNetworkError(): Boolean {
     return this is SocketException || this is UnknownHostException || this is SocketTimeoutException
 }
 
