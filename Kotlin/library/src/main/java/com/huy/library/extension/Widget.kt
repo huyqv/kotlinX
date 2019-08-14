@@ -23,6 +23,8 @@ import android.widget.*
 import androidx.annotation.*
 import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
+import androidx.fragment.app.FragmentActivity
+import com.huy.library.Library
 import java.util.*
 
 
@@ -192,6 +194,14 @@ val WRAP = -2
 
 val MATCH = -1
 
+fun View.activity(): Activity? {
+    return context as? Activity
+}
+
+fun View.fragmentActivity(): FragmentActivity? {
+    return context as? FragmentActivity
+}
+
 fun View.preventAction(time: Long = 1200) {
     isEnabled = false
     postDelayed({ isEnabled = true }, time)
@@ -233,19 +243,6 @@ fun View.isGone(gone: Boolean?) {
     else View.VISIBLE
 }
 
-fun show(vararg views: View) {
-    for (v in views) v.show()
-}
-
-fun hide(vararg views: View) {
-    for (v in views) v.hide()
-}
-
-fun gone(vararg views: View) {
-    for (v in views) v.gone()
-}
-
-
 /**
  * @param animationStyle animationStyle
  * <style name="PopupStyle">
@@ -266,7 +263,6 @@ fun View.backgroundTint(@ColorRes res: Int) {
         background.setColorFilter(ContextCompat.getColor(context, res), PorterDuff.Mode.SRC_ATOP)
     }
 }
-
 
 /**
  * @WebView
@@ -335,7 +331,20 @@ fun WebView.setClient(progressBar: ProgressBar) {
     }
 }
 
-fun <T : View> View.bind(@IdRes res: Int): Lazy<T> {
-    @Suppress("UNCHECKED_CAST")
-    return lazy { findViewById<T>(res) }
+fun inflater(@LayoutRes layoutRes: Int): View {
+    val inflater = Library.app.getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
+    return inflater.inflate(layoutRes, null)
 }
+
+fun show(vararg views: View) {
+    for (v in views) v.show()
+}
+
+fun hide(vararg views: View) {
+    for (v in views) v.hide()
+}
+
+fun gone(vararg views: View) {
+    for (v in views) v.gone()
+}
+

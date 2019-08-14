@@ -6,6 +6,9 @@ import android.text.SpannableString
 import android.text.TextUtils
 import android.util.Base64
 import android.webkit.MimeTypeMap
+import androidx.annotation.ColorRes
+import androidx.core.content.ContextCompat
+import com.huy.library.Library
 import java.net.URI
 import java.net.URISyntaxException
 import java.security.MessageDigest
@@ -79,14 +82,13 @@ fun String.toTokenList(delim: String = ";"): MutableList<Int> {
     return list
 }
 
-fun String?.red(): String {
-    this ?: return ""
-    return "<font color=#d12c34><b>$this</b></font>"
+fun String?.color(@ColorRes color: Int): String {
+    return color("#${Integer.toHexString(ContextCompat.getColor(Library.app, color) and 0x00ffffff)}")
 }
 
-fun String?.blue(): String {
+fun String?.color(color: String): String {
     this ?: return ""
-    return "<font color=#2AA5FF>$this</font>"
+    return "<font color=$color>$this</font>"
 }
 
 fun String?.bold(): String {

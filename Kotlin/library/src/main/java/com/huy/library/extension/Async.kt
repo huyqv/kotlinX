@@ -14,6 +14,8 @@ import java.util.concurrent.Executor
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
+val HANDLER = Handler()
+
 val UI_HANDLER: Handler = Handler(Looper.getMainLooper())
 
 val UI_EXECUTOR: Executor = Executor { command -> UI_HANDLER.post(command) }
@@ -25,7 +27,8 @@ val IO_EXECUTOR: Executor get() = Executor { command -> IO_HANDLER.execute(comma
 val isOnUiThread: Boolean get() = Looper.myLooper() == Looper.getMainLooper()
 
 fun uiThread(block: () -> Unit) {
-    if (isOnUiThread) UI_HANDLER.post { block() }
+    if (isOnUiThread) block()
+    else post { block() }
 }
 
 fun ioThread(block: () -> Unit) {
@@ -33,9 +36,11 @@ fun ioThread(block: () -> Unit) {
 }
 
 fun post(block: () -> Unit) {
-    Handler().post { block() }
+    HANDLER.post { block() }
 }
 
 fun post(delay: Long, block: () -> Unit) {
-    Handler().postDelayed({ block() }, delay)
+    HANDLER.postDelayed({ block() }, delay)
 }
+
+

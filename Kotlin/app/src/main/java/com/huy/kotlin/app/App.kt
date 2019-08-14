@@ -2,6 +2,7 @@ package com.huy.kotlin.app
 
 import android.app.Application
 import android.content.Context
+import com.huy.library.Library
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -11,12 +12,13 @@ import android.content.Context
  * All Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-class App : Application() {
+class App : Application(), Library.Extension {
 
     var isForeground: Boolean = false
 
     override fun onCreate() {
         super.onCreate()
+        Library.inject(this)
         instance = this
     }
 
