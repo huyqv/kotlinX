@@ -18,8 +18,6 @@ import com.huy.kotlin.app.App
 import com.huy.kotlin.base.dialog.ConfirmDialog
 import com.huy.kotlin.base.dialog.MessageDialog
 import com.huy.kotlin.base.dialog.ProgressDialog
-import com.huy.kotlin.extension.string
-import com.huy.kotlin.extension.toast
 import com.huy.library.extension.*
 
 /**

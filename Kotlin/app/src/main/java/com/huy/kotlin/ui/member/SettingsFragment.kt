@@ -5,9 +5,9 @@ import android.os.Bundle
 import android.view.View
 import com.huy.kotlin.R
 import com.huy.kotlin.base.view.BaseFragment
-import com.huy.kotlin.extension.appVersion
-import com.huy.kotlin.extension.deviceId
-import com.huy.kotlin.extension.deviceName
+import com.huy.library.extension.appVersion
+import com.huy.library.extension.deviceId
+import com.huy.library.extension.deviceName
 import kotlinx.android.synthetic.main.fragment_settings.*
 
 /**

@@ -1,7 +1,7 @@
 package com.huy.kotlin.network.callback
 
 import com.huy.kotlin.base.view.BaseView
-import com.huy.kotlin.extension.toast
+import com.huy.library.extension.toast
 import io.reactivex.observers.DisposableObserver
 import org.json.JSONObject
 import retrofit2.HttpException

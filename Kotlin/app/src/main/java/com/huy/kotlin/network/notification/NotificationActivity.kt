@@ -3,7 +3,7 @@ package com.huy.kotlin.network.notification
 import android.os.Bundle
 import com.huy.kotlin.R
 import com.huy.kotlin.base.view.BaseActivity
-import com.huy.kotlin.extension.toast
+import com.huy.library.extension.toast
 
 /**
  * -------------------------------------------------------------------------------------------------

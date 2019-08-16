@@ -1,4 +1,4 @@
-package com.huy.kotlin.extension
+package com.huy.library.extension
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -25,9 +25,7 @@ import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
-import com.bumptech.glide.util.Util
-import com.huy.kotlin.app.App
-import com.huy.library.extension.UI_HANDLER
+import com.huy.library.Library
 import java.io.BufferedReader
 import java.io.ByteArrayOutputStream
 import java.io.Closeable
@@ -46,22 +44,24 @@ import java.util.concurrent.TimeUnit
  * All Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
+val resources: Resources get() = Library.app.applicationContext.resources
+
 val appVersion: String
     get() {
         return try {
-            App.instance.packageManager.getPackageInfo(App.instance.packageName, 0).versionName
+            Library.app.packageManager.getPackageInfo(Library.app.packageName, 0).versionName
         } catch (e: PackageManager.NameNotFoundException) {
             return "v1.0"
         }
     }
 
 val packageName: String
-    get() = App.instance.applicationContext.packageName
+    get() = Library.app.applicationContext.packageName
 
 val deviceId: String
     get() {
         return try {
-            Settings.Secure.getString(App.instance.contentResolver, Settings.Secure.ANDROID_ID)
+            Settings.Secure.getString(Library.app.contentResolver, Settings.Secure.ANDROID_ID)
         } catch (e: Exception) {
             ""
         }
@@ -92,7 +92,7 @@ val timeZone: String
 
 val isTablet: Boolean
     get() {
-        return App.instance.resources.configuration.screenLayout and
+        return Library.app.resources.configuration.screenLayout and
                 Configuration.SCREENLAYOUT_SIZE_MASK >= Configuration.SCREENLAYOUT_SIZE_LARGE
     }
 
@@ -113,7 +113,7 @@ val chipSet: String
 
 val screenWidth: Int
     get() {
-        val windowManager = App.instance.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+        val windowManager = Library.app.getSystemService(Context.WINDOW_SERVICE) as WindowManager
         val dm = DisplayMetrics()
         windowManager.defaultDisplay.getMetrics(dm)
         return dm.heightPixels
@@ -121,7 +121,7 @@ val screenWidth: Int
 
 val screenHeight: Int
     get() {
-        val windowManager = App.instance.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+        val windowManager = Library.app.getSystemService(Context.WINDOW_SERVICE) as WindowManager
         val dm = DisplayMetrics()
         windowManager.defaultDisplay.getMetrics(dm)
         return dm.heightPixels
@@ -129,25 +129,25 @@ val screenHeight: Int
 
 fun statusBarHeight(): Int? {
     var result = 0
-    val resourceId = App.instance.resources.getIdentifier("status_bar_height", "dimen", "android")
+    val resourceId = Library.app.resources.getIdentifier("status_bar_height", "dimen", "android")
     if (resourceId > 0)
-        result = App.instance.resources.getDimensionPixelSize(resourceId)
+        result = Library.app.resources.getDimensionPixelSize(resourceId)
     return result
 }
 
 fun toast(message: String?) {
     message ?: return
-    if (Util.isOnMainThread()) {
-        Toast.makeText(App.appContext, message, Toast.LENGTH_SHORT).show()
+    if (isOnUiThread) {
+        Toast.makeText(Library.app.applicationContext, message, Toast.LENGTH_SHORT).show()
     } else {
-        UI_HANDLER.post { Toast.makeText(App.appContext, message, Toast.LENGTH_SHORT).show() }
+        UI_HANDLER.post { Toast.makeText(Library.app.applicationContext, message, Toast.LENGTH_SHORT).show() }
     }
 }
 
 fun toast(@StringRes res: Int?, vararg arguments: Any) {
     res ?: return
     val message = try {
-        App.appContext.getString(res, *arguments)
+        resources.getString(res, *arguments)
     } catch (ex: Resources.NotFoundException) {
         return
     }
@@ -155,24 +155,24 @@ fun toast(@StringRes res: Int?, vararg arguments: Any) {
 }
 
 fun anim(@AnimRes res: Int): Animation {
-    return AnimationUtils.loadAnimation(App.instance, res)
+    return AnimationUtils.loadAnimation(Library.app, res)
 }
 
 fun drawable(@DrawableRes res: Int): Drawable? {
-    return ContextCompat.getDrawable(App.instance, res)
+    return ContextCompat.getDrawable(Library.app, res)
 }
 
 fun color(@ColorRes res: Int): Int {
-    return ContextCompat.getColor(App.instance, res)
+    return ContextCompat.getColor(Library.app, res)
 }
 
 fun string(@StringRes res: Int): String {
-    return App.instance.getString(res)
+    return Library.app.getString(res)
 }
 
 fun string(@StringRes res: Int, vararg args: Any?): String {
     return try {
-        String.format(App.instance.getString(res), *args)
+        String.format(Library.app.getString(res), *args)
     } catch (ignore: Exception) {
         ""
     }
@@ -180,19 +180,19 @@ fun string(@StringRes res: Int, vararg args: Any?): String {
 
 fun restartApp() {
 
-    val intent = App.instance.packageManager.getLaunchIntentForPackage(packageName)
+    val intent = Library.app.packageManager.getLaunchIntentForPackage(packageName)
     intent!!.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-    App.instance.startActivity(intent)
+    Library.app.startActivity(intent)
 }
 
 fun keyHash() {
 
     try {
         val signatures = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            App.instance.packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNING_CERTIFICATES).signingInfo.signingCertificateHistory
+            Library.app.packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNING_CERTIFICATES).signingInfo.signingCertificateHistory
         } else {
             @Suppress("DEPRECATION")
-            App.instance.packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNATURES).signatures
+            Library.app.packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNATURES).signatures
         }
         for (signature in signatures) {
             val md = MessageDigest.getInstance("SHA")
@@ -209,7 +209,7 @@ fun keyHash() {
 fun getImageUri(inImage: Bitmap): Uri {
     val bytes = ByteArrayOutputStream()
     inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
-    val path = MediaStore.Images.Media.insertImage(App.instance.contentResolver, inImage, "Title", null)
+    val path = MediaStore.Images.Media.insertImage(Library.app.contentResolver, inImage, "Title", null)
     return Uri.parse(path)
 }
 
@@ -218,7 +218,7 @@ fun realPathFromURI(contentUri: Uri): String {
     var cursor: Cursor? = null
     try {
         val proj = arrayOf(MediaStore.Images.Media.DATA)
-        cursor = App.instance.contentResolver.query(contentUri, proj, null, null, null)
+        cursor = Library.app.contentResolver.query(contentUri, proj, null, null, null)
         val columnIndex = cursor!!.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
         cursor.moveToFirst()
         return cursor.getString(columnIndex)
@@ -229,7 +229,7 @@ fun realPathFromURI(contentUri: Uri): String {
 
 fun readAsset(filename: String): String {
     val sb = StringBuilder()
-    BufferedReader(InputStreamReader(App.instance.assets.open(filename))).useLines { lines ->
+    BufferedReader(InputStreamReader(Library.app.assets.open(filename))).useLines { lines ->
         lines.forEach {
             sb.append(it)
         }

@@ -8,7 +8,7 @@ import com.huy.kotlin.base.view.BaseActivity
 import com.huy.kotlin.data.observable.AlertLiveData
 import com.huy.kotlin.data.observable.ProgressLiveData
 import com.huy.kotlin.data.observable.ToastLiveData
-import com.huy.kotlin.extension.toast
+import com.huy.library.extension.toast
 
 /**
  * -------------------------------------------------------------------------------------------------

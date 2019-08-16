@@ -1,0 +1,203 @@
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.LinearLayoutCompat style="@style/Key.Row">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/viewQ"
+            style="@style/Key.Char"
+            android:text="q" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/viewW"
+            style="@style/Key.Char"
+            android:text="w" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/viewE"
+            style="@style/Key.Char"
+            android:text="e" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/viewR"
+            style="@style/Key.Char"
+            android:text="r" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/viewT"
+            style="@style/Key.Char"
+            android:text="t" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/viewY"
+            style="@style/Key.Char"
+            android:text="y" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/viewU"
+            style="@style/Key.Char"
+            android:text="u" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/viewI"
+            style="@style/Key.Char"
+            android:text="i" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/viewO"
+            style="@style/Key.Char"
+            android:text="o" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/viewP"
+            style="@style/Key.Char"
+            android:text="p" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/viewDel"
+            style="@style/Key.Image"
+            android:src="@drawable/ic_key_back" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat style="@style/Key.Row">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/Key.Char"
+            android:layout_weight="1"
+            android:clickable="false" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/viewA"
+            style="@style/Key.Char"
+            android:text="a" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/viewS"
+            style="@style/Key.Char"
+            android:text="s" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/viewD"
+            style="@style/Key.Char"
+            android:text="d" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/viewF"
+            style="@style/Key.Char"
+            android:text="f" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/viewG"
+            style="@style/Key.Char"
+            android:text="g" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/viewH"
+            style="@style/Key.Char"
+            android:text="h" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/viewJ"
+            style="@style/Key.Char"
+            android:text="j" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/viewK"
+            style="@style/Key.Char"
+            android:text="k" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/viewL"
+            style="@style/Key.Char"
+            android:text="l" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/Key.Char"
+            android:layout_weight="1"
+            android:clickable="false" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat style="@style/Key.Row">
+
+        <com.huy.keyboard.KeyImageView
+            android:id="@+id/viewShift"
+            style="@style/Key.Image"
+            android:layout_weight="3"
+            android:src="@drawable/ic_key_shift" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/viewZ"
+            style="@style/Key.Char"
+            android:text="z" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/viewX"
+            style="@style/Key.Char"
+            android:text="x" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/viewC"
+            style="@style/Key.Char"
+            android:text="c" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/viewV"
+            style="@style/Key.Char"
+            android:text="v" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/viewB"
+            style="@style/Key.Char"
+            android:text="b" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/viewN"
+            style="@style/Key.Char"
+            android:text="n" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/viewM"
+            style="@style/Key.Char"
+            android:text="m" />
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/viewCaps"
+            style="@style/Key.Char"
+            android:layout_weight="3"
+            android:background="@drawable/selector_key_check"
+            android:text="Caps"
+            android:textColor="@drawable/color_key_check"
+            android:textSize="@dimen/_10ssp"
+            android:textStyle="bold" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat style="@style/Key.Row">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/viewHide"
+            style="@style/Key.Image"
+            android:layout_weight="1"
+            android:padding="@dimen/_6sdp"
+            android:src="@drawable/ic_down" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/viewSpace"
+            style="@style/Key.Image"
+            android:layout_weight="2"
+            android:src="@drawable/ic_key_space" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/viewDone"
+            style="@style/Key.Char"
+            android:layout_weight="1"
+            android:text="Next" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

@@ -5,11 +5,7 @@ import android.view.View
 import com.huy.kotlin.R
 import com.huy.kotlin.base.dialog.*
 import com.huy.kotlin.base.view.BaseFragment
-import com.huy.kotlin.extension.toast
-import com.huy.library.extension.getProgressDialog
-import com.huy.library.extension.showConfirmDialog
-import com.huy.library.extension.showDialog
-import com.huy.library.extension.showMessageDialog
+import com.huy.library.extension.*
 import kotlinx.android.synthetic.main.fragment_dialogs.*
 
 /**

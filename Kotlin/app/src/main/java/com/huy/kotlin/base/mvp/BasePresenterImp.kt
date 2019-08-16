@@ -10,10 +10,10 @@ import com.huy.kotlin.base.event.EventDispatcher
 import com.huy.kotlin.base.event.EventListener
 import com.huy.kotlin.base.view.BaseView
 import com.huy.kotlin.data.local.SharedHelper
-import com.huy.kotlin.extension.toast
 import com.huy.kotlin.network.callback.WeakDisposableObserver
 import com.huy.kotlin.network.rest.RestClient
 import com.huy.kotlin.network.rest.RestResponse
+import com.huy.library.extension.toast
 import com.huy.library.util.NetworkUtil
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers

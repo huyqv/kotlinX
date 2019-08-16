@@ -3,7 +3,6 @@ package com.huy.kotlin.extension
 import android.content.Context
 import com.huy.kotlin.app.App
 import com.huy.library.R
-import com.huy.library.extension.red
 import java.lang.reflect.InvocationTargetException
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -301,7 +300,7 @@ fun getRangeDayText(timeInMillis: Long): String {
     }
     when {
         rangeDay > 0 -> "remaining in $rangeDay ${App.instance.getString(R.string.days)}"
-        else -> "pass in ${shortFormat(timeInMillis).red()}"
+        else -> "pass in ${shortFormat(timeInMillis)}"
     }
     return "..."
 }

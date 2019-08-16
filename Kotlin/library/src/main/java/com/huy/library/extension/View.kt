@@ -1,10 +1,10 @@
-package com.huy.kotlin.extension
+package com.huy.library.extension
 
 import android.util.DisplayMetrics
 import android.util.TypedValue
 import android.view.View
 import com.google.android.material.snackbar.Snackbar
-import com.huy.kotlin.app.App
+import com.huy.library.Library
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -15,17 +15,17 @@ import com.huy.kotlin.app.App
  * -------------------------------------------------------------------------------------------------
  */
 fun Float.dpToPx(): Float {
-    val resources = App.instance.resources
+    val resources = Library.app.resources
     val scale = resources.displayMetrics.density
     return (this * scale + 0.5f)
 }
 
 fun Float.pxToDp(): Float {
-    return this / (App.instance.resources.displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)
+    return this / (Library.app.resources.displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)
 }
 
 fun Float.dipToPx(): Float {
-    return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, this, App.instance.resources.displayMetrics)
+    return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, this, Library.app.resources.displayMetrics)
 }
 
 /**

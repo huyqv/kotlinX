@@ -1,10 +1,11 @@
-package com.huy.kotlin.extension
+package com.huy.library.extension
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
-import com.huy.kotlin.app.App
+import com.huy.library.Library
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -15,8 +16,9 @@ import com.huy.kotlin.app.App
  * -------------------------------------------------------------------------------------------------
  */
 val networkConnected: Boolean
+    @SuppressLint("MissingPermission")
     get() {
-        val cm = App.instance.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val cm = Library.app.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         when {
 
             Build.VERSION.SDK_INT > Build.VERSION_CODES.O -> cm.getNetworkCapabilities(cm.activeNetwork)?.run {

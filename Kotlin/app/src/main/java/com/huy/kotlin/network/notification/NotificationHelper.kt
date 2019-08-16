@@ -16,7 +16,7 @@ import com.google.firebase.messaging.RemoteMessage
 import com.huy.kotlin.R
 import com.huy.kotlin.app.App
 import com.huy.kotlin.data.local.SharedHelper
-import com.huy.kotlin.extension.string
+import com.huy.library.extension.string
 
 /**
  * -------------------------------------------------------------------------------------------------

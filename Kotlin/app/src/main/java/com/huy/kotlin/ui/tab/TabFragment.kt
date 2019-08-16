@@ -11,8 +11,8 @@ import com.google.android.material.tabs.TabLayout
 import com.huy.kotlin.R
 import com.huy.kotlin.base.adapter.FragmentAdapter
 import com.huy.kotlin.base.view.BaseFragment
-import com.huy.kotlin.extension.color
 import com.huy.kotlin.ui.member.ColorFragment
+import com.huy.library.extension.color
 import com.huy.library.view.PageTransformer
 import kotlinx.android.synthetic.main.fragment_tab.*
 

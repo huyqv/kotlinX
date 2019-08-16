@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.View
 import com.huy.kotlin.R
 import com.huy.kotlin.base.view.BaseFragment
-import com.huy.kotlin.extension.toast
+import com.huy.library.extension.toast
 import kotlinx.android.synthetic.main.fragment_color.*
 
 /**
