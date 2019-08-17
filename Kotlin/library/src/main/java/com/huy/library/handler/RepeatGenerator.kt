@@ -8,16 +8,11 @@ package com.huy.library.handler
  * All Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-abstract class RepeatHandlerThread<T> : BaseHandlerThread<T> {
-
-    @Volatile
-    private var generating = false
+abstract class RepeatGenerator<T> : BaseGenerator<T> {
 
     private val generator: Runnable
 
     private val delayInterval: Long
-
-    protected abstract fun onDataGenerate(): T
 
     constructor(name: String, delayInterval: Long, receiver: DataReceiver<T>) : super(name, receiver) {
         this.delayInterval = delayInterval
@@ -31,24 +26,16 @@ abstract class RepeatHandlerThread<T> : BaseHandlerThread<T> {
         }
     }
 
-    open fun playGenerate() {
+    override fun playGenerate() {
         if (generating) return
-        handler?.apply {
-            generating = true
-            postDelayed(generator, delayInterval)
-        }
+        generating = true
+        handler?.apply { postDelayed(generator, delayInterval) }
     }
 
-    open fun pauseGenerate() {
+    override fun pauseGenerate() {
         if (!generating) return
-        handler?.apply {
-            generating = false
-            removeCallbacks(generator)
-        }
-    }
-
-    fun isGenerating(): Boolean {
-        return generating
+        generating = false
+        handler?.apply { removeCallbacks(generator) }
     }
 
 }

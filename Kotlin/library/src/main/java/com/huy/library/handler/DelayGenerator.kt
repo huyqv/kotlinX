@@ -8,12 +8,7 @@ package com.huy.library.handler
  * All Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-abstract class DelayHandlerThread<T> : BaseHandlerThread<T> {
-
-    protected abstract fun onDataGenerate(): T
-
-    @Volatile
-    private var generating = false
+abstract class DelayGenerator<T> : BaseGenerator<T> {
 
     private val generator: Runnable
 
@@ -30,14 +25,14 @@ abstract class DelayHandlerThread<T> : BaseHandlerThread<T> {
         }
     }
 
-    open fun playGenerate() {
+    override fun playGenerate() {
         handler?.apply {
             removeCallbacks(generator)
             postDelayed(generator, delayTime)
         }
     }
 
-    open fun pauseGenerate() {
+    override fun pauseGenerate() {
         handler?.removeCallbacks(generator)
     }
 

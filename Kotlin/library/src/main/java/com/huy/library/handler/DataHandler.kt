@@ -24,6 +24,6 @@ class DataHandler<T> : Handler() {
 
     override fun handleMessage(msg: Message?) {
         @Suppress("UNCHECKED_CAST") val data = msg?.obj as? T ?: return
-        dataReceivedRef?.get()?.also { command -> command.onDataReceived(data) }
+        dataReceivedRef?.get()?.also { receiver -> receiver.onDataReceived(data) }
     }
 }

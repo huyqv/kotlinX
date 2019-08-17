@@ -1,4 +1,4 @@
-package com.huy.kotlin.ui.handle_thread
+package com.huy.kotlin.ui.generator
 
 import com.huy.kotlin.extension.parse
 import com.huy.kotlin.ui.user.User

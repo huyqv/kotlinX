@@ -1,8 +1,8 @@
-package com.huy.kotlin.ui.handle_thread
+package com.huy.kotlin.ui.generator
 
 import com.huy.kotlin.ui.user.User
 import com.huy.library.handler.DataReceiver
-import com.huy.library.handler.RepeatHandlerThread
+import com.huy.library.handler.RepeatGenerator
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -12,7 +12,7 @@ import com.huy.library.handler.RepeatHandlerThread
  * All Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-class UserGenerator : RepeatHandlerThread<User> {
+class UserGenerator : RepeatGenerator<User> {
 
     constructor(receiver: DataReceiver<User>) : super("UserGenerator", 400, receiver)
 

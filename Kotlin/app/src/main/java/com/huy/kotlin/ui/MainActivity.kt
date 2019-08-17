@@ -5,7 +5,7 @@ import android.view.View
 import com.huy.kotlin.R
 import com.huy.kotlin.base.arch.ArchActivity
 import com.huy.kotlin.ui.animation.AnimationFragment
-import com.huy.kotlin.ui.handle_thread.HandleThreadFragment
+import com.huy.kotlin.ui.generator.GeneratorFragment
 import com.huy.kotlin.ui.image.ImageFragment
 import com.huy.kotlin.ui.member.*
 import com.huy.kotlin.ui.message.MessageFragment
@@ -41,7 +41,7 @@ class MainActivity : ArchActivity<MainVM>() {
 
     override fun onViewClick(view: View) {
         when (view) {
-            itemHandlerThread -> add(HandleThreadFragment())
+            itemHandlerThread -> add(GeneratorFragment())
             itemLoadMore -> add(UserFragment())
             itemMultiView -> add(MessageFragment())
             itemImages -> add(ImageFragment())

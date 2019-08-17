@@ -1,4 +1,4 @@
-package com.huy.kotlin.ui.handle_thread
+package com.huy.kotlin.ui.generator
 
 import android.os.Bundle
 import android.view.View
@@ -7,7 +7,8 @@ import com.huy.kotlin.base.adapter.set
 import com.huy.kotlin.base.view.BaseFragment
 import com.huy.kotlin.ui.user.User
 import com.huy.library.handler.DataReceiver
-import kotlinx.android.synthetic.main.fragment_handle_thread.*
+import com.huy.library.handler.GeneratorObservable
+import kotlinx.android.synthetic.main.fragment_generator.*
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -17,38 +18,29 @@ import kotlinx.android.synthetic.main.fragment_handle_thread.*
  * All Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-class HandleThreadFragment : BaseFragment(), DataReceiver<User> {
+class GeneratorFragment : BaseFragment(), DataReceiver<User> {
 
     private val adapter = UserAdapter()
 
     private lateinit var dataGenerator: UserGenerator
 
-    override fun layoutResource() = R.layout.fragment_handle_thread
+    override fun layoutResource() = R.layout.fragment_generator
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         UserProvider.init()
         recyclerView.set(adapter)
+        dataGenerator = UserGenerator(this)
+        lifecycle.addObserver(GeneratorObservable(dataGenerator))
         appBarView.rightIconClickListener {
             if (dataGenerator.isGenerating()) {
                 appBarView.drawableEnd = R.drawable.ic_play
-                dataGenerator.pauseGenerate()
+                dataGenerator.pause()
             } else {
                 appBarView.drawableEnd = R.drawable.ic_pause
-                dataGenerator.playGenerate()
+                dataGenerator.play()
             }
         }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        dataGenerator = UserGenerator(this)
-        dataGenerator.start()
-    }
-
-    override fun onStop() {
-        dataGenerator.quit()
-        super.onStop()
     }
 
     override fun onDataReceived(data: User) {

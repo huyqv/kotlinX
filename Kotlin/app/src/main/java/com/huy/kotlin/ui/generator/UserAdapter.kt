@@ -1,4 +1,4 @@
-package com.huy.kotlin.ui.handle_thread
+package com.huy.kotlin.ui.generator
 
 import android.view.View
 import com.huy.kotlin.R
