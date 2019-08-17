@@ -4,6 +4,14 @@ import android.os.Handler
 import android.os.Message
 import java.lang.ref.WeakReference
 
+/**
+ * -------------------------------------------------------------------------------------------------
+ * @Project: Kotlin
+ * @Created: Huy QV 2018/09/28
+ * @Description: ...
+ * All Right Reserved
+ * -------------------------------------------------------------------------------------------------
+ */
 class DataHandler<T> : Handler() {
 
     private var dataReceivedRef: WeakReference<DataReceiver<T>>? = null
