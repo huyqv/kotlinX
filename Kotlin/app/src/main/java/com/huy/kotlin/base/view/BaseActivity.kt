@@ -2,7 +2,6 @@ package com.huy.kotlin.base.view
 
 import android.app.Activity
 import android.content.Intent
-import android.content.res.Resources
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.LayoutRes
@@ -36,8 +35,8 @@ abstract class BaseActivity : AppCompatActivity(), BaseView {
     /**
      * [BaseView] implement
      */
-    override fun fragmentContainer(): Int {
-        throw Resources.NotFoundException("ArchView.FragmentContainer() must be implement with resource id return value")
+    override fun fragmentContainer(): Int? {
+        return null
     }
 
     override fun fragmentActivity(): FragmentActivity? {

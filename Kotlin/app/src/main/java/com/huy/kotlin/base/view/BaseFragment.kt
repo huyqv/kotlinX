@@ -86,7 +86,6 @@ abstract class BaseFragment : Fragment(), BaseView {
     }
 
     open fun activity(): BaseActivity? {
-        //if (activity !is BaseActivity) throw ClassCastException("BaseFragment must be owned in BaseActivity")
         return activity as? BaseActivity
     }
 
