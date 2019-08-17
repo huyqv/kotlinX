@@ -91,20 +91,18 @@ interface BaseView : LifecycleOwner {
      * Fragment utilities
      */
     @IdRes
-    fun fragmentContainer(): Int
+    fun fragmentContainer(): Int?
 
     fun add(fragment: Fragment, stack: Boolean = true) {
-        if (fragmentContainer() == 0) {
-            throw RuntimeException("fragment container not found")
+        fragmentContainer()?.also {
+            fragmentActivity()?.addFragment(fragment, it, stack)
         }
-        fragmentActivity()?.addFragment(fragment, fragmentContainer(), stack)
     }
 
     fun replace(fragment: Fragment, stack: Boolean = true) {
-        if (fragmentContainer() == 0) {
-            throw RuntimeException("fragment container not found")
+        fragmentContainer()?.also {
+            fragmentActivity()?.replaceFragment(fragment, it, stack)
         }
-        fragmentActivity()?.replaceFragment(fragment, fragmentContainer(), stack)
     }
 
 

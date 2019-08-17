@@ -27,7 +27,7 @@ abstract class BaseFragment : Fragment(), BaseView {
     override var onViewClick: View.OnClickListener? = null
 
     override var progressDialog: ProgressDialog? = null
-        get() = activity().getProgress()
+        get() = activity()?.getProgress()
 
     @LayoutRes
     abstract fun layoutResource(): Int
@@ -40,8 +40,8 @@ abstract class BaseFragment : Fragment(), BaseView {
         return activity
     }
 
-    override fun fragmentContainer(): Int {
-        return activity().fragmentContainer()
+    override fun fragmentContainer(): Int? {
+        return activity()?.fragmentContainer()
     }
 
     override fun onViewClick(view: View) {
@@ -85,9 +85,9 @@ abstract class BaseFragment : Fragment(), BaseView {
                 .subscribe { granted -> if (granted) block() }
     }
 
-    open fun activity(): BaseActivity {
-        if (activity !is BaseActivity) throw ClassCastException("BaseFragment must be owned in BaseActivity")
-        return activity as BaseActivity
+    open fun activity(): BaseActivity? {
+        //if (activity !is BaseActivity) throw ClassCastException("BaseFragment must be owned in BaseActivity")
+        return activity as? BaseActivity
     }
 
 }

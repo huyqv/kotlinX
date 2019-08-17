@@ -1,4 +1,4 @@
-package com.huy.library.util
+package com.huy.library.util.network
 
 import android.Manifest
 import android.annotation.SuppressLint

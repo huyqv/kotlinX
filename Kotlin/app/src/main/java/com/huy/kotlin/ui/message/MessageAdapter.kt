@@ -3,10 +3,10 @@ package com.huy.kotlin.ui.message
 import android.view.View
 import com.huy.kotlin.R
 import com.huy.kotlin.base.adapter.BasePagedListAdapter
-import com.huy.kotlin.extension.getDateTimeAgo
 import com.huy.kotlin.extension.load
 import com.huy.kotlin.extension.loadUser
 import com.huy.library.extension.notNullOrEmpty
+import com.huy.library.util.time.TimeUtil.getDateTimeAgo
 import kotlinx.android.synthetic.main.item_image_left.view.*
 import kotlinx.android.synthetic.main.item_image_right.view.*
 import kotlinx.android.synthetic.main.item_sticker_left.view.*

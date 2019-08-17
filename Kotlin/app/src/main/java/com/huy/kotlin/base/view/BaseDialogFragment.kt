@@ -33,7 +33,7 @@ abstract class BaseDialogFragment : BottomSheetDialogFragment(), BaseView {
     override var onViewClick: View.OnClickListener? = null
 
     override var progressDialog: ProgressDialog? = null
-        get() = activity().getProgress()
+        get() = activity()?.getProgress()
 
     @LayoutRes
     abstract fun layoutResource(): Int
@@ -46,15 +46,15 @@ abstract class BaseDialogFragment : BottomSheetDialogFragment(), BaseView {
         return requireActivity()
     }
 
-    override fun fragmentContainer(): Int {
-        return activity().fragmentContainer()
+    override fun fragmentContainer(): Int? {
+        return activity()?.fragmentContainer()
     }
 
     override fun onViewClick(view: View) {
     }
 
     override fun popBackStack() {
-        activity().popBackStack()
+        activity()?.popBackStack()
     }
 
 
@@ -107,9 +107,9 @@ abstract class BaseDialogFragment : BottomSheetDialogFragment(), BaseView {
         super.show(activity.supportFragmentManager, this.javaClass.simpleName)
     }
 
-    open fun activity(): BaseActivity {
-        if (activity !is BaseActivity) throw ClassCastException("BaseFragment must be owned in BaseActivity")
-        return activity as BaseActivity
+    open fun activity(): BaseActivity? {
+        //if (activity !is BaseActivity) throw ClassCastException("BaseFragment must be owned in BaseActivity")
+        return activity as? BaseActivity
     }
 
     private fun configDialog() {

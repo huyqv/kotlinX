@@ -14,7 +14,7 @@ import com.huy.kotlin.network.callback.WeakDisposableObserver
 import com.huy.kotlin.network.rest.RestClient
 import com.huy.kotlin.network.rest.RestResponse
 import com.huy.library.extension.toast
-import com.huy.library.util.NetworkUtil
+import com.huy.library.util.network.NetworkUtil
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
