@@ -39,9 +39,9 @@ fun Fragment.replaceFragment(fragment: Fragment, @IdRes container: Int, backStac
 
 fun Fragment.remove(cls: Class<Fragment>) {
 
-    val tag = cls.simpleName
+    val fragment = childFragmentManager.findFragmentByTag(cls.simpleName) ?: return
     childFragmentManager.scheduleTransaction {
-        remove(childFragmentManager.findFragmentByTag(tag)!!)
+        remove(fragment)
     }
 }
 
@@ -66,9 +66,9 @@ fun FragmentActivity.replaceFragment(fragment: Fragment, @IdRes container: Int, 
 
 fun FragmentActivity.remove(cls: Class<*>) {
 
-    val tag = cls.simpleName
+    val fragment = supportFragmentManager.findFragmentByTag(cls.simpleName) ?: return
     supportFragmentManager.scheduleTransaction {
-        remove(supportFragmentManager.findFragmentByTag(tag)!!)
+        remove(fragment)
     }
 }
 
