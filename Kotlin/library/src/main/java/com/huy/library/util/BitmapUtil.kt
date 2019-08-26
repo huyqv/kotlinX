@@ -418,14 +418,12 @@ object BitmapUtil {
      * [CompressConfigs]
      */
     class CompressConfigs(val maxSize: Long, val compressFormat: Bitmap.CompressFormat) {
-
         val extension: String
             get() {
-                when (compressFormat) {
-                    Bitmap.CompressFormat.PNG -> return ".png"
-
-                    Bitmap.CompressFormat.JPEG -> return ".jpg"
-                    else -> return ".jpg"
+                return when (compressFormat) {
+                    Bitmap.CompressFormat.PNG -> ".png"
+                    Bitmap.CompressFormat.JPEG -> ".jpg"
+                    else -> ".jpg"
                 }
             }
     }
