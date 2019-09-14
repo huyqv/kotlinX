@@ -3,7 +3,7 @@ package com.huy.kotlin.network.rest
 import com.huy.kotlin.data.observable.EventLiveData
 import com.huy.kotlin.data.observable.ProgressLiveData
 import com.huy.kotlin.data.observable.ToastLiveData
-import com.huy.kotlin.extension.parse
+import com.huy.library.extension.parse
 import io.reactivex.*
 import io.reactivex.disposables.Disposable
 import io.reactivex.observers.DisposableObserver

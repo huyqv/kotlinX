@@ -1,0 +1,72 @@
+[
+  {
+    "CreateAt": "2019-06-19T09:04:35.656Z",
+    "ID": "5d09faa38523e14956e1245b",
+    "isSelected": false,
+    "Name": "Nộp tiền VNĐ vào tài khoản Vietinbank",
+    "ServiceType": "DEPINT"
+  },
+  {
+    "CreateAt": "2019-06-19T09:04:36.088Z",
+    "ID": "5d09faa48523e14956e1245c",
+    "isSelected": false,
+    "Name": "Rút tiền VNĐ",
+    "ServiceType": "WITHDRAW"
+  },
+  {
+    "CreateAt": "2019-06-19T09:04:36.089Z",
+    "ID": "5d09faa48523e14956e1245d",
+    "isSelected": false,
+    "Name": "Gửi tiết kiệm",
+    "ServiceType": "SAVINGDEP"
+  },
+  {
+    "CreateAt": "2019-06-19T09:04:36.09Z",
+    "ID": "5d09faa48523e14956e1245e",
+    "isSelected": false,
+    "Name": "Nộp tiền vào tài khoản ngân hàng khác",
+    "ServiceType": "DEPEXT"
+  },
+  {
+    "CreateAt": "2019-06-19T09:04:36.091Z",
+    "ID": "5d09faa48523e14956e1245f",
+    "isSelected": false,
+    "Name": "Chuyển khoản trong Vietinbank",
+    "ServiceType": "TRANSINT"
+  },
+  {
+    "CreateAt": "2019-06-19T09:04:36.092Z",
+    "ID": "5d09faa48523e14956e12460",
+    "isSelected": false,
+    "Name": "Chuyển khoản ngoài Vietinbank",
+    "ServiceType": "TRANSEXT"
+  },
+  {
+    "CreateAt": "2019-06-19T09:04:36.094Z",
+    "ID": "5d09faa48523e14956e12461",
+    "isSelected": false,
+    "Name": "CK đến số thẻ (tối đa 300 triệu)",
+    "ServiceType": "TRANSEXTCARD"
+  },
+  {
+    "CreateAt": "2019-06-19T09:04:36.095Z",
+    "ID": "5d09faa48523e14956e12463",
+    "isSelected": false,
+    "Name": "Giao dịch ngoại tệ",
+    "ServiceType": ""
+  },
+  {
+    "CreateAt": "2019-06-19T09:04:36.096Z",
+    "ID": "5d09faa48523e14956e12464",
+    "isSelected": false,
+    "Name": "Giao dịch thẻ",
+    "ServiceType": ""
+  },
+  {
+    "CreateAt": "2019-06-19T09:04:36.097Z",
+    "ID": "5d09faa48523e14956e12465",
+    "isSelected": false,
+    "Name": "Giao dịch khác",
+    "ServiceType": ""
+  }
+]

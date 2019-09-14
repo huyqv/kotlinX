@@ -1,25 +1,14 @@
-package com.huy.kotlin.extension
+package com.huy.library.extension
 
 import com.google.gson.Gson
 import com.google.gson.JsonArray
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
-import com.huy.library.extension.readAsset
+import com.google.gson.reflect.TypeToken
 import java.io.StringReader
 
 abstract class Converter<T> {
     abstract fun convert(): T?
-}
-
-
-fun <T> readFromAsset(fileName: String, cls: Class<T>): T? {
-    val s = readAsset(fileName)
-    return s.parse(cls)
-}
-
-fun <T> readFromAsset(fileName: String, cls: Class<Array<T>>): List<T>? {
-    val s = readAsset(fileName)
-    return s.parse(cls)
 }
 
 fun <T> List<Converter<T>>.convert(): List<T>? {
@@ -42,6 +31,14 @@ fun <R : Converter<E>, E> JsonObject.transform(cls: Class<R>): E? {
 
 fun <R : Converter<E>, E> JsonArray.transform(cls: Class<Array<R>>): List<E>? {
     return parse(cls)?.convert()
+}
+
+fun <T> readJsonAsset(fileName: String, cls: Class<T>): T? {
+    return readString(fileName).parse(cls)
+}
+
+fun <T> readJsonAsset(fileName: String, cls: Class<Array<T>>): List<T>? {
+    return readString(fileName).parse(cls)
 }
 
 
@@ -82,6 +79,24 @@ fun <T> String?.parse(cls: Class<Array<T>>): List<T>? {
     }
 }
 
+fun <T> jsonObject(obj: T): JsonObject? {
+    return try {
+        val element = gson.toJsonTree(obj, object : TypeToken<T>() {}.type)
+        return element.asJsonObject
+    } catch (ignore: Exception) {
+        null
+    }
+}
+
+fun <T> Collection<T>?.jsonArray(): JsonArray? {
+    if (this.isNullOrEmpty()) return null
+    return try {
+        val element = gson.toJsonTree(this, object : TypeToken<Collection<T>>() {}.type)
+        return element.asJsonArray
+    } catch (ignore: Exception) {
+        null
+    }
+}
 
 /**
  * [String] to [JsonObject]/[JsonArray]

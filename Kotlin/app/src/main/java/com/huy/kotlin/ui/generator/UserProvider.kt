@@ -1,8 +1,7 @@
 package com.huy.kotlin.ui.generator
 
-import com.huy.kotlin.extension.parse
 import com.huy.kotlin.ui.user.User
-import com.huy.library.extension.readAsset
+import com.huy.library.extension.readJsonAsset
 import java.util.*
 
 /**
@@ -27,10 +26,9 @@ object UserProvider {
         if (isInitialized) return
         isInitialized = true
         Thread(Runnable {
-            val json = readAsset("users.json")
-            val data = json.parse(Array<User>::class.java)
-            if (null != data) {
-                profiles = data
+            val users = readJsonAsset("users.json", Array<User>::class.java)
+            if (null != users) {
+                profiles = users
             }
         }).start()
     }

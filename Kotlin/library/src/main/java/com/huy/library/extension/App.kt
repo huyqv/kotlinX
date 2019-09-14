@@ -26,10 +26,8 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import com.huy.library.Library
-import java.io.BufferedReader
 import java.io.ByteArrayOutputStream
 import java.io.Closeable
-import java.io.InputStreamReader
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 import java.util.*
@@ -225,16 +223,6 @@ fun realPathFromURI(contentUri: Uri): String {
     } finally {
         cursor!!.close()
     }
-}
-
-fun readAsset(filename: String): String {
-    val sb = StringBuilder()
-    BufferedReader(InputStreamReader(Library.app.assets.open(filename))).useLines { lines ->
-        lines.forEach {
-            sb.append(it)
-        }
-    }
-    return sb.toString()
 }
 
 fun safeClose(closeable: Closeable?) {

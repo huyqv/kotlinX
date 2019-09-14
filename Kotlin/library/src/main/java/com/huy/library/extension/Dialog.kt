@@ -4,7 +4,6 @@ import android.app.DatePickerDialog
 import android.content.Context
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.Fragment
 import com.huy.library.R
 import java.util.*
 
@@ -102,20 +101,21 @@ fun Context?.showDateDialog(minDate: Long, maxDate: Long = System.currentTimeMil
 
 }
 
-fun Context?.showDateDialog(minDate: Long, maxDate: Long = System.currentTimeMillis(), block: (String) -> Unit) {
+fun Context?.dateTextPicker(minDate: Long, maxDate: Long = System.currentTimeMillis(), block: (String) -> Unit) {
     @Suppress("IMPLICIT_CAST_TO_ANY")
     showDateDialog(minDate, maxDate) { y, m, d ->
         block("${if (d < 10) "0$d" else d}-${if (m < 10) "0$m" else m}-$y")
     }
 }
 
-fun Fragment.showDateDialog(minDate: Long, maxDate: Long = System.currentTimeMillis(), block: (Int, Int, Int) -> Unit) {
-    context.showDateDialog(minDate, maxDate, block)
-}
-
-fun Fragment.showDateDialog(minDate: Long, maxDate: Long = System.currentTimeMillis(), block: (String) -> Unit) {
+fun Context?.timestampPicker(minDate: Long, maxDate: Long = System.currentTimeMillis(), block: (Long) -> Unit) {
     @Suppress("IMPLICIT_CAST_TO_ANY")
     showDateDialog(minDate, maxDate) { y, m, d ->
-        block("${if (d < 10) "0$d" else d}-${if (m < 10) "0$m" else m}-$y")
+        val cal = Calendar.getInstance()
+        cal.set(y, m, d)
+        block(cal.timeInMillis)
     }
 }
+
+
+
