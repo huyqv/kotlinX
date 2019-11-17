@@ -21,7 +21,7 @@ import java.util.regex.Pattern
  * @Project: Kotlin
  * @Created: Huy QV 2018/09/18
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 fun String.toMD5(): String {

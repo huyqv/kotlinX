@@ -10,7 +10,7 @@ import kotlinx.android.synthetic.main.dialog_input.view.*
  * @Project: Kotlin
  * @Created: Huy QV 2017/10/15
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 class InputDialog(activity: FragmentActivity?) : BaseDialog(activity) {

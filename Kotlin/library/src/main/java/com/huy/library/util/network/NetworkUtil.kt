@@ -18,7 +18,7 @@ import java.net.UnknownHostException
  * @Project: Kotlin
  * @Created: Huy QV 2017/10/2
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 @SuppressLint("SupportAnnotationUsage")

@@ -5,7 +5,7 @@ package com.huy.library.util
  * @Project: Kotlin
  * @Created: Huy QV 2019/08/26
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 object Utils {

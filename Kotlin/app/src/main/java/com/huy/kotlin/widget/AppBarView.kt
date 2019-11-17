@@ -25,7 +25,7 @@ import kotlinx.android.synthetic.main.widget_app_bar.view.*
  * @Project: Kotlin
  * @Created: Huy QV 2017/10/12
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 class AppBarView : FrameLayout {

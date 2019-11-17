@@ -7,7 +7,7 @@ import android.util.Log
  * @Project: Kotlin
  * @Created: Huy QV 2018/09/18
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 open class Logger {

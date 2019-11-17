@@ -5,11 +5,13 @@ import android.content.res.Configuration
 import android.graphics.Point
 import android.graphics.Rect
 import android.graphics.drawable.ColorDrawable
+import android.os.Handler
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
 import android.widget.PopupWindow
+import androidx.lifecycle.*
 import com.huy.library.R
 
 /**
@@ -17,22 +19,30 @@ import com.huy.library.R
  * @Project: Kotlin
  * @Created: Huy QV 2018/09/01
  * @Description:
- * In Fragment:
+ *
+ * Manifest:
+ * <activity android:name=".ui.main.MainActivity"
+ * android:windowSoftInputMode="adjustNothing"/>
+ *
+ * Fragment:
  * keyboardProvider = KeyboardProvider(activity!!)
  * view?.post { keyboardProvider!!.start() }
- * In Activity:
+ *
+ * Activity:
  * keyboardProvider = KeyboardProvider(this)
  * post { keyboardProvider!!.start() }
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 class KeyboardProvider constructor(private val activity: Activity) : PopupWindow(activity) {
 
-    interface Observer {
-        fun onKeyboardHeightChanged(height: Int, orientation: Int)
+    interface KeyboardListener {
+        fun onKeyboardShow(height: Int, orientation: Int)
+
+        fun onKeyboardHide(orientation: Int)
     }
 
-    private var observer: Observer? = null
+    private var keyboardListener: KeyboardListener? = null
 
     /** The cached landscape height of the keyboard  */
     private var keyboardLandscapeHeight: Int = 0
@@ -76,6 +86,21 @@ class KeyboardProvider constructor(private val activity: Activity) : PopupWindow
      * PopupWindows are not allowed to be registered before the onResume has finished
      * of the Activity.
      */
+    fun observer(lifecycleOwner: LifecycleOwner) {
+        lifecycleOwner.lifecycle.addObserver(object : LifecycleObserver {
+
+            @OnLifecycleEvent(Lifecycle.Event.ON_START)
+            fun onStart() {
+                Handler().postDelayed({ start() }, 2000)
+            }
+
+            @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+            fun onPause() {
+                close()
+            }
+        })
+    }
+
     fun start() {
         if (!isShowing && parentView.windowToken != null) {
             setBackgroundDrawable(ColorDrawable(0))
@@ -84,20 +109,8 @@ class KeyboardProvider constructor(private val activity: Activity) : PopupWindow
     }
 
     fun close() {
-        this.observer = null
+        this.keyboardListener = null
         dismiss()
-    }
-
-    fun onResume(observer: Observer) {
-        this.observer = observer
-    }
-
-    fun onPause() {
-        this.observer = null
-    }
-
-    fun setKeyboardHeightObserver(observer: Observer?) {
-        this.observer = observer
     }
 
     /**
@@ -117,20 +130,16 @@ class KeyboardProvider constructor(private val activity: Activity) : PopupWindow
         val keyboardHeight = screenSize.y - rect.bottom
 
         when {
-            keyboardHeight == 0 -> notifyKeyboardHeightChanged(0, orientation)
+            keyboardHeight == 0 ->  keyboardListener?.onKeyboardHide(orientation)
             orientation == Configuration.ORIENTATION_PORTRAIT -> {
                 this.keyboardPortraitHeight = keyboardHeight
-                notifyKeyboardHeightChanged(keyboardPortraitHeight, orientation)
+                keyboardListener?.onKeyboardShow(height, orientation)
             }
             else -> {
                 this.keyboardLandscapeHeight = keyboardHeight
-                notifyKeyboardHeightChanged(keyboardLandscapeHeight, orientation)
+                keyboardListener?.onKeyboardShow(height, orientation)
             }
         }
-    }
-
-    private fun notifyKeyboardHeightChanged(height: Int, orientation: Int) {
-        observer?.onKeyboardHeightChanged(height, orientation)
     }
 
 }

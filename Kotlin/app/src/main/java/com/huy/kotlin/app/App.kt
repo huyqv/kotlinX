@@ -9,7 +9,7 @@ import com.huy.library.Library
  * @Project: Kotlin
  * @Created: Huy QV 2017/11/24
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 class App : Application(), Library.Extension {

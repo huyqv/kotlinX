@@ -11,7 +11,7 @@ import com.huy.kotlin.base.view.BaseFragment
  * @Project: Kotlin
  * @Created: Huy QV 2018/06/30
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 abstract class ArchFragment<VM : BaseViewModel> : BaseFragment() {

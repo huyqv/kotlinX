@@ -15,7 +15,7 @@ import androidx.fragment.app.Fragment
  * @Project: Kotlin
  * @Created: Huy QV 2018/09/30
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 fun Context.isGranted(@RequiresPermission permission: String): Boolean {

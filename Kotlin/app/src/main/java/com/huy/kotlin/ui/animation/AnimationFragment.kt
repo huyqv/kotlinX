@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.fragment_animation.*
  * @Project: Kotlin
  * @Created: Huy QV 2019/07/12
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 class AnimationFragment : BaseFragment() {

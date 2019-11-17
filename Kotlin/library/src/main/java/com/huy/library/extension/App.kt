@@ -39,7 +39,7 @@ import java.util.concurrent.TimeUnit
  * @Project: Kotlin
  * @Created: Huy QV 2019/04/12
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 val resources: Resources get() = Library.app.applicationContext.resources

@@ -12,7 +12,7 @@ import java.net.UnknownHostException
  * @Project: Kotlin
  * @Created: Huy QV 2018/07/20
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 class RestResponse<T> {

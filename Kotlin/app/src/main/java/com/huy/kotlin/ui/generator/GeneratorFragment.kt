@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.fragment_generator.*
  * @Project: Kotlin
  * @Created: Huy QV 2018/09/28
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 class GeneratorFragment : BaseFragment(), DataReceiver<User> {

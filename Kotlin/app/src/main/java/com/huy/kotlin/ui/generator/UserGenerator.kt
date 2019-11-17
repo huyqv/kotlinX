@@ -9,7 +9,7 @@ import com.huy.library.handler.RepeatGenerator
  * @Project: Kotlin
  * @Created: Huy QV 2018/09/28
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 class UserGenerator : RepeatGenerator<User> {

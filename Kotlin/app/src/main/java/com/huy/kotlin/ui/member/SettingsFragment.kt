@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.fragment_settings.*
  * @Project: Kotlin
  * @Created: Huy QV 2018/09/28
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 class SettingsFragment : BaseFragment() {

@@ -16,7 +16,7 @@ import java.net.URL
  * @Project: Kotlin
  * @Created: Huy QV 2018/10/28
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 object BitmapUtil {

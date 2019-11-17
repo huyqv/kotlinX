@@ -7,7 +7,7 @@ import androidx.room.*
  * @Project: Kotlin
  * @Created: Huy QV 2018/7/5
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 @Dao

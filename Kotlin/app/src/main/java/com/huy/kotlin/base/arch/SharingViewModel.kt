@@ -10,7 +10,7 @@ import androidx.lifecycle.*
  * @Project: Kotlin
  * @Created: Huy QV 2018/07/05
  * @Description: The class handle data sharing between fragments
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 abstract class SharingViewModel<T> : ViewModel() {

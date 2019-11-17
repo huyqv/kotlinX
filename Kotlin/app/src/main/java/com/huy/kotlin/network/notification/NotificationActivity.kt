@@ -10,7 +10,7 @@ import com.huy.library.extension.toast
  * @Project: Kotlin
  * @Created: Huy QV 2019/04/19
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 class NotificationActivity : BaseActivity() {

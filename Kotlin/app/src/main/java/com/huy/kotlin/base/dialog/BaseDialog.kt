@@ -13,7 +13,7 @@ import androidx.fragment.app.FragmentActivity
  * @Project: Kotlin
  * @Created: Huy QV 2017/10/17
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 abstract class BaseDialog {

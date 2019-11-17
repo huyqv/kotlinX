@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.activity_main.*
  * @Project: Kotlin
  * @Created: Huy QV 2018/09/29
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 class MainActivity : ArchActivity<MainVM>() {

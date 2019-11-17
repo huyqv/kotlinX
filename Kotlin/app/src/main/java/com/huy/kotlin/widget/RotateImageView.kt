@@ -14,7 +14,7 @@ import androidx.appcompat.widget.AppCompatImageView
  * @Project: Kotlin
  * @Created: Huy QV 2019/02/18
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 class RotateImageView : AppCompatImageView {

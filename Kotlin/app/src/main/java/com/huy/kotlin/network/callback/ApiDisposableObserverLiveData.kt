@@ -14,7 +14,7 @@ import java.util.concurrent.atomic.AtomicReference
  * @Project: Kotlin
  * @Created: Huy QV 2019/01/10
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 open class ApiDisposableObserverLiveData<T> : MutableLiveData<T>, Observer<T>, Disposable {

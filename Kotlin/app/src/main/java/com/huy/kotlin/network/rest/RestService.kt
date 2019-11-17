@@ -18,7 +18,7 @@ import retrofit2.http.*
  * @Project: Kotlin
  * @Created: Huy QV 2018/1/2
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 interface RestService {

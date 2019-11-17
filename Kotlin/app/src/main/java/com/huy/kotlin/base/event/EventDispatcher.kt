@@ -8,7 +8,7 @@ import android.util.SparseArray
  * @Project: Kotlin
  * @Created: Huy QV 2017/10/14
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 class EventDispatcher private constructor() {

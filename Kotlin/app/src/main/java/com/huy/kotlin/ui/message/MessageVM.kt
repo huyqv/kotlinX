@@ -15,7 +15,7 @@ import com.huy.kotlin.network.rest.onNext
  * @Project: Kotlin
  * @Created: Huy QV 2019/01/17
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 class MessageVM : BaseViewModel() {

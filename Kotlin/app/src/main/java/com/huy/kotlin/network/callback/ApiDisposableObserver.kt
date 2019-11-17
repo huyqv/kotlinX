@@ -9,7 +9,7 @@ import io.reactivex.observers.DisposableObserver
  * @Project: Kotlin
  * @Created: Huy QV 2018/07/20
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 abstract class ApiDisposableObserver<T> : DisposableObserver<T?> {

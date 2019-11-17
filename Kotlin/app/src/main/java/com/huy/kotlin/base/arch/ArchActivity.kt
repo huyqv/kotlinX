@@ -15,7 +15,7 @@ import com.huy.library.extension.toast
  * @Project: Kotlin
  * @Created: Huy QV 2018/06/30
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 abstract class ArchActivity<VM : BaseViewModel> : BaseActivity() {

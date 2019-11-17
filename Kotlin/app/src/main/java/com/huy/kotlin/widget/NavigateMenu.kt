@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.widget_menu.view.*
  * @Project: Kotlin
  * @Created: Huy QV 2017/11/4
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 class NavigateMenu : ConstraintLayout {

@@ -7,7 +7,7 @@ import com.huy.kotlin.R
  * @Project: Kotlin
  * @Created: Huy QV 2019/04/13
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 object RandomColor {

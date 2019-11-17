@@ -22,7 +22,7 @@ import androidx.recyclerview.widget.RecyclerView
  * @Project: Kotlin
  * @Created: Huy QV 2018/11/02
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 interface ScrollListener {

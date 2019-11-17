@@ -23,7 +23,7 @@ import java.util.concurrent.atomic.AtomicBoolean
  *          @GET("api-url")
  *          fun imageLiveData(): LiveData<RestResponse<T>>
  *
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 class LiveDataCallAdapterFactory : CallAdapter.Factory() {

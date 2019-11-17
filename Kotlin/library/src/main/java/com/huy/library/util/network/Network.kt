@@ -16,7 +16,7 @@ import com.huy.library.Library
  * @Project: Kotlin
  * @Created: Huy QV 2019/08/13
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 class Network {

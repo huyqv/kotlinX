@@ -12,7 +12,7 @@ import androidx.viewpager.widget.ViewPager
  * @Project: Kotlin
  * @Created: Huy QV 2017/11/2
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 class AppViewPager : ViewPager {

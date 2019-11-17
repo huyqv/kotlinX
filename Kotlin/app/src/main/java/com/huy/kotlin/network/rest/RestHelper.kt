@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit
  * @Project: Kotlin
  * @Created: Huy QV 2018/07/21
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 object RestHelper {

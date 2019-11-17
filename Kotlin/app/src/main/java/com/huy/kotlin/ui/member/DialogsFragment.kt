@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.fragment_dialogs.*
  * @Project: Kotlin
  * @Created: Huy QV 2018/09/30
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 class DialogsFragment : BaseFragment() {

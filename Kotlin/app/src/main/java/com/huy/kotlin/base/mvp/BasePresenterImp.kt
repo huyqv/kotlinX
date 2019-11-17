@@ -28,7 +28,7 @@ import java.lang.ref.WeakReference
  * @Project: Kotlin
  * @Created: Huy QV 2017/10/14
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 open class BasePresenterImp<V : BaseView> : BasePresenter<V>, EventListener {

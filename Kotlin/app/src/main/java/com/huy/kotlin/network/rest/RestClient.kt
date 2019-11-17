@@ -10,7 +10,7 @@ import java.util.*
  * @Project: Kotlin
  * @Created: Huy QV 2018/1/2
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 class RestClient private constructor() : Logger(RestClient::class.java, LOG) {

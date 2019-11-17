@@ -5,7 +5,7 @@ package com.huy.kotlin.data.observable
  * @Project: Kotlin
  * @Created: Huy QV 2019/04/19
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 class NetworkLiveData : SingleLiveData<Boolean?>() {

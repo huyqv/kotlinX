@@ -9,7 +9,7 @@ import androidx.fragment.app.FragmentPagerAdapter
  * @Project: Kotlin
  * @Created: Huy QV 2018/09/28
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 class FragmentAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {

@@ -10,7 +10,7 @@ import kotlinx.android.synthetic.main.item_paging.view.*
  * @Project: Kotlin
  * @Created: Huy QV 2019/04/11
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 class PagingAdapter : BasePagedListAdapter<PagingItem>(PagingItem.DIFF_CALLBACK) {

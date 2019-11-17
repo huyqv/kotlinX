@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.item_zoom_image.view.*
  * @Project: Kotlin
  * @Created: Huy QV 2018/09/28
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 class ImageOwnerFragment : BaseFragment(), SimplePageChangeListener {

@@ -5,7 +5,7 @@ package com.huy.library.extension
  * @Project: Kotlin
  * @Created: Huy QV 2018/10/28
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 import android.os.Handler

@@ -11,7 +11,7 @@ import androidx.viewpager.widget.PagerAdapter
  * @Project: Kotlin
  * @Created: Huy QV 2018/08/06
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 abstract class BasePagerAdapter<T> : PagerAdapter() {

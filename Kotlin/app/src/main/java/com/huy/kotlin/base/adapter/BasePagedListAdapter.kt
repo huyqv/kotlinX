@@ -16,7 +16,7 @@ import com.huy.library.extension.preventClick
  * @Project: Kotlin
  * @Created: Huy QV 2018/10/06
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 abstract class BasePagedListAdapter<T> constructor(itemCallback: DiffUtil.ItemCallback<T>) :

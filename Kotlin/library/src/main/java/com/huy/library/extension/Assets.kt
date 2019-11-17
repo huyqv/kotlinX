@@ -10,7 +10,7 @@ import java.io.InputStreamReader
  * @Project: Kotlin
  * @Created: Huy QV 2019/09/09
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 fun readBytes(fileName: String): ByteArray? {

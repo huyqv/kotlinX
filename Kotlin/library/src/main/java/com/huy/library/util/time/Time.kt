@@ -10,7 +10,7 @@ import java.util.*
  * @Project: Kotlin
  * @Created: Huy QV 2018/08/07
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 const val GMT7: String = "GMT+7"

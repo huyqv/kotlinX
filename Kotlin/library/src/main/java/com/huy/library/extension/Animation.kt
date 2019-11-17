@@ -15,7 +15,7 @@ import androidx.core.content.ContextCompat
  * @Project: Kotlin
  * @Created: Huy QV 2018/02/24
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 private const val DURATION = 3000L

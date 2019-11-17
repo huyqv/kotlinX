@@ -10,7 +10,7 @@ import kotlin.math.abs
  * @Project: Kotlin
  * @Created: Huy QV 2019/03/30
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 class PageTransformer {

@@ -3,6 +3,7 @@ package com.huy.library.extension
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.app.Activity
+import android.content.Context
 import android.content.Context.LAYOUT_INFLATER_SERVICE
 import android.graphics.Bitmap
 import android.graphics.Color
@@ -33,7 +34,7 @@ import java.util.*
  * @Project: Kotlin
  * @Created: Huy QV 2018/02/24
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 
@@ -60,6 +61,13 @@ fun EditText.addEditorActionListener(actionId: Int, block: (String?) -> Unit) {
     })
 }
 
+fun EditText.showKeyboard() {
+    this?.apply {
+        clearFocus()
+        val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(windowToken, 0)
+    }
+}
 
 /**
  * @ImageView

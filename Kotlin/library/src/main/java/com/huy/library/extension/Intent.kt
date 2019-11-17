@@ -15,7 +15,7 @@ import androidx.fragment.app.Fragment
  * @Project: Kotlin
  * @Created: Huy QV 2018/02/24
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 const val IMAGE_REQUEST_CODE = 1004

@@ -9,7 +9,7 @@ import java.util.*
  * @Project: Kotlin
  * @Created: Huy QV 2019/04/08
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 private val DECIMAL_FMT = DecimalFormat("####,###,###")

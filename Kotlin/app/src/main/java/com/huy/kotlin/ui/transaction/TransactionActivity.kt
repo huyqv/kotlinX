@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.activity_transaction.*
  * @Project: Kotlin
  * @Created: Huy QV 2019/04/13
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 class TransactionActivity : BaseActivity() {

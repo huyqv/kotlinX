@@ -10,7 +10,7 @@ import kotlinx.android.synthetic.main.fragment_load_more.*
  * @Project: Kotlin
  * @Created: Huy QV 2018/09/28
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 class UserFragment : ArchFragment<UserVM>() {

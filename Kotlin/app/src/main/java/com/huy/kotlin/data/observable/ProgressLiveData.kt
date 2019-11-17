@@ -5,7 +5,7 @@ package com.huy.kotlin.data.observable
  * @Project: Kotlin
  * @Created: Huy QV 2018/06/30
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 class ProgressLiveData : SingleLiveData<Boolean?>() {

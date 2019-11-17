@@ -8,7 +8,7 @@ import com.google.firebase.messaging.RemoteMessage
  * @Project: Kotlin
  * @Created: Huy QV 2019/04/19
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 class NotificationService : FirebaseMessagingService() {

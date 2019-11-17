@@ -5,7 +5,7 @@ package com.huy.library.extension
  * @Project: Kotlin
  * @Created: Huy QV 2018/11/04
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 class Language constructor(val id: String, val country: String, val flag: Int)

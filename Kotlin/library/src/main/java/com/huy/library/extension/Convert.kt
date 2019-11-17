@@ -8,7 +8,7 @@ import java.util.*
  * @Project: Kotlin
  * @Created: Huy QV 2018/2/24
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 const val A_BYTE = 1.toByte()
@@ -31,12 +31,4 @@ fun Long.parse(): Date? {
         e.printStackTrace()
         null
     }
-}
-
-fun Collection<Any>?.isNullOrEmpty(): Boolean {
-    return this == null || isEmpty()
-}
-
-fun Collection<Any>?.notNullOrEmpty(): Boolean {
-    return this != null && isNotEmpty()
 }

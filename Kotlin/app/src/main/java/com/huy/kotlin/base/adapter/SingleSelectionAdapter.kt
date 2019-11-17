@@ -10,7 +10,7 @@ import kotlinx.android.synthetic.main.item_text.view.*
  * @Project: Kotlin
  * @Created: Huy QV 2018/08/29
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 open class SingleSelectionAdapter<M> : BaseRecyclerAdapter<M>() {

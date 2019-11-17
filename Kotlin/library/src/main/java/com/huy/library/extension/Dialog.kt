@@ -13,7 +13,7 @@ import java.util.*
  * @Project: Kotlin
  * @Created: Huy QV 2018/09/30
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 private fun Context.getText(@StringRes title: Int?): String? {

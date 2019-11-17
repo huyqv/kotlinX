@@ -15,7 +15,7 @@ import com.huy.library.extension.preventClick
  * @Project: Kotlin
  * @Created: Huy QV 2017/10/18
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 abstract class BaseRecyclerAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHolder>() {

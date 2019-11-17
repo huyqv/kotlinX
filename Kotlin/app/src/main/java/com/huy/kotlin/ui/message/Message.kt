@@ -10,7 +10,7 @@ import com.huy.kotlin.ui.image_owner.ImageOwner
  * @Project: Kotlin
  * @Created: Huy QV 2018/09/28
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 data class Message(

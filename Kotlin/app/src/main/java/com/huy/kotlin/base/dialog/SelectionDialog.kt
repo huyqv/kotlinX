@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.dialog_selection.view.*
  * @Project: AppName
  * @Created: Huy QV 2018/10/20
  * @Description: ...
- * All Right Reserved.
+ * None Right Reserved.
  * -------------------------------------------------------------------------------------------------
  */
 abstract class SelectionDialog(activity: FragmentActivity?) : BaseDialog(activity) {

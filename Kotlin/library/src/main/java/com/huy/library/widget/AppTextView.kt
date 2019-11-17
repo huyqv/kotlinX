@@ -10,7 +10,7 @@ import androidx.appcompat.widget.AppCompatTextView
  * @Project: Kotlin
  * @Created: Huy QV 2018/09/21
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 class AppTextView : AppCompatTextView {

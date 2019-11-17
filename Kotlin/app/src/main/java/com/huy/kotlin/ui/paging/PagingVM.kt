@@ -13,7 +13,7 @@ import com.huy.kotlin.base.arch.BaseViewModel
  * @Project: Kotlin
  * @Created: Huy QV 2019/04/11
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 class PagingVM : BaseViewModel() {

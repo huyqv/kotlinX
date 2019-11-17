@@ -13,7 +13,7 @@ import com.huy.kotlin.R
  * @Project: Kotlin
  * @Created: Huy QV 2017/10/12
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 class ProgressDialog(activity: FragmentActivity?) : BaseDialog(activity) {

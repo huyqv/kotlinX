@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName
  * @Project: Kotlin
  * @Created: Huy QV 2018/7/5
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 data class User constructor(

@@ -11,7 +11,7 @@ import java.util.concurrent.atomic.AtomicBoolean
  * @Project: Kotlin
  * @Created: Huy QV 2018/12/25
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 open class EventLiveData<T> : MutableLiveData<T>() {

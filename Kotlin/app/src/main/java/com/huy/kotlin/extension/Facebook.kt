@@ -5,7 +5,7 @@ package com.huy.kotlin.extension
  * @Project: Kotlin
  * @Created: Huy QV 2019/04/08
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 

@@ -28,7 +28,7 @@ import kotlinx.android.synthetic.main.widget_input_material.view.*
  * @Project: Kotlin
  * @Created: Huy QV 2017/10/28
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 class InputViewMaterial : FrameLayout {

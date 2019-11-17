@@ -10,7 +10,7 @@ import com.huy.kotlin.base.view.BaseView
  * @Project: Kotlin
  * @Created: Huy QV 2017/10/14
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 abstract class MvpFragment<in V : BaseView, P : BasePresenter<V>> : BaseFragment() {

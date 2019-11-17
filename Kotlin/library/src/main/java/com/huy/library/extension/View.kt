@@ -11,7 +11,7 @@ import com.huy.library.Library
  * @Project: Kotlin
  * @Created: Huy QV 2018/11/04
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 fun Float.dpToPx(): Float {

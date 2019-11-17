@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.widget_setting.view.*
  * @Project: Kotlin
  * @Created: Huy QV 2017/11/4
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 class SettingView : ConstraintLayout {

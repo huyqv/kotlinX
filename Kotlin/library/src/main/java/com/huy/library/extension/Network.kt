@@ -12,7 +12,7 @@ import com.huy.library.Library
  * @Project: Kotlin
  * @Created: Huy QV 2019/08/07
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 val networkConnected: Boolean

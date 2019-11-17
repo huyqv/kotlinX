@@ -10,7 +10,7 @@ import androidx.lifecycle.OnLifecycleEvent
  * @Project: Kotlin
  * @Created: Huy QV 2019/08/18
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 class GeneratorObservable(private val generator: BaseGenerator<*>) : LifecycleObserver {

@@ -10,7 +10,7 @@ import io.reactivex.disposables.Disposable
  * @Project: Kotlin
  * @Created: Huy QV 2019/01/10
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 class ApiSingleObserver<T> : SingleObserver<T> {

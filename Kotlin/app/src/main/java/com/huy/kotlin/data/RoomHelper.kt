@@ -12,7 +12,7 @@ import com.huy.kotlin.data.entity.User
  * @Project: Kotlin
  * @Created: Huy QV 2018/1/2
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 @Database(

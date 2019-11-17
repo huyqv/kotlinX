@@ -11,7 +11,7 @@ import kotlinx.android.synthetic.main.fragment_paging.*
  * @Project: Kotlin
  * @Created: Huy QV 2019/04/11
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 class PagingFragment : ArchFragment<PagingVM>() {

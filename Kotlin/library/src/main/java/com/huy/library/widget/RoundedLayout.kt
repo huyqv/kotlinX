@@ -11,7 +11,7 @@ import com.huy.library.R
  * @Project: Kotlin
  * @Created: Huy QV 2018/10/14
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 class RoundedLayout : LinearLayoutCompat {

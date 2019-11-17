@@ -7,7 +7,7 @@ import android.os.Build
  * @Project: Kotlin
  * @Created: Huy QV 2018/11/03
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 fun hasFroyo(): Boolean {

@@ -11,7 +11,7 @@ import androidx.annotation.AnimRes
  * @Project: Kotlin
  * @Created: Huy QV 2018/11/06
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 object AnimUtil {

@@ -13,7 +13,7 @@ import java.util.concurrent.atomic.AtomicBoolean
  * @Project: Kotlin
  * @Created: Huy QV 2018/12/20
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 open class SingleLiveData<T> : MediatorLiveData<T>() {

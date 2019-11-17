@@ -10,7 +10,7 @@ import com.huy.kotlin.app.App
  * @Project: Kotlin
  * @Created: Huy QV 2018/1/2
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 class SharedHelper private constructor() {

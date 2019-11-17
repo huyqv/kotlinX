@@ -22,7 +22,7 @@ import io.reactivex.schedulers.Schedulers
  * @Project: Kotlin
  * @Created: Huy QV 2017/10/18
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 abstract class BaseJsonAdapter<T : JsonElement> : RecyclerView.Adapter<RecyclerView.ViewHolder>() {

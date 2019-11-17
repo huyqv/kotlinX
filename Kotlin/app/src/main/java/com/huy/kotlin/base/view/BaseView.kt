@@ -25,7 +25,7 @@ import com.huy.library.extension.*
  * @Project: Kotlin
  * @Created: Huy QV 2017/10/14
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 interface BaseView : LifecycleOwner {

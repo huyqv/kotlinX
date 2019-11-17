@@ -8,7 +8,7 @@ import com.huy.kotlin.base.view.BaseFragment
  * @Project: Kotlin
  * @Created: Huy QV 2018/09/28
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 class MenuItemsFragment : BaseFragment() {

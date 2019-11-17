@@ -15,7 +15,7 @@ import com.huy.library.R
  * @Project: Kotlin
  * @Created: Huy QV 2018/08/29
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 class SliderView : ViewFlipper {

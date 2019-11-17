@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.fragment_color.*
  * @Project: Kotlin
  * @Created: Huy QV 2019/03/30
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 

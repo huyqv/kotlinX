@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.item_text_right.view.*
  * @Project: Kotlin
  * @Created: Huy QV 2018/09/28
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 class MessageAdapter(var myId: Int = 0) : BasePagedListAdapter<Message>(Message.DIFF_CALLBACK) {

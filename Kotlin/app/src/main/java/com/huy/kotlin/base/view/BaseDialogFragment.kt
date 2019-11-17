@@ -22,7 +22,7 @@ import com.tbruyelle.rxpermissions2.RxPermissions
  * @Project: Kotlin
  * @Created: Huy QV 2017/10/14
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 abstract class BaseDialogFragment : BottomSheetDialogFragment(), BaseView {

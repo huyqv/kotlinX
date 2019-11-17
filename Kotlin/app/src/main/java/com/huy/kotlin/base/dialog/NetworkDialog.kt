@@ -11,7 +11,7 @@ import kotlinx.android.synthetic.main.dialog_title.view.*
  * @Project: Kotlin
  * @Created: Huy QV 2018/07/25
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 class NetworkDialog(activity: FragmentActivity?) : BaseDialog(activity) {

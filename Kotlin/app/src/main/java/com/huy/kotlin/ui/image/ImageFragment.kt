@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.fragment_images.*
  * @Project: Kotlin
  * @Created: Huy QV 2018/10/03
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 class ImageFragment : ArchFragment<ImageVM>() {

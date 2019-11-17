@@ -11,7 +11,7 @@ import kotlinx.android.synthetic.main.item_image.view.*
  * @Project: Kotlin
  * @Created: Huy QV 2018/10/04
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 class ImageAdapter : BaseRecyclerAdapter<Image>() {

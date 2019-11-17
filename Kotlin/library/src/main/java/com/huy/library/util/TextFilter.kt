@@ -11,7 +11,7 @@ import java.util.regex.Pattern
  * @Project: Kotlin
  * @Created: Huy QV 2019/03/31
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 object TextFilter {

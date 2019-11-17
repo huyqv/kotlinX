@@ -11,7 +11,7 @@ import com.huy.kotlin.R
  * @Project: Kotlin
  * @Created: Huy QV 2019/04/11
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 class BlankAdapter : RecyclerView.Adapter<ViewHolder>() {

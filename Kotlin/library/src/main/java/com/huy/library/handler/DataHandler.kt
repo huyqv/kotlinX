@@ -9,7 +9,7 @@ import java.lang.ref.WeakReference
  * @Project: Kotlin
  * @Created: Huy QV 2018/09/28
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 class DataHandler<T> : Handler() {

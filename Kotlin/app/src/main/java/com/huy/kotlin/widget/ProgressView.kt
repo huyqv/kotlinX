@@ -11,7 +11,7 @@ import com.huy.kotlin.R
  * @Project: Kotlin
  * @Created: Huy QV 2019/03/24
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 class ProgressView : FrameLayout {

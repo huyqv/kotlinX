@@ -7,7 +7,7 @@ import android.app.Application
  * @Project: Kotlin
  * @Created: Huy QV 2019/08/10
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 object Library {

@@ -7,7 +7,7 @@ import androidx.viewpager.widget.ViewPager
  * @Project: Kotlin
  * @Created: Huy QV 2019/07/05
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 interface SimplePageChangeListener : ViewPager.OnPageChangeListener {

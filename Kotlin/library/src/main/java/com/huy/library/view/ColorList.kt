@@ -8,7 +8,7 @@ import java.util.*
  * @Project: Kotlin
  * @Created: Huy QV 2018/07/08
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 class ColorList {

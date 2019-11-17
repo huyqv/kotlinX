@@ -21,7 +21,7 @@ import kotlinx.android.synthetic.main.fragment_tab.*
  * @Project: Kotlin
  * @Created: Huy QV 2018/09/29
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 class TabFragment : BaseFragment() {

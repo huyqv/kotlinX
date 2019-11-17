@@ -13,7 +13,7 @@ import android.webkit.WebView
  * @Project: Kotlin
  * @Created: Huy QV 2018/09/21
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * --------------------------------------------------------------------------------
  */
 class HyperTextView : WebView, View.OnTouchListener {

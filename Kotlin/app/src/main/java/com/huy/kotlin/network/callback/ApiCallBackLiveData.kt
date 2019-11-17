@@ -13,7 +13,7 @@ import retrofit2.Response
  * @Project: Kotlin
  * @Created: Huy QV 2018/11/24
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 class ApiCallBackLiveData<T> : EventLiveData<T>, Callback<T> {

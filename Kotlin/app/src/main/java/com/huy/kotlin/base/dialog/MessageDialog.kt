@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.dialog_title.view.*
  * @Project: Kotlin
  * @Created: Huy QV 2017/10/18
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 class MessageDialog(activity: FragmentActivity?) : BaseDialog(activity) {

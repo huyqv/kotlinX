@@ -7,10 +7,14 @@ import androidx.recyclerview.widget.DiffUtil
  * @Project: Kotlin
  * @Created: Huy QV 2019/04/11
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 class PagingItem(val id: Int) {
+
+    override fun equals(other: Any?): Boolean {
+        return id == (other as PagingItem)?.id
+    }
 
     companion object {
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<PagingItem>() {

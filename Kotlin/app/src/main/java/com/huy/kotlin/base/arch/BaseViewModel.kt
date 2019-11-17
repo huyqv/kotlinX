@@ -15,7 +15,7 @@ import com.huy.kotlin.network.rest.RestClient
  * @Project: Kotlin
  * @Created: Huy QV 2018/07/06
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 open class BaseViewModel : ViewModel() {

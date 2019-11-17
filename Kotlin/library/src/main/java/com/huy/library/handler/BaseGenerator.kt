@@ -10,7 +10,7 @@ import android.os.Message
  * @Project: Kotlin
  * @Created: Huy QV 2018/09/28
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 abstract class BaseGenerator<T> : HandlerThread {

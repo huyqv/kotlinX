@@ -10,7 +10,7 @@ import androidx.appcompat.widget.AppCompatImageView
  * @Project: Kotlin
  * @Created: Huy QV 2018/08/29
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 class AppCheckableView : AppCompatImageView {

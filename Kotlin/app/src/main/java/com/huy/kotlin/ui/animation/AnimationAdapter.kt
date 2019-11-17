@@ -10,7 +10,7 @@ import kotlinx.android.synthetic.main.item_text.view.*
  * @Project: Kotlin
  * @Created: Huy QV 2019/07/12
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 class AnimationAdapter : BaseRecyclerAdapter<String>() {

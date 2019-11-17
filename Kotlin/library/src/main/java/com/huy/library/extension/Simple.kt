@@ -13,7 +13,7 @@ import androidx.viewpager.widget.ViewPager
  * @Project: Kotlin
  * @Created: Huy QV 2019/03/12
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 class SimpleAnimationListener : Animation.AnimationListener {

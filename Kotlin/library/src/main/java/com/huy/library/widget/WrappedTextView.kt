@@ -9,7 +9,7 @@ import androidx.appcompat.widget.AppCompatTextView
  * @Project: Kotlin
  * @Created: Huy QV 2018/10/02
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 class WrappedTextView : AppCompatTextView {

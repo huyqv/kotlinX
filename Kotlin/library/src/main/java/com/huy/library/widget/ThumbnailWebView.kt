@@ -15,7 +15,7 @@ import android.webkit.WebViewClient
  * @Project: Kotlin
  * @Created: Huy QV 2018/10/02
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 class ThumbnailWebView : WebView, View.OnTouchListener {

@@ -7,7 +7,7 @@ import android.app.Activity
  * @Project: Kotlin
  * @Created: Huy QV 2018/10/01
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 @Suppress("DEPRECATION")

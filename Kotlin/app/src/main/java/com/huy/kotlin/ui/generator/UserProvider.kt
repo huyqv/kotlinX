@@ -9,7 +9,7 @@ import java.util.*
  * @Project: Kotlin
  * @Created: Huy QV 2018/09/28
  * @Description: init with UserProvider.init()
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 object UserProvider {

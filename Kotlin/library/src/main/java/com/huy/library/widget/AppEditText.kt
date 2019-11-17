@@ -12,7 +12,7 @@ import androidx.appcompat.widget.AppCompatEditText
  * @Project: Kotlin
  * @Created: Huy QV 2018/08/29
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 class AppEditText : AppCompatEditText, TextWatcher {

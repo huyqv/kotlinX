@@ -12,7 +12,7 @@ import com.huy.library.R
  * @Project: Kotlin
  * @Created: Huy QV 2018/02/24
  * @Description: ...
- * All Right Reserved
+ * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 fun Fragment.hideKeyboard() {
