@@ -12,8 +12,6 @@ import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
 import com.huy.kotlin.app.App
 import com.huy.kotlin.base.dialog.ConfirmDialog
 import com.huy.kotlin.base.dialog.MessageDialog
@@ -193,16 +191,6 @@ interface BaseView : LifecycleOwner {
 
     fun popBackStack()
 
-    fun <T> LiveData<T?>.observe(block: (T?) -> Unit) {
-        observe(this@BaseView, Observer { block(it) })
-    }
 
-    fun <T> LiveData<T?>.nonNull(block: (T) -> Unit) {
-        observe(this@BaseView, Observer { if (null != it) block(it) })
-    }
-
-    fun <T> LiveData<T>.stop() {
-        removeObservers(this@BaseView)
-    }
 
 }

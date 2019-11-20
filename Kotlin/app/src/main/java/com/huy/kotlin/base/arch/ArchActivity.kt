@@ -50,11 +50,11 @@ abstract class ArchActivity<VM : BaseViewModel> : BaseActivity() {
     override fun onDestroy() {
         super.onDestroy()
 
-        ProgressLiveData.instance.stop()
+        ProgressLiveData.instance.removeObservers(this)
 
-        AlertLiveData.instance.stop()
+        AlertLiveData.instance.removeObservers(this)
 
-        ToastLiveData.instance.stop()
+        ToastLiveData.instance.removeObservers(this)
     }
 
     override fun getLifecycle(): Lifecycle {

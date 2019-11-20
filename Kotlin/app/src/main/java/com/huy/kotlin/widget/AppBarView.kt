@@ -1,4 +1,4 @@
-package com.huy.kotlin.lib.widget
+package com.huy.kotlin.widget
 
 import android.animation.AnimatorInflater
 import android.animation.ObjectAnimator
@@ -37,22 +37,12 @@ class AppBarView : FrameLayout {
             textViewTitle.text = value
         }
 
-    private var mLeftIconClickListener: (() -> Unit)? = null
-
     fun leftIconClickListener(block: () -> Unit) {
-        mLeftIconClickListener = block
-        imageViewDrawableStart.setOnClickListener {
-            mLeftIconClickListener?.run { mLeftIconClickListener!!() }
-        }
+        imageViewDrawableStart.setOnClickListener { block() }
     }
 
-    private var mRightIconClickListener: (() -> Unit)? = null
-
     fun rightIconClickListener(block: () -> Unit) {
-        mRightIconClickListener = block
-        imageViewDrawableEnd.setOnClickListener {
-            mRightIconClickListener?.run { mRightIconClickListener!!() }
-        }
+        imageViewDrawableEnd.setOnClickListener { block() }
     }
 
     var drawableStart: Int = 0

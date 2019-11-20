@@ -10,43 +10,17 @@ import java.util.concurrent.TimeUnit
 
 object TimeUtil {
 
-    fun hourFormat(timeMillis: Long): String {
-        return convert(timeMillis, HOUR_FORMAT)
+
+    /**
+     * Text
+     */
+    fun text(timeMillis: Long, format: String): String {
+        return text(timeMillis, SimpleDateFormat(format))
     }
 
-    fun hourFormat(dateTimeText: String): Long {
-        return convert(dateTimeText, HOUR_FORMAT)
-    }
-
-    fun shortFormat(timeMillis: Long): String {
-        return convert(timeMillis, SHORT_FORMAT)
-    }
-
-    fun shortFormat(dateTimeText: String): Long {
-        return convert(dateTimeText, SHORT_FORMAT)
-    }
-
-    fun longFormat(timeMillis: Long): String {
-        return convert(timeMillis, LONG_FORMAT)
-    }
-
-    fun longFormat(dateTimeText: String): Long {
-        return convert(dateTimeText, LONG_FORMAT)
-    }
-
-    fun convert(string: String, formatter: SimpleDateFormat): Long {
+    fun text(timeMillis: Long, format: SimpleDateFormat): String {
         return try {
-            formatter.parse(string).time
-        } catch (e: ParseException) {
-            0
-        } catch (e: InvocationTargetException) {
-            0
-        }
-    }
-
-    fun convert(long: Long, formatter: SimpleDateFormat): String {
-        return try {
-            formatter.format(Date(long.correctTime()))
+            format.format(Date(timeMillis.correctTime()))
         } catch (e: ParseException) {
             "..."
         } catch (e: InvocationTargetException) {
@@ -54,16 +28,11 @@ object TimeUtil {
         }
     }
 
-    fun parse(dateTimeText: String): Long? {
-        return try {
-            if (dateTimeText.isNullOrEmpty()) null
-            else LONG_FORMAT.parse(dateTimeText).time
-        } catch (ignore: ParseException) {
-            null
-        }
-    }
 
-    fun parse(dateTimeText: String?, format: String): Long? {
+    /**
+     * Millis
+     */
+    fun millis(dateTimeText: String?, format: String): Long? {
         if (dateTimeText.isNullOrEmpty()) return null
         return try {
             SimpleDateFormat(format).parse(dateTimeText).time
@@ -72,24 +41,20 @@ object TimeUtil {
         }
     }
 
-    fun isYesterday(longTimeMillis: Long): Boolean {
-        val timeCal = Calendar.getInstance()
-        timeCal.timeInMillis = longTimeMillis.correctTime()
-        return isYesterday(timeCal)
+    fun millis(dateTimeText: String, format: SimpleDateFormat): Long {
+        return try {
+            format.parse(dateTimeText).time
+        } catch (e: ParseException) {
+            0
+        } catch (e: InvocationTargetException) {
+            0
+        }
     }
 
-    fun isTomorrow(longTimeMillis: Long): Boolean {
-        val timeCal = Calendar.getInstance()
-        timeCal.timeInMillis = longTimeMillis.correctTime()
-        return isTomorrow(timeCal)
-    }
 
-    fun isCurrentDay(timeCal: Calendar): Boolean {
-        val moment = Calendar.getInstance()
-        moment.timeInMillis = System.currentTimeMillis()
-        return isCurrentDay(timeCal, moment)
-    }
-
+    /**
+     * Calendar
+     */
     fun isYesterday(timeCal: Calendar): Boolean {
         val moment = Calendar.getInstance()
         moment.timeInMillis = System.currentTimeMillis()
@@ -102,23 +67,45 @@ object TimeUtil {
         return isTomorrow(timeCal, moment)
     }
 
-    fun isCurrentDay(inputCal: Calendar, momentCal: Calendar): Boolean {
-        if (inputCal.get(Calendar.YEAR) != momentCal.get(Calendar.YEAR)) return false
-        if (inputCal.get(Calendar.MONTH) + 1 != momentCal.get(Calendar.MONTH) + 1) return false
-        return inputCal.get(Calendar.DAY_OF_MONTH) == momentCal.get(Calendar.DAY_OF_MONTH)
+    fun isCurrentDay(cal: Calendar, momentCal: Calendar): Boolean {
+        if (cal.get(Calendar.YEAR) != momentCal.get(Calendar.YEAR)) return false
+        if (cal.get(Calendar.MONTH) + 1 != momentCal.get(Calendar.MONTH) + 1) return false
+        return cal.get(Calendar.DAY_OF_MONTH) == momentCal.get(Calendar.DAY_OF_MONTH)
     }
 
-    fun isYesterday(inputCal: Calendar, momentCal: Calendar): Boolean {
-        if (inputCal.get(Calendar.YEAR) != momentCal.get(Calendar.YEAR)) return false
-        if (inputCal.get(Calendar.MONTH) + 1 != momentCal.get(Calendar.MONTH) + 1) return false
-        return inputCal.get(Calendar.DAY_OF_MONTH) - momentCal.get(Calendar.DAY_OF_MONTH) == -1
+    fun isYesterday(cal: Calendar, momentCal: Calendar): Boolean {
+        if (cal.get(Calendar.YEAR) != momentCal.get(Calendar.YEAR)) return false
+        if (cal.get(Calendar.MONTH) + 1 != momentCal.get(Calendar.MONTH) + 1) return false
+        return cal.get(Calendar.DAY_OF_MONTH) - momentCal.get(Calendar.DAY_OF_MONTH) == -1
     }
 
-    fun isTomorrow(inputCal: Calendar, momentCal: Calendar = cal()): Boolean {
+    fun isTomorrow(cal: Calendar, momentCal: Calendar = cal()): Boolean {
 
-        if (inputCal.get(Calendar.YEAR) != momentCal.get(Calendar.YEAR)) return false
-        if (inputCal.get(Calendar.MONTH) != momentCal.get(Calendar.MONTH)) return false
-        return inputCal.get(Calendar.DAY_OF_MONTH) - momentCal.get(Calendar.DAY_OF_MONTH) == 1
+        if (cal.get(Calendar.YEAR) != momentCal.get(Calendar.YEAR)) return false
+        if (cal.get(Calendar.MONTH) != momentCal.get(Calendar.MONTH)) return false
+        return cal.get(Calendar.DAY_OF_MONTH) - momentCal.get(Calendar.DAY_OF_MONTH) == 1
+    }
+
+
+    /**
+     *
+     */
+    fun isYesterday(timeMillis: Long): Boolean {
+        val timeCal = Calendar.getInstance()
+        timeCal.timeInMillis = timeMillis.correctTime()
+        return isYesterday(timeCal)
+    }
+
+    fun isTomorrow(timeMillis: Long): Boolean {
+        val timeCal = Calendar.getInstance()
+        timeCal.timeInMillis = timeMillis.correctTime()
+        return isTomorrow(timeCal)
+    }
+
+    fun isCurrentDay(timeCal: Calendar): Boolean {
+        val moment = Calendar.getInstance()
+        moment.timeInMillis = System.currentTimeMillis()
+        return isCurrentDay(timeCal, moment)
     }
 
     fun getMonth4M(month: Int): String {
@@ -157,10 +144,34 @@ object TimeUtil {
         return Library.app.getString(stringRes).toString()
     }
 
+    fun hourFormat(timeMillis: Long): String {
+        return text(timeMillis, HOUR_FORMAT)
+    }
+
+    fun hourFormat(dateTimeText: String): Long {
+        return millis(dateTimeText, HOUR_FORMAT)
+    }
+
+    fun shortFormat(timeMillis: Long): String {
+        return text(timeMillis, SHORT_FORMAT)
+    }
+
+    fun shortFormat(dateTimeText: String): Long {
+        return millis(dateTimeText, SHORT_FORMAT)
+    }
+
+    fun longFormat(timeMillis: Long): String {
+        return text(timeMillis, LONG_FORMAT)
+    }
+
+    fun longFormat(dateTimeText: String): Long {
+        return millis(dateTimeText, LONG_FORMAT)
+    }
+
     /**
      * Show different in timeInMillis
-     * Today: convert "[HOUR_FORMAT]"
-     * Yesterday: convert "[HOUR_FORMAT] : Yesterday"
+     * Today: text "[HOUR_FORMAT]"
+     * Yesterday: text "[HOUR_FORMAT] : Yesterday"
      * If day range day least more 8 day: "[HOUR_FORMAT] [range] days"
      * More: "[SHORT_FORMAT]"
      */
@@ -202,8 +213,8 @@ object TimeUtil {
 
     /**
      * Show different in timeInMillis
-     * Today: convert "[HOUR_FORMAT]"
-     * Yesterday: convert "[HOUR_FORMAT] : Yesterday"
+     * Today: text "[HOUR_FORMAT]"
+     * Yesterday: text "[HOUR_FORMAT] : Yesterday"
      * More: "[SHORT_FORMAT]"
      */
     fun getHourOfDay(timeInMillis: Long): String {
@@ -260,8 +271,8 @@ object TimeUtil {
         return daysDiff.toInt()
     }
 
-    fun getDuration(longTimeMillisAfter: Long, longTimeMillisBefore: Long): String {
-        val diff = longTimeMillisAfter - longTimeMillisBefore
+    fun getDuration(timeMillisAfter: Long, timeMillisBefore: Long): String {
+        val diff = timeMillisAfter - timeMillisBefore
         if (diff <= MINUTE) return "..."
         val hour = diff / HOUR
         val min = diff % HOUR / MINUTE

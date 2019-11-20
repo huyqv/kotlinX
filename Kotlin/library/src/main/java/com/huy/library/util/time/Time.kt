@@ -139,19 +139,19 @@ fun Long.formatTime(formatter: SimpleDateFormat): String {
 }
 
 fun Long.toShortDateTime(): String {
-    return TimeUtil.convert(this, SHORT_FORMAT)
+    return TimeUtil.text(this, SHORT_FORMAT)
 }
 
 fun Long.toLongDateTime(): String {
-    return TimeUtil.convert(this, LONG_FORMAT)
+    return TimeUtil.text(this, LONG_FORMAT)
 }
 
 fun String.toShortDateTime(): Long {
-    return TimeUtil.convert(this, SHORT_FORMAT)
+    return TimeUtil.millis(this, SHORT_FORMAT)
 }
 
 fun String.toLongDateTime(): Long {
-    return TimeUtil.convert(this, LONG_FORMAT)
+    return TimeUtil.millis(this, LONG_FORMAT)
 }
 
 fun Long.correctTime(): Long {

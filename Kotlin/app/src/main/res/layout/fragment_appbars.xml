@@ -3,7 +3,7 @@
     style="@style/ContentLayout"
     android:orientation="vertical">
 
-    <com.huy.kotlin.lib.widget.AppBarView
+    <com.huy.kotlin.widget.AppBarView
         android:id="@+id/appBarView"
         style="@style/AppBar.Layout"
         android:text="AppBarView" />
@@ -27,28 +27,28 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp" />
 
-            <com.huy.kotlin.lib.widget.AppBarView
+            <com.huy.kotlin.widget.AppBarView
                 style="@style/MatchWidth"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:background="@color/colorIndianRed"
                 android:drawableEnd="@drawable/ic_search"
                 android:text="@string/app_name" />
 
-            <com.huy.kotlin.lib.widget.AppBarView
+            <com.huy.kotlin.widget.AppBarView
                 style="@style/MatchWidth"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:background="@color/colorGreenSea"
                 android:drawableEnd="@drawable/ic_search"
                 android:text="@string/app_name" />
 
-            <com.huy.kotlin.lib.widget.AppBarView
+            <com.huy.kotlin.widget.AppBarView
                 style="@style/MatchWidth"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:background="@color/colorWisteria"
                 android:drawableEnd="@drawable/ic_search"
                 android:text="@string/app_name" />
 
-            <com.huy.kotlin.lib.widget.AppBarView
+            <com.huy.kotlin.widget.AppBarView
                 style="@style/MatchWidth"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:background="@color/colorSilver"
@@ -57,21 +57,21 @@
                 android:textColor="@color/colorTextPrimary"
                 android:tint="@color/colorTextSecondary" />
 
-            <com.huy.kotlin.lib.widget.AppBarView
+            <com.huy.kotlin.widget.AppBarView
                 style="@style/MatchWidth"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:background="@color/colorGrey"
                 android:drawableEnd="@drawable/ic_search"
                 android:text="@string/app_name" />
 
-            <com.huy.kotlin.lib.widget.AppBarView
+            <com.huy.kotlin.widget.AppBarView
                 style="@style/MatchWidth"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:background="@color/colorPeterRiver"
                 android:drawableEnd="@drawable/ic_search"
                 android:text="@string/app_name" />
 
-            <com.huy.kotlin.lib.widget.AppBarView
+            <com.huy.kotlin.widget.AppBarView
                 style="@style/MatchWidth"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:background="@color/colorOrange"
@@ -80,7 +80,7 @@
                 android:textColor="@color/colorTextPrimary"
                 android:tint="@color/colorTextPrimary" />
 
-            <com.huy.kotlin.lib.widget.AppBarView
+            <com.huy.kotlin.widget.AppBarView
                 style="@style/AppBar.Layout"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:text="AppBarView" />

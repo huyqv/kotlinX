@@ -6,7 +6,7 @@
     android:gravity="bottom"
     android:orientation="vertical">
 
-    <com.huy.kotlin.lib.widget.AppBarView
+    <com.huy.kotlin.widget.AppBarView
         android:id="@+id/appBarView"
         style="@style/AppBar.Layout"
         android:drawableStart="@drawable/ic_back"

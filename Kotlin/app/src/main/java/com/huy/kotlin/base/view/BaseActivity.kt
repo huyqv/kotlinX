@@ -7,6 +7,8 @@ import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import com.huy.kotlin.R
 import com.huy.kotlin.app.App
 import com.huy.kotlin.base.dialog.ProgressDialog
@@ -110,6 +112,18 @@ abstract class BaseActivity : AppCompatActivity(), BaseView {
         RxPermissions(this)
                 .request(permission)
                 .subscribe { granted -> if (granted) block() }
+    }
+
+
+    /**
+     * Observer
+     */
+    fun <T> LiveData<T?>.observe(block: (T?) -> Unit) {
+        observe(this@BaseActivity, Observer { block(it) })
+    }
+
+    fun <T> LiveData<T?>.nonNull(block: (T) -> Unit) {
+        observe(this@BaseActivity, Observer { if (null != it) block(it) })
     }
 
 }

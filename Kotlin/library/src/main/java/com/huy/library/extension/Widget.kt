@@ -61,7 +61,7 @@ fun EditText.addEditorActionListener(actionId: Int, block: (String?) -> Unit) {
     })
 }
 
-fun EditText.showKeyboard() {
+fun EditText?.showKeyboard() {
     this?.apply {
         clearFocus()
         val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
