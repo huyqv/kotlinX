@@ -11,8 +11,8 @@ import com.google.gson.JsonArray
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.huy.kotlin.R
-import com.huy.library.extension.toArray
 import com.huy.library.extension.preventClick
+import com.huy.library.extension.toArray
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers

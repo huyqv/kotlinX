@@ -1,15 +1,23 @@
 package com.huy.library.util
 
 import android.annotation.TargetApi
-import android.content.Context
 import android.content.res.Resources
 import android.graphics.*
+import android.media.Image
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
 import android.text.TextUtils
+import android.util.Base64
+import android.util.Log
+import android.view.View
+import androidx.annotation.DrawableRes
+import com.huy.library.Library
 import java.io.*
+import java.lang.reflect.InvocationTargetException
 import java.net.URL
+import java.nio.ByteBuffer
+import kotlin.math.min
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -20,6 +28,17 @@ import java.net.URL
  * -------------------------------------------------------------------------------------------------
  */
 object BitmapUtil {
+
+    class CompressConfigs(val maxSize: Long, val compressFormat: Bitmap.CompressFormat) {
+        val extension: String
+            get() {
+                return when (compressFormat) {
+                    Bitmap.CompressFormat.PNG -> ".png"
+                    Bitmap.CompressFormat.JPEG -> ".jpg"
+                    else -> ".jpg"
+                }
+            }
+    }
 
     /**
      * @param candidate     - Bitmap to check
@@ -316,7 +335,7 @@ object BitmapUtil {
      * @return size in bytes
      */
     @TargetApi(Build.VERSION_CODES.KITKAT)
-    fun getBitmapSize(bitmap: Bitmap): Int {
+    fun size(bitmap: Bitmap): Int {
         // From KitKat onward use getAllocationByteCount() as allocated bytes can potentially be
         // larger than bitmap byte count.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) return bitmap.allocationByteCount
@@ -345,13 +364,17 @@ object BitmapUtil {
         return output
     }
 
-    fun saveBitmap(context: Context, bitmap: Bitmap, directory: String?, filename: String, compressConfigs: CompressConfigs): File? {
+
+    /**
+     * IO
+     */
+    fun save(bitmap: Bitmap, directory: String?, filename: String, config: CompressConfigs): File? {
 
         var fDirectory = directory
         var fFilename = filename
 
         if (fDirectory == null) {
-            fDirectory = context.cacheDir.absolutePath
+            fDirectory = Library.app.cacheDir.absolutePath
         } else {
             // Check if the given directory exists or try to create it.
             val file = File(fDirectory)
@@ -360,9 +383,9 @@ object BitmapUtil {
             }
         }
 
-        val byteCount = getBitmapSize(bitmap).toLong()
+        val byteCount = size(bitmap).toLong()
 
-        val max = compressConfigs.maxSize
+        val max = config.maxSize
         var compressRatio = 100
         if (byteCount > max) {
             compressRatio = (100.0f * max / byteCount).toInt()
@@ -371,8 +394,8 @@ object BitmapUtil {
         var file: File? = null
         var os: OutputStream? = null
         try {
-            val format = compressConfigs.compressFormat
-            fFilename = fFilename + compressConfigs.extension
+            val format = config.compressFormat
+            fFilename = fFilename + config.extension
             file = File(fDirectory, fFilename)
             os = FileOutputStream(file)
             bitmap.compress(format, compressRatio, os)
@@ -384,12 +407,11 @@ object BitmapUtil {
         return file
     }
 
-    fun saveBitmap(context: Context, bitmap: Bitmap, parentDir: File, fileName: String, compressConfigs: CompressConfigs): File? {
-
-        return saveBitmap(context, bitmap, parentDir.absolutePath, fileName, compressConfigs)
+    fun save(bitmap: Bitmap, parentDir: File, fileName: String, config: CompressConfigs): File? {
+        return save(bitmap, parentDir.absolutePath, fileName, config)
     }
 
-    fun getImageUri(context: Context, format: Bitmap.CompressFormat, quality: Int, bitmap: Bitmap?): Uri? {
+    fun uri(format: Bitmap.CompressFormat, quality: Int, bitmap: Bitmap?): Uri? {
         if (bitmap == null || bitmap.isRecycled) {
             return null
         }
@@ -397,7 +419,7 @@ object BitmapUtil {
             val outputStream = ByteArrayOutputStream()
             bitmap.compress(format, quality, outputStream)
 
-            val path = MediaStore.Images.Media.insertImage(context.contentResolver, bitmap, "", null)
+            val path = MediaStore.Images.Media.insertImage(Library.app.contentResolver, bitmap, "", null)
             safeClose(outputStream)
             return Uri.parse(path)
         } catch (e: Exception) {
@@ -414,17 +436,429 @@ object BitmapUtil {
         }
     }
 
+    fun convert(raw: ByteArray, pixels: IntArray, exposureCompensation: Double?) {
+        if (exposureCompensation != null) {
+
+            for (i in raw.indices) {
+                val grey = min(((255 and raw[i].toInt()) * exposureCompensation).toInt(), 255)
+                pixels[i] = -16777216 or 10101 * grey
+            }
+        } else {
+            for (i in raw.indices) {
+                val grey = 255 and raw[i].toInt()
+                pixels[i] = -16777216 or 10101 * grey
+            }
+        }
+    }
+
+    fun formBytes(bitmap: Bitmap, pixels: IntArray, raw: ByteArray, exposureCompensation: Double?): Bitmap {
+        val width = bitmap.width
+        val height = bitmap.height
+
+        convert(raw, pixels, exposureCompensation)
+
+        bitmap.setPixels(pixels, 0, width, 0, 0, width, height)
+
+        return bitmap
+    }
+
+    fun formBytes(width: Int, height: Int, raw: ByteArray, exposureCompensation: Double?): Bitmap {
+        val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+        val pixels = IntArray(raw.size)
+
+        return formBytes(bitmap, pixels, raw, exposureCompensation)
+    }
+
+    fun getBGR(yuvImage: YuvImage): Bitmap {
+        val outStream = ByteArrayOutputStream()
+        yuvImage.compressToJpeg(Rect(0, 0, yuvImage.width, yuvImage.height), 100, outStream) // make JPG
+
+        return BitmapFactory.decodeByteArray(outStream.toByteArray(), 0, outStream.size())
+    }
+
+    @Throws(IOException::class)
+    fun orientation(src: String): Int {
+        var orientation = 1
+        try {
+            /**
+             * if your are targeting only api level >= 5
+             * ExifInterface exif = new ExifInterface(src);
+             * orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, 1);
+             */
+            if (Build.VERSION.SDK_INT >= 5) {
+                val exifClass = Class.forName("android.media.ExifInterface")
+                val exifConstructor = exifClass.getConstructor(String::class.java)
+                val exifInstance = exifConstructor.newInstance(src)
+                val getAttributeInt = exifClass.getMethod("getAttributeInt", String::class.java, Int::class.javaPrimitiveType!!)
+                val tagOrientationField = exifClass.getField("TAG_ORIENTATION")
+                val tagOrientation = tagOrientationField.get(null) as String
+                orientation = getAttributeInt.invoke(exifInstance, tagOrientation, 1) as Int
+            }
+        } catch (e: ClassNotFoundException) {
+            e.printStackTrace()
+        } catch (e: SecurityException) {
+            e.printStackTrace()
+        } catch (e: NoSuchMethodException) {
+            e.printStackTrace()
+        } catch (e: IllegalArgumentException) {
+            e.printStackTrace()
+        } catch (e: InstantiationException) {
+            e.printStackTrace()
+        } catch (e: IllegalAccessException) {
+            e.printStackTrace()
+        } catch (e: InvocationTargetException) {
+            e.printStackTrace()
+        } catch (e: NoSuchFieldException) {
+            e.printStackTrace()
+        }
+        return orientation
+    }
+
+    fun orientation(bytes: ByteArray?): Int {
+        if (bytes == null) {
+            return 0
+        }
+        var offset = 0
+        var length = 0
+        // ISO/IEC 10918-1:1993(E)
+        while (offset + 3 < bytes.size && bytes[offset++].toInt() and 255 == 255) {
+            val marker = bytes[offset].toInt() and 255
+            // Check if the marker is a padding.
+            if (marker == 255) {
+                continue
+            }
+            offset++
+            // Check if the marker is SOI or TEM.
+            if (marker == 216 || marker == 1) {
+                continue
+            }
+            // Check if the marker is EOI or SOS.
+            if (marker == 217 || marker == 218) {
+                break
+            }
+            // Get the length and check if it is reasonable.
+            length = pack(bytes, offset, 2, false)
+            if (length < 2 || offset + length > bytes.size) {
+                return 0
+            }
+            // Break if the marker is EXIF in APP1.
+            if (marker == 0xE1 && length >= 8 &&
+                    pack(bytes, offset + 2, 4, false) == 1165519206 &&
+                    pack(bytes, offset + 6, 2, false) == 0) {
+                offset += 8
+                length -= 8
+                break
+            }
+            // Skip other markers.
+            offset += length
+            length = 0
+        }
+        // JEITA CP-3451 Exif Version 2.2
+        if (length > 8) {
+            // Identify the byte order.
+            var tag = pack(bytes, offset, 4, false)
+            if (tag != 1229531648 && tag != 1296891946) {
+                return 0
+            }
+            val littleEndian = tag == 1229531648
+            // Get the offset and check if it is reasonable.
+            var count = pack(bytes, offset + 4, 4, littleEndian) + 2
+            if (count < 10 || count > length) {
+                return 0
+            }
+            offset += count
+            length -= count
+            // Get the count and go through all the elements.
+            count = pack(bytes, offset - 2, 2, littleEndian)
+            while (count-- > 0 && length >= 12) {
+                // Get the tag and check if it is orientation.
+                tag = pack(bytes, offset, 2, littleEndian)
+                if (tag == 112) {
+                    // We do not really care about type and count, do we?
+                    val orientation = pack(bytes, offset + 8, 2, littleEndian)
+                    when (orientation) {
+                        1 -> return 0
+                        3 -> return 180
+                        6 -> return 90
+                        8 -> return 270
+                    }
+                    return 0
+                }
+                offset += 12
+                length -= 12
+            }
+        }
+        return 0
+    }
+
+
     /**
-     * [CompressConfigs]
+     * Convert
      */
-    class CompressConfigs(val maxSize: Long, val compressFormat: Bitmap.CompressFormat) {
-        val extension: String
-            get() {
-                return when (compressFormat) {
-                    Bitmap.CompressFormat.PNG -> ".png"
-                    Bitmap.CompressFormat.JPEG -> ".jpg"
-                    else -> ".jpg"
+    fun nv21toJpeg(nv21: ByteArray, width: Int, height: Int, quality: Int): ByteArray {
+        val out = ByteArrayOutputStream()
+        val yuv = YuvImage(nv21, ImageFormat.NV21, width, height, null)
+        yuv.compressToJpeg(Rect(0, 0, width, height), quality, out)
+        return out.toByteArray()
+    }
+
+    fun yuv420toNv21(image: Image): ByteArray {
+        val crop = image.cropRect
+        val format = image.format
+        val width = crop.width()
+        val height = crop.height()
+        val planes = image.planes
+        val data = ByteArray(width * height * ImageFormat.getBitsPerPixel(format) / 8)
+        val rowData = ByteArray(planes[0].rowStride)
+
+        var channelOffset = 0
+        var outputStride = 1
+        for (i in planes.indices) {
+            when (i) {
+                0 -> {
+                    channelOffset = 0
+                    outputStride = 1
+                }
+                1 -> {
+                    channelOffset = width * height + 1
+                    outputStride = 2
+                }
+                2 -> {
+                    channelOffset = width * height
+                    outputStride = 2
                 }
             }
+
+            val buffer = planes[i].buffer
+            val rowStride = planes[i].rowStride
+            val pixelStride = planes[i].pixelStride
+
+            val shift = if (i == 0) 0 else 1
+            val w = width shr shift
+            val h = height shr shift
+            buffer.position(rowStride * (crop.top shr shift) + pixelStride * (crop.left shr shift))
+            for (row in 0 until h) {
+                val length: Int
+                if (pixelStride == 1 && outputStride == 1) {
+                    length = w
+                    buffer.get(data, channelOffset, length)
+                    channelOffset += length
+                } else {
+                    length = (w - 1) * pixelStride + 1
+                    buffer.get(rowData, 0, length)
+                    for (col in 0 until w) {
+                        data[channelOffset] = rowData[col * pixelStride]
+                        channelOffset += outputStride
+                    }
+                }
+                if (row < h - 1) {
+                    buffer.position(buffer.position() + rowStride - length)
+                }
+            }
+        }
+        return data
     }
+
+
+    /**
+     * Editing
+     */
+    fun rotate(bitmap: Bitmap, degrees: Int): Bitmap {
+        val matrix = Matrix()
+        matrix.postRotate(degrees.toFloat())
+        matrix.postScale(-1f, 1f)
+
+        return Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
+    }
+
+    fun rotate(bitmap: Bitmap, src: String): Bitmap {
+        try {
+            val orientation = orientation(src)
+
+            if (orientation == 1) {
+                return bitmap
+            }
+
+            val matrix = Matrix()
+            when (orientation) {
+                2 -> matrix.setScale(-1f, 1f)
+                3 -> matrix.setRotate(180f)
+                4 -> {
+                    matrix.setRotate(180f)
+                    matrix.postScale(-1f, 1f)
+                }
+                5 -> {
+                    matrix.setRotate(90f)
+                    matrix.postScale(-1f, 1f)
+                }
+                6 -> matrix.setRotate(90f)
+                7 -> {
+                    matrix.setRotate(-90f)
+                    matrix.postScale(-1f, 1f)
+                }
+                8 -> matrix.setRotate(-90f)
+                else -> return bitmap
+            }
+
+            try {
+                val oriented = Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
+                bitmap.recycle()
+                return oriented
+            } catch (e: OutOfMemoryError) {
+                e.printStackTrace()
+                return bitmap
+            }
+
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+
+        return bitmap
+    }
+
+    fun crop(bitmap: Bitmap, aspectWidth: Int, aspectHeight: Int): Bitmap {
+        val sourceWidth = bitmap.width
+        val sourceHeight = bitmap.height
+
+        var width = sourceWidth
+        var height = width * aspectHeight / aspectWidth
+        var x = 0
+        var y = (sourceHeight - height) / 2
+
+        if (height > sourceHeight) {
+            height = sourceHeight
+            width = height * aspectWidth / aspectHeight
+            x = (sourceWidth - width) / 2
+            y = 0
+        }
+
+        return if (x != 0 || y != 0 || bitmap.width != width || bitmap.height != height) {
+            val bmp = Bitmap.createBitmap(bitmap, x, y, width, height)
+            bmp.recycle()
+            bmp
+        } else {
+            bitmap
+        }
+
+    }
+
+    fun crop(bytes: ByteArray, aspectWidth: Int, aspectHeight: Int): Bitmap {
+        return crop(formBytes(bytes)!!, aspectWidth, aspectHeight)
+    }
+
+    fun pack(bytes: ByteArray, offset: Int, length: Int, littleEndian: Boolean): Int {
+        var fOffset = offset
+        var fLength = length
+        var step = 1
+        if (littleEndian) {
+            fOffset += fLength - 1
+            step = -1
+        }
+        var value = 0
+        while (fLength-- > 0) {
+            value = value shl 8 or (bytes[fOffset].toInt() and 255)
+            fOffset += step
+        }
+        return value
+    }
+
+
+    /**
+     *
+     */
+    fun toBytes(image: Image): ByteArray? {
+        var data: ByteArray? = null
+        try {
+            if (image.format == ImageFormat.JPEG) {
+                val planes = image.planes
+                val buffer = planes[0].buffer
+                data = ByteArray(buffer.capacity())
+                buffer.get(data)
+                return data
+            } else if (image.format == ImageFormat.YUV_420_888) {
+                data = nv21toJpeg(yuv420toNv21(image), image.width, image.height, 100)
+            }
+        } catch (ex: Exception) {
+            Log.e("ImagetoByteArray", ex.message)
+        }
+
+        return data
+    }
+
+    fun toRawBytes(byteArray: ByteArray): ByteArray {
+        val rawBitmap = formBytes(byteArray)
+        val stream = ByteArrayOutputStream()
+        rawBitmap?.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+        val rawByteArray = stream.toByteArray()
+        rawBitmap?.recycle()
+        return rawByteArray
+    }
+
+    fun toBytes(bitmap: Bitmap): ByteArray {
+        val stream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 80, stream)
+        return stream.toByteArray()
+    }
+
+    fun base64Encode(data: ByteArray, flag: Int = Base64.DEFAULT): String {
+        return Base64.encodeToString(data, flag)
+    }
+
+
+    /**
+     * Create bitmap
+     */
+    fun formRes(@DrawableRes res: Int): Bitmap? {
+        return BitmapFactory.decodeResource(Library.app.resources, res)
+    }
+
+    fun formView(v: View?, width: Int = v?.width ?: 0, height: Int = v?.height ?: 0): Bitmap? {
+        v ?: return null
+        if (width > 0 && height > 0) {
+            v.measure(View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY), View.MeasureSpec.makeMeasureSpec(height, View.MeasureSpec.EXACTLY))
+        }
+        v.layout(0, 0, v.measuredWidth, v.measuredHeight)
+        val bitmap = Bitmap.createBitmap(v.measuredWidth, v.measuredHeight, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+        val background = v.background
+        background?.draw(canvas)
+        v.draw(canvas)
+        return bitmap
+    }
+
+    fun formBytes(byteArray: ByteArray): Bitmap? {
+        return BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
+    }
+
+    fun formBytes(byteArray: ByteArray?, width: Int, height: Int): Bitmap? {
+        if (byteArray != null) {
+            var options: BitmapFactory.Options? = null
+            if (width > 0 && height > 0) {
+                options = BitmapFactory.Options()
+                options.inJustDecodeBounds = true
+                BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size, options)
+                options.inJustDecodeBounds = false
+                options.inSampleSize = calculateInSampleSize(options, width, height)
+            }
+            val srcBitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size, options)
+            val orientation = orientation(byteArray)
+            if (srcBitmap != null && orientation != 0) {
+                val matrix = Matrix()
+                matrix.postRotate(orientation.toFloat())
+                val bitmap = Bitmap.createBitmap(srcBitmap, 0, 0, srcBitmap.width, srcBitmap.height, matrix, true)
+                srcBitmap.recycle()
+                return bitmap
+            }
+            return srcBitmap
+        }
+        return null
+    }
+
+    fun formBytes(byteArray: ByteArray, config: Bitmap.Config = Bitmap.Config.ALPHA_8, width: Int, height: Int): Bitmap? {
+        val bitmap = Bitmap.createBitmap(width, height, config)
+        val buffer = ByteBuffer.wrap(byteArray)
+        bitmap.copyPixelsFromBuffer(buffer)
+        return bitmap
+    }
+
 }

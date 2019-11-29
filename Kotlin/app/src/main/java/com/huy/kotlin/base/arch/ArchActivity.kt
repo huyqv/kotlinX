@@ -57,10 +57,6 @@ abstract class ArchActivity<VM : BaseViewModel> : BaseActivity() {
         ToastLiveData.instance.removeObservers(this)
     }
 
-    override fun getLifecycle(): Lifecycle {
-        return super.getLifecycle()
-    }
-
     fun <T : ViewModel> viewModel(cls: Class<T>): T {
         return ViewModelProviders.of(this).get(cls)
     }

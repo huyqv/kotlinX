@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.DiffUtil
 class PagingItem(val id: Int) {
 
     override fun equals(other: Any?): Boolean {
-        return id == (other as PagingItem)?.id
+        return id == (other as PagingItem).id
     }
 
     companion object {
