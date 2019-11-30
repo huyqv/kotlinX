@@ -22,7 +22,7 @@ import java.security.spec.RSAPublicKeySpec
 import java.security.spec.X509EncodedKeySpec
 import javax.crypto.Cipher
 
-object RSACipher {
+object RSA {
 
     private const val CHARSET = "UTF-8"
 
@@ -66,7 +66,7 @@ object RSACipher {
         var encryptedBase64 = ""
         try {
 
-            val factory : KeyFactory = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) KeyFactory.getInstance(CRYPTO_METHOD)
+            val factory: KeyFactory = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) KeyFactory.getInstance(CRYPTO_METHOD)
             else KeyFactory.getInstance(CRYPTO_METHOD, "BC")
 
             val keySpec = X509EncodedKeySpec(Base64.decode(publicKey.trim { it <= ' ' }.toByteArray(), Base64.DEFAULT))
@@ -120,7 +120,7 @@ object RSACipher {
 
         val exponent = BigInteger(1, Base64.decode(exp, Base64.NO_WRAP))
 
-        val factory : KeyFactory = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) KeyFactory.getInstance(CRYPTO_METHOD)
+        val factory: KeyFactory = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) KeyFactory.getInstance(CRYPTO_METHOD)
         else KeyFactory.getInstance(CRYPTO_METHOD, "BC")
 
         return factory.generatePublic(RSAPublicKeySpec(modules, exponent))

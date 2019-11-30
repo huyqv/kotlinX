@@ -14,7 +14,7 @@ import java.util.regex.Pattern
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-object TextFilter {
+object Text {
 
     val PERSON_NAME = object : InputFilter {
 

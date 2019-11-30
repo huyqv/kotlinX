@@ -27,7 +27,7 @@ import kotlin.math.min
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-object BitmapUtil {
+object ImageUtil {
 
     class CompressConfigs(val maxSize: Long, val compressFormat: Bitmap.CompressFormat) {
         val extension: String

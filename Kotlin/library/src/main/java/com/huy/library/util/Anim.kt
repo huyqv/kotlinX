@@ -14,7 +14,7 @@ import androidx.annotation.AnimRes
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-object AnimUtil {
+object Anim {
 
     private val overshootInterpolator by lazy { OvershootInterpolator() }
 
