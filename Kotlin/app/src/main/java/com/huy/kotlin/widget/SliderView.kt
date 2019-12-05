@@ -31,13 +31,13 @@ class SliderView : ViewFlipper {
 
     private var whichChild = 0
 
-    private val nextPerformAnimation: Animation = AnimationUtils.loadAnimation(context, R.anim.enter)
+    private val nextPerformAnimation: Animation = AnimationUtils.loadAnimation(context, R.anim.horizontal_enter)
 
-    private val nextExitAnimation: Animation = AnimationUtils.loadAnimation(context, R.anim.exit)
+    private val nextExitAnimation: Animation = AnimationUtils.loadAnimation(context, R.anim.horizontal_exit)
 
-    private val backPerformAnimation: Animation = AnimationUtils.loadAnimation(context, R.anim.pop_enter)
+    private val backPerformAnimation: Animation = AnimationUtils.loadAnimation(context, R.anim.horizontal_pop_enter)
 
-    private val backExitAnimation: Animation = AnimationUtils.loadAnimation(context, R.anim.pop_exit)
+    private val backExitAnimation: Animation = AnimationUtils.loadAnimation(context, R.anim.horizontal_pop_exit)
 
     constructor(context: Context) : super(context)
 

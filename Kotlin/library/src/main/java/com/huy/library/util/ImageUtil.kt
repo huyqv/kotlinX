@@ -19,6 +19,7 @@ import java.net.URL
 import java.nio.ByteBuffer
 import kotlin.math.min
 
+
 /**
  * -------------------------------------------------------------------------------------------------
  * @Project: Kotlin
@@ -760,6 +761,18 @@ object ImageUtil {
             fOffset += step
         }
         return value
+    }
+
+    fun flipVertical(bitmap: Bitmap): Bitmap? {
+        val matrix = Matrix()
+        matrix.preScale(1.0f, -1.0f)
+        return Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
+    }
+
+    fun flipHorizontal(bitmap: Bitmap): Bitmap? {
+        val matrix = Matrix()
+        matrix.preScale(-1.0f, 1.0f)
+        return Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
     }
 
 

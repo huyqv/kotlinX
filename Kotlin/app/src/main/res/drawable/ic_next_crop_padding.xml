@@ -10,7 +10,6 @@
         android:pivotY="12"
         android:scaleX="1.5"
         android:scaleY="1.5">
-
         <path
             android:fillColor="#FF000000"
             android:pathData="M12,4l-1.41,1.41L16.17,11H4v2h12.17l-5.58,5.59L12,20l8,-8z" />

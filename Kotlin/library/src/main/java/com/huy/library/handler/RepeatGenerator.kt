@@ -10,7 +10,7 @@ package com.huy.library.handler
  */
 abstract class RepeatGenerator<T> : BaseGenerator<T> {
 
-    private val generator: Runnable
+    private var generator: Runnable
 
     private val delayInterval: Long
 
@@ -36,6 +36,17 @@ abstract class RepeatGenerator<T> : BaseGenerator<T> {
         if (!generating) return
         generating = false
         handler?.apply { removeCallbacks(generator) }
+    }
+
+    private fun getGenerator(): Runnable {
+        return object : Runnable {
+            override fun run() {
+                val msg = handler?.obtainMessage() ?: return
+                msg.obj = onDataGenerate()
+                msg.sendToTarget()
+                handler?.postDelayed(this, delayInterval)
+            }
+        }
     }
 
 }

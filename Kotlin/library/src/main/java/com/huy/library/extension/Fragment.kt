@@ -15,61 +15,65 @@ import com.huy.library.R
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
+
+val HORIZONTAL_ANIMATIONS = intArrayOf(R.anim.horizontal_enter, R.anim.horizontal_exit, R.anim.horizontal_pop_enter, R.anim.horizontal_pop_exit)
+
+val VERTICAL_ANIMATIONS = intArrayOf(R.anim.horizontal_enter, R.anim.horizontal_exit, R.anim.horizontal_pop_enter, R.anim.horizontal_pop_exit)
+
 fun Fragment.hideKeyboard() {
     activity?.hideKeyboard()
 }
 
-fun Fragment.addFragment(fragment: Fragment, @IdRes container: Int, backStack: Boolean = true) {
+fun Fragment.addFragment(fragment: Fragment, @IdRes container: Int, backStack: Boolean = true, animations: IntArray? = VERTICAL_ANIMATIONS) {
 
     val tag = fragment::class.java.simpleName
-    childFragmentManager.scheduleTransaction {
+    childFragmentManager.scheduleTransaction({
         add(container, fragment, tag)
         if (backStack) addToBackStack(tag)
-    }
+    },animations)
 }
 
-fun Fragment.replaceFragment(fragment: Fragment, @IdRes container: Int, backStack: Boolean = true) {
+fun Fragment.replaceFragment(fragment: Fragment, @IdRes container: Int, backStack: Boolean = true, animations: IntArray? = VERTICAL_ANIMATIONS) {
 
     val tag = fragment::class.java.simpleName
-    childFragmentManager.scheduleTransaction {
+    childFragmentManager.scheduleTransaction({
         replace(container, fragment, tag)
         if (backStack) addToBackStack(tag)
-    }
+    }, animations)
 }
 
-fun Fragment.remove(cls: Class<Fragment>) {
+fun Fragment.remove(cls: Class<Fragment>, animations: IntArray? = VERTICAL_ANIMATIONS) {
 
     val fragment = childFragmentManager.findFragmentByTag(cls.simpleName) ?: return
-    childFragmentManager.scheduleTransaction {
+    childFragmentManager.scheduleTransaction({
         remove(fragment)
-    }
+    }, animations)
 }
 
-fun FragmentActivity.addFragment(fragment: Fragment, @IdRes container: Int, backStack: Boolean = true) {
+fun FragmentActivity.addFragment(fragment: Fragment, @IdRes container: Int, backStack: Boolean = true, animations: IntArray? = VERTICAL_ANIMATIONS) {
 
     val tag = fragment::class.java.simpleName
-    supportFragmentManager.scheduleTransaction {
+    supportFragmentManager.scheduleTransaction({
         add(container, fragment, tag)
         if (backStack) addToBackStack(tag)
-
-    }
+    }, animations)
 }
 
-fun FragmentActivity.replaceFragment(fragment: Fragment, @IdRes container: Int, backStack: Boolean = true) {
+fun FragmentActivity.replaceFragment(fragment: Fragment, @IdRes container: Int, backStack: Boolean = true, animations: IntArray? = VERTICAL_ANIMATIONS) {
 
     val tag = fragment::class.java.simpleName
-    supportFragmentManager.scheduleTransaction {
+    supportFragmentManager.scheduleTransaction({
         replace(container, fragment, tag)
         if (backStack) addToBackStack(tag)
-    }
+    }, animations)
 }
 
-fun FragmentActivity.remove(cls: Class<*>) {
+fun FragmentActivity.remove(cls: Class<*>, animations: IntArray? = VERTICAL_ANIMATIONS) {
 
     val fragment = supportFragmentManager.findFragmentByTag(cls.simpleName) ?: return
-    supportFragmentManager.scheduleTransaction {
+    supportFragmentManager.scheduleTransaction({
         remove(fragment)
-    }
+    }, animations)
 }
 
 fun FragmentActivity.clearStack() {
@@ -81,10 +85,10 @@ fun FragmentActivity.clearStack() {
     sfm.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
 }
 
-fun FragmentManager.scheduleTransaction(block: FragmentTransaction.() -> Unit) {
+fun FragmentManager.scheduleTransaction(block: FragmentTransaction.() -> Unit, animations: IntArray? = VERTICAL_ANIMATIONS) {
 
     val transaction = beginTransaction()
-    transaction.setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
+    if (null != animations) transaction.setCustomAnimations(animations[0], animations[1], animations[2], animations[3])
     transaction.block()
     transaction.commitAllowingStateLoss()
 

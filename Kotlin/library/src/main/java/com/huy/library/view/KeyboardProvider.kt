@@ -11,7 +11,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
 import android.widget.PopupWindow
-import androidx.lifecycle.*
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.OnLifecycleEvent
 import com.huy.library.R
 
 /**
@@ -45,10 +48,10 @@ class KeyboardProvider constructor(private val activity: Activity) : PopupWindow
     private var keyboardListener: KeyboardListener? = null
 
     /** The cached landscape height of the keyboard  */
-    private var keyboardLandscapeHeight: Int = 0
+    private var landscapeHeight: Int = 0
 
     /** The cached portrait height of the keyboard  */
-    private var keyboardPortraitHeight: Int = 0
+    private var portraitHeight: Int = 0
 
     private val popupView: View?
 
@@ -130,16 +133,22 @@ class KeyboardProvider constructor(private val activity: Activity) : PopupWindow
         val keyboardHeight = screenSize.y - rect.bottom
 
         when {
-            keyboardHeight == 0 ->  keyboardListener?.onKeyboardHide(orientation)
+
+            keyboardHeight == 0 -> {
+                keyboardListener?.onKeyboardHide(orientation)
+            }
             orientation == Configuration.ORIENTATION_PORTRAIT -> {
-                this.keyboardPortraitHeight = keyboardHeight
-                keyboardListener?.onKeyboardShow(height, orientation)
+                if (portraitHeight == keyboardHeight) return
+                portraitHeight = keyboardHeight
+                keyboardListener?.onKeyboardShow(keyboardHeight, orientation)
             }
             else -> {
-                this.keyboardLandscapeHeight = keyboardHeight
-                keyboardListener?.onKeyboardShow(height, orientation)
+                if (landscapeHeight == keyboardHeight) return
+                landscapeHeight = keyboardHeight
+                keyboardListener?.onKeyboardShow(keyboardHeight, orientation)
             }
         }
+
     }
 
 }

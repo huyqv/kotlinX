@@ -4,6 +4,7 @@ import android.os.Handler
 import android.os.HandlerThread
 import android.os.Looper
 import android.os.Message
+import java.lang.ref.WeakReference
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -37,7 +38,7 @@ abstract class BaseGenerator<T> : HandlerThread {
 
     override fun onLooperPrepared() {
         super.onLooperPrepared()
-        handler = getHandler(this.looper)
+        handler = getHandler(looper)
     }
 
     fun isGenerating(): Boolean {
@@ -65,6 +66,22 @@ abstract class BaseGenerator<T> : HandlerThread {
                 message.obj = msg?.obj
                 message.sendToTarget()
             }
+        }
+    }
+
+    class DataHandler<T> : Handler() {
+
+        private var dataReceivedRef: WeakReference<DataReceiver<T>>? = null
+
+        fun attach(dataReceiver: DataReceiver<T>?) {
+            if (dataReceiver != null) {
+                dataReceivedRef = WeakReference(dataReceiver)
+            }
+        }
+
+        override fun handleMessage(msg: Message?) {
+            @Suppress("UNCHECKED_CAST") val data = msg?.obj as? T ?: return
+            dataReceivedRef?.get()?.also { receiver -> receiver.onDataReceived(data) }
         }
     }
 
