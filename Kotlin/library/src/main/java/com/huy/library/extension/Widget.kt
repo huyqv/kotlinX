@@ -4,28 +4,24 @@ import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.app.Activity
 import android.content.Context
-import android.content.Context.LAYOUT_INFLATER_SERVICE
 import android.graphics.Bitmap
 import android.graphics.Color
-import android.graphics.PorterDuff
 import android.os.Build
 import android.os.Handler
 import android.text.Html
 import android.view.KeyEvent
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.webkit.WebChromeClient
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.*
-import androidx.annotation.*
+import androidx.annotation.ColorRes
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
-import androidx.fragment.app.FragmentActivity
-import com.huy.library.Library
 import java.util.*
 
 
@@ -196,83 +192,6 @@ fun TextView.randomCapcha(level: Int = 0) {
 
 
 /**
- * @View
- */
-val WRAP = -2
-
-val MATCH = -1
-
-fun View.activity(): Activity? {
-    return context as? Activity
-}
-
-fun View.fragmentActivity(): FragmentActivity? {
-    return context as? FragmentActivity
-}
-
-fun View.preventAction(time: Long = 1200) {
-    isEnabled = false
-    postDelayed({ isEnabled = true }, time)
-}
-
-fun View.preventClick(time: Long = 1200) {
-    isClickable = false
-    postDelayed({ isClickable = true }, time)
-}
-
-fun ViewGroup.inflate(@LayoutRes layoutRes: Int): View {
-    return LayoutInflater.from(context).inflate(layoutRes, this, false)
-}
-
-fun View.show() {
-    if (visibility != View.VISIBLE) visibility = View.VISIBLE
-}
-
-fun View.isShow(show: Boolean?) {
-    visibility = if (show == true) View.VISIBLE
-    else View.INVISIBLE
-}
-
-fun View.hide() {
-    if (visibility != View.INVISIBLE) visibility = View.INVISIBLE
-}
-
-fun View.isHide(hide: Boolean?) {
-    visibility = if (hide == true) View.INVISIBLE
-    else View.VISIBLE
-}
-
-fun View.gone() {
-    if (visibility != View.GONE) visibility = View.GONE
-}
-
-fun View.isGone(gone: Boolean?) {
-    visibility = if (gone == true) View.GONE
-    else View.VISIBLE
-}
-
-/**
- * @param animationStyle animationStyle
- * <style name="PopupStyle">
- *      <item name="android:windowEnterAnimation">@anim/anim1</item>
- * </style>
- */
-fun View.showPopup(@LayoutRes layoutRes: Int, @StyleRes animationStyle: Int, block: (View, PopupWindow) -> Unit) {
-    val inflater = context.getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
-    val v = inflater.inflate(layoutRes, null)
-    val popup = PopupWindow(v, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, true)
-    popup.animationStyle = animationStyle
-    popup.showAsDropDown(this)
-    block(v, popup)
-}
-
-fun View.backgroundTint(@ColorRes res: Int) {
-    post {
-        background.setColorFilter(ContextCompat.getColor(context, res), PorterDuff.Mode.SRC_ATOP)
-    }
-}
-
-/**
  * @WebView
  */
 fun WebView.setupWebView() {
@@ -339,20 +258,7 @@ fun WebView.setClient(progressBar: ProgressBar) {
     }
 }
 
-fun inflater(@LayoutRes layoutRes: Int): View {
-    val inflater = Library.app.getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
-    return inflater.inflate(layoutRes, null)
-}
 
-fun show(vararg views: View) {
-    for (v in views) v.show()
-}
 
-fun hide(vararg views: View) {
-    for (v in views) v.hide()
-}
 
-fun gone(vararg views: View) {
-    for (v in views) v.gone()
-}
 

@@ -2,21 +2,15 @@ package com.huy.library.extension
 
 
 import android.app.Activity
-import android.content.Context
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
-import android.content.Context.INPUT_METHOD_SERVICE
-import androidx.core.content.ContextCompat.getSystemService
-
-
-
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -26,20 +20,6 @@ import androidx.core.content.ContextCompat.getSystemService
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-fun Activity.hideKeyboard() {
-    if (currentFocus?.windowToken != null) {
-        val imm = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
-    }
-}
-
-fun Activity.showKeyboard() {
-    if (currentFocus?.windowToken != null) {
-        val imm = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.toggleSoftInputFromWindow(currentFocus?.windowToken, InputMethodManager.SHOW_FORCED, 0)
-    }
-}
-
 fun Activity.fullScreenLayout() {
     try {
         val window = this.window
@@ -55,11 +35,10 @@ fun Activity.fullScreenWindow() {
     this.window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
 }
 
-fun Activity.statusBarColor(@ColorRes colorId: Int) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-        this.window.statusBarColor = ContextCompat.getColor(this, colorId)
-}
 
+/**
+ * Status bar
+ */
 fun Activity.statusBarHeight(): Int {
     var result = 0
     val resourceId = this.resources.getIdentifier("status_bar_height", "dimen", "android")
@@ -68,18 +47,56 @@ fun Activity.statusBarHeight(): Int {
     return result
 }
 
-fun Activity.setStatusBarBackground(@DrawableRes res: Int) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-        val background = ContextCompat.getDrawable(this, res)
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+fun Activity.statusBarColor(color: Int) {
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) return
+    window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+    window.statusBarColor = color
+}
+
+fun Activity.statusBarColorRes(@ColorRes res: Int) {
+    statusBarColor(color(res))
+}
+
+fun Activity.statusBarDrawable(@DrawableRes res: Int) {
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) return
+    val background = ContextCompat.getDrawable(this, res)
+    window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+    if (background is ColorDrawable) {
+        window.statusBarColor = background.color
+    } else {
         window.statusBarColor = Color.TRANSPARENT
-        window.navigationBarColor = Color.TRANSPARENT
         window.setBackgroundDrawable(background)
     }
 }
 
 fun Activity.contentUnderStatusBar(view: View) {
     view.setPadding(0, statusBarHeight(), 0, 0)
+}
+
+
+/**
+ * Navigation bar
+ */
+fun Activity.navigationBarColor(color: Int) {
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) return
+    window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+    window.navigationBarColor = color
+}
+
+fun Activity.navigationBarColorRes(@ColorRes res: Int) {
+    navigationBarColor(color(res))
+}
+
+fun Activity.navigationBarDrawable(@DrawableRes res: Int) {
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) return
+    val background = ContextCompat.getDrawable(this, res)
+    window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+    if (background is ColorDrawable) {
+        window.navigationBarColor = background.color
+    } else {
+        window.navigationBarColor = Color.TRANSPARENT
+        window.setBackgroundDrawable(background)
+    }
 }
 
 fun Activity.hideNavigationBar() {
@@ -113,4 +130,19 @@ fun Activity.hideNavigationBar(hasFocus: Boolean) {
 }
 
 
+/**
+ * Keyboard
+ */
+fun Activity.hideKeyboard() {
+    if (currentFocus?.windowToken != null) {
+        val imm = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
+    }
+}
 
+fun Activity.showKeyboard() {
+    if (currentFocus?.windowToken != null) {
+        val imm = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.toggleSoftInputFromWindow(currentFocus?.windowToken, InputMethodManager.SHOW_FORCED, 0)
+    }
+}

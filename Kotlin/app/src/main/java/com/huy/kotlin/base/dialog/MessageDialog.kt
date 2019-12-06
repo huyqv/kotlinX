@@ -30,11 +30,11 @@ class MessageDialog(activity: FragmentActivity?) : BaseDialog(activity) {
     }
 
     fun title(@StringRes res: Int) {
-        view?.textViewTitle?.setText(res)
+        view?.dialogTextViewTitle?.setText(res)
     }
 
     fun title(title: String) {
-        view?.textViewTitle?.text = title
+        view?.dialogTextViewTitle?.text = title
     }
 
     fun message(@StringRes message: Int) {

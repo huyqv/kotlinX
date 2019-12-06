@@ -9,7 +9,6 @@
         style="@style/AppBar.Layout"
         android:text="EditText" />
 
-
     <androidx.core.widget.NestedScrollView style="@style/MatchWidth">
 
         <androidx.appcompat.widget.LinearLayoutCompat

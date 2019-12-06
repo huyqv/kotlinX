@@ -1,7 +1,6 @@
 package com.huy.kotlin.base.arch
 
 import android.os.Bundle
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProviders
 import com.huy.kotlin.base.view.BaseActivity

@@ -17,7 +17,7 @@ import android.widget.FrameLayout
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 import com.huy.kotlin.R
-import com.huy.library.extension.setStatusBarBackground
+import com.huy.library.extension.*
 import kotlinx.android.synthetic.main.widget_app_bar.view.*
 
 /**
@@ -34,31 +34,31 @@ class AppBarView : FrameLayout {
 
     var title: String? = null
         set(value) {
-            textViewTitle.text = value
+            appBarTextViewTitle.text = value
         }
 
-    fun leftIconClickListener(block: () -> Unit) {
-        imageViewDrawableStart.setOnClickListener { block() }
+    fun startButtonClickListener(block: () -> Unit) {
+        appBarImageViewDrawableStart.setOnClickListener { block() }
     }
 
-    fun rightIconClickListener(block: () -> Unit) {
-        imageViewDrawableEnd.setOnClickListener { block() }
+    fun endButtonClickListener(block: () -> Unit) {
+        appBarImageViewDrawableEnd.setOnClickListener { block() }
     }
 
     var drawableStart: Int = 0
         set(@DrawableRes value) {
-            imageViewDrawableStart.setImageResource(value)
+            appBarImageViewDrawableStart.setImageResource(value)
         }
 
     var drawableEnd: Int = 0
         set(@DrawableRes value) {
-            imageViewDrawableEnd.setImageResource(value)
+            appBarImageViewDrawableEnd.setImageResource(value)
         }
 
     var progressVisible: Boolean
-        get() = progressBar.visibility == View.VISIBLE
+        get() = appBarProgressBar.visibility == View.VISIBLE
         set(value) {
-            progressBar.visibility = if (value) View.VISIBLE else View.INVISIBLE
+            appBarProgressBar.visibility = if (value) View.VISIBLE else View.INVISIBLE
         }
 
     constructor(context: Context) : super(context) {
@@ -96,11 +96,11 @@ class AppBarView : FrameLayout {
 
     private fun TypedArray.configTitle() {
 
-        textViewTitle.apply {
+        appBarTextViewTitle.apply {
             text = getString(R.styleable.AppBarView_android_text)
             isAllCaps = getBoolean(R.styleable.AppBarView_android_textAllCaps, false)
             val style = getInt(R.styleable.AppBarView_android_textStyle, Typeface.NORMAL)
-            setTypeface(textViewTitle.typeface, style)
+            setTypeface(appBarTextViewTitle.typeface, style)
             val color = getResourceId(R.styleable.AppBarView_android_textColor, android.R.color.white)
             setTextColor(ContextCompat.getColor(context, color))
         }
@@ -109,14 +109,16 @@ class AppBarView : FrameLayout {
     private fun TypedArray.configBackground() {
 
         val background = getResourceId(R.styleable.AppBarView_android_background, R.color.colorPrimary)
-        viewAppBar.setBackgroundResource(background)
-        (context as? Activity)?.setStatusBarBackground(background)
+        appBarViewContent.setBackgroundResource(background)
+        (context as? Activity)?.statusBarDrawable(background)
+        if (background.isDarkColorRes()) darkStatusBar()
+        else lightStatusBar()
     }
 
     private fun TypedArray.configActionBack(tint: Int, tintEnable: Boolean) {
 
         if (getBoolean(R.styleable.AppBarView_appBar_actionBack, true))
-            imageViewDrawableStart.apply {
+            appBarImageViewDrawableStart.apply {
                 if (tintEnable) setColorFilter(tint)
                 setImageResource(R.drawable.ic_back)
                 setOnClickListener { v ->
@@ -128,13 +130,13 @@ class AppBarView : FrameLayout {
     private fun TypedArray.configDrawable(tint: Int, tintEnable: Boolean) {
 
         val left = getResourceId(R.styleable.AppBarView_android_drawableStart, 0)
-        if (left != 0) imageViewDrawableStart.apply {
+        if (left != 0) appBarImageViewDrawableStart.apply {
             if (tintEnable) setColorFilter(tint)
             setImageResource(left)
         }
 
         val right = getResourceId(R.styleable.AppBarView_android_drawableEnd, 0)
-        if (right != 0) imageViewDrawableEnd.apply {
+        if (right != 0) appBarImageViewDrawableEnd.apply {
             if (tintEnable) setColorFilter(tint)
             setImageResource(right)
         }

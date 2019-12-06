@@ -19,7 +19,7 @@ class NetworkDialog(activity: FragmentActivity?) : BaseDialog(activity) {
     override fun layoutRes() = R.layout.dialog_network
 
     override fun View.onViewCreated() {
-        textViewTitle.setText(R.string.network_error)
+        dialogTextViewTitle.setText(R.string.network_error)
         disableOnTouchOutside()
         viewClose.setOnClickListener {
             dismiss()

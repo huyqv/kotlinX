@@ -32,7 +32,7 @@ class GeneratorFragment : BaseFragment(), DataReceiver<User> {
         recyclerView.set(adapter)
         dataGenerator = UserGenerator(this)
         lifecycle.addObserver(GeneratorObservable(dataGenerator))
-        appBarView.rightIconClickListener {
+        appBarView.endButtonClickListener {
             if (dataGenerator.isGenerating()) {
                 appBarView.drawableEnd = R.drawable.ic_play
                 dataGenerator.pause()

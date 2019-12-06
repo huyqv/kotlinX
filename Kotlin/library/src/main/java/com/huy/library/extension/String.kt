@@ -223,3 +223,12 @@ fun String.getDomainName(): String {
     }
 }
 
+fun String?.countryFlag(): String {
+    this ?: return ""
+    if (length != 2) return ""
+    val s = toUpperCase()
+    val char1st = Character.codePointAt(s, 0) - 0x41 + 0x1F1E6
+    val char2st = Character.codePointAt(s, 1) - 0x41 + 0x1F1E6
+    return String(Character.toChars(char1st)) + String(Character.toChars(char2st))
+}
+

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/appBarViewContent"
     style="@style/AppBar.Content">
 
     <com.makeramen.roundedimageview.RoundedImageView
@@ -14,11 +15,11 @@
         app:riv_oval="true" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/textViewTitle"
+        android:id="@+id/appBarTextViewTitle"
         style="@style/AppBar.Title" />
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/imageViewDrawableEnd"
+        android:id="@+id/appBarImageViewDrawableEnd"
         style="@style/AppBar.Icon" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>
