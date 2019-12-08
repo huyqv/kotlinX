@@ -17,7 +17,7 @@ import android.widget.FrameLayout
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 import com.huy.kotlin.R
-import com.huy.library.extension.*
+import com.huy.library.extension.statusBarDrawable
 import kotlinx.android.synthetic.main.widget_app_bar.view.*
 
 /**
@@ -110,9 +110,7 @@ class AppBarView : FrameLayout {
 
         val background = getResourceId(R.styleable.AppBarView_android_background, R.color.colorPrimary)
         appBarViewContent.setBackgroundResource(background)
-        (context as? Activity)?.statusBarDrawable(background)
-        if (background.isDarkColorRes()) darkStatusBar()
-        else lightStatusBar()
+        appBarViewContent.statusBarDrawable()
     }
 
     private fun TypedArray.configActionBack(tint: Int, tintEnable: Boolean) {

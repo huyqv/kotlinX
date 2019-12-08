@@ -4,6 +4,7 @@ package com.huy.library.extension
 import android.app.Activity
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.view.View
 import android.view.WindowManager
@@ -57,16 +58,20 @@ fun Activity.statusBarColorRes(@ColorRes res: Int) {
     statusBarColor(color(res))
 }
 
-fun Activity.statusBarDrawable(@DrawableRes res: Int) {
+fun Activity.statusBarDrawable(drawable: Drawable?) {
+    drawable ?: return
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) return
-    val background = ContextCompat.getDrawable(this, res)
     window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-    if (background is ColorDrawable) {
-        window.statusBarColor = background.color
+    if (drawable is ColorDrawable) {
+        window.statusBarColor = drawable.color
     } else {
         window.statusBarColor = Color.TRANSPARENT
-        window.setBackgroundDrawable(background)
+        window.setBackgroundDrawable(drawable)
     }
+}
+
+fun Activity.statusBarDrawable(@DrawableRes res: Int) {
+    statusBarDrawable(ContextCompat.getDrawable(this, res))
 }
 
 fun Activity.contentUnderStatusBar(view: View) {
@@ -87,16 +92,19 @@ fun Activity.navigationBarColorRes(@ColorRes res: Int) {
     navigationBarColor(color(res))
 }
 
-fun Activity.navigationBarDrawable(@DrawableRes res: Int) {
+fun Activity.navigationBarDrawable(drawable: Drawable?) {
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) return
-    val background = ContextCompat.getDrawable(this, res)
     window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-    if (background is ColorDrawable) {
-        window.navigationBarColor = background.color
+    if (drawable is ColorDrawable) {
+        window.navigationBarColor = drawable.color
     } else {
         window.navigationBarColor = Color.TRANSPARENT
-        window.setBackgroundDrawable(background)
+        window.setBackgroundDrawable(drawable)
     }
+}
+
+fun Activity.navigationBarDrawable(@DrawableRes res: Int) {
+    navigationBarDrawable(ContextCompat.getDrawable(this, res))
 }
 
 fun Activity.hideNavigationBar() {

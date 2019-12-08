@@ -1,5 +1,7 @@
 package com.huy.library.extension
 
+import android.graphics.drawable.Drawable
+import androidx.annotation.DrawableRes
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -48,6 +50,14 @@ fun Fragment.remove(cls: Class<Fragment>, animations: IntArray? = VERTICAL_ANIMA
     childFragmentManager.scheduleTransaction({
         remove(fragment)
     }, animations)
+}
+
+fun Fragment.statusBarDrawable(@DrawableRes res: Int) {
+    activity?.statusBarDrawable(res)
+}
+
+fun Fragment.statusBarDrawable(drawable: Drawable?) {
+    activity?.statusBarDrawable(drawable)
 }
 
 fun FragmentActivity.addFragment(fragment: Fragment, @IdRes container: Int, backStack: Boolean = true, animations: IntArray? = VERTICAL_ANIMATIONS) {

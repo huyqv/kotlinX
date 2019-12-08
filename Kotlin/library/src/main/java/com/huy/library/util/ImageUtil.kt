@@ -763,13 +763,15 @@ object ImageUtil {
         return value
     }
 
-    fun flipVertical(bitmap: Bitmap): Bitmap? {
+    fun flipVertical(bitmap: Bitmap?): Bitmap? {
+        bitmap ?: return null
         val matrix = Matrix()
         matrix.preScale(1.0f, -1.0f)
         return Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
     }
 
-    fun flipHorizontal(bitmap: Bitmap): Bitmap? {
+    fun flipHorizontal(bitmap: Bitmap?): Bitmap? {
+        bitmap ?: return null
         val matrix = Matrix()
         matrix.preScale(-1.0f, 1.0f)
         return Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)

@@ -182,14 +182,25 @@ fun View.darkStatusBar() {
     this.systemUiVisibility = flags
 }
 
-fun View.updateStatusBar() {
-    val color = backgroundColor()
+fun View.statusBarColor(color: Int?) {
     if (null == color) {
         darkStatusBar()
     } else {
         if (color.isDarkColor()) darkStatusBar() else lightStatusBar()
         activity()?.statusBarColor(color)
     }
+}
+
+fun View.statusBarColorRes(@ColorRes res: Int) {
+    statusBarColor(ContextCompat.getColor(context, res))
+}
+
+fun View.statusBarColor() {
+    statusBarColor(backgroundColor())
+}
+
+fun View.statusBarDrawable() {
+    activity()?.statusBarDrawable(background)
 }
 
 
