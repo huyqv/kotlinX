@@ -232,3 +232,7 @@ fun String?.countryFlag(): String {
     return String(Character.toChars(char1st)) + String(Character.toChars(char2st))
 }
 
+fun String.tag(): String {
+    return if (length > 23) substring(0, 22) else this
+}
+

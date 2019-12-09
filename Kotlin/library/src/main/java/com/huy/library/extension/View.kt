@@ -5,8 +5,6 @@ import android.content.Context
 import android.content.res.Resources
 import android.graphics.Color
 import android.graphics.PorterDuff
-import android.graphics.drawable.ColorDrawable
-import android.os.Build
 import android.util.DisplayMetrics
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -69,8 +67,7 @@ fun Int.isDarkColor(): Boolean {
 }
 
 fun Int.isLightColor(): Boolean {
-    val darkness = 1 - (0.299 * Color.red(this) + 0.587 * Color.green(this) + 0.114 * Color.blue(this)) / 255
-    return darkness >= 0.5
+    return !isDarkColor()
 }
 
 fun Int.isDarkColorRes(): Boolean {
@@ -82,6 +79,9 @@ fun Int.isLightColorRes(): Boolean {
 }
 
 
+/**
+ * View
+ */
 val WRAP = -2
 
 val MATCH = -1
@@ -98,8 +98,8 @@ fun gone(vararg views: View) {
     for (v in views) v.gone()
 }
 
-fun View.activity(): Activity? {
-    return context as? Activity
+fun View?.activity(): Activity? {
+    return this?.context as? Activity
 }
 
 fun View.fragmentActivity(): FragmentActivity? {
@@ -143,6 +143,11 @@ fun View.isGone(gone: Boolean?) {
     else View.VISIBLE
 }
 
+fun View.updateStatusBar() {
+    (context as? Activity)?.statusBarDrawable(background)
+}
+
+
 /**
  * @param animationStyle animationStyle
  * <style name="PopupStyle">
@@ -162,45 +167,6 @@ fun View.backgroundTint(@ColorRes res: Int) {
     post {
         background.setColorFilter(ContextCompat.getColor(context, res), PorterDuff.Mode.SRC_ATOP)
     }
-}
-
-fun View.backgroundColor(): Int? {
-    return (background as? ColorDrawable)?.color
-}
-
-fun View.lightStatusBar() {
-    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return
-    var flags = this.systemUiVisibility
-    flags = flags or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-    this.systemUiVisibility = flags
-}
-
-fun View.darkStatusBar() {
-    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return
-    var flags = this.systemUiVisibility
-    flags = flags and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
-    this.systemUiVisibility = flags
-}
-
-fun View.statusBarColor(color: Int?) {
-    if (null == color) {
-        darkStatusBar()
-    } else {
-        if (color.isDarkColor()) darkStatusBar() else lightStatusBar()
-        activity()?.statusBarColor(color)
-    }
-}
-
-fun View.statusBarColorRes(@ColorRes res: Int) {
-    statusBarColor(ContextCompat.getColor(context, res))
-}
-
-fun View.statusBarColor() {
-    statusBarColor(backgroundColor())
-}
-
-fun View.statusBarDrawable() {
-    activity()?.statusBarDrawable(background)
 }
 
 

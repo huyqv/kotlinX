@@ -17,7 +17,7 @@ import android.widget.FrameLayout
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 import com.huy.kotlin.R
-import com.huy.library.extension.statusBarDrawable
+import com.huy.library.extension.updateStatusBar
 import kotlinx.android.synthetic.main.widget_app_bar.view.*
 
 /**
@@ -31,6 +31,8 @@ import kotlinx.android.synthetic.main.widget_app_bar.view.*
 class AppBarView : FrameLayout {
 
     private val stateListAnimators = intArrayOf(android.R.attr.stateListAnimator)
+
+    private var updateStatusBar: Boolean = true
 
     var title: String? = null
         set(value) {
@@ -69,6 +71,11 @@ class AppBarView : FrameLayout {
         init(context, attrs)
     }
 
+    override fun onVisibilityChanged(changedView: View, visibility: Int) {
+        super.onVisibilityChanged(changedView, visibility)
+        updateStatusBar()
+    }
+
     private fun init(context: Context, attrs: AttributeSet?) {
 
         val types = context.theme.obtainStyledAttributes(attrs, R.styleable.AppBarView, 0, 0)
@@ -77,6 +84,7 @@ class AppBarView : FrameLayout {
         try {
 
             types.configTitle()
+
             types.configBackground()
 
             val tintEnable = types.getBoolean(R.styleable.AppBarView_appBar_tintEnable, true)
@@ -107,10 +115,10 @@ class AppBarView : FrameLayout {
     }
 
     private fun TypedArray.configBackground() {
-
+        appBarViewContent.updateStatusBar()
         val background = getResourceId(R.styleable.AppBarView_android_background, R.color.colorPrimary)
         appBarViewContent.setBackgroundResource(background)
-        appBarViewContent.statusBarDrawable()
+        updateStatusBar = getBoolean(R.styleable.AppBarView_appBar_updateStatusBar, true)
     }
 
     private fun TypedArray.configActionBack(tint: Int, tintEnable: Boolean) {
@@ -158,7 +166,6 @@ class AppBarView : FrameLayout {
         this.stateListAnimator = sla
     }
 
-
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private fun setStateListAnimatorFromAttrs(view: View, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) {
 
@@ -177,6 +184,12 @@ class AppBarView : FrameLayout {
 
     fun setTargetElevation(elevation: Float) {
         if (Build.VERSION.SDK_INT >= 21) setStateListAnimator(this, elevation)
+    }
+
+    fun updateStatusBar() {
+        if (updateStatusBar) {
+            appBarViewContent.updateStatusBar()
+        }
     }
 
 }

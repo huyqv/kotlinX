@@ -40,41 +40,63 @@ fun Activity.fullScreenWindow() {
 /**
  * Status bar
  */
-fun Activity.statusBarHeight(): Int {
+fun Activity?.lightStatusBar() {
+    this ?: return
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return
+    window.decorView.systemUiVisibility = 8192
+}
+
+fun Activity?.darkStatusBar() {
+    this ?: return
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return
+    window.decorView.systemUiVisibility = 0
+}
+
+fun Activity?.statusBarHeight(): Int {
+    this ?: return 0
     var result = 0
-    val resourceId = this.resources.getIdentifier("status_bar_height", "dimen", "android")
+    val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
     if (resourceId > 0)
-        result = this.resources.getDimensionPixelSize(resourceId)
+        result = resources.getDimensionPixelSize(resourceId)
     return result
 }
 
-fun Activity.statusBarColor(color: Int) {
+fun Activity?.statusBarColor(color: Int?) {
+    color ?: return
+    this ?: return
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) return
     window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
     window.statusBarColor = color
+    if (color.isDarkColor()) darkStatusBar() else lightStatusBar()
 }
 
-fun Activity.statusBarColorRes(@ColorRes res: Int) {
-    statusBarColor(color(res))
+fun Activity?.statusBarColorRes(@ColorRes res: Int) {
+    this ?: return
+    statusBarDrawable(res)
 }
 
-fun Activity.statusBarDrawable(drawable: Drawable?) {
+fun Activity?.statusBarDrawable(drawable: Drawable?) {
+    this ?: return
     drawable ?: return
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) return
     window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-    if (drawable is ColorDrawable) {
-        window.statusBarColor = drawable.color
-    } else {
-        window.statusBarColor = Color.TRANSPARENT
-        window.setBackgroundDrawable(drawable)
+    window.statusBarColor = Color.TRANSPARENT
+    window.setBackgroundDrawable(drawable)
+    (drawable as? ColorDrawable)?.also {
+        if (it.color.isDarkColor()) {
+            darkStatusBar()
+        } else {
+            lightStatusBar()
+        }
     }
 }
 
-fun Activity.statusBarDrawable(@DrawableRes res: Int) {
+fun Activity?.statusBarDrawable(@DrawableRes res: Int) {
+    this ?: return
     statusBarDrawable(ContextCompat.getDrawable(this, res))
 }
 
-fun Activity.contentUnderStatusBar(view: View) {
+fun Activity?.contentUnderStatusBar(view: View) {
     view.setPadding(0, statusBarHeight(), 0, 0)
 }
 
@@ -82,17 +104,20 @@ fun Activity.contentUnderStatusBar(view: View) {
 /**
  * Navigation bar
  */
-fun Activity.navigationBarColor(color: Int) {
+fun Activity?.navigationBarColor(color: Int) {
+    this ?: return
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) return
     window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
     window.navigationBarColor = color
 }
 
-fun Activity.navigationBarColorRes(@ColorRes res: Int) {
-    navigationBarColor(color(res))
+fun Activity?.navigationBarColorRes(@ColorRes res: Int) {
+    this ?: return
+    navigationBarDrawable(ContextCompat.getDrawable(this, res))
 }
 
-fun Activity.navigationBarDrawable(drawable: Drawable?) {
+fun Activity?.navigationBarDrawable(drawable: Drawable?) {
+    this ?: return
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) return
     window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
     if (drawable is ColorDrawable) {
@@ -103,11 +128,13 @@ fun Activity.navigationBarDrawable(drawable: Drawable?) {
     }
 }
 
-fun Activity.navigationBarDrawable(@DrawableRes res: Int) {
+fun Activity?.navigationBarDrawable(@DrawableRes res: Int) {
+    this ?: return
     navigationBarDrawable(ContextCompat.getDrawable(this, res))
 }
 
-fun Activity.hideNavigationBar() {
+fun Activity?.hideNavigationBar() {
+    this ?: return
     val flags = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
             or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
             or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
@@ -126,7 +153,8 @@ fun Activity.hideNavigationBar() {
     }
 }
 
-fun Activity.hideNavigationBar(hasFocus: Boolean) {
+fun Activity?.hideNavigationBar(hasFocus: Boolean) {
+    this ?: return
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && hasFocus) {
         window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION

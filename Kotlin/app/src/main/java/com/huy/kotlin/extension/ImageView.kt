@@ -22,14 +22,14 @@ class MyGlideApp : AppGlideModule()
 
 fun ImageView.loadUser(url: String?) {
     GlideApp.with(context).load(url)
-            .placeholder(R.mipmap.img_user).error(R.mipmap.img_user)
+            .placeholder(R.color.colorLightGray).error(R.color.colorLightGray)
             .override(this.width, this.height)
             .into(this)
 }
 
 fun ImageView.loadImage(url: String?) {
     GlideApp.with(context).load(url)
-            .placeholder(R.mipmap.img_placeholder).error(R.mipmap.img_placeholder)
+            .placeholder(R.drawable.drw_rect_dashed).error(R.drawable.drw_rect_dashed)
             .override(this.width, this.height)
             .into(this)
 }

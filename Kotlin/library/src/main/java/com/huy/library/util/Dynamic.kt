@@ -9,7 +9,4 @@ package com.huy.library.util
  * All Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-object Dynamic {
-
-
-}
+object Dynamic

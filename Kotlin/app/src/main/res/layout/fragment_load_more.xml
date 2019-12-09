@@ -12,7 +12,7 @@
 
     <com.huy.kotlin.widget.AppBarView
         android:id="@+id/appBarView"
-        style="@style/AppBar.Layout"
+        style="@style/AppBar.View"
         android:background="@drawable/drw_rect_gradient"
         android:text="Load more recycler"
         app:layout_constraintStart_toStartOf="parent"

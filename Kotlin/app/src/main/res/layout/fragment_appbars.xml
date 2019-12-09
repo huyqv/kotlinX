@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/ContentLayout"
     android:orientation="vertical">
 
     <com.huy.kotlin.widget.AppBarView
         android:id="@+id/appBarView"
-        style="@style/AppBar.Layout"
+        style="@style/AppBar.View"
         android:text="AppBarView" />
 
     <androidx.core.widget.NestedScrollView style="@style/MatchWidth">
@@ -28,62 +29,64 @@
                 android:layout_marginTop="@dimen/_10sdp" />
 
             <com.huy.kotlin.widget.AppBarView
-                style="@style/MatchWidth"
+                style="@style/AppBar.View"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:background="@color/colorIndianRed"
                 android:drawableEnd="@drawable/ic_search"
-                android:text="@string/app_name" />
+                android:text="@string/app_name"
+                app:appBar_updateStatusBar="false" />
 
             <com.huy.kotlin.widget.AppBarView
-                style="@style/MatchWidth"
+                style="@style/AppBar.View"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:background="@color/colorGreenSea"
                 android:drawableEnd="@drawable/ic_search"
-                android:text="@string/app_name" />
+                android:text="@string/app_name"
+                app:appBar_updateStatusBar="false" />
 
             <com.huy.kotlin.widget.AppBarView
-                style="@style/MatchWidth"
+                style="@style/AppBar.View"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:background="@color/colorWisteria"
                 android:drawableEnd="@drawable/ic_search"
-                android:text="@string/app_name" />
+                android:text="@string/app_name"
+                app:appBar_updateStatusBar="false" />
 
             <com.huy.kotlin.widget.AppBarView
-                style="@style/MatchWidth"
+                style="@style/AppBar.View"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:background="@color/colorSilver"
                 android:drawableEnd="@drawable/ic_search"
                 android:text="@string/app_name"
                 android:textColor="@color/colorTextPrimary"
-                android:tint="@color/colorTextSecondary" />
+                android:tint="@color/colorTextSecondary"
+                app:appBar_updateStatusBar="false" />
 
             <com.huy.kotlin.widget.AppBarView
-                style="@style/MatchWidth"
+                style="@style/AppBar.View"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:background="@color/colorGrey"
                 android:drawableEnd="@drawable/ic_search"
-                android:text="@string/app_name" />
+                android:text="@string/app_name"
+                app:appBar_updateStatusBar="false" />
 
             <com.huy.kotlin.widget.AppBarView
-                style="@style/MatchWidth"
+                style="@style/AppBar.View"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:background="@color/colorPeterRiver"
                 android:drawableEnd="@drawable/ic_search"
-                android:text="@string/app_name" />
+                android:text="@string/app_name"
+                app:appBar_updateStatusBar="false" />
 
             <com.huy.kotlin.widget.AppBarView
-                style="@style/MatchWidth"
+                style="@style/AppBar.View"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:background="@color/colorOrange"
                 android:drawableEnd="@drawable/ic_search"
                 android:text="@string/app_name"
                 android:textColor="@color/colorTextPrimary"
-                android:tint="@color/colorTextPrimary" />
-
-            <com.huy.kotlin.widget.AppBarView
-                style="@style/AppBar.Layout"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:text="AppBarView" />
+                android:tint="@color/colorTextPrimary"
+                app:appBar_updateStatusBar="false" />
 
             <include layout="@layout/view_developer" />
 

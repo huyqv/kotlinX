@@ -28,6 +28,7 @@ import com.huy.library.extension.*
  */
 interface BaseView : LifecycleOwner {
 
+
     fun fragmentActivity(): FragmentActivity?
 
 
@@ -101,6 +102,10 @@ interface BaseView : LifecycleOwner {
         fragmentContainer()?.also {
             fragmentActivity()?.replaceFragment(fragment, it, stack)
         }
+    }
+
+    fun remove(cls: Class<*>) {
+        fragmentActivity()?.remove(cls)
     }
 
 

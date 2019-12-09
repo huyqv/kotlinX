@@ -12,6 +12,7 @@
         <attr name="appBar_tintEnable" format="boolean" />
         <attr name="appBar_mostForward" format="boolean" />
         <attr name="appBar_actionBack" format="boolean" />
+        <attr name="appBar_updateStatusBar" format="boolean" />
     </declare-styleable>
 
     <declare-styleable name="SettingView">

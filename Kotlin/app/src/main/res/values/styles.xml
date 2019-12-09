@@ -203,9 +203,10 @@
     <!-- Application Bar. -->
     <style name="AppBar" />
 
-    <style name="AppBar.Layout" parent="MatchWidth">
+    <style name="AppBar.View" parent="MatchWidth">
         <item name="android:background">@drawable/drw_rect_gradient</item>
         <item name="android:textStyle">bold</item>
+        <item name="appBar_updateStatusBar">true</item>
     </style>
 
     <style name="AppBar.Content">

@@ -55,8 +55,5 @@ class ThumbnailWebView : WebView, View.OnTouchListener {
             return false
         }
 
-        override fun onLoadResource(view: WebView?, url: String?) {
-            super.onLoadResource(view, url)
-        }
     }
 }

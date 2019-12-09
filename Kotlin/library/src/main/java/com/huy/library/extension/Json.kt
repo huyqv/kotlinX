@@ -88,10 +88,10 @@ fun <T> jsonObject(obj: T): JsonObject? {
     }
 }
 
-fun <T> Collection<T>?.jsonArray(): JsonArray? {
-    if (this.isNullOrEmpty()) return null
+fun <T> jsonArray(array: Collection<T>?): JsonArray? {
+    if (array.isNullOrEmpty()) return null
     return try {
-        val element = gson.toJsonTree(this, object : TypeToken<Collection<T>>() {}.type)
+        val element = gson.toJsonTree(array, object : TypeToken<Collection<T>>() {}.type)
         return element.asJsonArray
     } catch (ignore: Exception) {
         null

@@ -28,16 +28,16 @@ fun Fragment.hideKeyboard() {
 
 fun Fragment.addFragment(fragment: Fragment, @IdRes container: Int, backStack: Boolean = true, animations: IntArray? = VERTICAL_ANIMATIONS) {
 
-    val tag = fragment::class.java.simpleName
+    val tag = fragment::class.java.simpleName.tag()
     childFragmentManager.scheduleTransaction({
         add(container, fragment, tag)
         if (backStack) addToBackStack(tag)
-    },animations)
+    }, animations)
 }
 
 fun Fragment.replaceFragment(fragment: Fragment, @IdRes container: Int, backStack: Boolean = true, animations: IntArray? = VERTICAL_ANIMATIONS) {
 
-    val tag = fragment::class.java.simpleName
+    val tag = fragment::class.java.simpleName.tag()
     childFragmentManager.scheduleTransaction({
         replace(container, fragment, tag)
         if (backStack) addToBackStack(tag)
@@ -46,7 +46,8 @@ fun Fragment.replaceFragment(fragment: Fragment, @IdRes container: Int, backStac
 
 fun Fragment.remove(cls: Class<Fragment>, animations: IntArray? = VERTICAL_ANIMATIONS) {
 
-    val fragment = childFragmentManager.findFragmentByTag(cls.simpleName) ?: return
+    val tag = cls.simpleName.tag()
+    val fragment = childFragmentManager.findFragmentByTag(tag) ?: return
     childFragmentManager.scheduleTransaction({
         remove(fragment)
     }, animations)
@@ -62,7 +63,7 @@ fun Fragment.statusBarDrawable(drawable: Drawable?) {
 
 fun FragmentActivity.addFragment(fragment: Fragment, @IdRes container: Int, backStack: Boolean = true, animations: IntArray? = VERTICAL_ANIMATIONS) {
 
-    val tag = fragment::class.java.simpleName
+    val tag = fragment::class.java.simpleName.tag()
     supportFragmentManager.scheduleTransaction({
         add(container, fragment, tag)
         if (backStack) addToBackStack(tag)
@@ -71,7 +72,7 @@ fun FragmentActivity.addFragment(fragment: Fragment, @IdRes container: Int, back
 
 fun FragmentActivity.replaceFragment(fragment: Fragment, @IdRes container: Int, backStack: Boolean = true, animations: IntArray? = VERTICAL_ANIMATIONS) {
 
-    val tag = fragment::class.java.simpleName
+    val tag = fragment::class.java.simpleName.tag()
     supportFragmentManager.scheduleTransaction({
         replace(container, fragment, tag)
         if (backStack) addToBackStack(tag)
@@ -80,7 +81,8 @@ fun FragmentActivity.replaceFragment(fragment: Fragment, @IdRes container: Int, 
 
 fun FragmentActivity.remove(cls: Class<*>, animations: IntArray? = VERTICAL_ANIMATIONS) {
 
-    val fragment = supportFragmentManager.findFragmentByTag(cls.simpleName) ?: return
+    val tag = cls.simpleName.tag()
+    val fragment = supportFragmentManager.findFragmentByTag(tag) ?: return
     supportFragmentManager.scheduleTransaction({
         remove(fragment)
     }, animations)

@@ -13,7 +13,7 @@
 
     <com.huy.kotlin.widget.AppBarView
         android:id="@+id/appBarView"
-        style="@style/AppBar.Layout"
+        style="@style/AppBar.View"
         android:text="Paging"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
