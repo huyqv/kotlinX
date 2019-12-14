@@ -33,7 +33,7 @@ interface RestService {
     fun messagesCall(@Path("page") page: Int): Call<List<Message>?>
 
     @GET("images{page}")
-    fun images(@Path("page") page: Int): Single<List<Image>>
+    fun images(@Path("page") page: Int): Observable<List<Image>>
 
     @GET("users{page}")
     fun users(@Path("page") page: Int): Call<List<User>>

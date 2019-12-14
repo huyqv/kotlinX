@@ -6,6 +6,7 @@ import android.text.TextWatcher
 import android.view.View
 import android.view.animation.Animation
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.recyclerview.widget.DiffUtil
 import androidx.viewpager.widget.ViewPager
 
 /**
@@ -16,7 +17,7 @@ import androidx.viewpager.widget.ViewPager
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-class SimpleAnimationListener : Animation.AnimationListener {
+interface SimpleAnimationListener : Animation.AnimationListener {
     override fun onAnimationRepeat(animation: Animation?) {
     }
 
@@ -27,7 +28,7 @@ class SimpleAnimationListener : Animation.AnimationListener {
     }
 }
 
-class SimpleAnimatorListener : Animator.AnimatorListener {
+interface SimpleAnimatorListener : Animator.AnimatorListener {
     override fun onAnimationRepeat(animation: Animator?) {
     }
 
@@ -43,7 +44,7 @@ class SimpleAnimatorListener : Animator.AnimatorListener {
 
 }
 
-class SimpleTextWatcher : TextWatcher {
+interface SimpleTextWatcher : TextWatcher {
     override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
     }
 
@@ -54,7 +55,7 @@ class SimpleTextWatcher : TextWatcher {
     }
 }
 
-class ViewSimpleListener : DrawerLayout.DrawerListener {
+interface SimpleDrawerListener : DrawerLayout.DrawerListener {
     override fun onDrawerStateChanged(p0: Int) {
     }
 
@@ -65,6 +66,39 @@ class ViewSimpleListener : DrawerLayout.DrawerListener {
     }
 
     override fun onDrawerOpened(p0: View) {
+    }
+}
+
+abstract class SimpleDiffCallback<T>(private val oldList: Collection<T>, private val newList: Collection<T>) : DiffUtil.Callback() {
+
+    override fun getOldListSize(): Int {
+        return oldList.size
+    }
+
+    override fun getNewListSize(): Int {
+        return newList.size
+    }
+
+    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+        return try {
+            areItemSame(oldList.elementAt(oldItemPosition), newList.elementAt(newItemPosition))
+        } catch (e: IndexOutOfBoundsException) {
+            false
+        }
+    }
+
+    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+        return try {
+            areContentSame(oldList.elementAt(oldItemPosition), newList.elementAt(newItemPosition))
+        } catch (e: IndexOutOfBoundsException) {
+            false
+        }
+    }
+
+    abstract fun areItemSame(old: T, new: T): Boolean
+
+    open fun areContentSame(old: T, new: T): Boolean {
+        return areItemSame(old, new)
     }
 }
 

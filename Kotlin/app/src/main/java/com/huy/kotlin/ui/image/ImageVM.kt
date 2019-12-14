@@ -1,10 +1,12 @@
 package com.huy.kotlin.ui.image
 
+import androidx.recyclerview.widget.DiffUtil
 import com.huy.kotlin.base.arch.BaseViewModel
 import com.huy.kotlin.data.observable.SingleLiveData
 import com.huy.kotlin.network.rest.RestClient
 import com.huy.kotlin.network.rest.onNext
-import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
+import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
 /**
@@ -25,9 +27,27 @@ class ImageVM : BaseViewModel() {
     fun fetchImages(page: Int) {
         RestClient.service.images(page)
                 .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .observeOn(mainThread())
                 .onNext { _, _, list ->
                     imageLiveData.postValue(list)
                 }
     }
+
+
+    val diffLiveData = SingleLiveData<DiffUtil.DiffResult>()
+
+    fun fetchImages(page: Int, data: MutableList<Image>): Disposable {
+        var newList: MutableList<Image>? = null
+        return RestClient.service.images(page)
+                .doOnNext { newList = it.toMutableList() }
+                .map { DiffUtil.calculateDiff(Image.DiffCallback(data, it)) }
+                .observeOn(mainThread())
+                .doOnNext {
+                    newList ?: return@doOnNext
+                    data.clear()
+                    data.addAll(newList!!)
+                }
+                .subscribe { diffLiveData.postValue(it) } // it.dispatchUpdatesTo(this@ImageAdapter)
+    }
+
 }

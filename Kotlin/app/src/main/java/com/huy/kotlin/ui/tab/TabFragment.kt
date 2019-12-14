@@ -1,7 +1,6 @@
 package com.huy.kotlin.ui.tab
 
 import android.graphics.Color
-import android.graphics.PorterDuff
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.ColorRes
@@ -64,18 +63,18 @@ class TabFragment : BaseFragment() {
             }
 
             override fun onTabUnselected(p: TabLayout.Tab?) {
-                p?.icon?.setColorFilter(Color.LTGRAY, PorterDuff.Mode.SRC_IN)
+                p?.icon?.setTint(Color.LTGRAY)
             }
 
             override fun onTabSelected(p: TabLayout.Tab?) {
-                p?.icon?.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
+                p?.icon?.setTint(Color.WHITE)
             }
         })
     }
 
     private fun TabLayout.setIcon(index: Int, @DrawableRes drawable: Int, color: Int = Color.LTGRAY) {
         getTabAt(index)?.setIcon(drawable)
-        getTabAt(index)?.icon?.setColorFilter(color, PorterDuff.Mode.SRC_IN)
+        getTabAt(index)?.icon?.setTint(color)
     }
 
 }

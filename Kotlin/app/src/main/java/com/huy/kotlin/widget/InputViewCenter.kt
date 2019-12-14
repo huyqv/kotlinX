@@ -1,4 +1,4 @@
-package com.huy.kotlin.lib.widget
+package com.huy.kotlin.widget
 
 import android.app.Activity
 import android.content.Context
@@ -10,7 +10,6 @@ import android.util.AttributeSet
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.MotionEvent
-import android.view.View
 import android.view.View.OnTouchListener
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
@@ -149,14 +148,14 @@ class InputViewCenter : FrameLayout {
         }
     }
 
-    override fun setOnClickListener(listener: View.OnClickListener) {
+    override fun setOnClickListener(listener: OnClickListener?) {
 
         inputEditText.apply {
             isFocusable = false
             isCursorVisible = false
             keyListener = null
             inputType = EditorInfo.IME_ACTION_NONE
-            setOnClickListener { listener.onClick(this@InputViewCenter) }
+            setOnClickListener { listener?.onClick(this@InputViewCenter) }
         }
     }
 

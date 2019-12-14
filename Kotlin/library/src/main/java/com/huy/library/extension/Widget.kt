@@ -38,25 +38,6 @@ import java.util.*
 /**
  * @EditText
  */
-fun EditText.addEditorActionListener(actionId: Int, block: (String?) -> Unit) {
-    maxLines = 1
-    imeOptions = actionId
-    setImeActionLabel(null, actionId)
-    setOnEditorActionListener(object : TextView.OnEditorActionListener {
-        override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
-            if (actionId == actionId) {
-                (context as? Activity)?.currentFocus?.windowToken.run {
-                    val imm = context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-                    imm.hideSoftInputFromWindow((context as Activity).currentFocus?.windowToken, 0)
-                }
-                block(text.toString())
-                return true
-            }
-            return false
-        }
-    })
-}
-
 fun EditText?.showKeyboard() {
     this?.apply {
         clearFocus()
@@ -188,6 +169,25 @@ fun TextView.randomCapcha(level: Int = 0) {
         capText[i] = scope[Random().nextInt(scope.length)]
 
     this.text = capText.toString()
+}
+
+fun TextView.addEditorActionListener(actionId: Int, block: (String?) -> Unit) {
+    maxLines = 1
+    imeOptions = actionId
+    setImeActionLabel(null, actionId)
+    setOnEditorActionListener(object : TextView.OnEditorActionListener {
+        override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
+            if (actionId == actionId) {
+                (context as? Activity)?.currentFocus?.windowToken.run {
+                    val imm = context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+                    imm.hideSoftInputFromWindow((context as Activity).currentFocus?.windowToken, 0)
+                }
+                block(text.toString())
+                return true
+            }
+            return false
+        }
+    })
 }
 
 
