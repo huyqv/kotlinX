@@ -35,8 +35,6 @@ interface BaseView : LifecycleOwner {
     /**
      * [View.OnClickListener] implementation
      */
-    var lastClickTime: Long
-
     var onViewClick: View.OnClickListener?
 
     fun onViewClick(view: View)

@@ -23,29 +23,28 @@ import retrofit2.http.*
  */
 interface RestService {
 
-    @GET("images{page}")
+    @GET("api/images{page}")
     fun imageLiveData(@Path("page") page: Int): LiveData<RestResponse<List<Image>>>
 
-    @GET("messages{page}")
+    @GET("api/messages{page}")
     fun messages(@Path("page") page: Int): Single<List<Message>?>
 
-    @GET("messages{page}")
+    @GET("api/messages{page}")
     fun messagesCall(@Path("page") page: Int): Call<List<Message>?>
 
-    @GET("images{page}")
+    @GET("api/images{page}")
     fun images(@Path("page") page: Int): Observable<List<Image>>
 
-    @GET("users{page}")
-    fun users(@Path("page") page: Int): Call<List<User>>
+    @GET("api/users{page}")
+    fun users(@Path("page") page: Int): Single<List<User>>
 
-    // Template-------------------------------------------------------------------------------------
-    @GET("images{page}")
+    @GET("api/images{page}")
     fun call(@Path("page") page: Int): Call<List<Image>?>
 
-    @GET("images{page}")
+    @GET("api/images{page}")
     fun single(@Path("page") page: Int): Single<List<Image>>
 
-    @GET("images{page}")
+    @GET("api/images{page}")
     fun observable(@Path("page") page: Int): Observable<List<Image>>
 
     @GET("")

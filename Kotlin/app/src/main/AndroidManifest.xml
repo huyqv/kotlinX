@@ -36,7 +36,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.transaction.TransactionActivity" />
+        <activity android:name=".ui.transaction.TranslateActivity" />
 
         <activity android:name=".network.notification.NotificationActivity" />
 

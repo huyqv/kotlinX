@@ -21,28 +21,24 @@ const val UNKNOWN_ERROR = 998
 const val NETWORK_ERROR = 999
 
 
-interface RestListener<T> {
-
-    fun hasProgress(): Boolean {
-        return true
-    }
-
-    fun onCompleted(code: Int, message: String, response: T?) {}
-
-    fun onSuccessful(response: T) {}
-
-    fun onFailed(code: Int, message: String) {}
-}
+/**
+ * -------------------------------------------------------------------------------------------------
+ * @Project: Kotlin
+ * @Created: Huy QV 2018/07/21
+ * @Description: ...
+ * None Right Reserved
+ * -------------------------------------------------------------------------------------------------
+ */
 
 
 /**
  * Observable
  */
-fun <T> Observable<T>.onNext(tag: String? = null, progression: Boolean = false, block: (Int, String, T?) -> Unit): Disposable {
+fun <T> Observable<T>.onNext(tag: String? = null, block: (Int, String, T?) -> Unit): Disposable {
 
     return subscribeWith(object : DisposableObserver<T?>() {
         override fun onStart() {
-            onRequestStarted(tag, progression)
+            onRequestStarted(tag)
         }
 
         override fun onNext(response: T) {
@@ -50,7 +46,7 @@ fun <T> Observable<T>.onNext(tag: String? = null, progression: Boolean = false, 
         }
 
         override fun onComplete() {
-            onRequestCompleted(tag, progression)
+            onRequestCompleted(tag)
         }
 
         override fun onError(throwable: Throwable) {
@@ -59,11 +55,11 @@ fun <T> Observable<T>.onNext(tag: String? = null, progression: Boolean = false, 
     })
 }
 
-fun <T> Observable<T>.onSuccess(tag: String? = null, progression: Boolean = false, block: (T?) -> Unit): Disposable {
+fun <T> Observable<T>.onSuccess(tag: String? = null, block: (T?) -> Unit): Disposable {
 
     return subscribeWith(object : DisposableObserver<T?>() {
         override fun onStart() {
-            onRequestStarted(tag, progression)
+            onRequestStarted(tag)
         }
 
         override fun onNext(response: T) {
@@ -71,7 +67,7 @@ fun <T> Observable<T>.onSuccess(tag: String? = null, progression: Boolean = fals
         }
 
         override fun onComplete() {
-            onRequestCompleted(tag, progression)
+            onRequestCompleted(tag)
         }
 
         override fun onError(throwable: Throwable) {
@@ -80,19 +76,19 @@ fun <T> Observable<T>.onSuccess(tag: String? = null, progression: Boolean = fals
     })
 }
 
-fun <T> Observable<T>.liveData(tag: String? = null, progression: Boolean = false): EventLiveData<RestResponse<T>?> {
+fun <T> Observable<T>.liveData(tag: String? = null): EventLiveData<RestResponse<T>?> {
 
     return EventLiveData<RestResponse<T>?>().also { liveData ->
-        onNext(tag, progression) { status, message, body ->
+        onNext(tag) { status, message, body ->
             liveData.postValue(RestResponse(status, message, body))
         }
     }
 }
 
-fun <T> Observable<T>.successLiveData(tag: String? = null, progression: Boolean = false): EventLiveData<T?> {
+fun <T> Observable<T>.successLiveData(tag: String? = null): EventLiveData<T?> {
 
     return EventLiveData<T?>().also { liveData ->
-        onSuccess(tag, progression) { response ->
+        onSuccess(tag) { response ->
             liveData.postValue(response)
         }
     }
@@ -102,56 +98,56 @@ fun <T> Observable<T>.successLiveData(tag: String? = null, progression: Boolean 
 /**
  * Single
  */
-fun <T> Single<T>.onNext(tag: String? = null, progression: Boolean = false, block: (Int, String, T?) -> Unit) {
+fun <T> Single<T>.onNext(tag: String? = null, block: (Int, String, T?) -> Unit) {
 
     subscribe(object : SingleObserver<T> {
         override fun onSubscribe(disposable: Disposable) {
-            onRequestStarted(tag, progression)
+            onRequestStarted(tag)
         }
 
         override fun onSuccess(response: T) {
-            onRequestCompleted(tag, progression)
+            onRequestCompleted(tag)
             block(200, "OK", response)
         }
 
         override fun onError(throwable: Throwable) {
-            onRequestCompleted(tag, progression)
+            onRequestCompleted(tag)
             onRequestCompleted(throwable, block)
         }
     })
 }
 
-fun <T> Single<T>.onSuccess(tag: String? = null, progression: Boolean = false, block: (T) -> Unit) {
+fun <T> Single<T>.onSuccess(tag: String? = null, block: (T) -> Unit) {
 
     subscribe(object : SingleObserver<T> {
         override fun onSubscribe(disposable: Disposable) {
-            onRequestStarted(tag, progression)
+            onRequestStarted(tag)
         }
 
         override fun onSuccess(response: T) {
-            onRequestCompleted(tag, progression)
+            onRequestCompleted(tag)
             block(response)
         }
 
         override fun onError(throwable: Throwable) {
-            onRequestCompleted(tag, progression)
+            onRequestCompleted(tag)
         }
     })
 }
 
-fun <T> Single<T>.liveData(tag: String? = null, progression: Boolean = false): EventLiveData<RestResponse<T>?> {
+fun <T> Single<T>.liveData(tag: String? = null): EventLiveData<RestResponse<T>?> {
 
     return EventLiveData<RestResponse<T>?>().also { liveData ->
-        onNext(tag, progression) { status, message, body ->
+        onNext(tag) { status, message, body ->
             liveData.postValue(RestResponse(status, message, body))
         }
     }
 }
 
-fun <T> Single<T>.successLiveData(tag: String? = null, progression: Boolean = false): EventLiveData<T?> {
+fun <T> Single<T>.successLiveData(tag: String? = null): EventLiveData<T?> {
 
     return EventLiveData<T?>().also { liveData ->
-        onSuccess(tag, progression) { response ->
+        onSuccess(tag) { response ->
             liveData.postValue(response)
         }
     }
@@ -161,15 +157,15 @@ fun <T> Single<T>.successLiveData(tag: String? = null, progression: Boolean = fa
 /**
  * Flowable
  */
-fun <T> Flowable<T>.onNext(tag: String? = null, progression: Boolean = false, block: (Int, String, T?) -> Unit) {
+fun <T> Flowable<T>.onNext(tag: String? = null, block: (Int, String, T?) -> Unit) {
 
     subscribe(object : FlowableSubscriber<T> {
         override fun onSubscribe(subscription: Subscription) {
-            onRequestStarted(tag, progression)
+            onRequestStarted(tag)
         }
 
         override fun onNext(response: T) {
-            onRequestCompleted(tag, progression)
+            onRequestCompleted(tag)
             block(200, "OK", response)
         }
 
@@ -178,20 +174,20 @@ fun <T> Flowable<T>.onNext(tag: String? = null, progression: Boolean = false, bl
         }
 
         override fun onComplete() {
-            onRequestCompleted(tag, progression)
+            onRequestCompleted(tag)
         }
     })
 }
 
-fun <T> Flowable<T>.onSuccess(tag: String? = null, progression: Boolean = false, block: (T?) -> Unit) {
+fun <T> Flowable<T>.onSuccess(tag: String? = null, block: (T?) -> Unit) {
 
     subscribe(object : FlowableSubscriber<T> {
         override fun onSubscribe(subscription: Subscription) {
-            onRequestStarted(tag, progression)
+            onRequestStarted(tag)
         }
 
         override fun onNext(response: T) {
-            onRequestCompleted(tag, progression)
+            onRequestCompleted(tag)
             block(response)
         }
 
@@ -200,44 +196,45 @@ fun <T> Flowable<T>.onSuccess(tag: String? = null, progression: Boolean = false,
         }
 
         override fun onComplete() {
-            onRequestCompleted(tag, progression)
+            onRequestCompleted(tag)
         }
     })
 }
 
-fun <T> Flowable<T>.liveData(tag: String? = null, progression: Boolean = false): EventLiveData<RestResponse<T>?> {
+fun <T> Flowable<T>.liveData(tag: String? = null): EventLiveData<RestResponse<T>?> {
 
     return EventLiveData<RestResponse<T>?>().also { liveData ->
-        onNext(tag, progression) { status, message, body ->
+        onNext(tag) { status, message, body ->
             liveData.postValue(RestResponse(status, message, body))
         }
     }
 }
 
-fun <T> Flowable<T>.successLiveData(tag: String? = null, progression: Boolean = false): EventLiveData<T?> {
+fun <T> Flowable<T>.successLiveData(tag: String? = null): EventLiveData<T?> {
 
     return EventLiveData<T?>().also { liveData ->
-        onSuccess(tag, progression) { response ->
+        onSuccess(tag) { response ->
             liveData.postValue(response)
         }
     }
 }
 
 
+
 /**
  * Call
  */
-fun <T> Call<T>.onResponse(tag: String? = null, progression: Boolean = false, block: (Int, String, T?) -> Unit) {
+fun <T> Call<T>.onResponse(tag: String? = null, block: (Int, String, T?) -> Unit) {
 
-    onRequestStarted(tag, progression)
+    onRequestStarted(tag)
     enqueue(object : Callback<T> {
         override fun onFailure(call: Call<T>, throwable: Throwable) {
-            onRequestCompleted(tag, progression)
+            onRequestCompleted(tag)
             onRequestCompleted(throwable, block)
         }
 
         override fun onResponse(call: Call<T>, response: Response<T?>) {
-            onRequestCompleted(tag, progression)
+            onRequestCompleted(tag)
             onRequestSuccess(response) { status, message, body ->
                 block(status, message, body)
             }
@@ -245,17 +242,17 @@ fun <T> Call<T>.onResponse(tag: String? = null, progression: Boolean = false, bl
     })
 }
 
-fun <T> Call<T>.onSuccess(tag: String? = null, progression: Boolean = false, block: (T?) -> Unit) {
+fun <T> Call<T>.onSuccess(tag: String? = null, block: (T?) -> Unit) {
 
-    onRequestStarted(tag, progression)
+    onRequestStarted(tag)
     enqueue(object : Callback<T> {
         override fun onFailure(call: Call<T>, throwable: Throwable) {
-            onRequestCompleted(tag, progression)
+            onRequestCompleted(tag)
             onRequestCompleted(throwable)
         }
 
         override fun onResponse(call: Call<T>, response: Response<T?>) {
-            onRequestCompleted(tag, progression)
+            onRequestCompleted(tag)
             onRequestSuccess(response) { _, _, body ->
                 block(body)
             }
@@ -263,22 +260,23 @@ fun <T> Call<T>.onSuccess(tag: String? = null, progression: Boolean = false, blo
     })
 }
 
-fun <T> Call<T>.liveData(tag: String? = null, progression: Boolean = false): EventLiveData<RestResponse<T>?> {
+fun <T> Call<T>.liveData(tag: String? = null): EventLiveData<RestResponse<T>?> {
 
     return EventLiveData<RestResponse<T>?>().also { liveData ->
-        onResponse(tag, progression) { status, message, body ->
+        onResponse(tag) { status, message, body ->
             liveData.postValue(RestResponse(status, message, body))
         }
     }
 }
 
-fun <T> Call<T>.successLiveData(tag: String? = null, progression: Boolean = false): EventLiveData<T?> {
+fun <T> Call<T>.successLiveData(tag: String?): EventLiveData<T?> {
     return EventLiveData<T?>().also { liveData ->
-        onSuccess(tag, progression) { response ->
+        onSuccess(tag) { response ->
             liveData.postValue(response)
         }
     }
 }
+
 
 
 /**
@@ -303,7 +301,7 @@ fun <T> onRequestSuccess(response: Response<T?>?, block: (Int, String, T?) -> Un
 
     try {
         val res = response.getErrorResponse() ?: return
-        block(res.status, res.message, null)
+        block(res.code, res.message, null)
         return
     } catch (e: java.lang.Exception) {
     }
@@ -326,14 +324,14 @@ fun onRequestCompleted(throwable: Throwable? = null) {
     }
 }
 
-fun onRequestStarted(tag: String?, progression: Boolean) {
+fun onRequestStarted(tag: String?, hasProgress: Boolean = true) {
     RestClient.add(tag)
-    ProgressLiveData.show(progression)
+    if (hasProgress) ProgressLiveData.show()
 }
 
-fun onRequestCompleted(tag: String?, progression: Boolean) {
+fun onRequestCompleted(tag: String?, hasProgress: Boolean = true) {
     RestClient.remove(tag)
-    ProgressLiveData.hide(progression)
+    if (hasProgress) ProgressLiveData.hide()
 }
 
 
@@ -342,7 +340,7 @@ fun onRequestCompleted(tag: String?, progression: Boolean) {
  */
 private fun Response<*>.getErrorResponse(): RestResponse<*>? {
 
-    return this.errorBody()!!.string().parse(RestResponse::class.java)!!
+    return this.errorBody()?.string().parse(RestResponse::class.java)!!
 }
 
 private fun HttpException.getErrorMessage(): String {

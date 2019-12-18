@@ -1,6 +1,5 @@
 package com.huy.library.extension
 
-import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.app.Activity
 import android.content.Context
@@ -9,6 +8,7 @@ import android.graphics.Color
 import android.os.Build
 import android.os.Handler
 import android.text.Html
+import android.text.InputFilter
 import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -22,6 +22,8 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.huy.library.R
 import java.util.*
 
 
@@ -33,7 +35,7 @@ import java.util.*
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-
+var lastClickTime: Long = 0
 
 /**
  * @EditText
@@ -45,6 +47,7 @@ fun EditText?.showKeyboard() {
         imm.hideSoftInputFromWindow(windowToken, 0)
     }
 }
+
 
 /**
  * @ImageView
@@ -117,29 +120,44 @@ fun RadioGroup.checkedButton(): View? {
     return null
 }
 
+fun RadioGroup.addOnCheckedChangeListener(block: (RadioButton) -> Unit) {
+    setOnCheckedChangeListener { _, checkedId ->
+        val button = (context as Activity).findViewById<RadioButton>(checkedId)
+        block(button)
+    }
+}
+
+
+/**
+ * @SwipeRefreshLayout
+ */
+fun SwipeRefreshLayout.onRefresh(block: () -> Unit) {
+    setProgressBackgroundColorSchemeColor(ContextCompat.getColor(context, R.color.colorWhite))
+    setColorSchemeColors(ContextCompat.getColor(context, R.color.colorPrimary))
+    setOnRefreshListener(block)
+}
+
 
 /**
  * @TextView
  */
-@SuppressLint("ResourceType")
-fun TextView.draw(title: String, @ColorRes textColor: Int, @DrawableRes drawableRes: Int) {
+fun TextView.draw(title: String, @ColorRes color: Int, @DrawableRes drawable: Int) {
     text = title
-    draw(textColor, drawableRes)
+    draw(color, drawable)
 }
 
-@SuppressLint("ResourceType")
-fun TextView.draw(@StringRes title: Int, @ColorRes textColor: Int, @DrawableRes drawableRes: Int) {
+fun TextView.draw(@StringRes title: Int, @ColorRes color: Int, @DrawableRes drawable: Int) {
     setText(title)
-    draw(textColor, drawableRes)
+    draw(color, drawable)
 }
 
-fun TextView.draw(@ColorRes colorRes: Int, @DrawableRes drawableRes: Int) {
-    color(colorRes)
-    post { setBackgroundResource(drawableRes) }
+fun TextView.draw(@ColorRes color: Int, @DrawableRes drawable: Int) {
+    color(color)
+    post { setBackgroundResource(drawable) }
 }
 
-fun TextView.color(@ColorRes colorRes: Int) {
-    setTextColor(ContextCompat.getColor(context, colorRes))
+fun TextView.color(@ColorRes color: Int) {
+    setTextColor(ContextCompat.getColor(context, color))
 }
 
 fun TextView.setHyperText(string: String) {
@@ -171,6 +189,10 @@ fun TextView.randomCapcha(level: Int = 0) {
     this.text = capText.toString()
 }
 
+/**
+ * Add editor action & modify soft keyboard action
+ * @actionId see [android.view.inputmethod.EditorInfo]
+ */
 fun TextView.addEditorActionListener(actionId: Int, block: (String?) -> Unit) {
     maxLines = 1
     imeOptions = actionId
@@ -188,6 +210,26 @@ fun TextView.addEditorActionListener(actionId: Int, block: (String?) -> Unit) {
             return false
         }
     })
+}
+
+/**
+ * Filter with a collection of allowed characters
+ * @param: charArrayOf( 'A', 'b', 'c' ,'1')
+ */
+fun TextView.filter(filterChars: CharArray) {
+    val arrayList = arrayListOf<InputFilter>()
+    filters?.apply { arrayList.addAll(this) }
+    arrayList.add(InputFilter { source, start, end, _, _, _ ->
+        if (end > start) {
+            for (index in start until end) {
+                if (!String(filterChars).contains(source[index].toString())) {
+                    return@InputFilter ""
+                }
+            }
+        }
+        null
+    })
+    filters = arrayList.toArray(arrayOfNulls<InputFilter>(arrayList.size))
 }
 
 

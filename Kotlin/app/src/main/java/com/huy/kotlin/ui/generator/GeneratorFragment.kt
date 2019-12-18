@@ -45,8 +45,8 @@ class GeneratorFragment : BaseFragment(), DataReceiver<User> {
 
     override fun onDataReceived(data: User) {
         adapter.add(data)
-        if (adapter.dataNotEmpty()) {
-            recyclerView?.smoothScrollToPosition(adapter.lastPosition())
+        if (adapter.dataNotEmpty) {
+            recyclerView?.smoothScrollToPosition(adapter.lastPosition)
         }
     }
 

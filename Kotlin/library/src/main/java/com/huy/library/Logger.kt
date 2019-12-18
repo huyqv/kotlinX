@@ -1,6 +1,8 @@
 package com.huy.library
 
 import android.util.Log
+import org.json.JSONException
+import org.json.JSONObject
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -13,6 +15,7 @@ import android.util.Log
 open class Logger {
 
     private val tag: String
+
     private var enable: Boolean = false
 
     constructor(string: String, enable: Boolean) {
@@ -21,6 +24,15 @@ open class Logger {
     }
 
     constructor(cls: Class<*>, enable: Boolean) : this(cls.simpleName, enable)
+
+    fun json(s: String?) {
+        val json = if (s.isNullOrEmpty()) null else try {
+            JSONObject(s).toString(2)
+        } catch (e: JSONException) {
+            null
+        }
+        i(json)
+    }
 
     fun d(string: String?) {
         if (enable && !string.isNullOrEmpty()) Log.d(tag, string)

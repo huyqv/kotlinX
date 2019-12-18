@@ -16,12 +16,11 @@ abstract class ApiDisposableObserver<T> : DisposableObserver<T?> {
 
     private val block: (T?) -> Unit
 
-    private val progression: Boolean
-
-    constructor(progression: Boolean = false, block: (T?) -> Unit) {
-        this.progression = progression
+    constructor(block: (T?) -> Unit) {
         this.block = block
     }
+
+    open fun hasProgress(): Boolean = true
 
     override fun onNext(t: T) {
         block(t)
@@ -32,10 +31,10 @@ abstract class ApiDisposableObserver<T> : DisposableObserver<T?> {
     }
 
     override fun onComplete() {
-        ProgressLiveData.hide(progression)
+        ProgressLiveData.hide()
     }
 
     override fun onStart() {
-        ProgressLiveData.show(progression)
+        ProgressLiveData.show()
     }
 }

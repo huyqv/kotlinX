@@ -11,6 +11,12 @@ import android.text.TextUtils
  * -------------------------------------------------------------------------------------------------
  */
 
+val PERSON_NAME = charArrayOf(
+        'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'Z', 'X', 'C', 'V', 'B', 'N', 'M',
+        'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'z', 'x', 'c', 'v', 'b', 'n', 'm',
+        '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ' '
+)
+
 // Date format dd/MM/yyyy
 private val DATE_REGEX = "^(?:(?:31(\\/|-|\\.)(?:0?[13578]|1[02]|(?:Jan|Mar|May|Jul|Aug|Oct|Dec)))\\1|(?:(?:29|30)(\\/|-|\\.)(?:0?[1,3-9]|1[0-2]|(?:Jan|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec))\\2))(?:(?:1[6-9]|[2-9]\\d)?\\d{2})$|^(?:29(\\/|-|\\.)(?:0?2|(?:Feb))\\3(?:(?:(?:1[6-9]|[2-9]\\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\\d|2[0-8])(\\/|-|\\.)(?:(?:0?[1-9]|(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep))|(?:1[0-2]|(?:Oct|Nov|Dec)))\\4(?:(?:1[6-9]|[2-9]\\d)?\\d{2})$"
 
@@ -79,8 +85,8 @@ fun String?.isPassword(): Boolean {
     var capitalFlag = false
     var lowerCaseFlag = false
     var numberFlag = false
-    for (i in 0 until this.length) {
-        ch = this[i]
+    for (element in this) {
+        ch = element
         when {
             Character.isDigit(ch) -> numberFlag = true
             Character.isUpperCase(ch) -> capitalFlag = true

@@ -20,6 +20,8 @@ data class Image(
     override fun getImageUrl() = url
 
     class DiffCallback(oldList: Collection<Image>, newList: Collection<Image>) : SimpleDiffCallback<Image>(oldList, newList) {
-        override fun areItemSame(old: Image, new: Image) = old.url === new.url
+        override fun areItemSame(old: Image, new: Image) : Boolean{
+            return old.id == new.id
+        }
     }
 }

@@ -18,24 +18,23 @@ class ApiSingleObserverLiveData<T> : MutableLiveData<T>, SingleObserver<T> {
 
     private val tag: String?
 
-    private val progression: Boolean
-
-    constructor(tag: String? = null, progression: Boolean = false) {
+    constructor(tag: String? = null) {
         this.tag = tag
-        this.progression = progression
     }
 
+    open fun hasProgress(): Boolean = true
+
     override fun onSubscribe(disposable: Disposable) {
-        onRequestStarted(tag, progression)
+        onRequestStarted(tag, hasProgress())
     }
 
     override fun onSuccess(response: T) {
-        onRequestCompleted(tag, progression)
+        onRequestCompleted(tag, hasProgress())
         postValue(response)
     }
 
     override fun onError(throwable: Throwable) {
-        onRequestCompleted(tag, progression)
+        onRequestCompleted(tag, hasProgress())
         onRequestCompleted(throwable)
     }
 

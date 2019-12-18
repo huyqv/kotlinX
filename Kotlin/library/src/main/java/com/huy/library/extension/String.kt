@@ -182,7 +182,7 @@ fun String?.normalize(): String? {
 }
 
 fun String?.rgbToHex(): String {
-
+    this ?: return "#000"
     val c = Pattern.compile("rgb *\\( *([0-9]+), *([0-9]+), *([0-9]+) *\\)")
     val m = c.matcher(this)
     return if (m.matches()) {

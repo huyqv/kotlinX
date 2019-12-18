@@ -4,6 +4,7 @@ import android.os.Bundle
 import com.huy.kotlin.R
 import com.huy.kotlin.base.arch.ArchFragment
 import com.huy.kotlin.ui.image_owner.ImageOwnerFragment
+import com.huy.library.extension.onRefresh
 import kotlinx.android.synthetic.main.fragment_images.*
 
 
@@ -31,17 +32,29 @@ class ImageFragment : ArchFragment<ImageVM>() {
             add(ImageOwnerFragment.newInstance(adapter.data, image))
         }
 
-        adapter.onBindFooter { _, i ->
+        adapter.onFooterIndexChange { _, i ->
             viewModel.fetchImages(i / 10 + 1)
+        }
+
+        swipeRefreshLayout.onRefresh {
+            viewModel.fetchImages(0, adapter.data)
         }
     }
 
     override fun onRegisterLiveData() {
 
-        viewModel.fetchImages(1)
+        /*  viewModel.fetchImages(1)
 
-        viewModel.imageLiveData.observe {
-            adapter.add(it)
+          viewModel.imageLiveData.observe {
+              adapter.add(it)
+          }*/
+
+        viewModel.fetchImages(0, adapter.data)
+
+        viewModel.diffLiveData.nonNull {
+            it.dispatchUpdatesTo(adapter)
+            swipeRefreshLayout.isRefreshing = false
         }
     }
+
 }

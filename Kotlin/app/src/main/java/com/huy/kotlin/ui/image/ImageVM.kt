@@ -7,7 +7,7 @@ import com.huy.kotlin.network.rest.RestClient
 import com.huy.kotlin.network.rest.onNext
 import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
 import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
+import io.reactivex.schedulers.Schedulers.io
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -26,7 +26,7 @@ class ImageVM : BaseViewModel() {
 
     fun fetchImages(page: Int) {
         RestClient.service.images(page)
-                .subscribeOn(Schedulers.io())
+                .subscribeOn(io())
                 .observeOn(mainThread())
                 .onNext { _, _, list ->
                     imageLiveData.postValue(list)
@@ -39,15 +39,22 @@ class ImageVM : BaseViewModel() {
     fun fetchImages(page: Int, data: MutableList<Image>): Disposable {
         var newList: MutableList<Image>? = null
         return RestClient.service.images(page)
-                .doOnNext { newList = it.toMutableList() }
-                .map { DiffUtil.calculateDiff(Image.DiffCallback(data, it)) }
+                .subscribeOn(io())
                 .observeOn(mainThread())
+                .doOnNext {
+                    newList = it.toMutableList()
+                }
+                .map {
+                    DiffUtil.calculateDiff(Image.DiffCallback(data, it), true)
+                }
                 .doOnNext {
                     newList ?: return@doOnNext
                     data.clear()
                     data.addAll(newList!!)
                 }
-                .subscribe { diffLiveData.postValue(it) } // it.dispatchUpdatesTo(this@ImageAdapter)
+                .onNext { _, _, it ->
+                    diffLiveData.postValue(it)
+                }
     }
 
 }

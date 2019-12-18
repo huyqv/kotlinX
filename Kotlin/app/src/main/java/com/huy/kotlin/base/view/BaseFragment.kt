@@ -24,7 +24,6 @@ import com.tbruyelle.rxpermissions2.RxPermissions
  */
 abstract class BaseFragment : Fragment(), BaseView {
 
-    override var lastClickTime: Long = 0
 
     override var onViewClick: View.OnClickListener? = null
 

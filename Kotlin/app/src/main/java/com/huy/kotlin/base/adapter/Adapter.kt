@@ -174,7 +174,7 @@ fun RecyclerView.set(adapter: BaseRecyclerAdapter<*>, spanCount: Int, includeEdg
     val layoutManager = GridLayoutManager(context, spanCount)
     layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
         override fun getSpanSize(position: Int): Int {
-            return if (adapter.dataIsEmpty() || position == adapter.size) layoutManager.spanCount else 1
+            return if (adapter.dataIsEmpty || position == adapter.sizeCache) layoutManager.spanCount else 1
         }
     }
     block?.let { layoutManager.block() }
@@ -188,7 +188,7 @@ fun RecyclerView.set(adapter: BaseJsonAdapter<*>, spanCount: Int, includeEdge: B
     val layoutManager = GridLayoutManager(context, spanCount)
     layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
         override fun getSpanSize(position: Int): Int {
-            return if (adapter.dataIsEmpty() || position == adapter.size) layoutManager.spanCount else 1
+            return if (adapter.dataIsEmpty() || position == adapter.sizeCache) layoutManager.spanCount else 1
         }
     }
     block?.let { layoutManager.block() }

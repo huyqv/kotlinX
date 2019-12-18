@@ -7,6 +7,7 @@ import java.math.BigDecimal
 import java.math.RoundingMode
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
+import java.text.NumberFormat
 import java.util.*
 
 /**
@@ -17,12 +18,14 @@ import java.util.*
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-private val decimalFormat = DecimalFormat("#,###,###,###")
+private val decimalFormat = (NumberFormat.getInstance(Locale.US) as DecimalFormat).also {
+    it.applyPattern("#,###,###,###")
+}
 
 fun String?.moneyFormat(/* format #,###,###,### */): String {
     this ?: return ""
     return try {
-        var originalString = this.replace(".", "")
+        var originalString = replace(",", "").replace(".", "")
         if (originalString.contains(",")) originalString = originalString.replace(",".toRegex(), "")
         decimalFormat.format(originalString.toLong())
     } catch (nfe: Exception) {
@@ -31,7 +34,9 @@ fun String?.moneyFormat(/* format #,###,###,### */): String {
 }
 
 
-private val decimalFormat2 = DecimalFormat("#,###,###,###.##")
+private val decimalFormat2 = (NumberFormat.getInstance(Locale.US) as DecimalFormat).also {
+    it.applyPattern("#,###,###,###.##")
+}
 
 fun String?.moneyFormat2(/* format #,###,###,###.## */): String {
     this ?: return ""

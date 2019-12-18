@@ -21,8 +21,6 @@ open class MultiSelectionAdapter<M> : BaseRecyclerAdapter<M>() {
 
     var onSelectionChanged: ((M?, Int, Boolean) -> Unit)? = null
 
-    override fun footerLayoutResource() = 0
-
     override fun layoutResource(model: M, position: Int) = R.layout.item_text
 
     override fun View.onBindModel(model: M, position: Int, layout: Int) {
@@ -55,7 +53,7 @@ open class MultiSelectionAdapter<M> : BaseRecyclerAdapter<M>() {
 
         model ?: return false
 
-        if (dataIsEmpty()) return false
+        if (dataIsEmpty) return false
 
         if (selectedItems.isEmpty()) return false
 

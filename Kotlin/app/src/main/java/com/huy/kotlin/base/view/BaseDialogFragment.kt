@@ -28,8 +28,6 @@ import com.tbruyelle.rxpermissions2.RxPermissions
 abstract class BaseDialogFragment : BottomSheetDialogFragment(), BaseView {
 
 
-    override var lastClickTime: Long = 0
-
     override var onViewClick: View.OnClickListener? = null
 
     override var progressDialog: ProgressDialog? = null

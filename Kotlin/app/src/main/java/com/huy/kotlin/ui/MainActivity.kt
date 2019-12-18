@@ -11,7 +11,7 @@ import com.huy.kotlin.ui.member.*
 import com.huy.kotlin.ui.message.MessageFragment
 import com.huy.kotlin.ui.paging.PagingFragment
 import com.huy.kotlin.ui.tab.TabFragment
-import com.huy.kotlin.ui.transaction.TransactionActivity
+import com.huy.kotlin.ui.transaction.TranslateActivity
 import com.huy.kotlin.ui.user.UserFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -53,7 +53,7 @@ class MainActivity : ArchActivity<MainVM>() {
             itemTab -> add(TabFragment())
             itemPaging -> add(PagingFragment())
             itemAnimation -> add(AnimationFragment())
-            itemTransaction -> start(TransactionActivity::class.java)
+            itemTransaction -> start(TranslateActivity::class.java)
         }
     }
 

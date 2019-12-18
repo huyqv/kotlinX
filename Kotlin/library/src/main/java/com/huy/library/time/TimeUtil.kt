@@ -1,4 +1,4 @@
-package com.huy.library.util.time
+package com.huy.library.time
 
 import com.huy.library.Library
 import com.huy.library.R

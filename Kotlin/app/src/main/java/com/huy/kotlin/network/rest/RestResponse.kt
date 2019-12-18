@@ -17,8 +17,8 @@ import java.net.UnknownHostException
  */
 class RestResponse<T> {
 
-    @SerializedName("status")
-    var status: Int = 500
+    @SerializedName("code")
+    var code: Int = 500
 
     @SerializedName("message")
     @Expose
@@ -27,8 +27,6 @@ class RestResponse<T> {
     @SerializedName("body")
     @Expose
     var body: T? = null
-
-    constructor()
 
     constructor(throwable: Throwable?) {
 
@@ -48,7 +46,7 @@ class RestResponse<T> {
 
         response ?: return
 
-        status = response.code()
+        code = response.code()
 
         if (response.isSuccessful) {
             message = response.message()
@@ -63,7 +61,7 @@ class RestResponse<T> {
     }
 
     constructor(status: Int, message: String, body: T?) {
-        this.status = status
+        this.code = status
         this.message = message
         this.body = body
     }
@@ -72,6 +70,6 @@ class RestResponse<T> {
         return this is SocketException || this is UnknownHostException || this is SocketTimeoutException
     }
 
-    val isSuccessful: Boolean get() = status in 200..299 && body != null
+    val isSuccessful: Boolean get() = code in 200..299 && body != null
 
 }

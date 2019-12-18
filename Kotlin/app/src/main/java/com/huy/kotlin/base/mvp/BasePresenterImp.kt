@@ -13,8 +13,8 @@ import com.huy.kotlin.data.local.SharedHelper
 import com.huy.kotlin.network.callback.WeakDisposableObserver
 import com.huy.kotlin.network.rest.RestClient
 import com.huy.kotlin.network.rest.RestResponse
+import com.huy.kotlin.network.rest.isNetworkError
 import com.huy.library.extension.toast
-import com.huy.library.util.network.NetworkUtil
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -129,7 +129,7 @@ open class BasePresenterImp<V : BaseView> : BasePresenter<V>, EventListener {
                 view?.hideProgress()
                 when {
                     throwable is HttpException -> toast(throwable.message())
-                    NetworkUtil.isNetworkException(throwable) -> view?.networkError()
+                    throwable.isNetworkError() -> view?.networkError()
                     else -> view?.unknownError()
                 }
             }

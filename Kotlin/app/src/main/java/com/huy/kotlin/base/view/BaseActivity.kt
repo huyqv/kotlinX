@@ -24,7 +24,6 @@ import com.tbruyelle.rxpermissions2.RxPermissions
  */
 abstract class BaseActivity : AppCompatActivity(), BaseView {
 
-    override var lastClickTime: Long = 0
 
     override var progressDialog: ProgressDialog? = null
 

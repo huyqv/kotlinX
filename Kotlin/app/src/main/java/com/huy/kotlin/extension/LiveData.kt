@@ -43,4 +43,3 @@ fun <T> NonNullLiveData<T>.observe(owner: LifecycleOwner, observer: (t: T) -> Un
         it?.let(observer)
     })
 }
-

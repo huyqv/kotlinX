@@ -1,4 +1,4 @@
-package com.huy.library.util.time
+package com.huy.library.time
 
 import java.lang.reflect.InvocationTargetException
 import java.text.ParseException

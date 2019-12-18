@@ -12,9 +12,13 @@ import androidx.fragment.app.FragmentPagerAdapter
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-class FragmentAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+class FragmentAdapter : FragmentPagerAdapter {
 
-    private var fragments = ArrayList<Fragment>()
+    private var fragments = mutableListOf<Fragment>()
+
+    constructor(fm: FragmentManager, vararg fragments: Fragment) : super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+        this.fragments.addAll(fragments)
+    }
 
     fun add(fragment: Fragment): FragmentAdapter {
         fragments.add(fragment)

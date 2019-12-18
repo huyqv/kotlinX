@@ -20,21 +20,20 @@ class ApiCallBackLiveData<T> : EventLiveData<T>, Callback<T> {
 
     private val tag: String?
 
-    private val progression: Boolean
+    open fun hasProgress(): Boolean = true
 
-    constructor(tag: String? = null, progression: Boolean = false) {
+    constructor(tag: String? = null) {
         this.tag = tag
-        this.progression = progression
-        onRequestStarted(tag, progression)
+        onRequestStarted(tag, hasProgress())
     }
 
     override fun onFailure(call: Call<T>, throwable: Throwable) {
-        onRequestCompleted(tag, progression)
+        onRequestCompleted(tag, hasProgress())
         onRequestCompleted(throwable)
     }
 
     override fun onResponse(call: Call<T>, response: Response<T?>) {
-        onRequestCompleted(tag, progression)
+        onRequestCompleted(tag, hasProgress())
         onRequestSuccess(response) { _, _, body ->
             postValue(body)
         }

@@ -17,15 +17,11 @@ import java.util.concurrent.atomic.AtomicReference
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-open class ApiDisposableObserverLiveData<T> : MutableLiveData<T>, Observer<T>, Disposable {
+abstract class ApiDisposableObserverLiveData<T> : MutableLiveData<T>(), Observer<T>, Disposable {
 
     private val upstream = AtomicReference<Disposable>()
 
-    private val progression: Boolean
-
-    constructor(progression: Boolean = false) {
-        this.progression = progression
-    }
+    open fun hasProgress(): Boolean = true
 
     override fun isDisposed(): Boolean {
         return upstream.get() === DisposableHelper.DISPOSED
@@ -53,11 +49,12 @@ open class ApiDisposableObserverLiveData<T> : MutableLiveData<T>, Observer<T>, D
     }
 
     override fun onComplete() {
-        ProgressLiveData.hide(progression)
+        ProgressLiveData.hide()
     }
 
     protected fun onStart() {
-        ProgressLiveData.show(progression)
+        ProgressLiveData.show()
     }
+
 
 }

@@ -1,4 +1,4 @@
-package com.huy.library.util.network
+package com.huy.library.network
 
 import android.annotation.SuppressLint
 import android.content.BroadcastReceiver

@@ -1,10 +1,7 @@
 package com.huy.library.extension
 
-import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.content.res.Configuration
 import android.content.res.Resources
 import android.database.Cursor
 import android.graphics.Bitmap
@@ -12,11 +9,8 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
-import android.provider.Settings
 import android.util.Base64
-import android.util.DisplayMetrics
 import android.util.Log
-import android.view.WindowManager
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.Toast
@@ -30,8 +24,6 @@ import java.io.ByteArrayOutputStream
 import java.io.Closeable
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
-import java.util.*
-import java.util.concurrent.TimeUnit
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -56,82 +48,13 @@ val appVersion: String
 val packageName: String
     get() = Library.app.applicationContext.packageName
 
-val deviceId: String
+val statusBarHeight: Int
     get() {
-        return try {
-            Settings.Secure.getString(Library.app.contentResolver, Settings.Secure.ANDROID_ID)
-        } catch (e: Exception) {
-            ""
-        }
+        var result = 0
+        val resourceId = Library.app.resources.getIdentifier("status_bar_height", "dimen", "android")
+        if (resourceId > 0) result = Library.app.resources.getDimensionPixelSize(resourceId)
+        return result
     }
-
-val osVersion: String
-    get() = Build.VERSION.RELEASE
-
-val osVersionCode: Int
-    get() = Build.VERSION.SDK_INT
-
-val deviceName: String
-    get() {
-        val manufacturer = Build.MANUFACTURER
-        val model = Build.MODEL
-        return if (model.startsWith(manufacturer)) {
-            model.capitalize()
-        } else manufacturer.capitalize() + " " + model
-    }
-
-val timeZone: String
-    get() {
-        val cal = GregorianCalendar()
-        val timeZone = cal.timeZone
-        val mGMTOffset = timeZone.rawOffset
-        return "GMT+" + TimeUnit.HOURS.convert(mGMTOffset.toLong(), TimeUnit.MILLISECONDS)
-    }
-
-val isTablet: Boolean
-    get() {
-        return Library.app.resources.configuration.screenLayout and
-                Configuration.SCREENLAYOUT_SIZE_MASK >= Configuration.SCREENLAYOUT_SIZE_LARGE
-    }
-
-val chipSet: String
-    get() {
-        return try {
-            @SuppressLint("PrivateApi")
-            val aClass = Class.forName("android.os.SystemProperties")
-            val method = aClass.getMethod("get", String::class.java)
-            val platform = method.invoke(null, "ro.board.platform")
-
-            platform as? String ?: "<$platform>"
-
-        } catch (e: Exception) {
-            "<$e>"
-        }
-    }
-
-val screenWidth: Int
-    get() {
-        val windowManager = Library.app.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-        val dm = DisplayMetrics()
-        windowManager.defaultDisplay.getMetrics(dm)
-        return dm.heightPixels
-    }
-
-val screenHeight: Int
-    get() {
-        val windowManager = Library.app.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-        val dm = DisplayMetrics()
-        windowManager.defaultDisplay.getMetrics(dm)
-        return dm.heightPixels
-    }
-
-fun statusBarHeight(): Int? {
-    var result = 0
-    val resourceId = Library.app.resources.getIdentifier("status_bar_height", "dimen", "android")
-    if (resourceId > 0)
-        result = Library.app.resources.getDimensionPixelSize(resourceId)
-    return result
-}
 
 fun toast(message: String?) {
     message ?: return

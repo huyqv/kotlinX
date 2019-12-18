@@ -33,13 +33,6 @@ class ProgressLiveData : SingleLiveData<Boolean?>() {
             }
         }
 
-        fun show(progression: Boolean) {
-            if (progression) show()
-        }
-
-        fun hide(progression: Boolean) {
-            if (progression) hide()
-        }
 
     }
 

@@ -36,12 +36,12 @@ class TabFragment : BaseFragment() {
     }
 
     private fun ViewPager.config() {
-
-        val f1 = getFragment(R.color.colorIndianRed, PageTransformer.Slide2())
-        val f2 = getFragment(R.color.colorTurquoise, PageTransformer.Slide())
-        val f3 = getFragment(R.color.colorAmethyst, PageTransformer.Stack())
-        val f4 = getFragment(R.color.colorSunFlower, PageTransformer.FadeZoom())
-        adapter = FragmentAdapter(childFragmentManager).add(f1).add(f2).add(f3).add(f4)
+        adapter = FragmentAdapter(childFragmentManager,
+                getFragment(R.color.colorIndianRed, PageTransformer.Slide2()),
+                getFragment(R.color.colorTurquoise, PageTransformer.Slide()),
+                getFragment(R.color.colorAmethyst, PageTransformer.Stack()),
+                getFragment(R.color.colorSunFlower, PageTransformer.FadeZoom())
+        )
     }
 
     private fun ViewPager.getFragment(@ColorRes color: Int, transformer: ViewPager.PageTransformer?): ColorFragment {

@@ -3,8 +3,11 @@ package com.huy.library.extension
 import android.app.Activity
 import android.content.Context
 import android.content.res.Resources
+import android.graphics.BlendMode
+import android.graphics.BlendModeColorFilter
 import android.graphics.Color
 import android.graphics.PorterDuff
+import android.os.Build
 import android.util.DisplayMetrics
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -164,8 +167,14 @@ fun View.showPopup(@LayoutRes layoutRes: Int, @StyleRes animationStyle: Int, blo
 }
 
 fun View.backgroundTint(@ColorRes res: Int) {
+    val color = ContextCompat.getColor(context, res)
     post {
-        background.setColorFilter(ContextCompat.getColor(context, res), PorterDuff.Mode.SRC_ATOP)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            background.colorFilter = BlendModeColorFilter(color, BlendMode.SRC_ATOP)
+        } else {
+            @Suppress("DEPRECATION")
+            background.setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
+        }
     }
 }
 

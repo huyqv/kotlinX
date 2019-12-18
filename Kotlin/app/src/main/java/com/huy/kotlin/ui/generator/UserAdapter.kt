@@ -17,13 +17,9 @@ import kotlinx.android.synthetic.main.item_user_grid.view.*
  */
 class UserAdapter : BaseRecyclerAdapter<User>() {
 
-    override fun blankLayoutResource(): Int {
-        return R.layout.item_blank
-    }
+    override var blankLayoutResource = R.layout.item_blank
 
-    override fun footerLayoutResource(): Int {
-        return R.layout.item_footer
-    }
+    override var footerLayoutResource = R.layout.item_footer
 
     override fun layoutResource(model: User, position: Int) = R.layout.item_user
 

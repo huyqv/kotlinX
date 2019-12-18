@@ -4,7 +4,7 @@ import android.os.Bundle
 import com.huy.kotlin.R
 import com.huy.kotlin.base.view.BaseActivity
 import com.huy.kotlin.ui.member.ColorFragment
-import kotlinx.android.synthetic.main.activity_transaction.*
+import kotlinx.android.synthetic.main.activity_translate.*
 
 
 /**
@@ -16,9 +16,9 @@ import kotlinx.android.synthetic.main.activity_transaction.*
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-class TransactionActivity : BaseActivity() {
+class TranslateActivity : BaseActivity() {
 
-    override fun layoutResource() = R.layout.activity_transaction
+    override fun layoutResource() = R.layout.activity_translate
 
     override fun fragmentContainer() = R.id.container
 

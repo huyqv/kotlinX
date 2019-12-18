@@ -20,7 +20,6 @@ val networkConnected: Boolean
     get() {
         val cm = Library.app.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         when {
-
             Build.VERSION.SDK_INT > Build.VERSION_CODES.O -> cm.getNetworkCapabilities(cm.activeNetwork)?.run {
                 return when {
                     hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
@@ -30,8 +29,7 @@ val networkConnected: Boolean
                 }
             }
 
-            Build.VERSION.SDK_INT > Build.VERSION_CODES.M -> @Suppress("DEPRECATION")
-            cm.activeNetworkInfo?.run {
+            Build.VERSION.SDK_INT > Build.VERSION_CODES.M -> @Suppress("DEPRECATION") cm.activeNetworkInfo?.run {
                 if (type == ConnectivityManager.TYPE_WIFI) {
                     return true
                 } else if (type == ConnectivityManager.TYPE_MOBILE) {

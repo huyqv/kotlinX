@@ -22,7 +22,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:tabGravity="fill"
-        app:tabMode="fixed" />
+        app:tabMaxWidth="0dp"
+        app:tabMode="fixed"
+        app:tabTextAppearance="@style/CustomTextAppearance" />
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewPager"

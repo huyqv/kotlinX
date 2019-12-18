@@ -50,7 +50,7 @@ class ImageOwnerFragment : BaseFragment(), SimplePageChangeListener {
     companion object {
 
         fun newInstance(data: List<ImageOwner>, imageOwner: ImageOwner? = null): ImageOwnerFragment {
-            if (data.isEmpty()) throw IllegalArgumentException("ImageOwnerFragment - Data must be not null or empty")
+            require(data.isNotEmpty()) { "ImageOwnerFragment - Data must be not null or empty" }
             return ImageOwnerFragment().apply {
                 adapter = ZoomImageAdapter()
                 adapter.set(data)
@@ -71,7 +71,7 @@ class ImageOwnerFragment : BaseFragment(), SimplePageChangeListener {
         override fun layoutRes() = R.layout.item_zoom_image
 
         override fun View.onBind(model: ImageOwner) {
-            zoomImageView.load("${BuildConfig.RESOURCE_URL}${model.getImageUrl()}")
+            zoomImageView.load("${BuildConfig.SERVICE_URL}${model.getImageUrl()}")
         }
     }
 }

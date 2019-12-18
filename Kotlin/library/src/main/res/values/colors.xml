@@ -8,6 +8,7 @@
     <color name="colorTextPrimary">#525252</color>
     <color name="colorTextSecondary">#767676</color>
 
+    <color name="colorBlack">#000000</color>
     <color name="colorBlackOverlay">#66000000</color>
     <color name="colorLightBackground">#ffffff</color>
     <color name="colorButtonNormal">#EEEEEE</color>
@@ -16,6 +17,7 @@
     <color name="colorLightTransparent">#4e9c9c9c</color>
     <color name="colorTransparent">#00000000</color>
     <color name="colorSemiTransparent">#53ffffff</color>
+    <color name="colorWhite">#FFFFFF</color>
     <color name="colorLight">#EFEFF4</color>
     <color name="colorLightGray">#d6d6d6</color>
     <color name="colorSilver">#cfefeff4</color>

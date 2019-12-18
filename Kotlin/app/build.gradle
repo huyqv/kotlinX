@@ -45,7 +45,6 @@ android {
             applicationIdSuffix ".x"
             buildConfigField "String", "SHARED_PREF", SHARED_PREF
             buildConfigField "String", "SERVICE_URL", SERVICE_URL_PROD
-            buildConfigField "String", "RESOURCE_URL", RESOURCE_URL_PROD
             buildConfigField "String", "DATABASE_NAME", DATABASE_NAME_PROD
             buildConfigField "int", "DATABASE_VERSION", DATABASE_VERSION_PROD
         }
@@ -53,7 +52,6 @@ android {
             applicationIdSuffix ".x.dev"
             buildConfigField "String", "SHARED_PREF", SHARED_PREF
             buildConfigField "String", "SERVICE_URL", SERVICE_URL_DEV
-            buildConfigField "String", "RESOURCE_URL", RESOURCE_URL_DEV
             buildConfigField "String", "DATABASE_NAME", DATABASE_NAME_DEV
             buildConfigField "int", "DATABASE_VERSION", DATABASE_VERSION_DEV
         }

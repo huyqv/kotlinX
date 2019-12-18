@@ -17,27 +17,26 @@ class ApiSingleObserver<T> : SingleObserver<T> {
 
     private val tag: String?
 
-    private val progression: Boolean
-
     private val block: (T?) -> Unit
 
-    constructor(tag: String? = null, progression: Boolean = false, block: (T?) -> Unit) {
+    constructor(tag: String? = null, block: (T?) -> Unit) {
         this.tag = tag
-        this.progression = progression
         this.block = block
     }
 
+    open fun hasProgress(): Boolean = true
+
     override fun onSubscribe(disposable: Disposable) {
-        onRequestStarted(tag, progression)
+        onRequestStarted(tag, hasProgress())
     }
 
     override fun onSuccess(response: T) {
-        onRequestCompleted(tag, progression)
+        onRequestCompleted(tag, hasProgress())
         block(response)
     }
 
     override fun onError(throwable: Throwable) {
-        onRequestCompleted(tag, progression)
+        onRequestCompleted(tag, hasProgress())
         onRequestCompleted(throwable)
     }
 

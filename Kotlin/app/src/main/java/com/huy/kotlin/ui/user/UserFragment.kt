@@ -16,16 +16,22 @@ import kotlinx.android.synthetic.main.fragment_load_more.*
 class UserFragment : ArchFragment<UserVM>() {
 
     private val adapter = UserAdapter()
+
     override fun layoutResource() = R.layout.fragment_load_more
+
     override fun viewModelClass() = UserVM::class.java
+
     override fun onCreated(state: Bundle?) {
         adapter.bind(recyclerView, 3)
-        adapter.onBindFooter { _, i -> viewModel.fetchUsers(i / 10 + 1) }
-        onRegisterLiveData()
+        adapter.onFooterIndexChange { _, i ->
+            viewModel.fetchUsers(i / 10 + 1)
+        }
     }
 
     override fun onRegisterLiveData() {
         viewModel.fetchUsers(1)
-        viewModel.userLiveData.observe { adapter.add(it) }
+        viewModel.userLiveData.observe {
+            adapter.add(it)
+        }
     }
 }
