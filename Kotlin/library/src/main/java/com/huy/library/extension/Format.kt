@@ -71,10 +71,10 @@ class CashTextWatcher(editText: EditText) : SimpleTextWatcher {
 
     override fun afterTextChanged(s: Editable?) {
         editText?.apply {
-            val s = text.toString().moneyFormat()
+            val text = text.toString().moneyFormat()
             removeTextChangedListener(this@CashTextWatcher)
-            setText(s)
-            setSelection(s.length)
+            setText(text)
+            setSelection(text.length)
             addTextChangedListener(this@CashTextWatcher)
         }
     }

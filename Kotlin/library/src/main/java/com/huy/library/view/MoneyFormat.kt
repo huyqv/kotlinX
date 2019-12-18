@@ -15,11 +15,11 @@ class MoneyFormat {
     private val mFormat: DecimalFormat = DecimalFormat("####,###,###")
 
     fun format(s: String): String? {
-        return mFormat.format(s)?.replace(",".toRegex(), ".")
+        return mFormat.format(s).replace(",".toRegex(), ".")
     }
 
     fun format(s: Long): String? {
-        return mFormat.format(s)?.replace(",".toRegex(), ".")
+        return mFormat.format(s).replace(",".toRegex(), ".")
     }
 
     companion object {

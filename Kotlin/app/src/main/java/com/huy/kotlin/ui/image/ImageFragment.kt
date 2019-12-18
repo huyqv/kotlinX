@@ -37,24 +37,19 @@ class ImageFragment : ArchFragment<ImageVM>() {
         }
 
         swipeRefreshLayout.onRefresh {
-            viewModel.fetchImages(0, adapter.data)
+            viewModel.fetchImages(0)
         }
     }
 
     override fun onRegisterLiveData() {
 
-        /*  viewModel.fetchImages(1)
+        viewModel.fetchImages(0)
 
-          viewModel.imageLiveData.observe {
-              adapter.add(it)
-          }*/
-
-        viewModel.fetchImages(0, adapter.data)
-
-        viewModel.diffLiveData.nonNull {
-            it.dispatchUpdatesTo(adapter)
+        viewModel.imageLiveData.observe {
+            adapter.submitList(it)
             swipeRefreshLayout.isRefreshing = false
         }
+
     }
 
 }

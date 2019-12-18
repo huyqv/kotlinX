@@ -60,9 +60,7 @@ class AppEditText : AppCompatEditText, TextWatcher {
 
     override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
         // Remove line goes here to run only once
-        if (null != runnable) {
-            handle?.removeCallbacks(runnable)
-        }
+        runnable?.also { handle?.removeCallbacks(it) }
     }
 
     override fun afterTextChanged(s: Editable) {

@@ -188,9 +188,9 @@ fun String?.rgbToHex(): String {
     return if (m.matches()) {
         String.format(
                 "#%02x%02x%02x",
-                m.group(1).toInt(),
-                m.group(2).toInt(),
-                m.group(3).toInt()
+                m.group(1)?.toInt(),
+                m.group(2)?.toInt(),
+                m.group(3)?.toInt()
         )
     } else "#000"
 }

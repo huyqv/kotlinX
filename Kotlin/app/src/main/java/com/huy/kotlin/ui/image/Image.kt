@@ -1,8 +1,8 @@
 package com.huy.kotlin.ui.image
 
+import androidx.recyclerview.widget.DiffUtil
 import com.google.gson.annotations.SerializedName
 import com.huy.kotlin.ui.image_owner.ImageOwner
-import com.huy.library.extension.SimpleDiffCallback
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -19,9 +19,15 @@ data class Image(
 
     override fun getImageUrl() = url
 
-    class DiffCallback(oldList: Collection<Image>, newList: Collection<Image>) : SimpleDiffCallback<Image>(oldList, newList) {
-        override fun areItemSame(old: Image, new: Image) : Boolean{
-            return old.id == new.id
+
+    class ItemCallback : DiffUtil.ItemCallback<Image>() {
+        override fun areItemsTheSame(oldItem: Image, newItem: Image): Boolean {
+            return oldItem.id === newItem.id
         }
+
+        override fun areContentsTheSame(oldItem: Image, newItem: Image): Boolean {
+            return oldItem.id === newItem.id
+        }
+
     }
 }

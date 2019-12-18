@@ -2,7 +2,7 @@ package com.huy.kotlin.ui.image
 
 import android.view.View
 import com.huy.kotlin.R
-import com.huy.kotlin.base.adapter.BaseRecyclerAdapter
+import com.huy.kotlin.base.adapter.BaseListAdapter
 import com.huy.kotlin.extension.loadImage
 import kotlinx.android.synthetic.main.item_image.view.*
 
@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.item_image.view.*
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-class ImageAdapter : BaseRecyclerAdapter<Image>() {
+class ImageAdapter : BaseListAdapter<Image>(Image.ItemCallback()) {
 
     //override var blankLayoutResource = R.layout.item_blank
 

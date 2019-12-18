@@ -5,7 +5,10 @@ import android.view.View
 import com.huy.kotlin.R
 import com.huy.kotlin.base.dialog.*
 import com.huy.kotlin.base.view.BaseFragment
-import com.huy.library.extension.*
+import com.huy.library.extension.showConfirmDialog
+import com.huy.library.extension.showDialog
+import com.huy.library.extension.showMessageDialog
+import com.huy.library.extension.toast
 import kotlinx.android.synthetic.main.fragment_dialogs.*
 
 /**
@@ -24,7 +27,7 @@ class DialogsFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         addClickListener(circularProgress, appBarProgress, topProgress, bottomProgress,
-                defaultProgress, horizontalProgressDialog, message, confirm, allConfig)
+                customConfirm, customMessage, message, confirm, allConfig)
     }
 
     override fun onViewClick(view: View) {
@@ -37,10 +40,6 @@ class DialogsFragment : BaseFragment() {
             topProgress -> ProgressDialog(activity!!).show()
 
             bottomProgress -> ProgressBottomDialog(activity!!).show()
-
-            defaultProgress -> context?.getProgressDialog()?.show()
-
-            horizontalProgressDialog -> LoadingDialog(activity!!).show()
 
             message -> context?.showMessageDialog(null, "Message")
 

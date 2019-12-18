@@ -9,7 +9,6 @@ import android.os.Build
 import android.provider.MediaStore
 import android.text.TextUtils
 import android.util.Base64
-import android.util.Log
 import android.view.View
 import androidx.annotation.DrawableRes
 import com.huy.library.Library
@@ -416,7 +415,6 @@ object Image {
         try {
             val outputStream = ByteArrayOutputStream()
             bitmap.compress(format, quality, outputStream)
-
             val path = MediaStore.Images.Media.insertImage(Library.app.contentResolver, bitmap, "", null)
             safeClose(outputStream)
             return Uri.parse(path)
@@ -791,7 +789,7 @@ object Image {
                 data = nv21toJpeg(yuv420toNv21(image), image.width, image.height, 100)
             }
         } catch (ex: Exception) {
-            Log.e("ImagetoByteArray", ex.message)
+
         }
 
         return data

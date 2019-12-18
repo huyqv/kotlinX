@@ -4,9 +4,9 @@ import android.os.Build
 import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import com.huy.kotlin.R
+import com.huy.library.extension.color
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -25,19 +25,15 @@ class ProgressDialog(activity: FragmentActivity?) : BaseDialog(activity) {
     override fun View.onViewCreated() {
 
         val window = self?.window ?: return
-        val layoutParams: WindowManager.LayoutParams = window.attributes ?: return
-
-        layoutParams.gravity = Gravity.TOP
-        layoutParams.flags = layoutParams.flags and WindowManager.LayoutParams.FLAG_DIM_BEHIND.inv()
-        layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT
-        layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT
+        val wlp = window.attributes
+        wlp.gravity = Gravity.TOP
+        window.attributes = wlp
 
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window.statusBarColor = ContextCompat.getColor(window.context, R.color.colorPrimary)
+            window.statusBarColor = color(R.color.colorPrimary)
         }
-        window.attributes = layoutParams
-        disableOnTouchOutside()
+        window.attributes = wlp
     }
 
 }

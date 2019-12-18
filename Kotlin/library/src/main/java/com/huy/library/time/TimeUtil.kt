@@ -35,7 +35,7 @@ object TimeUtil {
     fun millis(dateTimeText: String?, format: String): Long? {
         if (dateTimeText.isNullOrEmpty()) return null
         return try {
-            SimpleDateFormat(format).parse(dateTimeText).time
+            SimpleDateFormat(format).parse(dateTimeText)?.time
         } catch (ignore: ParseException) {
             null
         }
@@ -43,7 +43,7 @@ object TimeUtil {
 
     fun millis(dateTimeText: String, format: SimpleDateFormat): Long {
         return try {
-            format.parse(dateTimeText).time
+            format.parse(dateTimeText)?.time ?: 0
         } catch (e: ParseException) {
             0
         } catch (e: InvocationTargetException) {

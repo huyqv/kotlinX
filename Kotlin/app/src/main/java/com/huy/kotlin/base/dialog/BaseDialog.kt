@@ -7,6 +7,7 @@ import androidx.annotation.LayoutRes
 import androidx.annotation.StyleRes
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.FragmentActivity
+import com.huy.kotlin.R
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -34,7 +35,7 @@ abstract class BaseDialog {
     }
 
     @StyleRes
-    protected open fun theme(): Int = 0
+    protected open fun theme() = R.style.Dialog_Custom
 
     @LayoutRes
     protected abstract fun layoutRes(): Int

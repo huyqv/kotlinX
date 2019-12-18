@@ -39,16 +39,6 @@
                 android:text="Bottom Progress" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/defaultProgress"
-                style="@style/Button.Match"
-                android:text="Progress (Deprecated)" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/horizontalProgressDialog"
-                style="@style/Button.Match"
-                android:text="Horizontal Progress (Deprecated)" />
-
-            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/message"
                 style="@style/Button.Match"
                 android:text="Message" />

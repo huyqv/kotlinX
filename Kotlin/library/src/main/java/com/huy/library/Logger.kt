@@ -51,7 +51,7 @@ open class Logger {
     }
 
     fun e(string: String?) {
-        if (enable && string.isNullOrEmpty()) Log.e(tag, string)
+        if (enable && string.isNullOrEmpty()) Log.e(tag, string!!)
     }
 
     fun e(throwable: Throwable?) {

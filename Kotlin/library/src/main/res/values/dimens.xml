@@ -24,5 +24,6 @@
     <dimen name="extraText">@dimen/_17ssp</dimen>
 
     <dimen name="smallRadius">@dimen/_7sdp</dimen>
+    <dimen name="mediumRadius">@dimen/_11sdp</dimen>
 
 </resources>

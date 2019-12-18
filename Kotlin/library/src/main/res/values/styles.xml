@@ -68,16 +68,27 @@
 
 
     <!-- Custom Dialog. -->
-    <style name="Dialog" />
+    <style name="Dialog">
+        <!--<item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>-->
+    </style>
+
+    <style name="Dialog.Custom" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:windowBackground">@null</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowMinWidthMajor">60%</item>
+        <item name="android:windowMinWidthMinor">60%</item>
+    </style>
 
     <style name="Dialog.Progress" parent="Theme.AppCompat.Light.Dialog">
         <item name="android:windowNoTitle">true</item>
-        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
         <item name="android:windowBackground">@null</item>
         <item name="android:backgroundDimEnabled">false</item>
     </style>
 
-    <style name="Dialog.FullScreen" parent="Dialog.Progress">
+    <style name="Dialog.FullScreen" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@color/colorTransparent</item>
+        <item name="android:backgroundDimEnabled">false</item>
         <item name="android:windowIsFloating">false</item>
     </style>
 
