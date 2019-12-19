@@ -41,4 +41,5 @@ abstract class ArchFragment<VM : BaseViewModel> : BaseFragment() {
         return ViewModelProviders.of(this).get(cls)
     }
 
+
 }

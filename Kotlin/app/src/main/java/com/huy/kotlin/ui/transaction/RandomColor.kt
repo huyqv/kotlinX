@@ -23,9 +23,14 @@ object RandomColor {
 
     private fun getColors(color: Int): MutableList<Int> {
         val colors = mutableListOf(
-                R.color.colorTurquoise, R.color.colorPeterRiver,
-                R.color.colorPink, R.color.colorGold, R.color.colorCarrot,
-                R.color.colorIndianRed, R.color.colorGrey, R.color.colorPrimary
+                R.color.colorTurquoise,
+                R.color.colorPeterRiver,
+                R.color.colorPink,
+                R.color.colorGold,
+                R.color.colorCarrot,
+                R.color.colorIndianRed,
+                R.color.colorGrey,
+                R.color.colorPrimary
         )
         colors.remove(color)
         return colors

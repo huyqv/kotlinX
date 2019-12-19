@@ -4,13 +4,26 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
-import androidx.recyclerview.widget.*
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.huy.kotlin.R
 import com.huy.library.extension.preventClick
 
 
-abstract class BaseListAdapter<T>(itemCallback: DiffUtil.ItemCallback<T>) : ListAdapter<T, RecyclerView.ViewHolder>(itemCallback) {
+/**
+ * -------------------------------------------------------------------------------------------------
+ * @Project: Kotlin
+ * @Created: Huy QV 2017/10/18
+ * @Description: ...
+ * None Right Reserved
+ * -------------------------------------------------------------------------------------------------
+ */
+abstract class BaseListAdapter<T> : ListAdapter<T, RecyclerView.ViewHolder> {
 
+
+    constructor(itemCallback: DiffItemCallback<T> = DiffItemCallback()) : super(itemCallback)
 
     /**
      * [BaseRecyclerAdapter] abstract function for initialize recycler view type.
@@ -30,15 +43,15 @@ abstract class BaseListAdapter<T>(itemCallback: DiffUtil.ItemCallback<T>) : List
      */
     override fun getItemCount(): Int {
 
-        return if (blankLayoutResource != 0 || footerLayoutResource != 0) sizeCache + 1
-        else sizeCache
+        return if (blankLayoutResource != 0 || footerLayoutResource != 0) size + 1
+        else size
     }
 
     override fun getItemViewType(position: Int): Int {
 
         if (dataIsEmpty && blankLayoutResource != 0) return blankLayoutResource
 
-        if (dataNotEmpty && footerLayoutResource != 0 && position == sizeCache) return footerLayoutResource
+        if (dataNotEmpty && footerLayoutResource != 0 && position == size) return footerLayoutResource
 
         val model = get(position) ?: return R.layout.view_gone
 
@@ -99,12 +112,12 @@ abstract class BaseListAdapter<T>(itemCallback: DiffUtil.ItemCallback<T>) : List
 
     open fun showFooter(@LayoutRes res: Int) {
         footerLayoutResource = res
-        notifyItemChanged(sizeCache)
+        notifyItemChanged(size)
     }
 
     open fun hideFooter() {
         footerLayoutResource = 0
-        notifyItemChanged(sizeCache)
+        notifyItemChanged(size)
     }
 
 
@@ -149,154 +162,114 @@ abstract class BaseListAdapter<T>(itemCallback: DiffUtil.ItemCallback<T>) : List
     /**
      * Data list handle.
      */
-    var data: MutableList<T> = mutableListOf()
+    open val size: Int get() = currentList.size
 
-    var sizeCache = 0
+    open val dataIsEmpty: Boolean get() = currentList.isEmpty()
 
-    open val dataIsEmpty: Boolean get() = data.isEmpty()
+    open val dataNotEmpty: Boolean get() = currentList.isNotEmpty()
 
-    open val dataNotEmpty: Boolean get() = data.isNotEmpty()
-
-    open val lastPosition: Int get() = if (data.isEmpty()) -1 else (data.size - 1)
+    open val lastPosition: Int get() = if (currentList.isEmpty()) -1 else (currentList.size - 1)
 
     open fun indexInBound(position: Int): Boolean {
-        return position > -1 && position < sizeCache
+        return position > -1 && position < size
+    }
+
+    open fun indexOutBound(position: Int): Boolean {
+        return position < 0 || position >= size
+    }
+
+    open fun submit() {
+        set(currentList)
     }
 
     open fun get(position: Int): T? {
-        if (indexInBound(position)) return data[position]
+        if (indexInBound(position)) return currentList[position]
         return null
     }
 
-    open fun resize() {
-        sizeCache = data.size
-    }
-
-    open fun update(collection: Collection<T>?) {
-        data = collection?.toMutableList() ?: mutableListOf()
-        lastIndexed = -1
-    }
-
     open fun set(collection: Collection<T>?) {
-        update(collection)
-        notifyDataChanged()
+        lastIndexed = -1
+        submitList(if (collection != null) ArrayList(collection) else null)
     }
 
-    open fun set(collection: MutableList<T>?) {
-        data = collection ?: mutableListOf()
+    open fun set(list: MutableList<T>?) {
         lastIndexed = -1
-        notifyDataChanged()
+        submitList(if (list != null) ArrayList(list) else null)
     }
 
     open fun set(array: Array<T>?) {
-        data = array?.toMutableList() ?: mutableListOf()
         lastIndexed = -1
-        notifyDataChanged()
+        submitList(array?.toList())
     }
 
     open fun set(model: T?) {
-        data = if (model == null) mutableListOf()
-        else mutableListOf(model)
         lastIndexed = -1
-        notifyDataChanged()
+        submitList(if (model != null) listOf(model) else null)
     }
 
     open fun setElseEmpty(collection: Collection<T>?) {
         if (collection.isNullOrEmpty()) return
-        data = collection.toMutableList()
-        lastIndexed = -1
-        notifyDataChanged()
+        submitList(ArrayList(collection))
     }
 
-    open fun setElseEmpty(mutableList: MutableList<T>?) {
-        if (mutableList.isNullOrEmpty()) return
-        data = mutableList
-        lastIndexed = -1
-        resize()
-        notifyDataSetChanged()
+    open fun setElseEmpty(list: MutableList<T>?) {
+        if (list.isNullOrEmpty()) return
+        submitList(ArrayList(list))
     }
 
     open fun setElseEmpty(array: Array<T>?) {
-        if (array == null || array.isEmpty()) return
-        data = array.toMutableList()
-        lastIndexed = -1
-        notifyDataChanged()
+        if (array.isNullOrEmpty()) return
+        submitList(array.toList())
     }
 
     open fun setElseEmpty(model: T?) {
         model ?: return
-        data = mutableListOf(model)
-        lastIndexed = -1
-        notifyDataChanged()
+        submitList(listOf(model))
     }
 
     open fun add(collection: Collection<T>?) {
         if (collection.isNullOrEmpty()) return
-        data.addAll(collection)
-        notifyRangeChanged()
+        currentList.addAll(collection)
+        submit()
     }
 
     open fun add(array: Array<T>?) {
         if (array == null || array.isEmpty()) return
-        data.addAll(array)
-        notifyRangeChanged()
+        currentList.addAll(array)
+        submit()
     }
 
     open fun add(model: T?) {
         model ?: return
-        data.add(model)
-        notifyRangeChanged()
+        currentList.add(model)
+        submit()
     }
 
     open fun addFirst(model: T?) {
         model ?: return
-        data.add(0, model)
-        notifyDataChanged()
+        currentList.add(0, model)
+        submit()
     }
 
     open fun edit(index: Int, model: T?) {
         model ?: return
         if (indexInBound(index)) {
-            data[index] = model
-            notifyItemChanged(index)
+            currentList[index] = model
+            submit()
         }
     }
 
     open fun remove(index: Int) {
-        data.removeAt(index)
-        resize()
-        notifyItemRemoved(index)
+        currentList.removeAt(index)
+        submit()
     }
 
     open fun remove(model: T?) {
         model ?: return
-        val index = data.indexOf(model)
+        val index = currentList.indexOf(model)
         if (indexInBound(index)) {
-            data.remove(model)
-            resize()
-            notifyItemRemoved(index)
+            currentList.remove(model)
         }
-    }
-
-    open fun clear() {
-        data.clear()
-        notifyDataChanged()
-    }
-
-    open fun unBind() {
-        data = mutableListOf()
-        notifyDataChanged()
-    }
-
-    open fun notifyDataChanged() {
-        resize()
-        notifyDataSetChanged()
-    }
-
-    open fun notifyRangeChanged() {
-        val s = sizeCache
-        resize()
-        notifyItemRangeChanged(s, sizeCache + 1)
     }
 
     open fun bind(recyclerView: RecyclerView, block: (LinearLayoutManager.() -> Unit)? = null) {
@@ -312,7 +285,7 @@ abstract class BaseListAdapter<T>(itemCallback: DiffUtil.ItemCallback<T>) : List
         val layoutManager = GridLayoutManager(recyclerView.context, spanCount)
         layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
-                return if (dataIsEmpty || position == sizeCache) layoutManager.spanCount
+                return if (dataIsEmpty || position == size) layoutManager.spanCount
                 else 1
             }
         }

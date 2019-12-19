@@ -1,18 +1,14 @@
 package com.huy.kotlin.base.view
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
-import android.net.ConnectivityManager
 import android.os.Handler
 import android.os.SystemClock
 import android.view.View
-import androidx.annotation.IdRes
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LifecycleOwner
-import com.huy.kotlin.app.App
 import com.huy.kotlin.base.dialog.ConfirmDialog
 import com.huy.kotlin.base.dialog.MessageDialog
 import com.huy.kotlin.base.dialog.ProgressDialog
@@ -29,7 +25,11 @@ import com.huy.library.extension.*
 interface BaseView : LifecycleOwner {
 
 
-    fun fragmentActivity(): FragmentActivity?
+    val layoutResource: Int
+
+    val baseActivity: BaseActivity?
+
+    val fragmentActivity: FragmentActivity?
 
 
     /**
@@ -66,14 +66,14 @@ interface BaseView : LifecycleOwner {
 
     fun getProgress(): ProgressDialog {
         if (null == progressDialog) {
-            progressDialog = ProgressDialog(fragmentActivity())
+            progressDialog = ProgressDialog(fragmentActivity)
         }
         return progressDialog!!
     }
 
     fun showProgress() {
         if (progressDialog == null)
-            progressDialog = ProgressDialog(fragmentActivity())
+            progressDialog = ProgressDialog(fragmentActivity)
         getProgress().show()
     }
 
@@ -87,23 +87,22 @@ interface BaseView : LifecycleOwner {
     /**
      * Fragment utilities
      */
-    @IdRes
-    fun fragmentContainer(): Int?
+    val fragmentContainer: Int? get() = null
 
     fun add(fragment: Fragment, stack: Boolean = true) {
-        fragmentContainer()?.also {
-            fragmentActivity()?.addFragment(fragment, it, stack)
+        fragmentContainer?.also {
+            fragmentActivity?.addFragment(fragment, it, stack)
         }
     }
 
     fun replace(fragment: Fragment, stack: Boolean = true) {
-        fragmentContainer()?.also {
-            fragmentActivity()?.replaceFragment(fragment, it, stack)
+        fragmentContainer?.also {
+            fragmentActivity?.replaceFragment(fragment, it, stack)
         }
     }
 
     fun remove(cls: Class<*>) {
-        fragmentActivity()?.remove(cls)
+        fragmentActivity?.remove(cls)
     }
 
 
@@ -114,25 +113,13 @@ interface BaseView : LifecycleOwner {
 
     }
 
-    fun networkConnected(): Boolean {
-        val cm = App.instance.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val activeNetworkInfo = cm.activeNetworkInfo
-        val connected = activeNetworkInfo != null && activeNetworkInfo.isConnected
-        if (!connected) networkError()
-        return connected
-    }
-
-    fun networkDisconnected(): Boolean {
-        return !networkConnected()
-    }
-
     fun alert(@StringRes message: Int) {
         alert(string(message))
     }
 
     fun alert(message: String?) {
         message ?: return
-        MessageDialog(fragmentActivity()).run {
+        MessageDialog(fragmentActivity).run {
             message(message)
             show()
         }
@@ -144,7 +131,7 @@ interface BaseView : LifecycleOwner {
 
     fun alertConfirm(message: String?, block: () -> Unit) {
         message ?: return
-        ConfirmDialog(fragmentActivity()).run {
+        ConfirmDialog(fragmentActivity).run {
             message(message)
             onConfirm(block)
             show()
@@ -160,22 +147,22 @@ interface BaseView : LifecycleOwner {
      * Navigation utilities
      */
     fun getIntent(cls: Class<*>): Intent {
-        return Intent(fragmentActivity(), cls)
+        return Intent(fragmentActivity, cls)
     }
 
     fun start(cls: Class<*>) {
-        fragmentActivity()?.startActivity(Intent(fragmentActivity(), cls))
+        fragmentActivity?.startActivity(Intent(fragmentActivity, cls))
     }
 
     fun startFinish(cls: Class<*>) {
-        fragmentActivity()?.run {
-            startActivity(Intent(fragmentActivity(), cls))
+        fragmentActivity?.run {
+            startActivity(Intent(fragmentActivity, cls))
             finish()
         }
     }
 
     fun startClear(cls: Class<*>) {
-        fragmentActivity()?.run {
+        fragmentActivity?.run {
             val intent = Intent(this, cls)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
             this.startActivity(intent)
@@ -185,14 +172,12 @@ interface BaseView : LifecycleOwner {
     }
 
     fun moveTaskToBack() {
-        fragmentActivity()?.moveTaskToBack(true)
+        fragmentActivity?.moveTaskToBack(true)
     }
 
     fun popBackStack(cls: Class<*>) {
-        fragmentActivity()?.remove(cls)
+        fragmentActivity?.remove(cls)
     }
-
-    fun popBackStack()
 
 
 }

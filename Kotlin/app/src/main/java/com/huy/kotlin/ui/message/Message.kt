@@ -3,7 +3,7 @@ package com.huy.kotlin.ui.message
 import androidx.recyclerview.widget.DiffUtil
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
-import com.huy.kotlin.ui.image_owner.ImageOwner
+import com.huy.kotlin.ui.image_owner.WrapImage
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -23,9 +23,9 @@ data class Message(
         @SerializedName("url") @Expose val url: String?,
         @SerializedName("sticker") @Expose val sticker: String?,
         @SerializedName("time") @Expose var time: Long = 0
-) : ImageOwner {
+) : WrapImage() {
 
-    override fun getImageUrl() = image
+    override val wrapUrl: String? get() = url
 
     companion object {
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Message>() {

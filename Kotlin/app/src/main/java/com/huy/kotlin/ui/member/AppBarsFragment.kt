@@ -13,5 +13,5 @@ import com.huy.kotlin.base.view.BaseFragment
  */
 class AppBarsFragment : BaseFragment() {
 
-    override fun layoutResource() = R.layout.fragment_appbars
+    override val layoutResource = R.layout.fragment_appbars
 }

@@ -22,7 +22,7 @@ class MyGlideApp : AppGlideModule()
 
 fun ImageView.loadUser(url: String?) {
     GlideApp.with(context).load(url)
-            .placeholder(R.color.colorLightGray).error(R.color.colorLightGray)
+            .placeholder(R.drawable.drw_oval_dashed).error(R.drawable.drw_oval_dashed)
             .override(this.width, this.height)
             .into(this)
 }

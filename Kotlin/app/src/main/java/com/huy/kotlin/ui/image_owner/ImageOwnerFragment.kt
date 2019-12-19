@@ -24,7 +24,7 @@ class ImageOwnerFragment : BaseFragment(), SimplePageChangeListener {
 
     private lateinit var adapter: ZoomImageAdapter
 
-    override fun layoutResource() = R.layout.fragment_image_view
+    override val layoutResource = R.layout.fragment_image_view
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -39,7 +39,7 @@ class ImageOwnerFragment : BaseFragment(), SimplePageChangeListener {
         }
 
         imageView_viewPager.adapter = adapter
-        imageView_view_back.setOnClickListener { popBackStack() }
+        imageView_view_back.setOnClickListener { onBackPressed() }
         imageView_viewPager.currentItem = adapter.selectedPosition()
     }
 
@@ -49,29 +49,29 @@ class ImageOwnerFragment : BaseFragment(), SimplePageChangeListener {
 
     companion object {
 
-        fun newInstance(data: List<ImageOwner>, imageOwner: ImageOwner? = null): ImageOwnerFragment {
+        fun newInstance(data: List<WrapImage>, wrapImage: WrapImage? = null): ImageOwnerFragment {
             require(data.isNotEmpty()) { "ImageOwnerFragment - Data must be not null or empty" }
             return ImageOwnerFragment().apply {
                 adapter = ZoomImageAdapter()
                 adapter.set(data)
-                adapter.selectedItem = imageOwner
+                adapter.selectedItem = wrapImage
             }
         }
 
-        fun newInstance(imageOwner: ImageOwner): ImageOwnerFragment {
+        fun newInstance(wrapImage: WrapImage): ImageOwnerFragment {
             return ImageOwnerFragment().apply {
                 adapter = ZoomImageAdapter()
-                adapter.set(imageOwner)
+                adapter.set(wrapImage)
             }
         }
     }
 
-    internal class ZoomImageAdapter : BasePagerAdapter<ImageOwner>() {
+    internal class ZoomImageAdapter : BasePagerAdapter<WrapImage>() {
 
         override fun layoutRes() = R.layout.item_zoom_image
 
-        override fun View.onBind(model: ImageOwner) {
-            zoomImageView.load("${BuildConfig.SERVICE_URL}${model.getImageUrl()}")
+        override fun View.onBind(model: WrapImage) {
+            zoomImageView.load("${BuildConfig.SERVICE_URL}${model.wrapUrl}")
         }
     }
 }

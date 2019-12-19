@@ -1,12 +1,13 @@
 package com.huy.kotlin.base.view
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.LayoutRes
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LiveData
@@ -25,38 +26,34 @@ import com.tbruyelle.rxpermissions2.RxPermissions
 abstract class BaseFragment : Fragment(), BaseView {
 
 
-    override var onViewClick: View.OnClickListener? = null
-
-    override var progressDialog: ProgressDialog? = null
-        get() = activity()?.getProgress()
-
-    @LayoutRes
-    abstract fun layoutResource(): Int
-
-
     /**
      * [BaseView] implement
      */
-    override fun fragmentActivity(): FragmentActivity? {
-        return activity
-    }
+    override val baseActivity: BaseActivity? get() = activity as? BaseActivity
 
-    override fun fragmentContainer(): Int? {
-        return activity()?.fragmentContainer()
-    }
+    override val fragmentActivity: FragmentActivity? get() = requireActivity()
 
-    override fun onViewClick(view: View) {
-    }
+    override var onViewClick: View.OnClickListener? = null
 
-    override fun popBackStack() {
-        activity()?.popBackStack()
-    }
+    override var progressDialog: ProgressDialog? = null
+        get() = baseActivity?.getProgress()
+
 
     /**
      * [Fragment] override
      */
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        requireActivity().onBackPressedDispatcher.addCallback(this,
+                object : OnBackPressedCallback(true) {
+                    override fun handleOnBackPressed() {
+                        onBackPressed()
+                    }
+                })
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(layoutResource(), container, false)
+        val view = inflater.inflate(layoutResource, container, false)
         view.setOnTouchListener { _, _ -> true }
         return view
     }
@@ -73,6 +70,9 @@ abstract class BaseFragment : Fragment(), BaseView {
         }
     }
 
+    override fun onViewClick(view: View) {
+    }
+
 
     /**
      * [BaseFragment] utilities
@@ -86,8 +86,8 @@ abstract class BaseFragment : Fragment(), BaseView {
                 .subscribe { granted -> if (granted) block() }
     }
 
-    open fun activity(): BaseActivity? {
-        return activity as? BaseActivity
+    open fun onBackPressed() {
+        popBackStack(this::class.java)
     }
 
 
@@ -101,5 +101,6 @@ abstract class BaseFragment : Fragment(), BaseView {
     fun <T> LiveData<T?>.nonNull(block: (T) -> Unit) {
         observe(viewLifecycleOwner, Observer { if (null != it) block(it) })
     }
+
 
 }

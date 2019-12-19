@@ -17,7 +17,7 @@ class UserFragment : ArchFragment<UserVM>() {
 
     private val adapter = UserAdapter()
 
-    override fun layoutResource() = R.layout.fragment_load_more
+    override val layoutResource = R.layout.fragment_load_more
 
     override fun viewModelClass() = UserVM::class.java
 

@@ -18,9 +18,9 @@ import kotlinx.android.synthetic.main.activity_translate.*
  */
 class TranslateActivity : BaseActivity() {
 
-    override fun layoutResource() = R.layout.activity_translate
+    override val layoutResource = R.layout.activity_translate
 
-    override fun fragmentContainer() = R.id.container
+    override val fragmentContainer = R.id.container
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

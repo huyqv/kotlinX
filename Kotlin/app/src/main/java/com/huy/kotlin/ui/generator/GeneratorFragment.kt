@@ -24,7 +24,7 @@ class GeneratorFragment : BaseFragment(), DataReceiver<User> {
 
     private lateinit var dataGenerator: UserGenerator
 
-    override fun layoutResource() = R.layout.fragment_generator
+    override val layoutResource = R.layout.fragment_generator
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

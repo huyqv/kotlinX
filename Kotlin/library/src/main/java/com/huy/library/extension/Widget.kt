@@ -3,8 +3,7 @@ package com.huy.library.extension
 import android.annotation.TargetApi
 import android.app.Activity
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.Color
+import android.graphics.*
 import android.os.Build
 import android.os.Handler
 import android.text.Html
@@ -52,12 +51,23 @@ fun EditText?.showKeyboard() {
 /**
  * @ImageView
  */
-fun ImageView.setTintColor(color: String) {
-    post { this.setColorFilter(Color.parseColor(color)) }
+fun ImageView.tintColor(color: String) {
+    tintColor(Color.parseColor(color))
 }
 
-fun ImageView.setTintColor(@ColorRes color: Int) {
-    post { this.setColorFilter(color) }
+fun ImageView.tintColorRes(@ColorRes color: Int) {
+    tintColor(color(color))
+}
+
+fun ImageView.tintColor(color: Int) {
+    post {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            background.colorFilter = BlendModeColorFilter(color, BlendMode.SRC_ATOP)
+        } else {
+            @Suppress("DEPRECATION")
+            background.setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
+        }
+    }
 }
 
 fun ImageView.postImage(@DrawableRes drawableRes: Int) {

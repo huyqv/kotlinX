@@ -39,15 +39,15 @@ abstract class BaseRecyclerAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHo
      */
     override fun getItemCount(): Int {
 
-        return if (blankLayoutResource != 0 || footerLayoutResource != 0) sizeCache + 1
-        else sizeCache
+        return if (blankLayoutResource != 0 || footerLayoutResource != 0) size + 1
+        else size
     }
 
     override fun getItemViewType(position: Int): Int {
 
         if (dataIsEmpty && blankLayoutResource != 0) return blankLayoutResource
 
-        if (dataNotEmpty && footerLayoutResource != 0 && position == sizeCache) return footerLayoutResource
+        if (dataNotEmpty && footerLayoutResource != 0 && position == size) return footerLayoutResource
 
         val model = get(position) ?: return R.layout.view_gone
 
@@ -108,12 +108,12 @@ abstract class BaseRecyclerAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHo
 
     open fun showFooter(@LayoutRes res: Int) {
         footerLayoutResource = res
-        notifyItemChanged(sizeCache)
+        notifyItemChanged(size)
     }
 
     open fun hideFooter() {
         footerLayoutResource = 0
-        notifyItemChanged(sizeCache)
+        notifyItemChanged(size)
     }
 
 
@@ -158,154 +158,138 @@ abstract class BaseRecyclerAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHo
     /**
      * Data list handle.
      */
-    var data: MutableList<T> = mutableListOf()
+    private val emptyData: MutableList<T> = mutableListOf()
 
-    var sizeCache = 0
+    var currentList: MutableList<T> = mutableListOf()
 
-    open val dataIsEmpty: Boolean get() = data.isEmpty()
+    open val size: Int get() = currentList.size
 
-    open val dataNotEmpty: Boolean get() = data.isNotEmpty()
+    open val dataIsEmpty: Boolean get() = currentList.isEmpty()
 
-    open val lastPosition: Int get() = if (data.isEmpty()) -1 else (data.size - 1)
+    open val dataNotEmpty: Boolean get() = currentList.isNotEmpty()
+
+    open val lastPosition: Int get() = if (currentList.isEmpty()) -1 else (currentList.size - 1)
 
     open fun indexInBound(position: Int): Boolean {
-        return position > -1 && position < sizeCache
+        return position > -1 && position < size
+    }
+
+    open fun indexOutBound(position: Int): Boolean {
+        return position < 0 || position >= size
     }
 
     open fun get(position: Int): T? {
-        if (indexInBound(position)) return data[position]
+        if (indexInBound(position)) return currentList[position]
         return null
     }
 
-    open fun resize() {
-        sizeCache = data.size
-    }
-
-    open fun update(collection: Collection<T>?) {
-        data = collection?.toMutableList() ?: mutableListOf()
-        lastIndexed = -1
-    }
-
     open fun set(collection: Collection<T>?) {
-        update(collection)
-        notifyDataChanged()
+        currentList = collection?.toMutableList() ?: emptyData
+        lastIndexed = -1
+        notifyDataSetChanged()
     }
 
-    open fun set(collection: MutableList<T>?) {
-        data = collection ?: mutableListOf()
+    open fun set(list: MutableList<T>?) {
+        currentList = list ?: emptyData
         lastIndexed = -1
-        notifyDataChanged()
+        notifyDataSetChanged()
     }
 
     open fun set(array: Array<T>?) {
-        data = array?.toMutableList() ?: mutableListOf()
+        currentList = array?.toMutableList() ?: emptyData
         lastIndexed = -1
-        notifyDataChanged()
+        notifyDataSetChanged()
     }
 
     open fun set(model: T?) {
-        data = if (model == null) mutableListOf()
+        currentList = if (model == null) emptyData
         else mutableListOf(model)
         lastIndexed = -1
-        notifyDataChanged()
+        notifyDataSetChanged()
     }
 
     open fun setElseEmpty(collection: Collection<T>?) {
         if (collection.isNullOrEmpty()) return
-        data = collection.toMutableList()
+        currentList = collection.toMutableList()
         lastIndexed = -1
-        notifyDataChanged()
+        notifyDataSetChanged()
     }
 
-    open fun setElseEmpty(mutableList: MutableList<T>?) {
-        if (mutableList.isNullOrEmpty()) return
-        data = mutableList
+    open fun setElseEmpty(list: MutableList<T>?) {
+        if (list.isNullOrEmpty()) return
+        currentList = list
         lastIndexed = -1
-        resize()
         notifyDataSetChanged()
     }
 
     open fun setElseEmpty(array: Array<T>?) {
         if (array == null || array.isEmpty()) return
-        data = array.toMutableList()
+        currentList = array.toMutableList()
         lastIndexed = -1
-        notifyDataChanged()
+        notifyDataSetChanged()
     }
 
     open fun setElseEmpty(model: T?) {
         model ?: return
-        data = mutableListOf(model)
+        currentList = mutableListOf(model)
         lastIndexed = -1
-        notifyDataChanged()
+        notifyDataSetChanged()
     }
 
     open fun add(collection: Collection<T>?) {
         if (collection.isNullOrEmpty()) return
-        data.addAll(collection)
-        notifyRangeChanged()
+        currentList.addAll(collection)
+        notifyDataSetChanged()
     }
 
     open fun add(array: Array<T>?) {
         if (array == null || array.isEmpty()) return
-        data.addAll(array)
-        notifyRangeChanged()
+        currentList.addAll(array)
+        notifyDataSetChanged()
     }
 
     open fun add(model: T?) {
         model ?: return
-        data.add(model)
-        notifyRangeChanged()
+        currentList.add(model)
+        notifyDataSetChanged()
     }
 
     open fun addFirst(model: T?) {
         model ?: return
-        data.add(0, model)
-        notifyDataChanged()
+        currentList.add(0, model)
+        notifyDataSetChanged()
     }
 
     open fun edit(index: Int, model: T?) {
         model ?: return
         if (indexInBound(index)) {
-            data[index] = model
+            currentList[index] = model
             notifyItemChanged(index)
         }
     }
 
     open fun remove(index: Int) {
-        data.removeAt(index)
-        resize()
+        currentList.removeAt(index)
         notifyItemRemoved(index)
     }
 
     open fun remove(model: T?) {
         model ?: return
-        val index = data.indexOf(model)
+        val index = currentList.indexOf(model)
         if (indexInBound(index)) {
-            data.remove(model)
-            resize()
+            currentList.remove(model)
             notifyItemRemoved(index)
         }
     }
 
     open fun clear() {
-        data.clear()
-        notifyDataChanged()
-    }
-
-    open fun unBind() {
-        data = mutableListOf()
-        notifyDataChanged()
-    }
-
-    open fun notifyDataChanged() {
-        resize()
+        currentList.clear()
         notifyDataSetChanged()
     }
 
-    open fun notifyRangeChanged() {
-        val s = sizeCache
-        resize()
-        notifyItemRangeChanged(s, sizeCache + 1)
+    open fun unBind() {
+        currentList = emptyData
+        notifyDataSetChanged()
     }
 
     open fun bind(recyclerView: RecyclerView, block: (LinearLayoutManager.() -> Unit)? = null) {
@@ -321,7 +305,7 @@ abstract class BaseRecyclerAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHo
         val layoutManager = GridLayoutManager(recyclerView.context, spanCount)
         layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
-                return if (dataIsEmpty || position == sizeCache) layoutManager.spanCount
+                return if (dataIsEmpty || position == size) layoutManager.spanCount
                 else 1
             }
         }

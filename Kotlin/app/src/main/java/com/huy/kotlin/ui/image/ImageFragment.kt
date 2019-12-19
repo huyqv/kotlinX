@@ -20,25 +20,24 @@ class ImageFragment : ArchFragment<ImageVM>() {
 
     private val adapter = ImageAdapter()
 
-    override fun layoutResource() = R.layout.fragment_images
+    override val layoutResource = R.layout.fragment_images
 
     override fun viewModelClass() = ImageVM::class.java
 
     override fun onCreated(state: Bundle?) {
 
         adapter.bind(recyclerView, 3)
-
         adapter.onItemClick { image, _ ->
-            add(ImageOwnerFragment.newInstance(adapter.data, image))
+            add(ImageOwnerFragment.newInstance(adapter.currentList, image))
         }
-
-        adapter.onFooterIndexChange { _, i ->
-            viewModel.fetchImages(i / 10 + 1)
-        }
-
         swipeRefreshLayout.onRefresh {
             viewModel.fetchImages(0)
         }
+        /*adapter.onFooterIndexChange { _, i ->
+            viewModel.fetchImages(i / 10 + 1)
+        }*/
+
+
     }
 
     override fun onRegisterLiveData() {
@@ -46,7 +45,7 @@ class ImageFragment : ArchFragment<ImageVM>() {
         viewModel.fetchImages(0)
 
         viewModel.imageLiveData.observe {
-            adapter.submitList(it)
+            adapter.set(it)
             swipeRefreshLayout.isRefreshing = false
         }
 

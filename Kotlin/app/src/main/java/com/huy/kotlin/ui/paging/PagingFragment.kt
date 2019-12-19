@@ -18,7 +18,7 @@ class PagingFragment : ArchFragment<PagingVM>() {
 
     private var adapter = PagingAdapter()
 
-    override fun layoutResource() = R.layout.fragment_paging
+    override val layoutResource = R.layout.fragment_paging
 
     override fun viewModelClass() = PagingVM::class.java
 

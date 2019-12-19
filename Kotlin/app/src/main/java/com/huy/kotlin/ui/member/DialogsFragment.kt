@@ -21,7 +21,7 @@ import kotlinx.android.synthetic.main.fragment_dialogs.*
  */
 class DialogsFragment : BaseFragment() {
 
-    override fun layoutResource() = R.layout.fragment_dialogs
+    override val layoutResource = R.layout.fragment_dialogs
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -74,12 +74,12 @@ class DialogsFragment : BaseFragment() {
 
     }
 
-    override fun popBackStack() {
+    override fun onBackPressed() {
         if (appBarView.progressVisible) {
             appBarView.progressVisible = false
             return
         }
-        super.popBackStack()
+        super.onBackPressed()
     }
 
 }

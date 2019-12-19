@@ -1,8 +1,8 @@
 package com.huy.kotlin.ui.image
 
-import androidx.recyclerview.widget.DiffUtil
 import com.google.gson.annotations.SerializedName
-import com.huy.kotlin.ui.image_owner.ImageOwner
+import com.huy.kotlin.base.adapter.DiffItemCallback
+import com.huy.kotlin.ui.image_owner.WrapImage
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -15,19 +15,17 @@ import com.huy.kotlin.ui.image_owner.ImageOwner
 data class Image(
         @SerializedName("id") val id: Int,
         @SerializedName("url") val url: String
-) : ImageOwner {
+) : WrapImage() {
 
-    override fun getImageUrl() = url
+    override val wrapUrl: String? get() = url
 
-
-    class ItemCallback : DiffUtil.ItemCallback<Image>() {
+    class ItemCallback : DiffItemCallback<Image>() {
         override fun areItemsTheSame(oldItem: Image, newItem: Image): Boolean {
-            return oldItem.id === newItem.id
+            return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(oldItem: Image, newItem: Image): Boolean {
-            return oldItem.id === newItem.id
+            return oldItem.id == newItem.id
         }
-
     }
 }

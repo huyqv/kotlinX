@@ -18,7 +18,7 @@ class MessageFragment : ArchFragment<MessageVM>() {
 
     private val adapter = MessageAdapter()
 
-    override fun layoutResource() = R.layout.fragment_chat
+    override val layoutResource = R.layout.fragment_chat
 
     override fun viewModelClass() = MessageVM::class.java
 

@@ -21,9 +21,9 @@ class RotateImageView : AppCompatImageView {
 
     private var animation: ObjectAnimator? = null
 
-    constructor(context: Context?) : super(context)
+    constructor(context: Context) : super(context)
 
-    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
+    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()

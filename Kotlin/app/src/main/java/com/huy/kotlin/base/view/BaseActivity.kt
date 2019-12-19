@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LiveData
@@ -25,31 +24,18 @@ import com.tbruyelle.rxpermissions2.RxPermissions
 abstract class BaseActivity : AppCompatActivity(), BaseView {
 
 
-    override var progressDialog: ProgressDialog? = null
-
-    override var onViewClick: View.OnClickListener? = null
-
-    @LayoutRes
-    protected abstract fun layoutResource(): Int
-
-
     /**
      * [BaseView] implement
      */
-    override fun fragmentContainer(): Int? {
-        return null
-    }
+    override val baseActivity: BaseActivity? get() = this
 
-    override fun fragmentActivity(): FragmentActivity? {
-        return this
-    }
+    override val fragmentActivity: FragmentActivity? get() = this
 
-    override fun onViewClick(view: View) {
-    }
+    override val fragmentContainer: Int? = null
 
-    override fun popBackStack() {
-        super.onBackPressed()
-    }
+    override var onViewClick: View.OnClickListener? = null
+
+    override var progressDialog: ProgressDialog? = null
 
 
     /**
@@ -57,7 +43,7 @@ abstract class BaseActivity : AppCompatActivity(), BaseView {
      */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(layoutResource())
+        setContentView(layoutResource)
         App.instance.isForeground = true
     }
 
@@ -84,20 +70,7 @@ abstract class BaseActivity : AppCompatActivity(), BaseView {
         }
     }
 
-    override fun onBackPressed() {
-        val size = supportFragmentManager.fragments.size
-        if (supportFragmentManager.backStackEntryCount > 0) {
-            for (i in size - 1 downTo 0) {
-                val fragment = supportFragmentManager.fragments[i]
-                if (fragment is BaseView) {
-                    fragment.popBackStack()
-                    return
-                }
-            }
-            popBackStack()
-            return
-        }
-        popBackStack()
+    override fun onViewClick(view: View) {
     }
 
 

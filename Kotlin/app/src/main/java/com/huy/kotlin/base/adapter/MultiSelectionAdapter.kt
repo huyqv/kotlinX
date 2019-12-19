@@ -94,7 +94,7 @@ open class MultiSelectionAdapter<M> : BaseRecyclerAdapter<M>() {
         }
 
         if (list == null || list.isEmpty()) {
-            selectedItems = data
+            selectedItems = currentList
             notifyDataSetChanged()
         }
     }

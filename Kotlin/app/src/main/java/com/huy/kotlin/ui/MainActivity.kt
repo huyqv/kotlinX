@@ -25,9 +25,9 @@ import kotlinx.android.synthetic.main.activity_main.*
  */
 class MainActivity : ArchActivity<MainVM>() {
 
-    override fun layoutResource() = R.layout.activity_main
+    override val layoutResource = R.layout.activity_main
 
-    override fun fragmentContainer() = R.id.container
+    override val fragmentContainer = R.id.container
 
     override fun viewModelClass() = MainVM::class.java
 

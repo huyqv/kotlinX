@@ -7,12 +7,8 @@ import android.graphics.drawable.Drawable
 import android.util.DisplayMetrics
 import android.util.TypedValue
 import android.view.View
-import android.widget.Button
-import android.widget.CheckBox
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.annotation.DimenRes
-import androidx.annotation.IdRes
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -48,11 +44,6 @@ interface DragListener {
     fun onUpDrag()
 
     fun onDownDrag()
-}
-
-fun <T : RecyclerView.Adapter<RecyclerView.ViewHolder>> RecyclerView.currentAdapter(): T {
-    @Suppress("UNCHECKED_CAST")
-    return adapter as T
 }
 
 fun RecyclerView.addScrollListener(listener: ScrollListener?) {
@@ -130,38 +121,6 @@ fun RecyclerView.addDragListener(listener: DragListener?) {
         })
 }
 
-fun RecyclerView.ViewHolder.view(@IdRes idRes: Int): View {
-    return set(idRes)
-}
-
-fun RecyclerView.ViewHolder.button(@IdRes idRes: Int): Button {
-    return set(idRes)
-}
-
-fun RecyclerView.ViewHolder.textView(@IdRes idRes: Int): TextView {
-    return set(idRes)
-}
-
-fun RecyclerView.ViewHolder.imageView(@IdRes idRes: Int): ImageView {
-    return set(idRes)
-}
-
-fun RecyclerView.ViewHolder.checkBox(@IdRes idRes: Int): CheckBox {
-    return set(idRes)
-}
-
-fun <T : View> RecyclerView.ViewHolder.find(@IdRes resId: Int): Lazy<T> {
-
-    @Suppress("UNCHECKED_CAST")
-    return lazy(LazyThreadSafetyMode.NONE) { itemView.findViewById<T>(resId) }
-}
-
-fun <T : View> RecyclerView.ViewHolder.set(@IdRes resId: Int): T {
-
-    @Suppress("UNCHECKED_CAST")
-    return itemView.findViewById(resId)
-}
-
 fun RecyclerView.set(adapter: RecyclerView.Adapter<*>, block: (LinearLayoutManager.() -> Unit)? = null) {
     val lm = LinearLayoutManager(context)
     block?.let { lm.block() }
@@ -174,7 +133,7 @@ fun RecyclerView.set(adapter: BaseRecyclerAdapter<*>, spanCount: Int, includeEdg
     val layoutManager = GridLayoutManager(context, spanCount)
     layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
         override fun getSpanSize(position: Int): Int {
-            return if (adapter.dataIsEmpty || position == adapter.sizeCache) layoutManager.spanCount else 1
+            return if (adapter.dataIsEmpty || position == adapter.size) layoutManager.spanCount else 1
         }
     }
     block?.let { layoutManager.block() }
@@ -211,15 +170,22 @@ fun RecyclerView.set(adapter: BasePagedListAdapter<*>, spanCount: Int, includeEd
     this.adapter = adapter
 }
 
-fun RecyclerView.unBind() {
-    adapter = null
-}
-
-fun RecyclerView.bindBlank() {
-    adapter = BlankAdapter()
-}
-
 class ViewHolder(v: View) : RecyclerView.ViewHolder(v)
+
+open class DiffItemCallback<T> : DiffUtil.ItemCallback<T?>() {
+
+    override fun areItemsTheSame(oldItem: T, newItem: T): Boolean {
+        return false
+    }
+
+    override fun areContentsTheSame(oldItem: T, newItem: T): Boolean {
+        return false
+    }
+}
+
+class FooterItem
+
+class BlankItem
 
 class GridDecoration : RecyclerView.ItemDecoration {
 

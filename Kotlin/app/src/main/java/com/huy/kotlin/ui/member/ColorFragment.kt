@@ -22,7 +22,7 @@ class ColorFragment : BaseFragment() {
 
     var click: (() -> Unit)? = null
 
-    override fun layoutResource() = R.layout.fragment_color
+    override val layoutResource = R.layout.fragment_color
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -30,8 +30,9 @@ class ColorFragment : BaseFragment() {
         textView.setOnClickListener { click?.also { click!!() } }
     }
 
-    override fun popBackStack() {
-        toast("handle on back pressed")
-        super.popBackStack()
+    override fun onBackPressed() {
+        toast("onBackPressed")
+        super.onBackPressed()
     }
+
 }

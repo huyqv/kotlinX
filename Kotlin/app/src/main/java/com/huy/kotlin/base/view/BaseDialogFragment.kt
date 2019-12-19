@@ -1,15 +1,17 @@
 package com.huy.kotlin.base.view
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.LayoutRes
+import androidx.activity.OnBackPressedCallback
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -28,45 +30,35 @@ import com.tbruyelle.rxpermissions2.RxPermissions
 abstract class BaseDialogFragment : BottomSheetDialogFragment(), BaseView {
 
 
-    override var onViewClick: View.OnClickListener? = null
-
-    override var progressDialog: ProgressDialog? = null
-        get() = activity()?.getProgress()
-
-    @LayoutRes
-    abstract fun layoutResource(): Int
-
-
     /**
      * [BaseView] implement
      */
-    override fun fragmentActivity(): FragmentActivity? {
-        return requireActivity()
-    }
+    override val baseActivity: BaseActivity? get() = activity as? BaseActivity
 
-    override fun fragmentContainer(): Int? {
-        return activity()?.fragmentContainer()
-    }
+    override val fragmentActivity: FragmentActivity? get() = requireActivity()
 
-    override fun onViewClick(view: View) {
-    }
+    override var onViewClick: View.OnClickListener? = null
 
-    override fun popBackStack() {
-        activity()?.popBackStack()
-    }
+    override var progressDialog: ProgressDialog? = null
+        get() = baseActivity?.getProgress()
 
 
     /**
      * [BottomSheetDialogFragment] override
      */
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setStyle(DialogFragment.STYLE_NO_TITLE, R.style.Dialog_Fragment)
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        requireActivity().onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                onBackPressed()
+            }
+        })
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(layoutResource(), container, false)
+        val view = inflater.inflate(layoutResource, container, false)
         view.setOnTouchListener { _, _ -> true }
+        configDialog()
         return view
     }
 
@@ -75,16 +67,14 @@ abstract class BaseDialogFragment : BottomSheetDialogFragment(), BaseView {
         onViewClick = null
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        configDialog()
-    }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK && data != null) {
             onReceivedDataResult(requestCode, data)
         }
+    }
+
+    override fun onViewClick(view: View) {
     }
 
 
@@ -100,13 +90,25 @@ abstract class BaseDialogFragment : BottomSheetDialogFragment(), BaseView {
                 .subscribe { granted -> if (granted) block() }
     }
 
+    open fun onBackPressed() {
+        activity?.onBackPressed()
+    }
+
+
+    /**
+     * Observer
+     */
+    fun <T> LiveData<T?>.observe(block: (T?) -> Unit) {
+        observe(viewLifecycleOwner, Observer { block(it) })
+    }
+
+    fun <T> LiveData<T?>.nonNull(block: (T) -> Unit) {
+        observe(viewLifecycleOwner, Observer { if (null != it) block(it) })
+    }
+
     open fun show(activity: FragmentActivity?) {
         activity ?: return
         super.show(activity.supportFragmentManager, this.javaClass.simpleName)
-    }
-
-    open fun activity(): BaseActivity? {
-        return activity as? BaseActivity
     }
 
     private fun configDialog() {
@@ -117,4 +119,6 @@ abstract class BaseDialogFragment : BottomSheetDialogFragment(), BaseView {
         bottomSheetBehavior.peekHeight = bottomSheet.height
         coordinatorLayout.parent.requestLayout()
     }
+
+
 }

@@ -23,7 +23,7 @@ class AnimationFragment : BaseFragment() {
     )
     private val adapter = AnimationAdapter()
 
-    override fun layoutResource() = R.layout.fragment_animation
+    override val layoutResource = R.layout.fragment_animation
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
