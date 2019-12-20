@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <corners android:radius="@dimen/keyRadius" />
-    <stroke
-        android:width="@dimen/keyMargin"
-        android:color="@color/colorKeyBorder" />
-    <solid android:color="@color/colorKeyButton" />
-</shape>

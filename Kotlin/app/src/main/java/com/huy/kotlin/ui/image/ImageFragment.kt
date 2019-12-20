@@ -22,7 +22,7 @@ class ImageFragment : ArchFragment<ImageVM>() {
 
     override val layoutResource = R.layout.fragment_images
 
-    override fun viewModelClass() = ImageVM::class.java
+    override val viewModelClass = ImageVM::class.java
 
     override fun onCreated(state: Bundle?) {
 
@@ -33,11 +33,6 @@ class ImageFragment : ArchFragment<ImageVM>() {
         swipeRefreshLayout.onRefresh {
             viewModel.fetchImages(0)
         }
-        /*adapter.onFooterIndexChange { _, i ->
-            viewModel.fetchImages(i / 10 + 1)
-        }*/
-
-
     }
 
     override fun onRegisterLiveData() {

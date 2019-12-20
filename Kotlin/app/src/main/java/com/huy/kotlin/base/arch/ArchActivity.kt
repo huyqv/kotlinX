@@ -2,7 +2,7 @@ package com.huy.kotlin.base.arch
 
 import android.os.Bundle
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import com.huy.kotlin.base.view.BaseActivity
 import com.huy.kotlin.data.observable.AlertLiveData
 import com.huy.kotlin.data.observable.ProgressLiveData
@@ -19,9 +19,9 @@ import com.huy.library.extension.toast
  */
 abstract class ArchActivity<VM : BaseViewModel> : BaseActivity() {
 
-    protected lateinit var viewModel: VM
+    protected val viewModel: VM by lazy { viewModel(viewModelClass) }
 
-    protected abstract fun viewModelClass(): Class<VM>
+    protected abstract val viewModelClass: Class<VM>
 
     protected abstract fun onCreated(state: Bundle?)
 
@@ -29,8 +29,6 @@ abstract class ArchActivity<VM : BaseViewModel> : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        viewModel = viewModel(viewModelClass())
 
         viewModel.onStart()
 
@@ -57,7 +55,12 @@ abstract class ArchActivity<VM : BaseViewModel> : BaseActivity() {
     }
 
     fun <T : ViewModel> viewModel(cls: Class<T>): T {
-        return ViewModelProviders.of(this).get(cls)
+        return ViewModelProvider(this).get(cls)
     }
+
+    fun <T : ViewModel> instanceViewModel(cls: Class<T>): T {
+        return ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())[cls]
+    }
+
 
 }

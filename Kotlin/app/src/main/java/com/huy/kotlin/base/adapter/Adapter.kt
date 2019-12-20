@@ -172,7 +172,7 @@ fun RecyclerView.set(adapter: BasePagedListAdapter<*>, spanCount: Int, includeEd
 
 class ViewHolder(v: View) : RecyclerView.ViewHolder(v)
 
-open class DiffItemCallback<T> : DiffUtil.ItemCallback<T?>() {
+open class DiffItemCallback<T> : DiffUtil.ItemCallback<T>() {
 
     override fun areItemsTheSame(oldItem: T, newItem: T): Boolean {
         return false

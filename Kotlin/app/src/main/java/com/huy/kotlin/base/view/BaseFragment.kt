@@ -38,18 +38,21 @@ abstract class BaseFragment : Fragment(), BaseView {
     override var progressDialog: ProgressDialog? = null
         get() = baseActivity?.getProgress()
 
+    private val onBackPressedCallback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            if (onBackPressed()) {
+                this.remove()
+                activity?.supportFragmentManager?.popBackStack()
+            }
+        }
+    }
 
     /**
      * [Fragment] override
      */
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        requireActivity().onBackPressedDispatcher.addCallback(this,
-                object : OnBackPressedCallback(true) {
-                    override fun handleOnBackPressed() {
-                        onBackPressed()
-                    }
-                })
+        requireActivity().onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -86,8 +89,8 @@ abstract class BaseFragment : Fragment(), BaseView {
                 .subscribe { granted -> if (granted) block() }
     }
 
-    open fun onBackPressed() {
-        popBackStack(this::class.java)
+    open fun onBackPressed(): Boolean {
+        return true
     }
 
 

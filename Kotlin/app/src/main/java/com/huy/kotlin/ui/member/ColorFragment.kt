@@ -30,9 +30,9 @@ class ColorFragment : BaseFragment() {
         textView.setOnClickListener { click?.also { click!!() } }
     }
 
-    override fun onBackPressed() {
+    override fun onBackPressed(): Boolean {
         toast("onBackPressed")
-        super.onBackPressed()
+        return super.onBackPressed()
     }
 
 }

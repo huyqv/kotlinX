@@ -74,12 +74,12 @@ class DialogsFragment : BaseFragment() {
 
     }
 
-    override fun onBackPressed() {
+    override fun onBackPressed(): Boolean {
         if (appBarView.progressVisible) {
             appBarView.progressVisible = false
-            return
+            return false
         }
-        super.onBackPressed()
+        return super.onBackPressed()
     }
 
 }

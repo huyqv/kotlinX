@@ -76,8 +76,8 @@ abstract class BaseRecyclerAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHo
 
         val model = get(position) ?: return
 
-        if (position.isNotIndexed()) viewHolder.itemView.onBindModel(model, position, type)
-        else viewHolder.itemView.onFirstBindModel(model, position, type)
+        if (position.isNotIndexed()) viewHolder.itemView.onFirstBindModel(model, position, type)
+        else viewHolder.itemView.onBindModel(model, position, type)
 
         position.updateLastIndex()
 

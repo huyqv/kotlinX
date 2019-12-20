@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <dimen name="keyRadius">@dimen/_3sdp</dimen>
-    <dimen name="keyMargin">1dp</dimen>
-    <dimen name="keyRowHeight">@dimen/_32sdp</dimen>
-
-</resources>

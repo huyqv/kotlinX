@@ -19,34 +19,33 @@ import com.huy.library.extension.preventClick
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-abstract class BasePagedListAdapter<T> constructor(itemCallback: DiffUtil.ItemCallback<T>) :
-        PagedListAdapter<T, RecyclerView.ViewHolder>(itemCallback) {
+abstract class BasePagedListAdapter<T> : PagedListAdapter<T, RecyclerView.ViewHolder> {
+
 
     private val differ: AsyncPagedListDiffer<T>
 
-    init {
+    constructor(itemCallback: DiffUtil.ItemCallback<T> = DiffItemCallback()) : super(itemCallback) {
 
-        val adapterCallback = AdapterListUpdateCallback(this)
+        val adapterListUpdateCallback = AdapterListUpdateCallback(this)
 
-        val updateCallback = object : ListUpdateCallback {
+        val listUpdateCallback = object : ListUpdateCallback {
             override fun onChanged(position: Int, count: Int, payload: Any?) {
-                adapterCallback.onChanged(position, count, payload)
+                adapterListUpdateCallback.onChanged(position, count, payload)
             }
 
             override fun onMoved(fromPosition: Int, toPosition: Int) {
-                adapterCallback.onMoved(fromPosition, toPosition)
+                adapterListUpdateCallback.onMoved(fromPosition, toPosition)
             }
 
             override fun onInserted(position: Int, count: Int) {
-                adapterCallback.onInserted(position, count)
+                adapterListUpdateCallback.onInserted(position, count)
             }
 
             override fun onRemoved(position: Int, count: Int) {
-                adapterCallback.onRemoved(position, count)
+                adapterListUpdateCallback.onRemoved(position, count)
             }
         }
-
-        differ = AsyncPagedListDiffer<T>(updateCallback, AsyncDifferConfig.Builder<T>(itemCallback).build())
+        differ = AsyncPagedListDiffer<T>(listUpdateCallback, AsyncDifferConfig.Builder<T>(itemCallback).build())
     }
 
 

@@ -20,7 +20,7 @@ class PagingFragment : ArchFragment<PagingVM>() {
 
     override val layoutResource = R.layout.fragment_paging
 
-    override fun viewModelClass() = PagingVM::class.java
+    override val viewModelClass = PagingVM::class.java
 
     override fun onCreated(state: Bundle?) {
         recyclerView.set(adapter)

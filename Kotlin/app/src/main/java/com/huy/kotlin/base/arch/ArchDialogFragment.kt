@@ -3,7 +3,7 @@ package com.huy.kotlin.base.arch
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import com.huy.kotlin.base.view.BaseDialogFragment
 
 abstract class ArchDialogFragment<VM : BaseViewModel> : BaseDialogFragment() {
@@ -33,7 +33,12 @@ abstract class ArchDialogFragment<VM : BaseViewModel> : BaseDialogFragment() {
     }
 
     fun <T : ViewModel> viewModel(cls: Class<T>): T {
-        return ViewModelProviders.of(this).get(cls)
+        return ViewModelProvider(this).get(cls)
     }
+
+    fun <T : ViewModel> instanceViewModel(cls: Class<T>): T {
+        return ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())[cls]
+    }
+
 
 }

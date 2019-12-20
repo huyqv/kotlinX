@@ -29,7 +29,7 @@ class MainActivity : ArchActivity<MainVM>() {
 
     override val fragmentContainer = R.id.container
 
-    override fun viewModelClass() = MainVM::class.java
+    override val viewModelClass = MainVM::class.java
 
     override fun onCreated(state: Bundle?) {
         addClickListener(itemHandlerThread, itemLoadMore, itemMultiView, itemImages, itemSetting,

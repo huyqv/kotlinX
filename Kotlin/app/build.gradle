@@ -21,6 +21,13 @@ android {
         vectorDrawables.useSupportLibrary = true
         flavorDimensions "default"
         resConfigs "en"
+        kapt {
+            arguments {
+                arg("room.schemaLocation", "$projectDir/schemas".toString())
+                arg("room.incremental", "true")
+                arg("room.expandProjection", "true")
+            }
+        }
     }
 
     buildTypes {
@@ -33,6 +40,7 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+
     }
 
     kapt {
@@ -131,10 +139,13 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
     //implementation 'net.cachapa.expandablelayout:expandablelayout:2.9.2'
+
     //implementation 'com.flaviofaria:kenburnsview:1.0.7'
 
     //implementation 'com.mlsdev.rximagepicker:library:2.0.2'
+
     //implementation 'com.github.hkk595:Resizer:v1.5'
+
     //implementation 'id.zelory:compressor:2.1.0'
 
     // WEB SOCKET

@@ -19,7 +19,7 @@ class UserFragment : ArchFragment<UserVM>() {
 
     override val layoutResource = R.layout.fragment_load_more
 
-    override fun viewModelClass() = UserVM::class.java
+    override val viewModelClass = UserVM::class.java
 
     override fun onCreated(state: Bundle?) {
         adapter.bind(recyclerView, 3)

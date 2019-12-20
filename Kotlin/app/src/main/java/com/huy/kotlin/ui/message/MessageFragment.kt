@@ -20,7 +20,7 @@ class MessageFragment : ArchFragment<MessageVM>() {
 
     override val layoutResource = R.layout.fragment_chat
 
-    override fun viewModelClass() = MessageVM::class.java
+    override val viewModelClass = MessageVM::class.java
 
     override fun onCreated(state: Bundle?) {
 

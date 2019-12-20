@@ -4,10 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.*
 import com.huy.kotlin.R
 import com.huy.library.extension.preventClick
 
@@ -23,7 +20,8 @@ import com.huy.library.extension.preventClick
 abstract class BaseListAdapter<T> : ListAdapter<T, RecyclerView.ViewHolder> {
 
 
-    constructor(itemCallback: DiffItemCallback<T> = DiffItemCallback()) : super(itemCallback)
+    constructor(itemCallback: DiffUtil.ItemCallback<T> = DiffItemCallback()) : super(itemCallback)
+
 
     /**
      * [BaseRecyclerAdapter] abstract function for initialize recycler view type.
@@ -80,8 +78,8 @@ abstract class BaseListAdapter<T> : ListAdapter<T, RecyclerView.ViewHolder> {
 
         val model = get(position) ?: return
 
-        if (position.isNotIndexed()) viewHolder.itemView.onBindModel(model, position, type)
-        else viewHolder.itemView.onFirstBindModel(model, position, type)
+        if (position.isNotIndexed()) viewHolder.itemView.onFirstBindModel(model, position, type)
+        else viewHolder.itemView.onBindModel(model, position, type)
 
         position.updateLastIndex()
 
