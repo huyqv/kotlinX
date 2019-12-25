@@ -1,5 +1,13 @@
 package com.huy.kotlin.data.observable
 
+import android.net.ConnectivityManager
+import android.net.Network
+import android.net.NetworkCapabilities
+import android.net.NetworkRequest
+import android.os.Build
+import com.huy.library.extension.connectivityManager
+
+
 /**
  * -------------------------------------------------------------------------------------------------
  * @Project: Kotlin
@@ -8,7 +16,7 @@ package com.huy.kotlin.data.observable
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-class NetworkLiveData : SingleLiveData<Boolean?>() {
+class NetworkLiveData private constructor() : SingleLiveData<Boolean?>() {
 
     companion object {
 
@@ -16,11 +24,29 @@ class NetworkLiveData : SingleLiveData<Boolean?>() {
             NetworkLiveData()
         }
 
-        var isConnected: Boolean?
-            get() = instance.value
-            set(value) {
-                instance.value = value
+        private val networkCallback: ConnectivityManager.NetworkCallback by lazy {
+            object : ConnectivityManager.NetworkCallback() {
+                override fun onAvailable(network: Network) {
+                    instance.postValue(true)
+                }
+
+                override fun onLost(network: Network?) {
+                    instance.postValue(false)
+                }
             }
+        }
+
+        fun registerCallback() {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                connectivityManager.registerDefaultNetworkCallback(networkCallback)
+            } else {
+                val request = NetworkRequest.Builder().addCapability(NetworkCapabilities.NET_CAPABILITY_WIFI_P2P).build()
+                connectivityManager.registerNetworkCallback(request, networkCallback)
+            }
+        }
+
     }
+
+
 }
 

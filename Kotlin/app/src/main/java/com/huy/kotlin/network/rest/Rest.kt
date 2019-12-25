@@ -324,12 +324,12 @@ fun onRequestCompleted(throwable: Throwable? = null) {
     }
 }
 
-fun onRequestStarted(tag: String?, hasProgress: Boolean = true) {
+fun onRequestStarted(tag: String?, hasProgress: Boolean = false) {
     RestClient.add(tag)
     if (hasProgress) ProgressLiveData.show()
 }
 
-fun onRequestCompleted(tag: String?, hasProgress: Boolean = true) {
+fun onRequestCompleted(tag: String?, hasProgress: Boolean = false) {
     RestClient.remove(tag)
     if (hasProgress) ProgressLiveData.hide()
 }

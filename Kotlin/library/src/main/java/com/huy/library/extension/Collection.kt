@@ -27,15 +27,17 @@ fun <T> join(vararg collections: Collection<T>?): List<T> {
     return list
 }
 
-fun <T, R> Collection<T>.convert(block: (T) -> R): List<R> {
+fun <T, R> Collection<T>.convert(block: (T) -> R?): List<R> {
     val list = mutableListOf<R>()
     for (item in this) {
-        list.add(block(item))
+        block(item)?.also {
+            list.add(it)
+        }
     }
     return list
 }
 
-fun <T> Collection<T?>?.filters(block: (T) -> T?): List<T>? {
+fun <T> Collection<T?>?.filters(block: (T) -> T?): MutableList<T>? {
     this ?: return null
     val list = mutableListOf<T>()
     for (item in this) {

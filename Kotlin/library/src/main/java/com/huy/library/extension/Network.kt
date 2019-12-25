@@ -46,3 +46,7 @@ val networkConnected: Boolean
     }
 
 val networkDisconnected: Boolean get() = !networkConnected
+
+val connectivityManager = Library.app.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+

@@ -8,10 +8,9 @@ import android.util.DisplayMetrics
 import android.util.TypedValue
 import android.view.View
 import androidx.annotation.DimenRes
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.paging.AsyncPagedListDiffer
+import androidx.paging.PagedListAdapter
+import androidx.recyclerview.widget.*
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -168,6 +167,52 @@ fun RecyclerView.set(adapter: BasePagedListAdapter<*>, spanCount: Int, includeEd
     this.layoutManager = layoutManager
     GridDecoration.draw(this, layoutManager.spanCount, 0, includeEdge)
     this.adapter = adapter
+}
+
+fun <T> ListAdapter<T, RecyclerView.ViewHolder>.asyncListDiffer(itemCallback: DiffUtil.ItemCallback<T>): AsyncListDiffer<T> {
+
+    val adapterCallback = AdapterListUpdateCallback(this)
+    val listCallback = object : ListUpdateCallback {
+        override fun onChanged(position: Int, count: Int, payload: Any?) {
+            adapterCallback.onChanged(position, count, payload)
+        }
+
+        override fun onMoved(fromPosition: Int, toPosition: Int) {
+            adapterCallback.onMoved(fromPosition, toPosition)
+        }
+
+        override fun onInserted(position: Int, count: Int) {
+            adapterCallback.onInserted(position, count)
+        }
+
+        override fun onRemoved(position: Int, count: Int) {
+            adapterCallback.onRemoved(position, count)
+        }
+    }
+    return AsyncListDiffer<T>(listCallback, AsyncDifferConfig.Builder<T>(itemCallback).build())
+}
+
+fun <T> PagedListAdapter<T, RecyclerView.ViewHolder>.asyncPagedListDiffer(itemCallback: DiffUtil.ItemCallback<T>): AsyncPagedListDiffer<T> {
+
+    val adapterCallback = AdapterListUpdateCallback(this)
+    val listCallback = object : ListUpdateCallback {
+        override fun onChanged(position: Int, count: Int, payload: Any?) {
+            adapterCallback.onChanged(position, count, payload)
+        }
+
+        override fun onMoved(fromPosition: Int, toPosition: Int) {
+            adapterCallback.onMoved(fromPosition, toPosition)
+        }
+
+        override fun onInserted(position: Int, count: Int) {
+            adapterCallback.onInserted(position, count)
+        }
+
+        override fun onRemoved(position: Int, count: Int) {
+            adapterCallback.onRemoved(position, count)
+        }
+    }
+    return AsyncPagedListDiffer<T>(listCallback, AsyncDifferConfig.Builder<T>(itemCallback).build())
 }
 
 class ViewHolder(v: View) : RecyclerView.ViewHolder(v)

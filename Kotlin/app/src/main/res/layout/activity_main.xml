@@ -37,9 +37,9 @@
                 android:text="Multi view" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/itemImages"
+                android:id="@+id/itemAsyncDiff"
                 style="@style/Button.Match"
-                android:text="Images" />
+                android:text="Async Diff" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/itemSetting"

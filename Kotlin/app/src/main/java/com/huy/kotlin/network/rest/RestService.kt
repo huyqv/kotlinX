@@ -2,9 +2,9 @@ package com.huy.kotlin.network.rest
 
 import androidx.lifecycle.LiveData
 import com.google.gson.JsonObject
-import com.huy.kotlin.ui.image.Image
-import com.huy.kotlin.ui.message.Message
-import com.huy.kotlin.ui.user.User
+import com.huy.kotlin.ui.model.Image
+import com.huy.kotlin.ui.model.Message
+import com.huy.kotlin.ui.model.User
 import io.reactivex.Observable
 import io.reactivex.Single
 import okhttp3.MultipartBody

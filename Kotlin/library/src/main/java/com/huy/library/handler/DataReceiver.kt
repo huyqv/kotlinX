@@ -8,7 +8,9 @@ package com.huy.library.handler
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-interface DataReceiver<T> {
+interface DataReceiver {
 
-    fun onDataReceived(data: T)
+    fun onDataReceived(thread: String, data: Any)
+
 }
+

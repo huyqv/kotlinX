@@ -73,7 +73,7 @@ class AppBarView : FrameLayout {
 
     override fun onVisibilityChanged(changedView: View, visibility: Int) {
         super.onVisibilityChanged(changedView, visibility)
-        updateStatusBar()
+        //updateStatusBar()
     }
 
     private fun init(context: Context, attrs: AttributeSet?) {

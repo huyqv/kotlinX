@@ -2,43 +2,33 @@ package com.huy.kotlin.base.arch
 
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import com.huy.kotlin.base.view.BaseDialogFragment
+import com.huy.kotlin.data.observable.NetworkLiveData
+import com.huy.kotlin.extension.viewModel
 
 abstract class ArchDialogFragment<VM : BaseViewModel> : BaseDialogFragment() {
 
-    protected lateinit var viewModel: VM
+    protected val viewModel: VM by lazy { viewModel(viewModelClass) }
 
-    protected abstract fun viewModelClass(): Class<VM>
+    protected abstract val viewModelClass: Class<VM>
 
     protected abstract fun onCreated(state: Bundle?)
 
     protected abstract fun onRegisterLiveData()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        viewModel = viewModel(viewModelClass())
-
-        viewModel.onStart()
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        viewModel.onStart()
 
         onCreated(savedInstanceState)
 
         onRegisterLiveData()
-    }
 
-    fun <T : ViewModel> viewModel(cls: Class<T>): T {
-        return ViewModelProvider(this).get(cls)
-    }
+        viewModel.onNetworkAvailable()
 
-    fun <T : ViewModel> instanceViewModel(cls: Class<T>): T {
-        return ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())[cls]
-    }
+        NetworkLiveData.instance.nonNull { if (it) viewModel.onNetworkAvailable() }
 
+    }
 
 }

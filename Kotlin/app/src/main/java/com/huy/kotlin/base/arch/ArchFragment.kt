@@ -2,9 +2,9 @@ package com.huy.kotlin.base.arch
 
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import com.huy.kotlin.base.view.BaseFragment
+import com.huy.kotlin.data.observable.NetworkLiveData
+import com.huy.kotlin.extension.viewModel
 
 
 /**
@@ -34,15 +34,10 @@ abstract class ArchFragment<VM : BaseViewModel> : BaseFragment() {
 
         onRegisterLiveData()
 
-    }
+        viewModel.onNetworkAvailable()
 
-    fun <T : ViewModel> viewModel(cls: Class<T>): T {
-        return ViewModelProvider(this).get(cls)
-    }
+        NetworkLiveData.instance.nonNull { if (it) viewModel.onNetworkAvailable() }
 
-    fun <T : ViewModel> instanceViewModel(cls: Class<T>): T {
-        return ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())[cls]
     }
-
 
 }

@@ -8,7 +8,7 @@ package com.huy.kotlin.data.observable
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-class ToastLiveData : SingleLiveData<String?>() {
+class ToastLiveData private constructor() : SingleLiveData<String?>() {
 
     companion object {
 

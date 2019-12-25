@@ -1,17 +1,15 @@
-package com.huy.library
-
-import android.app.Application
+package com.huy.kotlin.ui.model
 
 /**
  * -------------------------------------------------------------------------------------------------
  * @Project: Kotlin
- * @Created: Huy QV 2019/08/10
+ * @Created: Huy QV 2019/01/18
  * @Description: ...
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-object Library {
+abstract class ImageOwner {
 
-    lateinit var app: Application
+    abstract val imageUrl: String?
 
 }

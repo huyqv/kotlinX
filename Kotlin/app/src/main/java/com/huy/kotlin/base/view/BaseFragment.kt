@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import com.huy.kotlin.base.dialog.ProgressDialog
@@ -33,6 +34,8 @@ abstract class BaseFragment : Fragment(), BaseView {
 
     override val fragmentActivity: FragmentActivity? get() = requireActivity()
 
+    override val fragmentContainer: Int? get() = baseActivity?.fragmentContainer
+
     override var onViewClick: View.OnClickListener? = null
 
     override var progressDialog: ProgressDialog? = null
@@ -42,7 +45,7 @@ abstract class BaseFragment : Fragment(), BaseView {
         override fun handleOnBackPressed() {
             if (onBackPressed()) {
                 this.remove()
-                activity?.supportFragmentManager?.popBackStack()
+                popBackStack()
             }
         }
     }

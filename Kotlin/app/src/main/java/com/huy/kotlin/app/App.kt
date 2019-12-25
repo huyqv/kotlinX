@@ -2,6 +2,7 @@ package com.huy.kotlin.app
 
 import android.app.Application
 import android.content.Context
+import com.huy.kotlin.data.observable.NetworkLiveData
 import com.huy.library.Library
 
 /**
@@ -12,14 +13,18 @@ import com.huy.library.Library
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-class App : Application(), Library.Extension {
+class App : Application() {
 
     var isForeground: Boolean = false
 
     override fun onCreate() {
         super.onCreate()
-        Library.inject(this)
+
         instance = this
+
+        Library.app = this
+
+        NetworkLiveData.registerCallback()
     }
 
     companion object {

@@ -20,7 +20,11 @@ import com.huy.library.extension.preventClick
 abstract class BaseListAdapter<T> : ListAdapter<T, RecyclerView.ViewHolder> {
 
 
-    constructor(itemCallback: DiffUtil.ItemCallback<T> = DiffItemCallback()) : super(itemCallback)
+    private val differ: AsyncListDiffer<T>
+
+    constructor(itemCallback: DiffUtil.ItemCallback<T> = DiffItemCallback()) : super(itemCallback) {
+        differ = asyncListDiffer(itemCallback)
+    }
 
 
     /**
@@ -95,28 +99,45 @@ abstract class BaseListAdapter<T> : ListAdapter<T, RecyclerView.ViewHolder> {
 
     }
 
+    override fun getCurrentList(): MutableList<T> {
+        return differ.currentList
+    }
+
+    override fun submitList(list: MutableList<T>?) {
+        differ.submitList(list)
+    }
+
+    override fun submitList(list: MutableList<T>?, commitCallback: Runnable?) {
+        differ.submitList(list, commitCallback)
+    }
+
 
     /**
      * Layout resource for empty data.
      */
     @LayoutRes
-    open var blankLayoutResource: Int = 0
+    protected open var blankLayoutResource: Int = 0
+
+    var blankLayoutRes: Int
+        get() = blankLayoutResource
+        set(value) {
+            blankLayoutResource = value
+            notifyItemChanged(0)
+        }
+
 
     /**
      * Layout resource for footer item.
      */
     @LayoutRes
-    open var footerLayoutResource: Int = 0
+    protected open var footerLayoutResource: Int = 0
 
-    open fun showFooter(@LayoutRes res: Int) {
-        footerLayoutResource = res
-        notifyItemChanged(size)
-    }
-
-    open fun hideFooter() {
-        footerLayoutResource = 0
-        notifyItemChanged(size)
-    }
+    var footerLayoutRes: Int
+        get() = footerLayoutResource
+        set(value) {
+            footerLayoutResource = value
+            notifyItemChanged(size)
+        }
 
 
     /**
@@ -197,12 +218,12 @@ abstract class BaseListAdapter<T> : ListAdapter<T, RecyclerView.ViewHolder> {
 
     open fun set(array: Array<T>?) {
         lastIndexed = -1
-        submitList(array?.toList())
+        submitList(array?.toMutableList())
     }
 
     open fun set(model: T?) {
         lastIndexed = -1
-        submitList(if (model != null) listOf(model) else null)
+        submitList(if (model != null) mutableListOf(model) else null)
     }
 
     open fun setElseEmpty(collection: Collection<T>?) {
@@ -217,12 +238,12 @@ abstract class BaseListAdapter<T> : ListAdapter<T, RecyclerView.ViewHolder> {
 
     open fun setElseEmpty(array: Array<T>?) {
         if (array.isNullOrEmpty()) return
-        submitList(array.toList())
+        submitList(array.toMutableList())
     }
 
     open fun setElseEmpty(model: T?) {
         model ?: return
-        submitList(listOf(model))
+        submitList(mutableListOf(model))
     }
 
     open fun add(collection: Collection<T>?) {

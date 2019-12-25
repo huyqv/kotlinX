@@ -179,5 +179,8 @@ interface BaseView : LifecycleOwner {
         fragmentActivity?.remove(cls)
     }
 
+    fun popBackStack() {
+        fragmentActivity?.supportFragmentManager?.popBackStack()
+    }
 
 }

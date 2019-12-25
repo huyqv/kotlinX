@@ -1,12 +1,12 @@
 package com.huy.kotlin.base.arch
 
 import android.os.Bundle
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import com.huy.kotlin.base.view.BaseActivity
 import com.huy.kotlin.data.observable.AlertLiveData
+import com.huy.kotlin.data.observable.NetworkLiveData
 import com.huy.kotlin.data.observable.ProgressLiveData
 import com.huy.kotlin.data.observable.ToastLiveData
+import com.huy.kotlin.extension.viewModel
 import com.huy.library.extension.toast
 
 /**
@@ -42,25 +42,10 @@ abstract class ArchActivity<VM : BaseViewModel> : BaseActivity() {
 
         onRegisterLiveData()
 
+        viewModel.onNetworkAvailable()
+
+        NetworkLiveData.instance.nonNull { if (it) viewModel.onNetworkAvailable() }
+
     }
-
-    override fun onDestroy() {
-        super.onDestroy()
-
-        ProgressLiveData.instance.removeObservers(this)
-
-        AlertLiveData.instance.removeObservers(this)
-
-        ToastLiveData.instance.removeObservers(this)
-    }
-
-    fun <T : ViewModel> viewModel(cls: Class<T>): T {
-        return ViewModelProvider(this).get(cls)
-    }
-
-    fun <T : ViewModel> instanceViewModel(cls: Class<T>): T {
-        return ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())[cls]
-    }
-
 
 }

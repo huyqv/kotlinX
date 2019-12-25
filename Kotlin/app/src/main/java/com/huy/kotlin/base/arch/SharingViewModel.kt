@@ -3,7 +3,11 @@ package com.huy.kotlin.base.arch
 import android.content.Context
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
+import com.huy.kotlin.extension.viewModel
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -38,7 +42,7 @@ abstract class SharingViewModel<T> : ViewModel() {
         override fun onAttach(context: Context) {
             super.onAttach(context)
             activity?.run {
-                shareViewModel = ViewModelProviders.of(this).get(StringSharedViewModel::class.java)
+                shareViewModel = viewModel(StringSharedViewModel::class.java)
             }
 
         }
@@ -55,7 +59,7 @@ abstract class SharingViewModel<T> : ViewModel() {
         override fun onAttach(context: Context) {
             super.onAttach(context)
             activity?.run {
-                shareViewModel = ViewModelProviders.of(this).get(StringSharedViewModel::class.java)
+                shareViewModel = viewModel(StringSharedViewModel::class.java)
             }
         }
 

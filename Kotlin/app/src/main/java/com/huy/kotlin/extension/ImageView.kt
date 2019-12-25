@@ -22,33 +22,46 @@ class MyGlideApp : AppGlideModule()
 
 fun ImageView.loadUser(url: String?) {
     GlideApp.with(context).load(url)
-            .placeholder(R.drawable.drw_oval_dashed).error(R.drawable.drw_oval_dashed)
+            .placeholder(R.mipmap.img_user)
+            .error(R.mipmap.img_user)
             .override(this.width, this.height)
             .into(this)
 }
 
 fun ImageView.loadImage(url: String?) {
     GlideApp.with(context).load(url)
-            .placeholder(R.drawable.drw_rect_dashed).error(R.drawable.drw_rect_dashed)
+            .placeholder(R.drawable.drw_rect_dashed)
+            .error(R.drawable.drw_rect_dashed)
             .override(this.width, this.height)
             .into(this)
 }
 
 fun ImageView.load(url: String?, @DrawableRes res: Int) {
     GlideApp.with(context).load(url)
-            .placeholder(res).error(res)
-            .override(this.width, this.height).into(this)
+            .placeholder(res)
+            .error(res)
+            .override(this.width, this.height)
+            .into(this)
 }
 
 fun ImageView.load(url: String?) {
-    GlideApp.with(context).load(url).override(this.width, this.height).into(this)
+    GlideApp.with(context)
+            .load(url)
+            .override(this.width, this.height)
+            .into(this)
 }
 
 fun ImageView.load(uri: Uri?) {
-    GlideApp.with(context).load(uri).override(this.width, this.height).into(this)
+    GlideApp.with(context)
+            .load(uri)
+            .override(this.width, this.height)
+            .into(this)
 }
 
 fun ImageView.load(@DrawableRes res: Int) {
-    GlideApp.with(context).load(res).override(this.width, this.height).into(this)
+    GlideApp.with(context)
+            .load(res)
+            .override(this.width, this.height)
+            .into(this)
 }
 

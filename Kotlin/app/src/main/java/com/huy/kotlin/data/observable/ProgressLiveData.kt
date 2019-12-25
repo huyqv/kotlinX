@@ -8,7 +8,7 @@ package com.huy.kotlin.data.observable
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-class ProgressLiveData : SingleLiveData<Boolean?>() {
+class ProgressLiveData private constructor() : SingleLiveData<Boolean?>() {
 
     @Volatile
     var animated = false
