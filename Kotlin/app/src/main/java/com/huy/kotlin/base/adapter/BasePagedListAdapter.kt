@@ -134,6 +134,10 @@ abstract class BasePagedListAdapter<T> : PagedListAdapter<T, RecyclerView.ViewHo
             notifyItemChanged(size)
         }
 
+    fun hideFooter() {
+        footerLayoutRes = 0
+    }
+
 
     /**
      * User interfaces.

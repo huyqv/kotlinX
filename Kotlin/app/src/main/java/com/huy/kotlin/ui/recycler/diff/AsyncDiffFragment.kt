@@ -39,12 +39,8 @@ class AsyncDiffFragment : ArchFragment<AsyncDiffVM>() {
 
         viewModel.imageLiveData.observe {
             swipeRefreshLayout.isRefreshing = false
-            if (adapter.dataIsEmpty) {
-                adapter.set(it)
-                recyclerView.scrollToPosition(0)
-            } else {
-                adapter.set(it)
-            }
+            if (it.isNullOrEmpty()) adapter.hideFooter()
+            adapter.set(it)
         }
 
     }

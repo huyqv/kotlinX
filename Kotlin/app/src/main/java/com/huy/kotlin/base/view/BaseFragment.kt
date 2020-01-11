@@ -10,10 +10,10 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import com.huy.kotlin.base.dialog.ProgressDialog
+import com.huy.library.view.PreventClickListener
 import com.tbruyelle.rxpermissions2.RxPermissions
 
 /**
@@ -36,10 +36,15 @@ abstract class BaseFragment : Fragment(), BaseView {
 
     override val fragmentContainer: Int? get() = baseActivity?.fragmentContainer
 
-    override var onViewClick: View.OnClickListener? = null
+    override val progressDialog: ProgressDialog? get() = baseActivity?.progressDialog
 
-    override var progressDialog: ProgressDialog? = null
-        get() = baseActivity?.getProgress()
+    override val onViewClick: PreventClickListener by lazy {
+        object : PreventClickListener() {
+            override fun onViewClick(v: View?) {
+                onViewClick(v)
+            }
+        }
+    }
 
     private val onBackPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
@@ -49,6 +54,7 @@ abstract class BaseFragment : Fragment(), BaseView {
             }
         }
     }
+
 
     /**
      * [Fragment] override
@@ -62,11 +68,6 @@ abstract class BaseFragment : Fragment(), BaseView {
         val view = inflater.inflate(layoutResource, container, false)
         view.setOnTouchListener { _, _ -> true }
         return view
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        onViewClick = null
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

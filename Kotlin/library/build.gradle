@@ -35,11 +35,14 @@ dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "androidx.appcompat:appcompat:1.1.0-rc01"
-    implementation 'com.google.android.material:material:1.1.0-alpha08'
+    implementation 'com.google.android.material:material:1.2.0-alpha02'
+
     // DIMENSION RESOURCE
     implementation "com.intuit.sdp:sdp-android:$dimens_version"
     implementation "com.intuit.ssp:ssp-android:$dimens_version"
+
     // JSON CONVERTER
     implementation "com.google.code.gson:gson:2.8.5"
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
 
 }

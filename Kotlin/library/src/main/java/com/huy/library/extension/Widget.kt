@@ -18,7 +18,6 @@ import android.webkit.WebViewClient
 import android.widget.*
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -151,21 +150,6 @@ fun SwipeRefreshLayout.onRefresh(block: () -> Unit) {
 /**
  * @TextView
  */
-fun TextView.draw(title: String, @ColorRes color: Int, @DrawableRes drawable: Int) {
-    text = title
-    draw(color, drawable)
-}
-
-fun TextView.draw(@StringRes title: Int, @ColorRes color: Int, @DrawableRes drawable: Int) {
-    setText(title)
-    draw(color, drawable)
-}
-
-fun TextView.draw(@ColorRes color: Int, @DrawableRes drawable: Int) {
-    color(color)
-    post { setBackgroundResource(drawable) }
-}
-
 fun TextView.color(@ColorRes color: Int) {
     setTextColor(ContextCompat.getColor(context, color))
 }

@@ -7,6 +7,7 @@ import androidx.paging.PageKeyedDataSource
 import androidx.paging.PagedList
 import com.huy.kotlin.base.arch.BaseViewModel
 import com.huy.kotlin.data.observable.ToastLiveData
+import com.huy.kotlin.extension.PAGED_DEFAULT_CONFIG
 import com.huy.kotlin.network.rest.RestClient
 import com.huy.kotlin.network.rest.onNext
 import com.huy.kotlin.ui.model.Message
@@ -25,25 +26,16 @@ class PagingVM : BaseViewModel() {
 
     override fun onStart() {
 
-        val config = PagedList.Config.Builder()
-                .setPageSize(10)
-                .setInitialLoadSizeHint(20)
-                .setEnablePlaceholders(true)
-                .build()
+        val factory = object : DataSource.Factory<Int, Message>() {
+            override fun create(): DataSource<Int, Message> = MessageDataSource()
+        }
 
-        liveData = LivePagedListBuilder(DataSourceFactory(), config)
-                .build()
+        liveData = LivePagedListBuilder(factory, PAGED_DEFAULT_CONFIG).build()
 
     }
 
     override fun onNetworkAvailable() {
         liveData.value?.dataSource?.invalidate()
-    }
-
-    class DataSourceFactory : DataSource.Factory<Int, Message>() {
-        override fun create(): DataSource<Int, Message> {
-            return MessageDataSource()
-        }
     }
 
     class MessageDataSource : PageKeyedDataSource<Int, Message>() {

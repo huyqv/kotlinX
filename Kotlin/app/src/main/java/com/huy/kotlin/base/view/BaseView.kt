@@ -2,7 +2,6 @@ package com.huy.kotlin.base.view
 
 import android.app.Activity
 import android.content.Intent
-import android.os.Handler
 import android.os.SystemClock
 import android.view.View
 import androidx.annotation.StringRes
@@ -13,6 +12,7 @@ import com.huy.kotlin.base.dialog.ConfirmDialog
 import com.huy.kotlin.base.dialog.MessageDialog
 import com.huy.kotlin.base.dialog.ProgressDialog
 import com.huy.library.extension.*
+import com.huy.library.view.PreventClickListener
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -35,25 +35,13 @@ interface BaseView : LifecycleOwner {
     /**
      * [View.OnClickListener] implementation
      */
-    var onViewClick: View.OnClickListener?
+    val onViewClick: PreventClickListener
 
     fun onViewClick(view: View)
 
     fun addClickListener(vararg views: View) {
 
         if (views.isEmpty()) return
-
-        if (onViewClick == null)
-            onViewClick = View.OnClickListener { v ->
-
-                v.preventClick()
-
-                if (SystemClock.elapsedRealtime() - lastClickTime > 360) onViewClick(v)
-
-                lastClickTime = SystemClock.elapsedRealtime()
-
-                (v.context as? Activity)?.hideKeyboard()
-            }
 
         for (v in views) v.setOnClickListener(onViewClick)
     }
@@ -62,25 +50,14 @@ interface BaseView : LifecycleOwner {
     /**
      * [ProgressDialog] implementation
      */
-    var progressDialog: ProgressDialog?
-
-    fun getProgress(): ProgressDialog {
-        if (null == progressDialog) {
-            progressDialog = ProgressDialog(fragmentActivity)
-        }
-        return progressDialog!!
-    }
+    val progressDialog: ProgressDialog?
 
     fun showProgress() {
-        if (progressDialog == null)
-            progressDialog = ProgressDialog(fragmentActivity)
-        getProgress().show()
+        progressDialog?.show()
     }
 
     fun hideProgress() {
-        Handler().postDelayed({
-            getProgress().dismiss()
-        }, 100)
+        progressDialog?.dismiss()
     }
 
 

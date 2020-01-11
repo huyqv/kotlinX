@@ -5,8 +5,9 @@ import com.huy.kotlin.base.arch.BaseViewModel
 import com.huy.kotlin.network.rest.RestClient
 import com.huy.kotlin.network.rest.onNext
 import com.huy.kotlin.ui.model.Image
-import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
-import io.reactivex.schedulers.Schedulers.io
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -30,13 +31,11 @@ class AsyncDiffVM : BaseViewModel() {
 
     fun fetchImages(page: Int) {
         RestClient.service.images(page)
-                .subscribeOn(io())
-                .observeOn(mainThread())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .onNext { _, _, list ->
                     imageLiveData.value = list
                 }
     }
-
-
 
 }

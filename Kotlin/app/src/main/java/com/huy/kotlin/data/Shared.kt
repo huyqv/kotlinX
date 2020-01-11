@@ -1,4 +1,4 @@
-package com.huy.kotlin.data.local
+package com.huy.kotlin.data
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -13,7 +13,7 @@ import com.huy.kotlin.app.App
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-class SharedHelper private constructor() {
+class Shared private constructor() {
 
     interface ValueChangedListener {
         fun onSharedValueChanged(key: String)
@@ -24,7 +24,7 @@ class SharedHelper private constructor() {
 
     private var shared: SharedPreferences? = null
 
-    fun scope(prefName: String): SharedHelper {
+    fun scope(prefName: String): Shared {
         if (prefName != currentPref) {
             shared = App.instance.getSharedPreferences(prefName, Context.MODE_PRIVATE)
             currentPref = prefName
@@ -76,25 +76,26 @@ class SharedHelper private constructor() {
         edit { putBoolean(key, value ?: false) }
     }
 
-    fun stringOf(key: String): String? {
+    fun str(key: String): String? {
         return shared!!.getString(key, null)
     }
 
-    fun intOf(key: String): Int {
+    fun int(key: String): Int {
         return shared!!.getInt(key, -1)
     }
 
-    fun longOf(key: String): Long {
+    fun long(key: String): Long {
         return shared!!.getLong(key, -1)
     }
 
-    fun booleanOf(key: String): Boolean {
+    fun bool(key: String): Boolean {
         return shared!!.getBoolean(key, false)
     }
 
     companion object {
-        val instance: SharedHelper by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
-            SharedHelper()
+        val instance: Shared by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
+            Shared()
         }
     }
+
 }

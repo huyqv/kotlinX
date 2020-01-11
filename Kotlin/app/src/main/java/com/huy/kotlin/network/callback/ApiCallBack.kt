@@ -17,24 +17,24 @@ import retrofit2.Response
  */
 abstract class ApiCallBack<T> : Callback<T> {
 
-    private val tag: String?
+    private val event: Int?
 
     open fun hasProgress(): Boolean = true
 
     abstract fun onSuccess(status: Int, message: String, response: T?)
 
-    constructor(tag: String? = null) {
-        this.tag = tag
-        onRequestStarted(tag, hasProgress())
+    constructor(event: Int? = null) {
+        this.event = event
+        onRequestStarted(event, hasProgress())
     }
 
     override fun onFailure(call: Call<T>, throwable: Throwable) {
-        onRequestCompleted(tag, hasProgress())
+        onRequestCompleted(event, hasProgress())
         onRequestCompleted(throwable)
     }
 
     override fun onResponse(call: Call<T>, response: Response<T?>) {
-        onRequestCompleted(tag, hasProgress())
+        onRequestCompleted(event, hasProgress())
         onRequestSuccess(response) { status, message, body ->
             onSuccess(status, message, body)
         }

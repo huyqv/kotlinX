@@ -139,6 +139,10 @@ abstract class BaseListAdapter<T> : ListAdapter<T, RecyclerView.ViewHolder> {
             notifyItemChanged(size)
         }
 
+    fun hideFooter() {
+        footerLayoutRes = 0
+    }
+
 
     /**
      * User interfaces.

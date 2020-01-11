@@ -15,7 +15,7 @@ import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.messaging.RemoteMessage
 import com.huy.kotlin.R
 import com.huy.kotlin.app.App
-import com.huy.kotlin.data.local.SharedHelper
+import com.huy.kotlin.data.Shared
 import com.huy.library.extension.string
 
 /**
@@ -29,7 +29,7 @@ import com.huy.library.extension.string
 class NotificationHelper {
 
     private val manager: NotificationManager
-        get() = App.appContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        get() = App.instance.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
 
     /**
@@ -39,19 +39,19 @@ class NotificationHelper {
         FirebaseInstanceId.getInstance().instanceId.addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 val token = task.result!!.token
-                SharedHelper.instance.edit { putString("device_token", token) }
+                Shared.instance.edit { putString("device_token", token) }
                 //registerToken(task.result!!.token)
             }
         }
     }
-/*
+
     fun registerToken(deviceToken: String) {
 
     }
 
     fun unRegisterToken(block: (String) -> Unit) {
 
-        val token = SharedHelper.instance.stringOf(TOKEN_KEY)
+        val token = Shared.instance.str(TOKEN_KEY)
 
         if (!token.isNullOrEmpty()) {
             unRegisterToken(token, block)
@@ -66,7 +66,6 @@ class NotificationHelper {
 
     fun unRegisterToken(deviceToken: String, block: (String) -> Unit) {
     }
-*/
 
     /**
      * Local message helper
@@ -99,11 +98,11 @@ class NotificationHelper {
 
         val notificationId = data[NOTIFICATION_ID] ?: return null
 
-        val intent = Intent(App.appContext, NotificationActivity::class.java)
+        val intent = Intent(App.instance, NotificationActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         intent.putExtra(NOTIFICATION_ID, notificationId)
 
-        return PendingIntent.getActivity(App.appContext, id, intent, PendingIntent.FLAG_ONE_SHOT)
+        return PendingIntent.getActivity(App.instance, id, intent, PendingIntent.FLAG_ONE_SHOT)
     }
 
     private fun getNotification(title: String?, body: String?): NotificationCompat.Builder {
@@ -118,13 +117,13 @@ class NotificationHelper {
             instance.manager.createNotificationChannel(channel)
         }
 
-        return NotificationCompat.Builder(App.appContext, CHANNEL_ID)
+        return NotificationCompat.Builder(App.instance, CHANNEL_ID)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle(title ?: string(R.string.app_name))
                 .setContentText(body ?: string(R.string.notification))
                 .setCategory(NotificationCompat.CATEGORY_TRANSPORT)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                .setColor(ContextCompat.getColor(App.appContext, R.color.colorPrimary))
+                .setColor(ContextCompat.getColor(App.instance, R.color.colorPrimary))
                 .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
                 .setShowWhen(false)
                 .setColorized(true)

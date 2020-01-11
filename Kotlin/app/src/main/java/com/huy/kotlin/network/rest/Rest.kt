@@ -34,11 +34,11 @@ const val NETWORK_ERROR = 999
 /**
  * Observable
  */
-fun <T> Observable<T>.onNext(tag: String? = null, block: (Int, String, T?) -> Unit): Disposable {
+fun <T> Observable<T>.onNext(event: Int? = null, block: (Int, String, T?) -> Unit) {
 
-    return subscribeWith(object : DisposableObserver<T?>() {
+    return subscribe(object : DisposableObserver<T?>() {
         override fun onStart() {
-            onRequestStarted(tag)
+            onRequestStarted(event)
         }
 
         override fun onNext(response: T) {
@@ -46,7 +46,7 @@ fun <T> Observable<T>.onNext(tag: String? = null, block: (Int, String, T?) -> Un
         }
 
         override fun onComplete() {
-            onRequestCompleted(tag)
+            onRequestCompleted(event)
         }
 
         override fun onError(throwable: Throwable) {
@@ -55,11 +55,11 @@ fun <T> Observable<T>.onNext(tag: String? = null, block: (Int, String, T?) -> Un
     })
 }
 
-fun <T> Observable<T>.onSuccess(tag: String? = null, block: (T?) -> Unit): Disposable {
+fun <T> Observable<T>.onSuccess(event: Int? = null, block: (T?) -> Unit): Disposable {
 
     return subscribeWith(object : DisposableObserver<T?>() {
         override fun onStart() {
-            onRequestStarted(tag)
+            onRequestStarted(event)
         }
 
         override fun onNext(response: T) {
@@ -67,7 +67,7 @@ fun <T> Observable<T>.onSuccess(tag: String? = null, block: (T?) -> Unit): Dispo
         }
 
         override fun onComplete() {
-            onRequestCompleted(tag)
+            onRequestCompleted(event)
         }
 
         override fun onError(throwable: Throwable) {
@@ -76,19 +76,19 @@ fun <T> Observable<T>.onSuccess(tag: String? = null, block: (T?) -> Unit): Dispo
     })
 }
 
-fun <T> Observable<T>.liveData(tag: String? = null): EventLiveData<RestResponse<T>?> {
+fun <T> Observable<T>.liveData(event: Int? = null): EventLiveData<RestResponse<T>?> {
 
     return EventLiveData<RestResponse<T>?>().also { liveData ->
-        onNext(tag) { status, message, body ->
+        onNext(event) { status, message, body ->
             liveData.postValue(RestResponse(status, message, body))
         }
     }
 }
 
-fun <T> Observable<T>.successLiveData(tag: String? = null): EventLiveData<T?> {
+fun <T> Observable<T>.successLiveData(event: Int? = null): EventLiveData<T?> {
 
     return EventLiveData<T?>().also { liveData ->
-        onSuccess(tag) { response ->
+        onSuccess(event) { response ->
             liveData.postValue(response)
         }
     }
@@ -98,56 +98,57 @@ fun <T> Observable<T>.successLiveData(tag: String? = null): EventLiveData<T?> {
 /**
  * Single
  */
-fun <T> Single<T>.onNext(tag: String? = null, block: (Int, String, T?) -> Unit) {
+fun <T> Single<T>.onNext(event: Int? = null, block: (Int, String, T?) -> Unit) {
 
     subscribe(object : SingleObserver<T> {
         override fun onSubscribe(disposable: Disposable) {
-            onRequestStarted(tag)
+            onRequestStarted(event)
         }
 
         override fun onSuccess(response: T) {
-            onRequestCompleted(tag)
+            onRequestCompleted(event)
             block(200, "OK", response)
         }
 
         override fun onError(throwable: Throwable) {
-            onRequestCompleted(tag)
+            onRequestCompleted(event)
             onRequestCompleted(throwable, block)
         }
+
     })
 }
 
-fun <T> Single<T>.onSuccess(tag: String? = null, block: (T) -> Unit) {
+fun <T> Single<T>.onSuccess(event: Int? = null, block: (T) -> Unit) {
 
     subscribe(object : SingleObserver<T> {
         override fun onSubscribe(disposable: Disposable) {
-            onRequestStarted(tag)
+            onRequestStarted(event)
         }
 
         override fun onSuccess(response: T) {
-            onRequestCompleted(tag)
+            onRequestCompleted(event)
             block(response)
         }
 
         override fun onError(throwable: Throwable) {
-            onRequestCompleted(tag)
+            onRequestCompleted(event)
         }
     })
 }
 
-fun <T> Single<T>.liveData(tag: String? = null): EventLiveData<RestResponse<T>?> {
+fun <T> Single<T>.liveData(event: Int? = null): EventLiveData<RestResponse<T>?> {
 
     return EventLiveData<RestResponse<T>?>().also { liveData ->
-        onNext(tag) { status, message, body ->
+        onNext(event) { status, message, body ->
             liveData.postValue(RestResponse(status, message, body))
         }
     }
 }
 
-fun <T> Single<T>.successLiveData(tag: String? = null): EventLiveData<T?> {
+fun <T> Single<T>.successLiveData(event: Int? = null): EventLiveData<T?> {
 
     return EventLiveData<T?>().also { liveData ->
-        onSuccess(tag) { response ->
+        onSuccess(event) { response ->
             liveData.postValue(response)
         }
     }
@@ -157,15 +158,15 @@ fun <T> Single<T>.successLiveData(tag: String? = null): EventLiveData<T?> {
 /**
  * Flowable
  */
-fun <T> Flowable<T>.onNext(tag: String? = null, block: (Int, String, T?) -> Unit) {
+fun <T> Flowable<T>.onNext(event: Int? = null, block: (Int, String, T?) -> Unit) {
 
     subscribe(object : FlowableSubscriber<T> {
         override fun onSubscribe(subscription: Subscription) {
-            onRequestStarted(tag)
+            onRequestStarted(event)
         }
 
         override fun onNext(response: T) {
-            onRequestCompleted(tag)
+            onRequestCompleted(event)
             block(200, "OK", response)
         }
 
@@ -174,20 +175,20 @@ fun <T> Flowable<T>.onNext(tag: String? = null, block: (Int, String, T?) -> Unit
         }
 
         override fun onComplete() {
-            onRequestCompleted(tag)
+            onRequestCompleted(event)
         }
     })
 }
 
-fun <T> Flowable<T>.onSuccess(tag: String? = null, block: (T?) -> Unit) {
+fun <T> Flowable<T>.onSuccess(event: Int? = null, block: (T?) -> Unit) {
 
     subscribe(object : FlowableSubscriber<T> {
         override fun onSubscribe(subscription: Subscription) {
-            onRequestStarted(tag)
+            onRequestStarted(event)
         }
 
         override fun onNext(response: T) {
-            onRequestCompleted(tag)
+            onRequestCompleted(event)
             block(response)
         }
 
@@ -196,45 +197,44 @@ fun <T> Flowable<T>.onSuccess(tag: String? = null, block: (T?) -> Unit) {
         }
 
         override fun onComplete() {
-            onRequestCompleted(tag)
+            onRequestCompleted(event)
         }
     })
 }
 
-fun <T> Flowable<T>.liveData(tag: String? = null): EventLiveData<RestResponse<T>?> {
+fun <T> Flowable<T>.liveData(event: Int? = null): EventLiveData<RestResponse<T>?> {
 
     return EventLiveData<RestResponse<T>?>().also { liveData ->
-        onNext(tag) { status, message, body ->
+        onNext(event) { status, message, body ->
             liveData.postValue(RestResponse(status, message, body))
         }
     }
 }
 
-fun <T> Flowable<T>.successLiveData(tag: String? = null): EventLiveData<T?> {
+fun <T> Flowable<T>.successLiveData(event: Int? = null): EventLiveData<T?> {
 
     return EventLiveData<T?>().also { liveData ->
-        onSuccess(tag) { response ->
+        onSuccess(event) { response ->
             liveData.postValue(response)
         }
     }
 }
 
 
-
 /**
  * Call
  */
-fun <T> Call<T>.onResponse(tag: String? = null, block: (Int, String, T?) -> Unit) {
+fun <T> Call<T>.onResponse(event: Int? = null, block: (Int, String, T?) -> Unit) {
 
-    onRequestStarted(tag)
+    onRequestStarted(event)
     enqueue(object : Callback<T> {
         override fun onFailure(call: Call<T>, throwable: Throwable) {
-            onRequestCompleted(tag)
+            onRequestCompleted(event)
             onRequestCompleted(throwable, block)
         }
 
         override fun onResponse(call: Call<T>, response: Response<T?>) {
-            onRequestCompleted(tag)
+            onRequestCompleted(event)
             onRequestSuccess(response) { status, message, body ->
                 block(status, message, body)
             }
@@ -242,17 +242,17 @@ fun <T> Call<T>.onResponse(tag: String? = null, block: (Int, String, T?) -> Unit
     })
 }
 
-fun <T> Call<T>.onSuccess(tag: String? = null, block: (T?) -> Unit) {
+fun <T> Call<T>.onSuccess(event: Int? = null, block: (T?) -> Unit) {
 
-    onRequestStarted(tag)
+    onRequestStarted(event)
     enqueue(object : Callback<T> {
         override fun onFailure(call: Call<T>, throwable: Throwable) {
-            onRequestCompleted(tag)
+            onRequestCompleted(event)
             onRequestCompleted(throwable)
         }
 
         override fun onResponse(call: Call<T>, response: Response<T?>) {
-            onRequestCompleted(tag)
+            onRequestCompleted(event)
             onRequestSuccess(response) { _, _, body ->
                 block(body)
             }
@@ -260,23 +260,22 @@ fun <T> Call<T>.onSuccess(tag: String? = null, block: (T?) -> Unit) {
     })
 }
 
-fun <T> Call<T>.liveData(tag: String? = null): EventLiveData<RestResponse<T>?> {
+fun <T> Call<T>.liveData(event: Int? = null): EventLiveData<RestResponse<T>?> {
 
     return EventLiveData<RestResponse<T>?>().also { liveData ->
-        onResponse(tag) { status, message, body ->
+        onResponse(event) { status, message, body ->
             liveData.postValue(RestResponse(status, message, body))
         }
     }
 }
 
-fun <T> Call<T>.successLiveData(tag: String?): EventLiveData<T?> {
+fun <T> Call<T>.successLiveData(event: Int?): EventLiveData<T?> {
     return EventLiveData<T?>().also { liveData ->
-        onSuccess(tag) { response ->
+        onSuccess(event) { response ->
             liveData.postValue(response)
         }
     }
 }
-
 
 
 /**
@@ -312,6 +311,7 @@ fun <T> onRequestCompleted(throwable: Throwable? = null, block: (Int, String, T?
         throwable == null -> block(UNKNOWN_ERROR, "Some thing went wrong !", null)
         throwable is HttpException -> block(throwable.code(), throwable.message(), null)
         throwable.isNetworkError() -> block(NETWORK_ERROR, "network error", null)
+        else -> block(-1, throwable.message ?: "Some thing went wrong !", null)
     }
 }
 
@@ -324,13 +324,13 @@ fun onRequestCompleted(throwable: Throwable? = null) {
     }
 }
 
-fun onRequestStarted(tag: String?, hasProgress: Boolean = false) {
-    RestClient.add(tag)
+fun onRequestStarted(event: Int?, hasProgress: Boolean = false) {
+    RestClient.add(event)
     if (hasProgress) ProgressLiveData.show()
 }
 
-fun onRequestCompleted(tag: String?, hasProgress: Boolean = false) {
-    RestClient.remove(tag)
+fun onRequestCompleted(event: Int?, hasProgress: Boolean = false) {
+    RestClient.remove(event)
     if (hasProgress) ProgressLiveData.hide()
 }
 

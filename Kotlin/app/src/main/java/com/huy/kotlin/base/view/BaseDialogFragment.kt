@@ -17,6 +17,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.huy.kotlin.R
 import com.huy.kotlin.base.dialog.ProgressDialog
+import com.huy.library.view.PreventClickListener
 import com.tbruyelle.rxpermissions2.RxPermissions
 
 /**
@@ -37,11 +38,15 @@ abstract class BaseDialogFragment : BottomSheetDialogFragment(), BaseView {
 
     override val fragmentActivity: FragmentActivity? get() = requireActivity()
 
-    override var onViewClick: View.OnClickListener? = null
+    override val progressDialog: ProgressDialog? get() = baseActivity?.progressDialog
 
-    override var progressDialog: ProgressDialog? = null
-        get() = baseActivity?.getProgress()
-
+    override val onViewClick: PreventClickListener by lazy {
+        object : PreventClickListener() {
+            override fun onViewClick(v: View?) {
+                onViewClick(v)
+            }
+        }
+    }
 
     /**
      * [BottomSheetDialogFragment] override
@@ -60,11 +65,6 @@ abstract class BaseDialogFragment : BottomSheetDialogFragment(), BaseView {
         view.setOnTouchListener { _, _ -> true }
         configDialog()
         return view
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        onViewClick = null
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

@@ -23,6 +23,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import com.google.android.material.snackbar.Snackbar
 import com.huy.library.Library
+import com.huy.library.view.PreventClickListener
 import kotlin.math.roundToInt
 
 
@@ -109,16 +110,6 @@ fun View.fragmentActivity(): FragmentActivity? {
     return context as? FragmentActivity
 }
 
-fun View.preventAction(time: Long = 1200) {
-    isEnabled = false
-    postDelayed({ isEnabled = true }, time)
-}
-
-fun View.preventClick(time: Long = 1200) {
-    isClickable = false
-    postDelayed({ isClickable = true }, time)
-}
-
 fun View.show() {
     if (visibility != View.VISIBLE) visibility = View.VISIBLE
 }
@@ -150,6 +141,13 @@ fun View.updateStatusBar() {
     (context as? Activity)?.statusBarDrawable(background)
 }
 
+fun View.addOnClickListener(block: () -> Unit){
+    setOnClickListener(object : PreventClickListener() {
+        override fun onViewClick(v: View?) {
+            block()
+        }
+    })
+}
 
 /**
  * @param animationStyle animationStyle

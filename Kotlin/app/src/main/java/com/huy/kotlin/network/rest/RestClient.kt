@@ -1,8 +1,6 @@
 package com.huy.kotlin.network.rest
 
 import com.huy.kotlin.BuildConfig
-import com.huy.kotlin.app.LOG
-import com.huy.library.Logger
 import java.util.*
 
 /**
@@ -13,13 +11,9 @@ import java.util.*
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-class RestClient private constructor() : Logger(RestClient::class.java, LOG) {
+class RestClient private constructor() {
 
-    /**
-     * Linked list of post code
-     * Guaranteed api post job as a post execute if it being not executing
-     */
-    var requestQueue: Queue<String> = LinkedList()
+    var requestQueue: Queue<Int> = LinkedList()
 
     var service: RestService = RestHelper.retrofit(BuildConfig.SERVICE_URL)
             .build()
@@ -33,17 +27,18 @@ class RestClient private constructor() : Logger(RestClient::class.java, LOG) {
 
         val service: RestService = instance.service
 
-        fun add(tag: String?) {
+        fun add(tag: Int?) {
             tag ?: return
             instance.requestQueue.add(tag)
         }
 
-        fun remove(tag: String?) {
+        fun remove(tag: Int?) {
             tag ?: return
             instance.requestQueue.remove(tag)
         }
 
-        fun contains(tag: String): Boolean {
+        fun contains(tag: Int?): Boolean {
+            tag ?: return false
             return instance.requestQueue.contains(tag)
         }
 

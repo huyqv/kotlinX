@@ -25,10 +25,13 @@ abstract class ArchFragment<VM : BaseViewModel> : BaseFragment() {
 
     protected abstract fun onRegisterLiveData()
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        viewModel.onStart()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        viewModel.onStart()
 
         onCreated(savedInstanceState)
 

@@ -4,7 +4,15 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.Observer
+import androidx.paging.PagedList
 import com.huy.kotlin.data.observable.SingleLiveData
+
+val PAGED_DEFAULT_CONFIG: PagedList.Config
+    get() = PagedList.Config.Builder()
+            .setPageSize(10)
+            .setInitialLoadSizeHint(10)
+            .setEnablePlaceholders(true)
+            .build()
 
 class NonNullLiveData<T> : MediatorLiveData<T>()
 

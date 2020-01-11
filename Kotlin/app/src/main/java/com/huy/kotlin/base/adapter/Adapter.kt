@@ -174,19 +174,19 @@ fun <T> ListAdapter<T, RecyclerView.ViewHolder>.asyncListDiffer(itemCallback: Di
     val adapterCallback = AdapterListUpdateCallback(this)
     val listCallback = object : ListUpdateCallback {
         override fun onChanged(position: Int, count: Int, payload: Any?) {
-            adapterCallback.onChanged(position, count, payload)
+            adapterCallback.onChanged(position + 1, count, payload)
         }
 
         override fun onMoved(fromPosition: Int, toPosition: Int) {
-            adapterCallback.onMoved(fromPosition, toPosition)
+            adapterCallback.onMoved(fromPosition + 1, toPosition + 1)
         }
 
         override fun onInserted(position: Int, count: Int) {
-            adapterCallback.onInserted(position, count)
+            adapterCallback.onInserted(position + 1, count + 1)
         }
 
         override fun onRemoved(position: Int, count: Int) {
-            adapterCallback.onRemoved(position, count)
+            adapterCallback.onRemoved(position + 1, count)
         }
     }
     return AsyncListDiffer<T>(listCallback, AsyncDifferConfig.Builder<T>(itemCallback).build())
@@ -197,19 +197,19 @@ fun <T> PagedListAdapter<T, RecyclerView.ViewHolder>.asyncPagedListDiffer(itemCa
     val adapterCallback = AdapterListUpdateCallback(this)
     val listCallback = object : ListUpdateCallback {
         override fun onChanged(position: Int, count: Int, payload: Any?) {
-            adapterCallback.onChanged(position, count, payload)
+            adapterCallback.onChanged(position + 1, count, payload)
         }
 
         override fun onMoved(fromPosition: Int, toPosition: Int) {
-            adapterCallback.onMoved(fromPosition, toPosition)
+            adapterCallback.onMoved(fromPosition + 1, toPosition + 1)
         }
 
         override fun onInserted(position: Int, count: Int) {
-            adapterCallback.onInserted(position, count)
+            adapterCallback.onInserted(position + 1, count + 1)
         }
 
         override fun onRemoved(position: Int, count: Int) {
-            adapterCallback.onRemoved(position, count)
+            adapterCallback.onRemoved(position + 1, count)
         }
     }
     return AsyncPagedListDiffer<T>(listCallback, AsyncDifferConfig.Builder<T>(itemCallback).build())

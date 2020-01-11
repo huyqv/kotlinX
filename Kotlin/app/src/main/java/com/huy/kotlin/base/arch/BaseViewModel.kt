@@ -3,9 +3,9 @@ package com.huy.kotlin.base.arch
 import android.content.Context
 import android.os.Bundle
 import androidx.lifecycle.ViewModel
-import com.huy.kotlin.RoomHelper
 import com.huy.kotlin.app.App
-import com.huy.kotlin.data.local.SharedHelper
+import com.huy.kotlin.data.RoomHelper
+import com.huy.kotlin.data.Shared
 import com.huy.kotlin.network.rest.RestClient
 
 /**
@@ -18,11 +18,11 @@ import com.huy.kotlin.network.rest.RestClient
  */
 open class BaseViewModel : ViewModel() {
 
-    val context: Context get() = App.appContext
+    val context: Context get() = App.instance.applicationContext
 
     val room: RoomHelper get() = RoomHelper.instance
 
-    val shared: SharedHelper get() = SharedHelper.instance
+    val shared: Shared get() = Shared.instance
 
     val service: RestClient get() = RestClient.instance
 
@@ -39,6 +39,7 @@ open class BaseViewModel : ViewModel() {
      */
     open fun onNetworkAvailable() {
     }
+
 
     /**
      * Bundle for passing data from view

@@ -35,16 +35,8 @@ class PagingFragment : ArchFragment<PagingVM>() {
 
     override fun onRegisterLiveData() {
         viewModel.liveData.observe {
-
-            if (it.isNullOrEmpty()) {
-                adapter.footerLayoutRes = 0
-            }
-            if (adapter.dataIsEmpty) {
-                adapter.submitList(it)
-                recyclerView.scrollToPosition(0)
-            } else {
-                adapter.submitList(it)
-            }
+            if (it.isNullOrEmpty()) adapter.hideFooter()
+            adapter.submitList(it)
         }
     }
 

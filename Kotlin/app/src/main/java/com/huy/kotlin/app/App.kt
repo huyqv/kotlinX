@@ -1,7 +1,6 @@
 package com.huy.kotlin.app
 
 import android.app.Application
-import android.content.Context
 import com.huy.kotlin.data.observable.NetworkLiveData
 import com.huy.library.Library
 
@@ -30,10 +29,6 @@ class App : Application() {
     companion object {
 
         lateinit var instance: App private set
-
-        val appContext: Context get() = instance.applicationContext
-
-        val baseContext: Context get() = instance.baseContext
     }
 
 }

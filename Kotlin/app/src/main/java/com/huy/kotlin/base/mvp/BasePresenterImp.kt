@@ -3,13 +3,13 @@ package com.huy.kotlin.base.mvp
 import android.content.Context
 import android.util.Log
 import androidx.annotation.StringRes
-import com.huy.kotlin.RoomHelper
 import com.huy.kotlin.app.App
 import com.huy.kotlin.base.event.Event
 import com.huy.kotlin.base.event.EventDispatcher
 import com.huy.kotlin.base.event.EventListener
 import com.huy.kotlin.base.view.BaseView
-import com.huy.kotlin.data.local.SharedHelper
+import com.huy.kotlin.data.RoomHelper
+import com.huy.kotlin.data.Shared
 import com.huy.kotlin.network.callback.WeakDisposableObserver
 import com.huy.kotlin.network.rest.RestClient
 import com.huy.kotlin.network.rest.RestResponse
@@ -70,11 +70,11 @@ open class BasePresenterImp<V : BaseView> : BasePresenter<V>, EventListener {
         Log.d("EventPost", id.toString())
     }
 
-    val context: Context get() = App.appContext
+    val context: Context get() = App.instance.applicationContext
 
     val room: RoomHelper get() = RoomHelper.instance
 
-    val shared: SharedHelper get() = SharedHelper.instance
+    val shared: Shared get() = Shared.instance
 
     val service: RestClient get() = RestClient.instance
 

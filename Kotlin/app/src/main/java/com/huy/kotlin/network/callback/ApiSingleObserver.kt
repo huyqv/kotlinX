@@ -15,28 +15,28 @@ import io.reactivex.disposables.Disposable
  */
 class ApiSingleObserver<T> : SingleObserver<T> {
 
-    private val tag: String?
+    private val event: Int?
 
     private val block: (T?) -> Unit
 
-    constructor(tag: String? = null, block: (T?) -> Unit) {
-        this.tag = tag
+    constructor(event: Int? = null, block: (T?) -> Unit) {
+        this.event = event
         this.block = block
     }
 
     open fun hasProgress(): Boolean = true
 
     override fun onSubscribe(disposable: Disposable) {
-        onRequestStarted(tag, hasProgress())
+        onRequestStarted(event, hasProgress())
     }
 
     override fun onSuccess(response: T) {
-        onRequestCompleted(tag, hasProgress())
+        onRequestCompleted(event, hasProgress())
         block(response)
     }
 
     override fun onError(throwable: Throwable) {
-        onRequestCompleted(tag, hasProgress())
+        onRequestCompleted(event, hasProgress())
         onRequestCompleted(throwable)
     }
 

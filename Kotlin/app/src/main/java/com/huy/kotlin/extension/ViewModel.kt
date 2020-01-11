@@ -14,6 +14,5 @@ import androidx.lifecycle.ViewModelStoreOwner
  */
 fun <T : ViewModel> ViewModelStoreOwner.viewModel(cls: Class<T>): T = ViewModelProvider(this).get(cls)
 
-fun <T : ViewModel> ViewModelStoreOwner.instanceViewModel(cls: Class<T>): T =
-        ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())[cls]
+fun <T : ViewModel> ViewModelStoreOwner.instanceViewModel(cls: Class<T>): T = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())[cls]
 
