@@ -7,12 +7,9 @@ import androidx.annotation.LayoutRes
 import androidx.paging.AsyncPagedListDiffer
 import androidx.paging.PagedList
 import androidx.paging.PagedListAdapter
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.*
 import com.huy.kotlin.R
-import com.huy.library.extension.preventClick
+import com.huy.library.extension.addOnClickListener
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -92,8 +89,7 @@ abstract class BasePagedListAdapter<T> : PagedListAdapter<T, RecyclerView.ViewHo
 
         position.updateLastIndex()
 
-        viewHolder.itemView.setOnClickListener {
-            it.preventClick(300)
+        viewHolder.itemView.addOnClickListener {
             itemClick?.also { it(model, position) }
         }
 
@@ -224,6 +220,31 @@ abstract class BasePagedListAdapter<T> : PagedListAdapter<T, RecyclerView.ViewHo
         GridDecoration.draw(recyclerView, layoutManager.spanCount, 0, includeEdge)
         recyclerView.adapter = this
     }
+
+    private fun asyncPagedListDiffer(itemCallback: DiffUtil.ItemCallback<T>): AsyncPagedListDiffer<T> {
+
+        val adapterCallback = AdapterListUpdateCallback(this)
+        val listCallback = object : ListUpdateCallback {
+            override fun onChanged(position: Int, count: Int, payload: Any?) {
+                adapterCallback.onChanged(position + 1, count, payload)
+            }
+
+            override fun onMoved(fromPosition: Int, toPosition: Int) {
+                adapterCallback.onMoved(fromPosition + 1, toPosition + 1)
+            }
+
+            override fun onInserted(position: Int, count: Int) {
+                adapterCallback.onInserted(position + 1, count + 1)
+            }
+
+            override fun onRemoved(position: Int, count: Int) {
+                adapterCallback.onRemoved(position + 1, count)
+            }
+        }
+        return AsyncPagedListDiffer<T>(listCallback, AsyncDifferConfig.Builder<T>(itemCallback).build())
+    }
+
+    class ViewHolder(v: View) : RecyclerView.ViewHolder(v)
 
 }
 

@@ -19,11 +19,11 @@ abstract class RepeatThread : BaseHandlerThread {
         generator = object : Runnable {
             override fun run() {
                 onDataGenerate()?.also {
-                    val msg = handler?.obtainMessage()
+                    val msg = dataHandler?.obtainMessage()
                     msg?.obj = it
                     msg?.sendToTarget()
                 }
-                handler?.postDelayed(this, delay)
+                dataHandler?.postDelayed(this, delay)
             }
         }
     }
@@ -31,13 +31,13 @@ abstract class RepeatThread : BaseHandlerThread {
     override fun playGenerate() {
         if (generating) return
         generating = true
-        handler?.apply { postDelayed(generator, delayInterval) }
+        dataHandler?.apply { postDelayed(generator, delayInterval) }
     }
 
     override fun pauseGenerate() {
         if (!generating) return
         generating = false
-        handler?.apply { removeCallbacks(generator) }
+        dataHandler?.apply { removeCallbacks(generator) }
     }
 
 

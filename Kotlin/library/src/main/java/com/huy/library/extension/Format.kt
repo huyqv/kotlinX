@@ -1,14 +1,19 @@
 package com.huy.library.extension
 
 import android.text.Editable
+import android.text.TextUtils
 import android.widget.EditText
 import java.lang.ref.WeakReference
 import java.math.BigDecimal
 import java.math.RoundingMode
+import java.net.URI
+import java.net.URISyntaxException
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
+import java.text.Normalizer
 import java.text.NumberFormat
 import java.util.*
+import java.util.regex.Pattern
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -18,27 +23,103 @@ import java.util.*
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-private val decimalFormat = (NumberFormat.getInstance(Locale.US) as DecimalFormat).also {
+
+fun String?.normalizer(): String? {
+    this ?: return null
+    return try {
+        val temp = Normalizer.normalize(this, Normalizer.Form.NFD)
+        val pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+")
+        pattern.matcher(temp)
+                .replaceAll("")
+                .toLowerCase()
+                .replace(" ", "-")
+                .replace("đ", "d", true)
+
+    } catch (e: IllegalStateException) {
+        null
+    } catch (e: IllegalArgumentException) {
+        null
+    }
+}
+
+fun String?.normalize(): String? {
+    this ?: return null
+    if (this.isEmpty()) return null
+    val s = this.trim { it <= ' ' }
+    return Normalizer.normalize(s, Normalizer.Form.NFD)
+            .toLowerCase()
+            .replace("\\p{M}".toRegex(), "")
+            .replace("đ".toRegex(), "d")
+}
+
+/**
+ * www.oracle.com/download#374 -> oracle.com
+ */
+fun String.getDomainName(): String {
+    return try {
+        val uri = URI(this)
+        val domain = uri.host ?: return ""
+        if (domain.startsWith("www.")) domain.substring(4) else domain
+    } catch (e: URISyntaxException) {
+        ""
+    }
+}
+
+/**
+ * 123456789012345 -> 1234 4567 8901 2345
+ */
+fun String?.toCreditNum(): String? {
+    return if (TextUtils.isEmpty(this)) null else this!!.replace("\\d{4}".toRegex(), "$0 ")
+}
+
+/**
+ * 123456789012345 -> •••• •••• •••• 2345
+ */
+fun String?.toHiddenCreditNum(): String {
+    if (this == null || this.length < 17) return "•••• •••• •••• ••••"
+    return "•••• •••• •••• ${this.substring(this.lastIndex - 4, this.lastIndex)}"
+}
+
+/**
+ * us -> 🇺🇸
+ */
+fun String?.flagIcon(): String {
+    this ?: return ""
+    if (length != 2) return ""
+    val s = toUpperCase()
+    val char1st = Character.codePointAt(s, 0) - 0x41 + 0x1F1E6
+    val char2st = Character.codePointAt(s, 1) - 0x41 + 0x1F1E6
+    return String(Character.toChars(char1st)) + String(Character.toChars(char2st))
+}
+
+/**
+ * Format string pattern ex:    423.016024, 9442.456363,    72
+ * To                           423,        9,442           72
+ */
+private val INT_CASH_FORMAT = (NumberFormat.getInstance(Locale.US) as DecimalFormat).also {
     it.applyPattern("#,###,###,###")
 }
 
-fun String?.moneyFormat(/* format #,###,###,### */): String {
+fun String?.intCash(): String {
     this ?: return ""
     return try {
         var originalString = replace(",", "").replace(".", "")
         if (originalString.contains(",")) originalString = originalString.replace(",".toRegex(), "")
-        decimalFormat.format(originalString.toLong())
+        INT_CASH_FORMAT.format(originalString.toLong())
     } catch (nfe: Exception) {
         ""
     }
 }
 
-
-private val decimalFormat2 = (NumberFormat.getInstance(Locale.US) as DecimalFormat).also {
+/**
+ * Format string pattern ex:    423.016024, 9442.456363,    72
+ * To                           423.01,     9,442.45,       72.0
+ */
+private val FLOAT_CAST_FORMAT = (NumberFormat.getInstance(Locale.US) as DecimalFormat).also {
     it.applyPattern("#,###,###,###.##")
 }
 
-fun String?.moneyFormat2(/* format #,###,###,###.## */): String {
+fun String?.floatCash(): String {
     this ?: return ""
     return try {
 
@@ -55,15 +136,17 @@ fun String?.moneyFormat2(/* format #,###,###,###.## */): String {
         if (originalString.contains(",")) originalString = originalString.replace(",".toRegex(), "")
 
         val value = originalString.toDouble()
-        decimalFormat2.format(value)
+        FLOAT_CAST_FORMAT.format(value)
 
     } catch (nfe: Exception) {
         ""
     }
 }
 
-
-class CashTextWatcher(editText: EditText) : SimpleTextWatcher {
+/**
+ * Text watcher to apply pattern: #,###,###,###
+ */
+class IntCashWatcher(editText: EditText) : SimpleTextWatcher {
 
     private val viewReference: WeakReference<EditText> = WeakReference(editText)
 
@@ -71,17 +154,20 @@ class CashTextWatcher(editText: EditText) : SimpleTextWatcher {
 
     override fun afterTextChanged(s: Editable?) {
         editText?.apply {
-            val text = text.toString().moneyFormat()
-            removeTextChangedListener(this@CashTextWatcher)
+            val text = text.toString().intCash()
+            removeTextChangedListener(this@IntCashWatcher)
             setText(text)
             setSelection(text.length)
-            addTextChangedListener(this@CashTextWatcher)
+            addTextChangedListener(this@IntCashWatcher)
         }
     }
 
 }
 
-class CashTextWatcher2(editText: EditText, private val prefix: String = "") : SimpleTextWatcher {
+/**
+ * Text watcher to apply pattern: USD #,###,###,###
+ */
+class FloatCashWatcher(editText: EditText, private val prefix: String = "") : SimpleTextWatcher {
 
     private val maxLength = 20
 
@@ -105,10 +191,10 @@ class CashTextWatcher2(editText: EditText, private val prefix: String = "") : Si
             previousCleanString = cleanString
             val formattedString: String
             formattedString = if (cleanString.contains(".")) cleanString.formatDecimal() else cleanString.formatInteger()
-            removeTextChangedListener(this@CashTextWatcher2)
+            removeTextChangedListener(this@FloatCashWatcher)
             setText(formattedString)
             handleSelection()
-            addTextChangedListener(this@CashTextWatcher2)
+            addTextChangedListener(this@FloatCashWatcher)
         }
     }
 

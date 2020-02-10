@@ -1,8 +1,6 @@
 package com.huy.kotlin.base.view
 
-import android.app.Activity
 import android.content.Intent
-import android.os.SystemClock
 import android.view.View
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment

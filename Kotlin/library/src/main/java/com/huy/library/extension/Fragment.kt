@@ -45,8 +45,12 @@ fun Fragment.replaceFragment(fragment: Fragment, @IdRes container: Int, backStac
 }
 
 fun Fragment.remove(cls: Class<Fragment>, animations: IntArray? = VERTICAL_ANIMATIONS) {
+    remove(cls.simpleName.tag(), animations)
+}
 
-    val tag = cls.simpleName.tag()
+fun Fragment.remove(tag: String?, animations: IntArray? = null) {
+
+    tag ?: return
     val fragment = childFragmentManager.findFragmentByTag(tag) ?: return
     childFragmentManager.scheduleTransaction({
         remove(fragment)
@@ -80,8 +84,12 @@ fun FragmentActivity.replaceFragment(fragment: Fragment, @IdRes container: Int, 
 }
 
 fun FragmentActivity.remove(cls: Class<*>, animations: IntArray? = VERTICAL_ANIMATIONS) {
+    remove(cls.simpleName.tag(), animations)
+}
 
-    val tag = cls.simpleName.tag()
+fun FragmentActivity.remove(tag: String?, animations: IntArray? = VERTICAL_ANIMATIONS) {
+
+    tag ?: return
     val fragment = supportFragmentManager.findFragmentByTag(tag) ?: return
     supportFragmentManager.scheduleTransaction({
         remove(fragment)

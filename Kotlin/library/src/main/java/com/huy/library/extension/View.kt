@@ -141,7 +141,7 @@ fun View.updateStatusBar() {
     (context as? Activity)?.statusBarDrawable(background)
 }
 
-fun View.addOnClickListener(block: () -> Unit){
+fun View.addOnClickListener(block: () -> Unit) {
     setOnClickListener(object : PreventClickListener() {
         override fun onViewClick(v: View?) {
             block()

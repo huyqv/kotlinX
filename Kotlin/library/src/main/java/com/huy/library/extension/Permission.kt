@@ -1,8 +1,6 @@
 package com.huy.library.extension
 
-import android.Manifest
 import android.app.Activity
-import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
 import androidx.annotation.RequiresPermission
@@ -18,79 +16,60 @@ import androidx.fragment.app.Fragment
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-fun Context.isGranted(@RequiresPermission permission: String): Boolean {
-    return ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED
-}
-
-fun Context.grantedNetworkPermission(): Boolean {
-
-    if (!isGranted(Manifest.permission.ACCESS_NETWORK_STATE)) return false
-    if (!isGranted(Manifest.permission.ACCESS_WIFI_STATE)) return false
-    return true
-}
-
-fun Activity.request(requestCode: Int, vararg permission: String) {
+fun Activity.isGranted(@RequiresPermission vararg permissions: String, onGranted: () -> Unit) {
+    val list = mutableListOf<String>()
+    permissions.forEach {
+        if (ContextCompat.checkSelfPermission(this, it) != PackageManager.PERMISSION_GRANTED) {
+            list.add(it)
+        }
+    }
+    if (list.isNullOrEmpty()) {
+        onGranted()
+        return
+    }
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-        requestPermissions(permission, requestCode)
+        requestPermissions(permissions, 1)
     } else {
-        ActivityCompat.requestPermissions(this, permission, requestCode)
+        ActivityCompat.requestPermissions(this, permissions, 1)
     }
 
 }
 
-fun Fragment.request(requestCode: Int, vararg permission: String) {
-    requestPermissions(permission, requestCode)
-}
-
-
-const val STORAGE_REQUEST_CODE = 9004530
-
-fun Activity.requestWriteExternalStorage(requestCode: Int = STORAGE_REQUEST_CODE) {
-    request(requestCode, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-}
-
-fun Activity.requestReadExternalStorage(requestCode: Int = STORAGE_REQUEST_CODE) {
-    request(requestCode, Manifest.permission.READ_EXTERNAL_STORAGE)
-}
-
-fun Fragment.requestWriteExternalStorage(requestCode: Int = STORAGE_REQUEST_CODE) {
-    request(requestCode, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-}
-
-fun Fragment.requestReadExternalStorage(requestCode: Int = STORAGE_REQUEST_CODE) {
-    request(requestCode, Manifest.permission.READ_EXTERNAL_STORAGE)
-}
-
-
-const val LOCATION_REQUEST_CODE = 9004531
-val LOCATION_PERMISSION: Array<String> by lazy {
-    arrayOf(
-            Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.ACCESS_COARSE_LOCATION
-    )
-}
-
-fun Context.isGrantedLocation(): Boolean {
-    return isGranted(Manifest.permission.ACCESS_FINE_LOCATION) && isGranted(Manifest.permission.ACCESS_COARSE_LOCATION)
-}
-
-fun Fragment.isGrantedLocation(): Boolean {
-    return context?.isGranted(Manifest.permission.ACCESS_FINE_LOCATION) == true &&
-            context?.isGranted(Manifest.permission.ACCESS_COARSE_LOCATION) == true
-}
-
-fun Fragment.requestLocation(requestCode: Int = LOCATION_REQUEST_CODE) {
-    request(
-            requestCode,
-            Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.ACCESS_COARSE_LOCATION
-    )
-}
-
-fun Activity.requestLocation(requestCode: Int = LOCATION_REQUEST_CODE) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-        requestPermissions(LOCATION_PERMISSION, requestCode)
-    } else {
-        ActivityCompat.requestPermissions(this, LOCATION_PERMISSION, requestCode)
+fun Fragment.isGranted(@RequiresPermission vararg permissions: String, onGranted: () -> Unit) {
+    val list = mutableListOf<String>()
+    permissions.forEach {
+        if (ContextCompat.checkSelfPermission(context!!, it) != PackageManager.PERMISSION_GRANTED) {
+            list.add(it)
+        }
     }
+    if (list.isNullOrEmpty()) {
+        onGranted()
+        return
+    }
+    requestPermissions(permissions, 1)
 }
+
+fun Activity.isGranted(@RequiresPermission vararg permission: String): Boolean {
+    val list = mutableListOf<String>()
+    permission.forEach {
+        if (ContextCompat.checkSelfPermission(this, it) != PackageManager.PERMISSION_GRANTED) {
+            list.add(it)
+        }
+    }
+    return list.isNullOrEmpty()
+}
+
+fun Fragment.isGranted(@RequiresPermission vararg permission: String): Boolean {
+    val list = mutableListOf<String>()
+    permission.forEach {
+        if (ContextCompat.checkSelfPermission(context!!, it) != PackageManager.PERMISSION_GRANTED) {
+            list.add(it)
+        }
+    }
+    return list.isNullOrEmpty()
+}
+
+
+
+
+

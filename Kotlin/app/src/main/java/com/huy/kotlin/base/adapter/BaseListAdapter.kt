@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.*
 import com.huy.kotlin.R
-import com.huy.library.extension.preventClick
+import com.huy.library.extension.addOnClickListener
 
 
 /**
@@ -87,8 +87,7 @@ abstract class BaseListAdapter<T> : ListAdapter<T, RecyclerView.ViewHolder> {
 
         position.updateLastIndex()
 
-        viewHolder.itemView.setOnClickListener {
-            it.preventClick(300)
+        viewHolder.itemView.addOnClickListener {
             itemClick?.also { it(model, position) }
         }
 
@@ -317,5 +316,30 @@ abstract class BaseListAdapter<T> : ListAdapter<T, RecyclerView.ViewHolder> {
         GridDecoration.draw(recyclerView, layoutManager.spanCount, 0, includeEdge)
         recyclerView.adapter = this
     }
+
+    private fun asyncListDiffer(itemCallback: DiffUtil.ItemCallback<T>): AsyncListDiffer<T> {
+
+        val adapterCallback = AdapterListUpdateCallback(this)
+        val listCallback = object : ListUpdateCallback {
+            override fun onChanged(position: Int, count: Int, payload: Any?) {
+                adapterCallback.onChanged(position + 1, count, payload)
+            }
+
+            override fun onMoved(fromPosition: Int, toPosition: Int) {
+                adapterCallback.onMoved(fromPosition + 1, toPosition + 1)
+            }
+
+            override fun onInserted(position: Int, count: Int) {
+                adapterCallback.onInserted(position + 1, count + 1)
+            }
+
+            override fun onRemoved(position: Int, count: Int) {
+                adapterCallback.onRemoved(position + 1, count)
+            }
+        }
+        return AsyncListDiffer<T>(listCallback, AsyncDifferConfig.Builder<T>(itemCallback).build())
+    }
+
+    class ViewHolder(v: View) : RecyclerView.ViewHolder(v)
 
 }

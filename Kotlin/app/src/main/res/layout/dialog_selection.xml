@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     style="@style/MatchParent"
     android:orientation="vertical">
 
@@ -10,7 +10,7 @@
         android:background="@drawable/drw_rect_gradient"
         android:padding="@dimen/microDist">
 
-        <com.huy.library.widget.AppEditText
+        <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/dialogEditTextSearch"
             style="@style/MatchParent"
             android:background="@color/colorSemiTransparent"
@@ -30,7 +30,9 @@
         android:id="@+id/dialogRecyclerView"
         style="@style/MatchWidth"
         android:layout_margin="@dimen/_4sdp"
-        android:minHeight="@dimen/_160sdp" />
+        android:minHeight="@dimen/_160sdp"
+        tools:itemCount="5"
+        tools:listitem="@layout/item_text"/>
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/viewClose"

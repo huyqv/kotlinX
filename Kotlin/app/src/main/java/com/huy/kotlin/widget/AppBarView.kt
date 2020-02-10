@@ -71,11 +71,6 @@ class AppBarView : FrameLayout {
         init(context, attrs)
     }
 
-    override fun onVisibilityChanged(changedView: View, visibility: Int) {
-        super.onVisibilityChanged(changedView, visibility)
-        //updateStatusBar()
-    }
-
     private fun init(context: Context, attrs: AttributeSet?) {
 
         val types = context.theme.obtainStyledAttributes(attrs, R.styleable.AppBarView, 0, 0)

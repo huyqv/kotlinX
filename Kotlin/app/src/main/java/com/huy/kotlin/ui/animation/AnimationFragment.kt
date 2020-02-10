@@ -21,6 +21,7 @@ class AnimationFragment : BaseFragment() {
             "Translate X", "Translate Y", "Fade In", "Fade Out", "Center Scale",
             "Left Scale", "Right Scale", "Rotate", "Rotate Axis X", "Rotate Axis Y"
     )
+
     private val adapter = AnimationAdapter()
 
     override val layoutResource = R.layout.fragment_animation
@@ -31,7 +32,6 @@ class AnimationFragment : BaseFragment() {
         adapter.set(itemList)
         adapter.onItemClick { model, _ -> onAnimate(model) }
     }
-
 
     private fun onAnimate(animName: String) {
         val animation = when (animName) {
@@ -56,4 +56,5 @@ class AnimationFragment : BaseFragment() {
         }?.start()
 
     }
+
 }

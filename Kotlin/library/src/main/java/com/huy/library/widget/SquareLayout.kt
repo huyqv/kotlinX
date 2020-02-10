@@ -4,7 +4,7 @@ import android.annotation.TargetApi
 import android.content.Context
 import android.os.Build
 import android.util.AttributeSet
-import android.widget.RelativeLayout
+import android.widget.FrameLayout
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -15,7 +15,7 @@ import android.widget.RelativeLayout
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-class SquareLayout : RelativeLayout {
+class SquareLayout : FrameLayout {
 
     constructor(context: Context) : super(context)
 

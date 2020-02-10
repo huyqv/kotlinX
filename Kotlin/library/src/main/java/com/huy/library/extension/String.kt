@@ -3,16 +3,12 @@ package com.huy.library.extension
 import android.os.Build
 import android.text.Html
 import android.text.SpannableString
-import android.text.TextUtils
 import android.util.Base64
 import android.webkit.MimeTypeMap
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
 import com.huy.library.Library
-import java.net.URI
-import java.net.URISyntaxException
 import java.security.MessageDigest
-import java.text.Normalizer
 import java.util.*
 import java.util.regex.Pattern
 
@@ -24,6 +20,11 @@ import java.util.regex.Pattern
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
+
+fun String?.notNullOrEmpty(): Boolean {
+    return !this.isNullOrEmpty()
+}
+
 fun String.toMD5(): String {
 
     val md = MessageDigest.getInstance("MD5")
@@ -39,18 +40,6 @@ fun String.toBase64(flags: Int = Base64.DEFAULT): String {
 
 fun String.fromBase64(flags: Int = Base64.DEFAULT): String {
     return String(Base64.decode(this, flags))
-}
-
-fun String?.like(string: String?): Boolean {
-    if (isNullOrEmpty()) return false
-    if (string.isNullOrEmpty()) return false
-    val left = this.normalizer() ?: return false
-    val right = string.normalizer() ?: return false
-    return left.contains(right)
-}
-
-fun String?.notNullOrEmpty(): Boolean {
-    return !this.isNullOrEmpty()
 }
 
 fun String.getMimeType(): String? {
@@ -153,32 +142,12 @@ fun String?.capitalize(): String {
     return phrase
 }
 
-fun String?.normalizer(): String? {
-    this ?: return null
-    return try {
-        val temp = Normalizer.normalize(this, Normalizer.Form.NFD)
-        val pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+")
-        pattern.matcher(temp)
-                .replaceAll("")
-                .toLowerCase()
-                .replace(" ", "-")
-                .replace("đ", "d", true)
-
-    } catch (e: IllegalStateException) {
-        null
-    } catch (e: IllegalArgumentException) {
-        null
-    }
-}
-
-fun String?.normalize(): String? {
-    this ?: return null
-    if (this.isEmpty()) return null
-    val s = this.trim { it <= ' ' }
-    return Normalizer.normalize(s, Normalizer.Form.NFD)
-            .toLowerCase()
-            .replace("\\p{M}".toRegex(), "")
-            .replace("đ".toRegex(), "d")
+fun String?.like(string: String?): Boolean {
+    if (isNullOrEmpty()) return false
+    if (string.isNullOrEmpty()) return false
+    val left = this.normalizer() ?: return false
+    val right = string.normalizer() ?: return false
+    return left.contains(right)
 }
 
 fun String?.rgbToHex(): String {
@@ -195,16 +164,8 @@ fun String?.rgbToHex(): String {
     } else "#000"
 }
 
-/**
- * 123456789012345 -> 1234 4567 8901 2345
- */
-fun String?.toCreditNum(): String? {
-    return if (TextUtils.isEmpty(this)) null else this!!.replace("\\d{4}".toRegex(), "$0 ")
-}
-
-fun String?.toHiddenCreditNum(): String {
-    if (this == null || this.length < 17) return "•••• •••• •••• ••••"
-    return "•••• •••• •••• ${this.substring(this.lastIndex - 4, this.lastIndex)}"
+fun String.tag(): String {
+    return if (length > 23) substring(0, 22) else this
 }
 
 fun String?.sub(start: Int, end: Int, default: String = ""): String {
@@ -213,28 +174,9 @@ fun String?.sub(start: Int, end: Int, default: String = ""): String {
     return this.substring(start, end)
 }
 
-fun String.getDomainName(): String {
-    return try {
-        val uri = URI(this)
-        val domain = uri.host ?: return ""
-        if (domain.startsWith("www.")) domain.substring(4) else domain
-    } catch (e: URISyntaxException) {
-        ""
-    }
-}
 
-fun String?.countryFlag(): String {
-    this ?: return ""
-    if (length != 2) return ""
-    val s = toUpperCase()
-    val char1st = Character.codePointAt(s, 0) - 0x41 + 0x1F1E6
-    val char2st = Character.codePointAt(s, 1) - 0x41 + 0x1F1E6
-    return String(Character.toChars(char1st)) + String(Character.toChars(char2st))
-}
 
-fun String.tag(): String {
-    return if (length > 23) substring(0, 22) else this
-}
+
 
 
 

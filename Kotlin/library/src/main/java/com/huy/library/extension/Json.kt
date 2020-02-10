@@ -5,6 +5,8 @@ import com.google.gson.JsonArray
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.google.gson.reflect.TypeToken
+import org.json.JSONException
+import org.json.JSONObject
 import java.io.StringReader
 
 abstract class Converter<T> {
@@ -248,6 +250,23 @@ fun JsonObject?.bool(key: String, default: Boolean = false): Boolean {
     return get(key)?.asBoolean ?: default
 }
 
+fun String?.stringyJson(): String {
+    this ?: return "null"
+    return try {
+        JSONObject(this).toString(2)
+    } catch (e: JSONException) {
+        "null"
+    }
+}
+
+fun JsonObject?.stringyJson(): String {
+    this ?: return "null"
+    return try {
+        JSONObject(this.toString()).toString(2)
+    } catch (e: JSONException) {
+        "null"
+    }
+}
 
 
 

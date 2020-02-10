@@ -74,7 +74,7 @@ class NotificationHelper {
 
         val ntf = message?.notification ?: return
 
-        val data = message.data ?: return
+        val data = message.data
 
         if (data.isEmpty()) return
 

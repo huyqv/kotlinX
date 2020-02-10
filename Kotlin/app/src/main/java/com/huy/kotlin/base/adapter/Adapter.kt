@@ -8,9 +8,10 @@ import android.util.DisplayMetrics
 import android.util.TypedValue
 import android.view.View
 import androidx.annotation.DimenRes
-import androidx.paging.AsyncPagedListDiffer
-import androidx.paging.PagedListAdapter
-import androidx.recyclerview.widget.*
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -169,54 +170,6 @@ fun RecyclerView.set(adapter: BasePagedListAdapter<*>, spanCount: Int, includeEd
     this.adapter = adapter
 }
 
-fun <T> ListAdapter<T, RecyclerView.ViewHolder>.asyncListDiffer(itemCallback: DiffUtil.ItemCallback<T>): AsyncListDiffer<T> {
-
-    val adapterCallback = AdapterListUpdateCallback(this)
-    val listCallback = object : ListUpdateCallback {
-        override fun onChanged(position: Int, count: Int, payload: Any?) {
-            adapterCallback.onChanged(position + 1, count, payload)
-        }
-
-        override fun onMoved(fromPosition: Int, toPosition: Int) {
-            adapterCallback.onMoved(fromPosition + 1, toPosition + 1)
-        }
-
-        override fun onInserted(position: Int, count: Int) {
-            adapterCallback.onInserted(position + 1, count + 1)
-        }
-
-        override fun onRemoved(position: Int, count: Int) {
-            adapterCallback.onRemoved(position + 1, count)
-        }
-    }
-    return AsyncListDiffer<T>(listCallback, AsyncDifferConfig.Builder<T>(itemCallback).build())
-}
-
-fun <T> PagedListAdapter<T, RecyclerView.ViewHolder>.asyncPagedListDiffer(itemCallback: DiffUtil.ItemCallback<T>): AsyncPagedListDiffer<T> {
-
-    val adapterCallback = AdapterListUpdateCallback(this)
-    val listCallback = object : ListUpdateCallback {
-        override fun onChanged(position: Int, count: Int, payload: Any?) {
-            adapterCallback.onChanged(position + 1, count, payload)
-        }
-
-        override fun onMoved(fromPosition: Int, toPosition: Int) {
-            adapterCallback.onMoved(fromPosition + 1, toPosition + 1)
-        }
-
-        override fun onInserted(position: Int, count: Int) {
-            adapterCallback.onInserted(position + 1, count + 1)
-        }
-
-        override fun onRemoved(position: Int, count: Int) {
-            adapterCallback.onRemoved(position + 1, count)
-        }
-    }
-    return AsyncPagedListDiffer<T>(listCallback, AsyncDifferConfig.Builder<T>(itemCallback).build())
-}
-
-class ViewHolder(v: View) : RecyclerView.ViewHolder(v)
-
 open class DiffItemCallback<T> : DiffUtil.ItemCallback<T>() {
 
     override fun areItemsTheSame(oldItem: T, newItem: T): Boolean {
@@ -227,10 +180,6 @@ open class DiffItemCallback<T> : DiffUtil.ItemCallback<T>() {
         return false
     }
 }
-
-class FooterItem
-
-class BlankItem
 
 class GridDecoration : RecyclerView.ItemDecoration {
 
@@ -416,4 +365,19 @@ class SeparateDecoration : RecyclerView.ItemDecoration {
         return attr.getDrawable(0)!!
     }
 
+}
+
+class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
+
+    companion object {
+
+        private val GONE_LAYOUT = RecyclerView.LayoutParams(0, 0)
+
+        fun gone(context: Context): ViewHolder {
+            return ViewHolder(View(context).apply {
+                visibility = View.GONE
+                layoutParams = GONE_LAYOUT
+            })
+        }
+    }
 }

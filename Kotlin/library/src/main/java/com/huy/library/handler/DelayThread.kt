@@ -18,7 +18,7 @@ abstract class DelayThread : BaseHandlerThread {
         delayTime = interval
         generator = Runnable {
             onDataGenerate()?.also {
-                val msg = handler?.obtainMessage()
+                val msg = dataHandler?.obtainMessage()
                 msg?.obj = it
                 msg?.sendToTarget()
             }
@@ -26,14 +26,14 @@ abstract class DelayThread : BaseHandlerThread {
     }
 
     override fun playGenerate() {
-        handler?.apply {
+        dataHandler?.apply {
             removeCallbacks(generator)
             postDelayed(generator, delayTime)
         }
     }
 
     override fun pauseGenerate() {
-        handler?.removeCallbacks(generator)
+        dataHandler?.removeCallbacks(generator)
     }
 
 }

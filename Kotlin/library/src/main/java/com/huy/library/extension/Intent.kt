@@ -1,10 +1,8 @@
 package com.huy.library.extension
 
-import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
-import android.provider.MediaStore
 import android.provider.Settings
 import android.speech.RecognizerIntent
 import androidx.fragment.app.Fragment
@@ -48,20 +46,6 @@ val emailIntent: Intent
         return intent
     }
 
-fun Activity.startCamera(code: Int = IMAGE_REQUEST_CODE) {
-    if (isGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE))
-        startActivityForResult(Intent(MediaStore.ACTION_IMAGE_CAPTURE), code)
-    else
-        requestWriteExternalStorage(code)
-}
-
-fun Activity.startGallery(code: Int = IMAGE_REQUEST_CODE) {
-    if (isGranted(Manifest.permission.READ_EXTERNAL_STORAGE))
-        startActivityForResult(galleryIntent, code)
-    else
-        requestReadExternalStorage(code)
-}
-
 fun Activity.startSettings() {
     startActivityForResult(Intent(Settings.ACTION_SETTINGS), 0)
 }
@@ -92,23 +76,6 @@ fun Activity.navigateAppStore() {
     }
 }
 
-fun Fragment.startCamera(code: Int = IMAGE_REQUEST_CODE) {
-    if (context!!.isGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-        startActivityForResult(Intent(MediaStore.ACTION_IMAGE_CAPTURE), code)
-    } else {
-        requestWriteExternalStorage(code)
-    }
-}
-
-fun Fragment.startGallery(code: Int = IMAGE_REQUEST_CODE) {
-    if (context!!.isGranted(Manifest.permission.READ_EXTERNAL_STORAGE)) {
-        startActivityForResult(Intent(MediaStore.ACTION_IMAGE_CAPTURE), code)
-    } else {
-        requestReadExternalStorage(code)
-    }
-
-}
-
 fun Fragment.startSettings() {
     startActivityForResult(Intent(Settings.ACTION_SETTINGS), 0)
 }
@@ -134,24 +101,4 @@ fun Fragment.startAppSettings(code: Int) {
     val uri = Uri.fromParts("package", context?.packageName, null)
     intent.data = uri
     startActivityForResult(intent, code)
-}
-
-fun Fragment.startCall(phone: String?) {
-    if (phone.isNullOrEmpty()) return
-    if (context!!.isGranted(Manifest.permission.CALL_PHONE)) {
-        val callIntent = Intent(Intent.ACTION_CALL)
-        callIntent.data = Uri.parse("tel:$phone")
-        startActivity(callIntent)
-    } else {
-        request(1, Manifest.permission.CALL_PHONE)
-    }
-}
-
-fun Fragment.startSMS(phone: String?) {
-    if (phone.isNullOrEmpty()) return
-    if (context!!.isGranted(Manifest.permission.SEND_SMS)) {
-        startActivity(Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", phone, null)))
-    } else {
-        request(1, Manifest.permission.SEND_SMS)
-    }
 }

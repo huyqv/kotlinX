@@ -4,7 +4,6 @@ import android.os.Handler
 import android.os.HandlerThread
 import android.os.Looper
 import android.os.Message
-import java.lang.ref.WeakReference
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -22,7 +21,7 @@ abstract class BaseHandlerThread : HandlerThread {
     @Volatile
     var generating = false
 
-    var handler: Handler? = null
+    var dataHandler: Handler? = null
 
     private val uiHandler = DataHandler()
 
@@ -38,7 +37,7 @@ abstract class BaseHandlerThread : HandlerThread {
 
     override fun onLooperPrepared() {
         super.onLooperPrepared()
-        handler = getHandler(looper)
+        dataHandler = getHandler(looper)
     }
 
     fun isGenerating(): Boolean {
@@ -71,18 +70,16 @@ abstract class BaseHandlerThread : HandlerThread {
 
     inner class DataHandler : Handler() {
 
-        private var dataReceivedRef: WeakReference<DataReceiver>? = null
+        private var dataReceiver: DataReceiver? = null
 
-        fun attach(dataReceiver: DataReceiver?) {
-            if (dataReceiver != null) {
-                dataReceivedRef = WeakReference(dataReceiver)
-            }
+        fun attach(receiver: DataReceiver?) {
+            dataReceiver = receiver
         }
 
         override fun handleMessage(msg: Message?) {
             val data = msg?.obj ?: return
-            dataReceivedRef?.get()?.also { receiver ->
-                receiver.onDataReceived(name, data)
+            dataReceiver?.also {
+                it.onDataReceived(name, data)
             }
         }
     }

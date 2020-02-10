@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.huy.kotlin.R
-import com.huy.library.extension.preventClick
+import com.huy.library.extension.addOnClickListener
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -81,8 +81,7 @@ abstract class BaseRecyclerAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHo
 
         position.updateLastIndex()
 
-        viewHolder.itemView.setOnClickListener {
-            it.preventClick(300)
+        viewHolder.itemView.addOnClickListener {
             itemClick?.also { it(model, position) }
         }
 
@@ -314,5 +313,7 @@ abstract class BaseRecyclerAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHo
         GridDecoration.draw(recyclerView, layoutManager.spanCount, 0, includeEdge)
         recyclerView.adapter = this
     }
+
+    class ViewHolder(v: View) : RecyclerView.ViewHolder(v)
 
 }
