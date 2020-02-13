@@ -68,7 +68,7 @@ fun View.animateShow(@AnimRes animRes: Int, duration: Long = 2000, fillAfter: Bo
     startAnimation(anim)
 }
 
-fun View.rippleAnim(@ColorRes fromColor: Int, @ColorRes toColor: Int): ObjectAnimator {
+fun View.colorAnimate(@ColorRes fromColor: Int, @ColorRes toColor: Int): ObjectAnimator {
 
     val objectAnimator = ObjectAnimator.ofObject(
             this, "backgroundColor", ArgbEvaluator(),

@@ -32,7 +32,7 @@ abstract class RoomHelper : RoomDatabase() {
         }
 
         private fun initDatabase(context: Context): RoomHelper {
-            return Room.databaseBuilder(context, RoomHelper::class.java, BuildConfig.DATABASE_NAME)
+            return Room.databaseBuilder(context, RoomHelper::class.java, BuildConfig.ATIFACT)
                     .allowMainThreadQueries()
                     .fallbackToDestructiveMigration()
                     .build()

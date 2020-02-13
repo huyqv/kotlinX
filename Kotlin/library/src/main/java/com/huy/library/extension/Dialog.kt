@@ -57,7 +57,9 @@ fun Context.showMessageDialog(@StringRes title: Int?, @StringRes msg: Int) {
 
 fun Context.showConfirmDialog(title: String?, msg: String, block: () -> Unit) {
     initDialog(title, msg) {
-        setNegativeButton("CLOSE", null)
+        setNegativeButton("CLOSE") { dialog, _ ->
+            dialog.dismiss()
+        }
         setPositiveButton("OK") { dialog, _ ->
             dialog.dismiss()
             block()

@@ -1,0 +1,85 @@
+dependencies {
+
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+
+    implementation project(":library")
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "androidx.appcompat:appcompat:$app_compat_version"
+    implementation "com.google.android.material:material:$material_version"
+    implementation "androidx.constraintlayout:constraintlayout:$constraint_version"
+    implementation "androidx.core:core-ktx:1.3.0-alpha01"
+    implementation "androidx.fragment:fragment:1.2.0-rc04"
+    implementation "androidx.recyclerview:recyclerview:1.1.0"
+    implementation "androidx.cardview:cardview:1.0.0"
+    implementation "androidx.vectordrawable:vectordrawable:1.1.0"
+    implementation "androidx.browser:browser:1.0.0"
+    kapt "androidx.annotation:annotation:1.1.0"
+
+    // ROOM PERSISTENCE
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+
+    // LIFECYCLE
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-reactivestreams:$lifecycle_version"
+
+    // NETWORK
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
+    implementation "com.squareup.okhttp3:logging-interceptor:4.0.1"
+
+    // JSON CONVERT
+    implementation "com.google.code.gson:gson:$gson_version"
+
+    // REACTIVE X
+    implementation "io.reactivex.rxjava2:rxjava:2.2.10"
+    implementation "io.reactivex.rxjava2:rxandroid:2.1.1"
+    implementation "io.reactivex.rxjava2:rxkotlin:2.4.0"
+    implementation "com.jakewharton.rxbinding2:rxbinding:2.2.0"
+
+    // GLIDE
+    implementation "com.github.bumptech.glide:glide:$glide_version"
+    kapt "com.github.bumptech.glide:compiler:$glide_version"
+
+    // DIMENSION RESOURCE
+    implementation "com.intuit.sdp:sdp-android:$dimens_version"
+    implementation "com.intuit.ssp:ssp-android:$dimens_version"
+
+    // PAGING
+    implementation "android.arch.paging:runtime:1.0.1"
+    implementation "android.arch.paging:rxjava2:1.0.1"
+
+    // PERMISSION
+    implementation "com.github.tbruyelle:rxpermissions:0.10.2"
+
+    // GOOGLE PLAY SERVICE
+    implementation "com.google.firebase:firebase-core:17.2.1"
+    implementation "com.google.firebase:firebase-messaging:20.1.0"
+
+    // CUSTOM VIEWS
+    implementation "com.github.IntruderShanky:Squint:3.0.1"
+    implementation "com.makeramen:roundedimageview:2.3.0"
+
+    // TEST
+    testImplementation "junit:junit:4.12"
+    androidTestImplementation "androidx.test.ext:junit:1.1.0"
+    androidTestImplementation "androidx.test.espresso:espresso-core:3.1.1"
+
+    //implementation "net.cachapa.expandablelayout:expandablelayout:2.9.2"
+
+    //implementation "com.flaviofaria:kenburnsview:1.0.7"
+
+    //implementation "com.mlsdev.rximagepicker:library:2.0.2"
+
+    //implementation "com.github.hkk595:Resizer:v1.5"
+
+    //implementation "id.zelory:compressor:2.1.0"
+
+    // WEB SOCKET
+    //implementation("io.socket:socket.io-client:1.0.0") {
+    //    exclude group: "org.json", module: "json"
+    //}
+
+}

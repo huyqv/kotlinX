@@ -20,7 +20,7 @@ class Shared private constructor() {
     }
 
     @Volatile
-    private var currentPref: String = BuildConfig.SHARED_PREF
+    private var currentPref: String = BuildConfig.ATIFACT
 
     private var shared: SharedPreferences? = null
 
