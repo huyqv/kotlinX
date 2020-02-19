@@ -3,9 +3,12 @@ package com.huy.library.extension
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
+import android.os.Environment
 import android.provider.Settings
 import android.speech.RecognizerIntent
 import androidx.fragment.app.Fragment
+import com.huy.library.Library
 
 
 /**
@@ -23,11 +26,23 @@ const val VOICE_REQUEST_CODE = 1005
 val galleryIntent: Intent
     get() {
         val intent = Intent(Intent.ACTION_PICK)
-        val directory = android.os.Environment
-                .getExternalStoragePublicDirectory(android.os.Environment.DIRECTORY_PICTURES)
-        val path = directory.path
-        val data = Uri.parse(path)
-        intent.setDataAndType(data, "image/*")
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+            //@Suppress("DEPRECATION")
+            val directory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+            val path = directory.path
+            val data = Uri.parse(path)
+            intent.setDataAndType(data, "image/*")
+        } else {
+            val directory = Library.app.getExternalFilesDir("image/*")
+
+            //val path = directory?.path
+            //val data = Uri.parse(path)
+            //intent.setDataAndType(data, "image/*")
+        }
+
+
+
+
         return intent
     }
 

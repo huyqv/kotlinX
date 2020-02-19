@@ -35,13 +35,13 @@ class AnimationFragment : BaseFragment() {
 
     private fun onAnimate(animName: String) {
         val animation = when (animName) {
-            "Translate X" -> translateXAnim(-viewKotlin.x, 0f)
-            "Translate Y" -> translateYAnim(-viewKotlin.y, 0f)
-            "Fade In" -> fadeInAnim()
-            "Fade Out" -> fadeOutAnim()
-            "Center Scale" -> centerScaleAnim()
-            "Left Scale" -> leftScaleAnim()
-            "Right Scale" -> rightScaleAnim()
+            "Translate X" -> animTranslateX(-viewKotlin.x, 0f)
+            "Translate Y" -> animTranslateY(-viewKotlin.y, 0f)
+            "Fade In" -> animFadeIn()
+            "Fade Out" -> animFadeOut()
+            "Center Scale" -> animCenterScale()
+            "Left Scale" -> animLeftScale()
+            "Right Scale" -> animRightScale()
             else -> null
         }
         if (animation != null) {
@@ -49,9 +49,9 @@ class AnimationFragment : BaseFragment() {
             return
         }
         when (animName) {
-            "Rotate" -> rotateAnimator(viewKotlin)
-            "Rotate Axis X" -> rotateAxisXAnimator(viewKotlin)
-            "Rotate Axis Y" -> rotateAxisYAnimator(viewKotlin)
+            "Rotate" -> animRotate(viewKotlin)
+            "Rotate Axis X" -> animRotateAxisX(viewKotlin)
+            "Rotate Axis Y" -> animRotateAxisY(viewKotlin)
             else -> null
         }?.start()
 

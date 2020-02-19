@@ -22,7 +22,6 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         flavorDimensions "default"
-        resConfigs "en"
         kapt {
             arguments {
                 arg("room.schemaLocation", "$projectDir/schemas".toString())
@@ -32,9 +31,11 @@ android {
         }
     }
 
+    // Compile
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -45,6 +46,11 @@ android {
         generateStubs = true
         mapDiagnosticLocations = true
     }
+
+    // Flavors
+    /*lintOptions {
+        checkReleaseBuilds false
+    }*/
 
     signingConfigs {
         release {
@@ -70,18 +76,20 @@ android {
 
     productFlavors {
         dev {
-            applicationIdSuffix ".x.dev"
-            buildConfigField "String", "SERVICE_URL", SERVICE_DEV
-            buildConfigField "String", "ATIFACT", ATIFACT_DEV
-            buildConfigField "int", "DATABASE_VERSION", DB_VERS_DEV
+            applicationIdSuffix ".dev"
+            signingConfig signingConfigs.debug
+            resValue "string", "app_name", "Kotlin Dev"
+            buildConfigField "String", "SERVICE_URL", SERVICE_URL_DEV
+            buildConfigField "int", "DATABASE_VERSION", DATABASE_VERSION_DEV
         }
         prod {
-            applicationIdSuffix ".x"
-            buildConfigField "String", "SERVICE_URL", SERVICE_PROD
-            buildConfigField "String", "ATIFACT", ATIFACT_PROD
-            buildConfigField "int", "DATABASE_VERSION", DB_VERS_PROD
+            signingConfig signingConfigs.release
+            resValue "string", "app_name", "Kotlin"
+            buildConfigField "String", "SERVICE_URL", SERVICE_URL_PROD
+            buildConfigField "int", "DATABASE_VERSION", DATABASE_VERSION_PROD
         }
     }
+
 }
 
 

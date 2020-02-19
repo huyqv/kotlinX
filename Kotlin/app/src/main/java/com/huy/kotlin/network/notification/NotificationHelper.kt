@@ -120,7 +120,7 @@ class NotificationHelper {
         return NotificationCompat.Builder(App.instance, CHANNEL_ID)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle(title ?: string(R.string.app_name))
-                .setContentText(body ?: string(R.string.notification))
+                .setContentText(body ?: "message")
                 .setCategory(NotificationCompat.CATEGORY_TRANSPORT)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setColor(ContextCompat.getColor(App.instance, R.color.colorPrimary))

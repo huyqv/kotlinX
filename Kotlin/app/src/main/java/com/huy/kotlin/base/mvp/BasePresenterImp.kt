@@ -8,7 +8,7 @@ import com.huy.kotlin.base.event.Event
 import com.huy.kotlin.base.event.EventDispatcher
 import com.huy.kotlin.base.event.EventListener
 import com.huy.kotlin.base.view.BaseView
-import com.huy.kotlin.data.RoomHelper
+import com.huy.kotlin.data.RoomDB
 import com.huy.kotlin.data.Shared
 import com.huy.kotlin.network.callback.WeakDisposableObserver
 import com.huy.kotlin.network.rest.RestClient
@@ -72,7 +72,7 @@ open class BasePresenterImp<V : BaseView> : BasePresenter<V>, EventListener {
 
     val context: Context get() = App.instance.applicationContext
 
-    val room: RoomHelper get() = RoomHelper.instance
+    val room: RoomDB get() = RoomDB.instance
 
     val shared: Shared get() = Shared.instance
 

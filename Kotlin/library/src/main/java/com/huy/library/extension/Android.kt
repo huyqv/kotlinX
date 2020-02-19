@@ -1,9 +1,10 @@
 package com.huy.library.extension
 
+import android.content.ContentResolver
+import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Resources
-import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.net.Uri
@@ -22,6 +23,7 @@ import androidx.core.content.ContextCompat
 import com.huy.library.Library
 import java.io.ByteArrayOutputStream
 import java.io.Closeable
+import java.io.File
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 
@@ -47,6 +49,8 @@ val appVersion: String
 
 val packageName: String
     get() = Library.app.applicationContext.packageName
+
+val contentResolver: ContentResolver get() = Library.app.contentResolver
 
 val statusBarHeight: Int
     get() {
@@ -127,27 +131,6 @@ fun keyHash() {
 
 }
 
-fun getImageUri(inImage: Bitmap): Uri {
-    val bytes = ByteArrayOutputStream()
-    inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
-    val path = MediaStore.Images.Media.insertImage(Library.app.contentResolver, inImage, "Title", null)
-    return Uri.parse(path)
-}
-
-fun realPathFromURI(contentUri: Uri): String {
-
-    var cursor: Cursor? = null
-    try {
-        val proj = arrayOf(MediaStore.Images.Media.DATA)
-        cursor = Library.app.contentResolver.query(contentUri, proj, null, null, null)
-        val columnIndex = cursor!!.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
-        cursor.moveToFirst()
-        return cursor.getString(columnIndex)
-    } finally {
-        cursor!!.close()
-    }
-}
-
 fun safeClose(closeable: Closeable?) {
     closeable ?: return
     try {
@@ -155,3 +138,64 @@ fun safeClose(closeable: Closeable?) {
     } catch (ignored: Exception) {
     }
 }
+
+fun getImageUri(bitmap: Bitmap): Uri? {
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+        val bytes = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
+        @Suppress("DEPRECATION")
+        val path = MediaStore.Images.Media.insertImage(contentResolver, bitmap, "Title", null)
+        return Uri.parse(path)
+    }
+    val contentValues = ContentValues().apply {
+        put(MediaStore.MediaColumns.DISPLAY_NAME, System.currentTimeMillis().toString())
+        put(MediaStore.MediaColumns.MIME_TYPE, "image/*")
+        put(MediaStore.MediaColumns.IS_PENDING, 1)
+    }
+    contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
+    return null
+}
+
+fun getImageUri(file: File): Uri? {
+
+    val filePath = file.absolutePath
+
+    val cursor = contentResolver.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+            arrayOf(MediaStore.Images.Media._ID),
+            null,
+            arrayOf(filePath), null)
+
+    if (cursor != null && cursor.moveToFirst()) {
+        val id = cursor.getInt(cursor.getColumnIndex(MediaStore.MediaColumns._ID))
+        cursor.close()
+        return Uri.withAppendedPath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "" + id)
+    }
+
+    if (file.exists()) {
+        val contentValues = ContentValues().apply {
+            put(MediaStore.MediaColumns.DISPLAY_NAME, System.currentTimeMillis().toString())
+            put(MediaStore.MediaColumns.MIME_TYPE, "image/*")
+            put(MediaStore.MediaColumns.IS_PENDING, 1)
+        }
+        return contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
+    }
+
+    return null
+
+}
+
+fun realPathFromURI(uri: Uri): String? {
+    val projection = arrayOf(MediaStore.Images.Media._ID)
+    val cursor = contentResolver.query(uri, projection, null, null, null)
+            ?: return uri.path ?: null
+    try {
+        val columnIndex = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns._ID)
+        cursor.moveToFirst()
+        return cursor.getString(columnIndex)
+    } finally {
+        cursor.close()
+        return null
+    }
+    return null
+}
+

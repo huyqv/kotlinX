@@ -97,9 +97,16 @@
     </style>
 
 
-    <!-- Recycler View. -->
+    <!-- Scroll View. -->
+    <style name="ScrollView" parent="MatchParent">
+        <item name="android:overScrollMode">never</item>
+        <item name="android:fillViewport">true</item>
+        <item name="android:clipToPadding">false</item>
+    </style>
+
     <style name="RecyclerView" parent="MatchWidth">
         <item name="android:overScrollMode">never</item>
+        <item name="android:fillViewport">true</item>
         <item name="android:clipToPadding">false</item>
     </style>
 

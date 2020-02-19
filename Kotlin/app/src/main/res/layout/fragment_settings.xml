@@ -21,7 +21,7 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/text"
                 style="@style/Setting.Title"
-                android:text="@string/account" />
+                android:text="Account" />
 
             <com.huy.kotlin.lib.widget.SettingView
                 android:id="@+id/settingItem1"
@@ -29,29 +29,29 @@
                 android:checkable="true"
                 android:checked="true"
                 android:hint="Synchronize"
-                android:text="@string/enabled" />
+                android:text="Enabled" />
 
             <com.huy.kotlin.lib.widget.SettingView
                 style="@style/Setting.Item"
-                android:hint="@string/email"
+                android:hint="Email"
                 android:text="****@gmail.com" />
 
             <com.huy.kotlin.lib.widget.SettingView
                 style="@style/Setting.Item"
-                android:hint="@string/password"
+                android:hint="Password"
                 android:text="******" />
 
             <com.huy.kotlin.lib.widget.SettingView
                 android:id="@+id/settingItem4"
                 style="@style/Setting.Item"
                 android:hint="Payment"
-                android:text="@string/enabled"
+                android:text="Enabled"
                 app:setting_separator="false" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/text1"
                 style="@style/Setting.Title"
-                android:text="@string/appearance" />
+                android:text="Appearance" />
 
             <com.huy.kotlin.lib.widget.SettingView
                 android:id="@+id/settingItem5"
@@ -65,14 +65,14 @@
                 android:checkable="true"
                 android:checked="true"
                 android:hint="Notification"
-                android:text="@string/enabled" />
+                android:text="Enabled" />
 
             <com.huy.kotlin.lib.widget.SettingView
                 style="@style/Setting.Item"
                 android:checkable="true"
                 android:checked="false"
                 android:hint="Location"
-                android:text="@string/disabled" />
+                android:text="Disabled" />
 
             <com.huy.kotlin.lib.widget.SettingView
                 style="@style/Setting.Item"
@@ -83,18 +83,18 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/text2"
                 style="@style/Setting.Title"
-                android:text="@string/application" />
+                android:text="Application" />
 
             <com.huy.kotlin.lib.widget.SettingView
                 android:id="@+id/settingItem9"
                 style="@style/Setting.Item"
-                android:hint="@string/develop"
+                android:hint="Develop"
                 android:text="@string/develop_name" />
 
             <com.huy.kotlin.lib.widget.SettingView
                 android:id="@+id/settingTextViewAppVersion"
                 style="@style/Setting.Item"
-                android:hint="@string/version" />
+                android:hint="Version" />
 
             <com.huy.kotlin.lib.widget.SettingView
                 android:id="@+id/settingItem11"
@@ -121,7 +121,7 @@
             <com.huy.kotlin.lib.widget.SettingView
                 android:id="@+id/settingTextViewDeviceName"
                 style="@style/Setting.Item"
-                android:hint="@string/name" />
+                android:hint="Name" />
 
             <com.huy.kotlin.lib.widget.SettingView
                 android:id="@+id/settingTextViewDeviceId"

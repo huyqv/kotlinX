@@ -17,22 +17,22 @@ import com.huy.kotlin.data.entity.User
  * -------------------------------------------------------------------------------------------------
  */
 @Database(
+        entities = [User::class],
         version = BuildConfig.DATABASE_VERSION,
-        exportSchema = false,
-        entities = [User::class]
+        exportSchema = false
 )
-abstract class RoomHelper : RoomDatabase() {
+abstract class RoomDB : RoomDatabase() {
 
     abstract val userDao: User.DAO
 
     companion object {
 
-        val instance: RoomHelper by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
+        val instance: RoomDB by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
             initDatabase(App.instance.applicationContext)
         }
 
-        private fun initDatabase(context: Context): RoomHelper {
-            return Room.databaseBuilder(context, RoomHelper::class.java, BuildConfig.ATIFACT)
+        private fun initDatabase(context: Context): RoomDB {
+            return Room.databaseBuilder(context, RoomDB::class.java, BuildConfig.APPLICATION_ID)
                     .allowMainThreadQueries()
                     .fallbackToDestructiveMigration()
                     .build()

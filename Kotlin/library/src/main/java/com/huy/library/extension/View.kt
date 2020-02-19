@@ -17,11 +17,9 @@ import android.widget.LinearLayout
 import android.widget.PopupWindow
 import androidx.annotation.ColorRes
 import androidx.annotation.LayoutRes
-import androidx.annotation.StringRes
 import androidx.annotation.StyleRes
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
-import com.google.android.material.snackbar.Snackbar
 import com.huy.library.Library
 import com.huy.library.view.PreventClickListener
 import kotlin.math.roundToInt
@@ -175,35 +173,6 @@ fun View.backgroundTint(@ColorRes res: Int) {
         }
     }
 }
-
-
-/**
- * SnackBar
- */
-fun View.showSnackBar(s: String, action: String, listener: View.OnClickListener?): Snackbar {
-    val snackBar = Snackbar.make(this, s, Snackbar.LENGTH_INDEFINITE)
-    if (listener != null) snackBar.setAction(action, listener)
-    snackBar.show()
-    return snackBar
-}
-
-fun View.showSnackBar(@StringRes res: Int, action: String, listener: View.OnClickListener?): Snackbar {
-    return this.showSnackBar(string(res), action, listener)
-}
-
-
-/**
- * @SnackBar
- */
-fun Snackbar.hide() {
-    if (isShown) dismiss()
-}
-
-fun Snackbar?.isShowing(): Boolean {
-    this ?: return false
-    return isShown
-}
-
 
 /**
  * Inflate

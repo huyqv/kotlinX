@@ -17,7 +17,7 @@ interface BaseDao<Model> {
     fun insert(model: Model)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(collection: Collection<Model>)
+    fun insert(coll: Collection<Model>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(array: Array<Model>)

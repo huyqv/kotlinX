@@ -39,7 +39,7 @@ open class Logger {
     }
 
     fun d(any: Any?, vararg arg: Any?) {
-        if (enable) Log.d(tag, String.format(any?.toString() ?: NULL, *arg))
+        if (enable) Log.d(tag, String.format(any?.toString() ?: "", *arg))
     }
 
     fun d(throwable: Throwable?) {
@@ -47,7 +47,7 @@ open class Logger {
     }
 
     fun i(any: Any?, vararg arg: Any?) {
-        if (enable) Log.i(tag, String.format(any?.toString() ?: NULL, *arg))
+        if (enable) Log.i(tag, String.format(any?.toString() ?: "", *arg))
     }
 
     fun i(throwable: Throwable?) {
@@ -55,7 +55,7 @@ open class Logger {
     }
 
     fun e(any: Any?, vararg arg: Any?) {
-        if (enable) Log.e(tag, String.format(any?.toString() ?: NULL, *arg))
+        if (enable) Log.e(tag, String.format(any?.toString() ?: "", *arg))
     }
 
     fun e(throwable: Throwable?) {
@@ -63,7 +63,7 @@ open class Logger {
     }
 
     fun w(any: Any?, vararg arg: Any?) {
-        if (enable) Log.w(tag, String.format(any?.toString() ?: NULL, *arg))
+        if (enable) Log.w(tag, String.format(any?.toString() ?: "", *arg))
     }
 
     fun w(throwable: Throwable?) {
@@ -71,20 +71,21 @@ open class Logger {
     }
 
     fun wtf(any: Any?, vararg arg: Any?) {
-        if (enable) Log.wtf(tag, String.format(any?.toString() ?: NULL, *arg))
+        if (enable) Log.wtf(tag, String.format(any?.toString() ?: "", *arg))
     }
 
     fun wtf(throwable: Throwable?) {
         wtf(throwable?.message)
     }
 
-    fun breakpoint() {}
-
     companion object {
 
-        private const val NULL = "null"
+        fun breakpoint() {}
 
-        const val SEPARATOR = "\n------------------------------------------------------------------------------------------------------------------------"
+        fun crash() {
+            arrayOf(true)[-1]
+        }
+
     }
 
 }

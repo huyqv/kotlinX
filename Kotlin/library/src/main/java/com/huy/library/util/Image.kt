@@ -74,6 +74,7 @@ object Image {
         return when (config) {
             Bitmap.Config.ARGB_8888 -> 4
             Bitmap.Config.RGB_565 -> 2
+            @Suppress("DEPRECATION")
             Bitmap.Config.ARGB_4444 -> 2
             Bitmap.Config.ALPHA_8 -> 1
             else -> 1

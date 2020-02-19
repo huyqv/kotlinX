@@ -1,12 +1,9 @@
 package com.huy.library.extension
 
-import android.animation.Animator
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import android.view.animation.Animation
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.recyclerview.widget.DiffUtil
 import androidx.viewpager.widget.ViewPager
 
 /**
@@ -17,33 +14,6 @@ import androidx.viewpager.widget.ViewPager
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-interface SimpleAnimationListener : Animation.AnimationListener {
-    override fun onAnimationRepeat(animation: Animation?) {
-    }
-
-    override fun onAnimationEnd(animation: Animation?) {
-    }
-
-    override fun onAnimationStart(animation: Animation?) {
-    }
-}
-
-interface SimpleAnimatorListener : Animator.AnimatorListener {
-    override fun onAnimationRepeat(animation: Animator?) {
-    }
-
-    override fun onAnimationEnd(animation: Animator?) {
-    }
-
-    override fun onAnimationCancel(animation: Animator?) {
-    }
-
-    override fun onAnimationStart(animation: Animator?) {
-    }
-
-
-}
-
 interface SimpleTextWatcher : TextWatcher {
     override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
     }
@@ -69,6 +39,22 @@ interface SimpleDrawerListener : DrawerLayout.DrawerListener {
     }
 }
 
+interface SimplePageChangeListener : ViewPager.OnPageChangeListener {
+    override fun onPageScrollStateChanged(state: Int) {
+    }
+
+    override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+    }
+
+    override fun onPageSelected(position: Int) {
+    }
+}
+
+/**
+ * DiffUtil moved from androidx.recyclerview.widget.DiffUtil
+ * to com.android.support:recyclerview-v7:28.0.0
+ */
+/*
 abstract class SimpleDiffCallback<T>(private val oldList: Collection<T>, private val newList: Collection<T>) : DiffUtil.Callback() {
 
     override fun getOldListSize(): Int {
@@ -101,14 +87,5 @@ abstract class SimpleDiffCallback<T>(private val oldList: Collection<T>, private
         return areItemSame(old, new)
     }
 }
+*/
 
-interface SimplePageChangeListener : ViewPager.OnPageChangeListener {
-    override fun onPageScrollStateChanged(state: Int) {
-    }
-
-    override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-    }
-
-    override fun onPageSelected(position: Int) {
-    }
-}

@@ -1,5 +1,6 @@
 package com.huy.library.extension
 
+import android.animation.Animator
 import android.animation.ArgbEvaluator
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
@@ -56,7 +57,7 @@ fun View.animateHide(@AnimRes animRes: Int, duration: Long = 2000, fillAfter: Bo
     val anim = AnimationUtils.loadAnimation(context, animRes)
     anim.duration = duration
     anim.fillAfter = fillAfter
-    anim.setOnAnimationEnd { visibility = View.INVISIBLE }
+    anim.onAnimationEnd { visibility = View.INVISIBLE }
     startAnimation(anim)
 }
 
@@ -81,31 +82,31 @@ fun View.colorAnimate(@ColorRes fromColor: Int, @ColorRes toColor: Int): ObjectA
     return objectAnimator
 }
 
-fun translateXAnim(from: Float, to: Float): Animation {
+fun animTranslateX(from: Float, to: Float): Animation {
     return TranslateAnimation(from, to, 0f, 0f).apply {
         duration = DURATION
     }
 }
 
-fun translateYAnim(from: Float, to: Float): Animation {
+fun animTranslateY(from: Float, to: Float): Animation {
     return TranslateAnimation(0f, 0f, from, to).apply {
         duration = DURATION
     }
 }
 
-fun fadeInAnim(): Animation {
+fun animFadeIn(): Animation {
     return AlphaAnimation(0f, 1f).apply {
         duration = DURATION
     }
 }
 
-fun fadeOutAnim(): Animation {
+fun animFadeOut(): Animation {
     return AlphaAnimation(1f, 0f).apply {
         duration = DURATION
     }
 }
 
-fun centerScaleAnim(): Animation {
+fun animCenterScale(): Animation {
     return ScaleAnimation(
             0f, 1f, 0f, 1f,
             Animation.RELATIVE_TO_SELF, 0.5f,
@@ -115,7 +116,7 @@ fun centerScaleAnim(): Animation {
     }
 }
 
-fun leftScaleAnim(): Animation {
+fun animLeftScale(): Animation {
     return ScaleAnimation(
             0f, 1f, 0f, 1f,
             Animation.RELATIVE_TO_SELF, 1f,
@@ -125,7 +126,7 @@ fun leftScaleAnim(): Animation {
     }
 }
 
-fun rightScaleAnim(): Animation {
+fun animRightScale(): Animation {
     return ScaleAnimation(
             0f, 1f, 0f, 1f,
             Animation.RELATIVE_TO_SELF, 0f,
@@ -135,7 +136,7 @@ fun rightScaleAnim(): Animation {
     }
 }
 
-fun bumpedAnim(): Animation {
+fun animBumped(): Animation {
     return ScaleAnimation(0f, 1f, 0f, 1f,
             ScaleAnimation.RELATIVE_TO_SELF, .5f,
             ScaleAnimation.RELATIVE_TO_SELF, .5f).apply {
@@ -144,7 +145,7 @@ fun bumpedAnim(): Animation {
     }
 }
 
-fun vanishAnim(): Animation {
+fun animVanish(): Animation {
     return ScaleAnimation(0f, 1f, 0f, 1f,
             ScaleAnimation.RELATIVE_TO_SELF, .0f,
             ScaleAnimation.RELATIVE_TO_SELF, .0f).apply {
@@ -153,7 +154,7 @@ fun vanishAnim(): Animation {
     }
 }
 
-fun rotateAnimator(v: View): ObjectAnimator {
+fun animRotate(v: View): ObjectAnimator {
     return ObjectAnimator.ofFloat(v, "rotation", 0f, 360f).apply {
         duration = DURATION
         interpolator = DecelerateInterpolator()
@@ -161,7 +162,7 @@ fun rotateAnimator(v: View): ObjectAnimator {
     }
 }
 
-fun rotateAxisXAnimator(v: View): ObjectAnimator {
+fun animRotateAxisX(v: View): ObjectAnimator {
     return ObjectAnimator.ofFloat(v, "rotationX", 0.0f, 360f).apply {
         duration = DURATION
         interpolator = AccelerateDecelerateInterpolator()
@@ -169,7 +170,7 @@ fun rotateAxisXAnimator(v: View): ObjectAnimator {
     }
 }
 
-fun rotateAxisYAnimator(v: View): ObjectAnimator {
+fun animRotateAxisY(v: View): ObjectAnimator {
     return ObjectAnimator.ofFloat(v, "rotationY", 0.0f, 360f).apply {
         duration = DURATION
         interpolator = AccelerateDecelerateInterpolator()
@@ -177,17 +178,63 @@ fun rotateAxisYAnimator(v: View): ObjectAnimator {
     }
 }
 
-fun Animation.setOnAnimationEnd(void: () -> Unit) {
-    setAnimationListener(object : Animation.AnimationListener {
-        override fun onAnimationStart(animation: Animation) {
-        }
-
-        override fun onAnimationEnd(animation: Animation) {
-            void()
-        }
-
-        override fun onAnimationRepeat(animation: Animation) {
+fun Animation?.onAnimationStart(onStart: () -> Unit): Animation? {
+    this?.setAnimationListener(object : SimpleAnimationListener {
+        override fun onAnimationStart(animation: Animation?) {
+            onStart()
         }
     })
+    return this
 }
 
+fun Animation?.onAnimationEnd(onEnd: () -> Unit): Animation? {
+    this?.setAnimationListener(object : SimpleAnimationListener {
+        override fun onAnimationEnd(animation: Animation?) {
+            onEnd()
+        }
+    })
+    return this
+}
+
+fun ObjectAnimator?.onAnimatorStart(onStart: () -> Unit): ObjectAnimator? {
+    this?.addListener(object : SimpleAnimatorListener {
+        override fun onAnimationStart(animator: Animator?) {
+            onStart()
+        }
+    })
+    return this
+}
+
+fun ObjectAnimator?.onAnimatorEnd(onEnd: () -> Unit): ObjectAnimator? {
+    this?.addListener(object : SimpleAnimatorListener {
+        override fun onAnimationEnd(animator: Animator?) {
+            onEnd()
+        }
+    })
+    return this
+}
+
+interface SimpleAnimationListener : Animation.AnimationListener {
+    override fun onAnimationRepeat(animation: Animation?) {
+    }
+
+    override fun onAnimationEnd(animation: Animation?) {
+    }
+
+    override fun onAnimationStart(animation: Animation?) {
+    }
+}
+
+interface SimpleAnimatorListener : Animator.AnimatorListener {
+    override fun onAnimationRepeat(animation: Animator?) {
+    }
+
+    override fun onAnimationEnd(animation: Animator?) {
+    }
+
+    override fun onAnimationCancel(animation: Animator?) {
+    }
+
+    override fun onAnimationStart(animation: Animator?) {
+    }
+}
