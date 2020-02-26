@@ -416,7 +416,7 @@ class AttachedZoomView : View.OnTouchListener, View.OnLayoutChangeListener {
         }
     }
 
-    /**
+/**
      * Set the zoom interpolator
      *
      * @param interpolator the zoom interpolator
@@ -440,7 +440,7 @@ class AttachedZoomView : View.OnTouchListener, View.OnLayoutChangeListener {
         }
     }
 
-    /**
+/**
      * Get the display matrix
      *
      * @param matrix target matrix to copy to
@@ -449,7 +449,7 @@ class AttachedZoomView : View.OnTouchListener, View.OnLayoutChangeListener {
         matrix.set(drawMatrix)
     }
 
-    /**
+/**
      * Get the current support matrix
      */
     fun getSuppMatrix(matrix: Matrix) {
@@ -460,7 +460,7 @@ class AttachedZoomView : View.OnTouchListener, View.OnLayoutChangeListener {
         this.zoomDuration = milliseconds
     }
 
-    /**
+/**
      * Helper method that 'unpacks' a Matrix and returns the required value
      *
      * @param matrix     Matrix to unpack
@@ -472,7 +472,7 @@ class AttachedZoomView : View.OnTouchListener, View.OnLayoutChangeListener {
         return matrixValues[whichValue]
     }
 
-    /**
+/**
      * Resets the Matrix back to FIT_CENTER, and then displays its contents
      */
     private fun resetMatrix() {
@@ -493,7 +493,7 @@ class AttachedZoomView : View.OnTouchListener, View.OnLayoutChangeListener {
         }
     }
 
-    /**
+/**
      * Helper method that simply checks the Matrix, and then displays the result
      */
     private fun checkAndDisplayMatrix() {
@@ -502,7 +502,7 @@ class AttachedZoomView : View.OnTouchListener, View.OnLayoutChangeListener {
         }
     }
 
-    /**
+/**
      * Helper method that maps the supplied Matrix to the current Drawable
      *
      * @param matrix - Matrix to map Drawable against
@@ -519,7 +519,7 @@ class AttachedZoomView : View.OnTouchListener, View.OnLayoutChangeListener {
         return null
     }
 
-    /**
+/**
      * Calculate Matrix for FIT_CENTER
      *
      * @param drawable - Drawable being displayed

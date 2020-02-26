@@ -7,7 +7,6 @@ import android.view.View
 import android.view.animation.DecelerateInterpolator
 import androidx.appcompat.widget.AppCompatImageView
 
-
 /**
  * -------------------------------------------------------------------------------------------------
  *

@@ -1,9 +1,9 @@
 package com.huy.library.extension
 
 import android.text.Editable
+import android.text.InputType
 import android.text.TextUtils
 import android.widget.EditText
-import java.lang.ref.WeakReference
 import java.math.BigDecimal
 import java.math.RoundingMode
 import java.net.URI
@@ -25,7 +25,7 @@ import java.util.regex.Pattern
  */
 
 fun String?.normalizer(): String? {
-    this ?: return null
+    if (this.isNullOrEmpty()) return null
     return try {
         val temp = Normalizer.normalize(this, Normalizer.Form.NFD)
         val pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+")
@@ -69,15 +69,15 @@ fun String.getDomainName(): String {
  * 123456789012345 -> 1234 4567 8901 2345
  */
 fun String?.toCreditNum(): String? {
-    return if (TextUtils.isEmpty(this)) null else this!!.replace("\\d{4}".toRegex(), "$0 ")
+    return if (this.isNullOrEmpty()) null else replace("\\d{4}".toRegex(), "$0 ")
 }
 
 /**
  * 123456789012345 -> •••• •••• •••• 2345
  */
 fun String?.toHiddenCreditNum(): String {
-    if (this == null || this.length < 17) return "•••• •••• •••• ••••"
-    return "•••• •••• •••• ${this.substring(this.lastIndex - 4, this.lastIndex)}"
+    if (this == null || length < 17) return "•••• •••• •••• ••••"
+    return "•••• •••• •••• ${substring(lastIndex - 4, lastIndex)}"
 }
 
 /**
@@ -91,6 +91,7 @@ fun String?.flagIcon(): String {
     val char2st = Character.codePointAt(s, 1) - 0x41 + 0x1F1E6
     return String(Character.toChars(char1st)) + String(Character.toChars(char2st))
 }
+
 
 /**
  * Format string pattern ex:    423.016024, 9442.456363,    72
@@ -110,6 +111,19 @@ fun String?.intCash(): String {
         ""
     }
 }
+
+/**
+ * Text watcher to apply pattern: #,###,###,###
+ */
+fun EditText.addCashWatcher() {
+    inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL or InputType.TYPE_NUMBER_FLAG_SIGNED
+    addTextChangedListener(object : SimpleTextWatcher {
+        override fun afterTextChanged(s: Editable?) {
+            setSilentText(text.toString().intCash())
+        }
+    })
+}
+
 
 /**
  * Format string pattern ex:    423.016024, 9442.456363,    72
@@ -144,41 +158,16 @@ fun String?.floatCash(): String {
 }
 
 /**
- * Text watcher to apply pattern: #,###,###,###
+ * Text watcher to apply pattern: USD #,###,###,###.##
  */
-class IntCashWatcher(editText: EditText) : SimpleTextWatcher {
+fun EditText.addCashWatcher(maxLength: Int, prefix: String = "") {
+    inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL or InputType.TYPE_NUMBER_FLAG_SIGNED
+    addTextChangedListener(object : SimpleTextWatcher {
 
-    private val viewReference: WeakReference<EditText> = WeakReference(editText)
+        var previousCleanString = ""
 
-    private val editText: EditText? get() = viewReference.get()
+        override fun afterTextChanged(s: Editable?) {
 
-    override fun afterTextChanged(s: Editable?) {
-        editText?.apply {
-            val text = text.toString().intCash()
-            removeTextChangedListener(this@IntCashWatcher)
-            setText(text)
-            setSelection(text.length)
-            addTextChangedListener(this@IntCashWatcher)
-        }
-    }
-
-}
-
-/**
- * Text watcher to apply pattern: USD #,###,###,###
- */
-class FloatCashWatcher(editText: EditText, private val prefix: String = "") : SimpleTextWatcher {
-
-    private val maxLength = 20
-
-    private var previousCleanString: String = ""
-
-    private val editTextWeakReference: WeakReference<EditText> = WeakReference(editText)
-
-    private val editText: EditText? get() = editTextWeakReference.get()
-
-    override fun afterTextChanged(s: Editable?) {
-        editText?.apply {
             val str = s.toString()
             if (str.length < prefix.length) {
                 setText(prefix)
@@ -191,42 +180,43 @@ class FloatCashWatcher(editText: EditText, private val prefix: String = "") : Si
             previousCleanString = cleanString
             val formattedString: String
             formattedString = if (cleanString.contains(".")) cleanString.formatDecimal() else cleanString.formatInteger()
-            removeTextChangedListener(this@FloatCashWatcher)
+            removeTextChangedListener(this)
             setText(formattedString)
             handleSelection()
-            addTextChangedListener(this@FloatCashWatcher)
+            addTextChangedListener(this)
         }
-    }
 
-    private fun String?.formatInteger(): String {
-        this ?: return ""
-        val parsed = BigDecimal(this)
-        val formatter = DecimalFormat("$prefix#,###", DecimalFormatSymbols(Locale.US))
-        return formatter.format(parsed)
-    }
-
-    private fun String?.formatDecimal(): String {
-        this ?: return ""
-        if (this == ".") return "$prefix."
-        val parsed = BigDecimal(this)
-        val formatter = DecimalFormat(prefix + "#,###." + getDecimalPattern(), DecimalFormatSymbols(Locale.US))
-        formatter.roundingMode = RoundingMode.DOWN
-        return formatter.format(parsed)
-    }
-
-    private fun String.getDecimalPattern(): String {
-        val decimalCount = this.length - this.indexOf(".") - 1
-        val decimalPattern = StringBuilder()
-        var i = 0
-        while (i < decimalCount && i < 2) {
-            decimalPattern.append("0")
-            i++
+        private fun String?.formatInteger(): String {
+            this ?: return ""
+            val parsed = BigDecimal(this)
+            val formatter = DecimalFormat("$prefix#,###", DecimalFormatSymbols(Locale.US))
+            return formatter.format(parsed)
         }
-        return decimalPattern.toString()
-    }
 
-    private fun EditText.handleSelection() {
-        setSelection(if (text.length <= maxLength) text.length else maxLength)
-    }
+        private fun String?.formatDecimal(): String {
+            this ?: return ""
+            if (this == ".") return "$prefix."
+            val parsed = BigDecimal(this)
+            val formatter = DecimalFormat(prefix + "#,###." + getDecimalPattern(), DecimalFormatSymbols(Locale.US))
+            formatter.roundingMode = RoundingMode.DOWN
+            return formatter.format(parsed)
+        }
 
+        private fun String.getDecimalPattern(): String {
+            val decimalCount = this.length - this.indexOf(".") - 1
+            val decimalPattern = StringBuilder()
+            var i = 0
+            while (i < decimalCount && i < 2) {
+                decimalPattern.append("0")
+                i++
+            }
+            return decimalPattern.toString()
+        }
+
+        private fun EditText.handleSelection() {
+            setSelection(if (text.length <= maxLength) text.length else maxLength)
+        }
+
+    })
 }
+

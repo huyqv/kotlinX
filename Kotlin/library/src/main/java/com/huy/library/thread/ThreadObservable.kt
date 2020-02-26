@@ -1,4 +1,4 @@
-package com.huy.library.handler
+package com.huy.library.thread
 
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver

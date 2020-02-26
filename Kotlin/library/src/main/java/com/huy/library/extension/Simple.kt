@@ -3,6 +3,7 @@ package com.huy.library.extension
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import android.widget.EditText
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.viewpager.widget.ViewPager
 
@@ -15,6 +16,7 @@ import androidx.viewpager.widget.ViewPager
  * -------------------------------------------------------------------------------------------------
  */
 interface SimpleTextWatcher : TextWatcher {
+
     override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
     }
 
@@ -22,6 +24,13 @@ interface SimpleTextWatcher : TextWatcher {
     }
 
     override fun afterTextChanged(s: Editable?) {
+    }
+
+    fun EditText.setSilentText( s: String) {
+        removeTextChangedListener(this@SimpleTextWatcher)
+        setText(s)
+        setSelection(s.length)
+        addTextChangedListener(this@SimpleTextWatcher)
     }
 }
 
@@ -50,42 +59,4 @@ interface SimplePageChangeListener : ViewPager.OnPageChangeListener {
     }
 }
 
-/**
- * DiffUtil moved from androidx.recyclerview.widget.DiffUtil
- * to com.android.support:recyclerview-v7:28.0.0
- */
-/*
-abstract class SimpleDiffCallback<T>(private val oldList: Collection<T>, private val newList: Collection<T>) : DiffUtil.Callback() {
-
-    override fun getOldListSize(): Int {
-        return oldList.size
-    }
-
-    override fun getNewListSize(): Int {
-        return newList.size
-    }
-
-    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return try {
-            areItemSame(oldList.elementAt(oldItemPosition), newList.elementAt(newItemPosition))
-        } catch (e: IndexOutOfBoundsException) {
-            false
-        }
-    }
-
-    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return try {
-            areContentSame(oldList.elementAt(oldItemPosition), newList.elementAt(newItemPosition))
-        } catch (e: IndexOutOfBoundsException) {
-            false
-        }
-    }
-
-    abstract fun areItemSame(old: T, new: T): Boolean
-
-    open fun areContentSame(old: T, new: T): Boolean {
-        return areItemSame(old, new)
-    }
-}
-*/
 

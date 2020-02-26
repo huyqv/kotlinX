@@ -29,7 +29,6 @@ abstract class SharingViewModel<T> : ViewModel() {
         return sharedModel
     }
 
-
     /**
      * EXAMPLE FOR DATA SHARING
      */

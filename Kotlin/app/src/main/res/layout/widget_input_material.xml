@@ -8,7 +8,7 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/inputTextViewTitle"
-        style="@style/TextView.Medium"
+        style="@style/TextView.Small"
         android:layout_width="wrap_content"
         android:layout_weight="1"
         android:letterSpacing="0.09"
@@ -18,14 +18,14 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/inputTextViewError"
-        style="@style/TextView.Small"
+        style="@style/TextView.Tiny"
         android:textColor="@color/colorIndianRed"
         app:layout_constraintBaseline_toBaselineOf="@+id/inputTextViewTitle"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/inputEditText"
-        style="@style/TextView.Medium"
+        style="@style/TextView.Small"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_40sdp"
         android:layout_marginTop="@dimen/microDist"

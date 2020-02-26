@@ -142,12 +142,10 @@ fun String?.capitalize(): String {
     return phrase
 }
 
-fun String?.like(string: String?): Boolean {
-    if (isNullOrEmpty()) return false
-    if (string.isNullOrEmpty()) return false
+fun String?.like(s: String?): Boolean {
     val left = this.normalizer() ?: return false
-    val right = string.normalizer() ?: return false
-    return left.contains(right)
+    val right = s.normalizer() ?: return false
+    return left.contains(right) || right.contains(left)
 }
 
 fun String?.rgbToHex(): String {

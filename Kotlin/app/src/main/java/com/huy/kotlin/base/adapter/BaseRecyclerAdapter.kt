@@ -20,7 +20,6 @@ import com.huy.library.extension.addOnClickListener
  */
 abstract class BaseRecyclerAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-
     /**
      * [BaseRecyclerAdapter] abstract function for initialize recycler view type.
      */
@@ -32,7 +31,6 @@ abstract class BaseRecyclerAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHo
     open fun View.onFirstBindModel(model: T, position: Int, @LayoutRes layout: Int) {
         onBindModel(model, position, layout)
     }
-
 
     /**
      * [RecyclerView.Adapter] override.
@@ -92,7 +90,6 @@ abstract class BaseRecyclerAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHo
 
     }
 
-
     /**
      * Layout resource for empty data.
      */
@@ -114,7 +111,6 @@ abstract class BaseRecyclerAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHo
         footerLayoutResource = 0
         notifyItemChanged(size)
     }
-
 
     /**
      * User interfaces.
@@ -152,7 +148,6 @@ abstract class BaseRecyclerAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHo
     private fun Int.updateLastIndex() {
         if (this > lastIndexed) lastIndexed = this
     }
-
 
     /**
      * Data list handle.

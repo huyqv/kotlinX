@@ -20,7 +20,6 @@ const val UNKNOWN_ERROR = 998
 
 const val NETWORK_ERROR = 999
 
-
 /**
  * -------------------------------------------------------------------------------------------------
  * @Project: Kotlin
@@ -29,7 +28,6 @@ const val NETWORK_ERROR = 999
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-
 
 /**
  * Observable
@@ -94,7 +92,6 @@ fun <T> Observable<T>.successLiveData(event: Int? = null): EventLiveData<T?> {
     }
 }
 
-
 /**
  * Single
  */
@@ -153,7 +150,6 @@ fun <T> Single<T>.successLiveData(event: Int? = null): EventLiveData<T?> {
         }
     }
 }
-
 
 /**
  * Flowable
@@ -220,7 +216,6 @@ fun <T> Flowable<T>.successLiveData(event: Int? = null): EventLiveData<T?> {
     }
 }
 
-
 /**
  * Call
  */
@@ -277,7 +272,6 @@ fun <T> Call<T>.successLiveData(event: Int?): EventLiveData<T?> {
     }
 }
 
-
 /**
  * Callback handle
  */
@@ -333,7 +327,6 @@ fun onRequestCompleted(event: Int?, hasProgress: Boolean = false) {
     RestClient.remove(event)
     if (hasProgress) ProgressLiveData.hide()
 }
-
 
 /**
  * Error handle

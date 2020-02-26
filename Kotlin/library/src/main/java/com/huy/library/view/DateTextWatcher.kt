@@ -19,7 +19,8 @@ abstract class DateTextWatcher : TextWatcher {
     private var current = ""
     private val hint = "ddMMyyyy"
     private val cal = Calendar.getInstance()
-    /**
+
+/**
      * use:
      * editText.setText(currentText);
      * editText.setSelection();

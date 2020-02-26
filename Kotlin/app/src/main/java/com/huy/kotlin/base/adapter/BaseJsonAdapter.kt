@@ -27,7 +27,6 @@ import io.reactivex.schedulers.Schedulers
  */
 abstract class BaseJsonAdapter<T : JsonElement> : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-
     /**
      * [BaseJsonAdapter] abstract function for initialize recycler view type.
      */
@@ -39,7 +38,6 @@ abstract class BaseJsonAdapter<T : JsonElement> : RecyclerView.Adapter<RecyclerV
     open fun View.onFirstBindModel(model: T, position: Int, @LayoutRes layout: Int) {
         onBindModel(model, position, layout)
     }
-
 
     /**
      * [RecyclerView.Adapter] override.
@@ -99,7 +97,6 @@ abstract class BaseJsonAdapter<T : JsonElement> : RecyclerView.Adapter<RecyclerV
 
     }
 
-
     /**
      * Layout resource for empty data.
      */
@@ -121,7 +118,6 @@ abstract class BaseJsonAdapter<T : JsonElement> : RecyclerView.Adapter<RecyclerV
         footerLayoutResource = 0
         notifyItemChanged(sizeCache)
     }
-
 
     /**
      * User interfaces.
@@ -159,7 +155,6 @@ abstract class BaseJsonAdapter<T : JsonElement> : RecyclerView.Adapter<RecyclerV
     private fun Int.updateLastIndex() {
         if (this > lastIndexed) lastIndexed = this
     }
-
 
     /**
      * Data list handle.

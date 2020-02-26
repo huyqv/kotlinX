@@ -62,31 +62,33 @@ android {
     }
 
     buildTypes {
+        all {
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
         release {
             signingConfig signingConfigs.release
             debuggable false
             minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
-            debuggable true
-            minifyEnabled false
+            signingConfig signingConfigs.debug
         }
     }
 
     productFlavors {
+        all {
+            buildConfigField "int", "DATABASE_VERSION", "1"
+        }
         dev {
             applicationIdSuffix ".dev"
             signingConfig signingConfigs.debug
             resValue "string", "app_name", "Kotlin Dev"
-            buildConfigField "String", "SERVICE_URL", SERVICE_URL_DEV
-            buildConfigField "int", "DATABASE_VERSION", DATABASE_VERSION_DEV
+            buildConfigField "String", "SERVICE_URL", "\"https://raw.githubusercontent.com/huyqv/assets/master/\""
         }
         prod {
             signingConfig signingConfigs.release
             resValue "string", "app_name", "Kotlin"
-            buildConfigField "String", "SERVICE_URL", SERVICE_URL_PROD
-            buildConfigField "int", "DATABASE_VERSION", DATABASE_VERSION_PROD
+            buildConfigField "String", "SERVICE_URL", "\"https://raw.githubusercontent.com/huyqv/assets/master/\""
         }
     }
 

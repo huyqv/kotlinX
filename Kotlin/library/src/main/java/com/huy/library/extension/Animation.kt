@@ -10,7 +10,6 @@ import androidx.annotation.AnimRes
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
 
-
 /**
  * -------------------------------------------------------------------------------------------------
  * @Project: Kotlin

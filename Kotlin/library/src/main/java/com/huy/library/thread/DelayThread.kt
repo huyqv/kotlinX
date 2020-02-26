@@ -1,4 +1,4 @@
-package com.huy.library.handler
+package com.huy.library.thread
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -10,19 +10,18 @@ package com.huy.library.handler
  */
 abstract class DelayThread : BaseHandlerThread {
 
-    private val generator: Runnable
+    open val generator: Runnable = Runnable {
+        onDataGenerate()?.also {
+            val msg = dataHandler?.obtainMessage()
+            msg?.obj = it
+            msg?.sendToTarget()
+        }
+    }
 
     private var delayTime: Long
 
     constructor(name: String, interval: Long, receiver: DataReceiver) : super(name, receiver) {
         delayTime = interval
-        generator = Runnable {
-            onDataGenerate()?.also {
-                val msg = dataHandler?.obtainMessage()
-                msg?.obj = it
-                msg?.sendToTarget()
-            }
-        }
     }
 
     override fun playGenerate() {

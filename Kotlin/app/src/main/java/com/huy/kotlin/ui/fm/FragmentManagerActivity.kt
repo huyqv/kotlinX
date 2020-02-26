@@ -7,7 +7,6 @@ import com.huy.kotlin.ui.member.ColorFragment
 import com.huy.library.util.Colors
 import kotlinx.android.synthetic.main.activity_translate.*
 
-
 /**
  * -------------------------------------------------------------------------------------------------
  *

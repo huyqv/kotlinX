@@ -6,7 +6,7 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/inputTextViewTitle"
-        style="@style/TextView.Medium"
+        style="@style/TextView.Small"
         android:layout_height="@dimen/_20sdp"
         android:gravity="center_vertical"
         android:letterSpacing="0.1"
@@ -28,7 +28,7 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/inputTextViewError"
-        style="@style/TextView.Small"
+        style="@style/TextView.Tiny"
         android:layout_marginTop="@dimen/_6sdp"
         android:textColor="@color/colorIndianRed"
         app:layout_constraintEnd_toEndOf="@+id/inputEditText"
@@ -36,7 +36,7 @@
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/inputEditText"
-        style="@style/TextView.Medium"
+        style="@style/TextView.Small"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_40sdp"
         android:layout_marginTop="@dimen/microDist"

@@ -30,7 +30,7 @@ class DialogsFragment : BaseFragment() {
                 customConfirm, customMessage, message, confirm, allConfig)
     }
 
-    override fun onViewClick(view: View) {
+    override fun onViewClick(view: View?) {
         super.onViewClick(view)
         when (view) {
             circularProgress -> ProgressCircularDialog(activity!!).show()

@@ -26,7 +26,6 @@ import com.tbruyelle.rxpermissions2.RxPermissions
  */
 abstract class BaseFragment : Fragment(), BaseView {
 
-
     /**
      * [BaseView] implement
      */
@@ -41,7 +40,7 @@ abstract class BaseFragment : Fragment(), BaseView {
     override val onViewClick: PreventClickListener by lazy {
         object : PreventClickListener() {
             override fun onViewClick(v: View?) {
-                onViewClick(v)
+                this@BaseFragment.onViewClick(v)
             }
         }
     }
@@ -54,7 +53,6 @@ abstract class BaseFragment : Fragment(), BaseView {
             }
         }
     }
-
 
     /**
      * [Fragment] override
@@ -77,9 +75,8 @@ abstract class BaseFragment : Fragment(), BaseView {
         }
     }
 
-    override fun onViewClick(view: View) {
+    override fun onViewClick(view: View?) {
     }
-
 
     /**
      * [BaseFragment] utilities
@@ -96,7 +93,6 @@ abstract class BaseFragment : Fragment(), BaseView {
     open fun onBackPressed(): Boolean {
         return true
     }
-
 
     /**
      * Observer

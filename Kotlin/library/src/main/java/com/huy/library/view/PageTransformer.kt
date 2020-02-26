@@ -4,7 +4,6 @@ import android.view.View
 import androidx.viewpager.widget.ViewPager
 import kotlin.math.abs
 
-
 /**
  * -------------------------------------------------------------------------------------------------
  * @Project: Kotlin

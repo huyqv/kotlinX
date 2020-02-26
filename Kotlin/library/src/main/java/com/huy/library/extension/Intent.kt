@@ -10,7 +10,6 @@ import android.speech.RecognizerIntent
 import androidx.fragment.app.Fragment
 import com.huy.library.Library
 
-
 /**
  * -------------------------------------------------------------------------------------------------
  * @Project: Kotlin

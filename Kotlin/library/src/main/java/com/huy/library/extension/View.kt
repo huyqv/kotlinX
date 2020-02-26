@@ -24,7 +24,6 @@ import com.huy.library.Library
 import com.huy.library.view.PreventClickListener
 import kotlin.math.roundToInt
 
-
 /**
  * -------------------------------------------------------------------------------------------------
  * @Project: Kotlin
@@ -79,7 +78,6 @@ fun Int.isDarkColorRes(): Boolean {
 fun Int.isLightColorRes(): Boolean {
     return color(this).isLightColor()
 }
-
 
 /**
  * View

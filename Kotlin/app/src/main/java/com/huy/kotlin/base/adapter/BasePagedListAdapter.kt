@@ -28,7 +28,6 @@ abstract class BasePagedListAdapter<T> : PagedListAdapter<T, RecyclerView.ViewHo
         differ = asyncPagedListDiffer(itemCallback)
     }
 
-
     /**
      * [BasePagedListAdapter] abstract function for initialize recycler view type.
      */
@@ -40,7 +39,6 @@ abstract class BasePagedListAdapter<T> : PagedListAdapter<T, RecyclerView.ViewHo
     open fun View.onFirstBindModel(model: T, position: Int, @LayoutRes layout: Int) {
         onBindModel(model, position, layout)
     }
-
 
     /**
      * [PagedListAdapter] override.
@@ -109,13 +107,11 @@ abstract class BasePagedListAdapter<T> : PagedListAdapter<T, RecyclerView.ViewHo
         else differ.submitList(pagedList)
     }
 
-
     /**
      * Layout resource for empty data.
      */
     @LayoutRes
     open var blankLayoutResource: Int = 0
-
 
     /**
      * Layout resource for footer item.
@@ -133,7 +129,6 @@ abstract class BasePagedListAdapter<T> : PagedListAdapter<T, RecyclerView.ViewHo
     fun hideFooter() {
         footerLayoutRes = 0
     }
-
 
     /**
      * User interfaces.
@@ -171,7 +166,6 @@ abstract class BasePagedListAdapter<T> : PagedListAdapter<T, RecyclerView.ViewHo
     private fun Int.updateLastIndex() {
         if (this > lastIndexed) lastIndexed = this
     }
-
 
     /**
      * Data list handle.

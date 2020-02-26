@@ -6,7 +6,6 @@ import com.huy.kotlin.base.view.BaseFragment
 import com.huy.kotlin.data.observable.NetworkLiveData
 import com.huy.kotlin.extension.viewModel
 
-
 /**
  * -------------------------------------------------------------------------------------------------
  * @Project: Kotlin

@@ -4,36 +4,35 @@ import android.text.method.PasswordTransformationMethod
 import android.view.View
 
 /**
- * <EditText android:id="@+id/passWordEditText"
- * android:layout_width="match_parent"
- * android:layout_height="wrap_content"
- * android:gravity="center"
- * android:inputType="textPassword"></EditText>
- *
- * edittext.setTransformationMethod(new CustomTransformMethod());
+ * EditText.setTransformationMethod(new CustomTransformMethod());
  */
-class CustomTransformMethod : PasswordTransformationMethod() {
+class CustomTransformMethod(val visibleCount: Int = 1) : PasswordTransformationMethod() {
+
+    companion object {
+        private const val MASK1 = '•'
+        private const val MASK2 = '●'
+    }
 
     override fun getTransformation(source: CharSequence, view: View): CharSequence {
         return PasswordCharSequence(source)
     }
 
-    private inner class PasswordCharSequence(private val mSource: CharSequence) : CharSequence {
+    private inner class PasswordCharSequence(private val source: CharSequence) : CharSequence {
 
-        override val length: Int
-            get() = mSource.length
+        override val length: Int get() = source.length
 
         override fun get(index: Int): Char {
-            return CIRLE
+            return when {
+                length < visibleCount -> return source[index]
+                index < length - visibleCount -> '•'
+                else -> source[index]
+            }
         }
 
-        override fun subSequence(startIndex: Int, endIndex: Int): CharSequence {
-            return mSource.subSequence(startIndex, endIndex)
+        override fun subSequence(start: Int, end: Int): CharSequence {
+            return source.subSequence(start, end)
         }
+
     }
 
-    companion object {
-
-        const val CIRLE = '●'
-    }
 }

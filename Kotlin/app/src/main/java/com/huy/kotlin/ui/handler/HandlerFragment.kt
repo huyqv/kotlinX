@@ -6,8 +6,8 @@ import com.huy.kotlin.R
 import com.huy.kotlin.base.adapter.set
 import com.huy.kotlin.base.view.BaseFragment
 import com.huy.kotlin.ui.model.User
-import com.huy.library.handler.DataReceiver
-import com.huy.library.handler.ThreadObservable
+import com.huy.library.thread.DataReceiver
+import com.huy.library.thread.ThreadObservable
 import kotlinx.android.synthetic.main.fragment_handler.*
 
 /**

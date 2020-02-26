@@ -26,7 +26,6 @@ open class BaseViewModel : ViewModel() {
 
     val service: RestClient get() = RestClient.instance
 
-
     /**
      * View model on initialized
      */
@@ -39,7 +38,6 @@ open class BaseViewModel : ViewModel() {
      */
     open fun onNetworkAvailable() {
     }
-
 
     /**
      * Bundle for passing data from view

@@ -1,4 +1,4 @@
-package com.huy.library.handler
+package com.huy.library.thread
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -10,22 +10,19 @@ package com.huy.library.handler
  */
 abstract class RepeatThread : BaseHandlerThread {
 
-    private var generator: Runnable
+    open val generator: Runnable = Runnable {
+        onDataGenerate()?.also {
+            val msg = dataHandler?.obtainMessage()
+            msg?.obj = it
+            msg?.sendToTarget()
+        }
+        dataHandler?.postDelayed(this, delayInterval)
+    }
 
-    private val delayInterval: Long
+    private var delayInterval: Long = Long.MAX_VALUE
 
     constructor(name: String, delay: Long, receiver: DataReceiver) : super(name, receiver) {
         delayInterval = delay
-        generator = object : Runnable {
-            override fun run() {
-                onDataGenerate()?.also {
-                    val msg = dataHandler?.obtainMessage()
-                    msg?.obj = it
-                    msg?.sendToTarget()
-                }
-                dataHandler?.postDelayed(this, delay)
-            }
-        }
     }
 
     override fun playGenerate() {
@@ -39,6 +36,5 @@ abstract class RepeatThread : BaseHandlerThread {
         generating = false
         dataHandler?.apply { removeCallbacks(generator) }
     }
-
 
 }

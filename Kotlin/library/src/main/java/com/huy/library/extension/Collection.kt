@@ -47,3 +47,15 @@ fun <T> Collection<T?>?.filters(block: (T) -> T?): MutableList<T>? {
     }
     return list
 }
+
+/**
+ * Typed T should be override method toString() : String
+ */
+fun <T> Collection<T>?.search(s: String?): Collection<T>? {
+    if (s.isNullOrEmpty() || this.isNullOrEmpty()) return this
+    val list = mutableListOf<T>()
+    for (model in this) {
+        if (s.like(model?.toString())) list.add(model)
+    }
+    return list
+}

@@ -1,4 +1,4 @@
-package com.huy.library.handler
+package com.huy.library.thread
 
 import android.os.Handler
 import android.os.HandlerThread

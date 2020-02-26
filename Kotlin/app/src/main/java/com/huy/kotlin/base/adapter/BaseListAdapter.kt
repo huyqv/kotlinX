@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.*
 import com.huy.kotlin.R
 import com.huy.library.extension.addOnClickListener
 
-
 /**
  * -------------------------------------------------------------------------------------------------
  * @Project: Kotlin
@@ -26,7 +25,6 @@ abstract class BaseListAdapter<T> : ListAdapter<T, RecyclerView.ViewHolder> {
         differ = asyncListDiffer(itemCallback)
     }
 
-
     /**
      * [BaseRecyclerAdapter] abstract function for initialize recycler view type.
      */
@@ -38,7 +36,6 @@ abstract class BaseListAdapter<T> : ListAdapter<T, RecyclerView.ViewHolder> {
     open fun View.onFirstBindModel(model: T, position: Int, @LayoutRes layout: Int) {
         onBindModel(model, position, layout)
     }
-
 
     /**
      * [RecyclerView.Adapter] override.
@@ -110,7 +107,6 @@ abstract class BaseListAdapter<T> : ListAdapter<T, RecyclerView.ViewHolder> {
         differ.submitList(list, commitCallback)
     }
 
-
     /**
      * Layout resource for empty data.
      */
@@ -123,7 +119,6 @@ abstract class BaseListAdapter<T> : ListAdapter<T, RecyclerView.ViewHolder> {
             blankLayoutResource = value
             notifyItemChanged(0)
         }
-
 
     /**
      * Layout resource for footer item.
@@ -141,7 +136,6 @@ abstract class BaseListAdapter<T> : ListAdapter<T, RecyclerView.ViewHolder> {
     fun hideFooter() {
         footerLayoutRes = 0
     }
-
 
     /**
      * User interfaces.
@@ -179,7 +173,6 @@ abstract class BaseListAdapter<T> : ListAdapter<T, RecyclerView.ViewHolder> {
     private fun Int.updateLastIndex() {
         if (this > lastIndexed) lastIndexed = this
     }
-
 
     /**
      * Data list handle.

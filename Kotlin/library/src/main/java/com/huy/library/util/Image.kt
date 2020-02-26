@@ -18,7 +18,6 @@ import java.net.URL
 import java.nio.ByteBuffer
 import kotlin.math.min
 
-
 /**
  * -------------------------------------------------------------------------------------------------
  * @Project: Kotlin
@@ -40,7 +39,7 @@ object Image {
             }
     }
 
-    /**
+/**
      * @param candidate     - Bitmap to check
      * @param targetOptions - Options that have the out* value populated
      * @return true if `candidate` can be used for inBitmap re-use with
@@ -64,7 +63,7 @@ object Image {
         return byteCount <= candidate.allocationByteCount
     }
 
-    /**
+/**
      * Return the byte usage per pixel of a bitmap based on its configuration.
      *
      * @param config The bitmap configuration.
@@ -81,7 +80,7 @@ object Image {
         }
     }
 
-    /**
+/**
      * Decode and sample down a bitmap from resources to the requested width and height.
      *
      * @param res       The resources object containing the image data
@@ -106,7 +105,7 @@ object Image {
         return BitmapFactory.decodeResource(res, resId, options)
     }
 
-    /**
+/**
      * Decode sample bitmap and resize to required width, height in that its aspect's ratio is
      * maintained.
      *
@@ -122,7 +121,7 @@ object Image {
         return scaleBitmap(bitmap, reqWidth, reqHeight)
     }
 
-    /**
+/**
      * Scale bitmap to the required width, height. The scaled bitmap will maintain its original
      * aspect's ratio.
      *
@@ -164,7 +163,7 @@ object Image {
         return Bitmap.createScaledBitmap(origin, realWidth, realHeight, true)
     }
 
-    /**
+/**
      * Decode bitmap from resource then currentScale to required size. Scale image will maintain original
      * aspect's ratio.
      *
@@ -179,7 +178,7 @@ object Image {
         return scaleBitmap(bitmap, reqWidth, reqHeight)
     }
 
-    /**
+/**
      * Decode and sample down a bitmap from a file to the requested width and height.
      *
      * @param filename  The full path of the file to decode
@@ -202,7 +201,7 @@ object Image {
         return BitmapFactory.decodeFile(filename, options)
     }
 
-    /**
+/**
      * Decode and sample down a bitmap from a file input stream to the requested width and height.
      *
      * @param fileDescriptor The file descriptor to read from
@@ -274,7 +273,7 @@ object Image {
         return bitmap
     }
 
-    /**
+/**
      * Calculate an inSampleSize for use in a [BitmapFactory.Options] object when decoding
      * bitmaps using the decode* methods from [BitmapFactory]. This implementation calculates
      * the closest inSampleSize that is a power of 2 and will result in the final decoded bitmap
@@ -324,7 +323,7 @@ object Image {
         // END_INCLUDE (calculate_sample_size)
     }
 
-    /**
+/**
      * Get the size in bytes of a bitmap in a Bitmap. Note that from Android 4.4 (KitKat)
      * onward this returns the allocated memory size of the bitmap which can be larger than the
      * actual bitmap data byte count (in the case it was re-used).
@@ -362,8 +361,7 @@ object Image {
         return output
     }
 
-
-    /**
+/**
      * IO
      */
     fun save(bitmap: Bitmap, directory: String?, filename: String, config: CompressConfigs): File? {
@@ -477,7 +475,8 @@ object Image {
     fun orientation(src: String): Int {
         var orientation = 1
         try {
-            /**
+
+/**
              * if your are targeting only api level >= 5
              * ExifInterface exif = new ExifInterface(src);
              * orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, 1);
@@ -588,8 +587,7 @@ object Image {
         return 0
     }
 
-
-    /**
+/**
      * Convert
      */
     fun nv21toJpeg(nv21: ByteArray, width: Int, height: Int, quality: Int): ByteArray {
@@ -656,8 +654,7 @@ object Image {
         return data
     }
 
-
-    /**
+/**
      * Editing
      */
     fun rotate(bitmap: Bitmap, degrees: Int): Bitmap {
@@ -773,8 +770,7 @@ object Image {
         return Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
     }
 
-
-    /**
+/**
      *
      */
     fun toBytes(image: Image): ByteArray? {
@@ -815,8 +811,7 @@ object Image {
         return Base64.encodeToString(data, flag)
     }
 
-
-    /**
+/**
      * Create bitmap
      */
     fun formRes(@DrawableRes res: Int): Bitmap? {

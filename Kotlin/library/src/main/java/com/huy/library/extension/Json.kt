@@ -43,11 +43,10 @@ fun <T> readJsonAsset(fileName: String, cls: Class<Array<T>>): List<T>? {
     return readString(fileName).parse(cls)
 }
 
-
 /**
  * Parse [JsonObject]/[JsonArray]/[String] to Kotlin Object/List<Object>
  */
-private val gson = Gson()
+private val convertFactory = Gson()
 
 fun <T> JsonObject?.parse(cls: Class<T>): T? {
     this ?: return null
@@ -64,7 +63,7 @@ fun <T> String?.parse(cls: Class<T>): T? {
         return null
     }
     return try {
-        return gson.fromJson(this, cls)
+        return convertFactory.fromJson(this, cls)
     } catch (ignore: Exception) {
         null
     }
@@ -75,7 +74,7 @@ fun <T> String?.parse(cls: Class<Array<T>>): List<T>? {
         return null
     }
     return try {
-        return gson.fromJson(StringReader(this), cls).toList()
+        return convertFactory.fromJson(StringReader(this), cls).toList()
     } catch (ignore: Exception) {
         null
     }
@@ -83,7 +82,7 @@ fun <T> String?.parse(cls: Class<Array<T>>): List<T>? {
 
 fun <T> jsonObject(obj: T): JsonObject? {
     return try {
-        val element = gson.toJsonTree(obj, object : TypeToken<T>() {}.type)
+        val element = convertFactory.toJsonTree(obj, object : TypeToken<T>() {}.type)
         return element.asJsonObject
     } catch (ignore: Exception) {
         null
@@ -93,12 +92,13 @@ fun <T> jsonObject(obj: T): JsonObject? {
 fun <T> jsonArray(array: Collection<T>?): JsonArray? {
     if (array.isNullOrEmpty()) return null
     return try {
-        val element = gson.toJsonTree(array, object : TypeToken<Collection<T>>() {}.type)
+        val element = convertFactory.toJsonTree(array, object : TypeToken<Collection<T>>() {}.type)
         return element.asJsonArray
     } catch (ignore: Exception) {
         null
     }
 }
+
 
 /**
  * [String] to [JsonObject]/[JsonArray]
@@ -182,6 +182,7 @@ fun JsonArray?.notEmpty(): Boolean {
     return this.size() != 0
 }
 
+
 /**
  * [JsonObject]
  */
@@ -220,6 +221,15 @@ fun JsonObject?.array(key: String): JsonArray? {
     val arr = get(key).asJsonArray
     if (arr.size() == 0) return null
     return arr
+}
+
+fun JsonObject?.list(key: String): List<JsonObject>? {
+    val s = array(key).toString()
+    return try {
+        return convertFactory.fromJson(StringReader(s), Array<JsonObject>::class.java).toList()
+    } catch (ignore: Exception) {
+        null
+    }
 }
 
 fun JsonObject?.string(key: String, default: String = ""): String {

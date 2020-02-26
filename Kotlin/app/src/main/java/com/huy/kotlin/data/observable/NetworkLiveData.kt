@@ -7,7 +7,6 @@ import android.net.NetworkRequest
 import android.os.Build
 import com.huy.library.extension.connectivityManager
 
-
 /**
  * -------------------------------------------------------------------------------------------------
  * @Project: Kotlin

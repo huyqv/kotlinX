@@ -83,7 +83,6 @@ val screenHeight: Int
         return dm.heightPixels
     }
 
-
 /**
  * [CameraCharacteristics.LENS_FACING_FRONT]
  * [CameraCharacteristics.LENS_FACING_BACK]

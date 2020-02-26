@@ -55,6 +55,11 @@
                 android:text="EditText" />
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/itemTextMask"
+                style="@style/Button.Match"
+                android:text="TextMask" />
+
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/itemMenu"
                 style="@style/Button.Match"
                 android:text="MenuItem" />

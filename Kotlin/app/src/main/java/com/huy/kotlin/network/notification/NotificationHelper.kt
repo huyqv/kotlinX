@@ -31,7 +31,6 @@ class NotificationHelper {
     private val manager: NotificationManager
         get() = App.instance.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-
     /**
      * Register/Unregister device token for notification push service
      */

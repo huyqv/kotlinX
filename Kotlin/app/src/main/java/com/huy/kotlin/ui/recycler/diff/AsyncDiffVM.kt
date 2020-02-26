@@ -8,7 +8,6 @@ import com.huy.kotlin.ui.model.Image
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-
 /**
  * -------------------------------------------------------------------------------------------------
  * @Project: Kotlin

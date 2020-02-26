@@ -47,17 +47,17 @@ class KeyboardProvider constructor(private val activity: Activity) : PopupWindow
 
     private var keyboardListener: KeyboardListener? = null
 
-    /** The cached landscape height of the keyboard  */
+/** The cached landscape height of the keyboard  */
     private var landscapeHeight: Int = 0
 
-    /** The cached portrait height of the keyboard  */
+/** The cached portrait height of the keyboard  */
     private var portraitHeight: Int = 0
 
     private val popupView: View?
 
     private val parentView: View
 
-    /**
+/**
      * Get the screen orientation
      *
      * @return the screen orientation
@@ -84,7 +84,7 @@ class KeyboardProvider constructor(private val activity: Activity) : PopupWindow
         }
     }
 
-    /**
+/**
      * Start the KeyboardProvider, this must be called after the onResume of the Activity.
      * PopupWindows are not allowed to be registered before the onResume has finished
      * of the Activity.
@@ -116,7 +116,7 @@ class KeyboardProvider constructor(private val activity: Activity) : PopupWindow
         dismiss()
     }
 
-    /**
+/**
      * Popup window itself is as big as the window of the Activity.
      * The keyboard can then be calculated by extracting the popup view bottom
      * from the activity window height.

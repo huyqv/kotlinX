@@ -7,7 +7,6 @@ import com.huy.kotlin.ui.zoom.ZoomFragment
 import com.huy.library.extension.onRefresh
 import kotlinx.android.synthetic.main.fragment_adapter_async_diff.*
 
-
 /**
  * -------------------------------------------------------------------------------------------------
  * @Project: Kotlin

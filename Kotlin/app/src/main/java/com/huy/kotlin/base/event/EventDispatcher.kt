@@ -2,7 +2,6 @@ package com.huy.kotlin.base.event
 
 import android.util.SparseArray
 
-
 /**
  * -------------------------------------------------------------------------------------------------
  * @Project: Kotlin

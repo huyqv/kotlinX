@@ -30,7 +30,6 @@ import com.tbruyelle.rxpermissions2.RxPermissions
  */
 abstract class BaseDialogFragment : BottomSheetDialogFragment(), BaseView {
 
-
     /**
      * [BaseView] implement
      */
@@ -43,7 +42,7 @@ abstract class BaseDialogFragment : BottomSheetDialogFragment(), BaseView {
     override val onViewClick: PreventClickListener by lazy {
         object : PreventClickListener() {
             override fun onViewClick(v: View?) {
-                onViewClick(v)
+                this@BaseDialogFragment.onViewClick(v)
             }
         }
     }
@@ -74,9 +73,8 @@ abstract class BaseDialogFragment : BottomSheetDialogFragment(), BaseView {
         }
     }
 
-    override fun onViewClick(view: View) {
+    override fun onViewClick(view: View?) {
     }
-
 
     /**
      * [BottomSheetDialogFragment] utilities
@@ -93,7 +91,6 @@ abstract class BaseDialogFragment : BottomSheetDialogFragment(), BaseView {
     open fun onBackPressed() {
         activity?.onBackPressed()
     }
-
 
     /**
      * Observer

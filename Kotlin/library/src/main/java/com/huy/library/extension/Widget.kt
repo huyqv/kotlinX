@@ -10,6 +10,7 @@ import android.text.Html
 import android.text.InputFilter
 import android.view.KeyEvent
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.webkit.WebChromeClient
 import android.webkit.WebResourceRequest
@@ -23,7 +24,6 @@ import androidx.core.widget.NestedScrollView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.huy.library.R
 import java.util.*
-
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -46,6 +46,14 @@ fun EditText?.showKeyboard() {
     }
 }
 
+fun EditText?.addOnClickListener(listener: View.OnClickListener) {
+    this ?: return
+    isFocusable = false
+    isCursorVisible = false
+    keyListener = null
+    inputType = EditorInfo.IME_ACTION_NONE
+    setOnClickListener { listener?.onClick(this) }
+}
 
 /**
  * @ImageView
@@ -72,7 +80,6 @@ fun ImageView.tintColor(color: Int) {
 fun ImageView.postImage(@DrawableRes drawableRes: Int) {
     post { this.setImageResource(drawableRes) }
 }
-
 
 /**
  * @NestedScrollView
@@ -116,7 +123,6 @@ fun HorizontalScrollView.scrollToCenter(view: View) {
     }
 }
 
-
 /**
  * @RadioGroup
  */
@@ -136,7 +142,6 @@ fun RadioGroup.addOnCheckedChangeListener(block: (RadioButton) -> Unit) {
     }
 }
 
-
 /**
  * @SwipeRefreshLayout
  */
@@ -145,7 +150,6 @@ fun SwipeRefreshLayout.onRefresh(block: () -> Unit) {
     setColorSchemeColors(ContextCompat.getColor(context, R.color.colorPrimary))
     setOnRefreshListener(block)
 }
-
 
 /**
  * @TextView
@@ -225,7 +229,6 @@ fun TextView.filter(filterChars: CharArray) {
     })
     filters = arrayList.toArray(arrayOfNulls<InputFilter>(arrayList.size))
 }
-
 
 /**
  * @WebView

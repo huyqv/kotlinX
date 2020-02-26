@@ -22,28 +22,25 @@ import com.huy.library.view.PreventClickListener
  */
 interface BaseView : LifecycleOwner {
 
-
     val layoutResource: Int
 
     val baseActivity: BaseActivity?
 
     val fragmentActivity: FragmentActivity?
 
-
     /**
      * [View.OnClickListener] implementation
      */
     val onViewClick: PreventClickListener
 
-    fun onViewClick(view: View)
+    fun onViewClick(view: View?)
 
-    fun addClickListener(vararg views: View) {
+    fun addClickListener(vararg views: View?) {
 
         if (views.isEmpty()) return
 
-        for (v in views) v.setOnClickListener(onViewClick)
+        for (v in views) v?.setOnClickListener(onViewClick)
     }
-
 
     /**
      * [ProgressDialog] implementation
@@ -57,7 +54,6 @@ interface BaseView : LifecycleOwner {
     fun hideProgress() {
         progressDialog?.dismiss()
     }
-
 
     /**
      * Fragment utilities
@@ -79,7 +75,6 @@ interface BaseView : LifecycleOwner {
     fun remove(cls: Class<*>) {
         fragmentActivity?.remove(cls)
     }
-
 
     /**
      * Widget utilities
@@ -116,7 +111,6 @@ interface BaseView : LifecycleOwner {
     fun unknownError() {
         toast("Some thing went wrong :(")
     }
-
 
     /**
      * Navigation utilities

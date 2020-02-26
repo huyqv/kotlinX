@@ -8,7 +8,6 @@ import com.huy.kotlin.ui.model.Image
 import com.huy.library.util.Anim
 import kotlinx.android.synthetic.main.item_image.view.*
 
-
 /**
  * -------------------------------------------------------------------------------------------------
  * @Project: Kotlin

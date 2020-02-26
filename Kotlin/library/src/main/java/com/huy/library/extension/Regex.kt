@@ -115,3 +115,12 @@ fun String?.isDate(s: String): Boolean {
     return s.matches(DATE_REGEX.toRegex())
 }
 
+fun String?.hideText(replacement: String, visibleCount: Int): String? {
+    this ?: return null
+    if (length < visibleCount) return this
+    val showText = substring(length - visibleCount)
+    val hiddenText = substring(0, length - visibleCount).replace("[^.]".toRegex(), replacement)
+    return "$hiddenText$showText"
+}
+
+

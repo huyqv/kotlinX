@@ -37,7 +37,6 @@ fun Activity.fullScreenWindow() {
     this.window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
 }
 
-
 /**
  * Status bar
  */
@@ -100,7 +99,6 @@ fun Activity?.statusBarDrawable(@DrawableRes res: Int) {
 fun Activity?.contentUnderStatusBar(view: View) {
     view.setPadding(0, statusBarHeight(), 0, 0)
 }
-
 
 /**
  * Navigation bar
@@ -166,7 +164,6 @@ fun Activity?.hideNavigationBar(hasFocus: Boolean) {
     }
 }
 
-
 /**
  * Keyboard
  */
@@ -183,7 +180,6 @@ fun Activity.showKeyboard() {
         imm.toggleSoftInputFromWindow(currentFocus?.windowToken, InputMethodManager.SHOW_FORCED, 0)
     }
 }
-
 
 /**
  * Orientation

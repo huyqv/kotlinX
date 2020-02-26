@@ -24,7 +24,6 @@ import com.tbruyelle.rxpermissions2.RxPermissions
  */
 abstract class BaseActivity : AppCompatActivity(), BaseView {
 
-
     /**
      * [BaseView] implement
      */
@@ -37,13 +36,12 @@ abstract class BaseActivity : AppCompatActivity(), BaseView {
     override val onViewClick: PreventClickListener by lazy {
         object : PreventClickListener() {
             override fun onViewClick(v: View?) {
-                onViewClick(v)
+                this@BaseActivity.onViewClick(v)
             }
         }
     }
 
     override var progressDialog: ProgressDialog? = null
-
 
     /**
      * [AppCompatActivity] override
@@ -78,9 +76,8 @@ abstract class BaseActivity : AppCompatActivity(), BaseView {
         }
     }
 
-    override fun onViewClick(view: View) {
+    override fun onViewClick(view: View?) {
     }
-
 
     /**
      * [BaseActivity] utilities
@@ -93,7 +90,6 @@ abstract class BaseActivity : AppCompatActivity(), BaseView {
                 .request(permission)
                 .subscribe { granted -> if (granted) block() }
     }
-
 
     /**
      * Observer
