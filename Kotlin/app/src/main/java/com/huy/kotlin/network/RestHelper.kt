@@ -1,6 +1,5 @@
-package com.huy.kotlin.network.rest
+package com.huy.kotlin.network
 
-import com.huy.kotlin.network.callback.LiveDataCallAdapterFactory
 import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -28,7 +27,6 @@ object RestHelper {
         return Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addCallAdapterFactory(LiveDataCallAdapterFactory())
                 .baseUrl(baseURL)
     }
 

@@ -16,7 +16,7 @@ import androidx.fragment.app.Fragment
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-fun Activity.isGranted(@RequiresPermission vararg permissions: String, onGranted: () -> Unit) {
+fun Activity.onGranted(@RequiresPermission vararg permissions: String, onGranted: () -> Unit) {
     val list = mutableListOf<String>()
     permissions.forEach {
         if (ContextCompat.checkSelfPermission(this, it) != PackageManager.PERMISSION_GRANTED) {
@@ -35,7 +35,7 @@ fun Activity.isGranted(@RequiresPermission vararg permissions: String, onGranted
 
 }
 
-fun Fragment.isGranted(@RequiresPermission vararg permissions: String, onGranted: () -> Unit) {
+fun Fragment.onGranted(@RequiresPermission vararg permissions: String, onGranted: () -> Unit) {
     val list = mutableListOf<String>()
     permissions.forEach {
         if (ContextCompat.checkSelfPermission(context!!, it) != PackageManager.PERMISSION_GRANTED) {

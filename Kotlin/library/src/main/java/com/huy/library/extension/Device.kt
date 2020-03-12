@@ -1,6 +1,7 @@
 package com.huy.library.extension
 
 import android.annotation.SuppressLint
+import android.app.Application
 import android.content.Context
 import android.content.res.Configuration
 import android.hardware.camera2.CameraCharacteristics
@@ -13,11 +14,12 @@ import com.huy.library.Library
 import java.util.*
 import java.util.concurrent.TimeUnit
 
+private val app: Application get() = Library.app
 
 val deviceId: String
     get() {
         return try {
-            Settings.Secure.getString(Library.app.contentResolver, Settings.Secure.ANDROID_ID)
+            Settings.Secure.getString(app.contentResolver, Settings.Secure.ANDROID_ID)
         } catch (e: Exception) {
             ""
         }
@@ -48,7 +50,7 @@ val timeZone: String
 
 val isTablet: Boolean
     get() {
-        return Library.app.resources.configuration.screenLayout and
+        return app.resources.configuration.screenLayout and
                 Configuration.SCREENLAYOUT_SIZE_MASK >= Configuration.SCREENLAYOUT_SIZE_LARGE
     }
 
@@ -69,7 +71,7 @@ val chipSet: String
 
 val screenWidth: Int
     get() {
-        val windowManager = Library.app.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+        val windowManager = app.getSystemService(Context.WINDOW_SERVICE) as WindowManager
         val dm = DisplayMetrics()
         windowManager.defaultDisplay.getMetrics(dm)
         return dm.heightPixels
@@ -77,7 +79,7 @@ val screenWidth: Int
 
 val screenHeight: Int
     get() {
-        val windowManager = Library.app.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+        val windowManager = app.getSystemService(Context.WINDOW_SERVICE) as WindowManager
         val dm = DisplayMetrics()
         windowManager.defaultDisplay.getMetrics(dm)
         return dm.heightPixels
@@ -89,7 +91,7 @@ val screenHeight: Int
  * [CameraCharacteristics.LENS_FACING_EXTERNAL]
  */
 fun cameraId(facing: Int): Int {
-    val manager = Library.app.getSystemService(Context.CAMERA_SERVICE) as CameraManager
+    val manager = app.getSystemService(Context.CAMERA_SERVICE) as CameraManager
     return manager.cameraIdList.first {
         manager.getCameraCharacteristics(it)
                 .get(CameraCharacteristics.LENS_FACING) == facing

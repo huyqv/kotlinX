@@ -2,8 +2,8 @@ package com.huy.kotlin.ui.recycler.diff
 
 import androidx.lifecycle.MutableLiveData
 import com.huy.kotlin.base.arch.BaseViewModel
-import com.huy.kotlin.network.rest.RestClient
-import com.huy.kotlin.network.rest.onNext
+import com.huy.kotlin.network.RestClient
+import com.huy.kotlin.network.callback.ArchSingleObserver
 import com.huy.kotlin.ui.model.Image
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -29,12 +29,14 @@ class AsyncDiffVM : BaseViewModel() {
     }
 
     fun fetchImages(page: Int) {
-        RestClient.service.images(page)
+        RestClient.instance.images(page)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .onNext { _, _, list ->
-                    imageLiveData.value = list
-                }
+                .subscribe(object : ArchSingleObserver<List<Image>>() {
+                    override fun onResponse(data: List<Image>) {
+                        imageLiveData.postValue(data)
+                    }
+                })
     }
 
 }

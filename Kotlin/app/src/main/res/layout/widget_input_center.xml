@@ -25,7 +25,7 @@
         android:paddingStart="@dimen/microDist"
         android:paddingEnd="@dimen/microDist" />
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/inputTextViewError"
         style="@style/TextView.Tiny"
         android:layout_marginTop="@dimen/_6sdp"

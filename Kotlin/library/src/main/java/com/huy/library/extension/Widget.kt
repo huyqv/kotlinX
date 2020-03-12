@@ -33,11 +33,6 @@ import java.util.*
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-var lastClickTime: Long = 0
-
-/**
- * @EditText
- */
 fun EditText?.showKeyboard() {
     this?.apply {
         clearFocus()
@@ -55,9 +50,6 @@ fun EditText?.addOnClickListener(listener: View.OnClickListener) {
     setOnClickListener { listener?.onClick(this) }
 }
 
-/**
- * @ImageView
- */
 fun ImageView.tintColor(color: String) {
     tintColor(Color.parseColor(color))
 }
@@ -81,9 +73,6 @@ fun ImageView.postImage(@DrawableRes drawableRes: Int) {
     post { this.setImageResource(drawableRes) }
 }
 
-/**
- * @NestedScrollView
- */
 fun NestedScrollView.scrollToTop() {
     post {
         fling(0)
@@ -123,9 +112,6 @@ fun HorizontalScrollView.scrollToCenter(view: View) {
     }
 }
 
-/**
- * @RadioGroup
- */
 fun RadioGroup.checkedButton(): View? {
     for (i in 0 until this.childCount) {
         val v = this.getChildAt(i)
@@ -142,18 +128,12 @@ fun RadioGroup.addOnCheckedChangeListener(block: (RadioButton) -> Unit) {
     }
 }
 
-/**
- * @SwipeRefreshLayout
- */
 fun SwipeRefreshLayout.onRefresh(block: () -> Unit) {
     setProgressBackgroundColorSchemeColor(ContextCompat.getColor(context, R.color.colorWhite))
     setColorSchemeColors(ContextCompat.getColor(context, R.color.colorPrimary))
     setOnRefreshListener(block)
 }
 
-/**
- * @TextView
- */
 fun TextView.color(@ColorRes color: Int) {
     setTextColor(ContextCompat.getColor(context, color))
 }
@@ -230,9 +210,6 @@ fun TextView.filter(filterChars: CharArray) {
     filters = arrayList.toArray(arrayOfNulls<InputFilter>(arrayList.size))
 }
 
-/**
- * @WebView
- */
 fun WebView.setupWebView() {
     settings.builtInZoomControls = true
     settings.displayZoomControls = true

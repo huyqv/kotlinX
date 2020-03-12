@@ -58,7 +58,7 @@ fun Intent.onFacebookAuthenticated(requestCode: Int, block: (String*/
     AccountKit.loginResultWithIntent(this).also {
         if (it?.accessToken != null) {
             AccountKit.getCurrentAccount(object : AccountKitCallback<Account> {
-                override fun onSuccess(account: Account) {
+                override fun onData(account: Account) {
                     block(account.phoneNumber.toString())
                 }
 

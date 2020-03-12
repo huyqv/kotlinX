@@ -48,11 +48,15 @@ interface BaseView : LifecycleOwner {
     val progressDialog: ProgressDialog?
 
     fun showProgress() {
-        progressDialog?.show()
+        fragmentActivity?.runOnUiThread {
+            progressDialog?.show()
+        }
     }
 
     fun hideProgress() {
-        progressDialog?.dismiss()
+        fragmentActivity?.runOnUiThread {
+            progressDialog?.dismiss()
+        }
     }
 
     /**

@@ -1,6 +1,7 @@
 package com.huy.library.extension
 
 import android.app.Activity
+import android.app.Application
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.BlendMode
@@ -32,8 +33,10 @@ import kotlin.math.roundToInt
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
+private val app: Application get() = Library.app
+
 fun Float.dpToPx(): Float {
-    val resources = Library.app.resources
+    val resources = app.resources
     val scale = resources.displayMetrics.density
     return (this * scale + 0.5f)
 }
@@ -47,11 +50,11 @@ fun Float.dpToSp(): Int {
 }
 
 fun Float.pxToDp(): Float {
-    return this / (Library.app.resources.displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)
+    return this / (app.resources.displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)
 }
 
 fun Float.dipToPx(): Float {
-    return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, this, Library.app.resources.displayMetrics)
+    return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, this, app.resources.displayMetrics)
 }
 
 fun Int.pxToDp(): Int {
@@ -180,6 +183,6 @@ fun ViewGroup.inflate(@LayoutRes layoutRes: Int): View {
 }
 
 fun inflater(@LayoutRes layoutRes: Int): View {
-    val inflater = Library.app.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+    val inflater = app.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
     return inflater.inflate(layoutRes, null)
 }

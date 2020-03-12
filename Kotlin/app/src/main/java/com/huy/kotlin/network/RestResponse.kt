@@ -1,4 +1,4 @@
-package com.huy.kotlin.network.rest
+package com.huy.kotlin.network
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName

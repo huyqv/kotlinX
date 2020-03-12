@@ -123,4 +123,14 @@ fun String?.hideText(replacement: String, visibleCount: Int): String? {
     return "$hiddenText$showText"
 }
 
-
+fun String?.filter(filterChars: CharArray): String {
+    if (this.isNullOrEmpty()) return ""
+    var s = ""
+    for (i in 0 until lastIndex) {
+        val c = get(i).toString()
+        if (String(filterChars).contains(c)) {
+            s += c
+        }
+    }
+    return s
+}

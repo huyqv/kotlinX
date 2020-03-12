@@ -1,4 +1,4 @@
-package com.huy.kotlin.widget
+package com.huy.library.widget
 
 import android.content.Context
 import android.content.res.TypedArray
@@ -6,7 +6,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
 
-abstract class CustomView : FrameLayout {
+abstract class AppCustomView : FrameLayout {
 
     protected abstract val styleRes: IntArray
 

@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.huy.kotlin.app.App
 import com.huy.kotlin.data.RoomDB
 import com.huy.kotlin.data.Shared
-import com.huy.kotlin.network.rest.RestClient
+import com.huy.kotlin.network.RestClient
 
 /**
  * -------------------------------------------------------------------------------------------------

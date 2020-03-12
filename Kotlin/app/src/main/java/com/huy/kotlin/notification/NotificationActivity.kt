@@ -1,4 +1,4 @@
-package com.huy.kotlin.network.notification
+package com.huy.kotlin.notification
 
 import android.os.Bundle
 import com.huy.kotlin.R

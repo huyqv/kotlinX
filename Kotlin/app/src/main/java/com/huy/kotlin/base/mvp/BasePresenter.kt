@@ -1,6 +1,7 @@
 package com.huy.kotlin.base.mvp
 
 import com.huy.kotlin.base.view.BaseView
+import java.lang.ref.WeakReference
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -10,15 +11,29 @@ import com.huy.kotlin.base.view.BaseView
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-interface BasePresenter<in V : BaseView> {
+interface BasePresenter<V : BaseView> {
 
-    fun attach(view: V)
+    var viewRef: WeakReference<V>?
 
-    fun detach()
+    val view: V?
 
-    fun viewAttached(): Boolean
+    fun attach(view: V) {
+        if (viewAttached()) return
+        viewRef = WeakReference(view)
+    }
 
-    fun viewDetached(): Boolean
+    fun detach() {
+        viewRef?.clear()
+        viewRef = null
+    }
+
+    fun viewAttached(): Boolean {
+        return null != view
+    }
+
+    fun viewDetached(): Boolean {
+        return null == view
+    }
 
     fun onStart()
 

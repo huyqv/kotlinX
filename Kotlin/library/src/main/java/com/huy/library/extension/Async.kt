@@ -10,37 +10,34 @@ package com.huy.library.extension
  */
 import android.os.Handler
 import android.os.Looper
-import java.util.concurrent.Executor
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
-val HANDLER = Handler()
+val handler = Handler()
 
-val UI_HANDLER: Handler = Handler(Looper.getMainLooper())
+fun post(block: () -> Unit) {
+    handler.post { block() }
+}
 
-val UI_EXECUTOR: Executor = Executor { command -> UI_HANDLER.post(command) }
+fun post(delay: Long, block: () -> Unit) {
+    handler.postDelayed({ block() }, delay)
+}
 
-val IO_HANDLER: ExecutorService get() = Executors.newSingleThreadExecutor()
 
-val IO_EXECUTOR: Executor get() = Executor { command -> IO_HANDLER.execute(command) }
+val ioExecutor: ExecutorService get() = Executors.newSingleThreadExecutor()
+
+fun ioThread(block: () -> Unit) {
+    ioExecutor.execute(block)
+}
+
+
+val uiHandler: Handler = Handler(Looper.getMainLooper())
 
 val isOnUiThread: Boolean get() = Looper.myLooper() == Looper.getMainLooper()
 
 fun uiThread(block: () -> Unit) {
     if (isOnUiThread) block()
-    else post { block() }
-}
-
-fun ioThread(block: () -> Unit) {
-    IO_HANDLER.execute(block)
-}
-
-fun post(block: () -> Unit) {
-    HANDLER.post { block() }
-}
-
-fun post(delay: Long, block: () -> Unit) {
-    HANDLER.postDelayed({ block() }, delay)
+    else uiHandler.post { block() }
 }
 
 

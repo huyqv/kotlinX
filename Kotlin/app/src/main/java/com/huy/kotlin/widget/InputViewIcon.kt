@@ -3,8 +3,8 @@ package com.huy.kotlin.widget
 import android.content.Context
 import android.content.res.TypedArray
 import android.util.AttributeSet
-import android.widget.EditText
-import android.widget.TextView
+import androidx.appcompat.widget.AppCompatEditText
+import androidx.appcompat.widget.AppCompatTextView
 import com.huy.kotlin.R
 import kotlinx.android.synthetic.main.widget_input_icon.view.*
 
@@ -16,15 +16,13 @@ import kotlinx.android.synthetic.main.widget_input_icon.view.*
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-class InputViewIcon : CustomInputView {
+class InputViewIcon : InputView {
 
-    override val titleView: TextView get() = inputTextViewTitle
+    override val titleView: AppCompatTextView? get() = inputTextViewTitle
 
-    override val errorView: TextView get() = inputTextViewError
+    override val errorView: AppCompatTextView? get() = inputTextViewError
 
-    override val editView: EditText get() = inputEditText
-
-    override val styleRes: IntArray get() = R.styleable.InputView
+    override val editView: AppCompatEditText? get() = inputEditText
 
     override val layoutRes: Int get() = R.layout.widget_input_icon
 
@@ -40,8 +38,8 @@ class InputViewIcon : CustomInputView {
 
         val drawableRight = getTypedDrawable(types, R.styleable.InputView_android_drawableEnd, color)
 
-        editView.post {
-            editView.setCompoundDrawablesWithIntrinsicBounds(drawableLeft, null, drawableRight, null)
+        editView?.post {
+            editView?.setCompoundDrawablesWithIntrinsicBounds(drawableLeft, null, drawableRight, null)
         }
 
         val drawable = getTypedDrawable(types, R.styleable.InputView_android_drawable, color)

@@ -1,4 +1,4 @@
-package com.huy.kotlin.network.notification
+package com.huy.kotlin.notification
 
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage

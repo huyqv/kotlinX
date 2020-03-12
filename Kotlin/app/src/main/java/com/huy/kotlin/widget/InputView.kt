@@ -11,31 +11,41 @@ import android.view.MotionEvent
 import android.view.View.OnTouchListener
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
 import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.appcompat.widget.AppCompatEditText
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import com.huy.kotlin.R
+import com.huy.library.widget.AppCustomView
 
-abstract class CustomInputView : CustomView {
+/**
+ * -------------------------------------------------------------------------------------------------
+ * @Project: Kotlin
+ * @Created: Huy QV 2017/10/28
+ * @Description: ...
+ * None Right Reserved
+ * -------------------------------------------------------------------------------------------------
+ */
+abstract class InputView : AppCustomView {
 
     var title: String?
-        get() = titleView.text.toString()
+        get() = titleView?.text.toString()
         set(value) {
-            titleView.text = value
+            titleView?.text = value
         }
 
     var error: String?
-        get() = errorView.text.toString()
+        get() = errorView?.text.toString()
         set(value) {
-            errorView.text = value
+            errorView?.text = value
         }
 
     var text: String?
-        get() = editView.text.toString()
+        get() = editView?.text.toString()
         set(value) {
-            editView.setText(value)
+            editView?.setText(value)
         }
 
     val notError: Boolean get() = error.isNullOrEmpty()
@@ -46,15 +56,17 @@ abstract class CustomInputView : CustomView {
 
     val notEmpty: Boolean get() = !isEmpty
 
-    abstract val titleView: TextView
+    abstract val titleView: AppCompatTextView?
 
-    abstract val errorView: TextView
+    abstract val errorView: AppCompatTextView?
 
-    abstract val editView: EditText
+    abstract val editView: AppCompatEditText?
 
     constructor(context: Context) : super(context)
 
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
+
+    override val styleRes: IntArray get() = R.styleable.InputView
 
     override fun onInitialize(context: Context, types: TypedArray) {
         clearBackground()
@@ -67,29 +79,29 @@ abstract class CustomInputView : CustomView {
     }
 
     override fun setOnClickListener(listener: OnClickListener?) {
-        editView.apply {
+        editView?.apply {
             isFocusable = false
             isCursorVisible = false
             keyListener = null
             inputType = EditorInfo.IME_ACTION_NONE
         }
         super.setOnClickListener {
-            listener?.onClick(this@CustomInputView)
+            listener?.onClick(this@InputView)
         }
     }
 
     fun setError(@StringRes res: Int?) {
-        if (res == null) errorView.text = null
-        else errorView.setText(res)
+        if (res == null) errorView?.text = null
+        else errorView?.setText(res)
     }
 
     fun clear() {
-        editView.text = null
-        errorView.text = null
+        editView?.text = null
+        errorView?.text = null
     }
 
     fun addEditorActionListener(actionId: Int, block: (String?) -> Unit) {
-        editView.apply {
+        editView?.apply {
             maxLines = 1
             imeOptions = actionId
             setImeActionLabel(null, actionId)
@@ -97,7 +109,7 @@ abstract class CustomInputView : CustomView {
                 override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
                     if (actionId == actionId) {
                         hideKeyboard()
-                        block(this@CustomInputView.text)
+                        block(this@InputView.text)
                         return true
                     }
                     return false
@@ -107,14 +119,14 @@ abstract class CustomInputView : CustomView {
     }
 
     fun setDrawableRight(@DrawableRes drawableRes: Int) {
-        editView.post {
+        editView?.post {
             val drawable = ContextCompat.getDrawable(context, drawableRes)
-            editView.setCompoundDrawables(null, null, drawable, null)
+            editView?.setCompoundDrawables(null, null, drawable, null)
         }
     }
 
     fun setDrawableClickListener(block: () -> Unit) {
-        editView.apply {
+        editView?.apply {
             setOnTouchListener(OnTouchListener { _, event ->
                 if (event.action == MotionEvent.ACTION_UP)
                 // LEFT = 0, TOP = 1, RIGHT = 2, BOTTOM = 3
@@ -129,44 +141,45 @@ abstract class CustomInputView : CustomView {
 
     open fun configTitleText(types: TypedArray) {
         val color = getTypedColor(types, R.styleable.InputView_android_textColor)
-        titleView.setTextColor(color)
-        titleView.text = types.getString(R.styleable.InputView_android_text)
+        titleView?.setTextColor(color)
+        titleView?.text = types.getString(R.styleable.InputView_android_text)
     }
 
     open fun configEditText(types: TypedArray) {
 
-        val inputType = types.getInt(R.styleable.InputView_android_inputType, EditorInfo.TYPE_CLASS_TEXT)
-        if (inputType == EditorInfo.TYPE_NULL) {
-            setOnKeyListener(null)
-            editView.isFocusable = false
-            editView.isEnabled = false
-            editView.isCursorVisible = false
-        } else {
-            editView.inputType = inputType
+        editView?.also {
+
+            val inputType = types.getInt(R.styleable.InputView_android_inputType, EditorInfo.TYPE_CLASS_TEXT)
+            if (inputType == EditorInfo.TYPE_NULL) {
+                setOnKeyListener(null)
+                it.isFocusable = false
+                it.isEnabled = false
+                it.isCursorVisible = false
+            } else {
+                it.inputType = inputType
+            }
+
+            it.maxLines = types.getInt(R.styleable.InputView_android_maxLines, 1)
+
+            val filters = arrayListOf<InputFilter>()
+
+            val allCaps = types.getBoolean(R.styleable.InputView_android_textAllCaps, false)
+            if (allCaps) filters.add(InputFilter.AllCaps())
+
+            val maxLength = types.getInt(R.styleable.InputView_android_maxLength, 100)
+            filters.add(InputFilter.LengthFilter(maxLength))
+
+            val array = arrayOfNulls<InputFilter>(filters.size)
+            it.filters = filters.toArray(array)
+
+            it.nextFocusForwardId = types.getResourceId(R.styleable.InputView_android_nextFocusForward, -1)
+
+            it.imeOptions = types.getInt(R.styleable.InputView_android_imeOptions, EditorInfo.IME_ACTION_NEXT)
+
+            val src = types.getResourceId(R.styleable.InputView_android_src, -1)
+            if (src != -1) editView?.setBackgroundResource(src)
+
         }
-
-        editView.maxLines = types.getInt(R.styleable.InputView_android_maxLines, 1)
-
-        val filters = arrayListOf<InputFilter>()
-
-        val allCaps = types.getBoolean(R.styleable.InputView_android_textAllCaps, false)
-        if (allCaps) filters.add(InputFilter.AllCaps())
-
-        val maxLength = types.getInt(R.styleable.InputView_android_maxLength, 100)
-        filters.add(InputFilter.LengthFilter(maxLength))
-
-        val array = arrayOfNulls<InputFilter>(filters.size)
-        editView.filters = filters.toArray(array)
-
-        val nextFocus = types.getResourceId(R.styleable.InputView_android_nextFocusForward, -1)
-        if (nextFocus != -1) editView.nextFocusForwardId = nextFocus
-
-        val imeOption = types.getInt(R.styleable.InputView_android_imeOptions, -1)
-        if (imeOption != -1) editView.imeOptions = imeOption
-
-        val src = types.getResourceId(R.styleable.InputView_android_src, -1)
-        if (src != -1) editView.setBackgroundResource(src)
-
     }
 
     open fun configDrawable(types: TypedArray) {
@@ -177,9 +190,10 @@ abstract class CustomInputView : CustomView {
 
         val drawableRight = getTypedDrawable(types, R.styleable.InputView_android_drawableEnd, color)
 
-        editView.post {
-            editView.setCompoundDrawablesWithIntrinsicBounds(drawableLeft, null, drawableRight, null)
+        editView?.post {
+            editView?.setCompoundDrawablesWithIntrinsicBounds(drawableLeft, null, drawableRight, null)
         }
+
     }
 
     private fun clearBackground() {

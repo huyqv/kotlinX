@@ -1,6 +1,7 @@
 package com.huy.library.extension
 
 import android.annotation.SuppressLint
+import android.app.Application
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
@@ -15,10 +16,12 @@ import com.huy.library.Library
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
+private val app: Application get() = Library.app
+
 val networkConnected: Boolean
     @SuppressLint("MissingPermission")
     get() {
-        val cm = Library.app.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val cm = app.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         when {
             Build.VERSION.SDK_INT > Build.VERSION_CODES.O -> cm.getNetworkCapabilities(cm.activeNetwork)?.run {
                 return when {
@@ -47,6 +50,6 @@ val networkConnected: Boolean
 
 val networkDisconnected: Boolean get() = !networkConnected
 
-val connectivityManager = Library.app.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+val connectivityManager = app.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
 
