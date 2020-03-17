@@ -19,7 +19,7 @@ class GestureHelper {
 
     interface MatrixChangedListener {
 
-/**
+        /**
          * Callback for when the Matrix displaying the Drawable has changed. This could be because
          * the View's bounds have changed, or the user has zoomed.
          *
@@ -28,12 +28,12 @@ class GestureHelper {
         fun onMatrixChanged(rect: RectF)
     }
 
-/**
+    /**
      * Interface definition for callback to be invoked when attached ImageView currentScale changes
      */
     interface ScaleChangedListener {
 
-/**
+        /**
          * Callback for when the currentScale changes
          *
          * @param scaleFactor the currentScale factor (less than 1 for zoom out, greater than 1 for zoom in)
@@ -43,19 +43,19 @@ class GestureHelper {
         fun onScaleChange(scaleFactor: Float, focusX: Float, focusY: Float)
     }
 
-/**
+    /**
      * Callback when the user tapped outside of the photo
      */
     interface OutsidePhotoTapListener {
         fun onOutsidePhotoTap(imageView: ImageView)
     }
 
-/**
+    /**
      * A callback to be invoked when the Photo is tapped with a singletap.
      */
     interface PhotoTapListener {
 
-/**
+        /**
          * A callback to receive where the user taps on a photo. You will only receive a callback if
          * the user taps on the actual photo, tapping on 'whitespace' will be ignored.
          *
@@ -68,13 +68,13 @@ class GestureHelper {
         fun onPhotoTap(view: ImageView, x: Float, y: Float)
     }
 
-/**
+    /**
      * A callback to be invoked when the ImageView is flung with a single
      * touch
      */
     interface SingleFlingListener {
 
-/**
+        /**
          * A callback to receive where the user flings on a ImageView. You will receive a callback if
          * the user flings anywhere on the view.
          *
@@ -86,12 +86,12 @@ class GestureHelper {
         fun onSingleFling(e1: MotionEvent, e2: MotionEvent, velocityX: Float, velocityY: Float): Boolean
     }
 
-/**
+    /**
      * Interface definition for a callback to be invoked when the photo is experiencing a drag event
      */
     interface ViewDragListener {
 
-/**
+        /**
          * Callback for when the photo is experiencing a drag event. This cannot be invoked when the
          * user is scaling.
          *
@@ -103,7 +103,7 @@ class GestureHelper {
 
     interface ViewTapListener {
 
-/**
+        /**
          * A callback to receive where the user taps on a ImageView. You will receive a callback if
          * the user taps anywhere on the view, tapping on 'whitespace' will not be ignored.
          *

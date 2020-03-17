@@ -47,7 +47,7 @@ fun EditText?.addOnClickListener(listener: View.OnClickListener) {
     isCursorVisible = false
     keyListener = null
     inputType = EditorInfo.IME_ACTION_NONE
-    setOnClickListener { listener?.onClick(this) }
+    setOnClickListener { listener.onClick(this) }
 }
 
 fun ImageView.tintColor(color: String) {

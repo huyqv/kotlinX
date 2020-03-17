@@ -1,7 +1,5 @@
 package com.huy.library.extension
 
-import android.graphics.drawable.Drawable
-import androidx.annotation.DrawableRes
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -17,15 +15,14 @@ import com.huy.library.R
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-
 val HORIZONTAL_ANIMATIONS = intArrayOf(R.anim.horizontal_enter, R.anim.horizontal_exit, R.anim.horizontal_pop_enter, R.anim.horizontal_pop_exit)
 
 val VERTICAL_ANIMATIONS = intArrayOf(R.anim.horizontal_enter, R.anim.horizontal_exit, R.anim.horizontal_pop_enter, R.anim.horizontal_pop_exit)
 
-fun Fragment.hideKeyboard() {
-    activity?.hideKeyboard()
-}
 
+/**
+ * [Fragment].[FragmentManager]
+ */
 fun Fragment.addFragment(fragment: Fragment, @IdRes container: Int, backStack: Boolean = true, animations: IntArray? = VERTICAL_ANIMATIONS) {
 
     val tag = fragment::class.java.simpleName.tag()
@@ -44,6 +41,11 @@ fun Fragment.replaceFragment(fragment: Fragment, @IdRes container: Int, backStac
     }, animations)
 }
 
+fun Fragment.isNotExist(cls: Class<*>): Boolean {
+    val tag = cls.simpleName
+    return null == childFragmentManager.findFragmentByTag(tag)
+}
+
 fun Fragment.remove(cls: Class<Fragment>, animations: IntArray? = VERTICAL_ANIMATIONS) {
     remove(cls.simpleName.tag(), animations)
 }
@@ -57,14 +59,10 @@ fun Fragment.remove(tag: String?, animations: IntArray? = null) {
     }, animations)
 }
 
-fun Fragment.statusBarDrawable(@DrawableRes res: Int) {
-    activity?.statusBarDrawable(res)
-}
 
-fun Fragment.statusBarDrawable(drawable: Drawable?) {
-    activity?.statusBarDrawable(drawable)
-}
-
+/**
+ * [FragmentActivity].[FragmentManager]
+ */
 fun FragmentActivity.addFragment(fragment: Fragment, @IdRes container: Int, backStack: Boolean = true, animations: IntArray? = VERTICAL_ANIMATIONS) {
 
     val tag = fragment::class.java.simpleName.tag()
@@ -83,12 +81,16 @@ fun FragmentActivity.replaceFragment(fragment: Fragment, @IdRes container: Int, 
     }, animations)
 }
 
+fun FragmentActivity.isNotExist(cls: Class<*>): Boolean {
+    val tag = cls.simpleName
+    return null == supportFragmentManager.findFragmentByTag(tag)
+}
+
 fun FragmentActivity.remove(cls: Class<*>, animations: IntArray? = VERTICAL_ANIMATIONS) {
     remove(cls.simpleName.tag(), animations)
 }
 
 fun FragmentActivity.remove(tag: String?, animations: IntArray? = VERTICAL_ANIMATIONS) {
-
     tag ?: return
     val fragment = supportFragmentManager.findFragmentByTag(tag) ?: return
     supportFragmentManager.scheduleTransaction({

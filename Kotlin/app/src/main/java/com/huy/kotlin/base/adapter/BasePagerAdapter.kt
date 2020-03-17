@@ -18,11 +18,9 @@ abstract class BasePagerAdapter<T> : PagerAdapter() {
 
     var selectedItem: T? = null
 
-    private var data: MutableList<T> = mutableListOf()
+    var data: MutableList<T> = mutableListOf()
 
-    fun size(): Int {
-        return data.size
-    }
+    val size: Int get() = data.size
 
     fun set(collection: List<T>?) {
         collection ?: return
@@ -64,7 +62,9 @@ abstract class BasePagerAdapter<T> : PagerAdapter() {
 
     abstract fun View.onBind(model: T)
 
-    override fun getCount() = data.size
+    override fun getCount(): Int {
+        return size
+    }
 
     override fun getItemPosition(obj: Any): Int {
         @Suppress("UNCHECKED_CAST")

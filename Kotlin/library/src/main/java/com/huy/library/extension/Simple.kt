@@ -26,7 +26,7 @@ interface SimpleTextWatcher : TextWatcher {
     override fun afterTextChanged(s: Editable?) {
     }
 
-    fun EditText.setSilentText( s: String) {
+    fun EditText.setSilentText(s: String) {
         removeTextChangedListener(this@SimpleTextWatcher)
         setText(s)
         setSelection(s.length)

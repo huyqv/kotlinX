@@ -34,34 +34,33 @@ abstract class MvpObserver<T>(private val presenter: BasePresenter<*>)
 
     final override fun onNext(t: T) {
         onCompleted(t, null)
+        onResponse(t)
     }
 
     final override fun onError(e: Throwable) {
         onCompleted(null, e)
-    }
-
-
-    /**
-     * Open callback wrapper methods
-     */
-    protected open fun onCompleted(body: T?, e: Throwable?) {
-        if (null != body) {
-            onResponse(body)
-        } else when (e) {
+        when (e) {
             is HttpException -> onFailed(e.code(), e.message())
             is SocketException, is UnknownHostException, is SocketTimeoutException -> onNetworkError()
             else -> onFailed(0, e?.message ?: "")
         }
     }
 
-    protected open fun onResponse(body: T) {}
+
+    /**
+     * Open callback wrapper methods
+     */
+    protected open fun onCompleted(data: T?, e: Throwable?) {
+    }
+
+    protected open fun onResponse(data: T) {}
 
     protected open fun onFailed(code: Int, message: String) {
         toast("$code $message")
     }
 
     protected open fun onNetworkError() {
-        toast("network error")
+        onFailed(0,"network error")
     }
 
 }

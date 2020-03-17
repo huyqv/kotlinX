@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit
 
 object TimeUtil {
 
-/**
+    /**
      * Text
      */
     fun text(timeMillis: Long, format: String): String {
@@ -27,7 +27,7 @@ object TimeUtil {
         }
     }
 
-/**
+    /**
      * Millis
      */
     fun millis(dateTimeText: String?, format: String): Long? {
@@ -49,7 +49,7 @@ object TimeUtil {
         }
     }
 
-/**
+    /**
      * Calendar
      */
     fun isYesterday(timeCal: Calendar): Boolean {
@@ -83,7 +83,7 @@ object TimeUtil {
         return cal.get(Calendar.DAY_OF_MONTH) - momentCal.get(Calendar.DAY_OF_MONTH) == 1
     }
 
-/**
+    /**
      *
      */
     fun isYesterday(timeMillis: Long): Boolean {
@@ -164,7 +164,7 @@ object TimeUtil {
         return millis(dateTimeText, LONG_FORMAT)
     }
 
-/**
+    /**
      * Show different in timeInMillis
      * Today: text "[HOUR_FORMAT]"
      * Yesterday: text "[HOUR_FORMAT] : Yesterday"
@@ -207,7 +207,7 @@ object TimeUtil {
         return longFormat(correctTime)
     }
 
-/**
+    /**
      * Show different in timeInMillis
      * Today: text "[HOUR_FORMAT]"
      * Yesterday: text "[HOUR_FORMAT] : Yesterday"

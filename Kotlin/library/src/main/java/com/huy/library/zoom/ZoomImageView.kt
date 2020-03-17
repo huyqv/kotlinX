@@ -32,7 +32,7 @@ import androidx.appcompat.widget.AppCompatImageView
  */
 class ZoomImageView : AppCompatImageView {
 
-/**
+    /**
      * Get the current [AttachedZoomView] for this view. Be wary of holding on to references
      * to this attachedZoomView, as it has a reference to this view, which, if a reference is held in the
      * wrong place, can cause memory leaks.

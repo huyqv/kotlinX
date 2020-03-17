@@ -2,7 +2,6 @@ package com.huy.library.extension
 
 import android.text.Editable
 import android.text.InputType
-import android.text.TextUtils
 import android.widget.EditText
 import java.math.BigDecimal
 import java.math.RoundingMode
