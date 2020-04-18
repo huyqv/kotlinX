@@ -19,35 +19,42 @@ import retrofit2.http.*
  */
 interface RestService {
 
-    @GET("{path}")
-    fun objectGET(@Path("{path}") path: String
+    companion object {
+
+        private const val PATH_FMT: String = "{path}"
+
+        private const val PATH: String = "path"
+    }
+
+    @GET(PATH_FMT)
+    fun objectGET(@Path(PATH) path: String
     ): Single<JsonObject>
 
-    @GET("{path}")
-    fun arrayGET(@Path("{path}") path: String
+    @GET(PATH_FMT)
+    fun arrayGET(@Path(PATH) path: String
     ): Single<JsonArray>
 
-    @POST("{path}")
-    fun objectPOST(@Path("{path}") path: String,
+    @POST(PATH_FMT)
+    fun objectPOST(@Path(PATH) path: String,
                    @Body body: JsonObject
     ): Single<JsonObject>
 
-    @POST("{path}")
-    fun arrayPOST(@Path("{path}") path: String,
+    @POST(PATH_FMT)
+    fun arrayPOST(@Path(PATH) path: String,
                   @Body body: JsonObject
     ): Single<JsonArray>
 
     @Multipart
-    @POST("{path}")
-    fun upload(@Path("{path}") path: String,
+    @POST(PATH_FMT)
+    fun upload(@Path(PATH) path: String,
                @Part files: Array<MultipartBody.Part>,
                @Part("description") des: RequestBody?
     ): Call<ResponseBody>
 
 
     @FormUrlEncoded
-    @POST("{path}")
-    fun post(@Path("{path}") path: String,
+    @POST(PATH_FMT)
+    fun post(@Path(PATH) path: String,
              @FieldMap map: Map<String, Any>
     ): Call<JsonObject>
 

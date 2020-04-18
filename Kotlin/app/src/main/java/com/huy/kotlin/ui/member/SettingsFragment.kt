@@ -5,8 +5,8 @@ import android.os.Bundle
 import android.view.View
 import com.huy.kotlin.R
 import com.huy.kotlin.base.view.BaseFragment
+import com.huy.library.extension.androidId
 import com.huy.library.extension.appVersion
-import com.huy.library.extension.deviceId
 import com.huy.library.extension.deviceName
 import kotlinx.android.synthetic.main.fragment_settings.*
 
@@ -28,7 +28,7 @@ class SettingsFragment : BaseFragment() {
         settingTextViewOsName.text = Build.VERSION.RELEASE
         settingTextViewSdkVersion.text = Build.VERSION.SDK_INT.toString()
         settingTextViewDeviceName.text = deviceName
-        settingTextViewDeviceId.text = deviceId
+        settingTextViewDeviceId.text = androidId
     }
 
 }

@@ -6,7 +6,6 @@ import com.huy.kotlin.data.observable.AlertLiveData
 import com.huy.kotlin.data.observable.NetworkLiveData
 import com.huy.kotlin.data.observable.ProgressLiveData
 import com.huy.kotlin.extension.viewModel
-import com.huy.library.extension.toast
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -32,8 +31,6 @@ abstract class ArchActivity<VM : BaseViewModel> : BaseActivity() {
         ProgressLiveData.instance.nonNull { if (it) showProgress() else hideProgress() }
 
         AlertLiveData.instance.nonNull { alert(it) }
-
-        ToastLiveData.instance.nonNull { toast(it) }
 
         NetworkLiveData.instance.nonNull { if (it) viewModel.onNetworkAvailable() }
 

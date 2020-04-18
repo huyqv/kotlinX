@@ -46,10 +46,10 @@ class FragmentStateAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm, 
         return fragments.size
     }
 
-    override fun getItemPosition(`object`: Any): Int {
+    override fun getItemPosition(obj: Any): Int {
         if (null == initFragmentChanged)
             return POSITION_UNCHANGED
-        if (initFragmentChanged!!.onInitFragmentChanged(`object`))
+        if (initFragmentChanged!!.onInitFragmentChanged(obj))
             return POSITION_NONE
         return POSITION_UNCHANGED
     }

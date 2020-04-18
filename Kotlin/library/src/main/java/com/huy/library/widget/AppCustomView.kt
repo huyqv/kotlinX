@@ -15,14 +15,18 @@ abstract class AppCustomView : FrameLayout {
     protected abstract fun onInitialize(context: Context, types: TypedArray)
 
     constructor(context: Context) : super(context) {
-        init(context, null)
+        onViewInit(context, null)
     }
 
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
-        init(context, attrs)
+        onViewInit(context, attrs)
     }
 
-    private fun init(context: Context, attrs: AttributeSet?) {
+    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+        onViewInit(context, attrs)
+    }
+
+    private fun onViewInit(context: Context, attrs: AttributeSet?) {
         val types = context.theme.obtainStyledAttributes(attrs, styleRes, 0, 0)
         try {
             LayoutInflater.from(context).inflate(layoutRes, this)

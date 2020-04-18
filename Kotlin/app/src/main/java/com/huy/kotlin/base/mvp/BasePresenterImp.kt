@@ -23,23 +23,17 @@ import java.lang.ref.WeakReference
  */
 open class BasePresenterImp<V : BaseView> : BasePresenter<V>, EventListener {
 
-    private var composite: CompositeDisposable? = null
+    protected val context: Context get() = App.instance.applicationContext
 
-    val context: Context get() = App.instance.applicationContext
+    protected val room: RoomDB get() = RoomDB.instance
 
-    val room: RoomDB get() = RoomDB.instance
+    protected val shared: Shared get() = Shared.instance
 
-    val shared: Shared get() = Shared.instance
+    protected val service: RestClient get() = RestClient.instance
 
-    val service: RestClient get() = RestClient.instance
-
-    val compositeDisposable: CompositeDisposable
-        get() {
-            if (null == composite || composite?.isDisposed == true)
-                composite = CompositeDisposable()
-            return composite!!
-        }
-
+    private val composite: CompositeDisposable by lazy {
+        CompositeDisposable()
+    }
 
     /**
      * [BasePresenter] implement
@@ -56,7 +50,7 @@ open class BasePresenterImp<V : BaseView> : BasePresenter<V>, EventListener {
     override fun detach() {
         viewRef?.clear()
         viewRef = null
-        composite?.dispose()
+        composite.dispose()
     }
 
     override fun viewAttached(): Boolean {

@@ -165,12 +165,12 @@ fun View.showPopup(@LayoutRes layoutRes: Int, @StyleRes animationStyle: Int, blo
 
 fun View.backgroundTint(@ColorRes res: Int) {
     val color = ContextCompat.getColor(context, res)
-    post {
+    this.post {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            background.colorFilter = BlendModeColorFilter(color, BlendMode.SRC_ATOP)
+            background?.colorFilter = BlendModeColorFilter(color, BlendMode.SRC_ATOP)
         } else {
             @Suppress("DEPRECATION")
-            background.setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
+            background?.setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
         }
     }
 }

@@ -16,13 +16,9 @@ import java.util.concurrent.TimeUnit
 
 private val app: Application get() = Library.app
 
-val deviceId: String
+val androidId: String
     get() {
-        return try {
-            Settings.Secure.getString(app.contentResolver, Settings.Secure.ANDROID_ID)
-        } catch (e: Exception) {
-            ""
-        }
+        return Settings.Secure.getString(app.contentResolver, Settings.Secure.ANDROID_ID)
     }
 
 val osVersion: String

@@ -13,7 +13,7 @@ import android.os.Message
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-abstract class BaseHandlerThread : HandlerThread {
+abstract class BaseHandlerThread constructor(name: String) : HandlerThread(name) {
 
     @Volatile
     var isPlaying = false
@@ -23,6 +23,12 @@ abstract class BaseHandlerThread : HandlerThread {
 
     var dataHandler: Handler? = null
 
+    var receiver: DataReceiver?
+        get() = uiHandler.dataReceiver
+        set(value) {
+            uiHandler.dataReceiver = value
+        }
+
     private val uiHandler = DataHandler()
 
     protected abstract fun playGenerate()
@@ -30,10 +36,6 @@ abstract class BaseHandlerThread : HandlerThread {
     protected abstract fun pauseGenerate()
 
     abstract fun onDataGenerate(): Any?
-
-    constructor(name: String, receiver: DataReceiver) : super(name) {
-        uiHandler.attach(receiver)
-    }
 
     override fun onLooperPrepared() {
         super.onLooperPrepared()
@@ -70,11 +72,7 @@ abstract class BaseHandlerThread : HandlerThread {
 
     inner class DataHandler : Handler() {
 
-        private var dataReceiver: DataReceiver? = null
-
-        fun attach(receiver: DataReceiver?) {
-            dataReceiver = receiver
-        }
+        var dataReceiver: DataReceiver? = null
 
         override fun handleMessage(msg: Message?) {
             val data = msg?.obj ?: return

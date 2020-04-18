@@ -4,23 +4,17 @@ import android.app.Application
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Resources
-import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
 import android.util.Base64
 import android.util.Log
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
 import android.widget.Toast
-import androidx.annotation.AnimRes
-import androidx.annotation.ColorRes
-import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import androidx.core.content.ContextCompat
 import com.huy.library.Library
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
+
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -70,30 +64,6 @@ fun toast(@StringRes res: Int?, vararg arguments: Any) {
         return
     }
     toast(message)
-}
-
-fun anim(@AnimRes res: Int): Animation {
-    return AnimationUtils.loadAnimation(app, res)
-}
-
-fun drawable(@DrawableRes res: Int): Drawable? {
-    return ContextCompat.getDrawable(app, res)
-}
-
-fun color(@ColorRes res: Int): Int {
-    return ContextCompat.getColor(app, res)
-}
-
-fun string(@StringRes res: Int): String {
-    return app.getString(res)
-}
-
-fun string(@StringRes res: Int, vararg args: Any?): String {
-    return try {
-        String.format(app.getString(res), *args)
-    } catch (ignore: Exception) {
-        ""
-    }
 }
 
 fun restartApp() {

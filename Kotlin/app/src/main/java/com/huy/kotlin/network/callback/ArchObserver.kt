@@ -41,7 +41,7 @@ abstract class ArchObserver<T> : DisposableObserver<T>() {
         when (e) {
             is HttpException -> onFailed(e.code(), e.message())
             is SocketException, is UnknownHostException, is SocketTimeoutException -> onNetworkError()
-            else -> onFailed(0, e?.message ?: "")
+            else -> onFailed(0, e.message ?: "")
         }
     }
 

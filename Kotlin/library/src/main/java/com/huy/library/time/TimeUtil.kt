@@ -28,6 +28,17 @@ object TimeUtil {
     }
 
     /**
+     * Text
+     */
+    fun now(format: String): String {
+        return text(System.currentTimeMillis(), SimpleDateFormat(format))
+    }
+
+    fun now(format: SimpleDateFormat): String {
+        return text(System.currentTimeMillis(), format)
+    }
+
+    /**
      * Millis
      */
     fun millis(dateTimeText: String?, format: String): Long? {

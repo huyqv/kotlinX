@@ -87,11 +87,11 @@ abstract class BaseJsonAdapter<T : JsonElement> : RecyclerView.Adapter<RecyclerV
         position.updateLastIndex()
 
         viewHolder.itemView.addOnClickListener {
-            itemClick?.also { it(model, position) }
+            itemClick(model, position)
         }
 
         viewHolder.itemView.setOnLongClickListener {
-            itemLongClick?.also { it(model, position) }
+            itemLongClick(model, position)
             return@setOnLongClickListener true
         }
 
@@ -122,25 +122,25 @@ abstract class BaseJsonAdapter<T : JsonElement> : RecyclerView.Adapter<RecyclerV
     /**
      * User interfaces.
      */
-    private var itemClick: ((T, Int) -> Unit)? = null
+    private var itemClick: (T, Int) -> Unit = { _, _ -> }
 
     open fun onItemClick(block: (T, Int) -> Unit) {
         itemClick = block
     }
 
-    private var itemLongClick: ((T, Int) -> Unit)? = null
+    private var itemLongClick: (T, Int) -> Unit = { _, _ -> }
 
     open fun onItemLongClick(block: (T, Int) -> Unit) {
         itemLongClick = block
     }
 
-    private var footerIndexChange: ((View, Int) -> Unit)? = null
+    private var footerIndexChange: (View, Int) -> Unit = { _, _ -> }
 
     open fun onFooterIndexChange(block: ((View, Int) -> Unit)) {
         footerIndexChange = block
     }
 
-    private var blankItemVisible: ((View) -> Unit)? = null
+    private var blankItemVisible: (View) -> Unit = { _ -> }
 
     open fun onBlankItemVisible(block: ((View) -> Unit)) {
         blankItemVisible = block

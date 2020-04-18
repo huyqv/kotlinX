@@ -9,10 +9,10 @@ import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import com.huy.kotlin.R
 import com.huy.kotlin.base.adapter.FragmentAdapter
+import com.huy.kotlin.base.adapter.ViewPagerAdapter
 import com.huy.kotlin.base.view.BaseFragment
 import com.huy.kotlin.ui.member.ColorFragment
 import com.huy.library.extension.color
-import com.huy.library.view.PageTransformer
 import kotlinx.android.synthetic.main.fragment_tab.*
 
 /**
@@ -37,10 +37,10 @@ class TabFragment : BaseFragment() {
 
     private fun ViewPager.config() {
         adapter = FragmentAdapter(childFragmentManager,
-                getFragment(R.color.colorIndianRed, PageTransformer.Slide2()),
-                getFragment(R.color.colorTurquoise, PageTransformer.Slide()),
-                getFragment(R.color.colorAmethyst, PageTransformer.Stack()),
-                getFragment(R.color.colorSunFlower, PageTransformer.FadeZoom())
+                getFragment(R.color.colorIndianRed, ViewPagerAdapter.Slide2()),
+                getFragment(R.color.colorTurquoise, ViewPagerAdapter.Slide()),
+                getFragment(R.color.colorAmethyst, ViewPagerAdapter.Stack()),
+                getFragment(R.color.colorSunFlower, ViewPagerAdapter.FadeZoom())
         )
     }
 

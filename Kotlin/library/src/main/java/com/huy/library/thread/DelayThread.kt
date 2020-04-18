@@ -8,7 +8,7 @@ package com.huy.library.thread
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-abstract class DelayThread : BaseHandlerThread {
+abstract class DelayThread constructor(name: String, private val interval: Long) : BaseHandlerThread(name) {
 
     open val generator: Runnable = Runnable {
         onDataGenerate()?.also {
@@ -18,16 +18,11 @@ abstract class DelayThread : BaseHandlerThread {
         }
     }
 
-    private var delayTime: Long
-
-    constructor(name: String, interval: Long, receiver: DataReceiver) : super(name, receiver) {
-        delayTime = interval
-    }
 
     override fun playGenerate() {
         dataHandler?.apply {
             removeCallbacks(generator)
-            postDelayed(generator, delayTime)
+            postDelayed(generator, interval)
         }
     }
 

@@ -85,11 +85,11 @@ abstract class BaseListAdapter<T> : ListAdapter<T, RecyclerView.ViewHolder> {
         position.updateLastIndex()
 
         viewHolder.itemView.addOnClickListener {
-            itemClick?.also { it(model, position) }
+            itemClick(model, position)
         }
 
         viewHolder.itemView.setOnLongClickListener {
-            itemLongClick?.also { it(model, position) }
+            itemLongClick(model, position)
             return@setOnLongClickListener true
         }
 
@@ -124,41 +124,40 @@ abstract class BaseListAdapter<T> : ListAdapter<T, RecyclerView.ViewHolder> {
      * Layout resource for footer item.
      */
     @LayoutRes
-    protected open var footerLayoutResource: Int = 0
+    open var footerLayoutResource: Int = 0
 
-    var footerLayoutRes: Int
-        get() = footerLayoutResource
-        set(value) {
-            footerLayoutResource = value
-            notifyItemChanged(size)
-        }
+    open fun showFooter(@LayoutRes res: Int) {
+        footerLayoutResource = res
+        notifyItemChanged(size)
+    }
 
     fun hideFooter() {
-        footerLayoutRes = 0
+        footerLayoutResource = 0
+        notifyItemChanged(size)
     }
 
     /**
      * User interfaces.
      */
-    private var itemClick: ((T, Int) -> Unit)? = null
+    private var itemClick: (T, Int) -> Unit = { _, _ -> }
 
     open fun onItemClick(block: (T, Int) -> Unit) {
         itemClick = block
     }
 
-    private var itemLongClick: ((T, Int) -> Unit)? = null
+    private var itemLongClick: (T, Int) -> Unit = { _, _ -> }
 
     open fun onItemLongClick(block: (T, Int) -> Unit) {
         itemLongClick = block
     }
 
-    private var footerIndexChange: ((View, Int) -> Unit)? = null
+    private var footerIndexChange: (View, Int) -> Unit = { _, _ -> }
 
     open fun onFooterIndexChange(block: ((View, Int) -> Unit)) {
         footerIndexChange = block
     }
 
-    private var blankItemVisible: ((View) -> Unit)? = null
+    private var blankItemVisible: (View) -> Unit = { _ -> }
 
     open fun onBlankItemVisible(block: ((View) -> Unit)) {
         blankItemVisible = block

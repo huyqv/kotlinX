@@ -21,8 +21,8 @@ abstract class RepeatThread : BaseHandlerThread {
 
     private var delayInterval: Long = Long.MAX_VALUE
 
-    constructor(name: String, delay: Long, receiver: DataReceiver) : super(name, receiver) {
-        delayInterval = delay
+    constructor(name: String, delayInterval: Long) : super(name) {
+        this.delayInterval = delayInterval
     }
 
     override fun playGenerate() {

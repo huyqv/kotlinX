@@ -30,7 +30,7 @@ class HandlerFragment : BaseFragment(), DataReceiver {
         super.onViewCreated(view, savedInstanceState)
         DataProvider.init()
         recyclerView.set(adapter)
-        dataGenerator = DataThread(this)
+        dataGenerator = DataThread().also { it.receiver = this }
         lifecycle.addObserver(ThreadObservable(dataGenerator))
         appBarView.endButtonClickListener {
             if (dataGenerator.isGenerating()) {
