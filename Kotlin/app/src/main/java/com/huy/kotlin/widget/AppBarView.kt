@@ -32,8 +32,6 @@ class AppBarView : FrameLayout {
 
     private val stateListAnimators = intArrayOf(android.R.attr.stateListAnimator)
 
-    private var updateStatusBar: Boolean = true
-
     var title: String? = null
         set(value) {
             appBarTextViewTitle.text = value
@@ -113,7 +111,6 @@ class AppBarView : FrameLayout {
         appBarViewContent.updateStatusBar()
         val background = getResourceId(R.styleable.AppBarView_android_background, R.color.colorPrimary)
         appBarViewContent.setBackgroundResource(background)
-        updateStatusBar = getBoolean(R.styleable.AppBarView_appBar_updateStatusBar, true)
     }
 
     private fun TypedArray.configActionBack(tint: Int, tintEnable: Boolean) {
@@ -179,12 +176,6 @@ class AppBarView : FrameLayout {
 
     fun setTargetElevation(elevation: Float) {
         if (Build.VERSION.SDK_INT >= 21) setStateListAnimator(this, elevation)
-    }
-
-    fun updateStatusBar() {
-        if (updateStatusBar) {
-            appBarViewContent.updateStatusBar()
-        }
     }
 
 }
