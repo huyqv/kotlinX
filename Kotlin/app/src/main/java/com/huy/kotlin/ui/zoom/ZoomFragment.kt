@@ -71,7 +71,7 @@ class ZoomFragment : BaseFragment(), SimplePageChangeListener {
         override fun layoutRes() = R.layout.item_zoom_image
 
         override fun View.onBind(model: ImageOwner) {
-            zoomImageView.load("${BuildConfig.SERVICE_URL}${model.imageUrl}")
+            zoomImageView.load(model.imageUrl)
         }
     }
 }
