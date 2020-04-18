@@ -11,14 +11,14 @@ import java.util.*
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-const val A_BYTE = 1.toByte()
+const val BYTE = 1.toByte()
 
 fun Boolean.toByte(): Byte {
     return if (this) 1 else 0
 }
 
 fun Byte.toBool(): Boolean {
-    return this == A_BYTE
+    return this == BYTE
 }
 
 fun Long.parse(): Date? {
@@ -30,5 +30,11 @@ fun Long.parse(): Date? {
     } catch (e: ParseException) {
         e.printStackTrace()
         null
+    }
+}
+
+fun <T> nonNull(block: (T) -> Unit): (T?) -> Unit {
+    return {
+        if (it != null) block(it)
     }
 }

@@ -5,7 +5,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.*
-import com.huy.kotlin.R
 import com.huy.library.extension.addOnClickListener
 
 /**
@@ -52,28 +51,33 @@ abstract class BaseListAdapter<T> : ListAdapter<T, RecyclerView.ViewHolder> {
 
         if (dataNotEmpty && footerLayoutResource != 0 && position == size) return footerLayoutResource
 
-        val model = get(position) ?: return R.layout.view_gone
+        val model = get(position) ?: return 0
 
         return layoutResource(model, position)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return ViewHolder(LayoutInflater.from(parent.context).inflate(viewType, parent, false))
+        val v = if (viewType == 0) {
+            View(parent.context).apply { visibility = View.GONE }
+        } else {
+            LayoutInflater.from(parent.context).inflate(viewType, parent, false)
+        }
+        return ViewHolder(v)
     }
 
     override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
 
         val type = getItemViewType(position)
 
-        if (type == R.layout.view_gone) return
+        if (type == 0) return
 
         if (type == blankLayoutResource) {
-            blankItemVisible?.also { it(viewHolder.itemView) }
+            blankItemVisible(viewHolder.itemView)
             return
         }
 
         if (type == footerLayoutResource) {
-            if (position.isNotIndexed()) footerIndexChange?.also { it(viewHolder.itemView, position) }
+            if (position.isNotIndexed()) footerIndexChange(viewHolder.itemView, position)
             return
         }
 

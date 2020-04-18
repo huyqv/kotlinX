@@ -3,7 +3,6 @@ package com.huy.kotlin.ui.handler
 import android.os.Bundle
 import android.view.View
 import com.huy.kotlin.R
-import com.huy.kotlin.base.adapter.set
 import com.huy.kotlin.base.view.BaseFragment
 import com.huy.kotlin.ui.model.User
 import com.huy.library.thread.DataReceiver
@@ -29,7 +28,7 @@ class HandlerFragment : BaseFragment(), DataReceiver {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         DataProvider.init()
-        recyclerView.set(adapter)
+        adapter.bind(recyclerView)
         dataGenerator = DataThread().also { it.receiver = this }
         lifecycle.addObserver(ThreadObservable(dataGenerator))
         appBarView.endButtonClickListener {

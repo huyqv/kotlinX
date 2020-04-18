@@ -9,7 +9,6 @@ import android.util.TypedValue
 import android.view.View
 import androidx.annotation.DimenRes
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -119,55 +118,6 @@ fun RecyclerView.addDragListener(listener: DragListener?) {
                 }
             }
         })
-}
-
-fun RecyclerView.set(adapter: RecyclerView.Adapter<*>, block: (LinearLayoutManager.() -> Unit)? = null) {
-    val lm = LinearLayoutManager(context)
-    block?.let { lm.block() }
-    layoutManager = lm
-    this.adapter = adapter
-}
-
-fun RecyclerView.set(adapter: BaseRecyclerAdapter<*>, spanCount: Int, includeEdge: Boolean = true, block: (GridLayoutManager.() -> Unit)? = null) {
-
-    val layoutManager = GridLayoutManager(context, spanCount)
-    layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-        override fun getSpanSize(position: Int): Int {
-            return if (adapter.dataIsEmpty || position == adapter.size) layoutManager.spanCount else 1
-        }
-    }
-    block?.let { layoutManager.block() }
-    this.layoutManager = layoutManager
-    GridDecoration.draw(this, layoutManager.spanCount, 0, includeEdge)
-    this.adapter = adapter
-}
-
-fun RecyclerView.set(adapter: BaseJsonAdapter<*>, spanCount: Int, includeEdge: Boolean = true, block: (GridLayoutManager.() -> Unit)? = null) {
-
-    val layoutManager = GridLayoutManager(context, spanCount)
-    layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-        override fun getSpanSize(position: Int): Int {
-            return if (adapter.dataIsEmpty() || position == adapter.sizeCache) layoutManager.spanCount else 1
-        }
-    }
-    block?.let { layoutManager.block() }
-    this.layoutManager = layoutManager
-    GridDecoration.draw(this, layoutManager.spanCount, 0, includeEdge)
-    this.adapter = adapter
-}
-
-fun RecyclerView.set(adapter: BasePagedListAdapter<*>, spanCount: Int, includeEdge: Boolean = true, block: (GridLayoutManager.() -> Unit)? = null) {
-
-    val layoutManager = GridLayoutManager(context, spanCount)
-    layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-        override fun getSpanSize(position: Int): Int {
-            return if (adapter.currentList?.size ?: 0 == 0 || adapter.currentList!!.size == position) layoutManager.spanCount else 1
-        }
-    }
-    block?.let { layoutManager.block() }
-    this.layoutManager = layoutManager
-    GridDecoration.draw(this, layoutManager.spanCount, 0, includeEdge)
-    this.adapter = adapter
 }
 
 open class DiffItemCallback<T> : DiffUtil.ItemCallback<T>() {

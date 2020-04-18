@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.JsonArray
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
-import com.huy.kotlin.R
 import com.huy.library.extension.addOnClickListener
 import com.huy.library.extension.toArray
 import io.reactivex.Observable
@@ -54,28 +53,33 @@ abstract class BaseJsonAdapter<T : JsonElement> : RecyclerView.Adapter<RecyclerV
 
         if (dataNotEmpty() && footerLayoutResource != 0 && position == sizeCache) return footerLayoutResource
 
-        val model = get(position) ?: return R.layout.view_gone
+        val model = get(position) ?: return 0
 
         return layoutResource(model, position)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return ViewHolder(LayoutInflater.from(parent.context).inflate(viewType, parent, false))
+        val v = if (viewType == 0) {
+            View(parent.context).apply { visibility = View.GONE }
+        } else {
+            LayoutInflater.from(parent.context).inflate(viewType, parent, false)
+        }
+        return ViewHolder(v)
     }
 
     override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
 
         val type = getItemViewType(position)
 
-        if (type == R.layout.view_gone) return
+        if (type == 0) return
 
         if (type == blankLayoutResource) {
-            blankItemVisible?.also { it(viewHolder.itemView) }
+            blankItemVisible(viewHolder.itemView)
             return
         }
 
         if (type == footerLayoutResource) {
-            if (position.isNotIndexed()) footerIndexChange?.also { it(viewHolder.itemView, position) }
+            if (position.isNotIndexed()) footerIndexChange(viewHolder.itemView, position)
             return
         }
 
