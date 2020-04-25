@@ -3,8 +3,8 @@ package com.huy.kotlin.ui.recycler.diff
 import android.view.View
 import com.huy.kotlin.R
 import com.huy.kotlin.base.adapter.BaseListAdapter
-import com.huy.kotlin.extension.load
 import com.huy.kotlin.ui.model.Image
+import com.huy.kotlin.util.load
 import com.huy.library.util.Anim
 import kotlinx.android.synthetic.main.item_image.view.*
 

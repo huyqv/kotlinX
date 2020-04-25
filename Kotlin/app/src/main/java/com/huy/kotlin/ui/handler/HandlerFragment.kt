@@ -4,10 +4,12 @@ import android.os.Bundle
 import android.view.View
 import com.huy.kotlin.R
 import com.huy.kotlin.base.view.BaseFragment
-import com.huy.kotlin.ui.model.User
-import com.huy.library.thread.DataReceiver
-import com.huy.library.thread.ThreadObservable
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_handler.*
+import java.util.concurrent.TimeUnit
+
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -17,11 +19,11 @@ import kotlinx.android.synthetic.main.fragment_handler.*
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-class HandlerFragment : BaseFragment(), DataReceiver {
+class HandlerFragment : BaseFragment() {
 
     private val adapter = HandlerAdapter()
 
-    private lateinit var dataGenerator: DataThread
+    private var disposable: Disposable? = null
 
     override val layoutResource = R.layout.fragment_handler
 
@@ -29,24 +31,28 @@ class HandlerFragment : BaseFragment(), DataReceiver {
         super.onViewCreated(view, savedInstanceState)
         DataProvider.init()
         adapter.bind(recyclerView)
-        dataGenerator = DataThread().also { it.receiver = this }
-        lifecycle.addObserver(ThreadObservable(dataGenerator))
         appBarView.endButtonClickListener {
-            if (dataGenerator.isGenerating()) {
+            if (disposable == null || disposable!!.isDisposed) {
                 appBarView.drawableEnd = R.drawable.ic_play
-                dataGenerator.pause()
+                generateUser()
             } else {
                 appBarView.drawableEnd = R.drawable.ic_pause
-                dataGenerator.play()
+                disposable?.dispose()
             }
         }
     }
 
-    override fun onDataReceived(thread: String, data: Any) {
-        adapter.add(data as User)
-        if (adapter.dataNotEmpty) {
-            recyclerView?.smoothScrollToPosition(adapter.lastPosition)
-        }
+    private fun generateUser() {
+        disposable = Observable
+                .interval(0, 100, TimeUnit.MILLISECONDS)
+                .map { DataProvider.random }
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe {
+                    adapter.add(it)
+                    if (adapter.dataNotEmpty) {
+                        recyclerView?.smoothScrollToPosition(adapter.lastPosition)
+                    }
+                }
     }
 
 }

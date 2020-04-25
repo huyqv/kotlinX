@@ -7,7 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
-import com.huy.kotlin.extension.viewModel
+import com.huy.kotlin.util.viewModel
 
 /**
  * -------------------------------------------------------------------------------------------------

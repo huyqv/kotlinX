@@ -4,7 +4,7 @@ import android.os.Bundle
 import com.huy.kotlin.R
 import com.huy.kotlin.base.arch.ArchFragment
 import com.huy.kotlin.ui.zoom.ZoomFragment
-import com.huy.library.extension.onRefresh
+import com.huy.kotlin.widget.onRefresh
 import kotlinx.android.synthetic.main.fragment_adapter_async_diff.*
 
 /**
@@ -26,7 +26,7 @@ class AsyncDiffFragment : ArchFragment<AsyncDiffVM>() {
     override fun onCreated(state: Bundle?) {
 
         adapter.bind(recyclerView, 3)
-        adapter.onItemClick { image, _ ->
+        adapter.onItemClick = { image, _ ->
             add(ZoomFragment.newInstance(adapter.currentList, image))
         }
         swipeRefreshLayout.onRefresh {

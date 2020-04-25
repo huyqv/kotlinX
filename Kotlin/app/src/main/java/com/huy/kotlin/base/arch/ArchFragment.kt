@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.View
 import com.huy.kotlin.base.view.BaseFragment
 import com.huy.kotlin.data.observable.NetworkLiveData
-import com.huy.kotlin.extension.viewModel
+import com.huy.kotlin.util.viewModel
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -24,8 +24,8 @@ abstract class ArchFragment<VM : BaseViewModel> : BaseFragment() {
 
     protected abstract fun onRegisterLiveData()
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         viewModel.onStart()
     }
 

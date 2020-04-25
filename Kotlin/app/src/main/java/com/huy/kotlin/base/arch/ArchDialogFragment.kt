@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.View
 import com.huy.kotlin.base.view.BaseDialogFragment
 import com.huy.kotlin.data.observable.NetworkLiveData
-import com.huy.kotlin.extension.viewModel
+import com.huy.kotlin.util.viewModel
 
 abstract class ArchDialogFragment<VM : BaseViewModel> : BaseDialogFragment() {
 

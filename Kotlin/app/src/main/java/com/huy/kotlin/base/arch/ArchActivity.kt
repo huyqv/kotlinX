@@ -5,7 +5,7 @@ import com.huy.kotlin.base.view.BaseActivity
 import com.huy.kotlin.data.observable.AlertLiveData
 import com.huy.kotlin.data.observable.NetworkLiveData
 import com.huy.kotlin.data.observable.ProgressLiveData
-import com.huy.kotlin.extension.viewModel
+import com.huy.kotlin.util.viewModel
 
 /**
  * -------------------------------------------------------------------------------------------------

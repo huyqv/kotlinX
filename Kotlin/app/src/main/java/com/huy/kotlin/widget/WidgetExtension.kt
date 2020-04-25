@@ -9,6 +9,7 @@ import android.view.View
 import androidx.annotation.StyleableRes
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.huy.kotlin.R
 
 /**
@@ -40,4 +41,10 @@ fun Drawable?.setTintColor(color: Int) {
     this ?: return
     DrawableCompat.setTint(this, color)
     DrawableCompat.setTintMode(this, PorterDuff.Mode.SRC_IN)
+}
+
+fun SwipeRefreshLayout.onRefresh(block: () -> Unit) {
+    setProgressBackgroundColorSchemeColor(ContextCompat.getColor(context, com.huy.library.R.color.colorWhite))
+    setColorSchemeColors(ContextCompat.getColor(context, com.huy.library.R.color.colorPrimary))
+    setOnRefreshListener(block)
 }

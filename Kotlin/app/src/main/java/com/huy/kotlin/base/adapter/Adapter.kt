@@ -316,18 +316,3 @@ class SeparateDecoration : RecyclerView.ItemDecoration {
     }
 
 }
-
-class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
-
-    companion object {
-
-        private val GONE_LAYOUT = RecyclerView.LayoutParams(0, 0)
-
-        fun gone(context: Context): ViewHolder {
-            return ViewHolder(View(context).apply {
-                visibility = View.GONE
-                layoutParams = GONE_LAYOUT
-            })
-        }
-    }
-}

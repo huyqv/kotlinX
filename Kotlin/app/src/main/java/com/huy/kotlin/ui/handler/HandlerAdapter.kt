@@ -3,8 +3,8 @@ package com.huy.kotlin.ui.handler
 import android.view.View
 import com.huy.kotlin.R
 import com.huy.kotlin.base.adapter.BaseRecyclerAdapter
-import com.huy.kotlin.extension.loadUser
 import com.huy.kotlin.ui.model.User
+import com.huy.kotlin.util.loadUser
 import kotlinx.android.synthetic.main.item_user_grid.view.*
 
 /**

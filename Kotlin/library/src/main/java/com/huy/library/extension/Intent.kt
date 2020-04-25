@@ -22,29 +22,6 @@ const val IMAGE_REQUEST_CODE = 1004
 
 const val VOICE_REQUEST_CODE = 1005
 
-val galleryIntent: Intent
-    get() {
-        val intent = Intent(Intent.ACTION_PICK)
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
-            //@Suppress("DEPRECATION")
-            val directory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-            val path = directory.path
-            val data = Uri.parse(path)
-            intent.setDataAndType(data, "image/*")
-        } else {
-            val directory = Library.app.getExternalFilesDir("image/*")
-
-            //val path = directory?.path
-            //val data = Uri.parse(path)
-            //intent.setDataAndType(data, "image/*")
-        }
-
-
-
-
-        return intent
-    }
-
 val voiceRecordIntent: Intent
     get() {
         val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)

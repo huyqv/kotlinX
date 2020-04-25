@@ -97,15 +97,11 @@ fun keyHash() {
 fun realPathFromURI(uri: Uri): String? {
     val projection = arrayOf(MediaStore.Images.Media._ID)
     val cursor = app.contentResolver.query(uri, projection, null, null, null)
-            ?: return uri.path ?: null
-    try {
+            ?: return uri.path
+    cursor.use { cursor ->
         val columnIndex = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns._ID)
         cursor.moveToFirst()
         return cursor.getString(columnIndex)
-    } finally {
-        cursor.close()
-        return null
     }
-    return null
 }
 

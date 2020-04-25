@@ -46,11 +46,6 @@ android {
         mapDiagnosticLocations = true
     }
 
-    // Flavors
-    /*lintOptions {
-        checkReleaseBuilds false
-    }*/
-
     signingConfigs {
         release {
             storeFile file("keystore/keys.keystore")

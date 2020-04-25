@@ -21,8 +21,6 @@ import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.huy.library.R
 import java.util.*
 
 /**
@@ -126,12 +124,6 @@ fun RadioGroup.addOnCheckedChangeListener(block: (RadioButton) -> Unit) {
         val button = (context as Activity).findViewById<RadioButton>(checkedId)
         block(button)
     }
-}
-
-fun SwipeRefreshLayout.onRefresh(block: () -> Unit) {
-    setProgressBackgroundColorSchemeColor(ContextCompat.getColor(context, R.color.colorWhite))
-    setColorSchemeColors(ContextCompat.getColor(context, R.color.colorPrimary))
-    setOnRefreshListener(block)
 }
 
 fun TextView.color(@ColorRes color: Int) {

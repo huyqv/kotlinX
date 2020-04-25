@@ -31,7 +31,10 @@ abstract class BaseDialog {
         val builder: AlertDialog.Builder = AlertDialog.Builder(activity, theme())
         builder.setView(view)
         self = builder.create()
+        onDismiss {}
+        onShow {}
         view!!.onViewCreated()
+
     }
 
     @StyleRes
@@ -43,11 +46,23 @@ abstract class BaseDialog {
     protected abstract fun View.onViewCreated()
 
     fun onShow(block: () -> Unit) {
-        self?.setOnShowListener { block() }
+        self?.setOnShowListener {
+            onShow()
+            block()
+        }
+    }
+
+    protected open fun onShow() {
     }
 
     fun onDismiss(block: () -> Unit) {
-        self?.setOnDismissListener { block() }
+        self?.setOnDismissListener {
+            onDismiss()
+            block()
+        }
+    }
+
+    protected open fun onDismiss() {
     }
 
     fun dropListener() {

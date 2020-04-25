@@ -225,15 +225,15 @@ interface SimpleAnimationListener : Animation.AnimationListener {
 }
 
 interface SimpleAnimatorListener : Animator.AnimatorListener {
-    override fun onAnimationRepeat(animation: Animator?) {
+    override fun onAnimationRepeat(animator: Animator?) {
     }
 
-    override fun onAnimationEnd(animation: Animator?) {
+    override fun onAnimationEnd(animator: Animator?) {
     }
 
-    override fun onAnimationCancel(animation: Animator?) {
+    override fun onAnimationCancel(animator: Animator?) {
     }
 
-    override fun onAnimationStart(animation: Animator?) {
+    override fun onAnimationStart(animator: Animator?) {
     }
 }

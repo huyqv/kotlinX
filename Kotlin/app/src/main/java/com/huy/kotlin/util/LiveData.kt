@@ -1,4 +1,4 @@
-package com.huy.kotlin.extension
+package com.huy.kotlin.util
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData

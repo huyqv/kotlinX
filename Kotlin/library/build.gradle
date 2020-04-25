@@ -35,14 +35,8 @@ dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "androidx.appcompat:appcompat:$app_compat_version"
-    implementation "androidx.swiperefreshlayout:swiperefreshlayout:$swiperefresh_version"
-
-    // DIMENSION RESOURCE
-    implementation "com.intuit.sdp:sdp-android:$dimens_version"
-    implementation "com.intuit.ssp:ssp-android:$dimens_version"
 
     // JSON CONVERTER
     implementation "com.google.code.gson:gson:$gson_version"
-    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
 
 }

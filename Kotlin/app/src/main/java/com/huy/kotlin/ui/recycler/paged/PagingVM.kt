@@ -6,10 +6,10 @@ import androidx.paging.LivePagedListBuilder
 import androidx.paging.PageKeyedDataSource
 import androidx.paging.PagedList
 import com.huy.kotlin.base.arch.BaseViewModel
-import com.huy.kotlin.extension.PAGED_DEFAULT_CONFIG
 import com.huy.kotlin.network.RestClient
 import com.huy.kotlin.network.callback.ArchSingleObserver
 import com.huy.kotlin.ui.model.Message
+import com.huy.kotlin.util.PAGED_DEFAULT_CONFIG
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -24,13 +24,10 @@ class PagingVM : BaseViewModel() {
     lateinit var liveData: LiveData<PagedList<Message>?>
 
     override fun onStart() {
-
         val factory = object : DataSource.Factory<Int, Message>() {
             override fun create(): DataSource<Int, Message> = MessageDataSource()
         }
-
         liveData = LivePagedListBuilder(factory, PAGED_DEFAULT_CONFIG).build()
-
     }
 
     override fun onNetworkAvailable() {

@@ -3,9 +3,9 @@ package com.huy.kotlin.ui.recycler.paged
 import android.view.View
 import com.huy.kotlin.R
 import com.huy.kotlin.base.adapter.BasePagedListAdapter
-import com.huy.kotlin.extension.load
-import com.huy.kotlin.extension.loadUser
 import com.huy.kotlin.ui.model.Message
+import com.huy.kotlin.util.load
+import com.huy.kotlin.util.loadUser
 import com.huy.library.extension.notNullOrEmpty
 import com.huy.library.time.TimeUtil.getDateTimeAgo
 import kotlinx.android.synthetic.main.item_image_left.view.*

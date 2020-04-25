@@ -24,23 +24,11 @@ abstract class BaseListAdapter<T> : ListAdapter<T, RecyclerView.ViewHolder> {
         differ = asyncListDiffer(itemCallback)
     }
 
-    /**
-     * [BaseRecyclerAdapter] abstract function for initialize recycler view type.
-     */
-    @LayoutRes
-    protected abstract fun layoutResource(model: T, position: Int): Int
-
-    protected abstract fun View.onBindModel(model: T, position: Int, @LayoutRes layout: Int)
-
-    open fun View.onFirstBindModel(model: T, position: Int, @LayoutRes layout: Int) {
-        onBindModel(model, position, layout)
-    }
 
     /**
      * [RecyclerView.Adapter] override.
      */
     override fun getItemCount(): Int {
-
         return if (blankLayoutResource != 0 || footerLayoutResource != 0) size + 1
         else size
     }
@@ -72,12 +60,11 @@ abstract class BaseListAdapter<T> : ListAdapter<T, RecyclerView.ViewHolder> {
         if (type == 0) return
 
         if (type == blankLayoutResource) {
-            blankItemVisible(viewHolder.itemView)
             return
         }
 
         if (type == footerLayoutResource) {
-            if (position.isNotIndexed()) footerIndexChange(viewHolder.itemView, position)
+            if (position.isNotIndexed()) onFooterIndexChange(viewHolder.itemView, position)
             return
         }
 
@@ -89,11 +76,11 @@ abstract class BaseListAdapter<T> : ListAdapter<T, RecyclerView.ViewHolder> {
         position.updateLastIndex()
 
         viewHolder.itemView.addOnClickListener {
-            itemClick(model, position)
+            onItemClick(model, position)
         }
 
         viewHolder.itemView.setOnLongClickListener {
-            itemLongClick(model, position)
+            onItemLongClick(model, position)
             return@setOnLongClickListener true
         }
 
@@ -111,18 +98,34 @@ abstract class BaseListAdapter<T> : ListAdapter<T, RecyclerView.ViewHolder> {
         differ.submitList(list, commitCallback)
     }
 
+
+    /**
+     * [BaseRecyclerAdapter] abstractions
+     */
+    @LayoutRes
+    protected abstract fun layoutResource(model: T, position: Int): Int
+
+    protected abstract fun View.onBindModel(model: T, position: Int, @LayoutRes layout: Int)
+
+    open fun View.onFirstBindModel(model: T, position: Int, @LayoutRes layout: Int) {
+        onBindModel(model, position, layout)
+    }
+
+    open fun onCreateItemView(parent: ViewGroup, viewType: Int): View {
+        return if (viewType == 0) {
+            View(parent.context).apply { visibility = View.GONE }
+        } else {
+            LayoutInflater.from(parent.context).inflate(viewType, parent, false)
+        }
+    }
+
+
     /**
      * Layout resource for empty data.
      */
     @LayoutRes
     protected open var blankLayoutResource: Int = 0
 
-    var blankLayoutRes: Int
-        get() = blankLayoutResource
-        set(value) {
-            blankLayoutResource = value
-            notifyItemChanged(0)
-        }
 
     /**
      * Layout resource for footer item.
@@ -130,7 +133,9 @@ abstract class BaseListAdapter<T> : ListAdapter<T, RecyclerView.ViewHolder> {
     @LayoutRes
     open var footerLayoutResource: Int = 0
 
-    open fun showFooter(@LayoutRes res: Int) {
+    var onFooterIndexChange: (View, Int) -> Unit = { _, _ -> }
+
+    fun showFooter(@LayoutRes res: Int) {
         footerLayoutResource = res
         notifyItemChanged(size)
     }
@@ -140,88 +145,72 @@ abstract class BaseListAdapter<T> : ListAdapter<T, RecyclerView.ViewHolder> {
         notifyItemChanged(size)
     }
 
+
     /**
      * User interfaces.
      */
-    private var itemClick: (T, Int) -> Unit = { _, _ -> }
+    var onItemClick: (T, Int) -> Unit = { _, _ -> }
 
-    open fun onItemClick(block: (T, Int) -> Unit) {
-        itemClick = block
-    }
+    var onItemLongClick: (T, Int) -> Unit = { _, _ -> }
 
-    private var itemLongClick: (T, Int) -> Unit = { _, _ -> }
-
-    open fun onItemLongClick(block: (T, Int) -> Unit) {
-        itemLongClick = block
-    }
-
-    private var footerIndexChange: (View, Int) -> Unit = { _, _ -> }
-
-    open fun onFooterIndexChange(block: ((View, Int) -> Unit)) {
-        footerIndexChange = block
-    }
-
-    private var blankItemVisible: (View) -> Unit = { _ -> }
-
-    open fun onBlankItemVisible(block: ((View) -> Unit)) {
-        blankItemVisible = block
-    }
-
-    private var lastIndexed: Int = -1
-
-    private fun Int.isNotIndexed(): Boolean {
-        return this > lastIndexed
-    }
-
-    private fun Int.updateLastIndex() {
-        if (this > lastIndexed) lastIndexed = this
-    }
 
     /**
-     * Data list handle.
+     * Position
      */
-    open val size: Int get() = currentList.size
+    private var lastIndexPosition: Int = -1
 
-    open val dataIsEmpty: Boolean get() = currentList.isEmpty()
-
-    open val dataNotEmpty: Boolean get() = currentList.isNotEmpty()
-
-    open val lastPosition: Int get() = if (currentList.isEmpty()) -1 else (currentList.size - 1)
-
-    open fun indexInBound(position: Int): Boolean {
-        return position > -1 && position < size
+    fun Int.updateLastIndex() {
+        if (this > lastIndexPosition) lastIndexPosition = this
     }
 
-    open fun indexOutBound(position: Int): Boolean {
-        return position < 0 || position >= size
-    }
+    fun Int.isNotIndexed(): Boolean = this > lastIndexPosition
 
+    fun Int.indexInBound(): Boolean = this > -1 && this < size
+
+    fun Int.indexOutBound(): Boolean = this < 0 || this >= size
+
+
+    /**
+     * Data list
+     */
+    val size: Int get() = currentList.size
+
+    val dataIsEmpty: Boolean get() = currentList.isEmpty()
+
+    val dataNotEmpty: Boolean get() = currentList.isNotEmpty()
+
+    val lastPosition: Int get() = if (currentList.isEmpty()) -1 else (currentList.size - 1)
+
+
+    /**
+     * Data update
+     */
     open fun submit() {
         set(currentList)
     }
 
     open fun get(position: Int): T? {
-        if (indexInBound(position)) return currentList[position]
+        if (position.indexInBound()) return currentList[position]
         return null
     }
 
     open fun set(collection: Collection<T>?) {
-        lastIndexed = -1
+        lastIndexPosition = -1
         submitList(if (collection != null) ArrayList(collection) else null)
     }
 
     open fun set(list: MutableList<T>?) {
-        lastIndexed = -1
+        lastIndexPosition = -1
         submitList(if (list != null) ArrayList(list) else null)
     }
 
     open fun set(array: Array<T>?) {
-        lastIndexed = -1
+        lastIndexPosition = -1
         submitList(array?.toMutableList())
     }
 
     open fun set(model: T?) {
-        lastIndexed = -1
+        lastIndexPosition = -1
         submitList(if (model != null) mutableListOf(model) else null)
     }
 
@@ -271,7 +260,7 @@ abstract class BaseListAdapter<T> : ListAdapter<T, RecyclerView.ViewHolder> {
 
     open fun edit(index: Int, model: T?) {
         model ?: return
-        if (indexInBound(index)) {
+        if (index.indexInBound()) {
             currentList[index] = model
             submit()
         }
@@ -285,11 +274,15 @@ abstract class BaseListAdapter<T> : ListAdapter<T, RecyclerView.ViewHolder> {
     open fun remove(model: T?) {
         model ?: return
         val index = currentList.indexOf(model)
-        if (indexInBound(index)) {
+        if (index.indexInBound()) {
             currentList.remove(model)
         }
     }
 
+
+    /**
+     * Binding
+     */
     open fun bind(recyclerView: RecyclerView, block: (LinearLayoutManager.() -> Unit)? = null) {
 
         val layoutManager = LinearLayoutManager(recyclerView.context)
@@ -313,6 +306,10 @@ abstract class BaseListAdapter<T> : ListAdapter<T, RecyclerView.ViewHolder> {
         recyclerView.adapter = this
     }
 
+
+    /**
+     * Utils
+     */
     private fun asyncListDiffer(itemCallback: DiffUtil.ItemCallback<T>): AsyncListDiffer<T> {
 
         val adapterCallback = AdapterListUpdateCallback(this)

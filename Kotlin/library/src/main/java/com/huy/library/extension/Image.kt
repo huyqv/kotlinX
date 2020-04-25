@@ -763,32 +763,32 @@ fun Bitmap.flipHorizontal(): Bitmap {
  * @return Scale bitmap that maintains original aspect's ratio.
  */
 fun Bitmap.scale(width: Int, height: Int): Bitmap {
-    var width = width
-    var height = height
+    var w = width
+    var h = height
     val originWidth = this.width
     val originHeight = this.height
     val originRatio = 1.0f * originWidth / originHeight
-    val desiredRatio = 1.0f * width / height
+    val desiredRatio = 1.0f * w / h
     var scaleFactor: Float
 
     // If desire image and origin image have different ratio
     // Origin is width > height and desired is width < height
     if (originRatio > 1.0f && desiredRatio < 1.0f) {
-        scaleFactor = 1.0f * width / originWidth
-        height = (originHeight * scaleFactor).toInt()
+        scaleFactor = 1.0f * w / originWidth
+        h = (originHeight * scaleFactor).toInt()
     }
 
     // Origin is width < height and desired is width > height
     if (originRatio < 1.0f && desiredRatio > 1.0f) {
-        scaleFactor = 1.0f * height / originHeight
-        width = (originWidth * scaleFactor).toInt()
+        scaleFactor = 1.0f * h / originHeight
+        w = (originWidth * scaleFactor).toInt()
     }
 
     // Origin and desired have same type of orientation
-    var realWidth = width
+    var realWidth = w
     var realHeight = (realWidth / originRatio).toInt()
-    if (realHeight > height) {
-        realHeight = height
+    if (realHeight > h) {
+        realHeight = h
         realWidth = (realHeight * originRatio).toInt()
     }
 

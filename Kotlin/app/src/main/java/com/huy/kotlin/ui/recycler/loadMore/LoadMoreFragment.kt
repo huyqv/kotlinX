@@ -23,7 +23,7 @@ class LoadMoreFragment : ArchFragment<LoadMoreVM>() {
 
     override fun onCreated(state: Bundle?) {
         adapter.bind(recyclerView, 3)
-        adapter.onFooterIndexChange { _, i ->
+        adapter.onFooterIndexChange = { _, i ->
             viewModel.fetchUsers(i / 10 + 1)
         }
     }

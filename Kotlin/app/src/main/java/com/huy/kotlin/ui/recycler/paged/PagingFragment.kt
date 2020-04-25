@@ -27,8 +27,7 @@ class PagingFragment : ArchFragment<PagingVM>() {
         adapter.bind(recyclerView) {
             reverseLayout = true
         }
-        adapter.onItemClick { model, _ ->
-            model.image ?: return@onItemClick
+        adapter.onItemClick = { model, _ ->
             add(ZoomFragment.newInstance(model))
         }
     }

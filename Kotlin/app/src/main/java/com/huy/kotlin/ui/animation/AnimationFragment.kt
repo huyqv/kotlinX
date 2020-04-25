@@ -30,7 +30,7 @@ class AnimationFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         adapter.bind(recyclerView)
         adapter.set(itemList)
-        adapter.onItemClick { model, _ -> onAnimate(model) }
+        adapter.onItemClick = { model, _ -> onAnimate(model) }
     }
 
     private fun onAnimate(animName: String) {

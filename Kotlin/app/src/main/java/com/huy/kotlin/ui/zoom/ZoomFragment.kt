@@ -2,12 +2,11 @@ package com.huy.kotlin.ui.zoom
 
 import android.os.Bundle
 import android.view.View
-import com.huy.kotlin.BuildConfig
 import com.huy.kotlin.R
 import com.huy.kotlin.base.adapter.ViewPagerAdapter
 import com.huy.kotlin.base.view.BaseFragment
-import com.huy.kotlin.extension.load
 import com.huy.kotlin.ui.model.ImageOwner
+import com.huy.kotlin.util.load
 import com.huy.library.extension.SimplePageChangeListener
 import com.huy.library.extension.gone
 import kotlinx.android.synthetic.main.fragment_zoom.*
