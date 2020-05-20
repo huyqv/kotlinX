@@ -19,6 +19,7 @@ import java.net.URL
 import java.nio.ByteBuffer
 import kotlin.math.min
 
+
 /**
  * -------------------------------------------------------------------------------------------------
  * @Project: Kotlin
@@ -586,6 +587,15 @@ fun ByteArray.toBitmap(width: Int, height: Int, exposureCompensation: Double?): 
     return this.toBitmap(bitmap, pixels, exposureCompensation)
 }
 
+fun Bitmap.convert(config: Bitmap.Config): Bitmap {
+    val convertedBitmap = Bitmap.createBitmap(width, height, config)
+    val canvas = Canvas(convertedBitmap)
+    val paint = Paint()
+    paint.color = Color.BLACK
+    canvas.drawBitmap(this, 0f, 0f, paint)
+    return convertedBitmap
+}
+
 fun Bitmap.size(): Int {
     // From KitKat onward use getAllocationByteCount() as allocated bytes can potentially be
     // larger than bitmap byte count.
@@ -845,6 +855,26 @@ fun Bitmap.threshold(threshold: Int = 128): Bitmap {
 
 
     return image
+}
+
+fun String?.decodeToBitmap(flag: Int = Base64.DEFAULT): Bitmap? {
+    this ?: return null
+    return try {
+        val decodedBytes = Base64.decode(substring(indexOf(",") + 1), flag)
+        BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
+    } catch (e: IllegalArgumentException) {
+        null
+    }
+}
+
+fun Bitmap.toBase64String(): String? {
+    return try {
+        val outputStream = ByteArrayOutputStream()
+        this.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+        Base64.encodeToString(outputStream.toByteArray(), Base64.DEFAULT)
+    } catch (e: IOException) {
+        null
+    }
 }
 
 fun Closeable.safeClose() {

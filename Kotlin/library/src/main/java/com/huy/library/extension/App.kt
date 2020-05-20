@@ -36,8 +36,7 @@ val appVersion: String
         }
     }
 
-val packageName: String
-    get() = app.applicationContext.packageName
+val packageName: String get() = app.applicationContext.packageName
 
 val statusBarHeight: Int
     get() {
@@ -45,6 +44,15 @@ val statusBarHeight: Int
         val resourceId = app.resources.getIdentifier("status_bar_height", "dimen", "android")
         if (resourceId > 0) result = app.resources.getDimensionPixelSize(resourceId)
         return result
+    }
+
+val navigationBar: Int
+    get() {
+        val resources: Resources = app.resources
+        val resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android")
+        return if (resourceId > 0) {
+            resources.getDimensionPixelSize(resourceId)
+        } else 0
     }
 
 fun toast(message: String?) {

@@ -57,7 +57,7 @@ abstract class MvpSingleObserver<T>(private val presenter: BasePresenter<*>)
     }
 
     protected open fun onNetworkError() {
-        onFailed(0,"network error")
+        onFailed(0, "network error")
     }
 
     /**

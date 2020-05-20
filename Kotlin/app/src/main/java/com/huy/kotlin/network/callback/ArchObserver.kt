@@ -59,7 +59,7 @@ abstract class ArchObserver<T> : DisposableObserver<T>() {
     }
 
     protected open fun onNetworkError() {
-        onFailed(0,"network error")
+        onFailed(0, "network error")
     }
 
 }

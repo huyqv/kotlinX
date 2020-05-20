@@ -166,7 +166,6 @@ abstract class BasePagedListAdapter<T> : PagedListAdapter<T, RecyclerView.ViewHo
     fun Int.indexOutBound(): Boolean = this < 0 || this >= size
 
 
-
     /**
      * Data
      */

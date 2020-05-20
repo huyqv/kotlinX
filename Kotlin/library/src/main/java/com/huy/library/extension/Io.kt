@@ -44,7 +44,6 @@ fun readString(filename: String): String? {
     } catch (e: FileNotFoundException) {
         null
     }
-
 }
 
 fun ByteArray.writeFile(): File? {

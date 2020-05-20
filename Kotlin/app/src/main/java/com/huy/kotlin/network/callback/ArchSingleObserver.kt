@@ -56,7 +56,7 @@ abstract class ArchSingleObserver<T> : DisposableSingleObserver<T>() {
     }
 
     protected open fun onNetworkError() {
-        onFailed(0,"network error")
+        onFailed(0, "network error")
     }
 
 
