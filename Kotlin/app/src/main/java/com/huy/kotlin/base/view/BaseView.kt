@@ -10,7 +10,7 @@ import com.huy.kotlin.base.dialog.ConfirmDialog
 import com.huy.kotlin.base.dialog.MessageDialog
 import com.huy.kotlin.base.dialog.ProgressDialog
 import com.huy.library.extension.*
-import com.huy.library.view.PreventClickListener
+import com.huy.library.view.ViewClickListener
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -31,7 +31,7 @@ interface BaseView : LifecycleOwner {
     /**
      * [View.OnClickListener] implementation
      */
-    val onViewClick: PreventClickListener
+    val onViewClick: ViewClickListener
 
     fun onViewClick(view: View?)
 

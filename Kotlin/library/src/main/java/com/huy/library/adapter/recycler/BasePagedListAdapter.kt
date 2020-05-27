@@ -1,4 +1,4 @@
-package com.huy.kotlin.base.adapter
+package com.huy.library.adapter.recycler
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +8,7 @@ import androidx.paging.AsyncPagedListDiffer
 import androidx.paging.PagedList
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.*
-import com.huy.library.extension.addOnClickListener
+import com.huy.library.extension.addViewClickListener
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -74,7 +74,7 @@ abstract class BasePagedListAdapter<T> : PagedListAdapter<T, RecyclerView.ViewHo
 
         position.updateLastIndex()
 
-        viewHolder.itemView.addOnClickListener {
+        viewHolder.itemView.addViewClickListener {
             onItemClick(model, position)
         }
 

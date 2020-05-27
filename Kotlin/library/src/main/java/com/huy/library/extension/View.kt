@@ -22,7 +22,8 @@ import androidx.annotation.StyleRes
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import com.huy.library.Library
-import com.huy.library.view.PreventClickListener
+import com.huy.library.view.FastClickListener
+import com.huy.library.view.ViewClickListener
 import kotlin.math.roundToInt
 
 /**
@@ -109,6 +110,9 @@ fun View.fragmentActivity(): FragmentActivity? {
     return context as? FragmentActivity
 }
 
+/**
+ * [View] visible state
+ */
 fun View.show() {
     if (visibility != View.VISIBLE) visibility = View.VISIBLE
 }
@@ -140,10 +144,21 @@ fun View.updateStatusBar() {
     (context as? Activity)?.statusBarDrawable(background)
 }
 
-fun View.addOnClickListener(block: () -> Unit) {
-    setOnClickListener(object : PreventClickListener() {
+/**
+ * [View] gesture
+ */
+fun View.addViewClickListener(block: (View?) -> Unit) {
+    setOnClickListener(object : ViewClickListener() {
         override fun onViewClick(v: View?) {
-            block()
+            block(v)
+        }
+    })
+}
+
+fun View.addFastClickListener(clickCount: Int, block: (View?) -> Unit) {
+    setOnClickListener(object : FastClickListener(clickCount) {
+        override fun onViewClick(v: View?) {
+            block(v)
         }
     })
 }

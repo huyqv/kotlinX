@@ -46,7 +46,7 @@ val statusBarHeight: Int
         return result
     }
 
-val navigationBar: Int
+val navigationBarHeight: Int
     get() {
         val resources: Resources = app.resources
         val resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android")

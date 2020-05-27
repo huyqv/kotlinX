@@ -2,9 +2,9 @@ package com.huy.kotlin.ui.recycler.loadMore
 
 import android.view.View
 import com.huy.kotlin.R
-import com.huy.kotlin.base.adapter.BaseRecyclerAdapter
 import com.huy.kotlin.ui.model.User
 import com.huy.kotlin.util.loadUser
+import com.huy.library.adapter.recycler.BaseRecyclerAdapter
 import kotlinx.android.synthetic.main.item_user_grid.view.*
 
 /**

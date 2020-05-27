@@ -1,4 +1,4 @@
-package com.huy.kotlin.base.adapter
+package com.huy.library.adapter.recycler
 
 import android.content.Context
 import android.graphics.Canvas
@@ -54,11 +54,11 @@ fun RecyclerView.addScrollListener(listener: ScrollListener?) {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 when (newState) {
                     RecyclerView.SCROLL_STATE_IDLE -> {
-                        System.out.println("Not scrolling")
+                        println("Not scrolling")
                         listener.onStopScroll()
                     }
                     RecyclerView.SCROLL_STATE_DRAGGING -> {
-                        System.out.println("Scrolling now")
+                        println("Scrolling now")
                         listener.onScrolling()
                     }
                 }

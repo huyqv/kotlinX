@@ -1,4 +1,4 @@
-package com.huy.kotlin.base.adapter
+package com.huy.library.adapter.fragment
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager

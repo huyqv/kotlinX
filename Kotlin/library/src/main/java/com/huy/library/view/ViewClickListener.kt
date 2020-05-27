@@ -13,9 +13,11 @@ import com.huy.library.extension.hideKeyboard
  * All Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-abstract class PreventClickListener : View.OnClickListener {
+abstract class ViewClickListener : View.OnClickListener {
 
     private var lastClickTime: Long = 0
+
+    abstract fun onViewClick(v: View?)
 
     final override fun onClick(v: View?) {
         if (SystemClock.elapsedRealtime() - lastClickTime > 600) {
@@ -25,6 +27,5 @@ abstract class PreventClickListener : View.OnClickListener {
         lastClickTime = SystemClock.elapsedRealtime()
     }
 
-    abstract fun onViewClick(v: View?)
-
 }
+

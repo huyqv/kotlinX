@@ -1,13 +1,11 @@
-package com.huy.kotlin.base.adapter
+package com.huy.library.adapter.recycler
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.huy.library.extension.addOnClickListener
+import androidx.recyclerview.widget.*
+import com.huy.library.extension.addViewClickListener
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -17,14 +15,20 @@ import com.huy.library.extension.addOnClickListener
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-abstract class BaseRecyclerAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+abstract class BaseListAdapter<T> : ListAdapter<T, RecyclerView.ViewHolder> {
+
+
+    private val differ: AsyncListDiffer<T>
+
+    constructor(itemCallback: DiffUtil.ItemCallback<T> = DiffItemCallback()) : super(itemCallback) {
+        differ = asyncListDiffer(itemCallback)
+    }
 
 
     /**
      * [RecyclerView.Adapter] override.
      */
     override fun getItemCount(): Int {
-
         return if (blankLayoutResource != 0 || footerLayoutResource != 0) size + 1
         else size
     }
@@ -41,7 +45,12 @@ abstract class BaseRecyclerAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return ViewHolder(onCreateItemView(parent, viewType))
+        val v = if (viewType == 0) {
+            View(parent.context).apply { visibility = View.GONE }
+        } else {
+            LayoutInflater.from(parent.context).inflate(viewType, parent, false)
+        }
+        return ViewHolder(v)
     }
 
     override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
@@ -66,7 +75,7 @@ abstract class BaseRecyclerAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHo
 
         position.updateLastIndex()
 
-        viewHolder.itemView.addOnClickListener {
+        viewHolder.itemView.addViewClickListener {
             onItemClick(model, position)
         }
 
@@ -75,6 +84,18 @@ abstract class BaseRecyclerAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHo
             return@setOnLongClickListener true
         }
 
+    }
+
+    override fun getCurrentList(): MutableList<T> {
+        return differ.currentList
+    }
+
+    override fun submitList(list: MutableList<T>?) {
+        differ.submitList(list)
+    }
+
+    override fun submitList(list: MutableList<T>?, commitCallback: Runnable?) {
+        differ.submitList(list, commitCallback)
     }
 
 
@@ -103,7 +124,7 @@ abstract class BaseRecyclerAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHo
      * Layout resource for empty data.
      */
     @LayoutRes
-    open var blankLayoutResource: Int = 0
+    protected open var blankLayoutResource: Int = 0
 
 
     /**
@@ -126,7 +147,7 @@ abstract class BaseRecyclerAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHo
 
 
     /**
-     * Item view click
+     * User interfaces.
      */
     var onItemClick: (T, Int) -> Unit = { _, _ -> }
 
@@ -150,13 +171,8 @@ abstract class BaseRecyclerAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHo
 
 
     /**
-     * Data
+     * Data list
      */
-    val emptyData: MutableList<T> = mutableListOf()
-
-    var currentList: MutableList<T> = emptyData
-        private set
-
     val size: Int get() = currentList.size
 
     val dataIsEmpty: Boolean get() = currentList.isEmpty()
@@ -167,101 +183,92 @@ abstract class BaseRecyclerAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHo
 
 
     /**
-     * List update
+     * Data update
      */
+    open fun submit() {
+        set(currentList)
+    }
+
     open fun get(position: Int): T? {
         if (position.indexInBound()) return currentList[position]
         return null
     }
 
     open fun set(collection: Collection<T>?) {
-        currentList = collection?.toMutableList() ?: emptyData
         lastIndexPosition = -1
-        notifyDataSetChanged()
+        submitList(if (collection != null) ArrayList(collection) else null)
     }
 
     open fun set(list: MutableList<T>?) {
-        currentList = list ?: emptyData
         lastIndexPosition = -1
-        notifyDataSetChanged()
+        submitList(if (list != null) ArrayList(list) else null)
     }
 
     open fun set(array: Array<T>?) {
-        currentList = array?.toMutableList() ?: emptyData
         lastIndexPosition = -1
-        notifyDataSetChanged()
+        submitList(array?.toMutableList())
     }
 
     open fun set(model: T?) {
-        currentList = if (model == null) emptyData
-        else mutableListOf(model)
         lastIndexPosition = -1
-        notifyDataSetChanged()
+        submitList(if (model != null) mutableListOf(model) else null)
     }
 
     open fun setElseEmpty(collection: Collection<T>?) {
         if (collection.isNullOrEmpty()) return
-        currentList = collection.toMutableList()
-        lastIndexPosition = -1
-        notifyDataSetChanged()
+        submitList(ArrayList(collection))
     }
 
     open fun setElseEmpty(list: MutableList<T>?) {
         if (list.isNullOrEmpty()) return
-        currentList = list
-        lastIndexPosition = -1
-        notifyDataSetChanged()
+        submitList(ArrayList(list))
     }
 
     open fun setElseEmpty(array: Array<T>?) {
-        if (array == null || array.isEmpty()) return
-        currentList = array.toMutableList()
-        lastIndexPosition = -1
-        notifyDataSetChanged()
+        if (array.isNullOrEmpty()) return
+        submitList(array.toMutableList())
     }
 
     open fun setElseEmpty(model: T?) {
         model ?: return
-        currentList = mutableListOf(model)
-        lastIndexPosition = -1
-        notifyDataSetChanged()
+        submitList(mutableListOf(model))
     }
 
     open fun add(collection: Collection<T>?) {
         if (collection.isNullOrEmpty()) return
         currentList.addAll(collection)
-        notifyDataSetChanged()
+        submit()
     }
 
     open fun add(array: Array<T>?) {
         if (array == null || array.isEmpty()) return
         currentList.addAll(array)
-        notifyDataSetChanged()
+        submit()
     }
 
     open fun add(model: T?) {
         model ?: return
         currentList.add(model)
-        notifyDataSetChanged()
+        submit()
     }
 
     open fun addFirst(model: T?) {
         model ?: return
         currentList.add(0, model)
-        notifyDataSetChanged()
+        submit()
     }
 
     open fun edit(index: Int, model: T?) {
         model ?: return
         if (index.indexInBound()) {
             currentList[index] = model
-            notifyItemChanged(index)
+            submit()
         }
     }
 
     open fun remove(index: Int) {
         currentList.removeAt(index)
-        notifyItemRemoved(index)
+        submit()
     }
 
     open fun remove(model: T?) {
@@ -269,18 +276,7 @@ abstract class BaseRecyclerAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHo
         val index = currentList.indexOf(model)
         if (index.indexInBound()) {
             currentList.remove(model)
-            notifyItemRemoved(index)
         }
-    }
-
-    open fun clear() {
-        currentList.clear()
-        notifyDataSetChanged()
-    }
-
-    open fun unBind() {
-        currentList = emptyData
-        notifyDataSetChanged()
     }
 
 
@@ -314,6 +310,29 @@ abstract class BaseRecyclerAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHo
     /**
      * Utils
      */
+    private fun asyncListDiffer(itemCallback: DiffUtil.ItemCallback<T>): AsyncListDiffer<T> {
+
+        val adapterCallback = AdapterListUpdateCallback(this)
+        val listCallback = object : ListUpdateCallback {
+            override fun onChanged(position: Int, count: Int, payload: Any?) {
+                adapterCallback.onChanged(position + 1, count, payload)
+            }
+
+            override fun onMoved(fromPosition: Int, toPosition: Int) {
+                adapterCallback.onMoved(fromPosition + 1, toPosition + 1)
+            }
+
+            override fun onInserted(position: Int, count: Int) {
+                adapterCallback.onInserted(position + 1, count + 1)
+            }
+
+            override fun onRemoved(position: Int, count: Int) {
+                adapterCallback.onRemoved(position + 1, count)
+            }
+        }
+        return AsyncListDiffer<T>(listCallback, AsyncDifferConfig.Builder<T>(itemCallback).build())
+    }
+
     class ViewHolder(v: View) : RecyclerView.ViewHolder(v)
 
 }

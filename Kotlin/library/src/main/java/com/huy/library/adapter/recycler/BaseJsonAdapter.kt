@@ -1,11 +1,18 @@
-package com.huy.kotlin.base.adapter
+package com.huy.library.adapter.recycler
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
-import androidx.recyclerview.widget.*
-import com.huy.library.extension.addOnClickListener
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.JsonArray
+import com.google.gson.JsonElement
+import com.google.gson.JsonObject
+import com.huy.library.extension.addViewClickListener
+import com.huy.library.extension.isEmpty
+import com.huy.library.extension.toArray
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -15,20 +22,14 @@ import com.huy.library.extension.addOnClickListener
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-abstract class BaseListAdapter<T> : ListAdapter<T, RecyclerView.ViewHolder> {
-
-
-    private val differ: AsyncListDiffer<T>
-
-    constructor(itemCallback: DiffUtil.ItemCallback<T> = DiffItemCallback()) : super(itemCallback) {
-        differ = asyncListDiffer(itemCallback)
-    }
+abstract class BaseJsonAdapter<T : JsonElement> : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
 
     /**
      * [RecyclerView.Adapter] override.
      */
     override fun getItemCount(): Int {
+
         return if (blankLayoutResource != 0 || footerLayoutResource != 0) size + 1
         else size
     }
@@ -45,12 +46,7 @@ abstract class BaseListAdapter<T> : ListAdapter<T, RecyclerView.ViewHolder> {
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val v = if (viewType == 0) {
-            View(parent.context).apply { visibility = View.GONE }
-        } else {
-            LayoutInflater.from(parent.context).inflate(viewType, parent, false)
-        }
-        return ViewHolder(v)
+        return ViewHolder(onCreateItemView(parent, viewType))
     }
 
     override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
@@ -70,12 +66,12 @@ abstract class BaseListAdapter<T> : ListAdapter<T, RecyclerView.ViewHolder> {
 
         val model = get(position) ?: return
 
-        if (position.isNotIndexed()) viewHolder.itemView.onFirstBindModel(model, position, type)
-        else viewHolder.itemView.onBindModel(model, position, type)
+        if (position.isNotIndexed()) viewHolder.itemView.onBindModel(model, position, type)
+        else viewHolder.itemView.onFirstBindModel(model, position, type)
 
         position.updateLastIndex()
 
-        viewHolder.itemView.addOnClickListener {
+        viewHolder.itemView.addViewClickListener {
             onItemClick(model, position)
         }
 
@@ -86,26 +82,14 @@ abstract class BaseListAdapter<T> : ListAdapter<T, RecyclerView.ViewHolder> {
 
     }
 
-    override fun getCurrentList(): MutableList<T> {
-        return differ.currentList
-    }
-
-    override fun submitList(list: MutableList<T>?) {
-        differ.submitList(list)
-    }
-
-    override fun submitList(list: MutableList<T>?, commitCallback: Runnable?) {
-        differ.submitList(list, commitCallback)
-    }
-
 
     /**
-     * [BaseRecyclerAdapter] abstractions
+     * [BaseJsonAdapter] abstractions
      */
     @LayoutRes
-    protected abstract fun layoutResource(model: T, position: Int): Int
+    protected abstract fun layoutResource(json: T, position: Int): Int
 
-    protected abstract fun View.onBindModel(model: T, position: Int, @LayoutRes layout: Int)
+    protected abstract fun View.onBindModel(json: T, position: Int, @LayoutRes layout: Int)
 
     open fun View.onFirstBindModel(model: T, position: Int, @LayoutRes layout: Int) {
         onBindModel(model, position, layout)
@@ -124,7 +108,7 @@ abstract class BaseListAdapter<T> : ListAdapter<T, RecyclerView.ViewHolder> {
      * Layout resource for empty data.
      */
     @LayoutRes
-    protected open var blankLayoutResource: Int = 0
+    open var blankLayoutResource: Int = 0
 
 
     /**
@@ -147,7 +131,7 @@ abstract class BaseListAdapter<T> : ListAdapter<T, RecyclerView.ViewHolder> {
 
 
     /**
-     * User interfaces.
+     * Item view click
      */
     var onItemClick: (T, Int) -> Unit = { _, _ -> }
 
@@ -171,112 +155,111 @@ abstract class BaseListAdapter<T> : ListAdapter<T, RecyclerView.ViewHolder> {
 
 
     /**
-     * Data list
+     * Data
      */
-    val size: Int get() = currentList.size
+    val emptyList: JsonArray = JsonArray()
 
-    val dataIsEmpty: Boolean get() = currentList.isEmpty()
+    var data: JsonArray = emptyList
+        private set
 
-    val dataNotEmpty: Boolean get() = currentList.isNotEmpty()
+    val size: Int = data.size()
 
-    val lastPosition: Int get() = if (currentList.isEmpty()) -1 else (currentList.size - 1)
+    val dataIsEmpty: Boolean get() = size == 0
+
+    val dataNotEmpty: Boolean get() = size != 0
+
+    val lastPosition: Int get() = if (dataIsEmpty) -1 else (size - 1)
 
 
     /**
-     * Data update
+     * List update
      */
-    open fun submit() {
-        set(currentList)
-    }
-
     open fun get(position: Int): T? {
-        if (position.indexInBound()) return currentList[position]
+        if (data.isEmpty()) return null
+        @Suppress("UNCHECKED_CAST")
+        if (position.indexInBound()) return data[position] as T
         return null
     }
 
-    open fun set(collection: Collection<T>?) {
-        lastIndexPosition = -1
-        submitList(if (collection != null) ArrayList(collection) else null)
+    open fun set(json: String?) {
+        val array = json.toArray()
+        set(array)
+        notifyDataSetChanged()
     }
 
-    open fun set(list: MutableList<T>?) {
-        lastIndexPosition = -1
-        submitList(if (list != null) ArrayList(list) else null)
+    open fun set(array: JsonArray?) {
+        clear()
+        if (array != null && !array.isEmpty()) {
+            data.add(array)
+        }
+        notifyDataSetChanged()
     }
 
-    open fun set(array: Array<T>?) {
-        lastIndexPosition = -1
-        submitList(array?.toMutableList())
+    open fun set(obj: JsonObject?) {
+        clear()
+        if (obj != null) {
+            data.add(obj)
+        }
+        notifyDataSetChanged()
     }
 
-    open fun set(model: T?) {
-        lastIndexPosition = -1
-        submitList(if (model != null) mutableListOf(model) else null)
+    open fun setElseEmpty(json: String?) {
+        val array = json.toArray() ?: return
+        set(array)
+        notifyDataSetChanged()
     }
 
-    open fun setElseEmpty(collection: Collection<T>?) {
-        if (collection.isNullOrEmpty()) return
-        submitList(ArrayList(collection))
+    open fun setElseEmpty(array: JsonArray?) {
+        array ?: return
+        set(array)
     }
 
-    open fun setElseEmpty(list: MutableList<T>?) {
-        if (list.isNullOrEmpty()) return
-        submitList(ArrayList(list))
+    open fun setElseEmpty(obj: JsonObject?) {
+        obj ?: return
+        set(obj)
     }
 
-    open fun setElseEmpty(array: Array<T>?) {
-        if (array.isNullOrEmpty()) return
-        submitList(array.toMutableList())
+    open fun add(s: String?) {
+        add(s.toArray())
     }
 
-    open fun setElseEmpty(model: T?) {
-        model ?: return
-        submitList(mutableListOf(model))
+    open fun add(array: JsonArray?) {
+        array ?: return
+        if (array.size() == 0) return
+        data.addAll(array)
+        notifyDataSetChanged()
     }
 
-    open fun add(collection: Collection<T>?) {
-        if (collection.isNullOrEmpty()) return
-        currentList.addAll(collection)
-        submit()
-    }
-
-    open fun add(array: Array<T>?) {
-        if (array == null || array.isEmpty()) return
-        currentList.addAll(array)
-        submit()
-    }
-
-    open fun add(model: T?) {
-        model ?: return
-        currentList.add(model)
-        submit()
-    }
-
-    open fun addFirst(model: T?) {
-        model ?: return
-        currentList.add(0, model)
-        submit()
+    open fun add(obj: JsonObject?) {
+        obj ?: return
+        data.add(obj)
+        notifyDataSetChanged()
     }
 
     open fun edit(index: Int, model: T?) {
         model ?: return
         if (index.indexInBound()) {
-            currentList[index] = model
-            submit()
+            data[index] = model
+            notifyItemChanged(index)
         }
     }
 
     open fun remove(index: Int) {
-        currentList.removeAt(index)
-        submit()
+        if (index.indexInBound()) {
+            data.remove(index)
+            notifyDataSetChanged()
+        }
     }
 
     open fun remove(model: T?) {
         model ?: return
-        val index = currentList.indexOf(model)
-        if (index.indexInBound()) {
-            currentList.remove(model)
-        }
+        data.remove(model)
+        notifyDataSetChanged()
+    }
+
+    open fun clear() {
+        data = emptyList
+        notifyDataSetChanged()
     }
 
 
@@ -310,29 +293,8 @@ abstract class BaseListAdapter<T> : ListAdapter<T, RecyclerView.ViewHolder> {
     /**
      * Utils
      */
-    private fun asyncListDiffer(itemCallback: DiffUtil.ItemCallback<T>): AsyncListDiffer<T> {
-
-        val adapterCallback = AdapterListUpdateCallback(this)
-        val listCallback = object : ListUpdateCallback {
-            override fun onChanged(position: Int, count: Int, payload: Any?) {
-                adapterCallback.onChanged(position + 1, count, payload)
-            }
-
-            override fun onMoved(fromPosition: Int, toPosition: Int) {
-                adapterCallback.onMoved(fromPosition + 1, toPosition + 1)
-            }
-
-            override fun onInserted(position: Int, count: Int) {
-                adapterCallback.onInserted(position + 1, count + 1)
-            }
-
-            override fun onRemoved(position: Int, count: Int) {
-                adapterCallback.onRemoved(position + 1, count)
-            }
-        }
-        return AsyncListDiffer<T>(listCallback, AsyncDifferConfig.Builder<T>(itemCallback).build())
-    }
-
     class ViewHolder(v: View) : RecyclerView.ViewHolder(v)
 
 }
+
+

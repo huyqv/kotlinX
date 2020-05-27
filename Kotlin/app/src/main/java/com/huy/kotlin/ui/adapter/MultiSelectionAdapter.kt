@@ -1,8 +1,9 @@
-package com.huy.kotlin.base.adapter
+package com.huy.kotlin.ui.adapter
 
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.huy.kotlin.R
+import com.huy.library.adapter.recycler.BaseRecyclerAdapter
 import kotlinx.android.synthetic.main.item_text.view.*
 
 /**
@@ -13,9 +14,9 @@ import kotlinx.android.synthetic.main.item_text.view.*
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-open class SingleSelectionAdapter<M> : BaseRecyclerAdapter<M>() {
+open class MultiSelectionAdapter<M> : BaseRecyclerAdapter<M>() {
 
-    var selectedItem: M? = null
+    var selectedItems: MutableList<M> = mutableListOf()
 
     var optional: Boolean = true
 
@@ -24,6 +25,7 @@ open class SingleSelectionAdapter<M> : BaseRecyclerAdapter<M>() {
     override fun layoutResource(model: M, position: Int) = R.layout.item_text
 
     override fun View.onBindModel(model: M, position: Int, layout: Int) {
+
         val isSelected = isSelected(model)
 
         if (isSelected) bindStateSelected(model)
@@ -37,7 +39,6 @@ open class SingleSelectionAdapter<M> : BaseRecyclerAdapter<M>() {
     protected open fun View.bindStateSelected(model: M) {
         itemTextView.setTextColor(ContextCompat.getColor(context, R.color.colorPrimary))
         itemTextView.text = model.toString()
-
     }
 
     protected open fun View.bindStateUnselected(model: M) {
@@ -55,26 +56,48 @@ open class SingleSelectionAdapter<M> : BaseRecyclerAdapter<M>() {
 
         if (dataIsEmpty) return false
 
-        selectedItem ?: return false
+        if (selectedItems.isEmpty()) return false
 
-        return selectedItem == model
+        for (m in selectedItems) if (model == m) return true
 
+        return false
     }
 
     open fun onItemClick(model: M, position: Int, isSelected: Boolean) {
 
         if (optional) {
-            selectedItem = if (isSelected) null else model
+            if (isSelected) selectedItems.remove(model)
+            else selectedItems.add(model)
             onSelectionChanged?.apply { this(model, position, !isSelected) }
+            notifyItemChanged(position)
+            return
+        }
+
+        if (isSelected) {
+            if (selectedItems.size < 2) return
+            selectedItems.remove(model)
+            onSelectionChanged?.apply { this(model, position, false) }
+        } else {
+            selectedItems.add(model)
+            onSelectionChanged?.apply { this(model, position, true) }
+        }
+
+        notifyItemChanged(position)
+
+    }
+
+    open fun setSelectedItem(list: Collection<M>?) {
+
+        if (optional && list != null) {
+            selectedItems = list.toMutableList()
             notifyDataSetChanged()
             return
         }
 
-        if (isSelected) return
-        selectedItem = model
-        onSelectionChanged?.apply { this(model, position, true) }
-        notifyDataSetChanged()
-        return
+        if (list == null || list.isEmpty()) {
+            selectedItems = currentList
+            notifyDataSetChanged()
+        }
     }
 
 }

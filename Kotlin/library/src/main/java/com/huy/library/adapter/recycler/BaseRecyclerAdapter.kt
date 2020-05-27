@@ -1,4 +1,4 @@
-package com.huy.kotlin.base.adapter
+package com.huy.library.adapter.recycler
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,18 +7,7 @@ import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.gson.JsonArray
-import com.google.gson.JsonElement
-import com.google.gson.JsonObject
-import com.huy.library.extension.addOnClickListener
-import com.huy.library.extension.isEmpty
-import com.huy.library.extension.toArray
-import io.reactivex.Observable
-import io.reactivex.Single
-import io.reactivex.SingleObserver
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
+import com.huy.library.extension.addViewClickListener
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -28,7 +17,7 @@ import io.reactivex.schedulers.Schedulers
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-abstract class BaseJsonAdapter<T : JsonElement> : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+abstract class BaseRecyclerAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
 
     /**
@@ -72,12 +61,12 @@ abstract class BaseJsonAdapter<T : JsonElement> : RecyclerView.Adapter<RecyclerV
 
         val model = get(position) ?: return
 
-        if (position.isNotIndexed()) viewHolder.itemView.onBindModel(model, position, type)
-        else viewHolder.itemView.onFirstBindModel(model, position, type)
+        if (position.isNotIndexed()) viewHolder.itemView.onFirstBindModel(model, position, type)
+        else viewHolder.itemView.onBindModel(model, position, type)
 
         position.updateLastIndex()
 
-        viewHolder.itemView.addOnClickListener {
+        viewHolder.itemView.addViewClickListener {
             onItemClick(model, position)
         }
 
@@ -90,12 +79,12 @@ abstract class BaseJsonAdapter<T : JsonElement> : RecyclerView.Adapter<RecyclerV
 
 
     /**
-     * [BaseJsonAdapter] abstractions
+     * [BaseRecyclerAdapter] abstractions
      */
     @LayoutRes
-    protected abstract fun layoutResource(json: T, position: Int): Int
+    protected abstract fun layoutResource(model: T, position: Int): Int
 
-    protected abstract fun View.onBindModel(json: T, position: Int, @LayoutRes layout: Int)
+    protected abstract fun View.onBindModel(model: T, position: Int, @LayoutRes layout: Int)
 
     open fun View.onFirstBindModel(model: T, position: Int, @LayoutRes layout: Int) {
         onBindModel(model, position, layout)
@@ -163,139 +152,134 @@ abstract class BaseJsonAdapter<T : JsonElement> : RecyclerView.Adapter<RecyclerV
     /**
      * Data
      */
-    val emptyList: JsonArray = JsonArray()
+    val emptyData: MutableList<T> = mutableListOf()
 
-    var data: JsonArray = emptyList
+    var currentList: MutableList<T> = emptyData
         private set
 
-    val size: Int = data.size()
+    val size: Int get() = currentList.size
 
-    val dataIsEmpty: Boolean get() = size == 0
+    val dataIsEmpty: Boolean get() = currentList.isEmpty()
 
-    val dataNotEmpty: Boolean get() = size != 0
+    val dataNotEmpty: Boolean get() = currentList.isNotEmpty()
 
-    val lastPosition: Int get() = if (dataIsEmpty) -1 else (size - 1)
+    val lastPosition: Int get() = if (currentList.isEmpty()) -1 else (currentList.size - 1)
 
 
     /**
      * List update
      */
     open fun get(position: Int): T? {
-        if (data == null) return null
-        @Suppress("UNCHECKED_CAST")
-        if (position.indexInBound()) return data[position] as T
+        if (position.indexInBound()) return currentList[position]
         return null
     }
 
-    open fun set(json: String?) {
-        Single.just(json.toArray())
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object : SingleObserver<JsonArray?> {
-                    override fun onSuccess(t: JsonArray) {
-                        set(t)
-                        notifyDataSetChanged()
-                    }
-
-                    override fun onSubscribe(d: Disposable) {
-                    }
-
-                    override fun onError(e: Throwable) {
-                        clear()
-                        notifyDataSetChanged()
-                    }
-
-                })
-    }
-
-    open fun set(array: JsonArray?) {
-        clear()
-        if (array != null && !array.isEmpty()) {
-            data.add(array)
-        }
+    open fun set(collection: Collection<T>?) {
+        currentList = collection?.toMutableList() ?: emptyData
+        lastIndexPosition = -1
         notifyDataSetChanged()
     }
 
-    open fun set(obj: JsonObject?) {
-        clear()
-        if (obj != null) {
-            data.add(obj)
-        }
+    open fun set(list: MutableList<T>?) {
+        currentList = list ?: emptyData
+        lastIndexPosition = -1
         notifyDataSetChanged()
     }
 
-    open fun setElseEmpty(json: String?) {
-        Single.just(json.toArray())
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object : SingleObserver<JsonArray?> {
-                    override fun onSuccess(t: JsonArray) {
-                        set(t)
-                        notifyDataSetChanged()
-                    }
-
-                    override fun onSubscribe(d: Disposable) {
-                    }
-
-                    override fun onError(e: Throwable) {
-                    }
-                })
-    }
-
-    open fun setElseEmpty(array: JsonArray?) {
-        array ?: return
-        set(array)
-    }
-
-    open fun setElseEmpty(obj: JsonObject?) {
-        obj ?: return
-        set(obj)
-    }
-
-    open fun add(s: String?) {
-        if (s.isNullOrEmpty()) return
-        Observable.just(s.toArray())
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { add(it) }
-    }
-
-    open fun add(array: JsonArray?) {
-        array ?: return
-        if (array.size() == 0) return
-        data.addAll(array)
+    open fun set(array: Array<T>?) {
+        currentList = array?.toMutableList() ?: emptyData
+        lastIndexPosition = -1
         notifyDataSetChanged()
     }
 
-    open fun add(obj: JsonObject?) {
-        obj ?: return
-        data.add(obj)
+    open fun set(model: T?) {
+        currentList = if (model == null) emptyData
+        else mutableListOf(model)
+        lastIndexPosition = -1
+        notifyDataSetChanged()
+    }
+
+    open fun setElseEmpty(collection: Collection<T>?) {
+        if (collection.isNullOrEmpty()) return
+        currentList = collection.toMutableList()
+        lastIndexPosition = -1
+        notifyDataSetChanged()
+    }
+
+    open fun setElseEmpty(list: MutableList<T>?) {
+        if (list.isNullOrEmpty()) return
+        currentList = list
+        lastIndexPosition = -1
+        notifyDataSetChanged()
+    }
+
+    open fun setElseEmpty(array: Array<T>?) {
+        if (array == null || array.isEmpty()) return
+        currentList = array.toMutableList()
+        lastIndexPosition = -1
+        notifyDataSetChanged()
+    }
+
+    open fun setElseEmpty(model: T?) {
+        model ?: return
+        currentList = mutableListOf(model)
+        lastIndexPosition = -1
+        notifyDataSetChanged()
+    }
+
+    open fun add(collection: Collection<T>?) {
+        if (collection.isNullOrEmpty()) return
+        currentList.addAll(collection)
+        notifyDataSetChanged()
+    }
+
+    open fun add(array: Array<T>?) {
+        if (array == null || array.isEmpty()) return
+        currentList.addAll(array)
+        notifyDataSetChanged()
+    }
+
+    open fun add(model: T?) {
+        model ?: return
+        currentList.add(model)
+        notifyDataSetChanged()
+    }
+
+    open fun addFirst(model: T?) {
+        model ?: return
+        currentList.add(0, model)
         notifyDataSetChanged()
     }
 
     open fun edit(index: Int, model: T?) {
         model ?: return
         if (index.indexInBound()) {
-            data[index] = model
+            currentList[index] = model
             notifyItemChanged(index)
         }
     }
 
     open fun remove(index: Int) {
-        if (index.indexInBound()) {
-            data.remove(index)
-            notifyDataSetChanged()
-        }
+        currentList.removeAt(index)
+        notifyItemRemoved(index)
     }
 
     open fun remove(model: T?) {
         model ?: return
-        data.remove(model)
-        notifyDataSetChanged()
+        val index = currentList.indexOf(model)
+        if (index.indexInBound()) {
+            currentList.remove(model)
+            notifyItemRemoved(index)
+        }
     }
 
     open fun clear() {
-        data = emptyList
+        currentList.clear()
+        notifyDataSetChanged()
+    }
+
+    open fun unBind() {
+        currentList = emptyData
         notifyDataSetChanged()
     }
 
@@ -333,5 +317,3 @@ abstract class BaseJsonAdapter<T : JsonElement> : RecyclerView.Adapter<RecyclerV
     class ViewHolder(v: View) : RecyclerView.ViewHolder(v)
 
 }
-
-

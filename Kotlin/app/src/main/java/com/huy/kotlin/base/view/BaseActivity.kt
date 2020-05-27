@@ -11,7 +11,7 @@ import androidx.lifecycle.Observer
 import com.huy.kotlin.R
 import com.huy.kotlin.app.App
 import com.huy.kotlin.base.dialog.ProgressDialog
-import com.huy.library.view.PreventClickListener
+import com.huy.library.view.ViewClickListener
 import com.tbruyelle.rxpermissions2.RxPermissions
 
 /**
@@ -33,8 +33,8 @@ abstract class BaseActivity : AppCompatActivity(), BaseView {
 
     override val fragmentContainer: Int? = null
 
-    override val onViewClick: PreventClickListener by lazy {
-        object : PreventClickListener() {
+    override val onViewClick: ViewClickListener by lazy {
+        object : ViewClickListener() {
             override fun onViewClick(v: View?) {
                 this@BaseActivity.onViewClick(v)
             }

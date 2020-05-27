@@ -2,7 +2,7 @@ package com.huy.kotlin.ui.animation
 
 import android.view.View
 import com.huy.kotlin.R
-import com.huy.kotlin.base.adapter.BaseRecyclerAdapter
+import com.huy.library.adapter.recycler.BaseRecyclerAdapter
 import kotlinx.android.synthetic.main.item_text.view.*
 
 /**

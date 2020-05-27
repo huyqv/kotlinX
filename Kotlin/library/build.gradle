@@ -35,6 +35,14 @@ dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "androidx.appcompat:appcompat:$app_compat_version"
+    implementation "androidx.fragment:fragment:$fragment_version"
+    implementation "androidx.recyclerview:recyclerview:$recyclerview_version"
+    implementation "androidx.cardview:cardview:$cardview_version"
+    implementation "com.google.code.gson:gson:$gson_version"
+
+    // PAGING
+    implementation "android.arch.paging:runtime:$paging_version"
+    implementation "android.arch.paging:rxjava2:$paging_version"
 
     // JSON CONVERTER
     implementation "com.google.code.gson:gson:$gson_version"

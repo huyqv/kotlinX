@@ -13,6 +13,10 @@ buildscript {
     ext.app_compat_version = "1.2.0-beta01"
     ext.material_version = "1.2.0-alpha02"
     ext.gson_version = "2.8.6"
+    ext.fragment_version = "1.2.1"
+    ext.recyclerview_version = "1.1.0"
+    ext.cardview_version = "1.0.0"
+    ext.paging_version = "1.0.1"
 
     repositories {
         google()

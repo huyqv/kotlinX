@@ -13,7 +13,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import com.huy.kotlin.base.dialog.ProgressDialog
-import com.huy.library.view.PreventClickListener
+import com.huy.library.view.ViewClickListener
 import com.tbruyelle.rxpermissions2.RxPermissions
 
 /**
@@ -37,8 +37,8 @@ abstract class BaseFragment : Fragment(), BaseView {
 
     override val progressDialog: ProgressDialog? get() = baseActivity?.progressDialog
 
-    override val onViewClick: PreventClickListener by lazy {
-        object : PreventClickListener() {
+    override val onViewClick: ViewClickListener by lazy {
+        object : ViewClickListener() {
             override fun onViewClick(v: View?) {
                 this@BaseFragment.onViewClick(v)
             }

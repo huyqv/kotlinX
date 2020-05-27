@@ -1,7 +1,7 @@
 package com.huy.kotlin.ui.model
 
 import com.google.gson.annotations.SerializedName
-import com.huy.kotlin.base.adapter.DiffItemCallback
+import com.huy.library.adapter.recycler.DiffItemCallback
 
 /**
  * -------------------------------------------------------------------------------------------------
