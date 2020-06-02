@@ -3,15 +3,9 @@
     android:shareInterpolator="false">
 
     <translate
-        android:duration="300"
+        android:duration="400"
         android:fromXDelta="0%"
         android:interpolator="@android:anim/accelerate_interpolator"
         android:toXDelta="-100%" />
-
-    <alpha
-        android:duration="450"
-        android:fromAlpha="1.0"
-        android:interpolator="@android:anim/accelerate_interpolator"
-        android:toAlpha="0.2" />
 
 </set>

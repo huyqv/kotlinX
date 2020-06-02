@@ -63,6 +63,7 @@ class AttachedZoomView : View.OnTouchListener, View.OnLayoutChangeListener {
     private var gestureDetector: android.view.GestureDetector? = null
 
     private var scaleDragDetector: GestureDetector? = null
+
     // Listeners
     private var onClickListener: View.OnClickListener? = null
 

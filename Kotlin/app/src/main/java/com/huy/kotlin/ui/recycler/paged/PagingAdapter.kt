@@ -4,7 +4,6 @@ import android.view.View
 import com.huy.kotlin.R
 import com.huy.kotlin.ui.model.Message
 import com.huy.kotlin.util.load
-import com.huy.kotlin.util.loadUser
 import com.huy.library.adapter.recycler.BasePagedListAdapter
 import com.huy.library.extension.notNullOrEmpty
 import com.huy.library.time.TimeUtil.getDateTimeAgo
@@ -47,31 +46,45 @@ class PagingAdapter(var myId: Int = 0) : BasePagedListAdapter<Message>(Message.D
         val timeText = getDateTimeAgo(model.time)
         when (layout) {
             R.layout.item_text_left -> {
-                textLeftImageViewAvatar.loadUser(model.avatar)
                 textLeftTextViewContent.text = model.text
                 textLeftTextViewTime.text = timeText
+                textLeftImageViewAvatar.load(model.avatar) {
+                    placeholder(R.mipmap.img_user)
+                    error(R.mipmap.img_user)
+                }
             }
+
             R.layout.item_text_right -> {
                 textRightTextViewContent.text = model.text
                 textRightTextViewTime.text = timeText
             }
+
             R.layout.item_sticker_left -> {
-                stickerLeftImageViewAvatar.loadUser(model.avatar)
                 stickerLeftImageViewSticker.load(model.sticker)
                 stickerLeftTextViewTime.text = timeText
+                stickerLeftImageViewAvatar.load(model.avatar) {
+                    placeholder(R.mipmap.img_user)
+                    error(R.mipmap.img_user)
+                }
             }
+
             R.layout.item_sticker_right -> {
                 stickerRightImageViewSticker.load(model.sticker)
                 stickerRightTextViewTime.text = timeText
             }
+
             R.layout.item_image_left -> {
-                imageLeftImageViewAvatar.loadUser(model.avatar)
-                imageLeftImageViewContent.load(model.image)
                 imageLeftTextViewTime.text = timeText
+                imageLeftImageViewContent.load(model.image)
+                imageLeftImageViewAvatar.load(model.avatar) {
+                    placeholder(R.mipmap.img_user)
+                    error(R.mipmap.img_user)
+                }
             }
+
             R.layout.item_image_right -> {
-                imageRightImageViewContent.load(model.image)
                 imageRightTextViewTime.text = timeText
+                imageRightImageViewContent.load(model.image)
             }
         }
     }

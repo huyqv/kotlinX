@@ -36,11 +36,16 @@ class TabFragment : BaseFragment() {
     }
 
     private fun ViewPager.config() {
+        setPageTransformer(false, PageTransformer.Parallax {
+            R.id.parallaxContent
+        })
         adapter = FragmentAdapter(childFragmentManager,
                 getFragment(R.color.colorIndianRed, PageTransformer.HorizontalSlide()),
                 getFragment(R.color.colorTurquoise, PageTransformer.VerticalSlide()),
                 getFragment(R.color.colorAmethyst, PageTransformer.Stack()),
-                getFragment(R.color.colorSunFlower, PageTransformer.FadeZoom())
+                getFragment(R.color.colorSunFlower, PageTransformer.FadeZoom()),
+                getFragment(R.color.colorPeterRiver, PageTransformer.Fade()),
+                getFragment(R.color.colorGrey, PageTransformer.None())
         )
     }
 
@@ -54,10 +59,12 @@ class TabFragment : BaseFragment() {
     private fun TabLayout.config() {
         setupWithViewPager(viewPager)
         setSelectedTabIndicatorColor(color(android.R.color.white))
-        setIcon(0, R.drawable.ic_send, Color.WHITE)
-        setIcon(1, R.drawable.ic_camera)
-        setIcon(2, R.drawable.ic_edit)
-        setIcon(3, R.drawable.ic_settings)
+        setIcon(0, R.drawable.ic_adb, Color.WHITE)
+        setIcon(1, R.drawable.ic_adb)
+        setIcon(2, R.drawable.ic_adb)
+        setIcon(3, R.drawable.ic_adb)
+        setIcon(4, R.drawable.ic_adb)
+        setIcon(5, R.drawable.ic_adb)
         addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabReselected(p: TabLayout.Tab?) {
             }

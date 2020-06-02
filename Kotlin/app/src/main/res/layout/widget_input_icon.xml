@@ -24,7 +24,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/inputTextViewTitle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/inputTextViewTitle"
-        app:srcCompat="@drawable/ic_next" />
+        app:srcCompat="@drawable/ic_adb" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/inputTextViewError"

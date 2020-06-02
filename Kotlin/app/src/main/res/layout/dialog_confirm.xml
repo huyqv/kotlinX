@@ -15,7 +15,7 @@
             android:layout_height="@dimen/_30sdp"
             android:padding="@dimen/_2sdp"
             android:visibility="gone"
-            app:srcCompat="@mipmap/ic_kotlin"
+            app:srcCompat="@drawable/ic_kotlin"
             tools:visibility="visible" />
 
         <androidx.appcompat.widget.AppCompatTextView

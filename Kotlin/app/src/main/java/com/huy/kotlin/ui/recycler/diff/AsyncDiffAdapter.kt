@@ -30,7 +30,10 @@ class AsyncDiffAdapter : BaseListAdapter<Image>(Image.ItemCallback()) {
     }
 
     override fun View.onBindModel(model: Image, position: Int, layout: Int) {
-        imageView.load(model.imageUrl)
+        imageView.load(model.imageUrl) {
+            placeholder(R.mipmap.img_placeholder)
+            error(R.mipmap.img_placeholder)
+        }
     }
 
 }

@@ -3,7 +3,7 @@ package com.huy.kotlin.ui.recycler.loadMore
 import android.view.View
 import com.huy.kotlin.R
 import com.huy.kotlin.ui.model.User
-import com.huy.kotlin.util.loadUser
+import com.huy.kotlin.util.load
 import com.huy.library.adapter.recycler.BaseRecyclerAdapter
 import kotlinx.android.synthetic.main.item_user_grid.view.*
 
@@ -27,7 +27,10 @@ class LoadMoreAdapter : BaseRecyclerAdapter<User>() {
         model.run {
             val fn = if (firstName.isNullOrEmpty()) "" else "$firstName\n"
             userTextViewName.text = "$fn$lastName"
-            userImageViewAvatar.loadUser(avatar)
+            userImageViewAvatar.load(avatar) {
+                placeholder(R.mipmap.img_user)
+                error(R.mipmap.img_user)
+            }
         }
     }
 

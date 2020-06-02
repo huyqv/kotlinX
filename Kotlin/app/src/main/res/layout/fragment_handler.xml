@@ -14,9 +14,20 @@
     <com.huy.kotlin.widget.AppBarView
         android:id="@+id/appBarView"
         style="@style/AppBar.View"
-        android:drawableEnd="@drawable/ic_play"
         android:text="Handle Thread"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textViewPlay"
+        style="@style/TextView.Medium"
+        android:layout_width="@dimen/_40sdp"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:text="Play"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/appBarView"
+        app:layout_constraintEnd_toEndOf="@+id/appBarView"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView

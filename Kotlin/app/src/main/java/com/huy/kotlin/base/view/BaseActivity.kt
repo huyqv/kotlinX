@@ -27,13 +27,11 @@ abstract class BaseActivity : AppCompatActivity(), BaseView {
     /**
      * [BaseView] implement
      */
-    override val baseActivity: BaseActivity? get() = this
+    final override val baseActivity: BaseActivity? get() = this
 
-    override val fragmentActivity: FragmentActivity? get() = this
+    final override val fragmentActivity: FragmentActivity? get() = this
 
-    override val fragmentContainer: Int? = null
-
-    override val onViewClick: ViewClickListener by lazy {
+    final override val onViewClick: ViewClickListener by lazy {
         object : ViewClickListener() {
             override fun onViewClick(v: View?) {
                 this@BaseActivity.onViewClick(v)
@@ -41,7 +39,9 @@ abstract class BaseActivity : AppCompatActivity(), BaseView {
         }
     }
 
-    override var progressDialog: ProgressDialog? = null
+    final override var progressDialog: ProgressDialog? = null
+
+    override val fragmentContainer: Int? = null
 
     /**
      * [AppCompatActivity] override

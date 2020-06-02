@@ -7,7 +7,7 @@ import com.huy.kotlin.base.arch.ArchActivity
 import com.huy.kotlin.ui.animation.AnimationFragment
 import com.huy.kotlin.ui.fm.FragmentManagerActivity
 import com.huy.kotlin.ui.format.TextMaskFragment
-import com.huy.kotlin.ui.handler.HandlerFragment
+import com.huy.kotlin.ui.interval.RxIntervalFragment
 import com.huy.kotlin.ui.member.*
 import com.huy.kotlin.ui.recycler.diff.AsyncDiffFragment
 import com.huy.kotlin.ui.recycler.loadMore.LoadMoreFragment
@@ -44,7 +44,7 @@ class MainActivity : ArchActivity<MainVM>() {
 
     override fun onViewClick(view: View?) {
         when (view) {
-            itemHandlerThread -> add(HandlerFragment())
+            itemHandlerThread -> add(RxIntervalFragment())
             itemLoadMore -> add(LoadMoreFragment())
             itemMultiView -> add(PagingFragment())
             itemAsyncDiff -> add(AsyncDiffFragment())

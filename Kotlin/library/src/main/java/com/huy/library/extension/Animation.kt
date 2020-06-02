@@ -18,7 +18,7 @@ import androidx.core.content.ContextCompat
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-private const val DURATION = 3000L
+private const val DURATION = 1000L
 
 private val overshootInterpolator: OvershootInterpolator get() = OvershootInterpolator()
 
@@ -81,31 +81,31 @@ fun View.colorAnimate(@ColorRes fromColor: Int, @ColorRes toColor: Int): ObjectA
     return objectAnimator
 }
 
-fun animTranslateX(from: Float, to: Float): Animation {
+fun animTranslateX(from: Float, to: Float): TranslateAnimation {
     return TranslateAnimation(from, to, 0f, 0f).apply {
         duration = DURATION
     }
 }
 
-fun animTranslateY(from: Float, to: Float): Animation {
+fun animTranslateY(from: Float, to: Float): TranslateAnimation {
     return TranslateAnimation(0f, 0f, from, to).apply {
         duration = DURATION
     }
 }
 
-fun animFadeIn(): Animation {
+fun animFadeIn(): AlphaAnimation {
     return AlphaAnimation(0f, 1f).apply {
         duration = DURATION
     }
 }
 
-fun animFadeOut(): Animation {
+fun animFadeOut(): AlphaAnimation {
     return AlphaAnimation(1f, 0f).apply {
         duration = DURATION
     }
 }
 
-fun animCenterScale(): Animation {
+fun animCenterScale(): ScaleAnimation {
     return ScaleAnimation(
             0f, 1f, 0f, 1f,
             Animation.RELATIVE_TO_SELF, 0.5f,
@@ -115,7 +115,7 @@ fun animCenterScale(): Animation {
     }
 }
 
-fun animLeftScale(): Animation {
+fun animLeftScale(): ScaleAnimation {
     return ScaleAnimation(
             0f, 1f, 0f, 1f,
             Animation.RELATIVE_TO_SELF, 1f,
@@ -125,7 +125,7 @@ fun animLeftScale(): Animation {
     }
 }
 
-fun animRightScale(): Animation {
+fun animRightScale(): ScaleAnimation {
     return ScaleAnimation(
             0f, 1f, 0f, 1f,
             Animation.RELATIVE_TO_SELF, 0f,
@@ -135,7 +135,7 @@ fun animRightScale(): Animation {
     }
 }
 
-fun animBumped(): Animation {
+fun animBumped(): ScaleAnimation {
     return ScaleAnimation(0f, 1f, 0f, 1f,
             ScaleAnimation.RELATIVE_TO_SELF, .5f,
             ScaleAnimation.RELATIVE_TO_SELF, .5f).apply {
@@ -144,7 +144,7 @@ fun animBumped(): Animation {
     }
 }
 
-fun animVanish(): Animation {
+fun animVanish(): ScaleAnimation {
     return ScaleAnimation(0f, 1f, 0f, 1f,
             ScaleAnimation.RELATIVE_TO_SELF, .0f,
             ScaleAnimation.RELATIVE_TO_SELF, .0f).apply {

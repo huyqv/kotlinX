@@ -3,15 +3,15 @@
     android:shareInterpolator="false">
 
     <translate
-        android:duration="300"
+        android:duration="400"
         android:fromXDelta="100%"
         android:interpolator="@android:anim/accelerate_interpolator"
         android:toXDelta="0%" />
 
     <alpha
-        android:duration="450"
+        android:duration="400"
         android:fromAlpha="0.2"
         android:interpolator="@android:anim/accelerate_interpolator"
-        android:toAlpha="1.0" />
+        android:toAlpha="1" />
 
 </set>

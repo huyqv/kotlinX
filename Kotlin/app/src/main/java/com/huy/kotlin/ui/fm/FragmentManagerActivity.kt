@@ -1,9 +1,14 @@
 package com.huy.kotlin.ui.fm
 
 import android.os.Bundle
+import android.view.View
 import com.huy.kotlin.R
 import com.huy.kotlin.base.view.BaseActivity
 import com.huy.kotlin.ui.member.ColorFragment
+import com.huy.library.extension.HORIZONTAL_ANIMATIONS
+import com.huy.library.extension.PARALLAX_ANIMATIONS
+import com.huy.library.extension.VERTICAL_ANIMATIONS
+import com.huy.library.extension.replaceFragment
 import com.huy.library.util.Colors
 import kotlinx.android.synthetic.main.activity_translate.*
 
@@ -24,17 +29,24 @@ class FragmentManagerActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        viewBack.setOnClickListener {
-            onBackPressed()
-        }
-
-        viewNext.setOnClickListener {
-            val fragment = ColorFragment()
-            fragment.color = Colors.next()
-            add(fragment)
-        }
+        addClickListener(viewBack, viewNextVer, viewNextHor, viewNextPar)
     }
 
+    override fun onViewClick(view: View?) {
+        when (view) {
+            viewBack -> onBackPressed()
+            else -> {
+                val fragment = ColorFragment()
+                fragment.color = Colors.next()
+                val anim = when (view) {
+                    viewNextVer -> VERTICAL_ANIMATIONS
+                    viewNextHor -> HORIZONTAL_ANIMATIONS
+                    viewNextPar -> PARALLAX_ANIMATIONS
+                    else -> null
+                }
+                replaceFragment(fragment, R.id.container, true, anim)
+            }
+        }
+    }
 
 }

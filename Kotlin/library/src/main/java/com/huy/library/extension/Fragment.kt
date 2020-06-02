@@ -15,10 +15,23 @@ import com.huy.library.R
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-val HORIZONTAL_ANIMATIONS = intArrayOf(R.anim.horizontal_enter, R.anim.horizontal_exit, R.anim.horizontal_pop_enter, R.anim.horizontal_pop_exit)
+val HORIZONTAL_ANIMATIONS = intArrayOf(
+        R.anim.horizontal_enter,
+        R.anim.horizontal_exit,
+        R.anim.horizontal_pop_enter,
+        R.anim.horizontal_pop_exit)
 
-val VERTICAL_ANIMATIONS = intArrayOf(R.anim.horizontal_enter, R.anim.horizontal_exit, R.anim.horizontal_pop_enter, R.anim.horizontal_pop_exit)
+val VERTICAL_ANIMATIONS = intArrayOf(
+        R.anim.vertical_enter,
+        R.anim.vertical_exit,
+        R.anim.vertical_pop_enter,
+        R.anim.vertical_pop_exit)
 
+val PARALLAX_ANIMATIONS = intArrayOf(
+        R.anim.parallax_enter,
+        R.anim.parallax_exit,
+        R.anim.parallax_pop_enter,
+        R.anim.parallax_pop_exit)
 
 /**
  * [Fragment].[FragmentManager]
@@ -73,7 +86,6 @@ fun FragmentActivity.addFragment(fragment: Fragment, @IdRes container: Int, back
 }
 
 fun FragmentActivity.replaceFragment(fragment: Fragment, @IdRes container: Int, backStack: Boolean = true, animations: IntArray? = VERTICAL_ANIMATIONS) {
-
     val tag = fragment::class.java.simpleName.tag()
     supportFragmentManager.scheduleTransaction({
         replace(container, fragment, tag)

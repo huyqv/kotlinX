@@ -1,4 +1,4 @@
-package com.huy.kotlin.ui.handler
+package com.huy.kotlin.ui.interval
 
 import com.huy.kotlin.ui.model.User
 import com.huy.library.extension.readJsonAsset
@@ -14,13 +14,10 @@ import java.util.*
  */
 object DataProvider {
 
-    private lateinit var profiles: List<User>
+    private val profiles: List<User> = readJsonAsset("user_list.json", Array<User>::class.java)!!
 
     private val mRandom = Random()
 
     val random: User get() = profiles[mRandom.nextInt(profiles.size)]
 
-    fun init() {
-        profiles = readJsonAsset("user_list.json", Array<User>::class.java)!!
-    }
 }

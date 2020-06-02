@@ -15,6 +15,26 @@ import kotlin.math.abs
  */
 class PageTransformer {
 
+    class Parallax(val parallaxViewId: () -> Int) : ViewPager.PageTransformer {
+
+        override fun transformPage(view: View, position: Float) {
+            when {
+                // [-Infinity,-1) This page is way off-screen to the left.
+                position < -1 -> {
+                    view.alpha = 1f
+                }
+                // [-1,1] Half the normal speed
+                position <= 1 -> {
+                    view.findViewById<View>(parallaxViewId())?.translationX = -position * (view.width / 2)
+                }
+                // (1,+Infinity] This page is way off-screen to the right.
+                else -> {
+                    view.alpha = 1f
+                }
+            }
+        }
+    }
+
     class FadeZoom : ViewPager.PageTransformer {
 
         companion object {
@@ -54,27 +74,6 @@ class PageTransformer {
                 // (1,+Infinity] This page is way off-screen to the right.
                 else -> view.alpha = 0f
             }
-        }
-    }
-
-    class Parallax(private val dummyView: View?) : ViewPager.PageTransformer {
-        override fun transformPage(view: View, position: Float) {
-
-            val pageWidth = view.width
-
-            when {
-
-                // [-Infinity,-1) This page is way off-screen to the left.
-                position < -1 -> view.alpha = 1f
-
-                // [-1,1]
-                position <= 1 -> dummyView?.translationX = -position * (pageWidth / 2) //Half the normal speed
-
-                // (1,+Infinity] This page is way off-screen to the right.
-                else -> view.alpha = 1f
-            }
-
-
         }
     }
 

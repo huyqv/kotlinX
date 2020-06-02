@@ -33,13 +33,13 @@ abstract class BaseDialogFragment : BottomSheetDialogFragment(), BaseView {
     /**
      * [BaseView] implement
      */
-    override val baseActivity: BaseActivity? get() = activity as? BaseActivity
+    final override val baseActivity: BaseActivity? get() = activity as? BaseActivity
 
-    override val fragmentActivity: FragmentActivity? get() = requireActivity()
+    final override val fragmentActivity: FragmentActivity? get() = requireActivity()
 
-    override val progressDialog: ProgressDialog? get() = baseActivity?.progressDialog
+    final override val progressDialog: ProgressDialog? get() = baseActivity?.progressDialog
 
-    override val onViewClick: ViewClickListener by lazy {
+    final override val onViewClick: ViewClickListener by lazy {
         object : ViewClickListener() {
             override fun onViewClick(v: View?) {
                 this@BaseDialogFragment.onViewClick(v)

@@ -16,7 +16,7 @@
             android:layout_width="@dimen/_50sdp"
             android:layout_height="@dimen/_50sdp"
             android:layout_marginTop="@dimen/_60sdp"
-            app:srcCompat="@mipmap/ic_kotlin" />
+            app:srcCompat="@drawable/ic_kotlin" />
 
         <androidx.appcompat.widget.AppCompatTextView
             style="@style/TextView.Small"

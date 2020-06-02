@@ -1,4 +1,4 @@
-package com.huy.kotlin.ui.handler
+package com.huy.kotlin.ui.interval
 
 import android.os.Bundle
 import android.view.View
@@ -19,9 +19,9 @@ import java.util.concurrent.TimeUnit
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-class HandlerFragment : BaseFragment() {
+class RxIntervalFragment : BaseFragment() {
 
-    private val adapter = HandlerAdapter()
+    private val adapter = RxIntervalAdapter()
 
     private var disposable: Disposable? = null
 
@@ -29,14 +29,13 @@ class HandlerFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        DataProvider.init()
         adapter.bind(recyclerView)
         appBarView.endButtonClickListener {
             if (disposable == null || disposable!!.isDisposed) {
-                appBarView.drawableEnd = R.drawable.ic_play
+                textViewPlay.text = "Play"
                 generateUser()
             } else {
-                appBarView.drawableEnd = R.drawable.ic_pause
+                textViewPlay.text = "Pause"
                 disposable?.dispose()
             }
         }

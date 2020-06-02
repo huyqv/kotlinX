@@ -1,11 +1,13 @@
 package com.huy.kotlin.util
 
-import android.net.Uri
+import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.widget.ImageView
-import androidx.annotation.DrawableRes
 import com.bumptech.glide.annotation.GlideModule
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.module.AppGlideModule
-import com.huy.kotlin.R
+import com.bumptech.glide.request.RequestListener
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -19,48 +21,61 @@ import com.huy.kotlin.R
 @GlideModule
 class MyGlideApp : AppGlideModule()
 
-fun ImageView.loadUser(url: String?) {
-    GlideApp.with(context).load(url)
-            .placeholder(R.mipmap.img_user)
-            .error(R.mipmap.img_user)
-            .override(this.width, this.height)
-            .into(this)
+interface SimpleRequestListener : RequestListener<Drawable> {
+
+    fun onCompleted()
+
+    override fun onLoadFailed(e: GlideException?, model: Any?,
+                              target: com.bumptech.glide.request.target.Target<Drawable>?,
+                              isFirstResource: Boolean): Boolean {
+        onCompleted()
+        return true
+    }
+
+    override fun onResourceReady(resource: Drawable?, model: Any?,
+                                 target: com.bumptech.glide.request.target.Target<Drawable>?, dataSource: DataSource?,
+                                 isFirstResource: Boolean): Boolean {
+        onCompleted()
+        return true
+    }
 }
 
-fun ImageView.loadImage(url: String?) {
-    GlideApp.with(context).load(url)
-            .placeholder(R.drawable.drw_rect_dashed)
-            .error(R.drawable.drw_rect_dashed)
-            .override(this.width, this.height)
-            .into(this)
-}
-
-fun ImageView.load(url: String?, @DrawableRes res: Int) {
-    GlideApp.with(context).load(url)
-            .placeholder(res)
-            .error(res)
-            .override(this.width, this.height)
-            .into(this)
-}
-
-fun ImageView.load(url: String?) {
-    GlideApp.with(context)
+fun ImageView.load(url: String?, block: GlideRequest<*>.() -> Unit = {}) {
+    val request = GlideApp
+            .with(context)
             .load(url)
-            .override(this.width, this.height)
-            .into(this)
+    request.block()
+    request.into(this)
 }
 
-fun ImageView.load(uri: Uri?) {
-    GlideApp.with(context)
-            .load(uri)
-            .override(this.width, this.height)
-            .into(this)
+fun ImageView.load(bitmap: Bitmap?, block: GlideRequest<*>.() -> Unit = {}) {
+    val request = GlideApp
+            .with(context)
+            .load(bitmap)
+    request.block()
+    request.into(this)
 }
 
-fun ImageView.load(@DrawableRes res: Int) {
-    GlideApp.with(context)
+fun ImageView.load(res: Int, block: GlideRequest<*>.() -> Unit = {}) {
+    val request = GlideApp
+            .with(context)
             .load(res)
-            .override(this.width, this.height)
-            .into(this)
+    request.block()
+    request.into(this)
 }
 
+fun ImageView.load(bytes: ByteArray?, block: GlideRequest<*>.() -> Unit = {}) {
+    val request = GlideApp
+            .with(context)
+            .load(bytes)
+    request.block()
+    request.into(this)
+}
+
+fun ImageView.load(drawable: Drawable?, block: GlideRequest<*>.() -> Unit = {}) {
+    val request = GlideApp
+            .with(context)
+            .load(drawable)
+    request.block()
+    request.into(this)
+}

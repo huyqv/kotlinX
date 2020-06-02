@@ -3,12 +3,9 @@ package com.huy.library.extension
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
-import android.os.Environment
 import android.provider.Settings
 import android.speech.RecognizerIntent
 import androidx.fragment.app.Fragment
-import com.huy.library.Library
 
 /**
  * -------------------------------------------------------------------------------------------------
