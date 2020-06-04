@@ -4,10 +4,7 @@ import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.content.res.Resources
-import android.graphics.BlendMode
-import android.graphics.BlendModeColorFilter
-import android.graphics.Color
-import android.graphics.PorterDuff
+import android.graphics.*
 import android.os.Build
 import android.util.DisplayMetrics
 import android.util.TypedValue
@@ -188,6 +185,18 @@ fun View.backgroundTint(@ColorRes res: Int) {
             background?.setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
         }
     }
+}
+
+fun View.getBitmap(width: Int = this.width, height: Int = this.height): Bitmap {
+    if (width > 0 && height > 0) {
+        this.measure(View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY), View.MeasureSpec.makeMeasureSpec(height, View.MeasureSpec.EXACTLY))
+    }
+    this.layout(0, 0, this.measuredWidth, this.measuredHeight)
+    val bitmap = Bitmap.createBitmap(this.measuredWidth, this.measuredHeight, Bitmap.Config.ARGB_8888)
+    val canvas = Canvas(bitmap)
+    this.background?.draw(canvas)
+    this.draw(canvas)
+    return bitmap
 }
 
 /**

@@ -10,7 +10,6 @@ import android.os.Build
 import android.provider.MediaStore
 import android.text.TextUtils
 import android.util.Base64
-import android.view.View
 import androidx.annotation.DrawableRes
 import com.huy.library.Library
 import java.io.*
@@ -521,18 +520,6 @@ fun ByteArray.convertImage(pixels: IntArray, exposureCompensation: Double?) {
     }
 }
 
-fun View.toBitmap(width: Int = this.width, height: Int = this.height): Bitmap? {
-    if (width > 0 && height > 0) {
-        this.measure(View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY), View.MeasureSpec.makeMeasureSpec(height, View.MeasureSpec.EXACTLY))
-    }
-    this.layout(0, 0, this.measuredWidth, this.measuredHeight)
-    val bitmap = Bitmap.createBitmap(this.measuredWidth, this.measuredHeight, Bitmap.Config.ARGB_8888)
-    val canvas = Canvas(bitmap)
-    this.background?.draw(canvas)
-    this.draw(canvas)
-    return bitmap
-}
-
 fun YuvImage.toRgbBitmap(): Bitmap {
     val outStream = ByteArrayOutputStream()
     this.compressToJpeg(Rect(0, 0, this.width, this.height), 100, outStream) // make JPG
@@ -587,13 +574,14 @@ fun ByteArray.toBitmap(width: Int, height: Int, exposureCompensation: Double?): 
     return this.toBitmap(bitmap, pixels, exposureCompensation)
 }
 
-fun Bitmap.convert(config: Bitmap.Config): Bitmap {
-    val convertedBitmap = Bitmap.createBitmap(width, height, config)
-    val canvas = Canvas(convertedBitmap)
-    val paint = Paint()
-    paint.color = Color.BLACK
-    canvas.drawBitmap(this, 0f, 0f, paint)
-    return convertedBitmap
+
+/**
+ * [android.graphics.Bitmap] extensions
+ */
+fun Bitmap.toBytes(): ByteArray {
+    val stream = ByteArrayOutputStream()
+    this.compress(Bitmap.CompressFormat.JPEG, 80, stream)
+    return stream.toByteArray()
 }
 
 fun Bitmap.size(): Int {
@@ -605,7 +593,187 @@ fun Bitmap.size(): Int {
     // Pre HC-MR1
 }
 
-fun Bitmap.getRoundedCorner(radius: Int): Bitmap {
+fun Bitmap.threshold(threshold: Int = 128): Bitmap {
+    val image = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+    Canvas(image).drawBitmap(this, 0f, 0f, null)
+    for (x in 0 until width) {
+        for (y in 0 until height) {
+            // get pixel color
+            val pixel = this.getPixel(x, y)
+            val red = Color.red(pixel)
+            val green = Color.green(pixel)
+            val blue = Color.blue(pixel)
+            var gray = (0.2989 * red + 0.5870 * green + 0.1140 * blue).toInt()
+            // use 128 as threshold, above -> white, below -> black
+            gray = if (gray > threshold) 255 else 0
+            // set new pixel color to output bitmap
+            image.setPixel(x, y, Color.argb(255, gray, gray, gray))
+        }
+    }
+
+
+    return image
+}
+
+fun String?.decodeToBitmap(flag: Int = Base64.DEFAULT): Bitmap? {
+    this ?: return null
+    return try {
+        val decodedBytes = Base64.decode(substring(indexOf(",") + 1), flag)
+        BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
+    } catch (e: IllegalArgumentException) {
+        null
+    }
+}
+
+fun Bitmap.toBase64String(): String? {
+    return try {
+        val outputStream = ByteArrayOutputStream()
+        this.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+        Base64.encodeToString(outputStream.toByteArray(), Base64.DEFAULT)
+    } catch (e: IOException) {
+        null
+    }
+}
+
+
+/**
+ * Editions
+ */
+fun Bitmap.convert(config: Bitmap.Config): Bitmap {
+    val convertedBitmap = Bitmap.createBitmap(width, height, config)
+    val canvas = Canvas(convertedBitmap)
+    val paint = Paint()
+    paint.color = Color.BLACK
+    canvas.drawBitmap(this, 0f, 0f, paint)
+    return convertedBitmap
+}
+
+fun Bitmap.rotate(degrees: Int): Bitmap {
+    val matrix = Matrix()
+    matrix.postRotate(degrees.toFloat())
+    matrix.postScale(-1f, 1f)
+    return Bitmap.createBitmap(this, 0, 0, this.width, this.height, matrix, true)
+}
+
+fun Bitmap.rotate(src: String): Bitmap {
+    return try {
+        val orientation = orientation(src)
+        if (orientation == 1) {
+            return this
+        }
+        val matrix = Matrix()
+        when (orientation) {
+            2 -> matrix.setScale(-1f, 1f)
+            3 -> matrix.setRotate(180f)
+            4 -> {
+                matrix.setRotate(180f)
+                matrix.postScale(-1f, 1f)
+            }
+            5 -> {
+                matrix.setRotate(90f)
+                matrix.postScale(-1f, 1f)
+            }
+            6 -> matrix.setRotate(90f)
+            7 -> {
+                matrix.setRotate(-90f)
+                matrix.postScale(-1f, 1f)
+            }
+            8 -> matrix.setRotate(-90f)
+            else -> return this
+        }
+        val oriented = Bitmap.createBitmap(this, 0, 0, this.width, this.height, matrix, true)
+        this.recycle()
+        oriented
+    } catch (e: IOException) {
+        e.printStackTrace()
+        this
+    } catch (e: OutOfMemoryError) {
+        e.printStackTrace()
+        this
+    }
+
+}
+
+fun Bitmap.scale(width: Int, height: Int): Bitmap {
+    var w = width
+    var h = height
+    val originWidth = this.width
+    val originHeight = this.height
+    val originRatio = 1.0f * originWidth / originHeight
+    val desiredRatio = 1.0f * w / h
+    var scaleFactor: Float
+
+    // If desire image and origin image have different ratio
+    // Origin is width > height and desired is width < height
+    if (originRatio > 1.0f && desiredRatio < 1.0f) {
+        scaleFactor = 1.0f * w / originWidth
+        h = (originHeight * scaleFactor).toInt()
+    }
+
+    // Origin is width < height and desired is width > height
+    if (originRatio < 1.0f && desiredRatio > 1.0f) {
+        scaleFactor = 1.0f * h / originHeight
+        w = (originWidth * scaleFactor).toInt()
+    }
+
+    // Origin and desired have same type of orientation
+    var realWidth = w
+    var realHeight = (realWidth / originRatio).toInt()
+    if (realHeight > h) {
+        realHeight = h
+        realWidth = (realHeight * originRatio).toInt()
+    }
+
+    return Bitmap.createScaledBitmap(this, realWidth, realHeight, true)
+}
+
+fun Bitmap.crop(aspectWidth: Int, aspectHeight: Int): Bitmap {
+    val sourceWidth = this.width
+    val sourceHeight = this.height
+
+    var width = sourceWidth
+    var height = width * aspectHeight / aspectWidth
+    var x = 0
+    var y = (sourceHeight - height) / 2
+
+    if (height > sourceHeight) {
+        height = sourceHeight
+        width = height * aspectWidth / aspectHeight
+        x = (sourceWidth - width) / 2
+        y = 0
+    }
+
+    return if (x != 0 || y != 0 || this.width != width || this.height != height) {
+        val bmp = Bitmap.createBitmap(this, x, y, width, height)
+        bmp.recycle()
+        bmp
+    } else {
+        this
+    }
+
+}
+
+fun Bitmap.flipVertical(): Bitmap {
+    val matrix = Matrix()
+    matrix.preScale(1.0f, -1.0f)
+    return Bitmap.createBitmap(this, 0, 0, this.width, this.height, matrix, true)
+}
+
+fun Bitmap.flipHorizontal(): Bitmap {
+    val matrix = Matrix()
+    matrix.preScale(-1.0f, 1.0f)
+    return Bitmap.createBitmap(this, 0, 0, this.width, this.height, matrix, true)
+}
+
+fun Bitmap.monochrome(): Bitmap {
+    val image = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+    val colorMatrix = ColorMatrix().apply { setSaturation(0f) }
+    val paint = Paint().apply { colorFilter = ColorMatrixColorFilter(colorMatrix) }
+    Canvas(image).drawBitmap(this, 0f, 0f, paint)
+    return image
+}
+
+fun Bitmap.roundCorners(radius: Int): Bitmap {
 
     val output = Bitmap.createBitmap(this.width, this.height, Bitmap.Config.ARGB_8888)
     val canvas = Canvas(output)
@@ -625,6 +793,10 @@ fun Bitmap.getRoundedCorner(radius: Int): Bitmap {
     return output
 }
 
+
+/**
+ * IO
+ */
 fun Bitmap.save(directory: String?, filename: String, config: CompressConfigs): File? {
 
     var fDirectory = directory
@@ -668,143 +840,6 @@ fun Bitmap.save(parentDir: File, fileName: String, config: CompressConfigs): Fil
     return this.save(parentDir.absolutePath, fileName, config)
 }
 
-fun Bitmap.toBytes(): ByteArray {
-    val stream = ByteArrayOutputStream()
-    this.compress(Bitmap.CompressFormat.JPEG, 80, stream)
-    return stream.toByteArray()
-}
-
-fun Bitmap.rotate(degrees: Int): Bitmap {
-    val matrix = Matrix()
-    matrix.postRotate(degrees.toFloat())
-    matrix.postScale(-1f, 1f)
-
-    return Bitmap.createBitmap(this, 0, 0, this.width, this.height, matrix, true)
-}
-
-fun Bitmap.rotate(src: String): Bitmap {
-    try {
-        val orientation = orientation(src)
-
-        if (orientation == 1) {
-            return this
-        }
-
-        val matrix = Matrix()
-        when (orientation) {
-            2 -> matrix.setScale(-1f, 1f)
-            3 -> matrix.setRotate(180f)
-            4 -> {
-                matrix.setRotate(180f)
-                matrix.postScale(-1f, 1f)
-            }
-            5 -> {
-                matrix.setRotate(90f)
-                matrix.postScale(-1f, 1f)
-            }
-            6 -> matrix.setRotate(90f)
-            7 -> {
-                matrix.setRotate(-90f)
-                matrix.postScale(-1f, 1f)
-            }
-            8 -> matrix.setRotate(-90f)
-            else -> return this
-        }
-
-        try {
-            val oriented = Bitmap.createBitmap(this, 0, 0, this.width, this.height, matrix, true)
-            this.recycle()
-            return oriented
-        } catch (e: OutOfMemoryError) {
-            e.printStackTrace()
-            return this
-        }
-
-    } catch (e: IOException) {
-        e.printStackTrace()
-    }
-
-    return this
-}
-
-fun Bitmap.crop(aspectWidth: Int, aspectHeight: Int): Bitmap {
-    val sourceWidth = this.width
-    val sourceHeight = this.height
-
-    var width = sourceWidth
-    var height = width * aspectHeight / aspectWidth
-    var x = 0
-    var y = (sourceHeight - height) / 2
-
-    if (height > sourceHeight) {
-        height = sourceHeight
-        width = height * aspectWidth / aspectHeight
-        x = (sourceWidth - width) / 2
-        y = 0
-    }
-
-    return if (x != 0 || y != 0 || this.width != width || this.height != height) {
-        val bmp = Bitmap.createBitmap(this, x, y, width, height)
-        bmp.recycle()
-        bmp
-    } else {
-        this
-    }
-
-}
-
-fun Bitmap.flipVertical(): Bitmap {
-    val matrix = Matrix()
-    matrix.preScale(1.0f, -1.0f)
-    return Bitmap.createBitmap(this, 0, 0, this.width, this.height, matrix, true)
-}
-
-fun Bitmap.flipHorizontal(): Bitmap {
-    val matrix = Matrix()
-    matrix.preScale(-1.0f, 1.0f)
-    return Bitmap.createBitmap(this, 0, 0, this.width, this.height, matrix, true)
-}
-
-/**
- * Scale bitmap to the required width, height. The scaled bitmap will maintain its original
- * aspect's ratio.
- * @param width  Required currentScale width.
- * @param height Required currentScale height.
- * @return Scale bitmap that maintains original aspect's ratio.
- */
-fun Bitmap.scale(width: Int, height: Int): Bitmap {
-    var w = width
-    var h = height
-    val originWidth = this.width
-    val originHeight = this.height
-    val originRatio = 1.0f * originWidth / originHeight
-    val desiredRatio = 1.0f * w / h
-    var scaleFactor: Float
-
-    // If desire image and origin image have different ratio
-    // Origin is width > height and desired is width < height
-    if (originRatio > 1.0f && desiredRatio < 1.0f) {
-        scaleFactor = 1.0f * w / originWidth
-        h = (originHeight * scaleFactor).toInt()
-    }
-
-    // Origin is width < height and desired is width > height
-    if (originRatio < 1.0f && desiredRatio > 1.0f) {
-        scaleFactor = 1.0f * h / originHeight
-        w = (originWidth * scaleFactor).toInt()
-    }
-
-    // Origin and desired have same type of orientation
-    var realWidth = w
-    var realHeight = (realWidth / originRatio).toInt()
-    if (realHeight > h) {
-        realHeight = h
-        realWidth = (realHeight * originRatio).toInt()
-    }
-
-    return Bitmap.createScaledBitmap(this, realWidth, realHeight, true)
-}
-
 fun Bitmap.getImageUri(): Uri? {
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
         val bytes = ByteArrayOutputStream()
@@ -822,60 +857,6 @@ fun Bitmap.getImageUri(): Uri? {
     return null
 }
 
-fun Bitmap.monochrome(): Bitmap {
-    val image = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
-    val colorMatrix = ColorMatrix().apply { setSaturation(0f) }
-    val paint = Paint().apply { colorFilter = ColorMatrixColorFilter(colorMatrix) }
-    Canvas(image).drawBitmap(this, 0f, 0f, paint)
-    return image
-}
-
-/**
- * Converts an image to a binary one based on given threshold
- * @param threshold the threshold in [0,255]
- * @return a new BufferedImage instance of TYPE_BYTE_GRAY with only 0'S and 255's
- */
-fun Bitmap.threshold(threshold: Int = 128): Bitmap {
-    val image = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
-    Canvas(image).drawBitmap(this, 0f, 0f, null)
-    for (x in 0 until width) {
-        for (y in 0 until height) {
-            // get pixel color
-            val pixel = this.getPixel(x, y)
-            val red = Color.red(pixel)
-            val green = Color.green(pixel)
-            val blue = Color.blue(pixel)
-            var gray = (0.2989 * red + 0.5870 * green + 0.1140 * blue).toInt()
-            // use 128 as threshold, above -> white, below -> black
-            gray = if (gray > threshold) 255 else 0
-            // set new pixel color to output bitmap
-            image.setPixel(x, y, Color.argb(255, gray, gray, gray))
-        }
-    }
-
-
-    return image
-}
-
-fun String?.decodeToBitmap(flag: Int = Base64.DEFAULT): Bitmap? {
-    this ?: return null
-    return try {
-        val decodedBytes = Base64.decode(substring(indexOf(",") + 1), flag)
-        BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
-    } catch (e: IllegalArgumentException) {
-        null
-    }
-}
-
-fun Bitmap.toBase64String(): String? {
-    return try {
-        val outputStream = ByteArrayOutputStream()
-        this.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
-        Base64.encodeToString(outputStream.toByteArray(), Base64.DEFAULT)
-    } catch (e: IOException) {
-        null
-    }
-}
 
 fun Closeable.safeClose() {
     try {
