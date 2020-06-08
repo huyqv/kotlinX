@@ -28,11 +28,11 @@ abstract class ArchActivity<VM : BaseViewModel> : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        ProgressLiveData.instance.nonNull { if (it) showProgress() else hideProgress() }
+        ProgressLiveData.instance.observe { if (it) showProgress() else hideProgress() }
 
-        AlertLiveData.instance.nonNull { alert(it) }
+        AlertLiveData.instance.observe { alert(it) }
 
-        NetworkLiveData.instance.nonNull { if (it) viewModel.onNetworkAvailable() }
+        NetworkLiveData.instance.observe { if (it) viewModel.onNetworkAvailable() }
 
         viewModel.onStart()
 

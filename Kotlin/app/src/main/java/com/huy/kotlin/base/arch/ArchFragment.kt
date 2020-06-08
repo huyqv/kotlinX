@@ -38,7 +38,7 @@ abstract class ArchFragment<VM : BaseViewModel> : BaseFragment() {
 
         viewModel.onNetworkAvailable()
 
-        NetworkLiveData.instance.nonNull { if (it) viewModel.onNetworkAvailable() }
+        NetworkLiveData.instance.observe { if (it) viewModel.onNetworkAvailable() }
 
     }
 

@@ -91,12 +91,8 @@ abstract class BaseFragment : Fragment(), BaseView {
     /**
      * Observer
      */
-    fun <T> LiveData<T?>.observe(block: (T?) -> Unit) {
+    fun <T> LiveData<T>.observe(block: (T) -> Unit) {
         observe(viewLifecycleOwner, Observer { block(it) })
-    }
-
-    fun <T> LiveData<T?>.nonNull(block: (T) -> Unit) {
-        observe(viewLifecycleOwner, Observer { if (null != it) block(it) })
     }
 
 }

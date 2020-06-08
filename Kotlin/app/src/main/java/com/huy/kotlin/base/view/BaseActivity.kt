@@ -86,12 +86,8 @@ abstract class BaseActivity : AppCompatActivity(), BaseView {
     /**
      * Observer
      */
-    fun <T> LiveData<T?>.observe(block: (T?) -> Unit) {
+    fun <T> LiveData<T>.observe(block: (T) -> Unit) {
         observe(this@BaseActivity, Observer { block(it) })
-    }
-
-    fun <T> LiveData<T?>.nonNull(block: (T) -> Unit) {
-        observe(this@BaseActivity, Observer { if (null != it) block(it) })
     }
 
 }

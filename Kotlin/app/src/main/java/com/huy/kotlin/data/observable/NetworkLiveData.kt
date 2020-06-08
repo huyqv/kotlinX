@@ -15,7 +15,7 @@ import com.huy.library.extension.connectivityManager
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-class NetworkLiveData private constructor() : SingleLiveData<Boolean?>() {
+class NetworkLiveData private constructor() : SingleLiveData<Boolean>() {
 
     companion object {
 

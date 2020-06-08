@@ -30,7 +30,7 @@ abstract class ArchDialogFragment<VM : BaseViewModel> : BaseDialogFragment() {
 
         viewModel.onNetworkAvailable()
 
-        NetworkLiveData.instance.nonNull { if (it) viewModel.onNetworkAvailable() }
+        NetworkLiveData.instance.observe { if (it) viewModel.onNetworkAvailable() }
 
     }
 

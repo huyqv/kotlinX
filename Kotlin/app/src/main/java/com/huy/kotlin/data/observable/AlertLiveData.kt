@@ -8,7 +8,7 @@ package com.huy.kotlin.data.observable
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-class AlertLiveData private constructor() : SingleLiveData<String?>() {
+class AlertLiveData private constructor() : SingleLiveData<String>() {
 
     companion object {
 
