@@ -1,5 +1,6 @@
 package com.huy.kotlin.base.view
 
+import android.app.Activity
 import android.content.Intent
 import android.content.res.Resources
 import android.view.View
@@ -80,7 +81,7 @@ interface BaseView : LifecycleOwner {
         }
     }
 
-    fun remove(cls: Class<*>) {
+    fun <T : Fragment> remove(cls: Class<T>) {
         baseActivity?.remove(cls)
     }
 
@@ -123,32 +124,31 @@ interface BaseView : LifecycleOwner {
     /**
      * Navigation utilities
      */
-    fun start(cls: Class<*>) {
+    fun <T : Activity> start(cls: Class<T>) {
         baseActivity?.startActivity(Intent(baseActivity, cls))
     }
 
-    fun startFinish(cls: Class<*>) {
+    fun <T : Activity> startFinish(cls: Class<T>) {
         baseActivity?.also {
             it.startActivity(Intent(it, cls))
             it.finish()
         }
     }
 
-    fun startClear(cls: Class<*>) {
-        baseActivity?.run {
-            val intent = Intent(this, cls)
+    fun <T : Activity> startClear(cls: Class<T>) {
+        baseActivity?.also {
+            val intent = Intent(it, cls)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-            this.startActivity(intent)
-            this.finish()
+            it.startActivity(intent)
+            it.finish()
         }
-
     }
 
     fun moveTaskToBack() {
         baseActivity?.moveTaskToBack(true)
     }
 
-    fun popBackStack(cls: Class<*>) {
+    fun <T : Fragment> popBackStack(cls: Class<T>) {
         baseActivity?.remove(cls)
     }
 
