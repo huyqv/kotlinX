@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Resources
+import android.database.Cursor
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
@@ -104,12 +105,12 @@ fun keyHash() {
 
 fun realPathFromURI(uri: Uri): String? {
     val projection = arrayOf(MediaStore.Images.Media._ID)
-    val cursor = app.contentResolver.query(uri, projection, null, null, null)
+    val cursor: Cursor = app.contentResolver.query(uri, projection, null, null, null)
             ?: return uri.path
-    cursor.use { cursor ->
-        val columnIndex = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns._ID)
-        cursor.moveToFirst()
-        return cursor.getString(columnIndex)
+    cursor.use {
+        val columnIndex = it.getColumnIndexOrThrow(MediaStore.MediaColumns._ID)
+        it.moveToFirst()
+        return it.getString(columnIndex)
     }
 }
 

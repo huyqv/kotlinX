@@ -27,7 +27,7 @@ class MainActivity : ArchActivity<MainVM>() {
 
     override val layoutResource: Int = R.layout.activity_main
 
-    override val fragmentContainer: Int = R.id.container
+    override val fragmentContainerId: Int = R.id.container
 
     override val viewModelClass = MainVM::class.java
 

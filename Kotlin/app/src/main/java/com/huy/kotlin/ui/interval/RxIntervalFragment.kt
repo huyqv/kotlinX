@@ -21,11 +21,11 @@ import java.util.concurrent.TimeUnit
  */
 class RxIntervalFragment : BaseFragment() {
 
-    private val adapter = RxIntervalAdapter()
+    private val adapter: RxIntervalAdapter = RxIntervalAdapter()
 
     private var disposable: Disposable? = null
 
-    override val layoutResource = R.layout.fragment_handler
+    override val layoutResource: Int = R.layout.fragment_handler
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

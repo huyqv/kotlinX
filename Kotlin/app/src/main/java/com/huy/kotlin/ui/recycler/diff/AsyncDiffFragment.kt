@@ -19,7 +19,7 @@ class AsyncDiffFragment : ArchFragment<AsyncDiffVM>() {
 
     private val adapter = AsyncDiffAdapter()
 
-    override val layoutResource = R.layout.fragment_adapter_async_diff
+    override val layoutResource: Int = R.layout.fragment_adapter_async_diff
 
     override val viewModelClass = AsyncDiffVM::class.java
 

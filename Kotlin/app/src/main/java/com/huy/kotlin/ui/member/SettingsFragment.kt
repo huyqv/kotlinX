@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.fragment_settings.*
  */
 class SettingsFragment : BaseFragment() {
 
-    override val layoutResource = R.layout.fragment_settings
+    override val layoutResource: Int = R.layout.fragment_settings
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

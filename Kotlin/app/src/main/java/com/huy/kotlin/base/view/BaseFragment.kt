@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import com.huy.kotlin.base.dialog.ProgressDialog
@@ -31,9 +30,9 @@ abstract class BaseFragment : Fragment(), BaseView {
      */
     final override val baseActivity: BaseActivity? get() = activity as? BaseActivity
 
-    final override val fragmentActivity: FragmentActivity? get() = requireActivity()
-
     final override val progressDialog: ProgressDialog? get() = baseActivity?.progressDialog
+
+    final override val fragmentContainerId: Int? get() = baseActivity?.fragmentContainerId
 
     final override val onViewClick: ViewClickListener by lazy {
         object : ViewClickListener() {
@@ -42,8 +41,6 @@ abstract class BaseFragment : Fragment(), BaseView {
             }
         }
     }
-
-    override val fragmentContainer: Int? get() = baseActivity?.fragmentContainer
 
     private val onBackPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
@@ -75,9 +72,6 @@ abstract class BaseFragment : Fragment(), BaseView {
         }
     }
 
-    override fun onViewClick(view: View?) {
-    }
-
     /**
      * [BaseFragment] utilities
      */
@@ -104,6 +98,5 @@ abstract class BaseFragment : Fragment(), BaseView {
     fun <T> LiveData<T?>.nonNull(block: (T) -> Unit) {
         observe(viewLifecycleOwner, Observer { if (null != it) block(it) })
     }
-
 
 }

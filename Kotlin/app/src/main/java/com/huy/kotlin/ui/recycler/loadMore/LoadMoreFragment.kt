@@ -17,7 +17,7 @@ class LoadMoreFragment : ArchFragment<LoadMoreVM>() {
 
     private val adapter = LoadMoreAdapter()
 
-    override val layoutResource = R.layout.fragment_adapter_load_more
+    override val layoutResource: Int = R.layout.fragment_adapter_load_more
 
     override val viewModelClass = LoadMoreVM::class.java
 

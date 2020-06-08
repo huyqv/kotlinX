@@ -5,7 +5,6 @@ import com.huy.library.BuildConfig
 import java.io.*
 import java.net.DatagramSocket
 import java.net.Socket
-import java.util.*
 
 object Shell {
 
@@ -35,7 +34,7 @@ object Shell {
         }
     }
 
-    //---- value isAuto is 1 or 0
+    // value isAuto is 1 or 0
     fun autoUpdateTime(isAuto: Int) {
         exec("settings put global auto_time $isAuto")
     }
@@ -79,17 +78,12 @@ object Shell {
     val folderApp: String
         get() {
             val string = execForResult("ls /data/app")
-            val list = string.split("\n").toTypedArray()
-            val i = 0
-            var folder = ""
-            val appID: String = BuildConfig.APPLICATION_ID
-            for (value in list) {
-                if (value.contains(appID)) {
-                    folder = value
-                    break
+            string.split("\n").toTypedArray().forEach {
+                if (it.contains(BuildConfig.LIBRARY_PACKAGE_NAME)) {
+                    return "/data/app/$it"
                 }
             }
-            return "/data/app/$folder"
+            return ""
         }
 
     @Throws(IOException::class)
@@ -109,15 +103,15 @@ object Shell {
         var result = execForResult("getprop service.adb.tcp.port")
         Log.i(TAG, "Starting ADB, current port = $result")
 
-        // TCP not enabled (frist time)
-        if (result == null || !result.contains(Integer.toString(port))) {
+        // TCP not enabled (first time)
+        if (!result.contains(port.toString())) {
             exec(*cmds)
             return
         }
 
         // ADB.D not running
         result = execForResult("getprop init.svc.adbd")
-        if (result == null || !result.contains("running")) {
+        if (!result.contains("running")) {
             exec(*cmds)
         }
     }
@@ -125,13 +119,10 @@ object Shell {
     @Throws(IOException::class)
     fun execScript(input: InputStream?) {
         val reader = BufferedReader(InputStreamReader(input))
-        val lines: List<String> = LinkedList()
         var line: String?
         while (reader.readLine().also { line = it } != null) {
-            //lines.add(line);
             exec(line!!)
         }
-        //exec(lines.toArray(new String[]{}));
     }
 
     fun execForResult(vararg strings: String): String {
@@ -166,14 +157,14 @@ object Shell {
     }
 
     @Throws(IOException::class)
-    private fun readFully(`is`: InputStream?): String {
-        val baos = ByteArrayOutputStream()
+    private fun readFully(inputStream: InputStream): String {
+        val outputStream = ByteArrayOutputStream()
         val buffer = ByteArray(1024)
-        var length = 0
-        while (`is`!!.read(buffer).also { length = it } != -1) {
-            baos.write(buffer, 0, length)
+        var length: Int
+        while (inputStream.read(buffer).also { length = it } != -1) {
+            outputStream.write(buffer, 0, length)
         }
-        return baos.toString("UTF-8")
+        return outputStream.toString("UTF-8")
     }
 
     fun closeSilently(vararg xs: Any?) {
@@ -196,4 +187,5 @@ object Shell {
             }
         }
     }
+
 }

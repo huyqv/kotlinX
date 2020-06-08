@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.fragment_text_mask.*
  */
 class TextMaskFragment : BaseFragment() {
 
-    override val layoutResource = R.layout.fragment_text_mask
+    override val layoutResource: Int = R.layout.fragment_text_mask
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

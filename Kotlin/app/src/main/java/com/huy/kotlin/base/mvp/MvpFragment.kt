@@ -15,33 +15,30 @@ import com.huy.kotlin.base.view.BaseView
  */
 abstract class MvpFragment<V : BaseView, P : BasePresenter<V>> : BaseFragment() {
 
-    protected var presenter: P? = null
-
-    protected abstract fun presenter(): P?
+    protected abstract val presenter: P
 
     protected abstract fun onCreated(state: Bundle?)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        presenter = presenter()
         @Suppress("UNCHECKED_CAST")
-        presenter?.attach(this as V)
+        presenter.attach(this as V)
         onCreated(savedInstanceState)
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        presenter?.detach()
+        presenter.detach()
     }
 
     override fun onStart() {
         super.onStart()
-        presenter?.onStart()
+        presenter.onStart()
     }
 
     override fun onStop() {
         super.onStop()
-        presenter?.onStop()
+        presenter.onStop()
     }
 
 }

@@ -18,7 +18,7 @@ class PagingFragment : ArchFragment<PagingVM>() {
 
     private val adapter = PagingAdapter()
 
-    override val layoutResource = R.layout.fragment_adapter_paged
+    override val layoutResource: Int = R.layout.fragment_adapter_paged
 
     override val viewModelClass = PagingVM::class.java
 

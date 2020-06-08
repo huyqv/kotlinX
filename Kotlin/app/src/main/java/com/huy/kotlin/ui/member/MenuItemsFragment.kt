@@ -13,6 +13,6 @@ import com.huy.kotlin.base.view.BaseFragment
  */
 class MenuItemsFragment : BaseFragment() {
 
-    override val layoutResource = R.layout.fragment_menu_item
+    override val layoutResource: Int = R.layout.fragment_menu_item
 
 }

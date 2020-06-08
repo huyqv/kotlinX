@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import com.huy.kotlin.R
@@ -29,8 +28,6 @@ abstract class BaseActivity : AppCompatActivity(), BaseView {
      */
     final override val baseActivity: BaseActivity? get() = this
 
-    final override val fragmentActivity: FragmentActivity? get() = this
-
     final override val onViewClick: ViewClickListener by lazy {
         object : ViewClickListener() {
             override fun onViewClick(v: View?) {
@@ -40,8 +37,6 @@ abstract class BaseActivity : AppCompatActivity(), BaseView {
     }
 
     final override var progressDialog: ProgressDialog? = null
-
-    override val fragmentContainer: Int? = null
 
     /**
      * [AppCompatActivity] override
@@ -74,9 +69,6 @@ abstract class BaseActivity : AppCompatActivity(), BaseView {
         if (resultCode == Activity.RESULT_OK && data != null) {
             onReceivedDataResult(requestCode, data)
         }
-    }
-
-    override fun onViewClick(view: View?) {
     }
 
     /**

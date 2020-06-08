@@ -266,30 +266,6 @@ fun pack(bytes: ByteArray, offset: Int, length: Int, littleEndian: Boolean): Int
     return value
 }
 
-/**
- * Get the size in bytes of a bitmap in a Bitmap. Note that from Android 4.4 (KitKat)
- * onward this returns the allocated memory size of the bitmap which can be larger than the
- * actual bitmap data byte count (in the case it was re-used).
- *
- * @param bitmap
- * @return size in bytes
- */
-fun uri(format: Bitmap.CompressFormat, quality: Int, bitmap: Bitmap?): Uri? {
-    if (bitmap == null || bitmap.isRecycled) {
-        return null
-    }
-    try {
-        val outputStream = ByteArrayOutputStream()
-        bitmap.compress(format, quality, outputStream)
-        val path = MediaStore.Images.Media.insertImage(app.contentResolver, bitmap, "", null)
-        outputStream.safeClose()
-        return Uri.parse(path)
-    } catch (e: Exception) {
-    }
-
-    return null
-}
-
 fun getBitmap(@DrawableRes res: Int): Bitmap? {
     return BitmapFactory.decodeResource(app.resources, res)
 }

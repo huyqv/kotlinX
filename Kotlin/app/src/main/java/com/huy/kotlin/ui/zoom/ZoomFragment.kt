@@ -24,7 +24,7 @@ class ZoomFragment : BaseFragment(), SimplePageChangeListener {
 
     private lateinit var adapter: ZoomImageAdapterView
 
-    override val layoutResource = R.layout.fragment_zoom
+    override val layoutResource: Int = R.layout.fragment_zoom
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

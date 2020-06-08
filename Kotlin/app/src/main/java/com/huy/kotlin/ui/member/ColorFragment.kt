@@ -22,7 +22,7 @@ class ColorFragment : BaseFragment() {
 
     var click: (() -> Unit)? = null
 
-    override val layoutResource = R.layout.fragment_color
+    override val layoutResource: Int = R.layout.fragment_color
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

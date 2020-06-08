@@ -35,9 +35,9 @@ abstract class BaseDialogFragment : BottomSheetDialogFragment(), BaseView {
      */
     final override val baseActivity: BaseActivity? get() = activity as? BaseActivity
 
-    final override val fragmentActivity: FragmentActivity? get() = requireActivity()
-
     final override val progressDialog: ProgressDialog? get() = baseActivity?.progressDialog
+
+    final override val fragmentContainerId: Int? get() = baseActivity?.fragmentContainerId
 
     final override val onViewClick: ViewClickListener by lazy {
         object : ViewClickListener() {
@@ -71,9 +71,6 @@ abstract class BaseDialogFragment : BottomSheetDialogFragment(), BaseView {
         if (resultCode == Activity.RESULT_OK && data != null) {
             onReceivedDataResult(requestCode, data)
         }
-    }
-
-    override fun onViewClick(view: View?) {
     }
 
     /**
