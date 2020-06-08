@@ -33,7 +33,7 @@ class MainActivity : ArchActivity<MainVM>() {
 
     override fun onCreated(state: Bundle?) {
         addClickListener(
-                itemHandlerThread, itemLoadMore, itemMultiView, itemAsyncDiff, itemSetting,
+                itemHandlerThread, itemLoadMore, itemAsyncDiff, itemSetting,
                 itemEditText, itemTextMask, itemMenu, itemAppBar, itemDialog, itemTab, itemPaging,
                 itemAnimation, itemTransaction
         )
@@ -46,7 +46,7 @@ class MainActivity : ArchActivity<MainVM>() {
         when (view) {
             itemHandlerThread -> add(RxIntervalFragment())
             itemLoadMore -> add(LoadMoreFragment())
-            itemMultiView -> add(PagingFragment())
+            itemPaging -> add(PagingFragment())
             itemAsyncDiff -> add(AsyncDiffFragment())
             itemSetting -> add(SettingsFragment())
             itemEditText -> add(EditTextsFragment())
@@ -55,7 +55,6 @@ class MainActivity : ArchActivity<MainVM>() {
             itemAppBar -> add(AppBarsFragment())
             itemDialog -> add(DialogsFragment())
             itemTab -> add(TabFragment())
-            itemPaging -> add(PagingFragment())
             itemAnimation -> add(AnimationFragment())
             itemTransaction -> start(FragmentManagerActivity::class.java)
         }

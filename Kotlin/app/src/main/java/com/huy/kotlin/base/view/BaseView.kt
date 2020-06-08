@@ -1,6 +1,7 @@
 package com.huy.kotlin.base.view
 
 import android.content.Intent
+import android.content.res.Resources
 import android.view.View
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
@@ -62,7 +63,10 @@ interface BaseView : LifecycleOwner {
     /**
      * Fragment utilities
      */
-    val fragmentContainerId: Int? get() = 0
+    val fragmentContainerId: Int?
+        get() {
+            throw Resources.NotFoundException("BaseView.FragmentContainer() must be implement with resource id return value")
+        }
 
     fun add(fragment: Fragment, stack: Boolean = true) {
         fragmentContainerId?.also {

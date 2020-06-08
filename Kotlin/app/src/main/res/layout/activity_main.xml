@@ -33,10 +33,9 @@
                 android:text="Load more" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/itemMultiView"
+                android:id="@+id/itemPaging"
                 style="@style/Button.Match"
-                android:text="Paging"
-                />
+                android:text="Paging" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/itemAsyncDiff"
@@ -77,11 +76,6 @@
                 android:id="@+id/itemTab"
                 style="@style/Button.Match"
                 android:text="Tab" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/itemPaging"
-                style="@style/Button.Match"
-                android:text="Paging" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/itemAnimation"
