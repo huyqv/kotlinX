@@ -16,13 +16,13 @@ object Usb {
 
     const val ERROR: String = "error"
 
-    const val DETACHED: String = "detached"
+    const val DETACHED: String = "is detached"
 
-    const val ATTACHED: String = "attached"
+    const val ATTACHED: String = "is attached"
 
-    const val GRANTED: String = "granted"
+    const val GRANTED: String = "permission granted"
 
-    const val DENIED: String = "denied"
+    const val DENIED: String = "permission denied"
 
     const val PERMISSION = ".USB_PERMISSION"
 
