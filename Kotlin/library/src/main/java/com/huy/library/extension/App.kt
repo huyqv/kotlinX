@@ -1,5 +1,6 @@
 package com.huy.library.extension
 
+import android.app.ActivityManager
 import android.app.Application
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -7,12 +8,15 @@ import android.content.res.Resources
 import android.database.Cursor
 import android.net.Uri
 import android.os.Build
+import android.os.Environment
 import android.provider.MediaStore
 import android.util.Base64
 import android.util.Log
 import android.widget.Toast
 import androidx.annotation.StringRes
+import androidx.appcompat.app.AppCompatActivity
 import com.huy.library.Library
+import java.io.File
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 
@@ -28,6 +32,15 @@ import java.security.NoSuchAlgorithmException
  */
 private val app: Application get() = Library.app
 
+private val memoryInfo = ActivityManager.MemoryInfo()
+
+val freeMemory: Long
+    get() {
+        val manager = app.getSystemService(AppCompatActivity.ACTIVITY_SERVICE) as ActivityManager
+        manager.getMemoryInfo(memoryInfo)
+        return (memoryInfo.availMem) / (1024 * 1024)
+    }
+
 val appVersion: String
     get() {
         return try {
@@ -38,6 +51,10 @@ val appVersion: String
     }
 
 val packageName: String get() = app.applicationContext.packageName
+
+fun downloadFile(name: String): File {
+    return File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absoluteFile, name)
+}
 
 val statusBarHeight: Int
     get() {

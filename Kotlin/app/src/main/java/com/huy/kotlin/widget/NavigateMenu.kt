@@ -1,4 +1,4 @@
-package com.huy.kotlin.lib.widget
+package com.huy.kotlin.widget
 
 import android.content.Context
 import android.util.AttributeSet

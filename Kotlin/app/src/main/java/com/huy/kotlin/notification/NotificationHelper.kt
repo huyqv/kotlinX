@@ -15,7 +15,6 @@ import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.messaging.RemoteMessage
 import com.huy.kotlin.R
 import com.huy.kotlin.app.App
-import com.huy.kotlin.data.Shared
 import com.huy.library.extension.string
 
 /**
@@ -37,33 +36,17 @@ class NotificationHelper {
     fun registerToken() {
         FirebaseInstanceId.getInstance().instanceId.addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                val token = task.result!!.token
-                Shared.instance.edit { putString("device_token", token) }
-                //registerToken(task.result!!.token)
+                println(task.result?.token)
             }
         }
     }
 
-    fun registerToken(deviceToken: String) {
-
-    }
-
-    fun unRegisterToken(block: (String) -> Unit) {
-
-        val token = Shared.instance.str(TOKEN_KEY)
-
-        if (!token.isNullOrEmpty()) {
-            unRegisterToken(token, block)
-            return
-        }
+    fun unRegisterToken() {
         FirebaseInstanceId.getInstance().instanceId.addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                unRegisterToken(task.result!!.token, block)
+                println(task.result?.token)
             }
         }
-    }
-
-    fun unRegisterToken(deviceToken: String, block: (String) -> Unit) {
     }
 
     /**

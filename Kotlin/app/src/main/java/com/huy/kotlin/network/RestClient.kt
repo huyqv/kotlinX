@@ -4,8 +4,16 @@ import com.huy.kotlin.BuildConfig
 import com.huy.kotlin.ui.model.Image
 import com.huy.kotlin.ui.model.Message
 import com.huy.kotlin.ui.model.User
+import com.huy.library.extension.downloadFile
 import com.huy.library.extension.parse
-import io.reactivex.Single
+import io.reactivex.*
+import io.reactivex.functions.Function
+import okhttp3.ResponseBody
+import okio.buffer
+import okio.sink
+import retrofit2.Response
+import java.io.File
+import java.io.IOException
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -17,7 +25,7 @@ import io.reactivex.Single
  */
 class RestClient private constructor() {
 
-    var service: RestService = RestHelper.retrofit(BuildConfig.SERVICE_URL)
+    var service: RestService = RestHelper.createService(BuildConfig.SERVICE_URL)
             .build()
             .create(RestService::class.java)
 
@@ -41,15 +49,12 @@ class RestClient private constructor() {
         }
 
         fun setToken(token: String? = null) {
-
-            val client = RestHelper.getClient()
-                    .addInterceptor(RestHelper.getLoggingInterceptor(BuildConfig.DEBUG))
-
-            if (token != null) {
-                client.addInterceptor(RestHelper.getHeaderInterceptor(token))
-            }
-            instance.service = RestHelper.retrofit(BuildConfig.SERVICE_URL)
-                    .client(client.build())
+            instance.service = RestHelper
+                    .createService(BuildConfig.SERVICE_URL) {
+                        if (token != null) {
+                            addInterceptor(RestHelper.getHeaderInterceptor(token))
+                        }
+                    }
                     .build()
                     .create(RestService::class.java)
         }
@@ -79,4 +84,32 @@ class RestClient private constructor() {
                     it.parse(Array<User>::class.java)
                 }
     }
+
+    fun download(fileName: String, url: String): Observable<File> {
+        val converter = object : Function<Response<ResponseBody>, ObservableSource<File>> {
+            override fun apply(response: Response<ResponseBody>): ObservableSource<File> {
+                return Observable.create(object : ObservableOnSubscribe<File> {
+                    override fun subscribe(emitter: ObservableEmitter<File>) {
+                        try {
+                            val source = response.body()?.source()
+                                    ?: throw NullPointerException("download data is empty")
+                            val file: File = downloadFile(fileName)
+                            file.sink().buffer().apply {
+                                writeAll(source)
+                                close()
+                            }
+                            emitter.onNext(file)
+                            emitter.onComplete()
+                        } catch (e: IOException) {
+                            e.printStackTrace()
+                            emitter.onError(e)
+                        }
+                    }
+                })
+            }
+        }
+        return service.download(url)
+                .flatMap(converter)
+    }
+
 }

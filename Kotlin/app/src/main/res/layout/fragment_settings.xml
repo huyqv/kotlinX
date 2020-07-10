@@ -23,7 +23,7 @@
                 style="@style/Setting.Title"
                 android:text="Account" />
 
-            <com.huy.kotlin.lib.widget.SettingView
+            <com.huy.kotlin.widget.SettingView
                 android:id="@+id/settingItem1"
                 style="@style/Setting.Item"
                 android:checkable="true"
@@ -31,17 +31,17 @@
                 android:hint="Synchronize"
                 android:text="Enabled" />
 
-            <com.huy.kotlin.lib.widget.SettingView
+            <com.huy.kotlin.widget.SettingView
                 style="@style/Setting.Item"
                 android:hint="Email"
                 android:text="****@gmail.com" />
 
-            <com.huy.kotlin.lib.widget.SettingView
+            <com.huy.kotlin.widget.SettingView
                 style="@style/Setting.Item"
                 android:hint="Password"
                 android:text="******" />
 
-            <com.huy.kotlin.lib.widget.SettingView
+            <com.huy.kotlin.widget.SettingView
                 android:id="@+id/settingItem4"
                 style="@style/Setting.Item"
                 android:hint="Payment"
@@ -53,13 +53,13 @@
                 style="@style/Setting.Title"
                 android:text="Appearance" />
 
-            <com.huy.kotlin.lib.widget.SettingView
+            <com.huy.kotlin.widget.SettingView
                 android:id="@+id/settingItem5"
                 style="@style/Setting.Item"
                 android:hint="Theme"
                 android:text="Light" />
 
-            <com.huy.kotlin.lib.widget.SettingView
+            <com.huy.kotlin.widget.SettingView
                 android:id="@+id/settingItem7"
                 style="@style/Setting.Item"
                 android:checkable="true"
@@ -67,14 +67,14 @@
                 android:hint="Notification"
                 android:text="Enabled" />
 
-            <com.huy.kotlin.lib.widget.SettingView
+            <com.huy.kotlin.widget.SettingView
                 style="@style/Setting.Item"
                 android:checkable="true"
                 android:checked="false"
                 android:hint="Location"
                 android:text="Disabled" />
 
-            <com.huy.kotlin.lib.widget.SettingView
+            <com.huy.kotlin.widget.SettingView
                 style="@style/Setting.Item"
                 android:hint="Language"
                 android:text="Default"
@@ -85,18 +85,18 @@
                 style="@style/Setting.Title"
                 android:text="Application" />
 
-            <com.huy.kotlin.lib.widget.SettingView
+            <com.huy.kotlin.widget.SettingView
                 android:id="@+id/settingItem9"
                 style="@style/Setting.Item"
                 android:hint="Develop"
                 android:text="@string/develop_name" />
 
-            <com.huy.kotlin.lib.widget.SettingView
+            <com.huy.kotlin.widget.SettingView
                 android:id="@+id/settingTextViewAppVersion"
                 style="@style/Setting.Item"
                 android:hint="Version" />
 
-            <com.huy.kotlin.lib.widget.SettingView
+            <com.huy.kotlin.widget.SettingView
                 android:id="@+id/settingItem11"
                 style="@style/Setting.Item"
                 android:hint="Check for update"
@@ -108,22 +108,22 @@
                 style="@style/Setting.Title"
                 android:text="System" />
 
-            <com.huy.kotlin.lib.widget.SettingView
+            <com.huy.kotlin.widget.SettingView
                 android:id="@+id/settingTextViewOsName"
                 style="@style/Setting.Item"
                 android:hint="OS" />
 
-            <com.huy.kotlin.lib.widget.SettingView
+            <com.huy.kotlin.widget.SettingView
                 android:id="@+id/settingTextViewSdkVersion"
                 style="@style/Setting.Item"
                 android:hint="SDK" />
 
-            <com.huy.kotlin.lib.widget.SettingView
+            <com.huy.kotlin.widget.SettingView
                 android:id="@+id/settingTextViewDeviceName"
                 style="@style/Setting.Item"
                 android:hint="Name" />
 
-            <com.huy.kotlin.lib.widget.SettingView
+            <com.huy.kotlin.widget.SettingView
                 android:id="@+id/settingTextViewDeviceId"
                 style="@style/Setting.Item"
                 android:hint="ID/IMEI/ESN"
