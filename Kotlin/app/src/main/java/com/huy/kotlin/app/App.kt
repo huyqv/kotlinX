@@ -16,6 +16,11 @@ class App : Application() {
 
     var isForeground: Boolean = false
 
+    companion object {
+
+        lateinit var instance: App private set
+    }
+
     override fun onCreate() {
         super.onCreate()
 
@@ -24,11 +29,6 @@ class App : Application() {
         Library.app = this
 
         NetworkLiveData.registerCallback()
-    }
-
-    companion object {
-
-        lateinit var instance: App private set
     }
 
 }

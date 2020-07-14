@@ -8,7 +8,6 @@ import android.content.res.Resources
 import android.database.Cursor
 import android.net.Uri
 import android.os.Build
-import android.os.Environment
 import android.provider.MediaStore
 import android.util.Base64
 import android.util.Log
@@ -16,7 +15,6 @@ import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import com.huy.library.Library
-import java.io.File
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 
@@ -51,10 +49,6 @@ val appVersion: String
     }
 
 val packageName: String get() = app.applicationContext.packageName
-
-fun downloadFile(name: String): File {
-    return File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absoluteFile, name)
-}
 
 val statusBarHeight: Int
     get() {

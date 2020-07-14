@@ -32,13 +32,13 @@ class FragmentManagerActivity : BaseActivity() {
         addClickListener(viewBack, viewNextVer, viewNextHor, viewNextPar)
     }
 
-    override fun onViewClick(view: View?) {
-        when (view) {
+    override fun onViewClick(v: View?) {
+        when (v) {
             viewBack -> onBackPressed()
             else -> {
                 val fragment = ColorFragment()
                 fragment.color = Colors.next()
-                val anim = when (view) {
+                val anim = when (v) {
                     viewNextVer -> VERTICAL_ANIMATIONS
                     viewNextHor -> HORIZONTAL_ANIMATIONS
                     viewNextPar -> PARALLAX_ANIMATIONS

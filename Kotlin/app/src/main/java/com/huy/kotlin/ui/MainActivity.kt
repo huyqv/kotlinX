@@ -42,8 +42,8 @@ class MainActivity : ArchActivity<MainVM>() {
     override fun onRegisterLiveData() {
     }
 
-    override fun onViewClick(view: View?) {
-        when (view) {
+    override fun onViewClick(v: View?) {
+        when (v) {
             itemHandlerThread -> add(RxIntervalFragment())
             itemLoadMore -> add(LoadMoreFragment())
             itemPaging -> add(PagingFragment())

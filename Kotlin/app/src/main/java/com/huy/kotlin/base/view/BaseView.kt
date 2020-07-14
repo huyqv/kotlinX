@@ -35,7 +35,7 @@ interface BaseView : LifecycleOwner {
      */
     val onViewClick: ViewClickListener
 
-    fun onViewClick(view: View?) {}
+    fun onViewClick(v: View?) {}
 
     fun addClickListener(vararg views: View?) {
 

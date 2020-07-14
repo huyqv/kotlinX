@@ -30,16 +30,16 @@ class DialogsFragment : BaseFragment() {
                 customConfirm, customMessage, message, confirm, allConfig)
     }
 
-    override fun onViewClick(view: View?) {
-        super.onViewClick(view)
-        when (view) {
-            circularProgress -> ProgressCircularDialog(activity!!).show()
+    override fun onViewClick(v: View?) {
+        super.onViewClick(v)
+        when (v) {
+            circularProgress -> ProgressCircularDialog(requireActivity()).show()
 
             appBarProgress -> appBarView.progressVisible = true
 
-            topProgress -> ProgressDialog(activity!!).show()
+            topProgress -> ProgressDialog(requireActivity()).show()
 
-            bottomProgress -> ProgressBottomDialog(activity!!).show()
+            bottomProgress -> ProgressBottomDialog(requireActivity()).show()
 
             message -> context?.showMessageDialog(null, "Message")
 
@@ -68,8 +68,6 @@ class DialogsFragment : BaseFragment() {
                     "Hello, you can hide this message by just touch outside the dialog box.",
                     { toast("YES") },
                     { toast("NO") })
-
-
         }
 
     }

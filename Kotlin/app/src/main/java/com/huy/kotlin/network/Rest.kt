@@ -1,15 +1,26 @@
 package com.huy.kotlin.network
 
+import android.os.Build
+import android.os.Environment
 import com.google.gson.JsonObject
+import com.huy.kotlin.app.App
 import com.huy.kotlin.base.mvp.BasePresenter
 import com.huy.kotlin.network.callback.ArchObserver
 import com.huy.kotlin.network.callback.ArchSingleObserver
 import com.huy.kotlin.network.callback.MvpObserver
 import com.huy.kotlin.network.callback.MvpSingleObserver
 import com.huy.library.extension.parse
-import io.reactivex.Observable
-import io.reactivex.Single
+import io.reactivex.*
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.functions.Function
+import io.reactivex.schedulers.Schedulers
+import okhttp3.ResponseBody
+import okio.buffer
+import okio.sink
 import retrofit2.HttpException
+import retrofit2.Response
+import java.io.File
+import java.io.IOException
 import java.net.SocketException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
@@ -46,4 +57,34 @@ fun <T> Single<T>.request(presenter: BasePresenter<*>) {
     subscribe(object : MvpSingleObserver<T>(presenter) {})
 }
 
+fun Observable<Response<ResponseBody>>.writeFile(fileName: String): Observable<File> {
+    return flatMap(object : Function<Response<ResponseBody>, ObservableSource<File>> {
+        override fun apply(response: Response<ResponseBody>): ObservableSource<File> {
+            return Observable.create(object : ObservableOnSubscribe<File> {
+                override fun subscribe(emitter: ObservableEmitter<File>) {
+                    val source = response.body()?.source()
+                            ?: throw NullPointerException("download data is empty")
+                    try {
+                        val file = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                            File(App.instance.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)?.absolutePath, fileName)
+                        } else {
+                            @Suppress("DEPRECATION")
+                            File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), fileName)
+                        }
+                        file.sink().buffer().apply {
+                            writeAll(source)
+                            close()
+                        }
+                        emitter.onNext(file)
+                    } catch (e: IOException) {
+                        emitter.onError(e)
+                    }
+                    emitter.onComplete()
+                }
+            })
+        }
+    })
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+}
 

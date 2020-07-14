@@ -8,13 +8,13 @@ apply plugin: 'kotlin-kapt'
 
 android {
 
-    compileSdkVersion rootProject.ext.compileSdkVersion
+    compileSdkVersion builds.compile_sdk
 
     defaultConfig {
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode rootProject.ext.versionCode
-        versionName rootProject.ext.versionName
+        minSdkVersion builds.min_sdk
+        targetSdkVersion builds.target_sdk
+        versionCode builds.version_code
+        versionName builds.version_name
     }
 
     buildTypes {
@@ -33,17 +33,15 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation "androidx.appcompat:appcompat:$app_compat_version"
-    implementation "androidx.fragment:fragment:$fragment_version"
-    implementation "androidx.recyclerview:recyclerview:$recyclerview_version"
-    implementation "androidx.cardview:cardview:$cardview_version"
+    implementation deps.kotlin.stdlib
+    implementation deps.android.appcompat
+    implementation deps.android.fragment
+    implementation deps.android.recyclerview
+    implementation deps.android.cardview
 
-    // PAGING
-    implementation "android.arch.paging:runtime:$paging_version"
-    implementation "android.arch.paging:rxjava2:$paging_version"
+    implementation deps.paging.runtime
+    implementation deps.paging.rx
 
-    // JSON CONVERTER
-    implementation "com.google.code.gson:gson:$gson_version"
+    implementation deps.gson
 
 }

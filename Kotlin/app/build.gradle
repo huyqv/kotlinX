@@ -8,19 +8,19 @@ apply plugin: 'kotlin-kapt'
 
 apply plugin: "androidx.navigation.safeargs.kotlin"
 
-apply from: "dependencies.gradle"
-
 android {
 
-    compileSdkVersion rootProject.ext.compileSdkVersion
+    compileSdkVersion builds.compile_sdk
 
     defaultConfig {
 
         applicationId "com.huy.kotlin"
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode rootProject.ext.versionCode
-        versionName rootProject.ext.versionName
+
+        minSdkVersion builds.min_sdk
+        targetSdkVersion builds.target_sdk
+        versionCode builds.version_code
+        versionName builds.version_name
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         flavorDimensions "default"
@@ -31,6 +31,7 @@ android {
                 arg("room.expandProjection", "true")
             }
         }
+
     }
 
     // Compile
@@ -89,5 +90,68 @@ android {
     }
 
 }
+
+dependencies {
+
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+
+    implementation project(":library")
+
+    implementation deps.kotlin.stdlib
+    implementation deps.android.appcompat
+    implementation deps.android.fragment
+    implementation deps.android.recyclerview
+    implementation deps.android.cardview
+    implementation deps.android.constraintlayout
+    implementation deps.android.swiperefreshlayout
+    implementation deps.android.corektx
+    implementation deps.android.vectordrawable
+    implementation deps.android.browser
+    implementation deps.android.annotation
+    implementation deps.android.material
+
+    implementation deps.navigation.fragment
+    implementation deps.navigation.ui
+
+    implementation deps.room.runtime
+    annotationProcessor deps.room.compiler
+    kapt deps.room.compiler
+
+    implementation deps.lifecycle.extensions
+    implementation deps.lifecycle.streams
+
+    implementation deps.paging.runtime
+    implementation deps.paging.rx
+
+    implementation deps.reactivex.java
+    implementation deps.reactivex.android
+    implementation deps.reactivex.kotlin
+    implementation deps.reactivex.binding
+    implementation deps.http_log
+
+    implementation deps.retrofit.retrofit
+    implementation deps.retrofit.gson
+    implementation deps.retrofit.rxjava
+
+    implementation deps.google.firebase_core
+    implementation deps.google.firebase_messaging
+
+    implementation deps.dimens.sdp
+    implementation deps.dimens.ssp
+
+    implementation deps.glide.glide
+    kapt deps.glide.compiler
+
+    implementation deps.gson
+    implementation deps.permissions
+    implementation deps.squint
+    implementation deps.roundedimageview
+
+    testImplementation deps.test.junit
+    androidTestImplementation deps.test.extension
+    androidTestImplementation deps.test.espresso
+
+}
+
 
 

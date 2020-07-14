@@ -4,16 +4,8 @@ import com.huy.kotlin.BuildConfig
 import com.huy.kotlin.ui.model.Image
 import com.huy.kotlin.ui.model.Message
 import com.huy.kotlin.ui.model.User
-import com.huy.library.extension.downloadFile
 import com.huy.library.extension.parse
-import io.reactivex.*
-import io.reactivex.functions.Function
-import okhttp3.ResponseBody
-import okio.buffer
-import okio.sink
-import retrofit2.Response
-import java.io.File
-import java.io.IOException
+import io.reactivex.Single
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -83,33 +75,6 @@ class RestClient private constructor() {
                 .map {
                     it.parse(Array<User>::class.java)
                 }
-    }
-
-    fun download(fileName: String, url: String): Observable<File> {
-        val converter = object : Function<Response<ResponseBody>, ObservableSource<File>> {
-            override fun apply(response: Response<ResponseBody>): ObservableSource<File> {
-                return Observable.create(object : ObservableOnSubscribe<File> {
-                    override fun subscribe(emitter: ObservableEmitter<File>) {
-                        try {
-                            val source = response.body()?.source()
-                                    ?: throw NullPointerException("download data is empty")
-                            val file: File = downloadFile(fileName)
-                            file.sink().buffer().apply {
-                                writeAll(source)
-                                close()
-                            }
-                            emitter.onNext(file)
-                            emitter.onComplete()
-                        } catch (e: IOException) {
-                            e.printStackTrace()
-                            emitter.onError(e)
-                        }
-                    }
-                })
-            }
-        }
-        return service.download(url)
-                .flatMap(converter)
     }
 
 }

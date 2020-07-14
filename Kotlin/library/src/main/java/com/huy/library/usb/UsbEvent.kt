@@ -10,7 +10,7 @@ class UsbEvent(val status: String, val usb: UsbDevice?) {
 
     override fun toString(): String {
         usb ?: return "device not found"
-        return "${usb?.productName} $status"
+        return "${usb.productName} $status"
     }
 
 }

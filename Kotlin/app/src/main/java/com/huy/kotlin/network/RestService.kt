@@ -29,40 +29,20 @@ interface RestService {
     }
 
     @GET(PATH_FMT)
-    fun objectGET(@Path(PATH) path: String
-    ): Single<JsonObject>
+    fun objectGET(@Path(PATH) path: String): Single<JsonObject>
 
     @GET(PATH_FMT)
-    fun arrayGET(@Path(PATH) path: String
-    ): Single<JsonArray>
+    fun arrayGET(@Path(PATH) path: String): Single<JsonArray>
 
     @POST(PATH_FMT)
-    fun objectPOST(@Path(PATH) path: String,
-                   @Body body: JsonObject
-    ): Single<JsonObject>
-
-    @POST(PATH_FMT)
-    fun arrayPOST(@Path(PATH) path: String,
-                  @Body body: JsonObject
-    ): Single<JsonArray>
+    fun post(@Path(PATH) path: String, @Body body: JsonObject): Single<JsonObject>
 
     @Multipart
     @POST(PATH_FMT)
-    fun upload(@Path(PATH) path: String,
-               @Part files: Array<MultipartBody.Part>,
-               @Part("description") des: RequestBody?
-    ): Call<ResponseBody>
+    fun post(@Path(PATH) path: String, @Part files: Array<MultipartBody.Part>, @Part("description") des: RequestBody?): Call<ResponseBody>
 
     @Streaming
     @GET
-    fun download(
-            @Url url: String
-    ): Observable<Response<ResponseBody>>
-
-    @FormUrlEncoded
-    @POST(PATH_FMT)
-    fun post(@Path(PATH) path: String,
-             @FieldMap map: Map<String, Any>
-    ): Call<JsonObject>
+    fun download(@Url url: String): Observable<Response<ResponseBody>>
 
 }

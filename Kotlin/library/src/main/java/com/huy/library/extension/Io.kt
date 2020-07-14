@@ -2,7 +2,9 @@ package com.huy.library.extension
 
 import android.app.Application
 import android.content.ContentValues
+import android.content.Intent
 import android.net.Uri
+import android.os.Environment
 import android.provider.MediaStore
 import com.huy.library.Library
 import java.io.*
@@ -85,6 +87,19 @@ fun File.getUri(): Uri? {
 
     return null
 
+}
+
+fun downloadFile(name: String): File {
+    return File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absoluteFile, name)
+}
+
+fun open(file: File) {
+    try {
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive")
+        Library.app.startActivity(Intent.createChooser(intent, ""))
+    } catch (e: Exception) {
+    }
 }
 
 fun copyFile(fileName: String) {
