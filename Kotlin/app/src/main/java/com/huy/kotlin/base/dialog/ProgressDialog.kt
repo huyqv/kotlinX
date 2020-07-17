@@ -18,17 +18,22 @@ import com.huy.library.extension.color
  */
 class ProgressDialog(activity: FragmentActivity?) : BaseDialog(activity) {
 
-    override fun layoutRes() = R.layout.dialog_progress_top
+    /**
+     * [BaseDialog] implement
+     */
+    override fun layoutRes(): Int {
+        return R.layout.dialog_progress_top
+    }
 
-    override fun theme() = R.style.Dialog_FullScreen
+    override fun theme(): Int {
+        return R.style.Dialog_FullScreen
+    }
 
     override fun View.onViewCreated() {
-
         val window = self?.window ?: return
         val wlp = window.attributes
         wlp.gravity = Gravity.TOP
         window.attributes = wlp
-
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.statusBarColor = color(R.color.colorPrimary)

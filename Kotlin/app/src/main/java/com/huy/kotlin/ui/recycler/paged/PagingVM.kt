@@ -6,8 +6,8 @@ import androidx.paging.LivePagedListBuilder
 import androidx.paging.PageKeyedDataSource
 import androidx.paging.PagedList
 import com.huy.kotlin.base.arch.BaseViewModel
-import com.huy.kotlin.network.RestClient
-import com.huy.kotlin.network.callback.ArchSingleObserver
+import com.huy.kotlin.data.api.ApiClient
+import com.huy.kotlin.data.observable.ArchSingleObserver
 import com.huy.kotlin.ui.model.Message
 import com.huy.kotlin.util.PAGED_DEFAULT_CONFIG
 
@@ -37,7 +37,7 @@ class PagingVM : BaseViewModel() {
     class MessageDataSource : PageKeyedDataSource<Int, Message>() {
 
         override fun loadInitial(params: LoadInitialParams<Int>, callback: LoadInitialCallback<Int, Message>) {
-            RestClient.instance.messages(1)
+            ApiClient.instance.messages(1)
                     .subscribe(object : ArchSingleObserver<List<Message>>() {
                         override fun onResponse(data: List<Message>) {
                             callback.onResult(data, null, 2)
@@ -49,7 +49,7 @@ class PagingVM : BaseViewModel() {
         }
 
         override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, Message>) {
-            RestClient.instance.messages(params.key)
+            ApiClient.instance.messages(params.key)
                     .subscribe(object : ArchSingleObserver<List<Message>>() {
                         override fun onResponse(data: List<Message>) {
                             callback.onResult(data, params.key + 1)

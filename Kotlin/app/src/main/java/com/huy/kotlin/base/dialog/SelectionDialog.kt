@@ -19,12 +19,19 @@ abstract class SelectionDialog(activity: FragmentActivity?) : BaseDialog(activit
 
     abstract val isSearchable: Boolean
 
-    override fun View.onViewCreated() {
+    /**
+     * [BaseDialog] implement
+     */
+    override fun layoutRes(): Int {
+        return R.layout.dialog_selection
     }
 
-    override fun layoutRes() = R.layout.dialog_selection
+    override fun theme(): Int {
+        return R.style.Dialog_FullScreen
+    }
 
-    override fun theme() = R.style.Dialog_FullScreen
+    override fun View.onViewCreated() {
+    }
 
     fun adapter(adapter: RecyclerView.Adapter<RecyclerView.ViewHolder>) {
         view?.dialogRecyclerView?.adapter = adapter

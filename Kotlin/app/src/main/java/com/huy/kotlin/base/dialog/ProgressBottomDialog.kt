@@ -16,9 +16,16 @@ import com.huy.kotlin.R
  */
 class ProgressBottomDialog(activity: FragmentActivity?) : BaseDialog(activity) {
 
-    override fun layoutRes() = R.layout.dialog_progress_bottom
+    /**
+     * [BaseDialog] implement
+     */
+    override fun layoutRes(): Int {
+        return R.layout.dialog_progress_bottom
+    }
 
-    override fun theme() = R.style.Dialog_FullScreen
+    override fun theme(): Int {
+        return R.style.Dialog_FullScreen
+    }
 
     override fun View.onViewCreated() {
         val window = self?.window ?: return

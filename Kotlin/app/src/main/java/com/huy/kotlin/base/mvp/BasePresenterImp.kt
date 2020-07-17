@@ -9,7 +9,7 @@ import com.huy.kotlin.base.event.EventListener
 import com.huy.kotlin.base.view.BaseView
 import com.huy.kotlin.data.RoomDB
 import com.huy.kotlin.data.Shared
-import com.huy.kotlin.network.RestClient
+import com.huy.kotlin.data.api.ApiClient
 import io.reactivex.disposables.CompositeDisposable
 import java.lang.ref.WeakReference
 
@@ -29,7 +29,7 @@ open class BasePresenterImp<V : BaseView> : BasePresenter<V>, EventListener {
 
     protected val shared: Shared get() = Shared.instance
 
-    protected val service: RestClient get() = RestClient.instance
+    protected val service: ApiClient get() = ApiClient.instance
 
     private val composite: CompositeDisposable by lazy {
         CompositeDisposable()

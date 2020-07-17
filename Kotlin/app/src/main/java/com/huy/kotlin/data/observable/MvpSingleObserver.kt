@@ -1,8 +1,8 @@
-package com.huy.kotlin.network.callback
+package com.huy.kotlin.data.observable
 
 import com.huy.kotlin.base.mvp.BasePresenter
 import com.huy.library.extension.toast
-import io.reactivex.observers.DisposableObserver
+import io.reactivex.observers.DisposableSingleObserver
 import retrofit2.HttpException
 import java.net.SocketException
 import java.net.SocketTimeoutException
@@ -11,33 +11,30 @@ import java.net.UnknownHostException
 /**
  * -------------------------------------------------------------------------------------------------
  * @Project: Kotlin
- * @Created: Huy QV 2018/07/20
+ * @Created: Huy QV 2019/01/10
  * @Description: ...
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-abstract class MvpObserver<T>(private val presenter: BasePresenter<*>)
-    : DisposableObserver<T>() {
+abstract class MvpSingleObserver<T>(private val presenter: BasePresenter<*>)
+    : DisposableSingleObserver<T>() {
 
 
     /**
-     * [DisposableObserver] implement
+     * [DisposableSingleObserver] override
      */
     final override fun onStart() {
         presenter.view?.showProgress()
     }
 
-    final override fun onComplete() {
-        if (!isDisposed) this.dispose()
-        presenter.view?.hideProgress()
-    }
-
-    final override fun onNext(t: T) {
+    final override fun onSuccess(t: T) {
+        hideProgress()
         onCompleted(t, null)
         onResponse(t)
     }
 
     final override fun onError(e: Throwable) {
+        hideProgress()
         onCompleted(null, e)
         when (e) {
             is HttpException -> onFailed(e.code(), e.message())
@@ -48,7 +45,7 @@ abstract class MvpObserver<T>(private val presenter: BasePresenter<*>)
 
 
     /**
-     * Open callback wrapper methods
+     * Open callback wrapper
      */
     protected open fun onCompleted(data: T?, e: Throwable?) {
     }
@@ -61,6 +58,14 @@ abstract class MvpObserver<T>(private val presenter: BasePresenter<*>)
 
     protected open fun onNetworkError() {
         onFailed(0, "network error")
+    }
+
+    /**
+     * Utils
+     */
+    private fun hideProgress() {
+        if (!isDisposed) this.dispose()
+        presenter.view?.hideProgress()
     }
 
 }

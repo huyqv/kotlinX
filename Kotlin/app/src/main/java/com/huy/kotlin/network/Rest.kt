@@ -5,10 +5,10 @@ import android.os.Environment
 import com.google.gson.JsonObject
 import com.huy.kotlin.app.App
 import com.huy.kotlin.base.mvp.BasePresenter
-import com.huy.kotlin.network.callback.ArchObserver
-import com.huy.kotlin.network.callback.ArchSingleObserver
-import com.huy.kotlin.network.callback.MvpObserver
-import com.huy.kotlin.network.callback.MvpSingleObserver
+import com.huy.kotlin.data.observable.ArchObserver
+import com.huy.kotlin.data.observable.ArchSingleObserver
+import com.huy.kotlin.data.observable.MvpObserver
+import com.huy.kotlin.data.observable.MvpSingleObserver
 import com.huy.library.extension.parse
 import io.reactivex.*
 import io.reactivex.android.schedulers.AndroidSchedulers

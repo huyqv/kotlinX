@@ -16,7 +16,12 @@ import kotlinx.android.synthetic.main.dialog_title.view.*
  */
 class NetworkDialog(activity: FragmentActivity?) : BaseDialog(activity) {
 
-    override fun layoutRes() = R.layout.dialog_network
+    /**
+     * [BaseDialog] implement
+     */
+    override fun layoutRes(): Int {
+        return R.layout.dialog_network
+    }
 
     override fun View.onViewCreated() {
         dialogTextViewTitle.setText(R.string.network_error)

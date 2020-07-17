@@ -19,7 +19,12 @@ import kotlinx.android.synthetic.main.dialog_title.view.*
  */
 class ConfirmDialog(activity: FragmentActivity?) : BaseDialog(activity) {
 
-    override fun layoutRes() = R.layout.dialog_confirm
+    /**
+     * [BaseDialog] implement
+     */
+    override fun layoutRes(): Int {
+        return R.layout.dialog_confirm
+    }
 
     override fun View.onViewCreated() {
         viewClose.setOnClickListener { dismiss() }
@@ -33,6 +38,9 @@ class ConfirmDialog(activity: FragmentActivity?) : BaseDialog(activity) {
         toast("onDismiss")
     }
 
+    /**
+     * [ConfirmDialog]
+     */
     fun drawable(@DrawableRes drawableRes: Int?) {
         drawableRes ?: return
         view?.imageViewIcon?.setImageResource(drawableRes)

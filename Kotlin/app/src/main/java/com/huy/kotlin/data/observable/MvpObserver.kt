@@ -1,6 +1,6 @@
-package com.huy.kotlin.network.callback
+package com.huy.kotlin.data.observable
 
-import com.huy.kotlin.data.observable.ProgressLiveData
+import com.huy.kotlin.base.mvp.BasePresenter
 import com.huy.library.extension.toast
 import io.reactivex.observers.DisposableObserver
 import retrofit2.HttpException
@@ -16,19 +16,20 @@ import java.net.UnknownHostException
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-abstract class ArchObserver<T> : DisposableObserver<T>() {
+abstract class MvpObserver<T>(private val presenter: BasePresenter<*>)
+    : DisposableObserver<T>() {
 
 
     /**
      * [DisposableObserver] implement
      */
     final override fun onStart() {
-        ProgressLiveData.show()
+        presenter.view?.showProgress()
     }
 
     final override fun onComplete() {
         if (!isDisposed) this.dispose()
-        ProgressLiveData.hide()
+        presenter.view?.hideProgress()
     }
 
     final override fun onNext(t: T) {

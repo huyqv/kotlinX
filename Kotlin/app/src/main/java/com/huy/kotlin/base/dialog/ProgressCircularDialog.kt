@@ -15,9 +15,16 @@ import com.huy.kotlin.R
  */
 class ProgressCircularDialog(activity: FragmentActivity?) : BaseDialog(activity) {
 
-    override fun layoutRes() = R.layout.dialog_progress_circular
+    /**
+     * [BaseDialog] implement
+     */
+    override fun layoutRes(): Int {
+        return R.layout.dialog_progress_circular
+    }
 
-    override fun theme() = R.style.Dialog_Progress
+    override fun theme(): Int {
+        return R.style.Dialog_Progress
+    }
 
     override fun View.onViewCreated() {
         val window = self?.window ?: return

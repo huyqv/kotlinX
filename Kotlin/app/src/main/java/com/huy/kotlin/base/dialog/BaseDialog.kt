@@ -25,6 +25,14 @@ abstract class BaseDialog {
 
     val context: Context? get() = view?.context
 
+    val isShown: Boolean
+        get() {
+            self ?: return false
+            return self!!.isShowing
+        }
+
+    val isGone: Boolean get() = !isShown
+
     constructor(activity: FragmentActivity?) {
         activity ?: return
         view = LayoutInflater.from(activity).inflate(layoutRes(), null)
@@ -33,8 +41,7 @@ abstract class BaseDialog {
         self = builder.create()
         onDismiss {}
         onShow {}
-        view!!.onViewCreated()
-
+        view?.onViewCreated()
     }
 
     @StyleRes
@@ -65,7 +72,7 @@ abstract class BaseDialog {
     protected open fun onDismiss() {
     }
 
-    fun dropListener() {
+    fun removeListeners() {
         self?.setOnShowListener(null)
         self?.setOnDismissListener(null)
     }
@@ -75,22 +82,12 @@ abstract class BaseDialog {
     }
 
     fun show() {
-        if (isShowing()) return
+        if (isShown) return
         self?.show()
     }
 
     fun dismiss() {
-        if (isShowing()) self?.dismiss()
-    }
-
-    fun isShowing(): Boolean {
-        self ?: return false
-        return self!!.isShowing
-    }
-
-    fun isGone(): Boolean {
-        self ?: return true
-        return !self!!.isShowing
+        if (isShown) self?.dismiss()
     }
 
 }

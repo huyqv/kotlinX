@@ -15,11 +15,19 @@ import kotlinx.android.synthetic.main.dialog_input.view.*
  */
 class InputDialog(activity: FragmentActivity?) : BaseDialog(activity) {
 
-    override fun layoutRes() = R.layout.dialog_input
+    /**
+     * [BaseDialog] implement
+     */
+    override fun layoutRes(): Int {
+        return R.layout.dialog_input
+    }
 
     override fun View.onViewCreated() {
     }
 
+    /**
+     * [InputDialog]
+     */
     val input: String? get() = view?.editTextInput?.text.toString().replace("  ", " ").trim()
 
     fun label(stringRes: Int) {

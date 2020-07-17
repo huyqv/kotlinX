@@ -63,13 +63,13 @@ abstract class BasePagedListAdapter<T> : PagedListAdapter<T, RecyclerView.ViewHo
         }
 
         if (type == footerLayoutResource) {
-            if (position.isNotIndexed()) onFooterIndexChange(viewHolder.itemView, position)
+            if (position.isNotIndexed) onFooterIndexChange(viewHolder.itemView, position)
             return
         }
 
         val model = get(position) ?: return
 
-        if (position.isNotIndexed()) viewHolder.itemView.onFirstBindModel(model, position, type)
+        if (position.isNotIndexed) viewHolder.itemView.onFirstBindModel(model, position, type)
         else viewHolder.itemView.onBindModel(model, position, type)
 
         position.updateLastIndex()
@@ -155,15 +155,15 @@ abstract class BasePagedListAdapter<T> : PagedListAdapter<T, RecyclerView.ViewHo
      */
     private var lastIndexPosition: Int = -1
 
-    fun Int.updateLastIndex() {
+    private fun Int.updateLastIndex() {
         if (this > lastIndexPosition) lastIndexPosition = this
     }
 
-    fun Int.isNotIndexed(): Boolean = this > lastIndexPosition
+    private val Int.isNotIndexed: Boolean get() = this > lastIndexPosition
 
-    fun Int.indexInBound(): Boolean = this > -1 && this < size
+    private val Int.indexInBound: Boolean get() = this > -1 && this < size
 
-    fun Int.indexOutBound(): Boolean = this < 0 || this >= size
+    private val Int.indexOutBound: Boolean get() = this < 0 || this >= size
 
 
     /**
@@ -183,7 +183,7 @@ abstract class BasePagedListAdapter<T> : PagedListAdapter<T, RecyclerView.ViewHo
      */
     open fun get(position: Int): T? {
         if (currentList.isNullOrEmpty()) return null
-        if (position.indexInBound()) return differ.getItem(position)
+        if (position.indexInBound) return differ.getItem(position)
         return null
     }
 

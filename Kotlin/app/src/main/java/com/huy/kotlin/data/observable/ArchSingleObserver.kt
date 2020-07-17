@@ -1,6 +1,5 @@
-package com.huy.kotlin.network.callback
+package com.huy.kotlin.data.observable
 
-import com.huy.kotlin.data.observable.ProgressLiveData
 import com.huy.library.extension.toast
 import io.reactivex.observers.DisposableSingleObserver
 import retrofit2.HttpException

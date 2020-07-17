@@ -1,9 +1,9 @@
 package com.huy.kotlin.ui.recycler.loadMore
 
 import com.huy.kotlin.base.arch.BaseViewModel
+import com.huy.kotlin.data.api.ApiClient
+import com.huy.kotlin.data.observable.ArchSingleObserver
 import com.huy.kotlin.data.observable.SingleLiveData
-import com.huy.kotlin.network.RestClient
-import com.huy.kotlin.network.callback.ArchSingleObserver
 import com.huy.kotlin.ui.model.User
 import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
 import io.reactivex.schedulers.Schedulers.io
@@ -16,7 +16,7 @@ class LoadMoreVM : BaseViewModel() {
     }
 
     fun fetchUsers(page: Int) {
-        RestClient.instance.users(page)
+        ApiClient.instance.users(page)
                 .subscribeOn(io())
                 .observeOn(mainThread())
                 .subscribe(object : ArchSingleObserver<List<User>>() {

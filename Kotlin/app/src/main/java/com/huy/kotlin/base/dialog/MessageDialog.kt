@@ -18,12 +18,20 @@ import kotlinx.android.synthetic.main.dialog_title.view.*
  */
 class MessageDialog(activity: FragmentActivity?) : BaseDialog(activity) {
 
-    override fun layoutRes() = R.layout.dialog_message
+    /**
+     * [BaseDialog] implement
+     */
+    override fun layoutRes(): Int {
+        return R.layout.dialog_message
+    }
 
     override fun View.onViewCreated() {
         view?.viewClose?.setOnClickListener { dismiss() }
     }
 
+    /**
+     * [MessageDialog]
+     */
     fun drawable(@DrawableRes drawable: Int?) {
         drawable ?: return
         view?.imageViewIcon?.setImageResource(drawable)

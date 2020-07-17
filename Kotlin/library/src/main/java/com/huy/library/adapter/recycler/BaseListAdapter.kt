@@ -64,13 +64,13 @@ abstract class BaseListAdapter<T> : ListAdapter<T, RecyclerView.ViewHolder> {
         }
 
         if (type == footerLayoutResource) {
-            if (position.isNotIndexed()) onFooterIndexChange(viewHolder.itemView, position)
+            if (position.isNotIndexed) onFooterIndexChange(viewHolder.itemView, position)
             return
         }
 
         val model = get(position) ?: return
 
-        if (position.isNotIndexed()) viewHolder.itemView.onFirstBindModel(model, position, type)
+        if (position.isNotIndexed) viewHolder.itemView.onFirstBindModel(model, position, type)
         else viewHolder.itemView.onBindModel(model, position, type)
 
         position.updateLastIndex()
@@ -159,15 +159,15 @@ abstract class BaseListAdapter<T> : ListAdapter<T, RecyclerView.ViewHolder> {
      */
     private var lastIndexPosition: Int = -1
 
-    fun Int.updateLastIndex() {
+    private fun Int.updateLastIndex() {
         if (this > lastIndexPosition) lastIndexPosition = this
     }
 
-    fun Int.isNotIndexed(): Boolean = this > lastIndexPosition
+    private val Int.isNotIndexed: Boolean get() = this > lastIndexPosition
 
-    fun Int.indexInBound(): Boolean = this > -1 && this < size
+    private val Int.indexInBound: Boolean get() = this > -1 && this < size
 
-    fun Int.indexOutBound(): Boolean = this < 0 || this >= size
+    private val Int.indexOutBound: Boolean get() = this < 0 || this >= size
 
 
     /**
@@ -190,7 +190,7 @@ abstract class BaseListAdapter<T> : ListAdapter<T, RecyclerView.ViewHolder> {
     }
 
     open fun get(position: Int): T? {
-        if (position.indexInBound()) return currentList[position]
+        if (position.indexInBound) return currentList[position]
         return null
     }
 
@@ -260,7 +260,7 @@ abstract class BaseListAdapter<T> : ListAdapter<T, RecyclerView.ViewHolder> {
 
     open fun edit(index: Int, model: T?) {
         model ?: return
-        if (index.indexInBound()) {
+        if (index.indexInBound) {
             currentList[index] = model
             submit()
         }
@@ -274,7 +274,7 @@ abstract class BaseListAdapter<T> : ListAdapter<T, RecyclerView.ViewHolder> {
     open fun remove(model: T?) {
         model ?: return
         val index = currentList.indexOf(model)
-        if (index.indexInBound()) {
+        if (index.indexInBound) {
             currentList.remove(model)
         }
     }

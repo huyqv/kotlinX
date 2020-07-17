@@ -1,4 +1,4 @@
-package com.huy.kotlin.network
+package com.huy.kotlin.data.api
 
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
@@ -19,7 +19,7 @@ import retrofit2.http.*
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-interface RestService {
+interface ApiService {
 
     companion object {
 

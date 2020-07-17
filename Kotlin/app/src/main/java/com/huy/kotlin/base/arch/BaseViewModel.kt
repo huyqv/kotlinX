@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.huy.kotlin.app.App
 import com.huy.kotlin.data.RoomDB
 import com.huy.kotlin.data.Shared
-import com.huy.kotlin.network.RestClient
+import com.huy.kotlin.data.api.ApiClient
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -24,7 +24,7 @@ open class BaseViewModel : ViewModel() {
 
     val shared: Shared get() = Shared.instance
 
-    val service: RestClient get() = RestClient.instance
+    val service: ApiClient get() = ApiClient.instance
 
     /**
      * View model on initialized

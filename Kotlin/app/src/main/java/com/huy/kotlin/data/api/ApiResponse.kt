@@ -1,4 +1,4 @@
-package com.huy.kotlin.network
+package com.huy.kotlin.data.api
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
@@ -15,7 +15,7 @@ import java.net.UnknownHostException
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-class RestResponse<T> {
+class ApiResponse<T> {
 
     @SerializedName("code")
     var code: Int = 500

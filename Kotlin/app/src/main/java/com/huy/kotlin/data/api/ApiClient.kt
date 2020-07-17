@@ -1,11 +1,14 @@
-package com.huy.kotlin.network
+package com.huy.kotlin.data.api
 
 import com.huy.kotlin.BuildConfig
+import com.huy.kotlin.network.RestHelper
+import com.huy.kotlin.network.RestSecurity
 import com.huy.kotlin.ui.model.Image
 import com.huy.kotlin.ui.model.Message
 import com.huy.kotlin.ui.model.User
 import com.huy.library.extension.parse
 import io.reactivex.Single
+import okhttp3.CertificatePinner
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -15,11 +18,30 @@ import io.reactivex.Single
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-class RestClient private constructor() {
+class ApiClient private constructor() {
 
-    var service: RestService = RestHelper.createService(BuildConfig.SERVICE_URL)
+    private val publicKey: String = "m9Z7mswlRljf8acQ07EesjKOVJDGy2nR0ZrOM22PE40="
+
+    private val certPinner: CertificatePinner by lazy {
+        CertificatePinner.Builder()
+                .add(RestHelper.getDomainName(BuildConfig.SERVICE_URL), "sha256/$publicKey")
+                .build()
+    }
+
+    val hasPinning: Boolean get() = !publicKey.isNullOrEmpty()
+
+    var service: ApiService = RestHelper
+            .createService(BuildConfig.SERVICE_URL) {
+                if (BuildConfig.SERVICE_URL.indexOf("https") == -1) {
+                    if (hasPinning) {
+                        certificatePinner(certPinner)
+                    } else {
+                        RestSecurity.trustClient(this)
+                    }
+                }
+            }
             .build()
-            .create(RestService::class.java)
+            .create(ApiService::class.java)
 
 
     private var requests: MutableList<Single<*>> = mutableListOf()
@@ -36,8 +58,8 @@ class RestClient private constructor() {
 
     companion object {
 
-        val instance: RestClient by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
-            RestClient()
+        val instance: ApiClient by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
+            ApiClient()
         }
 
         fun setToken(token: String? = null) {
@@ -48,7 +70,7 @@ class RestClient private constructor() {
                         }
                     }
                     .build()
-                    .create(RestService::class.java)
+                    .create(ApiService::class.java)
         }
 
     }
