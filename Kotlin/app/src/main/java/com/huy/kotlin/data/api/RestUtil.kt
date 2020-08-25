@@ -1,4 +1,4 @@
-package com.huy.kotlin.network
+package com.huy.kotlin.data.api
 
 import com.huy.kotlin.BuildConfig
 import okhttp3.Interceptor
@@ -20,7 +20,7 @@ import java.util.concurrent.TimeUnit
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-object RestHelper {
+object RestUtil {
 
     private val loggingInterceptor: Interceptor
         get() {

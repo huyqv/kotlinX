@@ -1,8 +1,6 @@
 package com.huy.kotlin.data.api
 
 import com.huy.kotlin.BuildConfig
-import com.huy.kotlin.network.RestHelper
-import com.huy.kotlin.network.RestSecurity
 import com.huy.kotlin.ui.model.Image
 import com.huy.kotlin.ui.model.Message
 import com.huy.kotlin.ui.model.User
@@ -24,13 +22,13 @@ class ApiClient private constructor() {
 
     private val certPinner: CertificatePinner by lazy {
         CertificatePinner.Builder()
-                .add(RestHelper.getDomainName(BuildConfig.SERVICE_URL), "sha256/$publicKey")
+                .add(RestUtil.getDomainName(BuildConfig.SERVICE_URL), "sha256/$publicKey")
                 .build()
     }
 
     val hasPinning: Boolean get() = !publicKey.isNullOrEmpty()
 
-    var service: ApiService = RestHelper
+    var service: ApiService = RestUtil
             .createService(BuildConfig.SERVICE_URL) {
                 if (BuildConfig.SERVICE_URL.indexOf("https") == -1) {
                     if (hasPinning) {
@@ -63,10 +61,10 @@ class ApiClient private constructor() {
         }
 
         fun setToken(token: String? = null) {
-            instance.service = RestHelper
+            instance.service = RestUtil
                     .createService(BuildConfig.SERVICE_URL) {
                         if (token != null) {
-                            addInterceptor(RestHelper.getHeaderInterceptor(token))
+                            addInterceptor(RestUtil.getHeaderInterceptor(token))
                         }
                     }
                     .build()

@@ -1,4 +1,4 @@
-package com.huy.kotlin.network
+package com.huy.kotlin.data.api
 
 import android.net.http.X509TrustManagerExtensions
 import android.util.Base64
