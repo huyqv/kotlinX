@@ -127,7 +127,7 @@ dependencies {
     implementation deps.reactivex.android
     implementation deps.reactivex.kotlin
     implementation deps.reactivex.binding
-    implementation deps.http_log
+    implementation deps.okhttp_log
 
     implementation deps.retrofit.retrofit
     implementation deps.retrofit.gson
@@ -135,6 +135,7 @@ dependencies {
 
     implementation deps.google.firebase_core
     implementation deps.google.firebase_messaging
+    implementation deps.google.gson
 
     implementation deps.dimens.sdp
     implementation deps.dimens.ssp
@@ -142,7 +143,7 @@ dependencies {
     implementation deps.glide.glide
     kapt deps.glide.compiler
 
-    implementation deps.gson
+
     implementation deps.permissions
     implementation deps.squint
     implementation deps.roundedimageview

@@ -46,6 +46,7 @@ class User {
     @ColumnInfo(name = "usr_wallpaper")
     var wallpaper: String? = null
 
+
     constructor(id: String) {
         this.id = id
     }

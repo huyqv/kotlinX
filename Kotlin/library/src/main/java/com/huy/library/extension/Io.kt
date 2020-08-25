@@ -3,7 +3,9 @@ package com.huy.library.extension
 import android.app.Application
 import android.content.ContentValues
 import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
+import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
 import com.huy.library.Library
@@ -19,7 +21,14 @@ import java.io.*
  */
 private val app: Application get() = Library.app
 
-val path: String get() = app.getExternalFilesDir(null)?.absolutePath!!
+val filePath: String
+    get() = if (Build.VERSION.SDK_INT > -Build.VERSION_CODES.Q) {
+        app.getExternalFilesDir(null)?.absolutePath!!
+    } else {
+        @Suppress("DEPRECATION")
+        Environment.getExternalStorageDirectory().toString()
+    }
+
 
 fun readBytes(fileName: String): ByteArray? {
     return try {
@@ -50,7 +59,7 @@ fun readString(filename: String): String? {
 
 fun ByteArray.writeFile(): File? {
     return try {
-        val file = File(path, "temp.jpg")
+        val file = File(filePath, "temp.jpg")
         val stream = FileOutputStream(file)
         stream.write(this)
         stream.flush()
@@ -90,7 +99,7 @@ fun File.getUri(): Uri? {
 }
 
 fun downloadFile(name: String): File {
-    return File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absoluteFile, name)
+    return File(filePath, name)
 }
 
 fun open(file: File) {
@@ -107,7 +116,7 @@ fun copyFile(fileName: String) {
     var fos: FileOutputStream? = null
     try {
         inputStream = app.assets.open(fileName)
-        fos = FileOutputStream("$path/$fileName")
+        fos = FileOutputStream("$filePath/$fileName")
         val buffer = ByteArray(1024)
         var read: Int = inputStream.read(buffer)
         while (read >= 0) {
@@ -122,16 +131,26 @@ fun copyFile(fileName: String) {
 }
 
 fun createFile(fileName: String) {
-    val dir = File(path)
+    val dir = File(filePath)
     if (!dir.exists()) {
         dir.mkdirs()
     }
-    val file = File("$path/$fileName")
+    val file = File("$filePath/$fileName")
     if (file.exists()) return
     copyFile(fileName)
 
 }
 
+fun saveBitmap(name: String, bitmap: Bitmap) {
+    val path: String = filePath
+    var fOut: OutputStream?
+    val file = File(path, "$name.png")
+    fOut = FileOutputStream(file)
+    bitmap.compress(Bitmap.CompressFormat.PNG, 100, fOut)
+    fOut.flush()
+    fOut.close()
+    MediaStore.Images.Media.insertImage(app.contentResolver, file.absolutePath, file.name, file.name)
+}
 
 
 

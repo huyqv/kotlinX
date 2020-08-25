@@ -13,6 +13,18 @@ import com.huy.kotlin.base.dialog.ProgressDialog
 import com.huy.library.view.ViewClickListener
 import com.tbruyelle.rxpermissions2.RxPermissions
 
+abstract class Foo {
+    abstract val a: Int
+}
+
+abstract class FooChild : Foo() {
+    override val a: Int = 0
+}
+
+abstract class FooGrandchildren : FooChild() {
+    override val a: Int = 0
+}
+
 /**
  * -------------------------------------------------------------------------------------------------
  * @Project: Kotlin

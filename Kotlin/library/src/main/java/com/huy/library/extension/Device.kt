@@ -27,13 +27,22 @@ val osVersion: String
 val osVersionCode: Int
     get() = Build.VERSION.SDK_INT
 
+val deviceModel: String
+    get() {
+        return if (Build.MODEL.startsWith(Build.MANUFACTURER)) {
+            Build.MODEL.capitalize()
+        } else {
+            Build.MODEL
+        }
+    }
+
 val deviceName: String
     get() {
-        val manufacturer = Build.MANUFACTURER
-        val model = Build.MODEL
-        return if (model.startsWith(manufacturer)) {
-            model.capitalize()
-        } else manufacturer.capitalize() + " " + model
+        return if (Build.MODEL.startsWith(Build.MANUFACTURER)) {
+            Build.MODEL.capitalize()
+        } else {
+            Build.MANUFACTURER.capitalize() + " " + Build.MODEL
+        }
     }
 
 val timeZone: String

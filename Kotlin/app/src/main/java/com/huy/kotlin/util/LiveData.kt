@@ -1,5 +1,6 @@
 package com.huy.kotlin.util
 
+import android.widget.TextView
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
@@ -27,6 +28,12 @@ fun <T> LiveData<T?>.nonNull(): NonNullLiveData<T> {
         }
     }
     return mediator
+}
+
+fun doSomeThing1(block: TextView.() -> Int) {
+}
+
+fun doSomeThing2(block: (TextView) -> Int) {
 }
 
 /**
