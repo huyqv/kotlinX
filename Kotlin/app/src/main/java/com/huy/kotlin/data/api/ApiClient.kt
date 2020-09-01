@@ -18,6 +18,14 @@ import okhttp3.CertificatePinner
  */
 class ApiClient private constructor() {
 
+    companion object {
+
+        val instance: ApiClient by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
+            ApiClient()
+        }
+
+    }
+
     private val publicKey: String = "m9Z7mswlRljf8acQ07EesjKOVJDGy2nR0ZrOM22PE40="
 
     private val certPinner: CertificatePinner by lazy {
@@ -44,6 +52,17 @@ class ApiClient private constructor() {
 
     private var requests: MutableList<Single<*>> = mutableListOf()
 
+    fun setToken(token: String? = null) {
+        instance.service = RestUtil
+                .createService(BuildConfig.SERVICE_URL) {
+                    if (token != null) {
+                        addInterceptor(RestUtil.getHeaderInterceptor(token))
+                    }
+                }
+                .build()
+                .create(ApiService::class.java)
+    }
+
     private fun <T> Single<T>.filterRequest(): Single<T> {
         return doOnSubscribe {
             requests.add(this)
@@ -52,25 +71,6 @@ class ApiClient private constructor() {
         }.doOnEvent { _, _ ->
             requests.remove(this)
         }
-    }
-
-    companion object {
-
-        val instance: ApiClient by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
-            ApiClient()
-        }
-
-        fun setToken(token: String? = null) {
-            instance.service = RestUtil
-                    .createService(BuildConfig.SERVICE_URL) {
-                        if (token != null) {
-                            addInterceptor(RestUtil.getHeaderInterceptor(token))
-                        }
-                    }
-                    .build()
-                    .create(ApiService::class.java)
-        }
-
     }
 
     fun messages(page: Int): Single<List<Message>?> {

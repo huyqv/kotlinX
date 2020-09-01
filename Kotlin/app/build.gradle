@@ -127,11 +127,11 @@ dependencies {
     implementation deps.reactivex.android
     implementation deps.reactivex.kotlin
     implementation deps.reactivex.binding
-    implementation deps.okhttp_log
 
     implementation deps.retrofit.retrofit
     implementation deps.retrofit.gson
     implementation deps.retrofit.rxjava
+    implementation deps.okhttp_log
 
     implementation deps.google.firebase_core
     implementation deps.google.firebase_messaging

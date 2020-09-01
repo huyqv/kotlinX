@@ -10,14 +10,13 @@ import android.content.res.TypedArray
 import android.graphics.Typeface
 import android.os.Build
 import android.util.AttributeSet
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewOutlineProvider
-import android.widget.FrameLayout
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 import com.huy.kotlin.R
 import com.huy.library.extension.updateStatusBar
+import com.huy.library.widget.AppCustomView
 import kotlinx.android.synthetic.main.widget_app_bar.view.*
 
 /**
@@ -28,52 +27,20 @@ import kotlinx.android.synthetic.main.widget_app_bar.view.*
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-class AppBarView : FrameLayout {
+class AppBarView : AppCustomView {
 
-    private val stateListAnimators = intArrayOf(android.R.attr.stateListAnimator)
+    /**
+     * [AppCustomView] implement
+     */
+    constructor(context: Context) : super(context)
 
-    var title: String? = null
-        set(value) {
-            appBarTextViewTitle.text = value
-        }
+    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
 
-    fun startButtonClickListener(block: () -> Unit) {
-        appBarImageViewDrawableStart.setOnClickListener { block() }
-    }
+    override val styleRes: IntArray get() = R.styleable.AppBarView
 
-    fun endButtonClickListener(block: () -> Unit) {
-        appBarImageViewDrawableEnd.setOnClickListener { block() }
-    }
+    override val layoutRes: Int get() = R.layout.widget_app_bar
 
-    var drawableStart: Int = 0
-        set(@DrawableRes value) {
-            appBarImageViewDrawableStart.setImageResource(value)
-        }
-
-    var drawableEnd: Int = 0
-        set(@DrawableRes value) {
-            appBarImageViewDrawableEnd.setImageResource(value)
-        }
-
-    var progressVisible: Boolean
-        get() = appBarProgressBar.visibility == View.VISIBLE
-        set(value) {
-            appBarProgressBar.visibility = if (value) View.VISIBLE else View.INVISIBLE
-        }
-
-    constructor(context: Context) : super(context) {
-        init(context, null)
-    }
-
-    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
-        init(context, attrs)
-    }
-
-    private fun init(context: Context, attrs: AttributeSet?) {
-
-        val types = context.theme.obtainStyledAttributes(attrs, R.styleable.AppBarView, 0, 0)
-        LayoutInflater.from(context).inflate(R.layout.widget_app_bar, this)
-
+    override fun onInitialize(context: Context, types: TypedArray) {
         try {
 
             types.configTitle()
@@ -95,13 +62,48 @@ class AppBarView : FrameLayout {
         }
     }
 
+
+    /**
+     * [AppBarView] properties
+     */
+    private val stateListAnimators = intArrayOf(android.R.attr.stateListAnimator)
+
+    var title: String? = null
+        set(value) {
+            textViewTitle.text = value
+        }
+
+    fun startButtonClickListener(block: () -> Unit) {
+        imageViewDrawableStart.setOnClickListener { block() }
+    }
+
+    fun endButtonClickListener(block: () -> Unit) {
+        imageViewDrawableEnd.setOnClickListener { block() }
+    }
+
+    var drawableStart: Int = 0
+        set(@DrawableRes value) {
+            imageViewDrawableStart.setImageResource(value)
+        }
+
+    var drawableEnd: Int = 0
+        set(@DrawableRes value) {
+            imageViewDrawableEnd.setImageResource(value)
+        }
+
+    var progressVisible: Boolean
+        get() = appBarProgressBar.visibility == View.VISIBLE
+        set(value) {
+            appBarProgressBar.visibility = if (value) View.VISIBLE else View.INVISIBLE
+        }
+
     private fun TypedArray.configTitle() {
 
-        appBarTextViewTitle.apply {
+        textViewTitle.apply {
             text = getString(R.styleable.AppBarView_android_text)
             isAllCaps = getBoolean(R.styleable.AppBarView_android_textAllCaps, false)
             val style = getInt(R.styleable.AppBarView_android_textStyle, Typeface.NORMAL)
-            setTypeface(appBarTextViewTitle.typeface, style)
+            setTypeface(textViewTitle.typeface, style)
             val color = getResourceId(R.styleable.AppBarView_android_textColor, android.R.color.white)
             setTextColor(ContextCompat.getColor(context, color))
         }
@@ -116,7 +118,7 @@ class AppBarView : FrameLayout {
     private fun TypedArray.configActionBack(tint: Int, tintEnable: Boolean) {
 
         if (getBoolean(R.styleable.AppBarView_appBar_actionBack, true))
-            appBarImageViewDrawableStart.apply {
+            imageViewDrawableStart.apply {
                 if (tintEnable) setColorFilter(tint)
                 setImageResource(R.drawable.ic_back)
                 setOnClickListener { v ->
@@ -128,13 +130,13 @@ class AppBarView : FrameLayout {
     private fun TypedArray.configDrawable(tint: Int, tintEnable: Boolean) {
 
         val left = getResourceId(R.styleable.AppBarView_android_drawableStart, 0)
-        if (left != 0) appBarImageViewDrawableStart.apply {
+        if (left != 0) imageViewDrawableStart.apply {
             if (tintEnable) setColorFilter(tint)
             setImageResource(left)
         }
 
         val right = getResourceId(R.styleable.AppBarView_android_drawableEnd, 0)
-        if (right != 0) appBarImageViewDrawableEnd.apply {
+        if (right != 0) imageViewDrawableEnd.apply {
             if (tintEnable) setColorFilter(tint)
             setImageResource(right)
         }
@@ -177,5 +179,6 @@ class AppBarView : FrameLayout {
     fun setTargetElevation(elevation: Float) {
         if (Build.VERSION.SDK_INT >= 21) setStateListAnimator(this, elevation)
     }
+
 
 }

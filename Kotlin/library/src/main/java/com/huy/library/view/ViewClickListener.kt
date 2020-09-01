@@ -1,9 +1,7 @@
 package com.huy.library.view
 
-import android.app.Activity
 import android.os.SystemClock
 import android.view.View
-import com.huy.library.extension.hideKeyboard
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -17,11 +15,13 @@ abstract class ViewClickListener : View.OnClickListener {
 
     private var lastClickTime: Long = 0
 
+    private var lastClickViewId: Int = -1
+
     abstract fun onViewClick(v: View?)
 
     final override fun onClick(v: View?) {
-        if (SystemClock.elapsedRealtime() - lastClickTime > 600) {
-            (v?.context as? Activity)?.hideKeyboard()
+        if (SystemClock.elapsedRealtime() - lastClickTime > 500 || v?.id != lastClickViewId) {
+            lastClickViewId = v?.id ?: -1
             onViewClick(v)
         }
         lastClickTime = SystemClock.elapsedRealtime()

@@ -78,8 +78,9 @@ fun Observable<Response<ResponseBody>>.writeFile(fileName: String): Observable<F
                         emitter.onNext(file)
                     } catch (e: IOException) {
                         emitter.onError(e)
+                    } finally {
+                        emitter.onComplete()
                     }
-                    emitter.onComplete()
                 }
             })
         }

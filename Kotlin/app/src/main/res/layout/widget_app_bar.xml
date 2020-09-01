@@ -16,13 +16,13 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/appBarImageViewDrawableStart"
+        android:id="@+id/imageViewDrawableStart"
         style="@style/AppBar.Icon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/appBarTextViewTitle"
+        android:id="@+id/textViewTitle"
         android:layout_width="0dp"
         android:layout_height="?android:attr/actionBarSize"
         android:layout_weight="1"
@@ -30,12 +30,12 @@
         android:text="@string/app_name"
         android:textColor="@android:color/white"
         android:textSize="@dimen/_12ssp"
-        app:layout_constraintEnd_toStartOf="@+id/appBarImageViewDrawableEnd"
-        app:layout_constraintStart_toEndOf="@+id/appBarImageViewDrawableStart"
+        app:layout_constraintEnd_toStartOf="@+id/imageViewDrawableEnd"
+        app:layout_constraintStart_toEndOf="@+id/imageViewDrawableStart"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/appBarImageViewDrawableEnd"
+        android:id="@+id/imageViewDrawableEnd"
         style="@style/AppBar.Icon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

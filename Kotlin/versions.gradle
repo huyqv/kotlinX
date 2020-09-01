@@ -55,9 +55,9 @@ android.material =  "com.google.android.material:material:1.1.0-alpha07"
 deps.android = android
 
 def navigation = [:]
+navigation.safe_args = "androidx.navigation:navigation-safe-args-gradle-plugin:$versions.navigation"
 navigation.fragment = "androidx.navigation:navigation-fragment-ktx:$versions.navigation"
 navigation.ui = "androidx.navigation:navigation-ui-ktx:$versions.navigation"
-navigation.safe_args = "androidx.navigation:navigation-safe-args-gradle-plugin:$versions.navigation"
 deps.navigation = navigation
 
 def room = [:]
