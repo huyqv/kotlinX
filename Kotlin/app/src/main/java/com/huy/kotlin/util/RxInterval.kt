@@ -1,5 +1,7 @@
 package com.huy.kotlin.util
 
+import androidx.lifecycle.*
+import com.huy.library.adapter.fragment.InfinityPagerAdapter
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -7,6 +9,7 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.observers.DisposableObserver
 import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
+import java.util.concurrent.atomic.AtomicInteger
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -93,6 +96,42 @@ abstract class IntervalSingle<T> {
 
     fun stop() {
         disposable?.dispose()
+    }
+
+}
+
+abstract class AutoSlideAdapter<T> : InfinityPagerAdapter<Int>() {
+
+    val pageLiveData = MutableLiveData<Int>()
+
+    val atomicInteger = AtomicInteger()
+
+    val intervalSingle = object : IntervalSingle<Int>() {
+        override fun onData(): Int {
+            if (atomicInteger.incrementAndGet() > data.lastIndex) atomicInteger.set(0)
+            return atomicInteger.get()
+        }
+
+        override fun onSuccess(t: Int) {
+            pageLiveData.postValue(t)
+        }
+
+        override fun onError(e: Throwable) {
+        }
+    }
+
+    fun observer(lifecycleOwner: LifecycleOwner) {
+        lifecycleOwner.lifecycle.addObserver(object : LifecycleObserver {
+            @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
+            open fun onCreate() {
+                intervalSingle.start()
+            }
+
+            @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+            open fun onDestroy() {
+                intervalSingle.stop()
+            }
+        })
     }
 
 }
