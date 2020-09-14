@@ -1,6 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <declare-styleable name="CustomView">
+        <attr name="android:textAllCaps" format="boolean" />
+        <attr name="android:maxLength" format="integer" />
+        <attr name="android:inputType" format="reference" />
+        <attr name="android:imeOptions" format="reference" />
+        <attr name="android:gravity" format="reference" />
+        <attr name="android:maxLines" format="integer" />
+        <attr name="android:title" format="string" />
+        <attr name="android:text" format="string" />
+        <attr name="android:textColor" format="integer" />
+        <attr name="android:hint" format="string" />
+        <attr name="android:textColorHint" format="integer" />
+        <attr name="android:orientation" format="integer" />
+        <attr name="android:src" format="integer" />
+        <attr name="android:background" format="reference" />
+        <attr name="android:checked" format="boolean" />
+        <attr name="android:checkable" format="boolean" />
+        <attr name="android:drawableStart" format="reference" />
+        <attr name="android:drawableEnd" format="reference" />
+        <attr name="android:textStyle" format="integer" />
+        <attr name="android:drawable" format="integer" />
+        <attr name="android:nextFocusForward" format="integer" />
+        <attr name="android:tint" format="integer" />
+    </declare-styleable>
+
     <declare-styleable name="RoundedLayout">
         <attr name="android:radius" format="integer" />
     </declare-styleable>

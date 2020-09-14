@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/setting_view"
+    android:id="@+id/settingViewContent"
     android:layout_width="match_parent"
     android:layout_height="@dimen/_62sdp"
     android:background="@drawable/drw_ripple_rect"
@@ -10,14 +10,14 @@
     android:paddingStart="@dimen/largeDist">
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/setting_title"
+        android:id="@+id/settingTextViewTitle"
         style="@style/TextView.Large"
         android:clickable="false"
         app:layout_constraintBottom_toTopOf="@+id/guideline5"
         app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/setting_text"
+        android:id="@+id/settingTextViewLabel"
         style="@style/TextView.Small"
         android:layout_marginTop="@dimen/_2sdp"
         android:clickable="false"
@@ -30,7 +30,7 @@
         app:layout_constraintGuide_percent="0.5" />
 
     <androidx.appcompat.widget.AppCompatCheckBox
-        android:id="@+id/setting_checkbox"
+        android:id="@+id/settingCheckbox"
         android:layout_width="@dimen/_16sdp"
         android:layout_height="@dimen/_16sdp"
         android:layout_marginEnd="@dimen/largeDist"
@@ -42,7 +42,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
-        android:id="@+id/setting_separator"
+        android:id="@+id/settingViewSeparator"
         android:layout_width="match_parent"
         android:layout_height="0.5px"
         android:background="@color/colorLightGray"

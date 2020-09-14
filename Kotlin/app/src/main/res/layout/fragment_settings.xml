@@ -7,7 +7,7 @@
 
     <com.huy.kotlin.widget.AppBarView
         android:id="@+id/appBarView"
-        style="@style/AppBar.View"
+        style="@style/AppBar.Light"
         android:text="Settings" />
 
     <androidx.core.widget.NestedScrollView

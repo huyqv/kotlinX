@@ -14,7 +14,7 @@ import androidx.core.content.ContextCompat
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.messaging.RemoteMessage
 import com.huy.kotlin.R
-import com.huy.kotlin.app.App
+import com.huy.kotlin.App
 import com.huy.library.extension.string
 
 /**

@@ -91,7 +91,7 @@ private fun Bitmap.Config.getBytesPerPixel(): Int {
  * @return A bitmap sampled down from the original with the same aspect ratio and dimensions
  * that are equal to or greater than the requested width and height
  */
-fun bitmapFromResouces(@DrawableRes resId: Int, width: Int, height: Int): Bitmap {
+fun bitmapFromResources(@DrawableRes resId: Int, width: Int, height: Int): Bitmap {
     // First decode with inJustDecodeBounds=true to check dimensions
     val options = BitmapFactory.Options()
     options.inJustDecodeBounds = true
@@ -173,7 +173,6 @@ fun bitmapFromUrl(strURL: String, width: Int, height: Int): Bitmap? {
     if (TextUtils.isEmpty(strURL)) {
         return null
     }
-
     var bitmap: Bitmap? = null
     var inputStream: InputStream? = null
     try {
@@ -386,13 +385,6 @@ fun orientation(bytes: ByteArray?): Int {
     return 0
 }
 
-fun ByteArray.nv21toJpeg(width: Int, height: Int, quality: Int): ByteArray {
-    val out = ByteArrayOutputStream()
-    val yuv = YuvImage(this, ImageFormat.NV21, width, height, null)
-    yuv.compressToJpeg(Rect(0, 0, width, height), quality, out)
-    return out.toByteArray()
-}
-
 fun Image.yuv420toNv21(): ByteArray {
     val crop = this.cropRect
     val format = this.format
@@ -469,6 +461,23 @@ fun Image.toBytes(): ByteArray? {
     return data
 }
 
+fun YuvImage.toRgbBitmap(): Bitmap {
+    val outStream = ByteArrayOutputStream()
+    this.compressToJpeg(Rect(0, 0, this.width, this.height), 100, outStream) // make JPG
+
+    return BitmapFactory.decodeByteArray(outStream.toByteArray(), 0, outStream.size())
+}
+
+/**
+ * [ByteArray]
+ */
+fun ByteArray.nv21toJpeg(width: Int, height: Int, quality: Int): ByteArray {
+    val out = ByteArrayOutputStream()
+    val yuv = YuvImage(this, ImageFormat.NV21, width, height, null)
+    yuv.compressToJpeg(Rect(0, 0, width, height), quality, out)
+    return out.toByteArray()
+}
+
 fun ByteArray.toRawBytes(): ByteArray {
     val rawBitmap = this.toBitmap()
     val stream = ByteArrayOutputStream()
@@ -476,10 +485,6 @@ fun ByteArray.toRawBytes(): ByteArray {
     val rawByteArray = stream.toByteArray()
     rawBitmap.recycle()
     return rawByteArray
-}
-
-fun ByteArray.base64Encode(flag: Int = Base64.DEFAULT): String {
-    return Base64.encodeToString(this, flag)
 }
 
 fun ByteArray.convertImage(pixels: IntArray, exposureCompensation: Double?) {
@@ -494,13 +499,6 @@ fun ByteArray.convertImage(pixels: IntArray, exposureCompensation: Double?) {
             pixels[i] = -16777216 or 10101 * grey
         }
     }
-}
-
-fun YuvImage.toRgbBitmap(): Bitmap {
-    val outStream = ByteArrayOutputStream()
-    this.compressToJpeg(Rect(0, 0, this.width, this.height), 100, outStream) // make JPG
-
-    return BitmapFactory.decodeByteArray(outStream.toByteArray(), 0, outStream.size())
 }
 
 fun ByteArray.toBitmap(): Bitmap {
@@ -550,9 +548,8 @@ fun ByteArray.toBitmap(width: Int, height: Int, exposureCompensation: Double?): 
     return this.toBitmap(bitmap, pixels, exposureCompensation)
 }
 
-
 /**
- * [android.graphics.Bitmap] extensions
+ * [Bitmap]
  */
 fun Bitmap.toBytes(): ByteArray {
     val stream = ByteArrayOutputStream()
@@ -591,16 +588,6 @@ fun Bitmap.threshold(threshold: Int = 128): Bitmap {
     return image
 }
 
-fun String?.decodeToBitmap(flag: Int = Base64.DEFAULT): Bitmap? {
-    this ?: return null
-    return try {
-        val decodedBytes = Base64.decode(substring(indexOf(",") + 1), flag)
-        BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
-    } catch (e: IllegalArgumentException) {
-        null
-    }
-}
-
 fun Bitmap.toBase64String(): String? {
     return try {
         val outputStream = ByteArrayOutputStream()
@@ -611,10 +598,6 @@ fun Bitmap.toBase64String(): String? {
     }
 }
 
-
-/**
- * Editions
- */
 fun Bitmap.convert(config: Bitmap.Config): Bitmap {
     val convertedBitmap = Bitmap.createBitmap(width, height, config)
     val canvas = Canvas(convertedBitmap)
@@ -769,10 +752,6 @@ fun Bitmap.roundCorners(radius: Int): Bitmap {
     return output
 }
 
-
-/**
- * IO
- */
 fun Bitmap.save(directory: String?, filename: String, config: CompressConfigs): File? {
 
     var fDirectory = directory
@@ -833,6 +812,18 @@ fun Bitmap.getImageUri(): Uri? {
     return null
 }
 
+/**
+ * [String]
+ */
+fun String?.base64ToBitmap(flag: Int = Base64.DEFAULT): Bitmap? {
+    this ?: return null
+    return try {
+        val decodedBytes = Base64.decode(substring(indexOf(",") + 1), flag)
+        BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
+    } catch (e: IllegalArgumentException) {
+        null
+    }
+}
 
 fun Closeable.safeClose() {
     try {

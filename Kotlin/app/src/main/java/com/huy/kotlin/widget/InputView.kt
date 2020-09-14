@@ -66,15 +66,11 @@ abstract class InputView : AppCustomView {
 
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
 
-    override val styleRes: IntArray get() = R.styleable.InputView
-
     override fun onInitialize(context: Context, types: TypedArray) {
         clearBackground()
 
         configTitleText(types)
-
         configEditText(types)
-
         configDrawable(types)
     }
 
@@ -140,16 +136,15 @@ abstract class InputView : AppCustomView {
     }
 
     open fun configTitleText(types: TypedArray) {
-        val color = getTypedColor(types, R.styleable.InputView_android_textColor)
-        titleView?.setTextColor(color)
-        titleView?.text = types.getString(R.styleable.InputView_android_text)
+        titleView?.setTextColor(types.textColor)
+        titleView?.text = types.text
     }
 
     open fun configEditText(types: TypedArray) {
 
         editView?.also {
 
-            val inputType = types.getInt(R.styleable.InputView_android_inputType, EditorInfo.TYPE_CLASS_TEXT)
+            val inputType = types.getInt(R.styleable.CustomView_android_inputType, EditorInfo.TYPE_CLASS_TEXT)
             if (inputType == EditorInfo.TYPE_NULL) {
                 setOnKeyListener(null)
                 it.isFocusable = false
@@ -159,41 +154,32 @@ abstract class InputView : AppCustomView {
                 it.inputType = inputType
             }
 
-            it.maxLines = types.getInt(R.styleable.InputView_android_maxLines, 1)
+            it.maxLines = types.getInt(R.styleable.CustomView_android_maxLines, 1)
 
-            val filters = arrayListOf<InputFilter>()
+            val filters = arrayListOf<InputFilter>().apply {
+                add(InputFilter.LengthFilter(types.maxLength))
+                if (types.textAllCaps) add(InputFilter.AllCaps())
+            }
 
-            val allCaps = types.getBoolean(R.styleable.InputView_android_textAllCaps, false)
-            if (allCaps) filters.add(InputFilter.AllCaps())
+            it.filters = filters.toArray(arrayOfNulls<InputFilter>(filters.size))
 
-            val maxLength = types.getInt(R.styleable.InputView_android_maxLength, 100)
-            filters.add(InputFilter.LengthFilter(maxLength))
+            it.nextFocusForwardId = types.getResourceId(R.styleable.CustomView_android_nextFocusForward, -1)
 
-            val array = arrayOfNulls<InputFilter>(filters.size)
-            it.filters = filters.toArray(array)
+            it.imeOptions = types.getInt(R.styleable.CustomView_android_imeOptions, EditorInfo.IME_ACTION_NEXT)
 
-            it.nextFocusForwardId = types.getResourceId(R.styleable.InputView_android_nextFocusForward, -1)
-
-            it.imeOptions = types.getInt(R.styleable.InputView_android_imeOptions, EditorInfo.IME_ACTION_NEXT)
-
-            val src = types.getResourceId(R.styleable.InputView_android_src, -1)
+            val src = types.getResourceId(R.styleable.CustomView_android_src, -1)
             if (src != -1) editView?.setBackgroundResource(src)
 
         }
     }
 
     open fun configDrawable(types: TypedArray) {
-
-        val color = getTypedColor(types, R.styleable.InputView_android_textColor)
-
-        val drawableLeft = getTypedDrawable(types, R.styleable.InputView_android_drawableStart, color)
-
-        val drawableRight = getTypedDrawable(types, R.styleable.InputView_android_drawableEnd, color)
-
+        val color = types.textColor
+        val drawableLeft = types.drawableStart?.apply { setTintColor(color) }
+        val drawableRight = types.drawableEnd?.apply { setTintColor(color) }
         editView?.post {
             editView?.setCompoundDrawablesWithIntrinsicBounds(drawableLeft, null, drawableRight, null)
         }
-
     }
 
     private fun clearBackground() {

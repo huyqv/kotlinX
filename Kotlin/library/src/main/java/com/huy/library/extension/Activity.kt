@@ -8,11 +8,13 @@ import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.view.View
+import android.view.Window
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
+
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -40,6 +42,12 @@ fun Activity.fullScreenWindow() {
 /**
  * Status bar
  */
+fun Activity?.fullScreen() {
+    this ?: return
+    requestWindowFeature(Window.FEATURE_NO_TITLE)
+    window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
+}
+
 fun Activity?.lightStatusBar() {
     this ?: return
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return
@@ -99,6 +107,7 @@ fun Activity?.statusBarDrawable(@DrawableRes res: Int) {
 fun Activity?.contentUnderStatusBar(view: View) {
     view.setPadding(0, statusBarHeight(), 0, 0)
 }
+
 
 /**
  * Navigation bar

@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/MatchParent">
 
-    <com.huy.kotlin.widget.RotateImageView
+    <com.huy.library.widget.RotateImageView
         android:layout_width="@dimen/_28sdp"
         android:layout_height="@dimen/_28sdp"
         android:layout_gravity="center"

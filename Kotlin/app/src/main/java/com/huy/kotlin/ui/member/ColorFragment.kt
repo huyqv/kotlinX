@@ -1,9 +1,11 @@
 package com.huy.kotlin.ui.member
 
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
 import com.huy.kotlin.R
 import com.huy.kotlin.base.view.BaseFragment
+import com.huy.library.extension.color
 import com.huy.library.extension.toast
 import kotlinx.android.synthetic.main.fragment_color.*
 
@@ -18,7 +20,9 @@ import kotlinx.android.synthetic.main.fragment_color.*
 
 class ColorFragment : BaseFragment() {
 
-    var color: Int = 0
+    var appBarBackground: Drawable? = null
+
+    var color: Int = color(R.color.colorPrimary)
 
     var click: (() -> Unit)? = null
 
@@ -26,6 +30,7 @@ class ColorFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        appBarView.backgroundImage = appBarBackground
         view.setBackgroundResource(color)
         textView.setOnClickListener { click?.also { click!!() } }
     }

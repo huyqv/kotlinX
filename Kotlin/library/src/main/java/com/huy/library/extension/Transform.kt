@@ -1,5 +1,9 @@
 package com.huy.library.extension
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.util.Base64
+import java.math.BigDecimal
 import java.text.ParseException
 import java.util.*
 
@@ -38,3 +42,21 @@ fun <T> nonNull(block: (T) -> Unit): (T?) -> Unit {
         if (it != null) block(it)
     }
 }
+
+fun ByteArray?.encodeToString(flag: Int = Base64.DEFAULT): String {
+    return Base64.encodeToString(this, flag)
+}
+
+fun String.decodeToBytes(flag: Int = Base64.DEFAULT): ByteArray {
+    return Base64.decode(this, flag)
+}
+
+fun String.decodeToBitmap(flag: Int = Base64.DEFAULT): Bitmap? {
+    val bytes = decodeToBytes(flag)
+    return BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+}
+
+fun BigDecimal?.isNullOrZero(): Boolean {
+    return this == null || this == BigDecimal.ZERO
+}
+

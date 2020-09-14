@@ -1,10 +1,10 @@
 package com.huy.kotlin.widget
 
 import android.content.Context
+import android.content.res.TypedArray
 import android.util.AttributeSet
-import android.view.LayoutInflater
-import android.widget.FrameLayout
 import com.huy.kotlin.R
+import com.huy.library.widget.AppCustomView
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -14,13 +14,18 @@ import com.huy.kotlin.R
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-class ProgressView : FrameLayout {
+class ProgressView : AppCustomView {
+
+    /**
+     * [AppCustomView] implement
+     */
+    override val layoutRes: Int get() = R.layout.widget_progress
 
     constructor(context: Context) : super(context)
 
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
 
-    init {
-        LayoutInflater.from(context).inflate(R.layout.widget_progress, this)
+    override fun onInitialize(context: Context, types: TypedArray) {
     }
+
 }

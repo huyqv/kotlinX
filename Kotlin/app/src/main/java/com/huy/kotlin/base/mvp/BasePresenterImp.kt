@@ -2,7 +2,7 @@ package com.huy.kotlin.base.mvp
 
 import android.content.Context
 import android.util.Log
-import com.huy.kotlin.app.App
+import com.huy.kotlin.App
 import com.huy.kotlin.base.event.Event
 import com.huy.kotlin.base.event.EventDispatcher
 import com.huy.kotlin.base.event.EventListener

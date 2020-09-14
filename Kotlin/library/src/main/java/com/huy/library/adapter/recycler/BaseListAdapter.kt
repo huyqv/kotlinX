@@ -111,14 +111,6 @@ abstract class BaseListAdapter<T> : ListAdapter<T, RecyclerView.ViewHolder> {
         onBindModel(model, position, layout)
     }
 
-    open fun onCreateItemView(parent: ViewGroup, viewType: Int): View {
-        return if (viewType == 0) {
-            View(parent.context).apply { visibility = View.GONE }
-        } else {
-            LayoutInflater.from(parent.context).inflate(viewType, parent, false)
-        }
-    }
-
 
     /**
      * Layout resource for empty data.

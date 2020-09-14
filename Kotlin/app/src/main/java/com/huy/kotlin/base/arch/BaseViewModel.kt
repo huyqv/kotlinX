@@ -3,7 +3,7 @@ package com.huy.kotlin.base.arch
 import android.content.Context
 import android.os.Bundle
 import androidx.lifecycle.ViewModel
-import com.huy.kotlin.app.App
+import com.huy.kotlin.App
 import com.huy.kotlin.data.RoomDB
 import com.huy.kotlin.data.Shared
 import com.huy.kotlin.data.api.ApiClient

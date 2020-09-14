@@ -9,7 +9,7 @@
 
     <com.huy.kotlin.widget.AppBarView
         android:id="@+id/appBarView"
-        style="@style/AppBar.View"
+        style="@style/AppBar.Light"
         android:drawableStart="@drawable/ic_back"
         android:text="Multi View Recycler" />
 

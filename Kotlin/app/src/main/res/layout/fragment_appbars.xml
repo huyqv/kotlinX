@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/ContentLayout"
     android:orientation="vertical">
-
-    <com.huy.kotlin.widget.AppBarView
-        android:id="@+id/appBarView"
-        style="@style/AppBar.View"
-        android:text="AppBarView" />
 
     <androidx.core.widget.NestedScrollView style="@style/MatchWidth">
 
@@ -20,8 +13,7 @@
             <include
                 layout="@layout/view_search_bar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp" />
+                android:layout_height="wrap_content" />
 
             <include
                 layout="@layout/view_user_bar"
@@ -29,65 +21,35 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp" />
 
-            <com.huy.kotlin.widget.AppBarView
-                style="@style/AppBar.View"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:background="@color/colorIndianRed"
-                android:drawableEnd="@drawable/ic_search"
-                android:text="@string/app_name"
-                app:appBar_updateStatusBar="false" />
 
             <com.huy.kotlin.widget.AppBarView
-                style="@style/AppBar.View"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:background="@color/colorGreenSea"
-                android:drawableEnd="@drawable/ic_search"
-                android:text="@string/app_name"
-                app:appBar_updateStatusBar="false" />
-
-            <com.huy.kotlin.widget.AppBarView
-                style="@style/AppBar.View"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:background="@color/colorWisteria"
-                android:drawableEnd="@drawable/ic_search"
-                android:text="@string/app_name"
-                app:appBar_updateStatusBar="false" />
-
-            <com.huy.kotlin.widget.AppBarView
-                style="@style/AppBar.View"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:background="@color/colorSilver"
-                android:drawableEnd="@drawable/ic_search"
-                android:text="@string/app_name"
-                android:textColor="@color/colorTextPrimary"
-                android:tint="@color/colorTextSecondary"
-                app:appBar_updateStatusBar="false" />
-
-            <com.huy.kotlin.widget.AppBarView
-                style="@style/AppBar.View"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:background="@color/colorGrey"
-                android:drawableEnd="@drawable/ic_search"
-                android:text="@string/app_name"
-                app:appBar_updateStatusBar="false" />
-
-            <com.huy.kotlin.widget.AppBarView
-                style="@style/AppBar.View"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:background="@color/colorPeterRiver"
-                android:drawableEnd="@drawable/ic_search"
-                android:text="@string/app_name"
-                app:appBar_updateStatusBar="false" />
-
-            <com.huy.kotlin.widget.AppBarView
-                style="@style/AppBar.View"
+                style="@style/AppBar.Light"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:background="@color/colorOrange"
-                android:drawableEnd="@drawable/ic_search"
-                android:text="@string/app_name"
-                android:textColor="@color/colorTextPrimary"
-                android:tint="@color/colorTextPrimary"
-                app:appBar_updateStatusBar="false" />
+                android:drawableStart="@drawable/ic_adb"
+                android:drawableEnd="@drawable/ic_send"
+                android:text="Aa.."
+                android:textColor="@color/colorAccent" />
+
+            <com.huy.kotlin.widget.AppBarView
+                style="@style/AppBar.Light"
+                android:layout_marginTop="@dimen/_10sdp" />
+
+            <com.huy.kotlin.widget.AppBarView
+                style="@style/AppBar.Dark"
+                android:layout_marginTop="@dimen/_10sdp" />
+
+            <com.huy.kotlin.widget.AppBarView
+                style="@style/AppBar.Dark"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:background="@mipmap/img_pawpaw"
+                android:drawableStart="@drawable/ic_adb" />
+
+            <com.huy.kotlin.widget.AppBarView
+                style="@style/AppBar.Dark"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:background="@mipmap/img_catstile4"
+                android:drawableEnd="@drawable/ic_adb" />
 
             <include layout="@layout/view_developer" />
 

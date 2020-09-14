@@ -3,7 +3,7 @@ package com.huy.library.widget
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
-import androidx.appcompat.widget.LinearLayoutCompat
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.huy.library.R
 
 /**
@@ -14,7 +14,7 @@ import com.huy.library.R
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-class RoundedLayout : LinearLayoutCompat {
+class RoundedLayout : ConstraintLayout {
 
     private var maskBitmap: Bitmap? = null
 

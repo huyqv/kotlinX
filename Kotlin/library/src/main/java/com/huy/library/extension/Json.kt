@@ -46,7 +46,9 @@ fun <T> readJsonAsset(fileName: String, cls: Class<Array<T>>): List<T>? {
 /**
  * Parse [JsonObject]/[JsonArray]/[String] to Kotlin Object/List<Object>
  */
-private val convertFactory = Gson()
+private val convertFactory: Gson by lazy {
+    Gson()
+}
 
 fun <T> JsonObject?.parse(cls: Class<T>): T? {
     this ?: return null

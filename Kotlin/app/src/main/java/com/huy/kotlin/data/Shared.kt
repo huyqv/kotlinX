@@ -3,7 +3,7 @@ package com.huy.kotlin.data
 import android.content.Context
 import android.content.SharedPreferences
 import com.huy.kotlin.BuildConfig
-import com.huy.kotlin.app.App
+import com.huy.kotlin.App
 
 /**
  * -------------------------------------------------------------------------------------------------

@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/ContentLayout"
+    android:orientation="vertical"
     tools:background="@android:color/black">
+
+    <com.huy.kotlin.widget.AppBarView
+        android:id="@+id/appBarView"
+        style="@style/AppBar.Light"
+        android:drawableEnd="@drawable/ic_search"
+        android:text="@string/app_name" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/parallaxContent"
-        style="@style/MatchParent"
+        style="@style/VerticalItem"
         android:orientation="vertical">
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -27,7 +34,7 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</FrameLayout>
+</androidx.appcompat.widget.LinearLayoutCompat>
 
 
 

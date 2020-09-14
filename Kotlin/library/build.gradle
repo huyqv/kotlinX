@@ -38,6 +38,7 @@ dependencies {
     implementation deps.android.fragment
     implementation deps.android.recyclerview
     implementation deps.android.cardview
+    implementation deps.android.constraintlayout
 
     implementation deps.paging.runtime
     implementation deps.paging.rx

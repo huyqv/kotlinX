@@ -1,6 +1,5 @@
 package com.huy.kotlin.util
 
-import android.widget.TextView
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
@@ -17,9 +16,6 @@ val PAGED_DEFAULT_CONFIG: PagedList.Config
 
 class NonNullLiveData<T> : MediatorLiveData<T>()
 
-/**
- * Use: myLiveData.nonNull().observer(..)
- */
 fun <T> LiveData<T?>.nonNull(): NonNullLiveData<T> {
     val mediator: NonNullLiveData<T> = NonNullLiveData()
     mediator.addSource(this) { data ->
@@ -30,15 +26,6 @@ fun <T> LiveData<T?>.nonNull(): NonNullLiveData<T> {
     return mediator
 }
 
-fun doSomeThing1(block: TextView.() -> Int) {
-}
-
-fun doSomeThing2(block: (TextView) -> Int) {
-}
-
-/**
- * Use: myLiveData.single().observer(..)
- */
 fun <T> LiveData<T>.single(): LiveData<T> {
     val result = SingleLiveData<T>()
     result.addSource(this) {

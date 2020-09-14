@@ -3,7 +3,7 @@ package com.huy.kotlin.data.api
 import android.os.Build
 import android.os.Environment
 import com.google.gson.JsonObject
-import com.huy.kotlin.app.App
+import com.huy.kotlin.App
 import com.huy.kotlin.base.mvp.BasePresenter
 import com.huy.kotlin.data.observable.ArchObserver
 import com.huy.kotlin.data.observable.ArchSingleObserver

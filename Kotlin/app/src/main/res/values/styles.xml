@@ -201,12 +201,21 @@
     </style>
 
     <!-- Application Bar. -->
-    <style name="AppBar" />
+    <style name="AppBar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/_46sdp</item>
+    </style>
 
-    <style name="AppBar.View" parent="MatchWidth">
-        <item name="android:background">@drawable/drw_rect_gradient</item>
-        <item name="android:textStyle">bold</item>
-        <item name="appBar_updateStatusBar">true</item>
+    <style name="AppBar.Light">
+        <item name="android:background">@color/colorLight</item>
+        <item name="android:textColor">@color/colorGrey</item>
+        <item name="android:text">@string/app_name</item>
+    </style>
+
+    <style name="AppBar.Dark">
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:text">@string/app_name</item>
     </style>
 
     <style name="AppBar.Content">

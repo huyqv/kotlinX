@@ -1,13 +1,12 @@
 package com.huy.kotlin.widget
 
 import android.content.Context
+import android.content.res.TypedArray
 import android.util.AttributeSet
-import android.view.LayoutInflater
 import android.view.View
 import android.widget.CompoundButton
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
 import com.huy.kotlin.R
+import com.huy.library.widget.AppCustomView
 import kotlinx.android.synthetic.main.widget_setting.view.*
 
 /**
@@ -18,71 +17,58 @@ import kotlinx.android.synthetic.main.widget_setting.view.*
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-class SettingView : ConstraintLayout {
+class SettingView : AppCustomView {
 
-    constructor(context: Context) : super(context) {
-        init(context, null)
-    }
+    /**
+     * [AppCustomView] implement
+     */
+    override val layoutRes: Int get() = R.layout.widget_setting
 
-    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
-        init(context, attrs)
-    }
+    constructor(context: Context) : super(context)
 
-    private fun init(context: Context, attrs: AttributeSet?) {
+    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
 
-        val types = context.theme.obtainStyledAttributes(attrs, R.styleable.SettingView, 0, 0)
+    override fun onInitialize(context: Context, types: TypedArray) {
 
-        try {
+        settingTextViewTitle.text = types.title
+        settingTextViewTitle.setTextColor(types.hintColor)
 
-            val hint = types.getString(R.styleable.SettingView_android_hint)
-            val text = types.getString(R.styleable.SettingView_android_text)
-            val hintColor = types.getResourceId(R.styleable.SettingView_android_textColorHint, R.color.colorDark)
-            val textColor = types.getResourceId(R.styleable.SettingView_android_textColor, R.color.colorGrey)
-            val checkable = types.getBoolean(R.styleable.SettingView_android_checkable, false)
-            val checked = types.getBoolean(R.styleable.SettingView_android_checked, false)
-            val separator = types.getBoolean(R.styleable.SettingView_setting_separator, true)
+        settingTextViewLabel.text = types.text
+        settingTextViewLabel.setTextColor(types.textColor)
 
-            LayoutInflater.from(context).inflate(R.layout.widget_setting, this)
-            setting_title.text = hint
-            setting_title.setTextColor(ContextCompat.getColor(context, hintColor))
+        if (types.checkable) {
+            settingCheckbox.visibility = View.VISIBLE
+            settingCheckbox.isChecked = types.checked
+            settingViewContent.setOnClickListener { isChecked = !isChecked }
+        } else {
 
-            setting_text.text = text
-            setting_text.setTextColor(ContextCompat.getColor(context, textColor))
-
-            setting_separator.visibility = if (separator) View.VISIBLE else View.INVISIBLE
-
-            if (checkable) {
-
-                setting_checkbox.visibility = View.VISIBLE
-                setting_checkbox.isChecked = checked
-                setting_view.setOnClickListener { isChecked = !isChecked }
-            } else {
-
-                setting_checkbox.visibility = View.INVISIBLE
-            }
-
-        } finally {
-            types.recycle()
+            settingCheckbox.visibility = View.INVISIBLE
         }
 
+        val separator = types.getBoolean(R.styleable.SettingView_setting_separator, true)
+        settingViewSeparator.visibility = if (separator) View.VISIBLE else View.INVISIBLE
     }
 
-    var text: String
-        get() = setting_text.text.toString()
+    /**
+     * [SettingView] properties
+     */
+    var text: String?
+        get() = settingTextViewLabel.text?.toString()
         set(value) {
-            setting_text.text = value
+            settingTextViewLabel.text = value
         }
 
     var isChecked: Boolean
-        get() = setting_checkbox.isChecked
+        get() = settingCheckbox.isChecked
         set(value) {
-            setting_checkbox.isChecked = value
+            settingCheckbox.isChecked = value
         }
 
     var onCheckedChangedListener: CompoundButton.OnCheckedChangeListener?
         get() = onCheckedChangedListener
         set(value) {
-            setting_checkbox.setOnCheckedChangeListener(value)
+            settingCheckbox.setOnCheckedChangeListener(value)
         }
+
 
 }

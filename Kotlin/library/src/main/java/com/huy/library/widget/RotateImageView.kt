@@ -1,4 +1,4 @@
-package com.huy.kotlin.widget
+package com.huy.library.widget
 
 import android.animation.ObjectAnimator
 import android.content.Context
@@ -17,6 +17,16 @@ import androidx.appcompat.widget.AppCompatImageView
  * -------------------------------------------------------------------------------------------------
  */
 class RotateImageView : AppCompatImageView {
+
+    private val defaultAnim: ObjectAnimator
+        get() {
+            return ObjectAnimator.ofFloat(this, "rotation", 0f, 36000f).apply {
+                duration = 200000
+                interpolator = DecelerateInterpolator()
+                repeatCount = ObjectAnimator.INFINITE
+                repeatMode = ObjectAnimator.RESTART
+            }
+        }
 
     private var animation: ObjectAnimator? = null
 
@@ -44,14 +54,7 @@ class RotateImageView : AppCompatImageView {
     }
 
     private fun startAnimation() {
-        if (animation == null) {
-            animation = ObjectAnimator.ofFloat(this, "rotation", 0f, 36000f).apply {
-                duration = 200000
-                interpolator = DecelerateInterpolator()
-                repeatCount = ObjectAnimator.INFINITE
-                repeatMode = ObjectAnimator.RESTART
-            }
-        }
+        if (animation == null) animation = defaultAnim
         animation?.start()
     }
 

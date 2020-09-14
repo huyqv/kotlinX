@@ -1,21 +1,14 @@
 package com.huy.kotlin.widget
 
-import android.animation.AnimatorInflater
-import android.animation.ObjectAnimator
-import android.animation.StateListAnimator
-import android.annotation.TargetApi
 import android.app.Activity
 import android.content.Context
 import android.content.res.TypedArray
-import android.graphics.Typeface
-import android.os.Build
+import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.View
-import android.view.ViewOutlineProvider
-import androidx.annotation.DrawableRes
-import androidx.core.content.ContextCompat
 import com.huy.kotlin.R
-import com.huy.library.extension.updateStatusBar
+import com.huy.library.extension.getSize
+import com.huy.library.extension.statusBarHeight
 import com.huy.library.widget.AppCustomView
 import kotlinx.android.synthetic.main.widget_app_bar.view.*
 
@@ -32,45 +25,51 @@ class AppBarView : AppCustomView {
     /**
      * [AppCustomView] implement
      */
+    override val layoutRes: Int get() = R.layout.widget_app_bar
+
     constructor(context: Context) : super(context)
 
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
 
-    override val styleRes: IntArray get() = R.styleable.AppBarView
-
-    override val layoutRes: Int get() = R.layout.widget_app_bar
+    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
     override fun onInitialize(context: Context, types: TypedArray) {
-        try {
 
-            types.configTitle()
+        appBarImageViewBackground.setImageDrawable(types.background)
 
-            types.configBackground()
-
-            val tintEnable = types.getBoolean(R.styleable.AppBarView_appBar_tintEnable, true)
-            val tintId = types.getResourceId(R.styleable.AppBarView_android_tint, android.R.color.white)
-            val tint = ContextCompat.getColor(context, tintId)
-
-            types.configDrawable(tint, tintEnable)
-
-            types.configActionBack(tint, tintEnable)
-
-            types.configElevation()
-
-        } finally {
-            types.recycle()
+        textViewTitle.apply {
+            text = types.text
+            isAllCaps = types.textAllCaps
+            val style = this.typeface.style
+            setTypeface(textViewTitle.typeface, style)
+            setTextColor(types.textColorRes)
         }
-    }
 
+        val color = types.textColorRes
+
+        imageViewDrawableStart.apply {
+            setColorFilter(color)
+            setImageDrawable(types.drawableStart)
+        }
+
+        imageViewDrawableEnd.apply {
+            setColorFilter(color)
+            setImageDrawable(types.drawableEnd)
+        }
+
+    }
 
     /**
      * [AppBarView] properties
      */
-    private val stateListAnimators = intArrayOf(android.R.attr.stateListAnimator)
-
     var title: String? = null
         set(value) {
             textViewTitle.text = value
+        }
+
+    var backgroundImage: Drawable? = null
+        set(value) {
+            appBarImageViewBackground.setImageDrawable(value)
         }
 
     fun startButtonClickListener(block: () -> Unit) {
@@ -81,14 +80,14 @@ class AppBarView : AppCustomView {
         imageViewDrawableEnd.setOnClickListener { block() }
     }
 
-    var drawableStart: Int = 0
-        set(@DrawableRes value) {
-            imageViewDrawableStart.setImageResource(value)
+    var drawableStart: Drawable? = null
+        set(value) {
+            imageViewDrawableStart.setImageDrawable(value)
         }
 
-    var drawableEnd: Int = 0
-        set(@DrawableRes value) {
-            imageViewDrawableEnd.setImageResource(value)
+    var drawableEnd: Drawable? = null
+        set(value) {
+            imageViewDrawableEnd.setImageDrawable(value)
         }
 
     var progressVisible: Boolean
@@ -97,88 +96,31 @@ class AppBarView : AppCustomView {
             appBarProgressBar.visibility = if (value) View.VISIBLE else View.INVISIBLE
         }
 
-    private fun TypedArray.configTitle() {
-
-        textViewTitle.apply {
-            text = getString(R.styleable.AppBarView_android_text)
-            isAllCaps = getBoolean(R.styleable.AppBarView_android_textAllCaps, false)
-            val style = getInt(R.styleable.AppBarView_android_textStyle, Typeface.NORMAL)
-            setTypeface(textViewTitle.typeface, style)
-            val color = getResourceId(R.styleable.AppBarView_android_textColor, android.R.color.white)
-            setTextColor(ContextCompat.getColor(context, color))
-        }
-    }
-
-    private fun TypedArray.configBackground() {
-        appBarViewContent.updateStatusBar()
-        val background = getResourceId(R.styleable.AppBarView_android_background, R.color.colorPrimary)
-        appBarViewContent.setBackgroundResource(background)
-    }
-
-    private fun TypedArray.configActionBack(tint: Int, tintEnable: Boolean) {
-
-        if (getBoolean(R.styleable.AppBarView_appBar_actionBack, true))
-            imageViewDrawableStart.apply {
-                if (tintEnable) setColorFilter(tint)
+    fun addPopBackClick() {
+        imageViewDrawableStart.apply {
+            post {
                 setImageResource(R.drawable.ic_back)
                 setOnClickListener { v ->
                     (v.context as? Activity)?.onBackPressed()
                 }
             }
-    }
-
-    private fun TypedArray.configDrawable(tint: Int, tintEnable: Boolean) {
-
-        val left = getResourceId(R.styleable.AppBarView_android_drawableStart, 0)
-        if (left != 0) imageViewDrawableStart.apply {
-            if (tintEnable) setColorFilter(tint)
-            setImageResource(left)
-        }
-
-        val right = getResourceId(R.styleable.AppBarView_android_drawableEnd, 0)
-        if (right != 0) imageViewDrawableEnd.apply {
-            if (tintEnable) setColorFilter(tint)
-            setImageResource(right)
         }
     }
 
-    private fun TypedArray.configElevation() {
-        if (Build.VERSION.SDK_INT < 21) return
-        if (getBoolean(R.styleable.AppBarView_appBar_mostForward, false)) {
-            setStateListAnimatorFromAttrs(this@AppBarView, null, 0, R.style.Widget_Design_AppBarLayout)
+    private fun updateStatusBar() {
+        this.getSize { w, h ->
+            val extraHeight = statusBarHeight
+            appBarViewControls.setPadding(0, extraHeight, 0, 0)
+            val lp = this.layoutParams
+            lp.height = h + extraHeight
+            this.layoutParams = lp
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private fun setStateListAnimator(view: View, elevation: Float) {
-
-        val dur = view.resources.getInteger(R.integer.app_bar_elevation_anim_duration)
-        val sla = StateListAnimator()
-        sla.addState(intArrayOf(android.R.attr.enabled, R.attr.state_liftable, -R.attr.state_lifted), ObjectAnimator.ofFloat(this, "elevation", 0f).setDuration(dur.toLong()))
-        sla.addState(intArrayOf(android.R.attr.enabled), ObjectAnimator.ofFloat(view, "elevation", elevation).setDuration(dur.toLong()))
-        sla.addState(IntArray(0), ObjectAnimator.ofFloat(view, "elevation", 0F).setDuration(0))
-        this.stateListAnimator = sla
-    }
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private fun setStateListAnimatorFromAttrs(view: View, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) {
-
-        view.outlineProvider = ViewOutlineProvider.BOUNDS
-        val context = view.context
-        val a = context.obtainStyledAttributes(attrs, stateListAnimators, defStyleAttr, defStyleRes)
-        try {
-            if (a.hasValue(0)) {
-                val sla = AnimatorInflater.loadStateListAnimator(context, a.getResourceId(0, 0))
-                view.stateListAnimator = sla
-            }
-        } finally {
-            a.recycle()
+    override fun onVisibilityChanged(changedView: View, visibility: Int) {
+        super.onVisibilityChanged(changedView, visibility)
+        if (visibility == View.VISIBLE) {
+            updateStatusBar()
         }
     }
-
-    fun setTargetElevation(elevation: Float) {
-        if (Build.VERSION.SDK_INT >= 21) setStateListAnimator(this, elevation)
-    }
-
-
 }

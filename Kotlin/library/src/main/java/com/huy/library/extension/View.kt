@@ -11,17 +11,21 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import android.widget.LinearLayout
 import android.widget.PopupWindow
 import androidx.annotation.ColorRes
 import androidx.annotation.LayoutRes
 import androidx.annotation.StyleRes
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import com.huy.library.Library
 import com.huy.library.view.FastClickListener
 import com.huy.library.view.ViewClickListener
 import kotlin.math.roundToInt
+
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -137,10 +141,6 @@ fun View.isGone(gone: Boolean?) {
     else View.VISIBLE
 }
 
-fun View.updateStatusBar() {
-    (context as? Activity)?.statusBarDrawable(background)
-}
-
 /**
  * [View] gesture
  */
@@ -187,16 +187,41 @@ fun View.backgroundTint(@ColorRes res: Int) {
     }
 }
 
-fun View.getBitmap(width: Int = this.width, height: Int = this.height): Bitmap {
-    if (width > 0 && height > 0) {
-        this.measure(View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY), View.MeasureSpec.makeMeasureSpec(height, View.MeasureSpec.EXACTLY))
+fun View.getBitmap(w: Int = width, h: Int = height, block: (Bitmap?) -> Unit) {
+    addOnLayoutChangeListener(object : View.OnLayoutChangeListener {
+        override fun onLayoutChange(v: View?, left: Int, top: Int, right: Int, bottom: Int, oldLeft: Int, oldTop: Int, oldRight: Int, oldBottom: Int) {
+            this@getBitmap.removeOnLayoutChangeListener(this)
+            v ?: return
+            if (w > 0 && h > 0) {
+                v.measure(View.MeasureSpec.makeMeasureSpec(w, View.MeasureSpec.EXACTLY), View.MeasureSpec.makeMeasureSpec(h, View.MeasureSpec.EXACTLY))
+            }
+            v.layout(0, 0, v.measuredWidth, v.measuredHeight)
+            val bitmap = Bitmap.createBitmap(v.measuredWidth, v.measuredHeight, Bitmap.Config.ARGB_8888)
+            val canvas = Canvas(bitmap)
+            v.background?.draw(canvas)
+            v.draw(canvas)
+            block(bitmap)
+        }
+    })
+}
+
+fun View.setRatio(width: Int, height: Int) {
+    ConstraintSet().also {
+        it.clone(parent as ConstraintLayout)
+        val ratio = if (layoutParams.width == 0) "w,$width:$height"
+        else "w,$height:$width"
+        it.setDimensionRatio(this.id, ratio)
+        it.applyTo(parent as ConstraintLayout)
     }
-    this.layout(0, 0, this.measuredWidth, this.measuredHeight)
-    val bitmap = Bitmap.createBitmap(this.measuredWidth, this.measuredHeight, Bitmap.Config.ARGB_8888)
-    val canvas = Canvas(bitmap)
-    this.background?.draw(canvas)
-    this.draw(canvas)
-    return bitmap
+}
+
+fun View.getSize(block: (Int /*width*/, Int/*height*/) -> Unit) {
+    viewTreeObserver.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
+        override fun onGlobalLayout() {
+            viewTreeObserver.removeOnGlobalLayoutListener(this)
+            block(width, height)
+        }
+    })
 }
 
 /**

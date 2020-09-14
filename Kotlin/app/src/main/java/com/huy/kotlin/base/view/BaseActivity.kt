@@ -8,22 +8,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import com.huy.kotlin.R
-import com.huy.kotlin.app.App
+import com.huy.kotlin.App
 import com.huy.kotlin.base.dialog.ProgressDialog
 import com.huy.library.view.ViewClickListener
 import com.tbruyelle.rxpermissions2.RxPermissions
-
-abstract class Foo {
-    abstract val a: Int
-}
-
-abstract class FooChild : Foo() {
-    override val a: Int = 0
-}
-
-abstract class FooGrandchildren : FooChild() {
-    override val a: Int = 0
-}
 
 /**
  * -------------------------------------------------------------------------------------------------

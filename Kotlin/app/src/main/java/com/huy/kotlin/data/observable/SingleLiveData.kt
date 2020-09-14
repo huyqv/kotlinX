@@ -59,6 +59,10 @@ open class SingleLiveData<T> : MediatorLiveData<T>() {
         super.setValue(t)
     }
 
+    protected open fun onDataChanged(t: T?) {
+    }
+
+
     /**
      * Used for cases where T is Void, to make calls cleaner.
      */
@@ -67,12 +71,13 @@ open class SingleLiveData<T> : MediatorLiveData<T>() {
         value = null
     }
 
-    private class ObserverWrapper<T>(private val observer: Observer<T>) : Observer<T> {
+    private inner class ObserverWrapper<R>(private val observer: Observer<R>) : Observer<R> {
 
         private val pending = AtomicBoolean(false)
 
-        override fun onChanged(t: T?) {
+        override fun onChanged(t: R?) {
             if (pending.compareAndSet(true, false)) {
+                onDataChanged(t as? T)
                 observer.onChanged(t)
             }
         }

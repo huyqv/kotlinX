@@ -209,13 +209,6 @@ fun WebView.setupWebView() {
     settings.defaultTextEncodingName = "utf-8"
 }
 
-fun WebView.setupTextView() {
-    settings.builtInZoomControls = false
-    settings.displayZoomControls = false
-    settings.javaScriptEnabled = true
-    settings.defaultTextEncodingName = "utf-8"
-}
-
 fun WebView.setChromeClient(progressBar: ProgressBar) {
 
     webChromeClient = object : WebChromeClient() {

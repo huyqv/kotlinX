@@ -7,9 +7,9 @@
 
     <com.huy.kotlin.widget.AppBarView
         android:id="@+id/appBarView"
-        style="@style/AppBar.View"
+        style="@style/AppBar.Dark"
+        android:background="@mipmap/img_pawpaw"
         android:text="Kotlin"
-        app:appBar_updateStatusBar="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

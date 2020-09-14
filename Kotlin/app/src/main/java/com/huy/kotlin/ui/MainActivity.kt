@@ -13,6 +13,8 @@ import com.huy.kotlin.ui.recycler.diff.AsyncDiffFragment
 import com.huy.kotlin.ui.recycler.loadMore.LoadMoreFragment
 import com.huy.kotlin.ui.recycler.paged.PagingFragment
 import com.huy.kotlin.ui.tab.TabFragment
+import com.huy.library.extension.fullScreen
+import com.huy.library.extension.hideNavigationBar
 import kotlinx.android.synthetic.main.activity_main.*
 
 /**
@@ -31,7 +33,12 @@ class MainActivity : ArchActivity<MainVM>() {
 
     override val viewModelClass = MainVM::class.java
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        fullScreen()
+        super.onCreate(savedInstanceState)
+    }
     override fun onCreated(state: Bundle?) {
+
         addClickListener(
                 itemHandlerThread, itemLoadMore, itemAsyncDiff, itemSetting,
                 itemEditText, itemTextMask, itemMenu, itemAppBar, itemDialog, itemTab, itemPaging,

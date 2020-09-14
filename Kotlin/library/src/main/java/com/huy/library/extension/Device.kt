@@ -74,21 +74,19 @@ val chipSet: String
         }
     }
 
-val screenWidth: Int
+val displayMetrics: DisplayMetrics
     get() {
         val windowManager = app.getSystemService(Context.WINDOW_SERVICE) as WindowManager
         val dm = DisplayMetrics()
         windowManager.defaultDisplay.getMetrics(dm)
-        return dm.heightPixels
+        return dm
     }
 
-val screenHeight: Int
-    get() {
-        val windowManager = app.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-        val dm = DisplayMetrics()
-        windowManager.defaultDisplay.getMetrics(dm)
-        return dm.heightPixels
-    }
+val screenWidth: Int get() = displayMetrics.widthPixels
+
+val screenHeight: Int get() = displayMetrics.heightPixels
+
+val dpi: Int get() = displayMetrics.densityDpi
 
 /**
  * [CameraCharacteristics.LENS_FACING_FRONT]

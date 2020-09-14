@@ -1,4 +1,4 @@
-package com.huy.kotlin.app
+package com.huy.kotlin
 
 import android.app.Application
 import com.huy.kotlin.data.observable.NetworkLiveData

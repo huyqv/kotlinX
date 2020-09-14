@@ -1,10 +1,10 @@
 package com.huy.kotlin.widget
 
 import android.content.Context
+import android.content.res.TypedArray
 import android.util.AttributeSet
-import android.view.LayoutInflater
-import androidx.constraintlayout.widget.ConstraintLayout
 import com.huy.kotlin.R
+import com.huy.library.widget.AppCustomView
 import kotlinx.android.synthetic.main.widget_menu.view.*
 
 /**
@@ -15,42 +15,24 @@ import kotlinx.android.synthetic.main.widget_menu.view.*
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-class NavigateMenu : ConstraintLayout {
+class NavigateMenu : AppCustomView {
 
-    constructor(context: Context) : super(context) {
-        init(context, null)
-    }
+    /**
+     * [AppCustomView] implement
+     */
+    override val layoutRes: Int get() = R.layout.widget_menu
 
-    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
-        init(context, attrs)
-    }
+    constructor(context: Context) : super(context)
 
-    private fun init(context: Context, attrs: AttributeSet?) {
+    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
 
-        val a = context.theme.obtainStyledAttributes(attrs, R.styleable.NavigateMenu, 0, 0)
-
-        try {
-
-            val text = a.getString(R.styleable.NavigateMenu_android_text)
-            val textColor = a.getInt(R.styleable.NavigateMenu_android_textColor, -1)
-            val allCaps = a.getBoolean(R.styleable.NavigateMenu_android_textAllCaps, false)
-            val drawable = a.getResourceId(R.styleable.NavigateMenu_android_src, -1)
-            val background = a.getResourceId(R.styleable.NavigateMenu_android_background, -1)
-
-            LayoutInflater.from(context).inflate(R.layout.widget_menu, this)
-            viewMenu_textView.text = text
-            viewMenu_textView.isClickable = false
-            viewMenu_textView.isAllCaps = allCaps
-
-            if (textColor != -1) viewMenu_textView.setTextColor(textColor)
-
-            if (drawable != -1) viewMenu_icon.setBackgroundResource(drawable)
-
-            if (background != -1) viewMenu_view.setBackgroundResource(background)
-
-        } finally {
-            a.recycle()
-        }
+    override fun onInitialize(context: Context, types: TypedArray) {
+        menuTextViewLabel.isClickable = false
+        menuTextViewLabel.text = types.text
+        menuTextViewLabel.isAllCaps = types.textAllCaps
+        menuTextViewLabel.setTextColor(types.textColor)
+        menuImageViewIcon.setImageDrawable(types.src)
+        menuViewContent.background = types.background
     }
 
 }
