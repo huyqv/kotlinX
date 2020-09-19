@@ -7,8 +7,8 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
-import com.huy.kotlin.R
 import com.huy.kotlin.App
+import com.huy.kotlin.R
 import com.huy.kotlin.base.dialog.ProgressDialog
 import com.huy.library.view.ViewClickListener
 import com.tbruyelle.rxpermissions2.RxPermissions

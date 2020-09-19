@@ -36,8 +36,10 @@ class FragmentManagerActivity : BaseActivity() {
         when (v) {
             viewBack -> onBackPressed()
             else -> {
-                val fragment = ColorFragment()
-                fragment.color = Colors.next()
+                val fragment = ColorFragment().apply {
+                    color = Colors.next()
+                    //appBarBackground =
+                }
                 val anim = when (v) {
                     viewNextVer -> VERTICAL_ANIMATIONS
                     viewNextHor -> HORIZONTAL_ANIMATIONS

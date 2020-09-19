@@ -52,6 +52,7 @@ android.legacy_v4 = 'androidx.legacy:legacy-support-v4:1.0.0'
 android.media = "androidx.media:media:1.1.0"
 android.multidex = "androidx.multidex:multidex:2.0.1"
 android.material =  "com.google.android.material:material:1.1.0-alpha07"
+android.print = "androidx.print:print:1.0.0"
 deps.android = android
 
 def navigation = [:]

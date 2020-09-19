@@ -11,6 +11,7 @@ import android.provider.MediaStore
 import com.huy.library.Library
 import java.io.*
 
+
 /**
  * -------------------------------------------------------------------------------------------------
  * @Project: Kotlin
@@ -29,8 +30,7 @@ val filePath: String
         Environment.getExternalStorageDirectory().toString()
     }
 
-
-fun readBytes(fileName: String): ByteArray? {
+fun readBytesFromAssets(fileName: String): ByteArray? {
     return try {
         val inputStream = app.assets.open(fileName)
         val bytes = ByteArray(inputStream.available())
@@ -43,7 +43,7 @@ fun readBytes(fileName: String): ByteArray? {
 
 }
 
-fun readString(filename: String): String? {
+fun readStringFromAssets(filename: String): String? {
     return try {
         val sb = StringBuilder()
         BufferedReader(InputStreamReader(app.assets.open(filename))).useLines { lines ->
@@ -53,19 +53,6 @@ fun readString(filename: String): String? {
         }
         return sb.toString()
     } catch (e: FileNotFoundException) {
-        null
-    }
-}
-
-fun ByteArray.writeFile(): File? {
-    return try {
-        val file = File(filePath, "temp.jpg")
-        val stream = FileOutputStream(file)
-        stream.write(this)
-        stream.flush()
-        stream.close()
-        file
-    } catch (e: Exception) {
         null
     }
 }
@@ -98,7 +85,18 @@ fun File.getUri(): Uri? {
 
 }
 
-fun downloadFile(name: String): File {
+fun saveBitmap(name: String, bitmap: Bitmap) {
+    val path: String = filePath
+    var fOut: OutputStream?
+    val file = File(path, "$name.png")
+    fOut = FileOutputStream(file)
+    bitmap.compress(Bitmap.CompressFormat.PNG, 100, fOut)
+    fOut.flush()
+    fOut.close()
+    MediaStore.Images.Media.insertImage(app.contentResolver, file.absolutePath, file.name, file.name)
+}
+
+fun newFile(name: String): File {
     return File(filePath, name)
 }
 
@@ -141,15 +139,35 @@ fun createFile(fileName: String) {
 
 }
 
-fun saveBitmap(name: String, bitmap: Bitmap) {
-    val path: String = filePath
-    var fOut: OutputStream?
-    val file = File(path, "$name.png")
-    fOut = FileOutputStream(file)
-    bitmap.compress(Bitmap.CompressFormat.PNG, 100, fOut)
-    fOut.flush()
-    fOut.close()
-    MediaStore.Images.Media.insertImage(app.contentResolver, file.absolutePath, file.name, file.name)
+fun writeFile(bytes: ByteArray): File? {
+    return try {
+        val file = File(filePath, "temp.jpg")
+        val stream = FileOutputStream(file)
+        stream.write(bytes)
+        stream.flush()
+        stream.close()
+        file
+    } catch (e: Exception) {
+        null
+    }
+}
+
+fun readFile(fileName: String): String {
+    val file = File(filePath, fileName)
+    val text = java.lang.StringBuilder()
+    try {
+        val br = BufferedReader(FileReader(file))
+        var line: String?
+        while (br.readLine().also { line = it } != null) {
+            text.append(line)
+            text.append('\n')
+        }
+        br.close()
+    } catch (e: IOException) {
+    }
+    return text.toString()
+
+
 }
 
 

@@ -14,7 +14,6 @@ import com.huy.kotlin.ui.recycler.loadMore.LoadMoreFragment
 import com.huy.kotlin.ui.recycler.paged.PagingFragment
 import com.huy.kotlin.ui.tab.TabFragment
 import com.huy.library.extension.fullScreen
-import com.huy.library.extension.hideNavigationBar
 import kotlinx.android.synthetic.main.activity_main.*
 
 /**
@@ -37,6 +36,7 @@ class MainActivity : ArchActivity<MainVM>() {
         fullScreen()
         super.onCreate(savedInstanceState)
     }
+
     override fun onCreated(state: Bundle?) {
 
         addClickListener(

@@ -36,11 +36,11 @@ fun <R : Converter<E>, E> JsonArray.transform(cls: Class<Array<R>>): List<E>? {
 }
 
 fun <T> readJsonAsset(fileName: String, cls: Class<T>): T? {
-    return readString(fileName).parse(cls)
+    return readStringFromAssets(fileName).parse(cls)
 }
 
 fun <T> readJsonAsset(fileName: String, cls: Class<Array<T>>): List<T>? {
-    return readString(fileName).parse(cls)
+    return readStringFromAssets(fileName).parse(cls)
 }
 
 /**

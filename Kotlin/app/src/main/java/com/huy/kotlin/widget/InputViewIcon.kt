@@ -5,7 +5,6 @@ import android.content.res.TypedArray
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatTextView
-import androidx.core.content.ContextCompat
 import com.huy.kotlin.R
 import kotlinx.android.synthetic.main.widget_input_icon.view.*
 
@@ -31,7 +30,7 @@ class InputViewIcon : InputView {
 
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
 
-    override fun configDrawable(types : TypedArray) {
+    override fun configDrawable(types: TypedArray) {
 
         val color = types.textColor
         val drawableLeft = types.drawableStart?.apply { setTintColor(color) }

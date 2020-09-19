@@ -8,9 +8,12 @@ import android.util.DisplayMetrics
 import android.util.TypedValue
 import android.view.View
 import androidx.annotation.DimenRes
+import androidx.annotation.IntDef
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import java.lang.annotation.Retention
+import java.lang.annotation.RetentionPolicy
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -182,42 +185,33 @@ class GridDecoration : RecyclerView.ItemDecoration {
 
 }
 
-class SeparateDecoration : RecyclerView.ItemDecoration {
+class SeparateDecoration(private val margin: Int = 0,
+                         @Orientation val orientation: Int = VERTICAL,
+                         private val column: Int = 1)
+    : RecyclerView.ItemDecoration() {
 
-    enum class Layout {
-        HORIZONTAL, VERTICAL, GRID
+    companion object {
+        const val HORIZONTAL = 0
+        const val VERTICAL = 1
+        const val GRID = 2
     }
 
-    private var margin: Int = 0
-
-    private var orientation: Layout = Layout.VERTICAL
-
-    private var column: Int = 1
+    @IntDef(HORIZONTAL, VERTICAL, GRID)
+    @Retention(RetentionPolicy.SOURCE)
+    private annotation class Orientation
 
     private var hasLeftSpacing = false
-
-    constructor(margin: Int, column: Int) {
-
-        this.margin = margin
-        this.column = column
-        this.orientation = Layout.GRID
-    }
-
-    constructor(margin: Int = 0, orientation: Layout = Layout.VERTICAL) {
-        this.margin = margin
-        this.orientation = orientation
-    }
 
     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
 
         val context = parent.context
-        if (orientation == Layout.GRID) {
+        if (orientation == GRID) {
             addGridOffset(outRect, view, parent)
             return
         }
 
         val divider = getDivider(context)
-        if (orientation == Layout.VERTICAL)
+        if (orientation == VERTICAL)
             outRect.set(0, 0, 0, divider.intrinsicHeight)
         else
             outRect.set(0, 0, divider.intrinsicWidth, 0)
@@ -225,9 +219,9 @@ class SeparateDecoration : RecyclerView.ItemDecoration {
 
     override fun onDrawOver(canvas: Canvas, parent: RecyclerView, state: RecyclerView.State) {
 
-        if (orientation == Layout.VERTICAL)
+        if (orientation == VERTICAL)
             drawVertical(canvas, parent)
-        else if (orientation == Layout.HORIZONTAL)
+        else if (orientation == HORIZONTAL)
             drawHorizontal(canvas, parent)
     }
 

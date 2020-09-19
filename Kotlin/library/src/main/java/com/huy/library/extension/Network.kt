@@ -18,37 +18,38 @@ import com.huy.library.Library
  */
 private val app: Application get() = Library.app
 
-val networkConnected: Boolean
+val connectionInfo: String?
     @SuppressLint("MissingPermission")
     get() {
-        val cm = app.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val cm = connectivityManager
         when {
             Build.VERSION.SDK_INT > Build.VERSION_CODES.O -> cm.getNetworkCapabilities(cm.activeNetwork)?.run {
                 return when {
-                    hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
-                    hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
-                    hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
-                    else -> false
+                    hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> "wifi"
+                    hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> "cellular"
+                    hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> "ethernet"
+                    else -> null
                 }
             }
-
             Build.VERSION.SDK_INT > Build.VERSION_CODES.M -> @Suppress("DEPRECATION") cm.activeNetworkInfo?.run {
-                if (type == ConnectivityManager.TYPE_WIFI) {
-                    return true
-                } else if (type == ConnectivityManager.TYPE_MOBILE) {
-                    return true
+                return when (type) {
+                    ConnectivityManager.TYPE_WIFI -> "wifi"
+                    ConnectivityManager.TYPE_MOBILE -> "mobile"
+                    else -> null
                 }
             }
-
             else -> @Suppress("DEPRECATION") {
-                val activeNetworkInfo = cm.activeNetworkInfo
-                return activeNetworkInfo != null && activeNetworkInfo.isConnected
+                if (cm.activeNetworkInfo?.isConnected == true) {
+                    return "is connected"
+                }
             }
         }
-        return false
+        return null
     }
 
-val networkDisconnected: Boolean get() = !networkConnected
+val networkConnected: Boolean get() = connectionInfo != null
+
+val networkDisconnected: Boolean get() = connectionInfo == null
 
 val connectivityManager = app.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
