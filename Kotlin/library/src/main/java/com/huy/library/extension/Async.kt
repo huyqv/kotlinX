@@ -13,16 +13,17 @@ import android.os.Looper
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
-val handler = Handler()
+val uiHandler: Handler by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
+    Handler(Looper.getMainLooper())
+}
 
 fun post(block: () -> Unit) {
-    handler.post { block() }
+    uiHandler.post { block() }
 }
 
 fun post(delay: Long, block: () -> Unit) {
-    handler.postDelayed({ block() }, delay)
+    uiHandler.postDelayed({ block() }, delay)
 }
-
 
 val ioExecutor: ExecutorService get() = Executors.newSingleThreadExecutor()
 
@@ -30,8 +31,6 @@ fun ioThread(block: () -> Unit) {
     ioExecutor.execute(block)
 }
 
-
-val uiHandler: Handler = Handler(Looper.getMainLooper())
 
 val isOnUiThread: Boolean get() = Looper.myLooper() == Looper.getMainLooper()
 

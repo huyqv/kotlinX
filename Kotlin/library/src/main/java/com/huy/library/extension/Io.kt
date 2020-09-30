@@ -8,6 +8,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
+import androidx.annotation.RequiresPermission
 import com.huy.library.Library
 import java.io.*
 
@@ -139,9 +140,10 @@ fun createFile(fileName: String) {
 
 }
 
-fun writeFile(bytes: ByteArray): File? {
+@RequiresPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+fun writeFile(fileName: String, bytes: ByteArray): File? {
     return try {
-        val file = File(filePath, "temp.jpg")
+        val file = File(filePath, fileName)
         val stream = FileOutputStream(file)
         stream.write(bytes)
         stream.flush()
@@ -152,6 +154,7 @@ fun writeFile(bytes: ByteArray): File? {
     }
 }
 
+@RequiresPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE)
 fun readFile(fileName: String): String {
     val file = File(filePath, fileName)
     val text = java.lang.StringBuilder()

@@ -2,6 +2,7 @@ package com.huy.library.extension
 
 import android.app.ActivityManager
 import android.app.Application
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Resources
@@ -48,7 +49,20 @@ val appVersion: String
         }
     }
 
+fun isServiceRunning(serviceClass: Class<*>): Boolean {
+    val manager = app.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager?
+    @Suppress("DEPRECATION")
+    for (service in manager!!.getRunningServices(Int.MAX_VALUE)) {
+        if (serviceClass.name == service.service.className) {
+            return true
+        }
+    }
+    return false
+}
+
 val packageName: String get() = app.applicationContext.packageName
+
+val packageUrl: String get() = "package:$packageName"
 
 val statusBarHeight: Int
     get() {
@@ -71,8 +85,8 @@ fun toast(message: String?) {
     message ?: return
     if (isOnUiThread) {
         Toast.makeText(app.applicationContext, message, Toast.LENGTH_SHORT).show()
-    } else {
-        uiHandler.post { Toast.makeText(app.applicationContext, message, Toast.LENGTH_SHORT).show() }
+    } else uiHandler.post {
+        Toast.makeText(app.applicationContext, message, Toast.LENGTH_SHORT).show()
     }
 }
 

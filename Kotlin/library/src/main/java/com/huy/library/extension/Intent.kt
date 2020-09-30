@@ -34,11 +34,8 @@ val emailIntent: Intent
         return intent
     }
 
-fun Activity.startSettings() {
-    startActivityForResult(Intent(Settings.ACTION_SETTINGS), 0)
-}
 
-fun Activity.startEmail() {
+fun Activity.navigateEmail() {
     startActivity(emailIntent)
 }
 
@@ -46,7 +43,7 @@ fun Activity.startVoiceRecord(code: Int = VOICE_REQUEST_CODE) {
     startActivityForResult(voiceRecordIntent, code)
 }
 
-fun Activity.startAppSettings(code: Int) {
+fun Activity.navigateSettings(code: Int = 0) {
     val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
     val uri = Uri.fromParts("package", packageName, null)
     intent.data = uri
@@ -64,29 +61,8 @@ fun Activity.navigateAppStore() {
     }
 }
 
-fun Fragment.startSettings() {
-    startActivityForResult(Intent(Settings.ACTION_SETTINGS), 0)
-}
-
-fun Fragment.startEmail() {
-    startActivity(emailIntent)
-}
-
-fun Fragment.startBrowser(url: String) {
+fun Activity.navigateBrowser(url: String) {
     startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
 }
 
-fun Fragment.startVoiceRecord(code: Int = VOICE_REQUEST_CODE) {
-    startActivityForResult(voiceRecordIntent, code)
-}
 
-fun Fragment.startAppStore() {
-    activity?.navigateAppStore()
-}
-
-fun Fragment.startAppSettings(code: Int) {
-    val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-    val uri = Uri.fromParts("package", context?.packageName, null)
-    intent.data = uri
-    startActivityForResult(intent, code)
-}

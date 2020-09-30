@@ -6,12 +6,6 @@
     android:orientation="vertical"
     tools:background="@android:color/black">
 
-    <com.huy.kotlin.widget.AppBarView
-        android:id="@+id/appBarView"
-        style="@style/AppBar.Light"
-        android:drawableEnd="@drawable/ic_search"
-        android:text="@string/app_name" />
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/parallaxContent"
         style="@style/VerticalItem"

@@ -43,7 +43,7 @@ class EventDispatcher private constructor() {
         var listeners: Set<EventListener>?
         synchronized(sync) {
             listeners = observers.get(eventId)
-            if (listeners != null && !listeners!!.isEmpty()) {
+            if (listeners != null && listeners!!.isNotEmpty()) {
                 for (listener in listeners!!) {
                     listener.onEvent(eventId, *args)
                 }

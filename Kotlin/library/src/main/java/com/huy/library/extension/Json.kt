@@ -9,32 +9,6 @@ import org.json.JSONException
 import org.json.JSONObject
 import java.io.StringReader
 
-abstract class Converter<T> {
-    abstract fun convert(): T?
-}
-
-fun <T> List<Converter<T>>.convert(): List<T>? {
-
-    val list: MutableList<T> = mutableListOf()
-
-    for (e: Converter<T> in this) {
-        val entity = e.convert() ?: continue
-        list.add(entity)
-    }
-
-    if (list.isEmpty()) return null
-
-    return list
-}
-
-fun <R : Converter<E>, E> JsonObject.transform(cls: Class<R>): E? {
-    return parse(cls)?.convert()
-}
-
-fun <R : Converter<E>, E> JsonArray.transform(cls: Class<Array<R>>): List<E>? {
-    return parse(cls)?.convert()
-}
-
 fun <T> readJsonAsset(fileName: String, cls: Class<T>): T? {
     return readStringFromAssets(fileName).parse(cls)
 }

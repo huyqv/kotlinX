@@ -123,12 +123,12 @@ abstract class AutoSlideAdapter<T> : InfinityPagerAdapter<Int>() {
     fun observer(lifecycleOwner: LifecycleOwner) {
         lifecycleOwner.lifecycle.addObserver(object : LifecycleObserver {
             @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-            open fun onCreate() {
+            fun onCreate() {
                 intervalSingle.start()
             }
 
             @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-            open fun onDestroy() {
+            fun onDestroy() {
                 intervalSingle.stop()
             }
         })

@@ -56,13 +56,24 @@ fun ImageView.tintColorRes(@ColorRes color: Int) {
     tintColor(color(color))
 }
 
-fun ImageView.tintColor(color: Int) {
+fun View.backgroundTintColor(color: Int) {
     post {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             background.colorFilter = BlendModeColorFilter(color, BlendMode.SRC_ATOP)
         } else {
             @Suppress("DEPRECATION")
             background.setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
+        }
+    }
+}
+
+fun ImageView.tintColor(color: Int) {
+    post {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            colorFilter = BlendModeColorFilter(color, BlendMode.SRC_ATOP)
+        } else {
+            @Suppress("DEPRECATION")
+            setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
         }
     }
 }

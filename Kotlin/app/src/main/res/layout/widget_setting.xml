@@ -13,6 +13,7 @@
         android:id="@+id/settingTextViewTitle"
         style="@style/TextView.Large"
         android:clickable="false"
+        android:textColor="@android:color/darker_gray"
         app:layout_constraintBottom_toTopOf="@+id/guideline5"
         app:layout_constraintStart_toStartOf="parent" />
 

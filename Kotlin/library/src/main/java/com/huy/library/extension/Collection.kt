@@ -37,7 +37,7 @@ fun <T, R> Collection<T>.transform(block: (T) -> R?): List<R> {
     return list
 }
 
-fun <T> Collection<T?>?.filters(block: (T) -> T?): MutableList<T>? {
+fun <T> Collection<T?>?.filters(block: (T) -> T?): List<T>? {
     this ?: return null
     val list = mutableListOf<T>()
     for (item in this) {
