@@ -19,11 +19,7 @@ class AppViewPager : ViewPager {
 
     var swipeEnabled: Boolean = true
 
-    constructor(context: Context) : super(context) {
-        setMySwipe()
-    }
-
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
+    constructor(context: Context, attrs: AttributeSet? = null) : super(context, attrs) {
         setMySwipe()
     }
 

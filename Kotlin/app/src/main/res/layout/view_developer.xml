@@ -13,16 +13,4 @@
         android:layout_marginTop="@dimen/_24sdp"
         android:background="@drawable/ic_kotlin" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/textViewDev"
-        style="@style/TextView.Small"
-        android:layout_height="20dp"
-        android:layout_marginTop="@dimen/_4sdp"
-        android:text="PIMP" />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        style="@style/TextView.Small"
-        android:text="None right reserved."
-        android:textColor="@color/colorTextSecondary" />
-
 </androidx.appcompat.widget.LinearLayoutCompat>

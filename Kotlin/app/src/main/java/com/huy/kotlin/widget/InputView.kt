@@ -62,13 +62,10 @@ abstract class InputView : AppCustomView {
 
     abstract val editView: AppCompatEditText?
 
-    constructor(context: Context) : super(context)
-
-    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
+    constructor(context: Context, attrs: AttributeSet? = null) : super(context, attrs)
 
     override fun onInitialize(context: Context, types: TypedArray) {
         clearBackground()
-
         configTitleText(types)
         configEditText(types)
         configDrawable(types)
@@ -136,13 +133,15 @@ abstract class InputView : AppCustomView {
     }
 
     open fun configTitleText(types: TypedArray) {
-        titleView?.setTextColor(types.textColor)
+        titleView?.setTextColor(types.tint)
         titleView?.text = types.text
     }
 
     open fun configEditText(types: TypedArray) {
 
         editView?.also {
+
+            it.setTextColor(types.textColor)
 
             val inputType = types.getInt(R.styleable.CustomView_android_inputType, EditorInfo.TYPE_CLASS_TEXT)
             if (inputType == EditorInfo.TYPE_NULL) {
@@ -174,7 +173,7 @@ abstract class InputView : AppCustomView {
     }
 
     open fun configDrawable(types: TypedArray) {
-        val color = types.textColor
+        val color = types.drawableTint
         val drawableLeft = types.drawableStart?.apply { setTintColor(color) }
         val drawableRight = types.drawableEnd?.apply { setTintColor(color) }
         editView?.post {

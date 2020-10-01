@@ -25,8 +25,6 @@ class InputViewMaterial : InputView {
 
     override val layoutRes: Int get() = R.layout.widget_input_material
 
-    constructor(context: Context) : super(context)
-
-    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
+    constructor(context: Context, attrs: AttributeSet? = null) : super(context, attrs)
 
 }

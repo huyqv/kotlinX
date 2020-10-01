@@ -26,23 +26,12 @@ class InputViewIcon : InputView {
 
     override val layoutRes: Int get() = R.layout.widget_input_icon
 
-    constructor(context: Context) : super(context)
-
-    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
+    constructor(context: Context, attrs: AttributeSet? = null) : super(context, attrs)
 
     override fun configDrawable(types: TypedArray) {
-
-        val color = types.textColor
-        val drawableLeft = types.drawableStart?.apply { setTintColor(color) }
-        val drawableRight = types.drawableEnd?.apply { setTintColor(color) }
-        editView?.post {
-            editView?.setCompoundDrawablesWithIntrinsicBounds(drawableLeft, null, drawableRight, null)
-        }
-
-        val drawable = types.drawable?.also {
-            it.setTintColor(color)
-        }
-        inputImageViewDrawable.setImageDrawable(drawable)
+        inputImageViewDrawable.setImageDrawable(types.drawable?.also {
+            it.setTintColor(types.drawableTint)
+        })
 
     }
 

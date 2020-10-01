@@ -24,6 +24,8 @@
         <attr name="android:drawable" format="integer" />
         <attr name="android:nextFocusForward" format="integer" />
         <attr name="android:tint" format="integer" />
+        <attr name="android:drawableTint" format="integer" />
+        <attr name="android:backgroundTint" format="integer" />
     </declare-styleable>
 
     <declare-styleable name="RoundedLayout">

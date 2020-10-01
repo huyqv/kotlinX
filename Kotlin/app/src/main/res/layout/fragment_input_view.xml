@@ -20,27 +20,36 @@
             <com.huy.kotlin.widget.InputViewMaterial
                 style="@style/MatchWidth"
                 android:layout_marginTop="@dimen/extraDist"
-                android:drawableStart="@drawable/ic_adb"
-                android:drawableEnd="@drawable/ic_adb"
-                android:text="material"
+                android:drawableStart="@drawable/ic_send"
+                android:drawableEnd="@drawable/ic_send"
                 android:src="@drawable/drw_under_line"
+                android:drawableTint="@color/colorIndianRed"
+                android:text="asd"
+                android:tint="@color/colorTurquoise"
+                android:title="material"
                 android:textColor="@color/colorPrimary" />
 
             <com.huy.kotlin.widget.InputViewIcon
                 style="@style/MatchWidth"
                 android:layout_marginTop="@dimen/extraDist"
                 android:drawable="@drawable/ic_send"
-                android:text="left icon"
+                android:drawableTint="@color/colorTurquoise"
                 android:src="@drawable/drw_under_line"
-                android:textColor="@color/colorPrimary" />
+                android:text="asd"
+                android:textColor="@color/colorIndianRed"
+                android:tint="@color/colorPrimary"
+                android:title="left icon" />
 
             <com.huy.kotlin.widget.InputViewCenter
                 style="@style/MatchWidth"
                 android:layout_marginTop="@dimen/extraDist"
-                android:drawableStart="@drawable/ic_adb"
+                android:drawableStart="@drawable/ic_send"
                 android:src="@drawable/drw_under_line"
-                android:text="center"
-                android:textColor="@color/colorPrimary" />
+                android:drawableTint="@color/colorPrimary"
+                android:text="asd"
+                android:textColor="@color/colorTurquoise"
+                android:tint="@color/colorIndianRed"
+                android:title="center" />
 
             <include layout="@layout/view_developer" />
 

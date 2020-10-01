@@ -24,15 +24,7 @@ class RoundedLayout : ConstraintLayout {
 
     private var cornerRadius: Float = 0.toFloat()
 
-    constructor(context: Context) : super(context) {
-        init(context, null)
-    }
-
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
-        init(context, attrs)
-    }
-
-    constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle) {
+    constructor(context: Context, attrs: AttributeSet? = null) : super(context, attrs) {
         init(context, attrs)
     }
 

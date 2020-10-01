@@ -20,9 +20,7 @@ import android.webkit.WebViewClient
  */
 class ThumbnailWebView : WebView, View.OnTouchListener {
 
-    constructor(context: Context) : super(context)
-
-    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
+    constructor(context: Context, attrs: AttributeSet? = null) : super(context, attrs)
 
     init {
         webViewClient = ThumbnailClient()

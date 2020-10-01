@@ -19,7 +19,7 @@
         style="@style/TextView.Small"
         android:layout_height="20dp"
         android:layout_marginTop="@dimen/_4sdp"
-        android:text="PIMP 2017" />
+        android:text="PIMP" />
 
     <androidx.appcompat.widget.AppCompatTextView
         style="@style/TextView.Small"

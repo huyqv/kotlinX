@@ -39,9 +39,7 @@ class SliderView : ViewFlipper {
 
     private val backExitAnimation: Animation = AnimationUtils.loadAnimation(context, R.anim.horizontal_pop_exit)
 
-    constructor(context: Context) : super(context)
-
-    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
+    constructor(context: Context, attrs: AttributeSet? = null) : super(context, attrs)
 
     override fun showNext() {
 

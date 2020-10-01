@@ -1,6 +1,8 @@
 package com.huy.library.widget
 
+import android.app.Application
 import android.content.Context
+import android.content.res.Resources
 import android.content.res.TypedArray
 import android.graphics.Color
 import android.graphics.drawable.Drawable
@@ -8,13 +10,14 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
 import androidx.core.content.ContextCompat
+import com.huy.library.Library
 import com.huy.library.R
 
 abstract class AppCustomView : FrameLayout {
 
     protected abstract fun onInitialize(context: Context, types: TypedArray)
 
-    protected open val styleRes: IntArray = R.styleable.CustomView
+    protected open val styleRes: IntArray get() = R.styleable.CustomView
 
     protected abstract val layoutRes: Int
 
@@ -22,11 +25,11 @@ abstract class AppCustomView : FrameLayout {
         onViewInit(context, null)
     }
 
-    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
+    constructor(context: Context, attrs: AttributeSet? = null) : super(context, attrs) {
         onViewInit(context, attrs)
     }
 
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
         onViewInit(context, attrs)
     }
 
@@ -40,6 +43,12 @@ abstract class AppCustomView : FrameLayout {
         }
     }
 
+    private val app: Application get() = Library.app
+
+
+    /**
+     * Text
+     */
     val TypedArray.text: String?
         get() = getString(R.styleable.CustomView_android_text)
 
@@ -49,58 +58,91 @@ abstract class AppCustomView : FrameLayout {
     val TypedArray.hint: String?
         get() = getString(R.styleable.CustomView_android_hint)
 
+
+    /**
+     * Drawable
+     */
     val TypedArray.drawableStart: Drawable?
         get() {
             val id = getResourceId(R.styleable.CustomView_android_drawableStart, 0)
             if (id == 0) return null
-            return ContextCompat.getDrawable(context, id)
+            return ContextCompat.getDrawable(app, id)?.constantState?.newDrawable()?.mutate()
         }
+
     val TypedArray.drawableEnd: Drawable?
         get() {
             val id = getResourceId(R.styleable.CustomView_android_drawableEnd, 0)
             if (id == 0) return null
-            return ContextCompat.getDrawable(context, id)
+            return ContextCompat.getDrawable(app, id)?.constantState?.newDrawable()?.mutate()
         }
 
     val TypedArray.drawable: Drawable?
         get() {
             val id = getResourceId(R.styleable.CustomView_android_drawable, 0)
             if (id == 0) return null
-            return ContextCompat.getDrawable(context, id)
+            return ContextCompat.getDrawable(app, id)?.constantState?.newDrawable()?.mutate()
         }
 
     val TypedArray.src: Drawable?
         get() {
             val id = getResourceId(R.styleable.CustomView_android_src, 0)
             if (id == 0) return null
-            return ContextCompat.getDrawable(context, id)
+            return ContextCompat.getDrawable(app, id)
         }
 
     val TypedArray.background: Drawable?
         get() {
             val id = getResourceId(R.styleable.CustomView_android_background, 0)
             if (id == 0) return null
-            return ContextCompat.getDrawable(context, id)
+            return ContextCompat.getDrawable(app, id)
         }
 
+
+    /**
+     * Color
+     */
     val TypedArray.tint: Int
         get() {
             val id = getResourceId(R.styleable.CustomView_android_tint, android.R.color.black)
-            return ContextCompat.getColor(context, id)
+            return ContextCompat.getColor(app, id)
+        }
+
+    val TypedArray.drawableTint: Int
+        get() {
+            val id = getResourceId(R.styleable.CustomView_android_drawableTint, android.R.color.black)
+            return ContextCompat.getColor(app, id)
+        }
+
+    val TypedArray.backgroundTint: Int
+        get() {
+            val id = getResourceId(R.styleable.CustomView_android_backgroundTint, android.R.color.white)
+            return ContextCompat.getColor(app, id)
         }
 
     val TypedArray.textColorRes: Int
-        get() = getColor(R.styleable.CustomView_android_textColor, Color.BLACK)
+        get() = getResourceId(R.styleable.CustomView_android_textColor, android.R.color.black)
 
     val TypedArray.textColor: Int
-        get() = ContextCompat.getColor(context, textColorRes)
+        get() {
+            return try {
+                val res = getResourceId(R.styleable.CustomView_android_textColor, android.R.color.black)
+                ContextCompat.getColor(app, res)
+            } catch (e: Resources.NotFoundException) {
+                getColor(R.styleable.CustomView_android_textColor, Color.BLACK)
+            } catch (e: Exception) {
+                Color.BLACK
+            }
+        }
 
     val TypedArray.hintColor: Int
         get() {
             val res = getResourceId(R.styleable.CustomView_android_textColorHint, R.color.colorDark)
-            return ContextCompat.getColor(context, res)
+            return ContextCompat.getColor(app, res)
         }
 
+    /**
+     * Editable
+     */
     val TypedArray.maxLength: Int
         get() = getInt(R.styleable.CustomView_android_maxLength, 256)
 
@@ -110,11 +152,15 @@ abstract class AppCustomView : FrameLayout {
     val TypedArray.textAllCaps: Boolean
         get() = getBoolean(R.styleable.CustomView_android_textAllCaps, false)
 
+    /**
+     * Checkable
+     */
     val TypedArray.checkable: Boolean
         get() = getBoolean(R.styleable.CustomView_android_checkable, false)
 
     val TypedArray.checked: Boolean
         get() = getBoolean(R.styleable.CustomView_android_checked, false)
 
-
 }
+
+

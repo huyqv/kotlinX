@@ -22,9 +22,7 @@ class NavigateMenu : AppCustomView {
      */
     override val layoutRes: Int get() = R.layout.widget_menu
 
-    constructor(context: Context) : super(context)
-
-    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
+    constructor(context: Context, attrs: AttributeSet? = null) : super(context, attrs)
 
     override fun onInitialize(context: Context, types: TypedArray) {
         menuTextViewLabel.isClickable = false

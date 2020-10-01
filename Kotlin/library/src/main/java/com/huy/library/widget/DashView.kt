@@ -15,7 +15,7 @@ import kotlin.math.floor
  * All Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-class DashView constructor(context: Context?, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : View(context, attrs, defStyleAttr) {
+class DashView : View {
 
     var dashHeight: Float = 1f
 
@@ -29,8 +29,8 @@ class DashView constructor(context: Context?, attrs: AttributeSet? = null, defSt
 
     val paint: Paint = Paint()
 
-    init {
-        if (attrs != null) context?.theme?.obtainStyledAttributes(attrs, R.styleable.DashView, defStyleAttr, 0)?.apply {
+    constructor(context: Context?, attrs: AttributeSet? = null) : super(context, attrs) {
+        if (attrs != null) context?.theme?.obtainStyledAttributes(attrs, R.styleable.DashView, 0, 0)?.apply {
             dashLength = getDimension(R.styleable.DashView_dashView_dashLength, dashLength)
             dashSpace = getDimension(R.styleable.DashView_dashView_dashSpace, dashSpace)
             paint.color = getColor(R.styleable.DashView_dashView_color, Color.argb(255, 0, 0, 0))
