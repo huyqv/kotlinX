@@ -109,6 +109,7 @@ dependencies {
     implementation deps.android.browser
     implementation deps.android.annotation
     implementation deps.android.material
+    implementation deps.android.viewpager
 
     implementation deps.navigation.fragment
     implementation deps.navigation.ui

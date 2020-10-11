@@ -1,7 +1,7 @@
 package com.huy.library.adapter.fragment
 
 import android.view.View
-import androidx.viewpager.widget.ViewPager
+import androidx.viewpager2.widget.ViewPager2
 import kotlin.math.abs
 
 /**
@@ -15,7 +15,7 @@ import kotlin.math.abs
  */
 class PageTransformer {
 
-    class Parallax(val parallaxViewId: () -> Int) : ViewPager.PageTransformer {
+    class Parallax(val parallaxViewId: () -> Int) : ViewPager2.PageTransformer {
 
         override fun transformPage(view: View, position: Float) {
             when {
@@ -35,7 +35,7 @@ class PageTransformer {
         }
     }
 
-    class FadeZoom : ViewPager.PageTransformer {
+    class FadeZoom : ViewPager2.PageTransformer {
 
         companion object {
             private const val MIN_SCALE = 0.85f
@@ -77,7 +77,7 @@ class PageTransformer {
         }
     }
 
-    class Stack : ViewPager.PageTransformer {
+    class Stack : ViewPager2.PageTransformer {
         override fun transformPage(view: View, position: Float) {
 
             val pageWidth = view.width
@@ -109,7 +109,26 @@ class PageTransformer {
         }
     }
 
-    class VerticalSlide : ViewPager.PageTransformer {
+    class VerticalSlide : ViewPager2.PageTransformer {
+        override fun transformPage(view: View, position: Float) {
+            when {
+                position < -1 -> {
+                    view.alpha = 0f
+                }
+                position <= 1 -> {
+                    view.alpha = 1f
+                    view.translationX = view.width * -position
+                    val yPosition = position * view.height
+                    view.translationY = yPosition
+                }
+                else -> {
+                    view.alpha = 0f
+                }
+            }
+        }
+    }
+
+    class ReservedVerticalSlide : ViewPager2.PageTransformer {
         override fun transformPage(view: View, position: Float) {
 
             view.translationX = view.width * -position
@@ -121,7 +140,7 @@ class PageTransformer {
         }
     }
 
-    class HorizontalSlide : ViewPager.PageTransformer {
+    class HorizontalSlide : ViewPager2.PageTransformer {
         override fun transformPage(view: View, position: Float) {
 
             view.translationX = view.width * -position
@@ -135,7 +154,7 @@ class PageTransformer {
         }
     }
 
-    class Fade : ViewPager.PageTransformer {
+    class Fade : ViewPager2.PageTransformer {
         override fun transformPage(page: View, position: Float) {
             if (position <= -1.0F || position >= 1.0F) {
                 page.alpha = 0.0F
@@ -147,7 +166,7 @@ class PageTransformer {
         }
     }
 
-    class None : ViewPager.PageTransformer {
+    class None : ViewPager2.PageTransformer {
         override fun transformPage(view: View, position: Float) {
             when {
                 position < 0 -> view.scrollX = (view.width.toFloat() * position).toInt()

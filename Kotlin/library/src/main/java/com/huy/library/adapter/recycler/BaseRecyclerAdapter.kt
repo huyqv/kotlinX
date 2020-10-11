@@ -132,30 +132,14 @@ abstract class BaseRecyclerAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHo
 
     var onItemLongClick: (T, Int) -> Unit = { _, _ -> }
 
-
-    /**
-     * Position
-     */
-    private var lastIndexPosition: Int = -1
-
-    private fun Int.updateLastIndex() {
-        if (this > lastIndexPosition) lastIndexPosition = this
-    }
-
-    private val Int.isNotIndexed: Boolean get() = this > lastIndexPosition
-
-    private val Int.indexInBound: Boolean get() = this > -1 && this < size
-
-    private val Int.indexOutBound: Boolean get() = this < 0 || this >= size
-
-
     /**
      * Data
      */
     val emptyData: MutableList<T> = mutableListOf()
 
-    var currentList: MutableList<T> = emptyData
-        private set
+    var currentList: MutableList<T>? = null
+
+    val lastIndex: Int get() = currentList?.lastIndex ?: -1
 
     val size: Int get() = currentList.size
 
@@ -170,60 +154,52 @@ abstract class BaseRecyclerAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHo
      * List update
      */
     open fun get(position: Int): T? {
-        if (position.indexInBound) return currentList[position]
+        if (position in 0..lastIndex) return currentList[position]
         return null
     }
 
     open fun set(collection: Collection<T>?) {
         currentList = collection?.toMutableList() ?: emptyData
-        lastIndexPosition = -1
         notifyDataSetChanged()
     }
 
     open fun set(list: MutableList<T>?) {
         currentList = list ?: emptyData
-        lastIndexPosition = -1
         notifyDataSetChanged()
     }
 
     open fun set(array: Array<T>?) {
         currentList = array?.toMutableList() ?: emptyData
-        lastIndexPosition = -1
         notifyDataSetChanged()
     }
 
     open fun set(model: T?) {
         currentList = if (model == null) emptyData
         else mutableListOf(model)
-        lastIndexPosition = -1
         notifyDataSetChanged()
     }
 
     open fun setElseEmpty(collection: Collection<T>?) {
         if (collection.isNullOrEmpty()) return
         currentList = collection.toMutableList()
-        lastIndexPosition = -1
         notifyDataSetChanged()
     }
 
     open fun setElseEmpty(list: MutableList<T>?) {
         if (list.isNullOrEmpty()) return
         currentList = list
-        lastIndexPosition = -1
         notifyDataSetChanged()
     }
 
     open fun setElseEmpty(array: Array<T>?) {
         if (array == null || array.isEmpty()) return
         currentList = array.toMutableList()
-        lastIndexPosition = -1
         notifyDataSetChanged()
     }
 
     open fun setElseEmpty(model: T?) {
         model ?: return
         currentList = mutableListOf(model)
-        lastIndexPosition = -1
         notifyDataSetChanged()
     }
 
@@ -241,40 +217,47 @@ abstract class BaseRecyclerAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHo
 
     open fun add(model: T?) {
         model ?: return
-        currentList.add(model)
-        notifyDataSetChanged()
+        currentList?.apply {
+            add(model)
+            notifyDataSetChanged()
+        }
+
     }
 
-    open fun addFirst(model: T?) {
+    open fun add(position: Int, model: T?) {
         model ?: return
-        currentList.add(0, model)
-        notifyDataSetChanged()
+        currentList?.apply {
+            add(position, model)
+            notifyDataSetChanged()
+        }
     }
 
-    open fun edit(index: Int, model: T?) {
+    open fun edit(position: Int, model: T?) {
         model ?: return
-        if (index.indexInBound) {
-            currentList[index] = model
-            notifyItemChanged(index)
+        if (position in 0..lastIndex) {
+            currentList?.set(position, model)
+            notifyItemChanged(position)
         }
     }
 
     open fun remove(index: Int) {
-        currentList.removeAt(index)
-        notifyItemRemoved(index)
-    }
-
-    open fun remove(model: T?) {
-        model ?: return
-        val index = currentList.indexOf(model)
-        if (index.indexInBound) {
-            currentList.remove(model)
+        currentList?.apply {
+            removeAt(index)
             notifyItemRemoved(index)
         }
     }
 
+    open fun remove(model: T?) {
+        model ?: return
+        val position = currentList?.indexOf(model) ?: -1
+        if (position in 0..lastIndex) {
+            currentList?.remove(model)
+            notifyItemRemoved(position)
+        }
+    }
+
     open fun clear() {
-        currentList.clear()
+        currentList?.clear()
         notifyDataSetChanged()
     }
 
@@ -287,26 +270,14 @@ abstract class BaseRecyclerAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHo
     /**
      * Binding
      */
-    open fun bind(recyclerView: RecyclerView, block: (LinearLayoutManager.() -> Unit)? = null) {
-
-        val layoutManager = LinearLayoutManager(recyclerView.context)
-        block?.let { layoutManager.block() }
-        recyclerView.layoutManager = layoutManager
+    open fun bind(recyclerView: RecyclerView, block: (LinearLayoutManager.() -> Unit) = {}) {
+        recyclerView.initLayoutManager(block)
         recyclerView.adapter = this
     }
 
-    open fun bind(recyclerView: RecyclerView, spanCount: Int, includeEdge: Boolean = true, block: (GridLayoutManager.() -> Unit)? = null) {
-
-        val layoutManager = GridLayoutManager(recyclerView.context, spanCount)
-        layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-            override fun getSpanSize(position: Int): Int {
-                return if (dataIsEmpty || position == size) layoutManager.spanCount
-                else 1
-            }
-        }
-        block?.let { layoutManager.block() }
-        recyclerView.layoutManager = layoutManager
-        GridDecoration.draw(recyclerView, layoutManager.spanCount, 0, includeEdge)
+    open fun bind(recyclerView: RecyclerView, spanCount: Int, includeEdge: Boolean = true, block: (GridLayoutManager.() -> Unit) = {}) {
+        val lm = recyclerView.initLayoutManager(spanCount, block)
+        GridDecoration.draw(recyclerView, lm.spanCount, 0, includeEdge)
         recyclerView.adapter = this
     }
 

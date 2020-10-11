@@ -1,6 +1,5 @@
 package com.huy.kotlin.ui.recycler.diff
 
-import android.os.Bundle
 import com.huy.kotlin.R
 import com.huy.kotlin.base.arch.ArchFragment
 import com.huy.kotlin.ui.zoom.ZoomFragment
@@ -19,12 +18,13 @@ class AsyncDiffFragment : ArchFragment<AsyncDiffVM>() {
 
     private val adapter = AsyncDiffAdapter()
 
-    override val layoutResource: Int = R.layout.fragment_adapter_async_diff
+    override fun layoutResource(): Int {
+        return R.layout.fragment_adapter_async_diff
+    }
 
     override val viewModelClass = AsyncDiffVM::class.java
 
-    override fun onCreated(state: Bundle?) {
-
+    override fun onViewCreated() {
         adapter.bind(recyclerView, 3)
         adapter.onItemClick = { image, _ ->
             add(ZoomFragment.newInstance(adapter.currentList, image))

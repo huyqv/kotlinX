@@ -12,6 +12,7 @@ import android.widget.FrameLayout
 import androidx.core.content.ContextCompat
 import com.huy.library.Library
 import com.huy.library.R
+import com.huy.library.extension.createDrawable
 
 abstract class AppCustomView : FrameLayout {
 
@@ -66,28 +67,28 @@ abstract class AppCustomView : FrameLayout {
         get() {
             val id = getResourceId(R.styleable.CustomView_android_drawableStart, 0)
             if (id == 0) return null
-            return ContextCompat.getDrawable(app, id)?.constantState?.newDrawable()?.mutate()
+            return createDrawable(id)
         }
 
     val TypedArray.drawableEnd: Drawable?
         get() {
             val id = getResourceId(R.styleable.CustomView_android_drawableEnd, 0)
             if (id == 0) return null
-            return ContextCompat.getDrawable(app, id)?.constantState?.newDrawable()?.mutate()
+            return createDrawable(id)
         }
 
     val TypedArray.drawable: Drawable?
         get() {
             val id = getResourceId(R.styleable.CustomView_android_drawable, 0)
             if (id == 0) return null
-            return ContextCompat.getDrawable(app, id)?.constantState?.newDrawable()?.mutate()
+            return createDrawable(id)
         }
 
     val TypedArray.src: Drawable?
         get() {
             val id = getResourceId(R.styleable.CustomView_android_src, 0)
             if (id == 0) return null
-            return ContextCompat.getDrawable(app, id)
+            return createDrawable(id)
         }
 
     val TypedArray.background: Drawable?

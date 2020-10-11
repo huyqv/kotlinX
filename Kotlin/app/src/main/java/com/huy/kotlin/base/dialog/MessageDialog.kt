@@ -16,10 +16,10 @@ import kotlinx.android.synthetic.main.dialog_title.view.*
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-class MessageDialog(activity: FragmentActivity?) : BaseDialog(activity) {
+class MessageDialog(activity: FragmentActivity?) : BaseAlertDialog(activity) {
 
     /**
-     * [BaseDialog] implement
+     * [BaseAlertDialog] implement
      */
     override fun layoutRes(): Int {
         return R.layout.dialog_message

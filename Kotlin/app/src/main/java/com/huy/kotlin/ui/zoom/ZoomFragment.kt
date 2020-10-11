@@ -1,6 +1,5 @@
 package com.huy.kotlin.ui.zoom
 
-import android.os.Bundle
 import android.view.View
 import com.huy.kotlin.R
 import com.huy.kotlin.base.view.BaseFragment
@@ -24,11 +23,11 @@ class ZoomFragment : BaseFragment(), SimplePageChangeListener {
 
     private lateinit var adapter: ZoomImageAdapterView
 
-    override val layoutResource: Int = R.layout.fragment_zoom
+    override fun layoutResource(): Int {
+        return R.layout.fragment_zoom
+    }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+    override fun onViewCreated() {
         if (adapter.size < 2) {
             imageView_textView_count.gone()
             imageView_textView_index.gone()
@@ -39,7 +38,7 @@ class ZoomFragment : BaseFragment(), SimplePageChangeListener {
         }
 
         imageView_viewPager.adapter = adapter
-        imageView_view_back.setOnClickListener { popBackStack() }
+        imageView_view_back.setOnClickListener { onBackPressed() }
         imageView_viewPager.currentItem = adapter.selectedPosition()
     }
 

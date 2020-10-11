@@ -1,11 +1,13 @@
 package com.huy.library.extension
 
 import android.app.Application
+import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.annotation.*
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import com.huy.library.Library
 
 /**
@@ -23,8 +25,19 @@ fun anim(@AnimRes res: Int): Animation {
     return AnimationUtils.loadAnimation(app, res)
 }
 
-fun drawable(@DrawableRes res: Int): Drawable? {
-    return ContextCompat.getDrawable(app, res)
+fun drawable(@DrawableRes res: Int): Drawable {
+    return ContextCompat.getDrawable(app, res)!!
+}
+
+fun createDrawable(@DrawableRes res: Int): Drawable? {
+    return drawable(res).constantState?.newDrawable()?.mutate()
+}
+
+fun Drawable?.tint(color: Int) : Drawable? {
+    this ?: return null
+    DrawableCompat.setTint(this, color)
+    DrawableCompat.setTintMode(this, PorterDuff.Mode.SRC_IN)
+    return this
 }
 
 fun color(@ColorRes res: Int): Int {

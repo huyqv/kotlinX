@@ -17,10 +17,10 @@ import kotlinx.android.synthetic.main.dialog_title.view.*
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-class ConfirmDialog(activity: FragmentActivity?) : BaseDialog(activity) {
+class ConfirmDialog(activity: FragmentActivity?) : BaseAlertDialog(activity) {
 
     /**
-     * [BaseDialog] implement
+     * [BaseAlertDialog] implement
      */
     override fun layoutRes(): Int {
         return R.layout.dialog_confirm

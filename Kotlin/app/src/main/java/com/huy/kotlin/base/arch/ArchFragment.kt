@@ -20,8 +20,6 @@ abstract class ArchFragment<VM : BaseViewModel> : BaseFragment() {
 
     protected abstract val viewModelClass: Class<VM>
 
-    protected abstract fun onCreated(state: Bundle?)
-
     protected abstract fun onRegisterLiveData()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,15 +29,9 @@ abstract class ArchFragment<VM : BaseViewModel> : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        onCreated(savedInstanceState)
-
         onRegisterLiveData()
-
         viewModel.onNetworkAvailable()
-
         NetworkLiveData.instance.observe { if (it) viewModel.onNetworkAvailable() }
-
     }
 
 }

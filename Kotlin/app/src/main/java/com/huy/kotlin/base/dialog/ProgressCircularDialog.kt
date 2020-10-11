@@ -13,17 +13,17 @@ import com.huy.kotlin.R
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-class ProgressCircularDialog(activity: FragmentActivity?) : BaseDialog(activity) {
+class ProgressCircularDialog(activity: FragmentActivity?) : BaseAlertDialog(activity) {
 
     /**
-     * [BaseDialog] implement
+     * [BaseAlertDialog] implement
      */
     override fun layoutRes(): Int {
         return R.layout.dialog_progress_circular
     }
 
     override fun theme(): Int {
-        return R.style.Dialog_Progress
+        return R.style.App_Dialog
     }
 
     override fun View.onViewCreated() {

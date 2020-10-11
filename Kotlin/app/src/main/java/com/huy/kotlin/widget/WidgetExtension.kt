@@ -14,11 +14,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
  * All Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-fun Drawable?.setTintColor(color: Int) {
-    this ?: return
-    DrawableCompat.setTint(this, color)
-    DrawableCompat.setTintMode(this, PorterDuff.Mode.SRC_IN)
-}
+
 
 fun SwipeRefreshLayout.onRefresh(block: () -> Unit) {
     setProgressBackgroundColorSchemeColor(ContextCompat.getColor(context, com.huy.library.R.color.colorWhite))

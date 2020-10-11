@@ -18,6 +18,7 @@ import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import com.huy.kotlin.R
+import com.huy.library.extension.tint
 import com.huy.library.widget.AppCustomView
 
 /**
@@ -174,8 +175,8 @@ abstract class InputView : AppCustomView {
 
     open fun configDrawable(types: TypedArray) {
         val color = types.drawableTint
-        val drawableLeft = types.drawableStart?.apply { setTintColor(color) }
-        val drawableRight = types.drawableEnd?.apply { setTintColor(color) }
+        val drawableLeft = types.drawableStart.tint(color)
+        val drawableRight = types.drawableEnd.tint(color)
         editView?.post {
             editView?.setCompoundDrawablesWithIntrinsicBounds(drawableLeft, null, drawableRight, null)
         }

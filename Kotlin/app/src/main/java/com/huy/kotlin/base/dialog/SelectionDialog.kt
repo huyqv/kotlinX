@@ -15,19 +15,19 @@ import kotlinx.android.synthetic.main.dialog_selection.view.*
  * None Right Reserved.
  * -------------------------------------------------------------------------------------------------
  */
-abstract class SelectionDialog(activity: FragmentActivity?) : BaseDialog(activity) {
+abstract class SelectionDialog(activity: FragmentActivity?) : BaseAlertDialog(activity) {
 
     abstract val isSearchable: Boolean
 
     /**
-     * [BaseDialog] implement
+     * [BaseAlertDialog] implement
      */
     override fun layoutRes(): Int {
         return R.layout.dialog_selection
     }
 
     override fun theme(): Int {
-        return R.style.Dialog_FullScreen
+        return R.style.App_Dialog
     }
 
     override fun View.onViewCreated() {

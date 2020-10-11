@@ -1,8 +1,6 @@
 package com.huy.kotlin.base.view
 
-import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,9 +9,8 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
-import com.huy.kotlin.base.dialog.ProgressDialog
+import androidx.navigation.fragment.findNavController
 import com.huy.library.view.ViewClickListener
-import com.tbruyelle.rxpermissions2.RxPermissions
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -23,76 +20,86 @@ import com.tbruyelle.rxpermissions2.RxPermissions
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-abstract class BaseFragment : Fragment(), BaseView {
+abstract class BaseFragment : Fragment() {
 
-    /**
-     * [BaseView] implement
-     */
-    final override val baseActivity: BaseActivity? get() = activity as? BaseActivity
-
-    final override val progressDialog: ProgressDialog? get() = baseActivity?.progressDialog
-
-    final override val fragmentContainerId: Int? get() = baseActivity?.fragmentContainerId
-
-    final override val onViewClick: ViewClickListener by lazy {
-        object : ViewClickListener() {
-            override fun onViewClick(v: View?) {
-                this@BaseFragment.onViewClick(v)
-            }
-        }
-    }
-
-    private val onBackPressedCallback = object : OnBackPressedCallback(true) {
-        override fun handleOnBackPressed() {
-            if (onBackPressed()) {
-                this.remove()
-                popBackStack()
-            }
-        }
-    }
 
     /**
      * [Fragment] override
      */
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        requireActivity().onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
+        requireActivity().onBackPressedDispatcher.addCallback(this, onBackCallback)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(layoutResource, container, false)
+        val view = inflater.inflate(layoutResource(), container, false)
         view.setOnTouchListener { _, _ -> true }
         return view
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK && data != null) {
-            onReceivedDataResult(requestCode, data)
-        }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        onViewCreated()
     }
+
 
     /**
-     * [BaseFragment] utilities
+     * [BaseFragment] abstract implements
      */
-    open fun onReceivedDataResult(code: Int, intent: Intent) {
-    }
+    abstract fun layoutResource(): Int
 
-    open fun onGrantedPermission(permission: String, block: () -> Unit) {
-        RxPermissions(this)
-                .request(permission)
-                .subscribe { granted -> if (granted) block() }
-    }
+    abstract fun onViewCreated()
 
-    open fun onBackPressed(): Boolean {
+
+    /**
+     * [BaseFragment] open implements
+     */
+    protected open fun onViewClick(v: View?) {}
+
+    protected open fun onBackPressed(): Boolean {
+        remove(this::class.java)
         return true
     }
 
+    fun add(fragment: Fragment, stack: Boolean = true) {
+        (activity as? BaseActivity)?.add(fragment, stack)
+    }
+
+    fun replace(fragment: Fragment, stack: Boolean = true) {
+        (activity as? BaseActivity)?.replace(fragment, stack)
+    }
+
+    fun <T : Fragment> remove(cls: Class<T>) {
+        (activity as? BaseActivity)?.remove(cls)
+    }
+
     /**
-     * Observer
+     * [BaseFragment] properties
      */
+    private val onViewClick: ViewClickListener by lazy {
+        object : ViewClickListener() {
+            override fun onClicks(v: View?) {
+                onViewClick(v)
+            }
+        }
+    }
+
+    private val onBackCallback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            if (onBackPressed()) {
+                findNavController().popBackStack()
+            }
+        }
+    }
+
     fun <T> LiveData<T>.observe(block: (T) -> Unit) {
-        observe(viewLifecycleOwner, Observer { block(it) })
+        observe(viewLifecycleOwner, Observer(block))
+    }
+
+    fun addClickListener(vararg views: View?) {
+        views.forEach {
+            it?.setOnClickListener(onViewClick)
+        }
     }
 
 }

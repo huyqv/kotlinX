@@ -14,17 +14,17 @@ import com.huy.kotlin.R
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-class ProgressBottomDialog(activity: FragmentActivity?) : BaseDialog(activity) {
+class ProgressBottomDialog(activity: FragmentActivity?) : BaseAlertDialog(activity) {
 
     /**
-     * [BaseDialog] implement
+     * [BaseAlertDialog] implement
      */
     override fun layoutRes(): Int {
         return R.layout.dialog_progress_bottom
     }
 
     override fun theme(): Int {
-        return R.style.Dialog_FullScreen
+        return R.style.App_Dialog
     }
 
     override fun View.onViewCreated() {

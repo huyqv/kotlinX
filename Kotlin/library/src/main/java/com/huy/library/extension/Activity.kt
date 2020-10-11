@@ -2,6 +2,7 @@ package com.huy.library.extension
 
 
 import android.app.Activity
+import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -24,6 +25,20 @@ import androidx.core.content.ContextCompat
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
+fun <T : Activity> Activity.start(cls: Class<T>) {
+    startActivity(Intent(this, cls))
+}
+
+fun <T : Activity> Activity.startFinish(cls: Class<T>) {
+    startActivity(Intent(this, cls))
+    finish()
+}
+
+fun <T : Activity> Activity.startClear(cls: Class<T>) {
+    startActivity(Intent(this, cls))
+    finish()
+}
+
 fun Activity.fullScreenLayout() {
     try {
         val window = this.window
@@ -204,3 +219,4 @@ fun Activity.lockPortrait() {
 fun Activity.unlockOrientation() {
     requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
 }
+

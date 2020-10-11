@@ -9,9 +9,7 @@ import android.util.TypedValue
 import android.view.View
 import androidx.annotation.DimenRes
 import androidx.annotation.IntDef
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.*
 import java.lang.annotation.Retention
 import java.lang.annotation.RetentionPolicy
 
@@ -50,9 +48,9 @@ interface DragListener {
 
 fun RecyclerView.addScrollListener(listener: ScrollListener?) {
 
-    if (listener == null)
+    if (listener == null) {
         clearOnScrollListeners()
-    else
+    } else {
         addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 when (newState) {
@@ -67,6 +65,8 @@ fun RecyclerView.addScrollListener(listener: ScrollListener?) {
                 }
             }
         })
+    }
+
 }
 
 fun RecyclerView.addMostScrollListener(listener: MostScrollListener?) {
@@ -185,10 +185,9 @@ class GridDecoration : RecyclerView.ItemDecoration {
 
 }
 
-class SeparateDecoration(private val margin: Int = 0,
-                         @Orientation val orientation: Int = VERTICAL,
-                         private val column: Int = 1)
-    : RecyclerView.ItemDecoration() {
+class ItemDecoration(private val margin: Int = 0,
+                     @Orientation val orientation: Int = VERTICAL,
+                     private val column: Int = 1) : RecyclerView.ItemDecoration() {
 
     companion object {
         const val HORIZONTAL = 0
@@ -309,4 +308,48 @@ class SeparateDecoration(private val margin: Int = 0,
         return attr.getDrawable(0)!!
     }
 
+}
+
+fun RecyclerView.intLinearSnapper(onSnap: (Int) -> Unit): SnapHelper {
+    val snapHelper = LinearSnapHelper()
+    snapHelper.attachToRecyclerView(this)
+    addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+            when (newState) {
+                RecyclerView.SCROLL_STATE_IDLE -> {
+                    val view = snapHelper.findSnapView(layoutManager) ?: return
+                    val position = recyclerView.getChildAdapterPosition(view)
+                    onSnap(position)
+                }
+                RecyclerView.SCROLL_STATE_DRAGGING -> {
+                }
+            }
+        }
+    })
+    return snapHelper
+}
+
+fun RecyclerView.initLayoutManager(block: (LinearLayoutManager.() -> Unit) = {}): LinearLayoutManager {
+    val lm = LinearLayoutManager(context)
+    lm.block()
+    layoutManager = lm
+    return lm
+}
+
+fun RecyclerView.initLayoutManager(spanCount: Int, block: (GridLayoutManager.() -> Unit) = {}): GridLayoutManager {
+    val lm = GridLayoutManager(context, spanCount)
+    lm.spanSizeLookup =
+            object : GridLayoutManager.SpanSizeLookup() {
+                override fun getSpanSize(position: Int): Int {
+                    adapter?.also {
+                        if (it.itemCount < 2 || position == it.itemCount) {
+                            return lm.spanCount
+                        }
+                    }
+                    return 1
+                }
+            }
+    lm.block()
+    layoutManager = lm
+    return lm
 }

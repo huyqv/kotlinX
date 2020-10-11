@@ -4,7 +4,6 @@ import android.os.Bundle
 import com.huy.kotlin.base.view.BaseActivity
 import com.huy.kotlin.data.observable.AlertLiveData
 import com.huy.kotlin.data.observable.NetworkLiveData
-import com.huy.kotlin.data.observable.ProgressLiveData
 import com.huy.kotlin.util.viewModel
 
 /**
@@ -27,10 +26,6 @@ abstract class ArchActivity<VM : BaseViewModel> : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        ProgressLiveData.instance.observe { if (it) showProgress() else hideProgress() }
-
-        AlertLiveData.instance.observe { alert(it) }
 
         NetworkLiveData.instance.observe { if (it) viewModel.onNetworkAvailable() }
 

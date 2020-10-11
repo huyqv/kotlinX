@@ -5,6 +5,7 @@ import android.app.Application
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.*
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.util.DisplayMetrics
 import android.util.TypedValue
@@ -14,6 +15,7 @@ import android.view.ViewGroup
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import android.widget.LinearLayout
 import android.widget.PopupWindow
+import android.widget.TextView
 import androidx.annotation.ColorRes
 import androidx.annotation.LayoutRes
 import androidx.annotation.StyleRes
@@ -146,7 +148,7 @@ fun View.isGone(gone: Boolean?) {
  */
 fun View.addViewClickListener(block: (View?) -> Unit) {
     setOnClickListener(object : ViewClickListener() {
-        override fun onViewClick(v: View?) {
+        override fun onClicks(v: View?) {
             block(v)
         }
     })
@@ -222,6 +224,22 @@ fun View.getSize(block: (Int /*width*/, Int/*height*/) -> Unit) {
             block(width, height)
         }
     })
+}
+
+fun TextView.drawableStart(drawable: Drawable?){
+    this.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null)
+}
+
+fun TextView.drawableEnd(drawable: Drawable?){
+    this.setCompoundDrawablesWithIntrinsicBounds(null, null, drawable, null)
+}
+
+fun TextView.drawableTop(drawable: Drawable?){
+    this.setCompoundDrawablesWithIntrinsicBounds(null, drawable, null, null)
+}
+
+fun TextView.drawableBottom(drawable: Drawable?){
+    this.setCompoundDrawablesWithIntrinsicBounds(null, null, null, drawable)
 }
 
 /**

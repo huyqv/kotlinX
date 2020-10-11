@@ -15,10 +15,11 @@ import com.huy.library.extension.toast
  */
 class NotificationActivity : BaseActivity() {
 
-    override val layoutResource = R.layout.view_gone
+    override fun layoutResource(): Int {
+        return R.layout.view_gone
+    }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onViewCreated() {
         toast("notify message")
     }
 }

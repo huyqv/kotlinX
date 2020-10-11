@@ -13,6 +13,10 @@ import com.huy.kotlin.base.view.BaseFragment
  */
 class EditTextsFragment : BaseFragment() {
 
-    override val layoutResource: Int = R.layout.fragment_input_view
+    override fun layoutResource(): Int {
+        return R.layout.fragment_input_view
+    }
 
+    override fun onViewCreated() {
+    }
 }

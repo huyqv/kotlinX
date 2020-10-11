@@ -1,6 +1,5 @@
 package com.huy.kotlin.ui.member
 
-import android.os.Bundle
 import android.view.View
 import com.huy.kotlin.R
 import com.huy.kotlin.base.dialog.*
@@ -21,11 +20,11 @@ import kotlinx.android.synthetic.main.fragment_dialogs.*
  */
 class DialogsFragment : BaseFragment() {
 
-    override val layoutResource: Int = R.layout.fragment_dialogs
+    override fun layoutResource(): Int {
+        return R.layout.fragment_dialogs
+    }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+    override fun onViewCreated() {
         addClickListener(circularProgress, appBarProgress, topProgress, bottomProgress,
                 customConfirm, customMessage, message, confirm, allConfig)
     }

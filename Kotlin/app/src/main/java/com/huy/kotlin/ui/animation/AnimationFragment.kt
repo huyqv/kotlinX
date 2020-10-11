@@ -1,7 +1,5 @@
 package com.huy.kotlin.ui.animation
 
-import android.os.Bundle
-import android.view.View
 import com.huy.kotlin.R
 import com.huy.kotlin.base.view.BaseFragment
 import com.huy.library.extension.*
@@ -24,10 +22,11 @@ class AnimationFragment : BaseFragment() {
 
     private val adapter = AnimationAdapter()
 
-    override val layoutResource: Int = R.layout.fragment_animation
+    override fun layoutResource(): Int {
+        return R.layout.fragment_animation
+    }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onViewCreated() {
         adapter.bind(recyclerView)
         adapter.set(itemList)
         adapter.onItemClick = { model, _ -> onAnimate(model) }

@@ -1,7 +1,5 @@
 package com.huy.kotlin.ui.member
 
-import android.os.Bundle
-import android.view.View
 import com.huy.kotlin.R
 import com.huy.kotlin.base.view.BaseFragment
 import com.huy.library.extension.color
@@ -22,11 +20,12 @@ class ColorFragment : BaseFragment() {
 
     var click: (() -> Unit)? = null
 
-    override val layoutResource: Int = R.layout.fragment_color
+    override fun layoutResource(): Int {
+        return R.layout.fragment_color
+    }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        view.setBackgroundResource(color)
+    override fun onViewCreated() {
+        view?.setBackgroundResource(color)
         textView.setOnClickListener { click?.also { click!!() } }
     }
 

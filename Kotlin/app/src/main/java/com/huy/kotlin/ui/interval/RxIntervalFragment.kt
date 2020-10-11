@@ -1,7 +1,5 @@
 package com.huy.kotlin.ui.interval
 
-import android.os.Bundle
-import android.view.View
 import com.huy.kotlin.R
 import com.huy.kotlin.base.view.BaseFragment
 import io.reactivex.Observable
@@ -25,10 +23,11 @@ class RxIntervalFragment : BaseFragment() {
 
     private var disposable: Disposable? = null
 
-    override val layoutResource: Int = R.layout.fragment_handler
+    override fun layoutResource(): Int {
+        return R.layout.fragment_handler
+    }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onViewCreated() {
         adapter.bind(recyclerView)
         appBarView.endButtonClickListener {
             if (disposable == null || disposable!!.isDisposed) {

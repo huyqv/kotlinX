@@ -17,7 +17,6 @@ versions.lifecycle = "2.2.0"
 versions.retrofit = "2.6.0"
 versions.glide = "4.11.0"
 versions.dimens = "1.0.6"
-versions.fragment = "1.2.3"
 versions.vectordrawable = "1.1.0"
 versions.workmanager = "1.2.3"
 versions.recyclerview = "1.1.0"
@@ -36,7 +35,7 @@ deps.kotlin = kotlin
 
 def android = [:]
 android.appcompat = "androidx.appcompat:appcompat:$versions.appcompat"
-android.fragment = "androidx.fragment:fragment:$versions.fragment"
+android.fragment = "androidx.fragment:fragment-ktx:1.2.3"
 android.recyclerview = "androidx.recyclerview:recyclerview:$versions.recyclerview"
 android.cardview = "androidx.cardview:cardview:$versions.cardview"
 android.constraintlayout = "androidx.constraintlayout:constraintlayout:2.0.0"
@@ -53,6 +52,7 @@ android.media = "androidx.media:media:1.1.0"
 android.multidex = "androidx.multidex:multidex:2.0.1"
 android.material =  "com.google.android.material:material:1.1.0-alpha07"
 android.print = "androidx.print:print:1.0.0"
+android.viewpager = "androidx.viewpager2:viewpager2:1.0.0"
 deps.android = android
 
 def navigation = [:]

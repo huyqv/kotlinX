@@ -1,6 +1,5 @@
 package com.huy.kotlin.ui.recycler.paged
 
-import android.os.Bundle
 import com.huy.kotlin.R
 import com.huy.kotlin.base.arch.ArchFragment
 import com.huy.kotlin.ui.zoom.ZoomFragment
@@ -18,11 +17,13 @@ class PagingFragment : ArchFragment<PagingVM>() {
 
     private val adapter = PagingAdapter()
 
-    override val layoutResource: Int = R.layout.fragment_adapter_paged
+    override fun layoutResource(): Int {
+        return R.layout.fragment_adapter_paged
+    }
 
     override val viewModelClass = PagingVM::class.java
 
-    override fun onCreated(state: Bundle?) {
+    override fun onViewCreated() {
         adapter.myId = 16
         adapter.bind(recyclerView) {
             reverseLayout = true
@@ -38,5 +39,6 @@ class PagingFragment : ArchFragment<PagingVM>() {
             adapter.submitList(it)
         }
     }
+
 
 }

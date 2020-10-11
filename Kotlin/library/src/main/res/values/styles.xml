@@ -3,36 +3,38 @@
     <!-- Base Application Theme. -->
 
     <!-- App Theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="App" />
+
+    <style name="App.Theme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="AppTheme.NoActionBar" parent="AppTheme">
+    <style name="App.Theme.NoActionBar" parent="App.Theme">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.LightStatusBar" parent="AppTheme">
+    <style name="App.Theme.LightStatusBar" parent="App.Theme">
         <item name="android:statusBarColor">@color/colorPrimaryDark</item>
     </style>
 
-    <style name="AppTheme.Launcher" parent="AppTheme.NoActionBar">
+    <style name="App.Theme.Launcher" parent="App.Theme.NoActionBar">
         <item name="android:windowBackground">@color/colorPrimary</item>
     </style>
 
-    <style name="AppTheme.Transparent" parent="AppTheme.NoActionBar">
+    <style name="App.Theme.Transparent" parent="App.Theme.NoActionBar">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:backgroundDimEnabled">false</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="App.Theme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="App.Theme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 
     <!-- Text. -->
@@ -67,33 +69,16 @@
     </style>
 
 
-    <!-- Custom Dialog. -->
-    <style name="Dialog">
-        <!--<item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>-->
-    </style>
-
-    <style name="Dialog.Custom" parent="Theme.AppCompat.Light.Dialog">
+    <!-- Dialog. -->
+    <style name="App.Dialog" parent="Theme.AppCompat.Light.Dialog">
         <item name="android:windowBackground">@null</item>
-        <item name="android:backgroundDimEnabled">true</item>
-        <item name="android:windowMinWidthMajor">60%</item>
-        <item name="android:windowMinWidthMinor">60%</item>
-    </style>
-
-    <style name="Dialog.Progress" parent="Theme.AppCompat.Light.Dialog">
         <item name="android:windowNoTitle">true</item>
-        <item name="android:windowBackground">@null</item>
-        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowMinWidthMajor">90%</item>
+        <item name="android:windowMinWidthMinor">90%</item>
     </style>
 
-    <style name="Dialog.FullScreen" parent="Theme.AppCompat.Light.Dialog">
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowBackground">@color/colorTransparent</item>
+    <style name="App.Dialog.Transparent">
         <item name="android:backgroundDimEnabled">false</item>
-        <item name="android:windowIsFloating">false</item>
-    </style>
-
-    <style name="Dialog.Fragment" parent="Base.Theme.AppCompat.Light.Dialog">
-        <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 
 

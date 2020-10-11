@@ -64,16 +64,13 @@ abstract class BaseListAdapter<T> : ListAdapter<T, RecyclerView.ViewHolder> {
         }
 
         if (type == footerLayoutResource) {
-            if (position.isNotIndexed) onFooterIndexChange(viewHolder.itemView, position)
+            if (position > lastBindIndex) onFooterIndexChange(viewHolder.itemView, position)
             return
         }
 
         val model = get(position) ?: return
 
-        if (position.isNotIndexed) viewHolder.itemView.onFirstBindModel(model, position, type)
-        else viewHolder.itemView.onBindModel(model, position, type)
-
-        position.updateLastIndex()
+        viewHolder.itemView.onBindModel(model, position, type)
 
         viewHolder.itemView.addViewClickListener {
             onItemClick(model, position)
@@ -106,11 +103,6 @@ abstract class BaseListAdapter<T> : ListAdapter<T, RecyclerView.ViewHolder> {
     protected abstract fun layoutResource(model: T, position: Int): Int
 
     protected abstract fun View.onBindModel(model: T, position: Int, @LayoutRes layout: Int)
-
-    open fun View.onFirstBindModel(model: T, position: Int, @LayoutRes layout: Int) {
-        onBindModel(model, position, layout)
-    }
-
 
     /**
      * Layout resource for empty data.
@@ -145,27 +137,14 @@ abstract class BaseListAdapter<T> : ListAdapter<T, RecyclerView.ViewHolder> {
 
     var onItemLongClick: (T, Int) -> Unit = { _, _ -> }
 
-
-    /**
-     * Position
-     */
-    private var lastIndexPosition: Int = -1
-
-    private fun Int.updateLastIndex() {
-        if (this > lastIndexPosition) lastIndexPosition = this
-    }
-
-    private val Int.isNotIndexed: Boolean get() = this > lastIndexPosition
-
-    private val Int.indexInBound: Boolean get() = this > -1 && this < size
-
-    private val Int.indexOutBound: Boolean get() = this < 0 || this >= size
-
-
     /**
      * Data list
      */
     val size: Int get() = currentList.size
+
+    val lastBindIndex: Int = -1
+
+    val lastIndex: Int get() = currentList.lastIndex
 
     val dataIsEmpty: Boolean get() = currentList.isEmpty()
 
@@ -182,27 +161,23 @@ abstract class BaseListAdapter<T> : ListAdapter<T, RecyclerView.ViewHolder> {
     }
 
     open fun get(position: Int): T? {
-        if (position.indexInBound) return currentList[position]
+        if (position in 0..lastIndex) return currentList[position]
         return null
     }
 
     open fun set(collection: Collection<T>?) {
-        lastIndexPosition = -1
         submitList(if (collection != null) ArrayList(collection) else null)
     }
 
     open fun set(list: MutableList<T>?) {
-        lastIndexPosition = -1
         submitList(if (list != null) ArrayList(list) else null)
     }
 
     open fun set(array: Array<T>?) {
-        lastIndexPosition = -1
         submitList(array?.toMutableList())
     }
 
     open fun set(model: T?) {
-        lastIndexPosition = -1
         submitList(if (model != null) mutableListOf(model) else null)
     }
 
@@ -250,10 +225,10 @@ abstract class BaseListAdapter<T> : ListAdapter<T, RecyclerView.ViewHolder> {
         submit()
     }
 
-    open fun edit(index: Int, model: T?) {
+    open fun edit(position: Int, model: T?) {
         model ?: return
-        if (index.indexInBound) {
-            currentList[index] = model
+        if (position in 0..lastIndex) {
+            currentList[position] = model
             submit()
         }
     }
@@ -265,9 +240,10 @@ abstract class BaseListAdapter<T> : ListAdapter<T, RecyclerView.ViewHolder> {
 
     open fun remove(model: T?) {
         model ?: return
-        val index = currentList.indexOf(model)
-        if (index.indexInBound) {
+        val position = currentList.indexOf(model)
+        if (position in 0..lastIndex) {
             currentList.remove(model)
+            submit()
         }
     }
 
@@ -275,26 +251,14 @@ abstract class BaseListAdapter<T> : ListAdapter<T, RecyclerView.ViewHolder> {
     /**
      * Binding
      */
-    open fun bind(recyclerView: RecyclerView, block: (LinearLayoutManager.() -> Unit)? = null) {
-
-        val layoutManager = LinearLayoutManager(recyclerView.context)
-        block?.let { layoutManager.block() }
-        recyclerView.layoutManager = layoutManager
+    open fun bind(recyclerView: RecyclerView, block: (LinearLayoutManager.() -> Unit) = {}) {
+        recyclerView.initLayoutManager(block)
         recyclerView.adapter = this
     }
 
-    open fun bind(recyclerView: RecyclerView, spanCount: Int, includeEdge: Boolean = true, block: (GridLayoutManager.() -> Unit)? = null) {
-
-        val layoutManager = GridLayoutManager(recyclerView.context, spanCount)
-        layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-            override fun getSpanSize(position: Int): Int {
-                return if (dataIsEmpty || position == size) layoutManager.spanCount
-                else 1
-            }
-        }
-        block?.let { layoutManager.block() }
-        recyclerView.layoutManager = layoutManager
-        GridDecoration.draw(recyclerView, layoutManager.spanCount, 0, includeEdge)
+    open fun bind(recyclerView: RecyclerView, spanCount: Int, includeEdge: Boolean = true, block: (GridLayoutManager.() -> Unit) = {}) {
+        val lm = recyclerView.initLayoutManager(spanCount, block)
+        GridDecoration.draw(recyclerView, lm.spanCount, 0, includeEdge)
         recyclerView.adapter = this
     }
 

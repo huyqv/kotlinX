@@ -266,26 +266,14 @@ abstract class BaseJsonAdapter<T : JsonElement> : RecyclerView.Adapter<RecyclerV
     /**
      * Binding
      */
-    open fun bind(recyclerView: RecyclerView, block: (LinearLayoutManager.() -> Unit)? = null) {
-
-        val layoutManager = LinearLayoutManager(recyclerView.context)
-        block?.let { layoutManager.block() }
-        recyclerView.layoutManager = layoutManager
+    open fun bind(recyclerView: RecyclerView, block: (LinearLayoutManager.() -> Unit) = {}) {
+        recyclerView.initLayoutManager(block)
         recyclerView.adapter = this
     }
 
-    open fun bind(recyclerView: RecyclerView, spanCount: Int, includeEdge: Boolean = true, block: (GridLayoutManager.() -> Unit)? = null) {
-
-        val layoutManager = GridLayoutManager(recyclerView.context, spanCount)
-        layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-            override fun getSpanSize(position: Int): Int {
-                return if (dataIsEmpty || position == size) layoutManager.spanCount
-                else 1
-            }
-        }
-        block?.let { layoutManager.block() }
-        recyclerView.layoutManager = layoutManager
-        GridDecoration.draw(recyclerView, layoutManager.spanCount, 0, includeEdge)
+    open fun bind(recyclerView: RecyclerView, spanCount: Int, includeEdge: Boolean = true, block: (GridLayoutManager.() -> Unit) = {}) {
+        val lm = recyclerView.initLayoutManager(spanCount, block)
+        GridDecoration.draw(recyclerView, lm.spanCount, 0, includeEdge)
         recyclerView.adapter = this
     }
 

@@ -1,8 +1,10 @@
 package com.huy.library.adapter.fragment
 
+import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentPagerAdapter
+import androidx.lifecycle.LifecycleOwner
+import androidx.viewpager2.adapter.FragmentStateAdapter
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -12,18 +14,31 @@ import androidx.fragment.app.FragmentPagerAdapter
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-class FragmentAdapter : FragmentPagerAdapter {
+class FragmentAdapter : FragmentStateAdapter {
 
+
+    /**
+     * [FragmentStateAdapter] override
+     */
+    constructor(fragmentManager: FragmentManager, lifecycleOwner: LifecycleOwner)
+            : super(fragmentManager, lifecycleOwner.lifecycle)
+
+    override fun createFragment(position: Int): Fragment {
+        val fragment = fragments[position]
+        fragment.arguments = Bundle().apply {
+            putInt("position", position + 1)
+        }
+        return fragment
+    }
+
+    override fun getItemCount(): Int {
+        return fragments.size
+    }
+
+    /**
+     * [FragmentAdapter] properties
+     */
     private var fragments = mutableListOf<Fragment>()
-
-    constructor(fm: FragmentManager, vararg fragments: Fragment) : super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
-        this.fragments.addAll(fragments)
-    }
-
-    fun add(fragment: Fragment): FragmentAdapter {
-        fragments.add(fragment)
-        return this
-    }
 
     fun set(position: Int, fragment: Fragment) {
         fragments.removeAt(position)
@@ -31,12 +46,9 @@ class FragmentAdapter : FragmentPagerAdapter {
         notifyDataSetChanged()
     }
 
-    override fun getItem(position: Int): Fragment {
-        return fragments[position]
+    fun addFragments(vararg frags: Fragment) {
+        fragments.addAll(frags)
+        notifyDataSetChanged()
     }
-
-    override fun getCount() = fragments.size
-
-    override fun getPageTitle(position: Int): CharSequence? = null
 
 }

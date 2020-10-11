@@ -17,7 +17,7 @@ import com.huy.kotlin.R
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-abstract class BaseDialog {
+abstract class BaseAlertDialog {
 
     protected var self: AlertDialog? = null
 
@@ -45,7 +45,7 @@ abstract class BaseDialog {
     }
 
     @StyleRes
-    protected open fun theme() = R.style.Dialog_Custom
+    protected open fun theme() = R.style.App_Dialog
 
     @LayoutRes
     protected abstract fun layoutRes(): Int

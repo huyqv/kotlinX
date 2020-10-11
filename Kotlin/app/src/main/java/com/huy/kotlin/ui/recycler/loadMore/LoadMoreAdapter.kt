@@ -24,13 +24,10 @@ class LoadMoreAdapter : BaseRecyclerAdapter<User>() {
     override fun layoutResource(model: User, position: Int) = R.layout.item_user_grid
 
     override fun View.onBindModel(model: User, position: Int, layout: Int) {
-        model.run {
-            val fn = if (firstName.isNullOrEmpty()) "" else "$firstName\n"
-            userTextViewName.text = "$fn$lastName"
-            userImageViewAvatar.load(avatar) {
-                placeholder(R.mipmap.img_user)
-                error(R.mipmap.img_user)
-            }
+        userTextViewName.text = "${model.firstName ?: ""} ${model.lastName}".trim()
+        userImageViewAvatar.load(model.avatar) {
+            placeholder(R.mipmap.img_user)
+            error(R.mipmap.img_user)
         }
     }
 

@@ -149,27 +149,12 @@ abstract class BasePagedListAdapter<T> : PagedListAdapter<T, RecyclerView.ViewHo
 
     var onItemLongClick: (T, Int) -> Unit = { _, _ -> }
 
-
-    /**
-     * Position
-     */
-    private var lastIndexPosition: Int = -1
-
-    private fun Int.updateLastIndex() {
-        if (this > lastIndexPosition) lastIndexPosition = this
-    }
-
-    private val Int.isNotIndexed: Boolean get() = this > lastIndexPosition
-
-    private val Int.indexInBound: Boolean get() = this > -1 && this < size
-
-    private val Int.indexOutBound: Boolean get() = this < 0 || this >= size
-
-
     /**
      * Data
      */
     val size: Int get() = currentList?.size ?: 0
+
+    val lastIndex: Int get() = currentList?.lastIndex ?: -1
 
     val dataIsEmpty: Boolean get() = size == 0
 
@@ -191,26 +176,14 @@ abstract class BasePagedListAdapter<T> : PagedListAdapter<T, RecyclerView.ViewHo
     /**
      * Binding
      */
-    open fun bind(recyclerView: RecyclerView, block: (LinearLayoutManager.() -> Unit)? = null) {
-
-        val layoutManager = LinearLayoutManager(recyclerView.context)
-        block?.let { layoutManager.block() }
-        recyclerView.layoutManager = layoutManager
+    open fun bind(recyclerView: RecyclerView, block: (LinearLayoutManager.() -> Unit) = {}) {
+        recyclerView.initLayoutManager(block)
         recyclerView.adapter = this
     }
 
-    open fun bind(recyclerView: RecyclerView, spanCount: Int, includeEdge: Boolean = true, block: (GridLayoutManager.() -> Unit)? = null) {
-
-        val layoutManager = GridLayoutManager(recyclerView.context, spanCount)
-        layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-            override fun getSpanSize(position: Int): Int {
-                return if (dataIsEmpty || position == size) layoutManager.spanCount
-                else 1
-            }
-        }
-        block?.let { layoutManager.block() }
-        recyclerView.layoutManager = layoutManager
-        GridDecoration.draw(recyclerView, layoutManager.spanCount, 0, includeEdge)
+    open fun bind(recyclerView: RecyclerView, spanCount: Int, includeEdge: Boolean = true, block: (GridLayoutManager.() -> Unit) = {}) {
+        val lm = recyclerView.initLayoutManager(spanCount, block)
+        GridDecoration.draw(recyclerView, lm.spanCount, 0, includeEdge)
         recyclerView.adapter = this
     }
 

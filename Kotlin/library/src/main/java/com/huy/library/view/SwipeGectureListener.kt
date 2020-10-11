@@ -15,7 +15,7 @@ import android.view.View.OnTouchListener
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-class SwipeGectureListener(context: Context) : OnTouchListener {
+class SwipeGestureListener(context: Context) : OnTouchListener {
 
     private val gestureDetector: GestureDetector
 

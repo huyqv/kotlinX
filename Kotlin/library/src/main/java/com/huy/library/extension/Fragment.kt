@@ -59,11 +59,11 @@ fun Fragment.isNotExist(cls: Class<*>): Boolean {
     return null == childFragmentManager.findFragmentByTag(tag)
 }
 
-fun Fragment.remove(cls: Class<Fragment>, animations: IntArray? = VERTICAL_ANIMATIONS) {
-    remove(cls.simpleName.tag(), animations)
+fun Fragment.removeFragment(cls: Class<Fragment>, animations: IntArray? = VERTICAL_ANIMATIONS) {
+    removeFragment(cls.simpleName.tag(), animations)
 }
 
-fun Fragment.remove(tag: String?, animations: IntArray? = null) {
+fun Fragment.removeFragment(tag: String?, animations: IntArray? = null) {
 
     tag ?: return
     val fragment = childFragmentManager.findFragmentByTag(tag) ?: return
@@ -98,11 +98,11 @@ fun FragmentActivity.isNotExist(cls: Class<*>): Boolean {
     return null == supportFragmentManager.findFragmentByTag(tag)
 }
 
-fun FragmentActivity.remove(cls: Class<*>, animations: IntArray? = VERTICAL_ANIMATIONS) {
-    remove(cls.simpleName.tag(), animations)
+fun FragmentActivity.removeFragment(cls: Class<*>, animations: IntArray? = VERTICAL_ANIMATIONS) {
+    removeFragment(cls.simpleName.tag(), animations)
 }
 
-fun FragmentActivity.remove(tag: String?, animations: IntArray? = VERTICAL_ANIMATIONS) {
+fun FragmentActivity.removeFragment(tag: String?, animations: IntArray? = VERTICAL_ANIMATIONS) {
     tag ?: return
     val fragment = supportFragmentManager.findFragmentByTag(tag) ?: return
     supportFragmentManager.scheduleTransaction({

@@ -1,6 +1,5 @@
 package com.huy.kotlin.ui.fm
 
-import android.os.Bundle
 import android.view.View
 import com.huy.kotlin.R
 import com.huy.kotlin.base.view.BaseActivity
@@ -23,12 +22,15 @@ import kotlinx.android.synthetic.main.activity_translate.*
  */
 class FragmentManagerActivity : BaseActivity() {
 
-    override val layoutResource: Int = R.layout.activity_translate
+    override fun layoutResource(): Int {
+        return R.layout.activity_translate
+    }
 
-    override val fragmentContainerId: Int = R.id.container
+    override fun fragmentContainerId(): Int {
+        return R.id.container
+    }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onViewCreated() {
         addClickListener(viewBack, viewNextVer, viewNextHor, viewNextPar)
     }
 

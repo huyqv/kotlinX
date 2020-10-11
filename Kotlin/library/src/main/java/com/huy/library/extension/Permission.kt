@@ -35,6 +35,22 @@ fun Activity.onGranted(@RequiresPermission vararg permissions: String, onGranted
 
 }
 
+fun Activity.isGranted(@RequiresPermission vararg permission: String): Boolean {
+    val list = mutableListOf<String>()
+    permission.forEach {
+        if (ContextCompat.checkSelfPermission(this, it) != PackageManager.PERMISSION_GRANTED) {
+            list.add(it)
+        }
+    }
+    return list.isNullOrEmpty()
+}
+
+fun Activity.onGrantedPermission(permission: String, block: () -> Unit) {
+    /*RxPermissions(this)
+            .request(permission)
+            .subscribe { granted -> if (granted) block() }*/
+}
+
 fun Fragment.onGranted(@RequiresPermission vararg permissions: String, onGranted: () -> Unit) {
     val list = mutableListOf<String>()
     permissions.forEach {
@@ -49,16 +65,6 @@ fun Fragment.onGranted(@RequiresPermission vararg permissions: String, onGranted
     requestPermissions(permissions, 1)
 }
 
-fun Activity.isGranted(@RequiresPermission vararg permission: String): Boolean {
-    val list = mutableListOf<String>()
-    permission.forEach {
-        if (ContextCompat.checkSelfPermission(this, it) != PackageManager.PERMISSION_GRANTED) {
-            list.add(it)
-        }
-    }
-    return list.isNullOrEmpty()
-}
-
 fun Fragment.isGranted(@RequiresPermission vararg permission: String): Boolean {
     val list = mutableListOf<String>()
     permission.forEach {
@@ -68,6 +74,14 @@ fun Fragment.isGranted(@RequiresPermission vararg permission: String): Boolean {
     }
     return list.isNullOrEmpty()
 }
+
+fun Fragment.onGrantedPermission(permission: String, block: () -> Unit) {
+    /*RxPermissions(this)
+            .request(permission)
+            .subscribe { granted -> if (granted) block() }*/
+}
+
+
 
 
 

@@ -39,10 +39,12 @@ dependencies {
     implementation deps.android.recyclerview
     implementation deps.android.cardview
     implementation deps.android.constraintlayout
+    implementation deps.android.viewpager
 
     implementation deps.paging.runtime
     implementation deps.paging.rx
 
     implementation deps.google.gson
+    implementation deps.permissions
 
 }

@@ -16,17 +16,17 @@ import com.huy.library.extension.color
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-class ProgressDialog(activity: FragmentActivity?) : BaseDialog(activity) {
+class ProgressDialog(activity: FragmentActivity?) : BaseAlertDialog(activity) {
 
     /**
-     * [BaseDialog] implement
+     * [BaseAlertDialog] implement
      */
     override fun layoutRes(): Int {
         return R.layout.dialog_progress_top
     }
 
     override fun theme(): Int {
-        return R.style.Dialog_FullScreen
+        return R.style.App_Dialog
     }
 
     override fun View.onViewCreated() {

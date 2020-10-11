@@ -14,7 +14,7 @@ import com.huy.kotlin.ui.recycler.loadMore.LoadMoreFragment
 import com.huy.kotlin.ui.recycler.paged.PagingFragment
 import com.huy.kotlin.ui.tab.TabFragment
 import com.huy.library.extension.fullScreen
-import com.huy.library.extension.writeFile
+import com.huy.library.extension.start
 import kotlinx.android.synthetic.main.activity_main.*
 
 /**
@@ -27,16 +27,24 @@ import kotlinx.android.synthetic.main.activity_main.*
  */
 class MainActivity : ArchActivity<MainVM>() {
 
-    override val layoutResource: Int = R.layout.activity_main
-
-    override val fragmentContainerId: Int = R.id.container
 
     override val viewModelClass = MainVM::class.java
 
     override fun onCreate(savedInstanceState: Bundle?) {
         fullScreen()
-
         super.onCreate(savedInstanceState)
+    }
+
+    override fun layoutResource(): Int {
+        return R.layout.activity_main
+    }
+
+    override fun fragmentContainerId(): Int {
+        return R.id.container
+    }
+
+
+    override fun onViewCreated() {
     }
 
     override fun onCreated(state: Bundle?) {

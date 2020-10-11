@@ -72,7 +72,7 @@
         <item name="android:text">Button</item>
         <item name="android:textSize">@dimen/_12ssp</item>
         <item name="android:gravity">center</item>
-        <item name="android:textColor">@color/colorMediumSmoke</item>
+        <item name="android:textColor">@color/colorWhite</item>
     </style>
 
     <style name="Button.Match">
@@ -241,6 +241,7 @@
         <item name="android:text">@string/app_name</item>
     </style>
 
+    <style name="Dialog" />
 
     <!-- Custom Dialog. -->
     <style name="Dialog.Card" parent="WrapContent">

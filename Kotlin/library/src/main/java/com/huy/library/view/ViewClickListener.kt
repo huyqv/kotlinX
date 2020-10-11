@@ -17,12 +17,12 @@ abstract class ViewClickListener : View.OnClickListener {
 
     private var lastClickViewId: Int = -1
 
-    abstract fun onViewClick(v: View?)
+    abstract fun onClicks(v: View?)
 
     final override fun onClick(v: View?) {
         if (SystemClock.elapsedRealtime() - lastClickTime > 500 || v?.id != lastClickViewId) {
             lastClickViewId = v?.id ?: -1
-            onViewClick(v)
+            onClicks(v)
         }
         lastClickTime = SystemClock.elapsedRealtime()
     }

@@ -13,10 +13,10 @@ import kotlinx.android.synthetic.main.dialog_input.view.*
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-class InputDialog(activity: FragmentActivity?) : BaseDialog(activity) {
+class InputDialog(activity: FragmentActivity?) : BaseAlertDialog(activity) {
 
     /**
-     * [BaseDialog] implement
+     * [BaseAlertDialog] implement
      */
     override fun layoutRes(): Int {
         return R.layout.dialog_input

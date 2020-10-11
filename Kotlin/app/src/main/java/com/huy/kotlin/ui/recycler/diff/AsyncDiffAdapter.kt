@@ -18,18 +18,19 @@ import kotlinx.android.synthetic.main.item_image.view.*
  */
 class AsyncDiffAdapter : BaseListAdapter<Image>(Image.ItemCallback()) {
 
+    private var lastAnimPosition: Int = -1
+
     override var blankLayoutResource = R.layout.item_blank
 
     override var footerLayoutResource = R.layout.item_footer
 
     override fun layoutResource(model: Image, position: Int) = R.layout.item_image
 
-    override fun View.onFirstBindModel(model: Image, position: Int, layout: Int) {
-        imageView.startAnimation(Anim.fadeIn(1200))
-        onBindModel(model, position, layout)
-    }
-
     override fun View.onBindModel(model: Image, position: Int, layout: Int) {
+        if (position > lastAnimPosition) {
+            lastAnimPosition = position
+            imageView.startAnimation(Anim.fadeIn(1200))
+        }
         imageView.load(model.imageUrl) {
             placeholder(R.mipmap.img_placeholder)
             error(R.mipmap.img_placeholder)

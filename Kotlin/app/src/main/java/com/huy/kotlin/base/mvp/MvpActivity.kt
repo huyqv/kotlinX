@@ -12,7 +12,7 @@ import com.huy.kotlin.base.view.BaseView
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-abstract class MvpActivity<V : BaseView, P : BasePresenter<V>> : BaseActivity() {
+abstract class MvpActivity<V : BaseView, P : BasePresenter<V>> : BaseActivity(), BaseView {
 
     protected abstract val presenter: P
 
