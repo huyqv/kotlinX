@@ -32,57 +32,49 @@ abstract class BasePagedListAdapter<T> : PagedListAdapter<T, RecyclerView.ViewHo
      * [PagedListAdapter] override
      */
     override fun getItemCount(): Int {
-
-        return if (blankLayoutResource != 0 || footerLayoutResource != 0) size + 1
-        else size
+        if (blankLayoutResource != 0 || footerLayoutResource != 0) {
+            return size + 1
+        }
+        return size
     }
 
     override fun getItemViewType(position: Int): Int {
-
-        if (dataIsEmpty && blankLayoutResource != 0) return blankLayoutResource
-
-        if (dataNotEmpty && footerLayoutResource != 0 && position == size) return footerLayoutResource
-
+        if (dataIsEmpty && blankLayoutResource != 0) {
+            return blankLayoutResource
+        }
+        if (dataNotEmpty && footerLayoutResource != 0 && position == size) {
+            return footerLayoutResource
+        }
         val model = get(position) ?: return 0
-
         return layoutResource(model, position)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return ViewHolder(onCreateItemView(parent, viewType))
+        val v = if (viewType == 0) {
+            View(parent.context).apply { visibility = View.GONE }
+        } else {
+            LayoutInflater.from(parent.context).inflate(viewType, parent, false)
+        }
+        return ViewHolder(v)
     }
 
     override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
-
         val type = getItemViewType(position)
-
-        if (type == 0) return
-
-        if (type == blankLayoutResource) {
-            return
+        when (type) {
+            0, blankLayoutResource, footerLayoutResource -> return
         }
-
-        if (type == footerLayoutResource) {
-            if (position.isNotIndexed) onFooterIndexChange(viewHolder.itemView, position)
-            return
-        }
-
         val model = get(position) ?: return
-
-        if (position.isNotIndexed) viewHolder.itemView.onFirstBindModel(model, position, type)
-        else viewHolder.itemView.onBindModel(model, position, type)
-
-        position.updateLastIndex()
-
-        viewHolder.itemView.addViewClickListener {
-            onItemClick(model, position)
+        viewHolder.itemView.apply {
+            onBindModel(model, position, type)
+            addViewClickListener {
+                onItemClick(model, position)
+            }
+            setOnLongClickListener {
+                onItemLongClick(model, position)
+                true
+            }
         }
-
-        viewHolder.itemView.setOnLongClickListener {
-            onItemLongClick(model, position)
-            return@setOnLongClickListener true
-        }
-
+        lastBindIndex = position
     }
 
     override fun getCurrentList(): PagedList<T>? {
@@ -102,19 +94,6 @@ abstract class BasePagedListAdapter<T> : PagedListAdapter<T, RecyclerView.ViewHo
     protected abstract fun layoutResource(model: T, position: Int): Int
 
     protected abstract fun View.onBindModel(model: T, position: Int, @LayoutRes layout: Int)
-
-    open fun View.onFirstBindModel(model: T, position: Int, @LayoutRes layout: Int) {
-        onBindModel(model, position, layout)
-    }
-
-    open fun onCreateItemView(parent: ViewGroup, viewType: Int): View {
-        return if (viewType == 0) {
-            View(parent.context).apply { visibility = View.GONE }
-        } else {
-            LayoutInflater.from(parent.context).inflate(viewType, parent, false)
-        }
-    }
-
 
     /**
      * Layout resource for empty data.
@@ -154,43 +133,19 @@ abstract class BasePagedListAdapter<T> : PagedListAdapter<T, RecyclerView.ViewHo
      */
     val size: Int get() = currentList?.size ?: 0
 
+    var lastBindIndex: Int = -1
+
     val lastIndex: Int get() = currentList?.lastIndex ?: -1
 
     val dataIsEmpty: Boolean get() = size == 0
 
     val dataNotEmpty: Boolean get() = size != 0
 
-    val lastPosition: Int get() = if (dataIsEmpty) -1 else (size - 1)
-
-
-    /**
-     * List update
-     */
     open fun get(position: Int): T? {
-        if (currentList.isNullOrEmpty()) return null
-        if (position.indexInBound) return differ.getItem(position)
+        if (position in 0..lastIndex) return differ.getItem(position)
         return null
     }
 
-
-    /**
-     * Binding
-     */
-    open fun bind(recyclerView: RecyclerView, block: (LinearLayoutManager.() -> Unit) = {}) {
-        recyclerView.initLayoutManager(block)
-        recyclerView.adapter = this
-    }
-
-    open fun bind(recyclerView: RecyclerView, spanCount: Int, includeEdge: Boolean = true, block: (GridLayoutManager.() -> Unit) = {}) {
-        val lm = recyclerView.initLayoutManager(spanCount, block)
-        GridDecoration.draw(recyclerView, lm.spanCount, 0, includeEdge)
-        recyclerView.adapter = this
-    }
-
-
-    /**
-     * Utils
-     */
     private fun asyncPagedListDiffer(itemCallback: DiffUtil.ItemCallback<T>): AsyncPagedListDiffer<T> {
 
         val adapterCallback = AdapterListUpdateCallback(this)
@@ -213,8 +168,6 @@ abstract class BasePagedListAdapter<T> : PagedListAdapter<T, RecyclerView.ViewHo
         }
         return AsyncPagedListDiffer<T>(listCallback, AsyncDifferConfig.Builder<T>(itemCallback).build())
     }
-
-    class ViewHolder(v: View) : RecyclerView.ViewHolder(v)
 
 }
 

@@ -3,6 +3,7 @@ package com.huy.kotlin.ui.recycler.paged
 import com.huy.kotlin.R
 import com.huy.kotlin.base.arch.ArchFragment
 import com.huy.kotlin.ui.zoom.ZoomFragment
+import com.huy.library.adapter.recycler.bind
 import kotlinx.android.synthetic.main.fragment_adapter_paged.*
 
 /**

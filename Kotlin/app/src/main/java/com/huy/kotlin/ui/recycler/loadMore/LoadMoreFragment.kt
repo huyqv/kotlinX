@@ -2,6 +2,7 @@ package com.huy.kotlin.ui.recycler.loadMore
 
 import com.huy.kotlin.R
 import com.huy.kotlin.base.arch.ArchFragment
+import com.huy.library.adapter.recycler.bind
 import kotlinx.android.synthetic.main.fragment_adapter_load_more.*
 
 /**
@@ -24,7 +25,7 @@ class LoadMoreFragment : ArchFragment<LoadMoreVM>() {
 
     override fun onViewCreated() {
         adapter.bind(recyclerView, 3)
-        adapter.onFooterIndexChange = { _, i ->
+        adapter.onFooterIndexChanged = { i ->
             viewModel.fetchUsers(i / 10 + 1)
         }
     }

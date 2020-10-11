@@ -4,6 +4,7 @@ import com.huy.kotlin.R
 import com.huy.kotlin.base.arch.ArchFragment
 import com.huy.kotlin.ui.zoom.ZoomFragment
 import com.huy.kotlin.widget.onRefresh
+import com.huy.library.adapter.recycler.bind
 import kotlinx.android.synthetic.main.fragment_adapter_async_diff.*
 
 /**

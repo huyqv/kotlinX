@@ -2,6 +2,7 @@ package com.huy.kotlin.ui.animation
 
 import com.huy.kotlin.R
 import com.huy.kotlin.base.view.BaseFragment
+import com.huy.library.adapter.recycler.bind
 import com.huy.library.extension.*
 import kotlinx.android.synthetic.main.fragment_animation.*
 

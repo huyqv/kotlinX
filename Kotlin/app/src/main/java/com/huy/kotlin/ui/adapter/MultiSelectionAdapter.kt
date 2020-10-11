@@ -16,21 +16,18 @@ import kotlinx.android.synthetic.main.item_text.view.*
  */
 open class MultiSelectionAdapter<M> : BaseRecyclerAdapter<M>() {
 
-    var selectedItems: MutableList<M> = mutableListOf()
+    var selectedItems: MutableList<M>? = null
 
     var optional: Boolean = true
 
-    var onSelectionChanged: ((M?, Int, Boolean) -> Unit)? = null
+    var onSelectionChanged: (M?, Int, Boolean) -> Unit = { _, _, _ -> }
 
     override fun layoutResource(model: M, position: Int) = R.layout.item_text
 
     override fun View.onBindModel(model: M, position: Int, layout: Int) {
-
         val isSelected = isSelected(model)
-
         if (isSelected) bindStateSelected(model)
         else bindStateUnselected(model)
-
         setOnClickListener {
             onItemClick(model, position, isSelected)
         }
@@ -46,55 +43,44 @@ open class MultiSelectionAdapter<M> : BaseRecyclerAdapter<M>() {
         itemTextView.text = model.toString()
     }
 
-    open fun onSelectionChanged(block: (M?, Int, Boolean) -> Unit) {
-        onSelectionChanged = block
-    }
-
     open fun isSelected(model: M): Boolean {
-
         model ?: return false
-
         if (dataIsEmpty) return false
-
-        if (selectedItems.isEmpty()) return false
-
-        for (m in selectedItems) if (model == m) return true
-
+        if (selectedItems.isNullOrEmpty()) return false
+        for (m in selectedItems!!) if (model == m) return true
         return false
     }
 
     open fun onItemClick(model: M, position: Int, isSelected: Boolean) {
 
-        if (optional) {
-            if (isSelected) selectedItems.remove(model)
-            else selectedItems.add(model)
-            onSelectionChanged?.apply { this(model, position, !isSelected) }
+        if (optional) selectedItems?.also {
+            if (isSelected) it.remove(model)
+            else it.add(model)
+            onSelectionChanged(model, position, !isSelected)
             notifyItemChanged(position)
             return
         }
 
-        if (isSelected) {
-            if (selectedItems.size < 2) return
-            selectedItems.remove(model)
-            onSelectionChanged?.apply { this(model, position, false) }
-        } else {
-            selectedItems.add(model)
-            onSelectionChanged?.apply { this(model, position, true) }
+        if (isSelected) selectedItems?.also {
+            if (it.size < 2) return
+            it.remove(model)
+            onSelectionChanged(model, position, false)
+            return
         }
-
+        val items = selectedItems ?: mutableListOf(model)
+        items.add(model)
+        selectedItems = items
+        onSelectionChanged(model, position, true)
         notifyItemChanged(position)
-
     }
 
     open fun setSelectedItem(list: Collection<M>?) {
-
         if (optional && list != null) {
             selectedItems = list.toMutableList()
             notifyDataSetChanged()
             return
         }
-
-        if (list == null || list.isEmpty()) {
+        if (list.isNullOrEmpty()) {
             selectedItems = currentList
             notifyDataSetChanged()
         }

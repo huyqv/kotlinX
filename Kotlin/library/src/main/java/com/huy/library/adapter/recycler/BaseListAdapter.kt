@@ -29,18 +29,20 @@ abstract class BaseListAdapter<T> : ListAdapter<T, RecyclerView.ViewHolder> {
      * [RecyclerView.Adapter] override.
      */
     override fun getItemCount(): Int {
-        return if (blankLayoutResource != 0 || footerLayoutResource != 0) size + 1
-        else size
+        if (blankLayoutResource != 0 || footerLayoutResource != 0) {
+            return size + 1
+        }
+        return size
     }
 
     override fun getItemViewType(position: Int): Int {
-
-        if (dataIsEmpty && blankLayoutResource != 0) return blankLayoutResource
-
-        if (dataNotEmpty && footerLayoutResource != 0 && position == size) return footerLayoutResource
-
+        if (dataIsEmpty && blankLayoutResource != 0){
+            return blankLayoutResource
+        }
+        if (dataNotEmpty && footerLayoutResource != 0 && position == size){
+            return footerLayoutResource
+        }
         val model = get(position) ?: return 0
-
         return layoutResource(model, position)
     }
 
@@ -54,33 +56,22 @@ abstract class BaseListAdapter<T> : ListAdapter<T, RecyclerView.ViewHolder> {
     }
 
     override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
-
         val type = getItemViewType(position)
-
-        if (type == 0) return
-
-        if (type == blankLayoutResource) {
-            return
+        when (type) {
+            0, blankLayoutResource, footerLayoutResource -> return
         }
-
-        if (type == footerLayoutResource) {
-            if (position > lastBindIndex) onFooterIndexChange(viewHolder.itemView, position)
-            return
-        }
-
         val model = get(position) ?: return
-
-        viewHolder.itemView.onBindModel(model, position, type)
-
-        viewHolder.itemView.addViewClickListener {
-            onItemClick(model, position)
+        viewHolder.itemView.apply {
+            onBindModel(model, position, type)
+            addViewClickListener {
+                onItemClick(model, position)
+            }
+            setOnLongClickListener {
+                onItemLongClick(model, position)
+                true
+            }
         }
-
-        viewHolder.itemView.setOnLongClickListener {
-            onItemLongClick(model, position)
-            return@setOnLongClickListener true
-        }
-
+        lastBindIndex = position
     }
 
     override fun getCurrentList(): MutableList<T> {
@@ -117,16 +108,13 @@ abstract class BaseListAdapter<T> : ListAdapter<T, RecyclerView.ViewHolder> {
     @LayoutRes
     open var footerLayoutResource: Int = 0
 
-    var onFooterIndexChange: (View, Int) -> Unit = { _, _ -> }
-
     fun showFooter(@LayoutRes res: Int) {
         footerLayoutResource = res
         notifyItemChanged(size)
     }
 
     fun hideFooter() {
-        footerLayoutResource = 0
-        notifyItemChanged(size)
+        showFooter(0)
     }
 
 
@@ -142,16 +130,13 @@ abstract class BaseListAdapter<T> : ListAdapter<T, RecyclerView.ViewHolder> {
      */
     val size: Int get() = currentList.size
 
-    val lastBindIndex: Int = -1
+    var lastBindIndex: Int = -1
 
     val lastIndex: Int get() = currentList.lastIndex
 
     val dataIsEmpty: Boolean get() = currentList.isEmpty()
 
     val dataNotEmpty: Boolean get() = currentList.isNotEmpty()
-
-    val lastPosition: Int get() = if (currentList.isEmpty()) -1 else (currentList.size - 1)
-
 
     /**
      * Data update
@@ -166,39 +151,33 @@ abstract class BaseListAdapter<T> : ListAdapter<T, RecyclerView.ViewHolder> {
     }
 
     open fun set(collection: Collection<T>?) {
+        lastBindIndex = -1
         submitList(if (collection != null) ArrayList(collection) else null)
     }
 
     open fun set(list: MutableList<T>?) {
+        lastBindIndex = -1
         submitList(if (list != null) ArrayList(list) else null)
     }
 
     open fun set(array: Array<T>?) {
+        lastBindIndex = -1
         submitList(array?.toMutableList())
-    }
-
-    open fun set(model: T?) {
-        submitList(if (model != null) mutableListOf(model) else null)
     }
 
     open fun setElseEmpty(collection: Collection<T>?) {
         if (collection.isNullOrEmpty()) return
-        submitList(ArrayList(collection))
+        set(ArrayList(collection))
     }
 
     open fun setElseEmpty(list: MutableList<T>?) {
         if (list.isNullOrEmpty()) return
-        submitList(ArrayList(list))
+        set(ArrayList(list))
     }
 
     open fun setElseEmpty(array: Array<T>?) {
         if (array.isNullOrEmpty()) return
-        submitList(array.toMutableList())
-    }
-
-    open fun setElseEmpty(model: T?) {
-        model ?: return
-        submitList(mutableListOf(model))
+        set(array.toMutableList())
     }
 
     open fun add(collection: Collection<T>?) {
@@ -219,9 +198,9 @@ abstract class BaseListAdapter<T> : ListAdapter<T, RecyclerView.ViewHolder> {
         submit()
     }
 
-    open fun addFirst(model: T?) {
+    open fun add(position: Int, model: T?) {
         model ?: return
-        currentList.add(0, model)
+        currentList.add(position, model)
         submit()
     }
 
@@ -241,27 +220,8 @@ abstract class BaseListAdapter<T> : ListAdapter<T, RecyclerView.ViewHolder> {
     open fun remove(model: T?) {
         model ?: return
         val position = currentList.indexOf(model)
-        if (position in 0..lastIndex) {
-            currentList.remove(model)
-            submit()
-        }
+        remove(position)
     }
-
-
-    /**
-     * Binding
-     */
-    open fun bind(recyclerView: RecyclerView, block: (LinearLayoutManager.() -> Unit) = {}) {
-        recyclerView.initLayoutManager(block)
-        recyclerView.adapter = this
-    }
-
-    open fun bind(recyclerView: RecyclerView, spanCount: Int, includeEdge: Boolean = true, block: (GridLayoutManager.() -> Unit) = {}) {
-        val lm = recyclerView.initLayoutManager(spanCount, block)
-        GridDecoration.draw(recyclerView, lm.spanCount, 0, includeEdge)
-        recyclerView.adapter = this
-    }
-
 
     /**
      * Utils

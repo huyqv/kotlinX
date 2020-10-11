@@ -29,57 +29,50 @@ abstract class BaseJsonAdapter<T : JsonElement> : RecyclerView.Adapter<RecyclerV
      * [RecyclerView.Adapter] override.
      */
     override fun getItemCount(): Int {
-
-        return if (blankLayoutResource != 0 || footerLayoutResource != 0) size + 1
-        else size
+        if (blankLayoutResource != 0 || footerLayoutResource != 0){
+            return size + 1
+        }
+        return size
     }
 
     override fun getItemViewType(position: Int): Int {
-
-        if (dataIsEmpty && blankLayoutResource != 0) return blankLayoutResource
-
-        if (dataNotEmpty && footerLayoutResource != 0 && position == size) return footerLayoutResource
-
+        if (dataIsEmpty && blankLayoutResource != 0){
+            return blankLayoutResource
+        }
+        if (dataNotEmpty && footerLayoutResource != 0 && position == size){
+            if (position > lastBindIndex) onFooterIndexChanged(position)
+            return footerLayoutResource
+        }
         val model = get(position) ?: return 0
-
         return layoutResource(model, position)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return ViewHolder(onCreateItemView(parent, viewType))
+        val v = if (viewType == 0) {
+            View(parent.context).apply { visibility = View.GONE }
+        } else {
+            LayoutInflater.from(parent.context).inflate(viewType, parent, false)
+        }
+        return ViewHolder(v)
     }
 
     override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
-
         val type = getItemViewType(position)
-
-        if (type == 0) return
-
-        if (type == blankLayoutResource) {
-            return
+        when (type) {
+            0, blankLayoutResource, footerLayoutResource -> return
         }
-
-        if (type == footerLayoutResource) {
-            if (position.isNotIndexed) onFooterIndexChange(viewHolder.itemView, position)
-            return
-        }
-
         val model = get(position) ?: return
-
-        if (position.isNotIndexed) viewHolder.itemView.onBindModel(model, position, type)
-        else viewHolder.itemView.onFirstBindModel(model, position, type)
-
-        position.updateLastIndex()
-
-        viewHolder.itemView.addViewClickListener {
-            onItemClick(model, position)
+        viewHolder.itemView.apply {
+            onBindModel(model, position, type)
+            addViewClickListener {
+                onItemClick(model, position)
+            }
+            setOnLongClickListener {
+                onItemLongClick(model, position)
+                true
+            }
         }
-
-        viewHolder.itemView.setOnLongClickListener {
-            onItemLongClick(model, position)
-            return@setOnLongClickListener true
-        }
-
+        lastBindIndex = position
     }
 
 
@@ -90,18 +83,6 @@ abstract class BaseJsonAdapter<T : JsonElement> : RecyclerView.Adapter<RecyclerV
     protected abstract fun layoutResource(json: T, position: Int): Int
 
     protected abstract fun View.onBindModel(json: T, position: Int, @LayoutRes layout: Int)
-
-    open fun View.onFirstBindModel(model: T, position: Int, @LayoutRes layout: Int) {
-        onBindModel(model, position, layout)
-    }
-
-    open fun onCreateItemView(parent: ViewGroup, viewType: Int): View {
-        return if (viewType == 0) {
-            View(parent.context).apply { visibility = View.GONE }
-        } else {
-            LayoutInflater.from(parent.context).inflate(viewType, parent, false)
-        }
-    }
 
 
     /**
@@ -117,7 +98,7 @@ abstract class BaseJsonAdapter<T : JsonElement> : RecyclerView.Adapter<RecyclerV
     @LayoutRes
     open var footerLayoutResource: Int = 0
 
-    var onFooterIndexChange: (View, Int) -> Unit = { _, _ -> }
+    var onFooterIndexChanged: (Int) -> Unit = {}
 
     fun showFooter(@LayoutRes res: Int) {
         footerLayoutResource = res
@@ -125,8 +106,7 @@ abstract class BaseJsonAdapter<T : JsonElement> : RecyclerView.Adapter<RecyclerV
     }
 
     fun hideFooter() {
-        footerLayoutResource = 0
-        notifyItemChanged(size)
+        showFooter(0)
     }
 
 
@@ -137,86 +117,52 @@ abstract class BaseJsonAdapter<T : JsonElement> : RecyclerView.Adapter<RecyclerV
 
     var onItemLongClick: (T, Int) -> Unit = { _, _ -> }
 
-
-    /**
-     * Position
-     */
-    private var lastIndexPosition: Int = -1
-
-    private fun Int.updateLastIndex() {
-        if (this > lastIndexPosition) lastIndexPosition = this
-    }
-
-    private val Int.isNotIndexed: Boolean get() = this > lastIndexPosition
-
-    private val Int.indexInBound: Boolean get() = this > -1 && this < size
-
-    private val Int.indexOutBound: Boolean get() = this < 0 || this >= size
-
-
     /**
      * Data
      */
-    val emptyList: JsonArray = JsonArray()
+    private var currentList: JsonArray? = null
 
-    var data: JsonArray = emptyList
-        private set
+    val size: Int = currentList?.size() ?: 0
 
-    val size: Int = data.size()
+    var lastBindIndex: Int = -1
+
+    val lastIndex: Int get() = size - 1
 
     val dataIsEmpty: Boolean get() = size == 0
 
     val dataNotEmpty: Boolean get() = size != 0
 
-    val lastPosition: Int get() = if (dataIsEmpty) -1 else (size - 1)
-
-
     /**
      * List update
      */
     open fun get(position: Int): T? {
-        if (data.isEmpty()) return null
+        if (currentList.isEmpty()) return null
         @Suppress("UNCHECKED_CAST")
-        if (position.indexInBound) return data[position] as T
+        if (position in 0..lastIndex) return currentList?.get(position) as? T
         return null
     }
 
     open fun set(json: String?) {
         val array = json.toArray()
         set(array)
+        lastBindIndex = -1
         notifyDataSetChanged()
     }
 
     open fun set(array: JsonArray?) {
-        clear()
-        if (array != null && !array.isEmpty()) {
-            data.add(array)
-        }
-        notifyDataSetChanged()
-    }
-
-    open fun set(obj: JsonObject?) {
-        clear()
-        if (obj != null) {
-            data.add(obj)
-        }
+        currentList = array
+        lastBindIndex = -1
         notifyDataSetChanged()
     }
 
     open fun setElseEmpty(json: String?) {
         val array = json.toArray() ?: return
         set(array)
-        notifyDataSetChanged()
     }
 
     open fun setElseEmpty(array: JsonArray?) {
         array ?: return
         set(array)
-    }
-
-    open fun setElseEmpty(obj: JsonObject?) {
-        obj ?: return
-        set(obj)
     }
 
     open fun add(s: String?) {
@@ -225,63 +171,44 @@ abstract class BaseJsonAdapter<T : JsonElement> : RecyclerView.Adapter<RecyclerV
 
     open fun add(array: JsonArray?) {
         array ?: return
-        if (array.size() == 0) return
-        data.addAll(array)
+        if (array.isEmpty()) return
+        currentList?.addAll(array)
         notifyDataSetChanged()
     }
 
     open fun add(obj: JsonObject?) {
         obj ?: return
-        data.add(obj)
+        val array = currentList ?: JsonArray()
+        array.add(obj)
+        currentList = array
         notifyDataSetChanged()
     }
 
-    open fun edit(index: Int, model: T?) {
+    open fun edit(position: Int, model: JsonObject?) {
         model ?: return
-        if (index.indexInBound) {
-            data[index] = model
-            notifyItemChanged(index)
+        if (position in 0..lastIndex) currentList?.apply {
+            currentList!![position] = model
+            notifyItemChanged(position)
         }
     }
 
-    open fun remove(index: Int) {
-        if (index.indexInBound) {
-            data.remove(index)
-            notifyDataSetChanged()
+    open fun remove(position: Int) {
+        if (position in 0..lastIndex) currentList?.apply {
+            remove(position)
+            notifyItemRemoved(position)
         }
     }
 
     open fun remove(model: T?) {
         model ?: return
-        data.remove(model)
-        notifyDataSetChanged()
+        val position = currentList?.indexOf(model) ?: -1
+        remove(position)
     }
 
     open fun clear() {
-        data = emptyList
+        currentList = null
         notifyDataSetChanged()
     }
-
-
-    /**
-     * Binding
-     */
-    open fun bind(recyclerView: RecyclerView, block: (LinearLayoutManager.() -> Unit) = {}) {
-        recyclerView.initLayoutManager(block)
-        recyclerView.adapter = this
-    }
-
-    open fun bind(recyclerView: RecyclerView, spanCount: Int, includeEdge: Boolean = true, block: (GridLayoutManager.() -> Unit) = {}) {
-        val lm = recyclerView.initLayoutManager(spanCount, block)
-        GridDecoration.draw(recyclerView, lm.spanCount, 0, includeEdge)
-        recyclerView.adapter = this
-    }
-
-
-    /**
-     * Utils
-     */
-    class ViewHolder(v: View) : RecyclerView.ViewHolder(v)
 
 }
 

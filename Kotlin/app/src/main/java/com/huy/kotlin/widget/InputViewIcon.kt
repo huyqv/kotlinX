@@ -6,6 +6,7 @@ import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatTextView
 import com.huy.kotlin.R
+import com.huy.library.extension.tint
 import kotlinx.android.synthetic.main.widget_input_icon.view.*
 
 /**
@@ -30,7 +31,7 @@ class InputViewIcon : InputView {
 
     override fun configDrawable(types: TypedArray) {
         inputImageViewDrawable.setImageDrawable(types.drawable?.also {
-            it.setTintColor(types.drawableTint)
+            it.tint(types.drawableTint)
         })
 
     }

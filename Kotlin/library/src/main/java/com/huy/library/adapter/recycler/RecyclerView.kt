@@ -21,6 +21,28 @@ import java.lang.annotation.RetentionPolicy
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
+class ViewHolder(v: View) : RecyclerView.ViewHolder(v)
+
+fun RecyclerView.Adapter<*>.bind(recyclerView: RecyclerView, block: (LinearLayoutManager.() -> Unit) = {}) {
+    recyclerView.initLayoutManager(block)
+    recyclerView.adapter = this
+}
+
+fun RecyclerView.Adapter<*>.bind(recyclerView: RecyclerView, spanCount: Int, includeEdge: Boolean = true, block: (GridLayoutManager.() -> Unit) = {}) {
+    val lm = recyclerView.initLayoutManager(spanCount, block)
+    GridDecoration.draw(recyclerView, lm.spanCount, 0, includeEdge)
+    recyclerView.adapter = this
+}
+
+fun RecyclerView.bind(adapter: RecyclerView.Adapter<*>, block: (LinearLayoutManager.() -> Unit) = {}) {
+    adapter.bind(this, block)
+}
+
+fun RecyclerView.bind(adapter: RecyclerView.Adapter<*>, spanCount: Int, includeEdge: Boolean = true, block: (GridLayoutManager.() -> Unit) = {}) {
+    adapter.bind(this, spanCount, includeEdge, block)
+}
+
+
 interface ScrollListener {
 
     fun onScrolling()

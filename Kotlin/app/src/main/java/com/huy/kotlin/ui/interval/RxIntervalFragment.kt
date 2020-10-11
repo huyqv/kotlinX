@@ -2,6 +2,7 @@ package com.huy.kotlin.ui.interval
 
 import com.huy.kotlin.R
 import com.huy.kotlin.base.view.BaseFragment
+import com.huy.library.adapter.recycler.bind
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -48,7 +49,7 @@ class RxIntervalFragment : BaseFragment() {
                 .subscribe {
                     adapter.add(it)
                     if (adapter.dataNotEmpty) {
-                        recyclerView?.smoothScrollToPosition(adapter.lastPosition)
+                        recyclerView?.smoothScrollToPosition(adapter.lastIndex)
                     }
                 }
     }
