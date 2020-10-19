@@ -9,7 +9,7 @@ import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.view.View
-import android.view.Window
+import android.view.WindowInsets
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.ColorRes
@@ -39,40 +39,35 @@ fun <T : Activity> Activity.startClear(cls: Class<T>) {
     finish()
 }
 
-fun Activity.fullScreenLayout() {
-    try {
-        val window = this.window
-        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-            this.window.statusBarColor = ContextCompat.getColor(this, android.R.color.transparent)
-    } catch (e: NullPointerException) {
-        e.printStackTrace()
-    }
-}
-
-fun Activity.fullScreenWindow() {
-    this.window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-}
-
 /**
  * Status bar
  */
-fun Activity?.fullScreen() {
+fun Activity?.hideStatusBar() {
     this ?: return
-    requestWindowFeature(Window.FEATURE_NO_TITLE)
-    window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+        window.insetsController?.hide(WindowInsets.Type.statusBars())
+    } else {
+        @Suppress("DEPRECATION")
+        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
+    }
 }
 
 fun Activity?.lightStatusBar() {
     this ?: return
-    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return
-    window.decorView.systemUiVisibility = 8192
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        @Suppress("DEPRECATION")
+        window.decorView.systemUiVisibility = 8192
+    }
+
+
 }
 
 fun Activity?.darkStatusBar() {
     this ?: return
-    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return
-    window.decorView.systemUiVisibility = 0
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        @Suppress("DEPRECATION")
+        window.decorView.systemUiVisibility = 0
+    }
 }
 
 fun Activity?.statusBarHeight(): Int {
@@ -123,15 +118,15 @@ fun Activity?.contentUnderStatusBar(view: View) {
     view.setPadding(0, statusBarHeight(), 0, 0)
 }
 
-
 /**
  * Navigation bar
  */
 fun Activity?.navigationBarColor(color: Int) {
     this ?: return
-    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) return
-    window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-    window.navigationBarColor = color
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        window.navigationBarColor = color
+    }
 }
 
 fun Activity?.navigationBarColorRes(@ColorRes res: Int) {
@@ -156,35 +151,26 @@ fun Activity?.navigationBarDrawable(@DrawableRes res: Int) {
     navigationBarDrawable(ContextCompat.getDrawable(this, res))
 }
 
-fun Activity?.hideNavigationBar() {
-    this ?: return
-    val flags = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-            or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-            or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-            or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-            or View.SYSTEM_UI_FLAG_FULLSCREEN
-            or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
-
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-        window.decorView.systemUiVisibility = flags
-        val decorView = window.decorView
-        decorView.setOnSystemUiVisibilityChangeListener { visibility ->
-            if (visibility and View.SYSTEM_UI_FLAG_FULLSCREEN == 0) {
-                decorView.systemUiVisibility = flags
-            }
-        }
+fun Activity?.hideNavigationBar(hasFocus: Boolean = true) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R && hasFocus) this?.window?.apply {
+        setDecorFitsSystemWindows(false)
+        return
     }
-}
-
-fun Activity?.hideNavigationBar(hasFocus: Boolean) {
-    this ?: return
+    @Suppress("DEPRECATION")
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && hasFocus) {
-        window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+        val flags = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                 or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                 or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                 or View.SYSTEM_UI_FLAG_FULLSCREEN
                 or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
+        val decorView = this?.window?.decorView ?: return
+        decorView.systemUiVisibility = flags
+        decorView.setOnSystemUiVisibilityChangeListener { visibility ->
+            if (visibility and View.SYSTEM_UI_FLAG_FULLSCREEN == 0) {
+                decorView.systemUiVisibility = flags
+            }
+        }
     }
 }
 

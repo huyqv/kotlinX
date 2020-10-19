@@ -7,13 +7,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import androidx.navigation.NavController
+import androidx.navigation.NavDirections
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.huy.kotlin.R
+import com.huy.kotlin.base.arch.ShareVM
+import com.huy.kotlin.util.activityViewModel
 import com.huy.library.view.ViewClickListener
 
 /**
@@ -24,8 +30,9 @@ import com.huy.library.view.ViewClickListener
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-abstract class BaseBottomDialog : BottomSheetDialogFragment() {
+abstract class BaseBottomDialog : BottomSheetDialogFragment(), BaseView {
 
+    protected val sharedVM: ShareVM by lazy { activityViewModel(ShareVM::class.java) }
 
     /**
      * [BottomSheetDialogFragment] override
@@ -52,7 +59,6 @@ abstract class BaseBottomDialog : BottomSheetDialogFragment() {
         onViewCreated()
     }
 
-
     /**
      * [BaseBottomDialog] Required implements
      */
@@ -60,24 +66,18 @@ abstract class BaseBottomDialog : BottomSheetDialogFragment() {
 
     abstract fun onViewCreated()
 
+    /**
+     * [BaseView] implement
+     */
+    override val baseActivity: BaseActivity? get() = activity as? BaseActivity
 
     /**
-     * [BaseBottomDialog] open implements
+     * [BaseBottomDialog] properties
      */
     protected open fun style(): Int {
         return R.style.App_Dialog
     }
 
-    protected open fun onViewClick(v: View?) {}
-
-    protected open fun onBackPressed(): Boolean {
-        return true
-    }
-
-
-    /**
-     * [BaseBottomDialog] properties
-     */
     private val onViewClick: ViewClickListener by lazy {
         object : ViewClickListener() {
             override fun onClicks(v: View?) {
@@ -86,22 +86,49 @@ abstract class BaseBottomDialog : BottomSheetDialogFragment() {
         }
     }
 
-    private val onBackCallback = object : OnBackPressedCallback(true) {
-        override fun handleOnBackPressed() {
-            if (onBackPressed()) {
-                findNavController().popBackStack()
-            }
-        }
-    }
-
-    fun <T> LiveData<T>.observe(block: (T) -> Unit) {
-        observe(viewLifecycleOwner, Observer(block))
-    }
-
     fun addClickListener(vararg views: View?) {
         views.forEach {
             it?.setOnClickListener(onViewClick)
         }
+    }
+
+    protected open fun onViewClick(v: View?) {}
+
+    private val onBackCallback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            if (onBackPressed()) {
+                popBackStack()
+            }
+        }
+    }
+
+    protected open fun onBackPressed(): Boolean {
+        return true
+    }
+
+    val nav: NavController get() = findNavController()
+
+    fun navigate(directions: NavDirections, block: (NavOptions.Builder.() -> Unit) = {}) {
+        val option = NavOptions.Builder()
+                .setDefaultAnim()
+        option.block()
+        nav.navigate(directions, option.build())
+    }
+
+    fun navigateUp() {
+        nav.navigateUp()
+    }
+
+    fun NavOptions.Builder.setDefaultAnim(): NavOptions.Builder {
+        setEnterAnim(R.anim.vertical_enter)
+        setPopEnterAnim(R.anim.vertical_pop_enter)
+        setExitAnim(R.anim.vertical_exit)
+        setPopExitAnim(R.anim.vertical_pop_exit)
+        return this
+    }
+
+    fun <T> LiveData<T>.observe(block: (T) -> Unit) {
+        observe(viewLifecycleOwner, Observer(block))
     }
 
     private fun configDialog() {
@@ -112,6 +139,7 @@ abstract class BaseBottomDialog : BottomSheetDialogFragment() {
         bottomSheetBehavior.peekHeight = bottomSheet.height
         coordinatorLayout.parent.requestLayout()
     }
+
 }
 
 

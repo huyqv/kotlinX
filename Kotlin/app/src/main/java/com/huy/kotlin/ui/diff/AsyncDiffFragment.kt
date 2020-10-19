@@ -1,4 +1,4 @@
-package com.huy.kotlin.ui.recycler.diff
+package com.huy.kotlin.ui.diff
 
 import com.huy.kotlin.R
 import com.huy.kotlin.base.arch.ArchFragment
@@ -23,7 +23,9 @@ class AsyncDiffFragment : ArchFragment<AsyncDiffVM>() {
         return R.layout.fragment_adapter_async_diff
     }
 
-    override val viewModelClass = AsyncDiffVM::class.java
+    override fun localViewModelClass(): Class<AsyncDiffVM> {
+        return AsyncDiffVM::class.java
+    }
 
     override fun onViewCreated() {
         adapter.bind(recyclerView, 3)
@@ -31,13 +33,13 @@ class AsyncDiffFragment : ArchFragment<AsyncDiffVM>() {
             add(ZoomFragment.newInstance(adapter.currentList, image))
         }
         swipeRefreshLayout.onRefresh {
-            viewModel.fetchImages(0)
+            localVM.fetchImages(0)
         }
     }
 
     override fun onRegisterLiveData() {
 
-        viewModel.imageLiveData.observe {
+        localVM.imageLiveData.observe {
             swipeRefreshLayout.isRefreshing = false
             if (it.isNullOrEmpty()) adapter.hideFooter()
             adapter.set(it)

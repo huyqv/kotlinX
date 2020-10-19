@@ -41,7 +41,7 @@ class TabFragment : BaseFragment() {
      */
     private fun configTabLayout() {
 
-        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+        TabLayoutMediator(tabLayout, viewPager) { _, _ ->
         }.attach()
 
         tabLayout.apply {

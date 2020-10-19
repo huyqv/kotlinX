@@ -16,7 +16,7 @@ import androidx.appcompat.widget.AppCompatImageView
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-class RotateImageView : AppCompatImageView {
+class AnimateImageView : AppCompatImageView {
 
     private val defaultAnim: ObjectAnimator
         get() {

@@ -1,4 +1,4 @@
-package com.huy.kotlin.ui.recycler.paged
+package com.huy.kotlin.ui.paged
 
 import com.huy.kotlin.R
 import com.huy.kotlin.base.arch.ArchFragment
@@ -22,7 +22,9 @@ class PagingFragment : ArchFragment<PagingVM>() {
         return R.layout.fragment_adapter_paged
     }
 
-    override val viewModelClass = PagingVM::class.java
+    override fun localViewModelClass(): Class<PagingVM> {
+        return PagingVM::class.java
+    }
 
     override fun onViewCreated() {
         adapter.myId = 16
@@ -35,7 +37,7 @@ class PagingFragment : ArchFragment<PagingVM>() {
     }
 
     override fun onRegisterLiveData() {
-        viewModel.liveData.observe {
+        localVM.liveData.observe {
             if (it.isNullOrEmpty()) adapter.hideFooter()
             adapter.submitList(it)
         }

@@ -9,8 +9,13 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import androidx.navigation.NavController
+import androidx.navigation.NavDirections
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.huy.kotlin.R
+import com.huy.kotlin.base.arch.ShareVM
+import com.huy.kotlin.util.activityViewModel
 import com.huy.library.view.ViewClickListener
 
 /**
@@ -21,8 +26,9 @@ import com.huy.library.view.ViewClickListener
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-abstract class BaseDialog : DialogFragment() {
+abstract class BaseDialog : DialogFragment(), BaseView  {
 
+    protected val sharedVM: ShareVM by lazy { activityViewModel(ShareVM::class.java) }
 
     /**
      * [DialogFragment] override
@@ -48,6 +54,15 @@ abstract class BaseDialog : DialogFragment() {
         onViewCreated()
     }
 
+    override fun onStart() {
+        super.onStart()
+        when (style()) {
+            R.style.App_Dialog_FullScreen,
+            R.style.App_Dialog_FullScreen_Transparent -> dialog?.window?.apply {
+                setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+            }
+        }
+    }
 
     /**
      * [BaseDialog] Required implements
@@ -56,24 +71,18 @@ abstract class BaseDialog : DialogFragment() {
 
     abstract fun onViewCreated()
 
+    /**
+     * [BaseView] implement
+     */
+    override val baseActivity: BaseActivity? get() = activity as? BaseActivity
 
     /**
-     * [BaseDialog] open implements
+     * [BaseDialog] properties
      */
     protected open fun style(): Int {
         return R.style.App_Dialog
     }
 
-    protected open fun onViewClick(v: View?) {}
-
-    protected open fun onBackPressed(): Boolean {
-        return true
-    }
-
-
-    /**
-     * [BaseDialog] properties
-     */
     private val onViewClick: ViewClickListener by lazy {
         object : ViewClickListener() {
             override fun onClicks(v: View?) {
@@ -82,22 +91,50 @@ abstract class BaseDialog : DialogFragment() {
         }
     }
 
+    fun addClickListener(vararg views: View?) {
+        views.forEach {
+            it?.setOnClickListener(onViewClick)
+        }
+    }
+
+    protected open fun onViewClick(v: View?) {}
+
     private val onBackCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
             if (onBackPressed()) {
-                findNavController().popBackStack()
+                popBackStack()
             }
         }
+    }
+
+    protected open fun onBackPressed(): Boolean {
+        return true
+    }
+
+    val nav: NavController get() = findNavController()
+
+    fun navigate(directions: NavDirections, block: (NavOptions.Builder.() -> Unit) = {}) {
+        val option = NavOptions.Builder()
+                .setDefaultAnim()
+        option.block()
+        nav.navigate(directions, option.build())
+    }
+
+    fun navigateUp() {
+        nav.navigateUp()
+    }
+
+    fun NavOptions.Builder.setDefaultAnim(): NavOptions.Builder {
+        setEnterAnim(R.anim.vertical_enter)
+        setPopEnterAnim(R.anim.vertical_pop_enter)
+        setExitAnim(R.anim.vertical_exit)
+        setPopExitAnim(R.anim.vertical_pop_exit)
+        return this
     }
 
     fun <T> LiveData<T>.observe(block: (T) -> Unit) {
         observe(viewLifecycleOwner, Observer(block))
     }
 
-    fun addClickListener(vararg views: View?) {
-        views.forEach {
-            it?.setOnClickListener(onViewClick)
-        }
-    }
 
 }

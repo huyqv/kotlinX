@@ -23,34 +23,33 @@ import kotlinx.android.synthetic.main.widget_app_bar.view.*
 class AppBarView : AppCustomView {
 
     /**
-     * [AppCustomView] implement
+     * [AppCustomView] override
      */
-    override val layoutRes: Int get() = R.layout.widget_app_bar
+    override fun layoutResource(): Int {
+        return R.layout.widget_app_bar
+    }
 
     constructor(context: Context, attrs: AttributeSet? = null) : super(context, attrs)
 
     override fun onInitialize(context: Context, types: TypedArray) {
 
-        appBarImageViewBackground.setImageDrawable(types.background)
+        appBarImageViewBackground.setImageResource(types.background)
 
-        textViewTitle.apply {
-            text = types.text
-            isAllCaps = types.textAllCaps
-            val style = this.typeface.style
-            setTypeface(textViewTitle.typeface, style)
-            setTextColor(types.textColorRes)
+        textViewTitle.also {
+            it.text = types.text
+            it.isAllCaps = types.textAllCaps
+            it.setTypeface(textViewTitle.typeface, it.typeface.style)
+            it.setTextColor(types.textColor)
         }
 
-        val color = types.textColorRes
-
-        imageViewDrawableStart.apply {
-            setColorFilter(color)
-            setImageDrawable(types.drawableStart)
+        imageViewDrawableStart.also {
+            it.setColorFilter(types.textColor)
+            it.setImageDrawable(types.drawableStart)
         }
 
-        imageViewDrawableEnd.apply {
-            setColorFilter(color)
-            setImageDrawable(types.drawableEnd)
+        imageViewDrawableEnd.also {
+            it.setColorFilter(types.textColor)
+            it.setImageDrawable(types.drawableEnd)
         }
 
     }
@@ -103,20 +102,15 @@ class AppBarView : AppCustomView {
         }
     }
 
-    private fun updateStatusBar() {
-        this.getSize { w, h ->
+    fun updateStatusBar() {
+        this.getSize { _, h ->
             val extraHeight = statusBarHeight
             appBarViewControls.setPadding(0, extraHeight, 0, 0)
             val lp = this.layoutParams
             lp.height = h + extraHeight
             this.layoutParams = lp
+            appBarViewControls.invalidate()
         }
     }
 
-    override fun onVisibilityChanged(changedView: View, visibility: Int) {
-        super.onVisibilityChanged(changedView, visibility)
-        if (visibility == View.VISIBLE) {
-            updateStatusBar()
-        }
-    }
 }

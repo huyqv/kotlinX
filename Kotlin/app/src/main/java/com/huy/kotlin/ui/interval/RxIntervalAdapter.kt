@@ -2,10 +2,8 @@ package com.huy.kotlin.ui.interval
 
 import android.view.View
 import com.huy.kotlin.R
-import com.huy.kotlin.ui.model.User
-import com.huy.kotlin.util.load
 import com.huy.library.adapter.recycler.BaseRecyclerAdapter
-import kotlinx.android.synthetic.main.item_user_grid.view.*
+import kotlinx.android.synthetic.main.interval_item.view.*
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -15,23 +13,16 @@ import kotlinx.android.synthetic.main.item_user_grid.view.*
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-class RxIntervalAdapter : BaseRecyclerAdapter<User>() {
+class RxIntervalAdapter : BaseRecyclerAdapter<Int>() {
 
     override var blankLayoutResource = R.layout.item_blank
 
     override var footerLayoutResource = R.layout.item_footer
 
-    override fun layoutResource(model: User, position: Int) = R.layout.item_user
+    override fun layoutResource(model: Int, position: Int) = R.layout.interval_item
 
-    override fun View.onBindModel(model: User, position: Int, layout: Int) {
-        model.run {
-            val fn = if (firstName.isNullOrEmpty()) "" else "$firstName "
-            userTextViewName.text = "$fn$lastName"
-            userImageViewAvatar.load(avatar) {
-                placeholder(R.mipmap.img_user)
-                error(R.mipmap.img_user)
-            }
-        }
+    override fun View.onBindModel(model: Int, position: Int, layout: Int) {
+        intervalTextView.text = model.toString()
     }
 
 }

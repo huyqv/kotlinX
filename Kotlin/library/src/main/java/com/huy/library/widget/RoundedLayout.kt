@@ -1,67 +1,58 @@
 package com.huy.library.widget
 
 import android.content.Context
-import android.graphics.*
+import android.graphics.Canvas
+import android.graphics.Path
+import android.graphics.RectF
 import android.util.AttributeSet
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.huy.library.R
 
 /**
  * -------------------------------------------------------------------------------------------------
+ *
  * @Project: Kotlin
- * @Created: Huy QV 2018/10/14
+ * @Created: Huy 2020/10/12
+ * @Organize: Wee Digital
  * @Description: ...
- * None Right Reserved
+ * All Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 class RoundedLayout : ConstraintLayout {
 
-    private var maskBitmap: Bitmap? = null
-
-    private var paint: Paint? = null
-
-    private var maskPaint: Paint? = null
-
-    private var cornerRadius: Float = 0.toFloat()
+    private var radius: Float = 0f
+    private var topLeftRadius: Float = 0f
+    private var topRightRadius: Float = 0f
+    private var bottomLeftRadius: Float = 0f
+    private var bottomRightRadius: Float = 0f
 
     constructor(context: Context, attrs: AttributeSet? = null) : super(context, attrs) {
-        init(context, attrs)
+        onViewInit(context, attrs)
     }
 
-    private fun init(context: Context, attrs: AttributeSet?) {
-        val a = context.theme.obtainStyledAttributes(attrs, R.styleable.RoundedLayout, 0, 0)
-        try {
-            val metrics = context.resources.displayMetrics
-            val dp = a.getLayoutDimension(R.styleable.RoundedLayout_android_radius, 0)
-            cornerRadius = dp * metrics.density
-            paint = Paint(Paint.ANTI_ALIAS_FLAG)
-            maskPaint = Paint(Paint.ANTI_ALIAS_FLAG or Paint.FILTER_BITMAP_FLAG)
-            maskPaint!!.xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
-            setWillNotDraw(false)
-        } finally {
-            a.recycle()
-        }
+    private fun onViewInit(context: Context, attrs: AttributeSet?) {
+        val typedArray = context.obtainStyledAttributes(attrs, R.styleable.RoundedLayout, 0, 0)
+        radius = typedArray.getDimension(R.styleable.RoundedLayout_radius, 0f)
+        topLeftRadius = typedArray.getDimension(R.styleable.RoundedLayout_topLeftRadius, radius)
+        topRightRadius = typedArray.getDimension(R.styleable.RoundedLayout_topRightRadius, radius)
+        bottomLeftRadius = typedArray.getDimension(R.styleable.RoundedLayout_bottomLeftRadius, radius)
+        bottomRightRadius = typedArray.getDimension(R.styleable.RoundedLayout_bottomRightRadius, radius)
+        typedArray.recycle()
+        setLayerType(LAYER_TYPE_SOFTWARE, null)
     }
 
-    override fun draw(canvas: Canvas) {
-
-        val offscreenBitmap = Bitmap.createBitmap(canvas.width, canvas.height, Bitmap.Config.ARGB_8888)
-        val offscreenCanvas = Canvas(offscreenBitmap)
-        super.draw(offscreenCanvas)
-        if (maskBitmap == null) {
-            maskBitmap = createMask(canvas.width, canvas.height)
-        }
-        offscreenCanvas.drawBitmap(maskBitmap!!, 0f, 0f, maskPaint)
-        canvas.drawBitmap(offscreenBitmap, 0f, 0f, paint)
+    override fun dispatchDraw(canvas: Canvas) {
+        val count = canvas.save()
+        val path = Path()
+        val cornerDimensions = floatArrayOf(
+                topLeftRadius, topLeftRadius,
+                topRightRadius, topRightRadius,
+                bottomRightRadius, bottomRightRadius,
+                bottomLeftRadius, bottomLeftRadius)
+        path.addRoundRect(RectF(0f, 0f, canvas.width.toFloat(), canvas.height.toFloat()), cornerDimensions, Path.Direction.CW)
+        canvas.clipPath(path)
+        super.dispatchDraw(canvas)
+        canvas.restoreToCount(count)
     }
 
-    private fun createMask(width: Int, height: Int): Bitmap {
-        val mask = Bitmap.createBitmap(width, height, Bitmap.Config.ALPHA_8)
-        val canvas = Canvas(mask)
-        val paint = Paint(Paint.ANTI_ALIAS_FLAG)
-        canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), paint)
-        paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
-        canvas.drawRoundRect(RectF(0f, 0f, width.toFloat(), height.toFloat()), cornerRadius, cornerRadius, paint)
-        return mask
-    }
 }

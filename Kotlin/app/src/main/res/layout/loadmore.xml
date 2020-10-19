@@ -13,30 +13,23 @@
 
     <com.huy.kotlin.widget.AppBarView
         android:id="@+id/appBarView"
-        style="@style/AppBar.Light"
-        android:text="Handle Thread"
+        style="@style/AppBar.Dark"
+        android:background="@drawable/drw_rect_gradient"
+        android:text="Load more recycler"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/textViewPlay"
-        style="@style/TextView.Medium"
-        android:layout_width="@dimen/_40sdp"
-        android:layout_height="0dp"
-        android:gravity="center"
-        android:text="Play"
-        android:textColor="@android:color/white"
-        app:layout_constraintBottom_toBottomOf="@+id/appBarView"
-        app:layout_constraintEnd_toEndOf="@+id/appBarView"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         style="@style/RecyclerView"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appBarView"
-        tools:itemCount="10"
-        tools:listitem="@layout/item_user" />
+        tools:itemCount="20"
+        tools:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        tools:listitem="@layout/loadmore_item"
+        tools:spanCount="3" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

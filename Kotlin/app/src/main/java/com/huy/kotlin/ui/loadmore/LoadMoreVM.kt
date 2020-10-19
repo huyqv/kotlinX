@@ -1,4 +1,4 @@
-package com.huy.kotlin.ui.recycler.loadMore
+package com.huy.kotlin.ui.loadmore
 
 import com.huy.kotlin.base.arch.BaseViewModel
 import com.huy.kotlin.data.api.ApiClient

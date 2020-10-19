@@ -5,15 +5,15 @@ import android.view.View
 import com.huy.kotlin.R
 import com.huy.kotlin.base.arch.ArchActivity
 import com.huy.kotlin.ui.animation.AnimationFragment
+import com.huy.kotlin.ui.diff.AsyncDiffFragment
 import com.huy.kotlin.ui.fm.FragmentManagerActivity
 import com.huy.kotlin.ui.format.TextMaskFragment
 import com.huy.kotlin.ui.interval.RxIntervalFragment
+import com.huy.kotlin.ui.loadmore.LoadMoreFragment
 import com.huy.kotlin.ui.member.*
-import com.huy.kotlin.ui.recycler.diff.AsyncDiffFragment
-import com.huy.kotlin.ui.recycler.loadMore.LoadMoreFragment
-import com.huy.kotlin.ui.recycler.paged.PagingFragment
+import com.huy.kotlin.ui.paged.PagingFragment
 import com.huy.kotlin.ui.tab.TabFragment
-import com.huy.library.extension.fullScreen
+import com.huy.library.extension.hideStatusBar
 import com.huy.library.extension.start
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -27,11 +27,12 @@ import kotlinx.android.synthetic.main.activity_main.*
  */
 class MainActivity : ArchActivity<MainVM>() {
 
-
-    override val viewModelClass = MainVM::class.java
+    override fun localViewModelClass(): Class<MainVM> {
+        return MainVM::class.java
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        fullScreen()
+        hideStatusBar()
         super.onCreate(savedInstanceState)
     }
 
@@ -50,7 +51,7 @@ class MainActivity : ArchActivity<MainVM>() {
     override fun onCreated(state: Bundle?) {
 
         addClickListener(
-                itemHandlerThread, itemLoadMore, itemAsyncDiff, itemSetting,
+                itemRxInterval, itemLoadMore, itemAsyncDiff, itemSetting,
                 itemEditText, itemTextMask, itemMenu, itemAppBar, itemDialog, itemTab, itemPaging,
                 itemAnimation, itemTransaction
         )
@@ -61,7 +62,7 @@ class MainActivity : ArchActivity<MainVM>() {
 
     override fun onViewClick(v: View?) {
         when (v) {
-            itemHandlerThread -> add(RxIntervalFragment())
+            itemRxInterval -> add(RxIntervalFragment())
             itemLoadMore -> add(LoadMoreFragment())
             itemPaging -> add(PagingFragment())
             itemAsyncDiff -> add(AsyncDiffFragment())

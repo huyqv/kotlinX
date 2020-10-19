@@ -1,4 +1,4 @@
-package com.huy.kotlin.ui.recycler.diff
+package com.huy.kotlin.ui.diff
 
 import android.view.View
 import com.huy.kotlin.R

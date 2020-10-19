@@ -35,10 +35,10 @@ dependencies {
 
     implementation deps.kotlin.stdlib
     implementation deps.android.appcompat
-    implementation deps.android.fragment
+    implementation 'androidx.fragment:fragment-ktx:1.2.5'
     implementation deps.android.recyclerview
     implementation deps.android.cardview
-    implementation deps.android.constraintlayout
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.2'
     implementation deps.android.viewpager
 
     implementation deps.paging.runtime

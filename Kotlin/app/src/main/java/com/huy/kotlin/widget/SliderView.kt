@@ -20,14 +20,9 @@ import com.huy.library.R
  */
 class SliderView : ViewFlipper {
 
-    interface ViewChangedListener {
-
-        fun onViewChangedListener(v: View?, index: Int)
-    }
-
     var next = true
 
-    var viewChangeListener: ViewChangedListener? = null
+    var onViewChanged: (View, Int) -> Unit = { _, _ -> }
 
     private var whichChild = 0
 
@@ -53,21 +48,24 @@ class SliderView : ViewFlipper {
         displayedChild = whichChild - 1
     }
 
-    override fun setDisplayedChild(whichChild: Int) {
+    override fun setDisplayedChild(child: Int) {
 
-        this.whichChild = whichChild
+        this.whichChild = child
 
-        if (whichChild >= childCount) this.whichChild = 0
-        else if (whichChild < 0) this.whichChild = childCount - 1
+        if (child >= childCount) this.whichChild = 0
+        else if (child < 0) this.whichChild = childCount - 1
 
         val hasFocus = focusedChild != null
 
-        if (next) next(whichChild)
-        else previous(whichChild)
+        if (next) next(child)
+        else previous(child)
 
         if (hasFocus) requestFocus(View.FOCUS_FORWARD)
 
-        viewChangeListener?.onViewChangedListener(this.currentView, this.whichChild)
+        currentView?.also {
+            onViewChanged(it, whichChild)
+        }
+
     }
 
     private fun next(childIndex: Int) {
@@ -143,17 +141,14 @@ class SliderView : ViewFlipper {
         return getChildAt(whichChild)
     }
 
-    fun setUpWithSlidingView(tabLayout: TabLayout, viewChangedListener: ViewChangedListener? = null) {
+    fun setUpWithSlidingView(tabLayout: TabLayout, onViewChanged: (View, Int) -> Unit = { _, _ -> }) {
 
         for (i in 0 until childCount) tabLayout.addTab(tabLayout.newTab())
 
         tabLayout.getTabAt(0)?.select()
-        viewChangeListener = object : ViewChangedListener {
-            override fun onViewChangedListener(v: View?, index: Int) {
-
-                tabLayout.getTabAt(index)?.select()
-                viewChangedListener?.onViewChangedListener(v, index)
-            }
+        this.onViewChanged = { view, index ->
+            tabLayout.getTabAt(index)?.select()
+            onViewChanged(view, index)
         }
     }
 

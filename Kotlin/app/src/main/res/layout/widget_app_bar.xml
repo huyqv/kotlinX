@@ -23,40 +23,40 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/textViewTitle"
             android:layout_width="0dp"
-        android:layout_height="?android:attr/actionBarSize"
-        android:layout_weight="1"
+            android:layout_height="?android:attr/actionBarSize"
+            android:layout_weight="1"
             android:gravity="center"
             android:letterSpacing="0.2"
             android:text="@string/app_name"
             android:textColor="@android:color/white"
+            android:textSize="@dimen/_12ssp"
             android:textStyle="bold"
-        android:textSize="@dimen/_12ssp"
-        app:layout_constraintEnd_toStartOf="@+id/imageViewDrawableEnd"
-        app:layout_constraintStart_toEndOf="@+id/imageViewDrawableStart"
-        app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintEnd_toStartOf="@+id/imageViewDrawableEnd"
+            app:layout_constraintStart_toEndOf="@+id/imageViewDrawableStart"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/imageViewDrawableEnd"
-        style="@style/AppBar.Icon"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imageViewDrawableEnd"
+            style="@style/AppBar.Icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <FrameLayout xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="4dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:ignore="UselessParent">
-
-        <ProgressBar
-            android:id="@+id/appBarProgressBar"
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        <FrameLayout xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
-            android:layout_height="16dp"
-            android:layout_gravity="center_vertical"
-            android:indeterminate="true"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="parent" />
-    </FrameLayout>
+            android:layout_height="4dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:ignore="UselessParent">
+
+            <ProgressBar
+                android:id="@+id/appBarProgressBar"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="16dp"
+                android:layout_gravity="center_vertical"
+                android:indeterminate="true"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="parent" />
+        </FrameLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

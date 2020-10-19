@@ -31,6 +31,33 @@ import com.huy.library.widget.AppCustomView
  */
 abstract class InputView : AppCustomView {
 
+    /**
+     * [AppCustomView] override
+     */
+    constructor(context: Context, attrs: AttributeSet? = null) : super(context, attrs)
+
+    override fun onInitialize(context: Context, types: TypedArray) {
+        clearBackground()
+        configTitleText(types)
+        configEditText(types)
+        configDrawable(types)
+    }
+
+    override fun setOnClickListener(listener: OnClickListener?) {
+        editView?.apply {
+            isFocusable = false
+            isCursorVisible = false
+            keyListener = null
+            inputType = EditorInfo.IME_ACTION_NONE
+        }
+        super.setOnClickListener {
+            listener?.onClick(this@InputView)
+        }
+    }
+
+    /**
+     * [InputView] properties
+     */
     var title: String?
         get() = titleView?.text.toString()
         set(value) {
@@ -62,27 +89,6 @@ abstract class InputView : AppCustomView {
     abstract val errorView: AppCompatTextView?
 
     abstract val editView: AppCompatEditText?
-
-    constructor(context: Context, attrs: AttributeSet? = null) : super(context, attrs)
-
-    override fun onInitialize(context: Context, types: TypedArray) {
-        clearBackground()
-        configTitleText(types)
-        configEditText(types)
-        configDrawable(types)
-    }
-
-    override fun setOnClickListener(listener: OnClickListener?) {
-        editView?.apply {
-            isFocusable = false
-            isCursorVisible = false
-            keyListener = null
-            inputType = EditorInfo.IME_ACTION_NONE
-        }
-        super.setOnClickListener {
-            listener?.onClick(this@InputView)
-        }
-    }
 
     fun setError(@StringRes res: Int?) {
         if (res == null) errorView?.text = null
@@ -177,9 +183,7 @@ abstract class InputView : AppCustomView {
         val color = types.drawableTint
         val drawableLeft = types.drawableStart.tint(color)
         val drawableRight = types.drawableEnd.tint(color)
-        editView?.post {
-            editView?.setCompoundDrawablesWithIntrinsicBounds(drawableLeft, null, drawableRight, null)
-        }
+        editView?.setCompoundDrawablesWithIntrinsicBounds(drawableLeft, null, drawableRight, null)
     }
 
     private fun clearBackground() {

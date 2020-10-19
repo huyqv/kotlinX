@@ -1,4 +1,4 @@
-package com.huy.kotlin.ui.recycler.paged
+package com.huy.kotlin.ui.paged
 
 import androidx.lifecycle.LiveData
 import androidx.paging.DataSource

@@ -17,25 +17,24 @@ import kotlin.math.floor
  */
 class DashView : View {
 
-    var dashHeight: Float = 1f
+    private var dashHeight: Float = 1f
 
-    var dashLength: Float = 10f
+    private var dashLength: Float = 10f
 
-    var dashSpace: Float = 10f
+    private var dashSpace: Float = 10f
 
     var orientation: Int = HORIZONTAL
 
     val path: Path = Path()
 
-    val paint: Paint = Paint()
+    private val paint: Paint = Paint()
 
-    constructor(context: Context?, attrs: AttributeSet? = null) : super(context, attrs) {
-        if (attrs != null) context?.theme?.obtainStyledAttributes(attrs, R.styleable.DashView, 0, 0)?.apply {
-            dashLength = getDimension(R.styleable.DashView_dashView_dashLength, dashLength)
-            dashSpace = getDimension(R.styleable.DashView_dashView_dashSpace, dashSpace)
-            paint.color = getColor(R.styleable.DashView_dashView_color, Color.argb(255, 0, 0, 0))
-            recycle()
-        }
+    constructor(context: Context, attrs: AttributeSet? = null) : super(context, attrs) {
+        val types = context.theme.obtainStyledAttributes(attrs, R.styleable.DashView, 0, 0)
+        dashLength = types.getDimension(R.styleable.DashView_dashLength, dashLength)
+        dashSpace = types.getDimension(R.styleable.DashView_dashSpace, dashSpace)
+        paint.color = types.getColor(R.styleable.DashView_color, Color.BLACK)
+        types.recycle()
         paint.strokeWidth = dashHeight
         paint.style = Paint.Style.STROKE
     }

@@ -1,15 +1,16 @@
-package com.huy.kotlin.base.event
+package com.huy.kotlin.base.arch
+
+import androidx.lifecycle.ViewModel
 
 /**
  * -------------------------------------------------------------------------------------------------
  * @Project: Kotlin
- * @Created: Huy QV 2017/10/14
+ * @Created: Huy 2020/10/16
+ * @Organize: Wee Digital
  * @Description: ...
- * None Right Reserved
+ * All Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-object Event {
+open class ShareVM : ViewModel() {
 
-    private const val EVENT_BASE = 1
-    const val CANCEL_REQUEST = EVENT_BASE + 1
 }

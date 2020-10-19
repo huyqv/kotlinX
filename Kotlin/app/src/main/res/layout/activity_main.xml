@@ -23,9 +23,9 @@
         <androidx.appcompat.widget.LinearLayoutCompat style="@style/VerticalView">
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/itemHandlerThread"
+                android:id="@+id/itemRxInterval"
                 style="@style/Button.Match"
-                android:text="Handler thread" />
+                android:text="Rx interval" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/itemLoadMore"

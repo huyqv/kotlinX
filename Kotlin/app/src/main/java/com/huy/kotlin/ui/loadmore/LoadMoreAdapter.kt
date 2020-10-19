@@ -1,11 +1,11 @@
-package com.huy.kotlin.ui.recycler.loadMore
+package com.huy.kotlin.ui.loadmore
 
 import android.view.View
 import com.huy.kotlin.R
 import com.huy.kotlin.ui.model.User
 import com.huy.kotlin.util.load
 import com.huy.library.adapter.recycler.BaseRecyclerAdapter
-import kotlinx.android.synthetic.main.item_user_grid.view.*
+import kotlinx.android.synthetic.main.loadmore_item.view.*
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -21,7 +21,7 @@ class LoadMoreAdapter : BaseRecyclerAdapter<User>() {
 
     override var footerLayoutResource: Int = R.layout.item_footer
 
-    override fun layoutResource(model: User, position: Int) = R.layout.item_user_grid
+    override fun layoutResource(model: User, position: Int) = R.layout.loadmore_item
 
     override fun View.onBindModel(model: User, position: Int, layout: Int) {
         userTextViewName.text = "${model.firstName ?: ""} ${model.lastName}".trim()

@@ -77,7 +77,8 @@ open class SingleLiveData<T> : MediatorLiveData<T>() {
 
         override fun onChanged(t: R?) {
             if (pending.compareAndSet(true, false)) {
-                onDataChanged(t as? T)
+                @Suppress("UNCHECKED_CAST")
+                (t as? T)?.also { onDataChanged(it) }
                 observer.onChanged(t)
             }
         }

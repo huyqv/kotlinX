@@ -1,4 +1,4 @@
-package com.huy.kotlin.ui.recycler.diff
+package com.huy.kotlin.ui.diff
 
 import androidx.lifecycle.MutableLiveData
 import com.huy.kotlin.base.arch.BaseViewModel

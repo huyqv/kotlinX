@@ -20,13 +20,17 @@ import kotlinx.android.synthetic.main.widget_setting.view.*
 class SettingView : AppCustomView {
 
     /**
-     * [AppCustomView] implement
+     * [AppCustomView] override
      */
-    override val layoutRes: Int get() = R.layout.widget_setting
+    override fun layoutResource(): Int {
+        return R.layout.widget_setting
+    }
 
     constructor(context: Context, attrs: AttributeSet? = null) : super(context, attrs)
 
     override fun onInitialize(context: Context, types: TypedArray) {
+
+        settingViewContent.background = types.backgroundDrawable
 
         settingTextViewTitle.text = types.title
         settingTextViewTitle.setTextColor(types.hintColor)
@@ -39,12 +43,8 @@ class SettingView : AppCustomView {
             settingCheckbox.isChecked = types.checked
             settingViewContent.setOnClickListener { isChecked = !isChecked }
         } else {
-
             settingCheckbox.visibility = View.INVISIBLE
         }
-
-        val separator = types.getBoolean(R.styleable.SettingView_setting_separator, true)
-        settingViewSeparator.visibility = if (separator) View.VISIBLE else View.INVISIBLE
     }
 
     /**
@@ -63,7 +63,7 @@ class SettingView : AppCustomView {
         }
 
     var onCheckedChangedListener: CompoundButton.OnCheckedChangeListener?
-        get() = onCheckedChangedListener
+        get() = null
         set(value) {
             settingCheckbox.setOnCheckedChangeListener(value)
         }

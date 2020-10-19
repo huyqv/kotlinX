@@ -3,59 +3,52 @@
     style="@style/ContentLayout"
     android:orientation="vertical">
 
-    <androidx.core.widget.NestedScrollView style="@style/MatchWidth">
+    <include
+        layout="@layout/view_search_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
-        <androidx.appcompat.widget.LinearLayoutCompat
-            style="@style/MatchWidth"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
+    <include
+        layout="@layout/view_user_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp" />
 
-            <include
-                layout="@layout/view_search_bar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+    <com.huy.kotlin.widget.AppBarView
+        style="@style/AppBar.Light"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:background="@color/colorOrange"
+        android:drawableStart="@drawable/ic_adb"
+        android:drawableEnd="@drawable/ic_send"
+        android:text="Aa.."
+        android:textColor="@color/colorAccent" />
 
-            <include
-                layout="@layout/view_user_bar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp" />
+    <com.huy.kotlin.widget.AppBarView
+        style="@style/AppBar.Layout"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:text="default" />
 
+    <com.huy.kotlin.widget.AppBarView
+        style="@style/AppBar.Light"
+        android:layout_marginTop="@dimen/_10sdp" />
 
-            <com.huy.kotlin.widget.AppBarView
-                style="@style/AppBar.Light"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:background="@color/colorOrange"
-                android:drawableStart="@drawable/ic_adb"
-                android:drawableEnd="@drawable/ic_send"
-                android:text="Aa.."
-                android:textColor="@color/colorAccent" />
+    <com.huy.kotlin.widget.AppBarView
+        style="@style/AppBar.Dark"
+        android:layout_marginTop="@dimen/_10sdp" />
 
-            <com.huy.kotlin.widget.AppBarView
-                style="@style/AppBar.Light"
-                android:layout_marginTop="@dimen/_10sdp" />
+    <com.huy.kotlin.widget.AppBarView
+        style="@style/AppBar.Dark"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:background="@mipmap/img_pawpaw"
+        android:drawableStart="@drawable/ic_adb" />
 
-            <com.huy.kotlin.widget.AppBarView
-                style="@style/AppBar.Dark"
-                android:layout_marginTop="@dimen/_10sdp" />
+    <com.huy.kotlin.widget.AppBarView
+        style="@style/AppBar.Dark"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:background="@mipmap/img_catstile4"
+        android:drawableEnd="@drawable/ic_adb" />
 
-            <com.huy.kotlin.widget.AppBarView
-                style="@style/AppBar.Dark"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:background="@mipmap/img_pawpaw"
-                android:drawableStart="@drawable/ic_adb" />
-
-            <com.huy.kotlin.widget.AppBarView
-                style="@style/AppBar.Dark"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:background="@mipmap/img_catstile4"
-                android:drawableEnd="@drawable/ic_adb" />
-
-            <include layout="@layout/view_developer" />
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
-    </androidx.core.widget.NestedScrollView>
+    <include layout="@layout/view_developer" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>
 

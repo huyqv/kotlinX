@@ -11,6 +11,7 @@ import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import android.os.Build
+import androidx.lifecycle.MutableLiveData
 import com.huy.library.Library
 
 /**
@@ -52,41 +53,59 @@ val connectionInfo: String?
         return null
     }
 
-val networkConnected: Boolean get() = connectionInfo != null
+val networkConnected: Boolean
+    get() = connectionInfo != null
 
-val networkDisconnected: Boolean get() = connectionInfo == null
+val networkDisconnected: Boolean
+    get() = connectionInfo == null
 
-val connectivityManager = app.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+val connectivityManager: ConnectivityManager
+    get() = app.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
-val networkCallback = object : ConnectivityManager.NetworkCallback() {
+val networkCallback
+    get() = object : ConnectivityManager.NetworkCallback() {
 
-    private val request: NetworkRequest
-        get() = NetworkRequest.Builder()
-                .addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
-                .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
-                .build()
+        private val request: NetworkRequest
+            get() = NetworkRequest.Builder()
+                    .addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
+                    .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
+                    .build()
 
-    @SuppressLint("MissingPermission")
-    fun register() {
-        connectivityManager.registerNetworkCallback(request, this)
+        @SuppressLint("MissingPermission")
+        fun register() {
+            connectivityManager.registerNetworkCallback(request, this)
+        }
+
+        fun unregister() {
+            connectivityManager.unregisterNetworkCallback(this)
+        }
+
+        override fun onAvailable(network: Network) {
+            networkLiveData.postValue(true)
+        }
+
+        override fun onLost(network: Network) {
+            networkLiveData.postValue(false)
+        }
     }
 
-    fun unregister() {
-        connectivityManager.unregisterNetworkCallback(this)
-    }
+val networkLiveData: MutableLiveData<Boolean> by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
+    registerNetworkCallback()
+    MutableLiveData()
+}
 
-    override fun onAvailable(network: Network) {
-
-    }
-
-    override fun onUnavailable() {
-
+@SuppressLint("MissingPermission")
+private fun registerNetworkCallback() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        connectivityManager.registerDefaultNetworkCallback(networkCallback)
+    } else {
+        val request = NetworkRequest.Builder().addCapability(NetworkCapabilities.NET_CAPABILITY_WIFI_P2P).build()
+        connectivityManager.registerNetworkCallback(request, networkCallback)
     }
 }
 
 @Suppress("DEPRECATION")
 val networkReceiver = object : BroadcastReceiver() {
-
     fun register() {
         Library.app.registerReceiver(this, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
     }
@@ -94,7 +113,5 @@ val networkReceiver = object : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
     }
 }
-
-
 
 

@@ -18,9 +18,11 @@ import kotlinx.android.synthetic.main.widget_menu.view.*
 class NavigateMenu : AppCustomView {
 
     /**
-     * [AppCustomView] implement
+     * [AppCustomView] override
      */
-    override val layoutRes: Int get() = R.layout.widget_menu
+    override fun layoutResource(): Int {
+        return R.layout.widget_menu
+    }
 
     constructor(context: Context, attrs: AttributeSet? = null) : super(context, attrs)
 
@@ -30,7 +32,7 @@ class NavigateMenu : AppCustomView {
         menuTextViewLabel.isAllCaps = types.textAllCaps
         menuTextViewLabel.setTextColor(types.textColor)
         menuImageViewIcon.setImageDrawable(types.src)
-        menuViewContent.background = types.background
+        menuViewContent.background = types.backgroundDrawable
     }
 
 }

@@ -104,7 +104,7 @@ fun NestedScrollView.scrollToTop(view: View) {
 }
 
 fun NestedScrollView.scrollToCenter(view: View) {
-    Handler().post {
+    post {
         val top = view.top
         val bot = view.bottom
         val height = this.height
@@ -113,7 +113,7 @@ fun NestedScrollView.scrollToCenter(view: View) {
 }
 
 fun HorizontalScrollView.scrollToCenter(view: View) {
-    Handler().post {
+    post {
         val left = view.left
         val right = view.right
         val width = this.width
@@ -241,7 +241,7 @@ fun WebView.setClient(progressBar: ProgressBar) {
 
     webViewClient = object : WebViewClient() {
         @Suppress("OverridingDeprecatedMember", "DEPRECATION")
-        override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
+        override fun shouldOverrideUrlLoading(view: WebView?, url: String): Boolean {
             view?.loadUrl(url)
             return super.shouldOverrideUrlLoading(view, url)
         }

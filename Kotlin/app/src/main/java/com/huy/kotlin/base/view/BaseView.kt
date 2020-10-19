@@ -1,8 +1,6 @@
 package com.huy.kotlin.base.view
 
 import androidx.fragment.app.Fragment
-import com.huy.kotlin.base.dialog.ConfirmDialog
-import com.huy.kotlin.base.dialog.MessageDialog
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -16,32 +14,31 @@ interface BaseView {
 
     val baseActivity: BaseActivity?
 
+    fun showProgress() {
+        baseActivity?.showProgress()
+    }
+
+    fun hideProgress() {
+        baseActivity?.hideProgress()
+    }
+
     fun alert(message: String?) {
-        message ?: return
-        MessageDialog(baseActivity).apply {
-            message(message)
-            show()
-        }
+        baseActivity?.alert(message)
     }
 
-    fun alertConfirm(message: String?, block: () -> Unit) {
-        message ?: return
-        ConfirmDialog(baseActivity).run {
-            message(message)
-            onConfirm(block)
-            show()
-        }
+    fun alert(message: String?, block: () -> Unit) {
+        baseActivity?.alert(message, block)
     }
 
-    fun showProgress()
-
-    fun hideProgress()
-
-    fun moveTaskToBack() {
-        baseActivity?.moveTaskToBack(true)
+    fun add(fragment: Fragment, stack: Boolean = true) {
+        baseActivity?.add(fragment, stack)
     }
 
-    fun <T : Fragment> popBackStack(cls: Class<T>) {
+    fun replace(fragment: Fragment, stack: Boolean = true) {
+        baseActivity?.replace(fragment, stack)
+    }
+
+    fun <T : Fragment> remove(cls: Class<T>) {
         baseActivity?.remove(cls)
     }
 

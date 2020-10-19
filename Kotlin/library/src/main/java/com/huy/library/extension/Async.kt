@@ -17,6 +17,7 @@ val uiHandler: Handler by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
     Handler(Looper.getMainLooper())
 }
 
+
 fun post(block: () -> Unit) {
     uiHandler.post { block() }
 }
@@ -24,6 +25,7 @@ fun post(block: () -> Unit) {
 fun post(delay: Long, block: () -> Unit) {
     uiHandler.postDelayed({ block() }, delay)
 }
+
 
 val ioExecutor: ExecutorService get() = Executors.newSingleThreadExecutor()
 

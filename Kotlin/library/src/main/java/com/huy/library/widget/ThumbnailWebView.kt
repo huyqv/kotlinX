@@ -38,11 +38,10 @@ class ThumbnailWebView : WebView, View.OnTouchListener {
         if (!htmlString.isNullOrEmpty()) this.loadData(htmlString, "text/html", "UTF-8")
     }
 
-
     class ThumbnailClient : WebViewClient() {
 
         @Suppress("OverridingDeprecatedMember")
-        override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
+        override fun shouldOverrideUrlLoading(view: WebView?, url: String): Boolean {
             view?.loadUrl(url)
             return false
         }
@@ -54,4 +53,5 @@ class ThumbnailWebView : WebView, View.OnTouchListener {
         }
 
     }
+
 }

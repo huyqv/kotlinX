@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatTextView
 import com.huy.kotlin.R
+import com.huy.library.widget.AppCustomView
 import kotlinx.android.synthetic.main.widget_input_material.view.*
 
 /**
@@ -17,13 +18,18 @@ import kotlinx.android.synthetic.main.widget_input_material.view.*
  */
 class InputViewMaterial : InputView {
 
+    /**
+     * [AppCustomView] override
+     */
     override val titleView: AppCompatTextView? get() = inputTextViewTitle
 
     override val errorView: AppCompatTextView? get() = inputTextViewError
 
     override val editView: AppCompatEditText? get() = inputEditText
 
-    override val layoutRes: Int get() = R.layout.widget_input_material
+    override fun layoutResource(): Int {
+        return R.layout.widget_input_material
+    }
 
     constructor(context: Context, attrs: AttributeSet? = null) : super(context, attrs)
 

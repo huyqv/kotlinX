@@ -6,6 +6,7 @@ import android.graphics.Point
 import android.graphics.Rect
 import android.graphics.drawable.ColorDrawable
 import android.os.Handler
+import android.os.Looper
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -94,7 +95,10 @@ class KeyboardProvider constructor(private val activity: Activity) : PopupWindow
 
             @OnLifecycleEvent(Lifecycle.Event.ON_START)
             fun onStart() {
-                Handler().postDelayed({ start() }, 2000)
+                Handler(Looper.getMainLooper())
+                        .postDelayed({
+                            start()
+                        }, 2000)
             }
 
             @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)

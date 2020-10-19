@@ -20,19 +20,11 @@ android {
         targetSdkVersion builds.target_sdk
         versionCode builds.version_code
         versionName builds.version_name
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
-        flavorDimensions "default"
-        kapt {
-            arguments {
-                arg("room.schemaLocation", "$projectDir/schemas".toString())
-                arg("room.incremental", "true")
-                arg("room.expandProjection", "true")
-            }
-        }
-
     }
+
+    flavorDimensions "default"
 
     // Compile
     kotlinOptions {

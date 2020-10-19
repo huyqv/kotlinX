@@ -2,9 +2,8 @@ package com.huy.kotlin.base.arch
 
 import android.os.Bundle
 import com.huy.kotlin.base.view.BaseActivity
-import com.huy.kotlin.data.observable.AlertLiveData
-import com.huy.kotlin.data.observable.NetworkLiveData
 import com.huy.kotlin.util.viewModel
+import com.huy.library.extension.networkLiveData
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -16,9 +15,9 @@ import com.huy.kotlin.util.viewModel
  */
 abstract class ArchActivity<VM : BaseViewModel> : BaseActivity() {
 
-    protected val viewModel: VM by lazy { viewModel(viewModelClass) }
+    protected val localVM: VM by lazy { viewModel(localViewModelClass()) }
 
-    protected abstract val viewModelClass: Class<VM>
+    protected abstract fun localViewModelClass(): Class<VM>
 
     protected abstract fun onCreated(state: Bundle?)
 
@@ -26,17 +25,12 @@ abstract class ArchActivity<VM : BaseViewModel> : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        NetworkLiveData.instance.observe { if (it) viewModel.onNetworkAvailable() }
-
-        viewModel.onStart()
-
         onCreated(savedInstanceState)
-
         onRegisterLiveData()
-
-        viewModel.onNetworkAvailable()
-
+        localVM.onStart()
+        networkLiveData.observe {
+            if (it) localVM.onNetworkAvailable()
+        }
     }
 
 }

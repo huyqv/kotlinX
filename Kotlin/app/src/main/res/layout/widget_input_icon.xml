@@ -16,11 +16,8 @@
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/inputImageViewDrawable"
-        android:layout_width="@dimen/_20sdp"
-        android:layout_height="@dimen/_20sdp"
-        android:paddingStart="@dimen/_5sdp"
-        android:paddingTop="@dimen/_2sdp"
-        android:paddingBottom="@dimen/_2sdp"
+        android:layout_width="@dimen/_14sdp"
+        android:layout_height="@dimen/_14sdp"
         app:layout_constraintBottom_toBottomOf="@+id/inputTextViewTitle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/inputTextViewTitle"

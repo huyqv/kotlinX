@@ -1,8 +1,6 @@
 package com.huy.library.util
 
 import androidx.annotation.IntDef
-import java.lang.annotation.Retention
-import java.lang.annotation.RetentionPolicy
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -19,6 +17,5 @@ internal object InDefExample {
     const val OPTION2 = 2
 
     @IntDef(OPTION1, OPTION2)
-    @Retention(RetentionPolicy.SOURCE)
     private annotation class Option
 }

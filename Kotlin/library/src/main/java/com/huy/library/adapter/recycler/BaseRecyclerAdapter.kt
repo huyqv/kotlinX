@@ -76,10 +76,6 @@ abstract class BaseRecyclerAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHo
 
     protected abstract fun View.onBindModel(model: T, position: Int, @LayoutRes layout: Int)
 
-    open fun View.onFirstBindModel(model: T, position: Int, @LayoutRes layout: Int) {
-        onBindModel(model, position, layout)
-    }
-
     open fun onCreateItemView(parent: ViewGroup, viewType: Int): View {
         return if (viewType == 0) {
             View(parent.context).apply { visibility = View.GONE }
@@ -125,13 +121,13 @@ abstract class BaseRecyclerAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHo
     /**
      * Data
      */
-    var currentList: MutableList<T>? = null
+    var currentList: MutableList<T> = mutableListOf()
 
     var lastBindIndex: Int = -1
 
-    val lastIndex: Int get() = currentList?.lastIndex ?: -1
+    val lastIndex: Int get() = currentList.lastIndex
 
-    val size: Int get() = currentList?.size ?: 0
+    val size: Int get() = currentList.size
 
     val dataIsEmpty: Boolean get() = currentList.isNullOrEmpty()
 
@@ -141,24 +137,24 @@ abstract class BaseRecyclerAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHo
      * List update
      */
     open fun get(position: Int): T? {
-        if (position in 0..lastIndex) return currentList?.get(position)
+        if (position in 0..lastIndex) return currentList[position]
         return null
     }
 
     open fun set(collection: Collection<T>?) {
-        currentList = collection?.toMutableList()
+        currentList = collection?.toMutableList() ?: mutableListOf()
         lastBindIndex = -1
         notifyDataSetChanged()
     }
 
     open fun set(list: MutableList<T>?) {
-        currentList = list
+        currentList = list ?: mutableListOf()
         lastBindIndex = -1
         notifyDataSetChanged()
     }
 
     open fun set(array: Array<T>?) {
-        currentList = array?.toMutableList()
+        currentList = array?.toMutableList() ?: mutableListOf()
         lastBindIndex = -1
         notifyDataSetChanged()
     }
@@ -180,59 +176,49 @@ abstract class BaseRecyclerAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHo
 
     open fun add(collection: Collection<T>?) {
         if (collection.isNullOrEmpty()) return
-        currentList?.apply {
-            addAll(collection)
-            notifyDataSetChanged()
-        }
+        currentList.addAll(collection)
+        notifyDataSetChanged()
     }
 
     open fun add(array: Array<T>?) {
         if (array.isNullOrEmpty()) return
-        currentList?.apply {
-            addAll(array)
-            notifyDataSetChanged()
-        }
+        currentList.addAll(array)
+        notifyDataSetChanged()
     }
 
     open fun add(model: T?) {
         model ?: return
-        currentList?.apply {
-            add(model)
-            notifyItemRangeChanged(size, size + 1)
-        }
+        currentList.add(model)
+        notifyItemRangeChanged(size, size + 1)
     }
 
     open fun add(position: Int, model: T?) {
         model ?: return
-        currentList?.apply {
-            add(position, model)
-            notifyDataSetChanged()
-        }
+        currentList.add(position, model)
+        notifyDataSetChanged()
     }
 
     open fun edit(position: Int, model: T?) {
         model ?: return
-        if (position in 0..lastIndex) currentList?.apply {
-            set(position, model)
+        if (position in 0..lastIndex) {
+            currentList[position] = model
             notifyItemChanged(position)
         }
     }
 
     open fun remove(index: Int) {
-        currentList?.apply {
-            removeAt(index)
-            notifyItemRemoved(index)
-        }
+        currentList.removeAt(index)
+        notifyItemRemoved(index)
     }
 
     open fun remove(model: T?) {
         model ?: return
-        val position = currentList?.indexOf(model) ?: -1
+        val position = currentList.indexOf(model)
         remove(position)
     }
 
     open fun clear() {
-        currentList = null
+        currentList = mutableListOf()
         notifyDataSetChanged()
     }
 

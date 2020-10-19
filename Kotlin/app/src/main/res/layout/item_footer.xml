@@ -8,7 +8,7 @@
     android:paddingTop="@dimen/_36sdp"
     android:paddingBottom="@dimen/_36sdp">
 
-    <com.huy.library.widget.RotateImageView
+    <com.huy.library.widget.AnimateImageView
         android:id="@+id/imageView"
         android:layout_width="@dimen/_28sdp"
         android:layout_height="@dimen/_28sdp"

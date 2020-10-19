@@ -1,9 +1,6 @@
 package com.huy.kotlin.widget
 
-import android.graphics.PorterDuff
-import android.graphics.drawable.Drawable
 import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.DrawableCompat
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 
 /**

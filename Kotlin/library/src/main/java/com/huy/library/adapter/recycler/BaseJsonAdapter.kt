@@ -4,8 +4,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.JsonArray
 import com.google.gson.JsonElement
@@ -29,17 +27,17 @@ abstract class BaseJsonAdapter<T : JsonElement> : RecyclerView.Adapter<RecyclerV
      * [RecyclerView.Adapter] override.
      */
     override fun getItemCount(): Int {
-        if (blankLayoutResource != 0 || footerLayoutResource != 0){
+        if (blankLayoutResource != 0 || footerLayoutResource != 0) {
             return size + 1
         }
         return size
     }
 
     override fun getItemViewType(position: Int): Int {
-        if (dataIsEmpty && blankLayoutResource != 0){
+        if (dataIsEmpty && blankLayoutResource != 0) {
             return blankLayoutResource
         }
-        if (dataNotEmpty && footerLayoutResource != 0 && position == size){
+        if (dataNotEmpty && footerLayoutResource != 0 && position == size) {
             if (position > lastBindIndex) onFooterIndexChanged(position)
             return footerLayoutResource
         }
@@ -120,9 +118,9 @@ abstract class BaseJsonAdapter<T : JsonElement> : RecyclerView.Adapter<RecyclerV
     /**
      * Data
      */
-    private var currentList: JsonArray? = null
+    private var currentList: JsonArray = JsonArray()
 
-    val size: Int = currentList?.size() ?: 0
+    val size: Int = currentList.size()
 
     var lastBindIndex: Int = -1
 
@@ -138,7 +136,7 @@ abstract class BaseJsonAdapter<T : JsonElement> : RecyclerView.Adapter<RecyclerV
     open fun get(position: Int): T? {
         if (currentList.isEmpty()) return null
         @Suppress("UNCHECKED_CAST")
-        if (position in 0..lastIndex) return currentList?.get(position) as? T
+        if (position in 0..lastIndex) return currentList.get(position) as? T
         return null
     }
 
@@ -150,7 +148,7 @@ abstract class BaseJsonAdapter<T : JsonElement> : RecyclerView.Adapter<RecyclerV
     }
 
     open fun set(array: JsonArray?) {
-        currentList = array
+        currentList = array ?: JsonArray()
         lastBindIndex = -1
         notifyDataSetChanged()
     }
@@ -172,41 +170,38 @@ abstract class BaseJsonAdapter<T : JsonElement> : RecyclerView.Adapter<RecyclerV
     open fun add(array: JsonArray?) {
         array ?: return
         if (array.isEmpty()) return
-        currentList?.addAll(array)
+        currentList.addAll(array)
         notifyDataSetChanged()
     }
 
     open fun add(obj: JsonObject?) {
         obj ?: return
-        val array = currentList ?: JsonArray()
-        array.add(obj)
-        currentList = array
+        currentList.add(obj)
         notifyDataSetChanged()
     }
 
     open fun edit(position: Int, model: JsonObject?) {
         model ?: return
-        if (position in 0..lastIndex) currentList?.apply {
-            currentList!![position] = model
+        if (position in 0..lastIndex) {
+            currentList[position] = model
             notifyItemChanged(position)
         }
     }
 
     open fun remove(position: Int) {
-        if (position in 0..lastIndex) currentList?.apply {
-            remove(position)
+        if (position in 0..lastIndex) {
+            currentList.remove(position)
             notifyItemRemoved(position)
         }
     }
 
     open fun remove(model: T?) {
         model ?: return
-        val position = currentList?.indexOf(model) ?: -1
-        remove(position)
+        remove(currentList.indexOf(model))
     }
 
     open fun clear() {
-        currentList = null
+        currentList = JsonArray()
         notifyDataSetChanged()
     }
 

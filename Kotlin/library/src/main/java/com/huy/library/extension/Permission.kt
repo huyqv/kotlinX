@@ -7,6 +7,8 @@ import androidx.annotation.RequiresPermission
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import com.tbruyelle.rxpermissions2.RxPermissions
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -45,10 +47,10 @@ fun Activity.isGranted(@RequiresPermission vararg permission: String): Boolean {
     return list.isNullOrEmpty()
 }
 
-fun Activity.onGrantedPermission(permission: String, block: () -> Unit) {
-    /*RxPermissions(this)
+fun FragmentActivity.onGrantedPermission(permission: String, block: () -> Unit) {
+    RxPermissions(this)
             .request(permission)
-            .subscribe { granted -> if (granted) block() }*/
+            .subscribe { granted -> if (granted) block() }
 }
 
 fun Fragment.onGranted(@RequiresPermission vararg permissions: String, onGranted: () -> Unit) {
@@ -76,9 +78,9 @@ fun Fragment.isGranted(@RequiresPermission vararg permission: String): Boolean {
 }
 
 fun Fragment.onGrantedPermission(permission: String, block: () -> Unit) {
-    /*RxPermissions(this)
+    RxPermissions(this)
             .request(permission)
-            .subscribe { granted -> if (granted) block() }*/
+            .subscribe { granted -> if (granted) block() }
 }
 
 

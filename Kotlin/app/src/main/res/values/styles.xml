@@ -54,8 +54,11 @@
     </style>
 
     <style name="Setting.Item" parent="MatchWidth">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/_48sdp</item>
         <item name="android:textColorHint">@color/colorTextPrimary</item>
         <item name="android:textColor">@color/colorTextSecondary</item>
+        <item name="android:background">@drawable/drw_under_line</item>
     </style>
 
 
@@ -201,18 +204,20 @@
     </style>
 
     <!-- Application Bar. -->
-    <style name="AppBar">
+    <style name="AppBar" />
+
+    <style name="AppBar.Layout">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/_46sdp</item>
     </style>
 
-    <style name="AppBar.Light">
+    <style name="AppBar.Light" parent="AppBar.Layout">
         <item name="android:background">@color/colorLight</item>
         <item name="android:textColor">@color/colorGrey</item>
         <item name="android:text">@string/app_name</item>
     </style>
 
-    <style name="AppBar.Dark">
+    <style name="AppBar.Dark" parent="AppBar.Layout">
         <item name="android:background">@color/colorPrimary</item>
         <item name="android:textColor">@color/colorWhite</item>
         <item name="android:text">@string/app_name</item>

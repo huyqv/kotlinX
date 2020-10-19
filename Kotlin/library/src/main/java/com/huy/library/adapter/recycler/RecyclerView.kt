@@ -10,8 +10,6 @@ import android.view.View
 import androidx.annotation.DimenRes
 import androidx.annotation.IntDef
 import androidx.recyclerview.widget.*
-import java.lang.annotation.Retention
-import java.lang.annotation.RetentionPolicy
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -218,7 +216,6 @@ class ItemDecoration(private val margin: Int = 0,
     }
 
     @IntDef(HORIZONTAL, VERTICAL, GRID)
-    @Retention(RetentionPolicy.SOURCE)
     private annotation class Orientation
 
     private var hasLeftSpacing = false

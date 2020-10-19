@@ -2,44 +2,51 @@
 <resources>
 
     <declare-styleable name="CustomView">
+        <!--TEXT-->
+        <attr name="android:title" format="string" />
+        <attr name="android:text" format="string" />
+        <attr name="android:hint" format="string" />
+        <!--INPUT TYPE-->
         <attr name="android:textAllCaps" format="boolean" />
         <attr name="android:maxLength" format="integer" />
         <attr name="android:inputType" format="reference" />
         <attr name="android:imeOptions" format="reference" />
-        <attr name="android:gravity" format="reference" />
         <attr name="android:maxLines" format="integer" />
-        <attr name="android:title" format="string" />
-        <attr name="android:text" format="string" />
-        <attr name="android:textColor" format="integer" />
-        <attr name="android:hint" format="string" />
-        <attr name="android:textColorHint" format="integer" />
-        <attr name="android:orientation" format="integer" />
-        <attr name="android:src" format="integer" />
-        <attr name="android:background" format="reference" />
-        <attr name="android:checked" format="boolean" />
-        <attr name="android:checkable" format="boolean" />
-        <attr name="android:drawableStart" format="reference" />
-        <attr name="android:drawableEnd" format="reference" />
         <attr name="android:textStyle" format="integer" />
-        <attr name="android:drawable" format="integer" />
         <attr name="android:nextFocusForward" format="integer" />
+        <!--COLOR-->
+        <attr name="android:textColor" format="reference" />
+        <attr name="android:textColorHint" format="reference" />
         <attr name="android:tint" format="integer" />
         <attr name="android:drawableTint" format="integer" />
         <attr name="android:backgroundTint" format="integer" />
-    </declare-styleable>
-
-    <declare-styleable name="RoundedLayout">
+        <!--DRAWABLE-->
+        <attr name="android:src" format="reference" />
+        <attr name="android:background" format="reference" />
+        <attr name="android:drawableStart" format="reference" />
+        <attr name="android:drawableEnd" format="reference" />
+        <attr name="android:drawable" format="reference" />
+        <!--CHECKABLE-->
+        <attr name="android:checked" format="boolean" />
+        <attr name="android:checkable" format="boolean" />
+        <!--LAYOUT-->
+        <attr name="android:gravity" format="reference" />
+        <attr name="android:orientation" format="integer" />
         <attr name="android:radius" format="integer" />
     </declare-styleable>
 
-    <declare-styleable name="ColorView">
-        <attr name="backgroundColor" format="reference|color" />
+    <declare-styleable name="RoundedLayout">
+        <attr name="radius" format="dimension" />
+        <attr name="topLeftRadius" format="dimension" />
+        <attr name="topRightRadius" format="dimension" />
+        <attr name="bottomLeftRadius" format="dimension" />
+        <attr name="bottomRightRadius" format="dimension" />
     </declare-styleable>
 
     <declare-styleable name="DashView">
-        <attr name="dashView_dashLength" format="reference|dimension" />
-        <attr name="dashView_dashSpace" format="reference|dimension" />
-        <attr name="dashView_color" format="reference|color" />
+        <attr name="dashLength" format="reference|dimension" />
+        <attr name="dashSpace" format="reference|dimension" />
+        <attr name="color" format="reference|color" />
     </declare-styleable>
 
 </resources>

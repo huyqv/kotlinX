@@ -6,8 +6,9 @@ import com.huy.library.adapter.recycler.bind
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
-import kotlinx.android.synthetic.main.fragment_handler.*
+import kotlinx.android.synthetic.main.interval.*
 import java.util.concurrent.TimeUnit
+import java.util.concurrent.atomic.AtomicInteger
 
 
 /**
@@ -24,8 +25,10 @@ class RxIntervalFragment : BaseFragment() {
 
     private var disposable: Disposable? = null
 
+    private val counter = AtomicInteger()
+
     override fun layoutResource(): Int {
-        return R.layout.fragment_handler
+        return R.layout.interval
     }
 
     override fun onViewCreated() {
@@ -44,7 +47,7 @@ class RxIntervalFragment : BaseFragment() {
     private fun generateUser() {
         disposable = Observable
                 .interval(0, 100, TimeUnit.MILLISECONDS)
-                .map { DataProvider.random }
+                .map { counter.incrementAndGet() }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
                     adapter.add(it)

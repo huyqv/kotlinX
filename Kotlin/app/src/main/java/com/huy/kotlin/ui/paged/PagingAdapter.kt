@@ -1,4 +1,4 @@
-package com.huy.kotlin.ui.recycler.paged
+package com.huy.kotlin.ui.paged
 
 import android.view.View
 import com.huy.kotlin.R

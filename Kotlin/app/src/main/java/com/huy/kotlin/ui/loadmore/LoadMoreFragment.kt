@@ -1,9 +1,9 @@
-package com.huy.kotlin.ui.recycler.loadMore
+package com.huy.kotlin.ui.loadmore
 
 import com.huy.kotlin.R
 import com.huy.kotlin.base.arch.ArchFragment
 import com.huy.library.adapter.recycler.bind
-import kotlinx.android.synthetic.main.fragment_adapter_load_more.*
+import kotlinx.android.synthetic.main.loadmore.*
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -18,21 +18,23 @@ class LoadMoreFragment : ArchFragment<LoadMoreVM>() {
     private val adapter = LoadMoreAdapter()
 
     override fun layoutResource(): Int {
-        return R.layout.fragment_adapter_load_more
+        return R.layout.loadmore
     }
 
-    override val viewModelClass = LoadMoreVM::class.java
+    override fun localViewModelClass(): Class<LoadMoreVM> {
+        return LoadMoreVM::class.java
+    }
 
     override fun onViewCreated() {
         adapter.bind(recyclerView, 3)
         adapter.onFooterIndexChanged = { i ->
-            viewModel.fetchUsers(i / 10 + 1)
+            localVM.fetchUsers(i / 10 + 1)
         }
     }
 
     override fun onRegisterLiveData() {
-        viewModel.fetchUsers(1)
-        viewModel.userLiveData.observe {
+        localVM.fetchUsers(1)
+        localVM.userLiveData.observe {
             adapter.add(it)
         }
     }

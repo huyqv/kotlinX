@@ -17,9 +17,11 @@ import com.huy.library.widget.AppCustomView
 class ProgressView : AppCustomView {
 
     /**
-     * [AppCustomView] implement
+     * [AppCustomView] override
      */
-    override val layoutRes: Int get() = R.layout.widget_progress
+    override fun layoutResource(): Int {
+        return R.layout.widget_progress
+    }
 
     constructor(context: Context, attrs: AttributeSet? = null) : super(context, attrs)
 

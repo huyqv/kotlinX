@@ -22,22 +22,14 @@ abstract class MvpActivity<V : BaseView, P : BasePresenter<V>> : BaseActivity(),
         super.onCreate(savedInstanceState)
         @Suppress("UNCHECKED_CAST")
         presenter.attach(this as V)
+        presenter.onStart()
         onCreated(savedInstanceState)
     }
 
     override fun onDestroy() {
+        presenter.onStop()
         presenter.detach()
         super.onDestroy()
-    }
-
-    override fun onStart() {
-        super.onStart()
-        presenter.onStart()
-    }
-
-    override fun onStop() {
-        presenter.onStop()
-        super.onStop()
     }
 
 }
