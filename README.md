@@ -15,7 +15,7 @@ Base project with Android Architecture Component.
 
 ## Library reference resources
 
-[RxJava 2](https://github.com/ReactiveX/RxJava) - [RxKotlin 2](https://github.com/ReactiveX/RxKotlin) - [RxAndroid](https://github.com/ReactiveX/RxAndroid) - [Android Architecture Components](https://developer.android.com/topic/libraries/architecture/).
+[Kotlin](https://kotlinlang.org) - [Android](https://developer.android.com) - 
 
 
 ## Author
