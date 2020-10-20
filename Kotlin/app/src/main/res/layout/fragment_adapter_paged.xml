@@ -7,7 +7,7 @@
     android:gravity="bottom"
     android:orientation="vertical">
 
-    <com.huy.kotlin.widget.AppBarView
+    <com.example.kotlin.widget.AppBarView
         android:id="@+id/appBarView"
         style="@style/AppBar.Light"
         android:drawableStart="@drawable/ic_back"
@@ -69,8 +69,8 @@
                 android:includeFontPadding="false"
                 android:inputType="text"
                 android:maxLines="1"
-                android:paddingStart="@dimen/smallDist"
-                android:paddingEnd="@dimen/smallDist"
+                android:paddingStart="@dimen/margin2"
+                android:paddingEnd="@dimen/margin2"
                 android:textColor="@color/colorTextSecondary"
                 android:textColorHint="@color/colorLightSmoke"
                 android:textSize="@dimen/_13ssp" />

@@ -9,7 +9,7 @@
         android:id="@+id/appBarEditTextSearch"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_margin="@dimen/microDist"
+        android:layout_margin="@dimen/marginY2"
         android:background="@color/colorSemiTransparent"
         android:clickable="true"
         android:hint="@string/search"

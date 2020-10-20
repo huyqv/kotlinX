@@ -14,7 +14,7 @@
         app:riv_corner_radius="@dimen/bubbleAvatarRadius" />
 
 
-    <com.huy.library.widget.WrappedTextView
+    <com.example.library.widget.WrappedTextView
         android:id="@+id/textLeftTextViewContent"
         style="@style/Chat.Text1"
         android:background="@drawable/drw_bubble_left1"

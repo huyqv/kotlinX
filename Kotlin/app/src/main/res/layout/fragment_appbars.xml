@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_10sdp" />
 
-    <com.huy.kotlin.widget.AppBarView
+    <com.example.kotlin.widget.AppBarView
         style="@style/AppBar.Light"
         android:layout_marginTop="@dimen/_10sdp"
         android:background="@color/colorOrange"
@@ -23,26 +23,26 @@
         android:text="Aa.."
         android:textColor="@color/colorAccent" />
 
-    <com.huy.kotlin.widget.AppBarView
+    <com.example.kotlin.widget.AppBarView
         style="@style/AppBar.Layout"
         android:layout_marginTop="@dimen/_10sdp"
         android:text="default" />
 
-    <com.huy.kotlin.widget.AppBarView
+    <com.example.kotlin.widget.AppBarView
         style="@style/AppBar.Light"
         android:layout_marginTop="@dimen/_10sdp" />
 
-    <com.huy.kotlin.widget.AppBarView
+    <com.example.kotlin.widget.AppBarView
         style="@style/AppBar.Dark"
         android:layout_marginTop="@dimen/_10sdp" />
 
-    <com.huy.kotlin.widget.AppBarView
+    <com.example.kotlin.widget.AppBarView
         style="@style/AppBar.Dark"
         android:layout_marginTop="@dimen/_10sdp"
         android:background="@mipmap/img_pawpaw"
         android:drawableStart="@drawable/ic_adb" />
 
-    <com.huy.kotlin.widget.AppBarView
+    <com.example.kotlin.widget.AppBarView
         style="@style/AppBar.Dark"
         android:layout_marginTop="@dimen/_10sdp"
         android:background="@mipmap/img_catstile4"

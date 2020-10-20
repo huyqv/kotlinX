@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     style="@style/MatchWidth">
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -12,7 +12,8 @@
         android:letterSpacing="0.1"
         android:textAllCaps="true"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Title goes here" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/inputImageViewDrawable"
@@ -21,7 +22,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/inputTextViewTitle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/inputTextViewTitle"
-        app:srcCompat="@drawable/ic_adb" />
+        tools:srcCompat="@drawable/ic_adb" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/inputTextViewError"
@@ -29,19 +30,21 @@
         android:layout_marginTop="@dimen/_6sdp"
         android:textColor="@color/colorIndianRed"
         app:layout_constraintEnd_toEndOf="@+id/inputEditText"
-        app:layout_constraintTop_toBottomOf="@+id/inputEditText" />
+        app:layout_constraintTop_toBottomOf="@+id/inputEditText"
+        tools:text="Error text" />
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/inputEditText"
         style="@style/TextView.Small"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_40sdp"
-        android:layout_marginTop="@dimen/microDist"
-        android:height="@dimen/mediumText"
+        android:layout_height="@dimen/_36sdp"
+        android:layout_marginTop="@dimen/marginY2"
+        android:height="@dimen/textSize3"
         android:background="@null"
         android:textColor="@color/colorGrey"
         android:textColorHint="@color/colorLightSmoke"
         app:layout_constraintStart_toStartOf="@+id/inputTextViewTitle"
-        app:layout_constraintTop_toBottomOf="@+id/inputTextViewTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/inputTextViewTitle"
+        tools:hint="Text placeholder..." />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

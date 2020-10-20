@@ -5,7 +5,7 @@
     style="@style/Chat.Item">
 
 
-    <com.huy.library.widget.WrappedTextView
+    <com.example.library.widget.WrappedTextView
         android:id="@+id/textRightTextViewContent"
         style="@style/Chat.Text"
         android:background="@drawable/drw_bubble_right1"

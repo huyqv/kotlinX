@@ -17,13 +17,13 @@
         style="@style/TextView.Small"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_40sdp"
-        android:layout_marginTop="@dimen/microDist"
+        android:layout_marginTop="@dimen/marginY2"
         android:background="@drawable/drw_under_tray"
-        android:drawablePadding="@dimen/microDist"
+        android:drawablePadding="@dimen/marginY2"
         android:gravity="center"
         android:privateImeOptions="nm"
-        android:paddingStart="@dimen/microDist"
-        android:paddingEnd="@dimen/microDist" />
+        android:paddingStart="@dimen/marginY2"
+        android:paddingEnd="@dimen/marginY2" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/inputTextViewError"

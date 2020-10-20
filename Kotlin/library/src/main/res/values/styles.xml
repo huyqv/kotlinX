@@ -45,15 +45,15 @@
     </style>
 
     <style name="TextView.Tiny" parent="TextView">
-        <item name="android:textSize">@dimen/tinyText</item>
+        <item name="android:textSize">@dimen/textSize</item>
     </style>
 
     <style name="TextView.Small" parent="TextView">
-        <item name="android:textSize">@dimen/smallText</item>
+        <item name="android:textSize">@dimen/textSize2</item>
     </style>
 
     <style name="TextView.Medium" parent="TextView">
-        <item name="android:textSize">@dimen/mediumText</item>
+        <item name="android:textSize">@dimen/textSize3</item>
         <item name="android:text">Medium Text</item>
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:includeFontPadding">false</item>
@@ -61,11 +61,11 @@
     </style>
 
     <style name="TextView.Large" parent="TextView">
-        <item name="android:textSize">@dimen/largeText</item>
+        <item name="android:textSize">@dimen/textSize4</item>
     </style>
 
     <style name="TextView.Extra" parent="TextView">
-        <item name="android:textSize">@dimen/extraText</item>
+        <item name="android:textSize">@dimen/textSize5</item>
     </style>
 
 

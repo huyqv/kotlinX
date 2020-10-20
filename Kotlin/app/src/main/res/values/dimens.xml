@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <dimen name="appBarSize">@dimen/_40sdp</dimen>
     <dimen name="sizeIcon100">@dimen/_100sdp</dimen>
     <dimen name="bannerHeightSize">@dimen/_50sdp</dimen>
     <dimen name="sizeBannerWidth">@dimen/_180sdp</dimen>

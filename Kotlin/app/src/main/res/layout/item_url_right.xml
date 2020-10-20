@@ -15,11 +15,11 @@
         style="@style/WrapContent"
         android:layout_marginStart="@dimen/_50sdp"
         android:background="@drawable/drw_bubble_right"
-        android:padding="@dimen/microDist"
+        android:padding="@dimen/marginY2"
         app:layout_constraintEnd_toStartOf="@+id/view1"
         app:layout_constraintTop_toTopOf="parent">
 
-        <com.huy.library.widget.ThumbnailWebView
+        <com.example.library.widget.ThumbnailWebView
             android:id="@+id/linkRightWebView"
             style="@style/Chat.Image" />
 

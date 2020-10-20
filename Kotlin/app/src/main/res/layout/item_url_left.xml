@@ -23,11 +23,11 @@
         android:id="@+id/msgFrame"
         style="@style/WrapContent"
         android:background="@drawable/drw_bubble_left"
-        android:padding="@dimen/microDist"
+        android:padding="@dimen/marginY2"
         app:layout_constraintStart_toEndOf="@+id/view1"
         app:layout_constraintTop_toTopOf="parent">
 
-        <com.huy.library.widget.ThumbnailWebView
+        <com.example.library.widget.ThumbnailWebView
             android:id="@+id/linkLeftWebView"
             style="@style/Chat.Image" />
 

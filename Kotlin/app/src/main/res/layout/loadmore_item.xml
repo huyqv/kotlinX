@@ -8,12 +8,12 @@
     android:layout_weight="1"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:paddingTop="@dimen/smallDist">
+    android:paddingTop="@dimen/margin2">
 
     <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/userImageViewAvatar"
         style="@style/AvatarUserItem"
-        android:layout_marginTop="@dimen/smallDist"
+        android:layout_marginTop="@dimen/margin2"
         app:riv_border_color="@color/colorPrimaryOpacity3"
         app:riv_border_width="@dimen/_4sdp"
         app:riv_oval="true" />
@@ -21,7 +21,7 @@
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/userTextViewName"
         style="@style/TextView.Small"
-        android:layout_margin="@dimen/tinyDist"
+        android:layout_margin="@dimen/margin"
         android:gravity="center"
         android:textStyle="bold"
         tools:text="@tools:sample/last_names" />

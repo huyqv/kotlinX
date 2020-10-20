@@ -21,10 +21,10 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/textViewMessage"
             style="@style/TextView.Small"
-            android:layout_marginStart="@dimen/extraDist"
-            android:layout_marginTop="@dimen/smallDist"
-            android:layout_marginEnd="@dimen/extraDist"
-            android:layout_marginBottom="@dimen/extraDist"
+            android:layout_marginStart="@dimen/margin5"
+            android:layout_marginTop="@dimen/margin2"
+            android:layout_marginEnd="@dimen/margin5"
+            android:layout_marginBottom="@dimen/margin5"
             tools:text="Hello, you can hide this message by just touch outside the dialog box" />
 
         <androidx.appcompat.widget.LinearLayoutCompat

@@ -1,25 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/settingViewContent"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/_62sdp"
+    android:layout_height="match_parent"
     android:background="@drawable/drw_ripple_rect"
-    android:clickable="true"
-    android:paddingStart="@dimen/largeDist">
+    android:clickable="true">
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/settingTextViewTitle"
-        style="@style/TextView.Large"
+        style="@style/TextView.Medium"
         android:clickable="false"
         android:textColor="@android:color/darker_gray"
         app:layout_constraintBottom_toTopOf="@+id/guideline5"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="Title goes here" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/settingTextViewLabel"
+        android:id="@+id/settingTextViewProperty"
         style="@style/TextView.Small"
+        tools:text="Properties"
         android:layout_marginTop="@dimen/_2sdp"
         android:clickable="false"
         app:layout_constraintStart_toStartOf="parent"
@@ -32,9 +33,8 @@
 
     <androidx.appcompat.widget.AppCompatCheckBox
         android:id="@+id/settingCheckbox"
-        android:layout_width="@dimen/_16sdp"
-        android:layout_height="@dimen/_16sdp"
-        android:layout_marginEnd="@dimen/largeDist"
+        android:layout_width="@dimen/_14sdp"
+        android:layout_height="@dimen/_14sdp"
         android:background="@drawable/ic_checkbox"
         android:button="@null"
         android:clickable="false"

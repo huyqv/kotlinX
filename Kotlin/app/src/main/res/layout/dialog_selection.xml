@@ -8,7 +8,7 @@
         style="@style/MatchWidth"
         android:layout_height="?attr/actionBarSize"
         android:background="@drawable/drw_rect_gradient"
-        android:padding="@dimen/microDist">
+        android:padding="@dimen/marginY2">
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/dialogEditTextSearch"

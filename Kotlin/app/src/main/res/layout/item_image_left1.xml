@@ -17,9 +17,9 @@
     <FrameLayout
         android:id="@+id/msgFrame"
         style="@style/WrapContent"
-        android:layout_marginStart="@dimen/tinyDist"
+        android:layout_marginStart="@dimen/margin"
         android:background="@drawable/drw_bubble_left1"
-        android:padding="@dimen/microDist"
+        android:padding="@dimen/marginY2"
         app:layout_constraintStart_toEndOf="@+id/imageLeftImageViewAvatar"
         app:layout_constraintTop_toTopOf="parent">
 

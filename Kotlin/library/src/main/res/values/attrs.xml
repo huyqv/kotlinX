@@ -33,6 +33,11 @@
         <attr name="android:gravity" format="reference" />
         <attr name="android:orientation" format="integer" />
         <attr name="android:radius" format="integer" />
+        <!--PADDING-->
+        <attr name="android:paddingStart" format="dimension" />
+        <attr name="android:paddingEnd" format="dimension" />
+        <attr name="android:paddingTop" format="dimension" />
+        <attr name="android:paddingBottom" format="dimension" />
     </declare-styleable>
 
     <declare-styleable name="RoundedLayout">

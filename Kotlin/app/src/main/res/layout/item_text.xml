@@ -6,6 +6,6 @@
     android:layout_width="match_parent"
     android:clickable="true"
     android:gravity="center_vertical"
-    android:padding="@dimen/smallDist"
-    android:paddingStart="@dimen/extraText"
+    android:padding="@dimen/margin2"
+    android:paddingStart="@dimen/textSize5"
     tools:text="@tools:sample/full_names" />

@@ -28,7 +28,7 @@
         style="@style/TextView.Small"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_40sdp"
-        android:layout_marginTop="@dimen/microDist"
+        android:layout_marginTop="@dimen/marginY2"
         android:background="@drawable/drw_under_line"
         android:drawablePadding="@dimen/_4sdp"
         android:privateImeOptions="nm"

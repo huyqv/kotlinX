@@ -23,7 +23,7 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/textViewTitle"
             android:layout_width="0dp"
-            android:layout_height="?android:attr/actionBarSize"
+            android:layout_height="@dimen/appBarSize"
             android:layout_weight="1"
             android:gravity="center"
             android:letterSpacing="0.2"

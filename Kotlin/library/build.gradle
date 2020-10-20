@@ -1,32 +1,29 @@
-apply plugin: 'com.android.library'
-
-apply plugin: 'kotlin-android'
-
-apply plugin: 'kotlin-android-extensions'
-
-apply plugin: 'kotlin-kapt'
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-android-extensions'
+    id 'kotlin-kapt'
+}
 
 android {
-
     compileSdkVersion builds.compile_sdk
-
     defaultConfig {
         minSdkVersion builds.min_sdk
         targetSdkVersion builds.target_sdk
         versionCode builds.version_code
         versionName builds.version_name
     }
-
     buildTypes {
         release {
             minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
     }
 }
 
@@ -35,14 +32,17 @@ dependencies {
 
     implementation deps.kotlin.stdlib
     implementation deps.android.appcompat
-    implementation 'androidx.fragment:fragment-ktx:1.2.5'
+    implementation deps.android.fragment
     implementation deps.android.recyclerview
     implementation deps.android.cardview
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.2'
+    implementation deps.android.constraintlayout
     implementation deps.android.viewpager
 
     implementation deps.paging.runtime
     implementation deps.paging.rx
+
+    implementation deps.dimens.sdp
+    implementation deps.dimens.ssp
 
     implementation deps.google.gson
     implementation deps.permissions

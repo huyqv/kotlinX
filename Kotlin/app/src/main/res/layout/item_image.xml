@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.huy.library.widget.SquareLayout
+<com.example.library.widget.SquareLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/MatchWidth"
     android:layout_weight="1">
@@ -9,4 +9,4 @@
         style="@style/MatchParent"
         android:scaleType="centerCrop" />
 
-</com.huy.library.widget.SquareLayout>
+</com.example.library.widget.SquareLayout>

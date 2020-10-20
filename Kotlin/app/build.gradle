@@ -1,21 +1,15 @@
-apply plugin: 'com.android.application'
-
-apply plugin: 'kotlin-android'
-
-apply plugin: 'kotlin-android-extensions'
-
-apply plugin: 'kotlin-kapt'
-
-apply plugin: "androidx.navigation.safeargs.kotlin"
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-android-extensions'
+    id 'kotlin-kapt'
+    id 'androidx.navigation.safeargs.kotlin'
+}
 
 android {
-
     compileSdkVersion builds.compile_sdk
-
     defaultConfig {
-
-        applicationId "com.huy.kotlin"
-
+        applicationId "com.example.kotlin"
         minSdkVersion builds.min_sdk
         targetSdkVersion builds.target_sdk
         versionCode builds.version_code
@@ -23,24 +17,17 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
-
     flavorDimensions "default"
-
-    // Compile
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
-
     }
-
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
     kapt {
         mapDiagnosticLocations = true
     }
-
     signingConfigs {
         release {
             storeFile file("keystore/keys.keystore")
@@ -49,7 +36,6 @@ android {
             keyPassword '123456'
         }
     }
-
     buildTypes {
         all {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -63,7 +49,6 @@ android {
             signingConfig signingConfigs.debug
         }
     }
-
     productFlavors {
         all {
             buildConfigField "int", "DATABASE_VERSION", "1"
@@ -135,7 +120,6 @@ dependencies {
 
     implementation deps.glide.glide
     kapt deps.glide.compiler
-
 
     implementation deps.permissions
     implementation deps.squint

@@ -8,8 +8,8 @@
 
     <View
         android:id="@+id/viewIcon"
-        android:layout_width="@dimen/_20sdp"
-        android:layout_height="@dimen/_20sdp"
+        android:layout_width="@dimen/_18sdp"
+        android:layout_height="@dimen/_18sdp"
         android:layout_marginTop="@dimen/_24sdp"
         android:background="@drawable/ic_kotlin" />
 

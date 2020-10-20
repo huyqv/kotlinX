@@ -10,7 +10,7 @@
         style="@style/MatchParent"
         android:orientation="vertical">
 
-        <com.huy.kotlin.widget.AppBarView
+        <com.example.kotlin.widget.AppBarView
             android:id="@+id/appBarView"
             style="@style/AppBar.Light"
             android:text="Images" />

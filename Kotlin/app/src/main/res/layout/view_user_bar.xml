@@ -9,7 +9,7 @@
         android:id="@+id/imageViewAvatar"
         android:layout_width="46dp"
         android:layout_height="match_parent"
-        android:layout_marginStart="@dimen/tinyDist"
+        android:layout_marginStart="@dimen/margin"
         android:src="@mipmap/img_user"
         app:riv_border_color="@color/colorPrimaryOpacity1"
         app:riv_border_width="@dimen/_2sdp"

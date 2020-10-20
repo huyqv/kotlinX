@@ -4,13 +4,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/MatchParent">
 
-    <com.huy.library.widget.AnimateImageView
+    <com.example.library.widget.AnimateImageView
         android:layout_width="@dimen/_28sdp"
         android:layout_height="@dimen/_28sdp"
         android:layout_gravity="center"
         app:srcCompat="@drawable/drw_ring_gradient2" />
 
-    <com.huy.library.zoom.ZoomImageView
+    <com.example.library.zoom.ZoomImageView
         android:id="@+id/zoomImageView"
         style="@style/MatchParent"
         android:scaleType="fitCenter" />

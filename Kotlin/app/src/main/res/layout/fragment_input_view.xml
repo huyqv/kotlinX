@@ -3,7 +3,7 @@
     style="@style/ContentLayout"
     android:orientation="vertical">
 
-    <com.huy.kotlin.widget.AppBarView
+    <com.example.kotlin.widget.AppBarView
         android:id="@+id/appBarView"
         style="@style/AppBar.Light"
         android:text="EditText" />
@@ -12,14 +12,14 @@
 
         <androidx.appcompat.widget.LinearLayoutCompat
             style="@style/MatchWidth"
-            android:paddingStart="@dimen/extraDist"
-            android:paddingEnd="@dimen/extraDist"
+            android:paddingStart="@dimen/margin5"
+            android:paddingEnd="@dimen/margin5"
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
-            <com.huy.kotlin.widget.InputViewMaterial
+            <com.example.kotlin.widget.InputViewMaterial
                 style="@style/MatchWidth"
-                android:layout_marginTop="@dimen/extraDist"
+                android:layout_marginTop="@dimen/margin5"
                 android:drawableStart="@drawable/ic_send"
                 android:drawableEnd="@drawable/ic_send"
                 android:src="@drawable/drw_under_line"
@@ -29,9 +29,9 @@
                 android:title="material"
                 android:textColor="@color/colorPrimary" />
 
-            <com.huy.kotlin.widget.InputViewIcon
+            <com.example.kotlin.widget.InputViewIcon
                 style="@style/MatchWidth"
-                android:layout_marginTop="@dimen/extraDist"
+                android:layout_marginTop="@dimen/margin5"
                 android:drawable="@drawable/ic_send"
                 android:drawableTint="@color/colorTurquoise"
                 android:src="@drawable/drw_under_line"
@@ -40,9 +40,9 @@
                 android:tint="@color/colorPrimary"
                 android:title="left icon" />
 
-            <com.huy.kotlin.widget.InputViewCenter
+            <com.example.kotlin.widget.InputViewCenter
                 style="@style/MatchWidth"
-                android:layout_marginTop="@dimen/extraDist"
+                android:layout_marginTop="@dimen/margin5"
                 android:drawableStart="@drawable/ic_send"
                 android:src="@drawable/drw_under_line"
                 android:drawableTint="@color/colorPrimary"

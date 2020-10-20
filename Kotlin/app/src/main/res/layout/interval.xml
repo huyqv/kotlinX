@@ -11,7 +11,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.huy.kotlin.widget.AppBarView
+    <com.example.kotlin.widget.AppBarView
         android:id="@+id/appBarView"
         style="@style/AppBar.Dark"
         android:text="Rx interval"

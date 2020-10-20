@@ -19,7 +19,7 @@
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/stickerLeftImageViewSticker"
         style="@style/Chat.Ticker"
-        android:layout_marginStart="@dimen/tinyDist"
+        android:layout_marginStart="@dimen/margin"
         app:layout_constraintStart_toEndOf="@+id/stickerLeftImageViewAvatar" />
 
     <androidx.appcompat.widget.AppCompatTextView
