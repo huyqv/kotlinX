@@ -15,7 +15,7 @@ Base project with Android Architecture Component.
 
 ## Library reference resources
 
-[Kotlin](https://kotlinlang.org) - [Android](https://developer.android.com) - 
+[Kotlin](https://kotlinlang.org) - [Android](https://developer.android.com)
 
 
 ## Author
