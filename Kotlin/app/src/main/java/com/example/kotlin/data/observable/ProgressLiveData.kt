@@ -1,5 +1,7 @@
 package com.example.kotlin.data.observable
 
+import com.example.kotlin.base.ext.EventLiveData
+
 /**
  * -------------------------------------------------------------------------------------------------
  * @Project: Kotlin
@@ -8,7 +10,7 @@ package com.example.kotlin.data.observable
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-class ProgressLiveData private constructor() : SingleLiveData<Boolean>() {
+class ProgressLiveData private constructor() : EventLiveData<Boolean>() {
 
     @Volatile
     var animated = false

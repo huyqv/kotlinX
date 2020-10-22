@@ -34,6 +34,9 @@ class FragmentManagerActivity : BaseActivity() {
         addClickListener(viewBack, viewNextVer, viewNextHor, viewNextPar)
     }
 
+    override fun onLiveDataObserve() {
+    }
+
     override fun onViewClick(v: View?) {
         when (v) {
             viewBack -> onBackPressed()

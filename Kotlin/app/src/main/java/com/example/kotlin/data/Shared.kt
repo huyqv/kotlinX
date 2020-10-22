@@ -13,15 +13,11 @@ import com.example.kotlin.BuildConfig
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-class Shared private constructor() {
+private val shared: SharedPreferences by lazy {
+    App.instance.getSharedPreferences(BuildConfig.APPLICATION_ID, Context.MODE_PRIVATE)
+}
 
-    interface ValueChangedListener {
-        fun onSharedValueChanged(key: String)
-    }
-
-    private val shared: SharedPreferences by lazy {
-        App.instance.getSharedPreferences(BuildConfig.APPLICATION_ID, Context.MODE_PRIVATE)
-    }
+object Shared {
 
     fun edit(block: SharedPreferences.Editor.() -> Unit) {
         shared.edit().block()
@@ -37,17 +33,11 @@ class Shared private constructor() {
         shared.edit().apply()
     }
 
-    fun addListener(listener: ValueChangedListener) {
+    fun addListener(listener: (String) -> Unit) {
         shared.registerOnSharedPreferenceChangeListener { sharedPref, key ->
-            if (sharedPref != null && key != null)
-                listener.onSharedValueChanged(key)
-        }
-    }
-
-    fun removeListener(listener: ValueChangedListener) {
-        shared.unregisterOnSharedPreferenceChangeListener { sharedPref, key ->
-            if (sharedPref != null && key != null)
-                listener.onSharedValueChanged(key)
+            if (sharedPref != null && key != null) {
+                listener(key)
+            }
         }
     }
 
@@ -81,12 +71,6 @@ class Shared private constructor() {
 
     fun bool(key: String): Boolean {
         return shared.getBoolean(key, false)
-    }
-
-    companion object {
-        val instance: Shared by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
-            Shared()
-        }
     }
 
 }

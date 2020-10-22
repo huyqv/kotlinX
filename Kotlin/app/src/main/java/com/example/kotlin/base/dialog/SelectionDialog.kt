@@ -34,7 +34,7 @@ abstract class SelectionDialog(activity: FragmentActivity?) : BaseAlertDialog(ac
     }
 
     fun adapter(adapter: RecyclerView.Adapter<RecyclerView.ViewHolder>) {
-        view?.dialogRecyclerView?.adapter = adapter
+        view?.dialogRecyclerView.adapter = adapter
     }
 
 }

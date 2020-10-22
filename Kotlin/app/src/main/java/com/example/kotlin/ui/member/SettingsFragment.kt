@@ -30,4 +30,6 @@ class SettingsFragment : BaseFragment() {
         settingTextViewDeviceId.text = androidId
     }
 
+    override fun onLiveDataObserve() {
+    }
 }

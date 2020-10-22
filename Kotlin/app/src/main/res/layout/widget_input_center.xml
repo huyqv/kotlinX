@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/input_view"
     style="@style/VerticalView"
     android:background="@drawable/drw_transparent"
@@ -21,9 +20,9 @@
         android:background="@drawable/drw_under_tray"
         android:drawablePadding="@dimen/marginY2"
         android:gravity="center"
-        android:privateImeOptions="nm"
         android:paddingStart="@dimen/marginY2"
-        android:paddingEnd="@dimen/marginY2" />
+        android:paddingEnd="@dimen/marginY2"
+        android:privateImeOptions="nm" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/inputTextViewError"

@@ -65,7 +65,6 @@ android {
             buildConfigField "String", "SERVICE_URL", "\"https://raw.githubusercontent.com/huyqv/assets/master/\""
         }
     }
-
 }
 
 dependencies {

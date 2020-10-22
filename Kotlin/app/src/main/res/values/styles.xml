@@ -64,30 +64,89 @@
     </style>
 
 
-    <!-- Button. -->
-    <style name="Button" />
+    <!-- TextView. -->
+    <style name="EditText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/_32sdp</item>
+        <item name="android:paddingStart">@dimen/margin</item>
+        <item name="android:paddingEnd">@dimen/margin</item>
+        <item name="android:textSize">@dimen/_10ssp</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:inputType">textEmailAddress</item>
+        <item name="android:textColor">@color/colorTextPrimary</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textColorHint">@color/colorGrey</item>
+        <item name="android:drawablePadding">14dp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:imeOptions">actionNext</item>
+        <item name="android:includeFontPadding">true</item>
+        <item name="android:textCursorDrawable">@color/colorPrimary</item>
+        <item name="android:textIsSelectable">false</item>
+        <item name="android:privateImeOptions">nm</item>
+        <item name="android:longClickable">false</item>
+    </style>
 
-    <style name="Button.Large">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">@dimen/largeButtonHeightSize</item>
-        <item name="android:minWidth">@dimen/largeButtonWidthSize</item>
-        <item name="android:textAllCaps">false</item>
-        <item name="android:background">@drawable/drw_rounded</item>
-        <item name="android:backgroundTint">@color/colorPrimary</item>
-        <item name="android:text">Button</item>
-        <item name="android:textSize">@dimen/_12ssp</item>
+    <style name="Button" parent="TextView">
+        <item name="android:includeFontPadding">true</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:minHeight">@dimen/_32sdp</item>
         <item name="android:gravity">center</item>
-        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:minWidth">@dimen/_90sdp</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:textSize">@dimen/_10ssp</item>
+        <item name="android:elevation">1dp</item>
     </style>
 
     <style name="Button.Match">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_marginStart">@dimen/margin4</item>
+        <item name="android:layout_marginEnd">@dimen/margin4</item>
+        <item name="android:layout_marginBottom">@dimen/margin2</item>
+        <item name="android:layout_marginTop">@dimen/margin2</item>
+        <item name="layout_constraintStart_toStartOf">parent</item>
+        <item name="layout_constraintEnd_toEndOf">parent</item>
+    </style>
+
+    <style name="Button.Rounded">
+        <item name="android:layout_height">@dimen/_32sdp</item>
+        <item name="android:background">@drawable/drw_rect</item>
+        <item name="android:drawableTint">@color/colorPrimary</item>
+        <item name="android:tint">@color/colorTextPrimary</item>
+    </style>
+
+    <style name="Button.Rounded.Match">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/rowSize</item>
-        <item name="android:gravity">center_vertical</item>
-        <item name="android:paddingStart">@dimen/margin5</item>
-        <item name="android:paddingEnd">@dimen/margin5</item>
-        <item name="android:text">button</item>
-        <item name="android:background">@drawable/drw_under_line</item>
+        <item name="android:layout_marginStart">@dimen/margin4</item>
+        <item name="android:layout_marginEnd">@dimen/margin4</item>
+        <item name="android:layout_marginBottom">@dimen/margin2</item>
+        <item name="android:layout_marginTop">@dimen/margin2</item>
+        <item name="layout_constraintStart_toStartOf">parent</item>
+        <item name="layout_constraintEnd_toEndOf">parent</item>
+    </style>
+
+    <style name="Button.Rounded.Primary">
+        <item name="android:background">@drawable/drw_btn_primary</item>
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:drawableTint">@color/colorWhite</item>
+        <item name="android:tint">@color/colorWhite</item>
+    </style>
+
+    <style name="Button.Float">
+        <item name="android:layout_width">@dimen/_30sdp</item>
+        <item name="android:layout_height">@dimen/_30sdp</item>
+        <item name="android:background">@drawable/drw_btn_light</item>
+        <item name="android:drawableTint">@color/colorTextPrimary</item>
+        <item name="android:tint">@color/colorTextPrimary</item>
+        <item name="android:padding">@dimen/_11sdp</item>
+        <item name="android:scaleType">fitXY</item>
+    </style>
+
+    <style name="Button.Float.Primary">
+        <item name="android:background">@drawable/drw_btn_primary</item>
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:drawableTint">@color/colorWhite</item>
+        <item name="android:tint">@color/colorWhite</item>
     </style>
 
 
@@ -263,6 +322,7 @@
         <item name="android:layout_gravity">center</item>
         <item name="android:orientation">vertical</item>
         <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/drw_dialog</item>
     </style>
 
     <style name="Dialog.Title">

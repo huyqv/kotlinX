@@ -16,6 +16,7 @@ import com.example.kotlin.ui.tab.TabFragment
 import com.example.library.extension.hideStatusBar
 import com.example.library.extension.start
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlin.reflect.KClass
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -27,8 +28,8 @@ import kotlinx.android.synthetic.main.activity_main.*
  */
 class MainActivity : ArchActivity<MainVM>() {
 
-    override fun localViewModelClass(): Class<MainVM> {
-        return MainVM::class.java
+    override fun localViewModelClass(): KClass<MainVM> {
+        return MainVM::class
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,7 +58,7 @@ class MainActivity : ArchActivity<MainVM>() {
         )
     }
 
-    override fun onRegisterLiveData() {
+    override fun onLiveDataObserve() {
     }
 
     override fun onViewClick(v: View?) {

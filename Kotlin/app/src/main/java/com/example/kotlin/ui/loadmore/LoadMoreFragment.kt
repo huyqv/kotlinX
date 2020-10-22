@@ -2,8 +2,8 @@ package com.example.kotlin.ui.loadmore
 
 import com.example.kotlin.R
 import com.example.kotlin.base.arch.ArchFragment
-import com.example.library.adapter.recycler.bind
 import kotlinx.android.synthetic.main.loadmore.*
+import kotlin.reflect.KClass
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -21,8 +21,8 @@ class LoadMoreFragment : ArchFragment<LoadMoreVM>() {
         return R.layout.loadmore
     }
 
-    override fun localViewModelClass(): Class<LoadMoreVM> {
-        return LoadMoreVM::class.java
+    override fun localViewModelClass(): KClass<LoadMoreVM> {
+        return LoadMoreVM::class
     }
 
     override fun onViewCreated() {
@@ -32,7 +32,7 @@ class LoadMoreFragment : ArchFragment<LoadMoreVM>() {
         }
     }
 
-    override fun onRegisterLiveData() {
+    override fun onLiveDataObserve() {
         localVM.fetchUsers(1)
         localVM.userLiveData.observe {
             adapter.add(it)

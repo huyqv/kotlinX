@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/selectableView"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/_36sdp"
+    android:clickable="true"
+    tools:background="@color/colorWhite">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/selectableTextViewItem"
+        style="@style/TextView"
+        android:layout_width="match_parent"
+        android:clickable="false"
+        android:gravity="center_vertical"
+        android:maxLines="4"
+        android:paddingStart="@dimen/defaultMargin"
+        android:textSize="@dimen/_9ssp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Item text goes here" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/selectableViewSelected"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:clickable="false"
+        android:padding="@dimen/_12sdp"
+        android:src="@drawable/ic_checked_flat"
+        android:visibility="invisible"
+        app:layout_constraintDimensionRatio="w,1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

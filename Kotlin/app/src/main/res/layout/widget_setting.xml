@@ -20,11 +20,11 @@
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/settingTextViewProperty"
         style="@style/TextView.Small"
-        tools:text="Properties"
         android:layout_marginTop="@dimen/_2sdp"
         android:clickable="false"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline5" />
+        app:layout_constraintTop_toTopOf="@+id/guideline5"
+        tools:text="Properties" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline5"

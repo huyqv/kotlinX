@@ -36,6 +36,9 @@ class TabFragment : BaseFragment() {
         configTabLayout()
     }
 
+    override fun onLiveDataObserve() {
+    }
+
     /**
      * [TabFragment] properties
      */

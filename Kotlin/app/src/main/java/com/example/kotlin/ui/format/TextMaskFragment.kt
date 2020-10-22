@@ -25,4 +25,8 @@ class TextMaskFragment : BaseFragment() {
         editText2.addCashWatcher(20, "USD ")
         editText2.setText("1234567890")
     }
+
+    override fun onLiveDataObserve() {
+    }
+
 }

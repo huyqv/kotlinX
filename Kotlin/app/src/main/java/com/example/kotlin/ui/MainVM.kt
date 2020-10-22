@@ -1,6 +1,6 @@
 package com.example.kotlin.ui
 
-import com.example.kotlin.base.arch.BaseViewModel
+import com.example.kotlin.base.vm.BaseViewModel
 
 /**
  * -------------------------------------------------------------------------------------------------

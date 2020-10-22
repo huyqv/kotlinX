@@ -1,14 +1,16 @@
-package com.example.kotlin.base.arch
-
-import androidx.lifecycle.ViewModel
+package com.example.kotlin.ui.selectable
 
 /**
  * -------------------------------------------------------------------------------------------------
  * @Project: Kotlin
- * @Created: Huy 2020/10/16
- * @Organize: Wee Digital
+ * @Created: Huy 2020/10/10
  * @Description: ...
  * All Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-open class ShareVM : ViewModel()
+data class SelectableArg(
+        val key: String,
+        val title: String?,
+        val isSearchable: Boolean,
+        val adapter: SelectableAdapter<*>
+)

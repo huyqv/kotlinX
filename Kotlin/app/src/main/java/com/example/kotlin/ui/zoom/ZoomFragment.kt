@@ -27,6 +27,9 @@ class ZoomFragment : BaseFragment(), SimplePageChangeListener {
         return R.layout.fragment_zoom
     }
 
+    override fun onLiveDataObserve() {
+    }
+
     override fun onViewCreated() {
         if (adapter.size < 2) {
             imageView_textView_count.gone()

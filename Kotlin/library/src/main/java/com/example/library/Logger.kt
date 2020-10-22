@@ -1,7 +1,7 @@
 package com.example.library
 
 import android.util.Log
-import org.json.JSONException
+import com.google.gson.JsonObject
 import org.json.JSONObject
 
 /**
@@ -16,62 +16,55 @@ open class Logger {
 
     private val tag: String
 
-    private val enable: Boolean
-
-    constructor(enable: Boolean = BuildConfig.DEBUG) : this("", enable)
-
-    constructor(string: String, enable: Boolean = BuildConfig.DEBUG) {
+    constructor(string: String) {
         this.tag = if (string.length > 23) string.substring(0, 22) else string
-        this.enable = enable
     }
 
-    constructor(cls: Class<*>, enable: Boolean = BuildConfig.DEBUG) : this(cls.simpleName, enable)
+    constructor(cls: Class<*>) : this(cls.simpleName)
 
-    constructor(any: Any, enable: Boolean = BuildConfig.DEBUG) : this(any.javaClass, enable)
+    constructor(any: Any) : this(any.javaClass)
 
-    fun json(s: String?) {
-        val json = if (s.isNullOrEmpty()) null else try {
-            JSONObject(s).toString(2)
-        } catch (e: JSONException) {
-            null
-        }
-        i(json)
+    constructor() : this("")
+
+    fun d(s: JsonObject) {
+        val json = s.toString()
+        d(JSONObject(json).toString(2))
     }
 
-    fun d(any: Any?, vararg arg: Any?) {
-        if (enable) Log.d(tag, String.format(any?.toString() ?: "", *arg))
+    fun d(any: Any?) {
+        if (enable) Log.d(tag, any.toString())
     }
 
     fun d(throwable: Throwable?) {
         d(throwable?.message)
     }
 
-    fun i(any: Any?, vararg arg: Any?) {
-        if (enable) Log.i(tag, String.format(any?.toString() ?: "", *arg))
+    fun i(any: Any?) {
+        if (enable) Log.i(tag, any.toString())
     }
 
     fun i(throwable: Throwable?) {
         i(throwable?.message)
     }
 
-    fun e(any: Any?, vararg arg: Any?) {
-        if (enable) Log.e(tag, String.format(any?.toString() ?: "", *arg))
+    fun e(any: Any?) {
+        if (enable) Log.e(tag, any.toString())
     }
 
     fun e(throwable: Throwable?) {
         e(throwable?.message)
     }
 
-    fun w(any: Any?, vararg arg: Any?) {
-        if (enable) Log.w(tag, String.format(any?.toString() ?: "", *arg))
+    fun w(any: Any?) {
+        if (enable) Log.w(tag, any.toString())
     }
 
     fun w(throwable: Throwable?) {
         w(throwable?.message)
     }
 
-    fun wtf(any: Any?, vararg arg: Any?) {
-        if (enable) Log.wtf(tag, String.format(any?.toString() ?: "", *arg))
+    fun wtf(any: Any?) {
+        if (enable) Log.wtf(tag, any.toString())
     }
 
     fun wtf(throwable: Throwable?) {
@@ -80,10 +73,16 @@ open class Logger {
 
     companion object {
 
+        var enable: Boolean = true
+
         fun breakpoint() {}
 
-        fun crash() {
+        fun error() {
             arrayOf(true)[-1]
+        }
+
+        fun crash() {
+            throw RuntimeException("crash")
         }
 
     }

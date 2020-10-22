@@ -1,5 +1,6 @@
 package com.example.library.usb
 
+import android.app.Application
 import android.app.PendingIntent
 import android.content.Intent
 import android.content.IntentFilter
@@ -26,8 +27,9 @@ object Usb {
 
     const val PERMISSION = ".USB_PERMISSION"
 
-    val manager: UsbManager =
-            ContextCompat.getSystemService(Library.app, UsbManager::class.java) as UsbManager
+    private val app: Application get() = Library.app
+
+    val manager: UsbManager = ContextCompat.getSystemService(app, UsbManager::class.java) as UsbManager
 
     val intentFilter: IntentFilter = IntentFilter(PERMISSION).also {
         it.addAction(UsbManager.ACTION_USB_DEVICE_ATTACHED)
@@ -49,12 +51,12 @@ object Usb {
     }
 
     fun observer(activity: AppCompatActivity, vararg vendorIds: Int) {
+
         val receiver = UsbReceiver(vendorIds)
         activity.lifecycle.addObserver(object : LifecycleObserver {
             @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
             fun onCreate() {
                 activity.registerReceiver(receiver, intentFilter)
-                receiver.findDevice()
             }
 
             @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
@@ -66,7 +68,7 @@ object Usb {
 
     fun requestPermission(usb: UsbDevice) {
         if (!manager.hasPermission(usb)) {
-            val intent = PendingIntent.getBroadcast(Library.app, 1234, Intent(PERMISSION), 0)
+            val intent = PendingIntent.getBroadcast(app, 1234, Intent(PERMISSION), 0)
             manager.requestPermission(usb, intent)
         }
     }
@@ -94,16 +96,15 @@ object Usb {
         forceClose(getDevice(vendorId))
     }
 
-    fun deviceStatus(vendorId: Int): UsbEvent {
-        val usb = getDevice(vendorId)
-        return deviceStatus(usb)
+    fun deviceStatus(vendorId: Int): String {
+        return deviceStatus(getDevice(vendorId))
     }
 
-    fun deviceStatus(usb: UsbDevice?): UsbEvent {
+    fun deviceStatus(usb: UsbDevice?): String {
         return when {
-            null == usb -> UsbEvent(DETACHED, usb)
-            hasPermission(usb) -> UsbEvent(GRANTED, usb)
-            else -> UsbEvent(ATTACHED, usb)
+            null == usb -> DETACHED
+            hasPermission(usb) -> GRANTED
+            else -> ATTACHED
         }
     }
 

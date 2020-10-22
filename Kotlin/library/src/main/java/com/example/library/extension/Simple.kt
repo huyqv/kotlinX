@@ -1,10 +1,17 @@
 package com.example.library.extension
 
+import android.app.Activity
+import android.app.Application
+import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.EditText
+import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.OnLifecycleEvent
 import androidx.viewpager.widget.ViewPager
 
 /**
@@ -59,4 +66,53 @@ interface SimplePageChangeListener : ViewPager.OnPageChangeListener {
     }
 }
 
+interface SimpleMotionTransitionListener : MotionLayout.TransitionListener {
+    override fun onTransitionChange(layout: MotionLayout?, startId: Int, endId: Int, progress: Float) {
+    }
 
+    override fun onTransitionStarted(layout: MotionLayout?, startId: Int, endId: Int) {
+    }
+
+    override fun onTransitionCompleted(layout: MotionLayout?, currentId: Int) {
+    }
+
+    override fun onTransitionTrigger(layout: MotionLayout?, triggerId: Int, positive: Boolean, progress: Float) {
+    }
+}
+
+interface SimpleActivityLifecycleCallbacks : Application.ActivityLifecycleCallbacks {
+
+    override fun onActivityCreated(activity: Activity, bundle: Bundle?) {}
+
+    override fun onActivityStarted(activity: Activity) {}
+
+    override fun onActivityResumed(activity: Activity) {}
+
+    override fun onActivityPaused(activity: Activity) {}
+
+    override fun onActivityDestroyed(activity: Activity) {}
+
+    override fun onActivitySaveInstanceState(activity: Activity, p1: Bundle) {}
+
+    override fun onActivityStopped(activity: Activity) {}
+}
+
+interface SimpleLifecycleObserver : LifecycleObserver {
+    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
+    fun onCreated()
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_START)
+    fun onStart()
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+    fun onResume()
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+    fun onPause()
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
+    fun onStop()
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+    fun destroyed()
+}

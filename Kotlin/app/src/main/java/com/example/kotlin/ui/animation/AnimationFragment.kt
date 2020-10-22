@@ -2,7 +2,6 @@ package com.example.kotlin.ui.animation
 
 import com.example.kotlin.R
 import com.example.kotlin.base.view.BaseFragment
-import com.example.library.adapter.recycler.bind
 import com.example.library.extension.*
 import kotlinx.android.synthetic.main.fragment_animation.*
 
@@ -31,6 +30,9 @@ class AnimationFragment : BaseFragment() {
         adapter.bind(recyclerView)
         adapter.set(itemList)
         adapter.onItemClick = { model, _ -> onAnimate(model) }
+    }
+
+    override fun onLiveDataObserve() {
     }
 
     private fun onAnimate(animName: String) {

@@ -19,4 +19,7 @@ class EditTextsFragment : BaseFragment() {
 
     override fun onViewCreated() {
     }
+
+    override fun onLiveDataObserve() {
+    }
 }

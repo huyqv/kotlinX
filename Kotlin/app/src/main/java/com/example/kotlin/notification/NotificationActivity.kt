@@ -21,4 +21,7 @@ class NotificationActivity : BaseActivity() {
     override fun onViewCreated() {
         toast("notify message")
     }
+
+    override fun onLiveDataObserve() {
+    }
 }

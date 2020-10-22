@@ -9,13 +9,9 @@ import androidx.activity.OnBackPressedCallback
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
-import androidx.navigation.NavController
-import androidx.navigation.NavDirections
-import androidx.navigation.NavOptions
-import androidx.navigation.fragment.findNavController
 import com.example.kotlin.R
-import com.example.kotlin.base.arch.ShareVM
-import com.example.kotlin.util.activityViewModel
+import com.example.kotlin.base.ext.activityViewModel
+import com.example.kotlin.base.vm.ShareVM
 import com.example.library.view.ViewClickListener
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -30,8 +26,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
  * -------------------------------------------------------------------------------------------------
  */
 abstract class BaseBottomDialog : BottomSheetDialogFragment(), BaseView {
-
-    protected val sharedVM: ShareVM by lazy { activityViewModel(ShareVM::class.java) }
 
     /**
      * [BottomSheetDialogFragment] override
@@ -56,6 +50,7 @@ abstract class BaseBottomDialog : BottomSheetDialogFragment(), BaseView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         onViewCreated()
+        onLiveDataObserve()
     }
 
     /**
@@ -65,6 +60,8 @@ abstract class BaseBottomDialog : BottomSheetDialogFragment(), BaseView {
 
     abstract fun onViewCreated()
 
+    abstract fun onLiveDataObserve()
+
     /**
      * [BaseView] implement
      */
@@ -73,6 +70,8 @@ abstract class BaseBottomDialog : BottomSheetDialogFragment(), BaseView {
     /**
      * [BaseBottomDialog] properties
      */
+    protected val sharedVM: ShareVM by lazy { activityViewModel(ShareVM::class) }
+
     protected open fun style(): Int {
         return R.style.App_Dialog
     }
@@ -103,27 +102,6 @@ abstract class BaseBottomDialog : BottomSheetDialogFragment(), BaseView {
 
     protected open fun onBackPressed(): Boolean {
         return true
-    }
-
-    val nav: NavController get() = findNavController()
-
-    fun navigate(directions: NavDirections, block: (NavOptions.Builder.() -> Unit) = {}) {
-        val option = NavOptions.Builder()
-                .setDefaultAnim()
-        option.block()
-        nav.navigate(directions, option.build())
-    }
-
-    fun navigateUp() {
-        nav.navigateUp()
-    }
-
-    fun NavOptions.Builder.setDefaultAnim(): NavOptions.Builder {
-        setEnterAnim(R.anim.vertical_enter)
-        setPopEnterAnim(R.anim.vertical_pop_enter)
-        setExitAnim(R.anim.vertical_exit)
-        setPopExitAnim(R.anim.vertical_pop_exit)
-        return this
     }
 
     fun <T> LiveData<T>.observe(block: (T) -> Unit) {

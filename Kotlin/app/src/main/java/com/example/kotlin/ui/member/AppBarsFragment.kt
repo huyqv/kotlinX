@@ -20,4 +20,7 @@ class AppBarsFragment : BaseFragment() {
     override fun onViewCreated() {
     }
 
+    override fun onLiveDataObserve() {
+    }
+
 }

@@ -2,7 +2,6 @@ package com.example.kotlin.ui.interval
 
 import com.example.kotlin.R
 import com.example.kotlin.base.view.BaseFragment
-import com.example.library.adapter.recycler.bind
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -42,6 +41,9 @@ class RxIntervalFragment : BaseFragment() {
                 disposable?.dispose()
             }
         }
+    }
+
+    override fun onLiveDataObserve() {
     }
 
     private fun generateUser() {

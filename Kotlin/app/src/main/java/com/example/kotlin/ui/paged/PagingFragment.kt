@@ -3,8 +3,8 @@ package com.example.kotlin.ui.paged
 import com.example.kotlin.R
 import com.example.kotlin.base.arch.ArchFragment
 import com.example.kotlin.ui.zoom.ZoomFragment
-import com.example.library.adapter.recycler.bind
 import kotlinx.android.synthetic.main.fragment_adapter_paged.*
+import kotlin.reflect.KClass
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -22,8 +22,8 @@ class PagingFragment : ArchFragment<PagingVM>() {
         return R.layout.fragment_adapter_paged
     }
 
-    override fun localViewModelClass(): Class<PagingVM> {
-        return PagingVM::class.java
+    override fun localViewModelClass(): KClass<PagingVM> {
+        return PagingVM::class
     }
 
     override fun onViewCreated() {
@@ -36,7 +36,7 @@ class PagingFragment : ArchFragment<PagingVM>() {
         }
     }
 
-    override fun onRegisterLiveData() {
+    override fun onLiveDataObserve() {
         localVM.liveData.observe {
             if (it.isNullOrEmpty()) adapter.hideFooter()
             adapter.submitList(it)

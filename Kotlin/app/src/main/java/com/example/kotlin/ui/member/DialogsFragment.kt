@@ -29,6 +29,9 @@ class DialogsFragment : BaseFragment() {
                 customConfirm, customMessage, message, confirm, allConfig)
     }
 
+    override fun onLiveDataObserve() {
+    }
+
     override fun onViewClick(v: View?) {
         super.onViewClick(v)
         when (v) {

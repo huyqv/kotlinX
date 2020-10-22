@@ -5,11 +5,10 @@ import androidx.paging.DataSource
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PageKeyedDataSource
 import androidx.paging.PagedList
-import com.example.kotlin.base.arch.BaseViewModel
-import com.example.kotlin.data.api.ApiClient
+import com.example.kotlin.base.vm.BaseViewModel
+import com.example.kotlin.data.api.apiClient
 import com.example.kotlin.data.observable.ArchSingleObserver
 import com.example.kotlin.ui.model.Message
-import com.example.kotlin.util.PAGED_DEFAULT_CONFIG
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -21,13 +20,20 @@ import com.example.kotlin.util.PAGED_DEFAULT_CONFIG
  */
 class PagingVM : BaseViewModel() {
 
+    private val pagingConfig: PagedList.Config
+        get() = PagedList.Config.Builder()
+                .setPageSize(10)
+                .setInitialLoadSizeHint(10)
+                .setEnablePlaceholders(true)
+                .build()
+
     lateinit var liveData: LiveData<PagedList<Message>?>
 
     override fun onStart() {
         val factory = object : DataSource.Factory<Int, Message>() {
             override fun create(): DataSource<Int, Message> = MessageDataSource()
         }
-        liveData = LivePagedListBuilder(factory, PAGED_DEFAULT_CONFIG).build()
+        liveData = LivePagedListBuilder(factory, pagingConfig).build()
     }
 
     override fun onNetworkAvailable() {
@@ -37,7 +43,7 @@ class PagingVM : BaseViewModel() {
     class MessageDataSource : PageKeyedDataSource<Int, Message>() {
 
         override fun loadInitial(params: LoadInitialParams<Int>, callback: LoadInitialCallback<Int, Message>) {
-            ApiClient.instance.messages(1)
+            apiClient.messages(1)
                     .subscribe(object : ArchSingleObserver<List<Message>>() {
                         override fun onResponse(data: List<Message>) {
                             callback.onResult(data, null, 2)
@@ -49,7 +55,7 @@ class PagingVM : BaseViewModel() {
         }
 
         override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, Message>) {
-            ApiClient.instance.messages(params.key)
+            apiClient.messages(params.key)
                     .subscribe(object : ArchSingleObserver<List<Message>>() {
                         override fun onResponse(data: List<Message>) {
                             callback.onResult(data, params.key + 1)

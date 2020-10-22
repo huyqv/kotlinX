@@ -19,4 +19,7 @@ class MenuItemsFragment : BaseFragment() {
 
     override fun onViewCreated() {
     }
+
+    override fun onLiveDataObserve() {
+    }
 }

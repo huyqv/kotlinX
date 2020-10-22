@@ -4,8 +4,8 @@ import com.example.kotlin.R
 import com.example.kotlin.base.arch.ArchFragment
 import com.example.kotlin.ui.zoom.ZoomFragment
 import com.example.kotlin.widget.onRefresh
-import com.example.library.adapter.recycler.bind
 import kotlinx.android.synthetic.main.fragment_adapter_async_diff.*
+import kotlin.reflect.KClass
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -23,8 +23,8 @@ class AsyncDiffFragment : ArchFragment<AsyncDiffVM>() {
         return R.layout.fragment_adapter_async_diff
     }
 
-    override fun localViewModelClass(): Class<AsyncDiffVM> {
-        return AsyncDiffVM::class.java
+    override fun localViewModelClass(): KClass<AsyncDiffVM> {
+        return AsyncDiffVM::class
     }
 
     override fun onViewCreated() {
@@ -37,7 +37,7 @@ class AsyncDiffFragment : ArchFragment<AsyncDiffVM>() {
         }
     }
 
-    override fun onRegisterLiveData() {
+    override fun onLiveDataObserve() {
 
         localVM.imageLiveData.observe {
             swipeRefreshLayout.isRefreshing = false

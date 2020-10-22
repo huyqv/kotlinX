@@ -1,1 +1,3 @@
-include ':app', ':library', ':dimen'
+include ':app',
+        ':library',
+        ':dimen'

@@ -5,8 +5,8 @@ import com.example.kotlin.R
 import com.example.kotlin.ui.model.Message
 import com.example.kotlin.util.load
 import com.example.library.adapter.recycler.BasePagedListAdapter
+import com.example.library.extension.getDateTimeAgo
 import com.example.library.extension.notNullOrEmpty
-import com.example.library.time.TimeUtil.getDateTimeAgo
 import kotlinx.android.synthetic.main.item_image_left.view.*
 import kotlinx.android.synthetic.main.item_image_right.view.*
 import kotlinx.android.synthetic.main.item_sticker_left.view.*

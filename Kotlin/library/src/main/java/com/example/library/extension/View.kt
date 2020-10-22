@@ -24,8 +24,6 @@ import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import com.example.library.Library
-import com.example.library.view.FastClickListener
-import com.example.library.view.ViewClickListener
 import kotlin.math.roundToInt
 
 
@@ -144,25 +142,6 @@ fun View.isGone(gone: Boolean?) {
 }
 
 /**
- * [View] gesture
- */
-fun View.addViewClickListener(block: (View?) -> Unit) {
-    setOnClickListener(object : ViewClickListener() {
-        override fun onClicks(v: View?) {
-            block(v)
-        }
-    })
-}
-
-fun View.addFastClickListener(clickCount: Int, block: (View?) -> Unit) {
-    setOnClickListener(object : FastClickListener(clickCount) {
-        override fun onViewClick(v: View?) {
-            block(v)
-        }
-    })
-}
-
-/**
  * @param animationStyle animationStyle
  * <style name="PopupStyle">
  *      <item name="android:windowEnterAnimation">@anim/anim1</item>
@@ -240,6 +219,14 @@ fun TextView.drawableTop(drawable: Drawable?) {
 
 fun TextView.drawableBottom(drawable: Drawable?) {
     this.setCompoundDrawablesWithIntrinsicBounds(null, null, null, drawable)
+}
+
+fun TextView.bold() {
+    setTypeface(this.typeface, Typeface.BOLD)
+}
+
+fun TextView.regular() {
+    setTypeface(this.typeface, Typeface.NORMAL)
 }
 
 /**

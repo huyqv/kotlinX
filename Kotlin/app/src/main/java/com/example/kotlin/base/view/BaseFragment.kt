@@ -9,13 +9,8 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
-import androidx.navigation.NavController
-import androidx.navigation.NavDirections
-import androidx.navigation.NavOptions
-import androidx.navigation.fragment.findNavController
-import com.example.kotlin.R
-import com.example.kotlin.base.arch.ShareVM
-import com.example.kotlin.util.activityViewModel
+import com.example.kotlin.base.ext.activityViewModel
+import com.example.kotlin.base.vm.ShareVM
 import com.example.library.view.ViewClickListener
 
 /**
@@ -27,8 +22,6 @@ import com.example.library.view.ViewClickListener
  * -------------------------------------------------------------------------------------------------
  */
 abstract class BaseFragment : Fragment(), BaseView {
-
-    protected val sharedVM: ShareVM by lazy { activityViewModel(ShareVM::class.java) }
 
     /**
      * [Fragment] override
@@ -47,6 +40,7 @@ abstract class BaseFragment : Fragment(), BaseView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         onViewCreated()
+        onLiveDataObserve()
     }
 
     /**
@@ -56,6 +50,8 @@ abstract class BaseFragment : Fragment(), BaseView {
 
     abstract fun onViewCreated()
 
+    abstract fun onLiveDataObserve()
+
     /**
      * [BaseView] implement
      */
@@ -64,6 +60,8 @@ abstract class BaseFragment : Fragment(), BaseView {
     /**
      * [BaseFragment] properties
      */
+    protected val sharedVM: ShareVM by lazy { activityViewModel(ShareVM::class) }
+
     private val onViewClick: ViewClickListener by lazy {
         object : ViewClickListener() {
             override fun onClicks(v: View?) {
@@ -90,27 +88,6 @@ abstract class BaseFragment : Fragment(), BaseView {
 
     protected open fun onBackPressed(): Boolean {
         return true
-    }
-
-    val nav: NavController get() = findNavController()
-
-    fun navigate(directions: NavDirections, block: (NavOptions.Builder.() -> Unit) = {}) {
-        val option = NavOptions.Builder()
-                .setDefaultAnim()
-        option.block()
-        nav.navigate(directions, option.build())
-    }
-
-    fun navigateUp() {
-        nav.navigateUp()
-    }
-
-    fun NavOptions.Builder.setDefaultAnim(): NavOptions.Builder {
-        setEnterAnim(R.anim.vertical_enter)
-        setPopEnterAnim(R.anim.vertical_pop_enter)
-        setExitAnim(R.anim.vertical_exit)
-        setPopExitAnim(R.anim.vertical_pop_exit)
-        return this
     }
 
     fun <T> LiveData<T>.observe(block: (T) -> Unit) {

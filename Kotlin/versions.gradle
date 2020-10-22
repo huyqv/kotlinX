@@ -1,5 +1,5 @@
 def builds = [:]
-builds.min_sdk = 22
+builds.min_sdk = 23
 builds.compile_sdk = 30
 builds.target_sdk = 30
 builds.version_code = 1

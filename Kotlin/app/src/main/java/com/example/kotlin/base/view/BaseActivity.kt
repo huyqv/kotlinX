@@ -13,6 +13,8 @@ import com.example.kotlin.R
 import com.example.kotlin.base.dialog.ConfirmDialog
 import com.example.kotlin.base.dialog.MessageDialog
 import com.example.kotlin.base.dialog.ProgressDialog
+import com.example.kotlin.base.ext.activityViewModel
+import com.example.kotlin.base.vm.ShareVM
 import com.example.library.extension.addFragment
 import com.example.library.extension.removeFragment
 import com.example.library.extension.replaceFragment
@@ -34,6 +36,8 @@ abstract class BaseActivity : AppCompatActivity(), BaseView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(layoutResource())
+        onViewCreated()
+        onLiveDataObserve()
     }
 
     override fun startActivityForResult(intent: Intent?, requestCode: Int, options: Bundle?) {
@@ -52,6 +56,8 @@ abstract class BaseActivity : AppCompatActivity(), BaseView {
     abstract fun layoutResource(): Int
 
     abstract fun onViewCreated()
+
+    abstract fun onLiveDataObserve()
 
     /**
      * [BaseView] implement
@@ -106,6 +112,8 @@ abstract class BaseActivity : AppCompatActivity(), BaseView {
     /**
      * [BaseActivity] properties
      */
+    protected val sharedVM: ShareVM by lazy { activityViewModel(ShareVM::class) }
+
     val nav: NavController get() = findNavController(navigationHostId())
 
     protected open fun navigationHostId(): Int {

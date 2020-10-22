@@ -4,6 +4,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.library.extension.addViewClickListener
 import com.example.library.extension.isEmpty
@@ -203,6 +205,26 @@ abstract class BaseJsonAdapter<T : JsonElement> : RecyclerView.Adapter<RecyclerV
     open fun clear() {
         currentList = JsonArray()
         notifyDataSetChanged()
+    }
+
+    open fun bind(recyclerView: RecyclerView, block: LinearLayoutManager.() -> Unit = {}) {
+        val lm = LinearLayoutManager(recyclerView.context)
+        lm.block()
+        recyclerView.layoutManager = lm
+        recyclerView.adapter = this
+    }
+
+    open fun bind(recyclerView: RecyclerView, spanCount: Int, block: GridLayoutManager.() -> Unit = {}) {
+        val lm = GridLayoutManager(recyclerView.context, spanCount)
+        lm.block()
+        lm.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+            override fun getSpanSize(position: Int): Int {
+                return if (dataIsEmpty || position == size) lm.spanCount
+                else 1
+            }
+        }
+        recyclerView.layoutManager = lm
+        recyclerView.adapter = this
     }
 
 }

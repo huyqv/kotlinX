@@ -12,22 +12,22 @@
 
         <androidx.appcompat.widget.LinearLayoutCompat
             style="@style/MatchWidth"
-            android:paddingStart="@dimen/margin5"
-            android:paddingEnd="@dimen/margin5"
             android:gravity="center_horizontal"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingStart="@dimen/margin5"
+            android:paddingEnd="@dimen/margin5">
 
             <com.example.kotlin.widget.InputViewMaterial
                 style="@style/MatchWidth"
                 android:layout_marginTop="@dimen/margin5"
                 android:drawableStart="@drawable/ic_send"
                 android:drawableEnd="@drawable/ic_send"
-                android:src="@drawable/drw_under_line"
                 android:drawableTint="@color/colorIndianRed"
+                android:src="@drawable/drw_under_line"
                 android:text="asd"
+                android:textColor="@color/colorPrimary"
                 android:tint="@color/colorTurquoise"
-                android:title="material"
-                android:textColor="@color/colorPrimary" />
+                android:title="material" />
 
             <com.example.kotlin.widget.InputViewIcon
                 style="@style/MatchWidth"
@@ -44,8 +44,8 @@
                 style="@style/MatchWidth"
                 android:layout_marginTop="@dimen/margin5"
                 android:drawableStart="@drawable/ic_send"
-                android:src="@drawable/drw_under_line"
                 android:drawableTint="@color/colorPrimary"
+                android:src="@drawable/drw_under_line"
                 android:text="asd"
                 android:textColor="@color/colorTurquoise"
                 android:tint="@color/colorIndianRed"

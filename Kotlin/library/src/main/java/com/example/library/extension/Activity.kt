@@ -177,10 +177,10 @@ fun Activity?.hideNavigationBar(hasFocus: Boolean = true) {
 /**
  * Keyboard
  */
-fun Activity.hideKeyboard() {
-    if (currentFocus?.windowToken != null) {
+fun Activity?.hideKeyboard() {
+    this?.currentFocus?.windowToken?.also {
         val imm = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
+        imm.hideSoftInputFromWindow(it, 0)
     }
 }
 

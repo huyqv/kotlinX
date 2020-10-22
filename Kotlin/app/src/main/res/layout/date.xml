@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/dialogView"
+    style="@style/Dialog.Layout">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/dataTextViewTitle"
+        style="@style/Dialog.Title"
+        android:text="Date select"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/dateRecyclerViewDay"
+        android:layout_width="@dimen/_60sdp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/dateRecyclerViewMonth"
+        app:layout_constraintEnd_toStartOf="@+id/dateRecyclerViewMonth"
+        app:layout_constraintTop_toTopOf="@+id/dateRecyclerViewMonth"
+        tools:itemCount="3"
+        tools:listitem="@layout/date_item" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/dateRecyclerViewMonth"
+        android:layout_width="@dimen/_60sdp"
+        android:layout_height="@dimen/_108sdp"
+        android:layout_marginTop="@dimen/margin2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dataTextViewTitle"
+        tools:itemCount="3"
+        tools:listitem="@layout/date_item" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/dateRecyclerViewYear"
+        android:layout_width="@dimen/_60sdp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/dateRecyclerViewMonth"
+        app:layout_constraintStart_toEndOf="@+id/dateRecyclerViewMonth"
+        app:layout_constraintTop_toTopOf="@+id/dateRecyclerViewMonth"
+        tools:itemCount="3"
+        tools:listitem="@layout/date_item" />
+
+    <View
+        android:layout_width="@dimen/_190sdp"
+        android:layout_height="@dimen/_40sdp"
+        android:background="@drawable/drw_rounded_outline"
+        android:backgroundTint="@color/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="@+id/dateRecyclerViewMonth"
+        app:layout_constraintEnd_toEndOf="@id/dateRecyclerViewYear"
+        app:layout_constraintStart_toStartOf="@+id/dateRecyclerViewDay"
+        app:layout_constraintTop_toTopOf="@+id/dateRecyclerViewMonth" />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/dateViewDone"
+        style="@style/Button"
+        android:layout_width="@dimen/_180sdp"
+        android:layout_marginTop="@dimen/margin2"
+        android:layout_marginBottom="@dimen/margin2"
+        android:text="Done"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dateRecyclerViewDay" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

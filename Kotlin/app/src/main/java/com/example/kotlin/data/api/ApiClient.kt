@@ -16,36 +16,31 @@ import okhttp3.CertificatePinner
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-class ApiClient private constructor() {
+val apiClient: ApiClient by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
+    ApiClient()
+}
 
-    companion object {
-
-        val instance: ApiClient by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
-            ApiClient()
-        }
-
-    }
+class ApiClient {
 
     private val publicKey: String = "m9Z7mswlRljf8acQ07EesjKOVJDGy2nR0ZrOM22PE40="
 
     private val certPinner: CertificatePinner by lazy {
         CertificatePinner.Builder()
-                .add(RestUtil.getDomainName(BuildConfig.SERVICE_URL), "sha256/$publicKey")
+                .add(Rest.domainName(BuildConfig.SERVICE_URL), "sha256/$publicKey")
                 .build()
     }
 
     val hasPinning: Boolean get() = !publicKey.isNullOrEmpty()
 
-    var service: ApiService = RestUtil
-            .createService(BuildConfig.SERVICE_URL) {
-                if (BuildConfig.SERVICE_URL.indexOf("https") == -1) {
-                    if (hasPinning) {
-                        certificatePinner(certPinner)
-                    } else {
-                        RestSecurity.trustClient(this)
-                    }
-                }
+    var service: ApiService = Rest.initRetrofit(BuildConfig.SERVICE_URL) {
+        if (BuildConfig.SERVICE_URL.indexOf("https") == -1) {
+            if (hasPinning) {
+                certificatePinner(certPinner)
+            } else {
+                Rest.trustClient(this)
             }
+        }
+    }
             .build()
             .create(ApiService::class.java)
 
@@ -53,12 +48,11 @@ class ApiClient private constructor() {
     private var requests: MutableList<Single<*>> = mutableListOf()
 
     fun setToken(token: String? = null) {
-        instance.service = RestUtil
-                .createService(BuildConfig.SERVICE_URL) {
-                    if (token != null) {
-                        addInterceptor(RestUtil.getHeaderInterceptor(token))
-                    }
-                }
+        apiClient.service = Rest.initRetrofit(BuildConfig.SERVICE_URL) {
+            if (token != null) {
+                addInterceptor(Rest.authInterceptor(token))
+            }
+        }
                 .build()
                 .create(ApiService::class.java)
     }
