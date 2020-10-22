@@ -12,6 +12,7 @@ import com.example.library.adapter.recycler.initLayoutManager
 import com.example.library.extension.isGone
 import kotlinx.android.synthetic.main.selectable.*
 
+
 class SelectableFragment : BaseDialog() {
 
     private val vm: SelectableVM by lazy {

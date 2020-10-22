@@ -31,7 +31,7 @@ class DateFragment : BaseDialog() {
     }
 
     override fun onViewCreated() {
-        addClickListener(dateViewDone, dateViewClose)
+        addClickListener(dateViewDone)
     }
 
     override fun onLiveDataObserve() {
@@ -52,9 +52,6 @@ class DateFragment : BaseDialog() {
             dateViewDone -> {
                 setNavResult(vm.arg?.key, currentDate)
                 findNavController().navigateUp()
-            }
-            dateViewClose -> {
-                dismiss()
             }
         }
     }

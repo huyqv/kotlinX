@@ -1,6 +1,7 @@
 package com.example.kotlin.base.ext
 
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavDirections
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
@@ -28,16 +29,16 @@ fun Fragment.navigateUp() {
     findNavController().navigateUp()
 }
 
-fun <T> Fragment.navResult(key: String = DEFAULT_ARG_KEY) {
-    findNavController().currentBackStackEntry?.savedStateHandle?.get<T>(key)
+fun <T> Fragment.navResult(key: String = DEFAULT_ARG_KEY): T? {
+    return findNavController().currentBackStackEntry?.savedStateHandle?.get<T>(key)
 }
 
-fun <T> Fragment.navResultLiveData(key: String = DEFAULT_ARG_KEY) {
-    findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<T>(key)
+fun <T> Fragment.navResultLiveData(key: String = DEFAULT_ARG_KEY): MutableLiveData<T>? {
+    return findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<T>(key)
 }
 
 fun <T> Fragment.setNavResult(key: String?, result: T) {
-    findNavController().previousBackStackEntry?.savedStateHandle?.set(key
+      findNavController().previousBackStackEntry?.savedStateHandle?.set(key
             ?: DEFAULT_ARG_KEY, result)
 }
 
