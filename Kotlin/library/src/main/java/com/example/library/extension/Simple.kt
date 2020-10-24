@@ -97,22 +97,41 @@ interface SimpleActivityLifecycleCallbacks : Application.ActivityLifecycleCallba
     override fun onActivityStopped(activity: Activity) {}
 }
 
-interface SimpleLifecycleObserver : LifecycleObserver {
+abstract class SimpleLifecycleObserver : LifecycleObserver {
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-    fun onCreated()
+    fun onEventCreated() {
+        onCreated()
+    }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    fun onStart()
+    fun onEventStart() {
+        onStart()
+    }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-    fun onResume()
+    fun onEventResume() {
+        onResume()
+    }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
-    fun onPause()
+    fun onEventPause() {
+        onPause()
+    }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-    fun onStop()
+    fun onEventStop() {
+        onStop()
+    }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    fun destroyed()
+    fun onEventDestroy() {
+        onDestroy()
+    }
+
+    open fun onCreated() {}
+    open fun onStart() {}
+    open fun onResume() {}
+    open fun onPause() {}
+    open fun onStop() {}
+    open fun onDestroy() {}
 }

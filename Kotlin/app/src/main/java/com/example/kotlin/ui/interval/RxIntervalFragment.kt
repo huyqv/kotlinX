@@ -48,7 +48,7 @@ class RxIntervalFragment : BaseFragment() {
 
     private fun generateUser() {
         disposable = Observable
-                .interval(0, 100, TimeUnit.MILLISECONDS)
+                .interval(0, 300, TimeUnit.MILLISECONDS)
                 .map { counter.incrementAndGet() }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {

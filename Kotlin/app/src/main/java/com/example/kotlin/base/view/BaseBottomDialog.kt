@@ -10,9 +10,6 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import com.example.kotlin.R
-import com.example.kotlin.base.ext.activityViewModel
-import com.example.kotlin.base.vm.ShareVM
-import com.example.library.view.ViewClickListener
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -37,7 +34,14 @@ abstract class BaseBottomDialog : BottomSheetDialogFragment(), BaseView {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        requireActivity().onBackPressedDispatcher.addCallback(this, onBackCallback)
+        requireActivity().onBackPressedDispatcher.addCallback(this,
+                object : OnBackPressedCallback(true) {
+                    override fun handleOnBackPressed() {
+                        if (onBackPressed()) {
+                            requireActivity().supportFragmentManager.popBackStack()
+                        }
+                    }
+                })
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -70,34 +74,8 @@ abstract class BaseBottomDialog : BottomSheetDialogFragment(), BaseView {
     /**
      * [BaseBottomDialog] properties
      */
-    protected val sharedVM: ShareVM by lazy { activityViewModel(ShareVM::class) }
-
     protected open fun style(): Int {
         return R.style.App_Dialog
-    }
-
-    private val onViewClick: ViewClickListener by lazy {
-        object : ViewClickListener() {
-            override fun onClicks(v: View?) {
-                onViewClick(v)
-            }
-        }
-    }
-
-    fun addClickListener(vararg views: View?) {
-        views.forEach {
-            it?.setOnClickListener(onViewClick)
-        }
-    }
-
-    protected open fun onViewClick(v: View?) {}
-
-    private val onBackCallback = object : OnBackPressedCallback(true) {
-        override fun handleOnBackPressed() {
-            if (onBackPressed()) {
-                popBackStack()
-            }
-        }
     }
 
     protected open fun onBackPressed(): Boolean {

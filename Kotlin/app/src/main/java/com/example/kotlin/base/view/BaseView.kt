@@ -1,6 +1,8 @@
 package com.example.kotlin.base.view
 
+import android.view.View
 import androidx.fragment.app.Fragment
+import com.example.library.view.ViewClickListener
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -42,8 +44,15 @@ interface BaseView {
         baseActivity?.remove(cls)
     }
 
-    fun popBackStack() {
-        baseActivity?.supportFragmentManager?.popBackStack()
+    fun addClickListener(vararg views: View?) {
+        val listener = object : ViewClickListener() {
+            override fun onClicks(v: View?) {
+                onViewClick(v)
+            }
+        }
+        views.forEach { it?.setOnClickListener(listener) }
     }
+
+    fun onViewClick(v: View?) {}
 
 }

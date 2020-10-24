@@ -38,7 +38,7 @@ fun <T> Fragment.navResultLiveData(key: String = DEFAULT_ARG_KEY): MutableLiveDa
 }
 
 fun <T> Fragment.setNavResult(key: String?, result: T) {
-      findNavController().previousBackStackEntry?.savedStateHandle?.set(key
+    findNavController().previousBackStackEntry?.savedStateHandle?.set(key
             ?: DEFAULT_ARG_KEY, result)
 }
 

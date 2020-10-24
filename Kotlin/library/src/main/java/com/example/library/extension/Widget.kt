@@ -4,6 +4,7 @@ import android.annotation.TargetApi
 import android.app.Activity
 import android.content.Context
 import android.graphics.*
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.text.Html
 import android.text.InputFilter
@@ -16,10 +17,12 @@ import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.*
+import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
+import com.example.library.Library
 import java.util.*
 
 /**
@@ -47,26 +50,7 @@ fun EditText?.addOnClickListener(listener: View.OnClickListener) {
     setOnClickListener { listener.onClick(this) }
 }
 
-fun ImageView.tintColor(color: String) {
-    tintColor(Color.parseColor(color))
-}
-
-fun ImageView.tintColorRes(@ColorRes color: Int) {
-    tintColor(color(color))
-}
-
-fun View.backgroundTintColor(color: Int) {
-    post {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            background.colorFilter = BlendModeColorFilter(color, BlendMode.SRC_ATOP)
-        } else {
-            @Suppress("DEPRECATION")
-            background.setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
-        }
-    }
-}
-
-fun ImageView.tintColor(color: Int) {
+fun ImageView.tintColor(@ColorInt color: Int) {
     post {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             colorFilter = BlendModeColorFilter(color, BlendMode.SRC_ATOP)
@@ -148,6 +132,30 @@ fun TextView.setHyperText(string: String) {
         @Suppress("DEPRECATION")
         Html.fromHtml(string)
     }
+}
+
+fun TextView.drawableStart(drawable: Drawable?) {
+    this.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null)
+}
+
+fun TextView.drawableEnd(drawable: Drawable?) {
+    this.setCompoundDrawablesWithIntrinsicBounds(null, null, drawable, null)
+}
+
+fun TextView.drawableTop(drawable: Drawable?) {
+    this.setCompoundDrawablesWithIntrinsicBounds(null, drawable, null, null)
+}
+
+fun TextView.drawableBottom(drawable: Drawable?) {
+    this.setCompoundDrawablesWithIntrinsicBounds(null, null, null, drawable)
+}
+
+fun TextView.bold() {
+    setTypeface(this.typeface, Typeface.BOLD)
+}
+
+fun TextView.regular() {
+    setTypeface(this.typeface, Typeface.NORMAL)
 }
 
 fun TextView.randomCapcha(level: Int = 0) {

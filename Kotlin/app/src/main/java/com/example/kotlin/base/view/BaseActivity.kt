@@ -2,7 +2,6 @@ package com.example.kotlin.base.view
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
@@ -13,12 +12,9 @@ import com.example.kotlin.R
 import com.example.kotlin.base.dialog.ConfirmDialog
 import com.example.kotlin.base.dialog.MessageDialog
 import com.example.kotlin.base.dialog.ProgressDialog
-import com.example.kotlin.base.ext.activityViewModel
-import com.example.kotlin.base.vm.ShareVM
 import com.example.library.extension.addFragment
 import com.example.library.extension.removeFragment
 import com.example.library.extension.replaceFragment
-import com.example.library.view.ViewClickListener
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -69,11 +65,11 @@ abstract class BaseActivity : AppCompatActivity(), BaseView {
     final override val baseActivity: BaseActivity? get() = this
 
     final override fun showProgress() {
-
+        progressDialog.show()
     }
 
     final override fun hideProgress() {
-
+        progressDialog.dismiss()
     }
 
     final override fun alert(message: String?) {
@@ -105,15 +101,9 @@ abstract class BaseActivity : AppCompatActivity(), BaseView {
         removeFragment(cls)
     }
 
-    final override fun popBackStack() {
-        supportFragmentManager.popBackStack()
-    }
-
     /**
      * [BaseActivity] properties
      */
-    protected val sharedVM: ShareVM by lazy { activityViewModel(ShareVM::class) }
-
     val nav: NavController get() = findNavController(navigationHostId())
 
     protected open fun navigationHostId(): Int {
@@ -123,22 +113,6 @@ abstract class BaseActivity : AppCompatActivity(), BaseView {
     protected open fun fragmentContainerId(): Int {
         throw NullPointerException("fragmentContainerId no has implement")
     }
-
-    private val onViewClick: ViewClickListener by lazy {
-        object : ViewClickListener() {
-            override fun onClicks(v: View?) {
-                onViewClick(v)
-            }
-        }
-    }
-
-    fun addClickListener(vararg views: View?) {
-        views.forEach {
-            it?.setOnClickListener(onViewClick)
-        }
-    }
-
-    protected open fun onViewClick(v: View?) {}
 
     fun <T> LiveData<T>.observe(block: (T) -> Unit) {
         observe(this@BaseActivity, Observer(block))

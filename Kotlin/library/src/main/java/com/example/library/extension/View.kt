@@ -5,7 +5,6 @@ import android.app.Application
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.*
-import android.graphics.drawable.Drawable
 import android.os.Build
 import android.util.DisplayMetrics
 import android.util.TypedValue
@@ -15,13 +14,11 @@ import android.view.ViewGroup
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import android.widget.LinearLayout
 import android.widget.PopupWindow
-import android.widget.TextView
-import androidx.annotation.ColorRes
+import androidx.annotation.ColorInt
 import androidx.annotation.LayoutRes
 import androidx.annotation.StyleRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import com.example.library.Library
 import kotlin.math.roundToInt
@@ -156,11 +153,10 @@ fun View.showPopup(@LayoutRes layoutRes: Int, @StyleRes animationStyle: Int, blo
     block(v, popup)
 }
 
-fun View.backgroundTint(@ColorRes res: Int) {
-    val color = ContextCompat.getColor(context, res)
-    this.post {
+fun View.backgroundTint(@ColorInt color: Int) {
+    post {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            background?.colorFilter = BlendModeColorFilter(color, BlendMode.SRC_ATOP)
+            background?.colorFilter = BlendModeColorFilter(color, BlendMode.SRC_OVER)
         } else {
             @Suppress("DEPRECATION")
             background?.setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
@@ -203,30 +199,6 @@ fun View.getSize(block: (Int /*width*/, Int/*height*/) -> Unit) {
             block(width, height)
         }
     })
-}
-
-fun TextView.drawableStart(drawable: Drawable?) {
-    this.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null)
-}
-
-fun TextView.drawableEnd(drawable: Drawable?) {
-    this.setCompoundDrawablesWithIntrinsicBounds(null, null, drawable, null)
-}
-
-fun TextView.drawableTop(drawable: Drawable?) {
-    this.setCompoundDrawablesWithIntrinsicBounds(null, drawable, null, null)
-}
-
-fun TextView.drawableBottom(drawable: Drawable?) {
-    this.setCompoundDrawablesWithIntrinsicBounds(null, null, null, drawable)
-}
-
-fun TextView.bold() {
-    setTypeface(this.typeface, Typeface.BOLD)
-}
-
-fun TextView.regular() {
-    setTypeface(this.typeface, Typeface.NORMAL)
 }
 
 /**

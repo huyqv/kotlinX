@@ -33,7 +33,7 @@ fun createDrawable(@DrawableRes res: Int): Drawable? {
     return drawable(res).constantState?.newDrawable()?.mutate()
 }
 
-fun Drawable?.tint(color: Int): Drawable? {
+fun Drawable?.tint(@ColorInt color: Int): Drawable? {
     this ?: return null
     DrawableCompat.setTint(this, color)
     DrawableCompat.setTintMode(this, PorterDuff.Mode.SRC_IN)
