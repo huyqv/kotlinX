@@ -120,7 +120,7 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/textView16"
-        style="@style/Button.Large"
+        style="@style/Button"
         android:layout_marginTop="@dimen/margin4"
         android:layout_marginEnd="@dimen/margin2"
         app:layout_constraintEnd_toStartOf="@+id/guideline4"
@@ -128,7 +128,7 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/textView17"
-        style="@style/Button.Large"
+        style="@style/Button"
         android:layout_marginStart="@dimen/margin2"
         app:layout_constraintBottom_toBottomOf="@+id/textView16"
         app:layout_constraintStart_toStartOf="@+id/guideline4" />

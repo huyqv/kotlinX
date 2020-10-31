@@ -8,7 +8,11 @@ import android.view.View
 import android.view.animation.*
 import androidx.annotation.AnimRes
 import androidx.annotation.ColorRes
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
+import androidx.transition.Transition
+import androidx.transition.TransitionManager
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -237,3 +241,40 @@ interface SimpleAnimatorListener : Animator.AnimatorListener {
     override fun onAnimationStart(animator: Animator?) {
     }
 }
+
+fun Transition.onAnimationEnd(onEnd: () -> Unit) {
+    addListener(object : SimpleTransitionListener {
+        override fun onTransitionEnd(transition: Transition) {
+            onEnd()
+            this@onAnimationEnd.removeListener(this)
+        }
+    })
+}
+
+fun ConstraintLayout.createTransition(transition: Transition, block: ConstraintSet.() -> Unit) {
+    TransitionManager.beginDelayedTransition(this, transition)
+    val set = ConstraintSet()
+    set.clone(this)
+    set.block()
+    set.applyTo(this)
+}
+
+interface SimpleTransitionListener : Transition.TransitionListener {
+    override fun onTransitionStart(transition: Transition) {
+    }
+
+    override fun onTransitionEnd(transition: Transition) {
+    }
+
+    override fun onTransitionCancel(transition: Transition) {
+    }
+
+    override fun onTransitionPause(transition: Transition) {
+    }
+
+    override fun onTransitionResume(transition: Transition) {
+    }
+
+}
+
+

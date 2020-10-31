@@ -1,10 +1,11 @@
 package com.example.library.extension
 
+import android.os.Build
+import android.view.View
+import android.view.WindowInsets
+import android.view.WindowManager
 import androidx.annotation.IdRes
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
+import androidx.fragment.app.*
 import com.example.library.R
 
 /**
@@ -126,4 +127,49 @@ fun FragmentManager.scheduleTransaction(block: FragmentTransaction.() -> Unit, a
     transaction.block()
     transaction.commitAllowingStateLoss()
 
+}
+
+fun Fragment?.hideKeyboard() {
+    this?.requireActivity()?.hideKeyboard()
+}
+
+fun DialogFragment?.hideSystemUI() {
+    this?.dialog?.window?.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+    this?.hideKeyboard()
+    hideStatusBar()
+    hideNavigationBar()
+}
+
+fun DialogFragment?.hideStatusBar() {
+    this ?: return
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+
+        dialog?.window?.insetsController?.hide(WindowInsets.Type.statusBars())
+    } else {
+        @Suppress("DEPRECATION")
+        dialog?.window?.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
+    }
+}
+
+fun DialogFragment?.hideNavigationBar(hasFocus: Boolean = true) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R && hasFocus) this?.dialog?.window?.apply {
+        setDecorFitsSystemWindows(false)
+        return
+    }
+    @Suppress("DEPRECATION")
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && hasFocus) {
+        val flags = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                or View.SYSTEM_UI_FLAG_FULLSCREEN
+                or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
+        val decorView = this?.dialog?.window?.decorView ?: return
+        decorView.systemUiVisibility = flags
+        decorView.setOnSystemUiVisibilityChangeListener { visibility ->
+            if (visibility and View.SYSTEM_UI_FLAG_FULLSCREEN == 0) {
+                decorView.systemUiVisibility = flags
+            }
+        }
+    }
 }

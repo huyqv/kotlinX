@@ -67,6 +67,8 @@ val networkCallback
 
         private val request: NetworkRequest
             get() = NetworkRequest.Builder()
+                    .addTransportType(NetworkCapabilities.TRANSPORT_VPN)
+                    .addTransportType(NetworkCapabilities.TRANSPORT_ETHERNET)
                     .addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
                     .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
                     .build()
@@ -91,7 +93,7 @@ val networkCallback
 
 val networkLiveData: MutableLiveData<Boolean> by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
     registerNetworkCallback()
-    MutableLiveData()
+    return@lazy MutableLiveData<Boolean>()
 }
 
 @SuppressLint("MissingPermission")

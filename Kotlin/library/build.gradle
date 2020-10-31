@@ -37,6 +37,7 @@ dependencies {
     implementation deps.android.cardview
     implementation deps.android.constraintlayout
     implementation deps.android.viewpager
+    implementation deps.android.material
 
     implementation deps.paging.runtime
     implementation deps.paging.rx
