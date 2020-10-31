@@ -166,20 +166,31 @@ fun View.backgroundTint(@ColorInt color: Int) {
 
 fun View.getBitmap(w: Int = width, h: Int = height, block: (Bitmap?) -> Unit) {
     addOnLayoutChangeListener(object : View.OnLayoutChangeListener {
-        override fun onLayoutChange(v: View?, left: Int, top: Int, right: Int, bottom: Int, oldLeft: Int, oldTop: Int, oldRight: Int, oldBottom: Int) {
+        override fun onLayoutChange(v: View, left: Int, top: Int, right: Int, bottom: Int, oldLeft: Int, oldTop: Int, oldRight: Int, oldBottom: Int) {
             this@getBitmap.removeOnLayoutChangeListener(this)
-            v ?: return
-            if (w > 0 && h > 0) {
-                v.measure(View.MeasureSpec.makeMeasureSpec(w, View.MeasureSpec.EXACTLY), View.MeasureSpec.makeMeasureSpec(h, View.MeasureSpec.EXACTLY))
+            v.post {
+                val bitmap = getBitmap(w, h)
+                block(bitmap)
             }
-            v.layout(0, 0, v.measuredWidth, v.measuredHeight)
-            val bitmap = Bitmap.createBitmap(v.measuredWidth, v.measuredHeight, Bitmap.Config.ARGB_8888)
-            val canvas = Canvas(bitmap)
-            v.background?.draw(canvas)
-            v.draw(canvas)
-            block(bitmap)
         }
     })
+}
+
+fun View.getBitmap(w: Int = width, h: Int = height): Bitmap? {
+    return try {
+        if (w > 0 && h > 0) {
+            this.measure(View.MeasureSpec.makeMeasureSpec(w, View.MeasureSpec.EXACTLY),
+                    View.MeasureSpec.makeMeasureSpec(h, View.MeasureSpec.EXACTLY))
+        }
+        this.layout(0, 0, this.measuredWidth, this.measuredHeight)
+        val bitmap = Bitmap.createBitmap(this.measuredWidth, this.measuredHeight, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+        this.background?.draw(canvas)
+        this.draw(canvas)
+        bitmap
+    } catch (ignore: Exception) {
+        null
+    }
 }
 
 fun View.setRatio(width: Int, height: Int) {

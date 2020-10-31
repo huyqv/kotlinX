@@ -109,19 +109,10 @@ dependencies {
     implementation deps.retrofit.gson
     implementation deps.retrofit.rxjava
     implementation deps.okhttp_log
-
-    implementation deps.google.firebase_core
-    implementation deps.google.firebase_messaging
-    implementation deps.google.gson
-
+    
     implementation deps.dimens.sdp
     implementation deps.dimens.ssp
 
-    implementation deps.glide.glide
-    kapt deps.glide.compiler
-
-    implementation deps.permissions
-    implementation deps.squint
     implementation deps.roundedimageview
 
     testImplementation deps.test.junit

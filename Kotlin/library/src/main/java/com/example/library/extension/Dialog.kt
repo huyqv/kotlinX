@@ -32,18 +32,6 @@ private fun Context.initDialog(title: String?, msg: String, block: (AlertDialog.
     dialog.create().show()
 }
 
-@Suppress("DEPRECATION")
-fun Context.getProgressDialog(msg: String = "Please wait ..."): android.app.ProgressDialog {
-    val dialog = android.app.ProgressDialog(this)
-    dialog.setMessage(msg)
-    return dialog
-}
-
-@Suppress("DEPRECATION")
-fun Context.getProgressDialog(@StringRes msg: Int): android.app.ProgressDialog {
-    return getProgressDialog(getString(msg))
-}
-
 fun Context.showMessageDialog(title: String?, msg: String) {
     initDialog(title, msg) {
         setPositiveButton("CLOSE", null)

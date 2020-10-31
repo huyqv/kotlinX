@@ -1,54 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/dialogView"
-    style="@style/Dialog.Layout">
+    style="@style/Dialog.Card"
+    android:layout_margin="@dimen/margin2">
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/selectableTextViewTitle"
-        style="@style/Dialog.Title"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        style="@style/Dialog.Layout"
+        android:paddingBottom="@dimen/margin2">
 
-    <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/selectableEditText"
-        style="@style/EditText"
-        android:layout_marginHorizontal="@dimen/margin2"
-        android:layout_marginTop="@dimen/margin"
-        android:background="@drawable/drw_text"
-        android:drawableEnd="@drawable/ic_search"
-        android:imeActionLabel="Next"
-        android:imeOptions="actionNext"
-        android:paddingHorizontal="@dimen/margin"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/selectableTextViewTitle"
-        tools:text="@tools:sample/lorem/random" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/selectableTextViewTitle"
+            style="@style/Dialog.Title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/selectableRecyclerView"
-        style="@style/ScrollView"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin3"
-        android:layout_marginTop="@dimen/margin"
-        android:layout_marginEnd="@dimen/margin3"
-        android:minHeight="@dimen/_180sdp"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/selectableEditText"
-        tools:itemCount="7"
-        tools:listitem="@layout/selectable_item" />
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/selectableEditText"
+            style="@style/EditText"
+            android:layout_marginHorizontal="@dimen/margin2"
+            android:layout_marginTop="@dimen/margin"
+            android:background="@drawable/drw_text"
+            android:drawableEnd="@drawable/ic_search"
+            android:imeActionLabel="Next"
+            android:imeOptions="actionNext"
+            android:paddingHorizontal="@dimen/margin"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/selectableTextViewTitle"
+            tools:text="Search" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/selectableViewClose"
-        style="@style/Button"
-        android:layout_marginBottom="@dimen/margin2"
-        android:text="Close"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/selectableRecyclerView" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/selectableRecyclerView"
+            style="@style/ScrollView"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin2"
+            android:layout_marginTop="@dimen/margin"
+            android:layout_marginEnd="@dimen/margin2"
+            android:minHeight="@dimen/_180sdp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/selectableEditText"
+            tools:itemCount="7"
+            tools:listitem="@layout/selectable_item" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/selectableViewClose"
+            style="@style/Button"
+            android:layout_marginBottom="@dimen/margin2"
+            android:text="Close"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/selectableRecyclerView" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>
 

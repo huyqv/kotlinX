@@ -6,19 +6,5 @@
     <color name="colorPrimaryDark">#2f3e69</color>
     <color name="colorAccent">#d93845</color>
 
-    <color name="colorPrimary1">#687bb9</color>
-    <color name="colorPrimary2">#5a6ca5</color>
-    <color name="colorPrimary3">#4a5c94</color>
-    <color name="colorPrimary4">#405289</color>
-
-    <color name="colorPrimaryOpacity1">#eb687bb9</color>
-    <color name="colorPrimaryOpacity2">#ea5a6ca5</color>
-    <color name="colorPrimaryOpacity3">#eb4a5c94</color>
-    <color name="colorPrimaryOpacity4">#ed405289</color>
-
-    <color name="colorBubbleLeft">#ffffff</color>
-    <color name="colorBubbleRight">#5670b9</color>
-    <color name="colorBubbleBorder">#ffffff</color>
-
 
 </resources>

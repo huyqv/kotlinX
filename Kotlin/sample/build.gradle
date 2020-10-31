@@ -1,0 +1,93 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-android-extensions'
+    id 'kotlin-kapt'
+    id 'androidx.navigation.safeargs.kotlin'
+}
+
+android {
+    compileSdkVersion builds.compile_sdk
+    defaultConfig {
+        applicationId "com.example.kotlin"
+        minSdkVersion builds.min_sdk
+        targetSdkVersion builds.target_sdk
+        versionCode builds.version_code
+        versionName builds.version_name
+        vectorDrawables.useSupportLibrary = true
+    }
+    flavorDimensions "default"
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    kapt {
+        mapDiagnosticLocations = true
+    }
+}
+
+dependencies {
+
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+
+    implementation project(":app")
+    
+    implementation project(":library")
+
+    implementation deps.kotlin.stdlib
+    implementation deps.android.appcompat
+    implementation deps.android.fragment
+    implementation deps.android.recyclerview
+    implementation deps.android.cardview
+    implementation deps.android.constraintlayout
+    implementation deps.android.swiperefreshlayout
+    implementation deps.android.corektx
+    implementation deps.android.vectordrawable
+    implementation deps.android.browser
+    implementation deps.android.annotation
+    implementation deps.android.material
+    implementation deps.android.viewpager
+
+    implementation deps.navigation.fragment
+    implementation deps.navigation.ui
+
+    implementation deps.room.runtime
+    annotationProcessor deps.room.compiler
+    kapt deps.room.compiler
+
+    implementation deps.lifecycle.extensions
+    implementation deps.lifecycle.streams
+
+    implementation deps.paging.runtime
+    implementation deps.paging.rx
+
+    implementation deps.reactivex.java
+    implementation deps.reactivex.android
+    implementation deps.reactivex.kotlin
+    implementation deps.reactivex.binding
+
+    implementation deps.retrofit.retrofit
+    implementation deps.retrofit.gson
+    implementation deps.retrofit.rxjava
+    implementation deps.okhttp_log
+
+    implementation deps.google.firebase_core
+    implementation deps.google.firebase_messaging
+    implementation deps.google.gson
+
+    implementation deps.dimens.sdp
+    implementation deps.dimens.ssp
+
+    implementation deps.glide.glide
+    kapt deps.glide.compiler
+
+    implementation deps.permissions
+    implementation deps.squint
+    implementation deps.roundedimageview
+}
+
+
+

@@ -42,10 +42,18 @@ dependencies {
     implementation deps.paging.runtime
     implementation deps.paging.rx
 
+    implementation deps.navigation.fragment
+    implementation deps.navigation.ui
+
     implementation deps.dimens.sdp
     implementation deps.dimens.ssp
 
     implementation deps.google.gson
+
     implementation deps.permissions
+    
+    implementation deps.glide.glide
+    kapt deps.glide.compiler
+
 
 }
