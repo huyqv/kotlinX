@@ -1,7 +1,10 @@
 package com.example.library.extension
 
 import android.os.SystemClock
+import android.view.MotionEvent
 import android.view.View
+import android.view.View.OnTouchListener
+
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -67,5 +70,16 @@ fun View.addFastClickListener(clickCount: Int, block: () -> Unit) {
         override fun onViewClick(v: View?) {
             block()
         }
+    })
+}
+
+fun View.addOnPressListener(onPress: () -> Unit, onUnPress: () -> Unit) {
+    setOnTouchListener(OnTouchListener { v, event ->
+        if (event.action == MotionEvent.ACTION_DOWN) {
+            onPress()
+        } else if (event.action == MotionEvent.ACTION_UP) {
+            onUnPress()
+        }
+        false
     })
 }

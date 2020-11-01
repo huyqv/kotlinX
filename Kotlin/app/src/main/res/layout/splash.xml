@@ -8,6 +8,9 @@
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/textViewSplash"
         style="@style/TextView.Extra"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:minHeight="@dimen/_100sdp"
         android:text="SPLASH"
         android:textColor="@color/colorWhite"
         android:textStyle="bold"
