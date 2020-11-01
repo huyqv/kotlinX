@@ -10,14 +10,6 @@ import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.collections.set
 
-/*
-fun <T> LiveData<T>.event(): LiveData<T> {
-    val result = EventLiveData<T>()
-    result.addSource(this) {
-        result.value = it
-    }
-    return result
-}
 
 fun <T> LiveData<T?>.nonNull(): NonNullLiveData<T> {
     val mediator: NonNullLiveData<T> = NonNullLiveData()
@@ -28,7 +20,6 @@ fun <T> LiveData<T?>.nonNull(): NonNullLiveData<T> {
     }
     return mediator
 }
-*/
 
 @Suppress("UNCHECKED_CAST")
 fun <R, T : LiveData<R>> T.event(): T {
