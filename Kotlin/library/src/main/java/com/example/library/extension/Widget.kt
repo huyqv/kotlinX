@@ -40,6 +40,23 @@ fun EditText?.showKeyboard() {
     }
 }
 
+fun EditText.filterChars(chars: CharArray) {
+    val arrayList = arrayListOf<InputFilter>()
+    this.filters?.apply { arrayList.addAll(this) }
+    arrayList.add(InputFilter { source, start, end, _, _, _ ->
+        when {
+            end > start -> for (index in start until end) {
+                if (!String(chars).contains(source[index].toString())) {
+                    return@InputFilter ""
+                }
+            }
+        }
+        return@InputFilter null
+    })
+    this.filters = arrayList.toArray(arrayOfNulls<InputFilter>(arrayList.size))
+    this.inputType = EditorInfo.TYPE_TEXT_FLAG_NO_SUGGESTIONS
+}
+
 fun EditText?.addOnClickListener(listener: View.OnClickListener) {
     this ?: return
     isFocusable = false
@@ -131,6 +148,20 @@ fun TextView.setHyperText(string: String) {
         @Suppress("DEPRECATION")
         Html.fromHtml(string)
     }
+}
+
+fun TextView.gradientHorizontal(@ColorRes colorStart: Int, @ColorRes colorEnd: Int= colorStart) {
+    paint.shader = LinearGradient(0f, 0f, this.width.toFloat(), 0f,
+            ContextCompat.getColor(context, colorStart),
+            ContextCompat.getColor(context, colorEnd),
+            Shader.TileMode.CLAMP)
+}
+
+fun TextView.gradientVertical(@ColorRes colorStart: Int, @ColorRes colorEnd: Int = colorStart) {
+    paint.shader = LinearGradient(0f, 0f, 0f, this.height.toFloat(),
+            ContextCompat.getColor(context, colorStart),
+            ContextCompat.getColor(context, colorEnd),
+            Shader.TileMode.CLAMP)
 }
 
 fun TextView.drawableStart(drawable: Drawable?) {

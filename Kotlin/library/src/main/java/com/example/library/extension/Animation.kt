@@ -242,21 +242,37 @@ interface SimpleAnimatorListener : Animator.AnimatorListener {
     }
 }
 
-fun Transition.onAnimationEnd(onEnd: () -> Unit) {
-    addListener(object : SimpleTransitionListener {
-        override fun onTransitionEnd(transition: Transition) {
-            onEnd()
-            this@onAnimationEnd.removeListener(this)
-        }
-    })
+fun Transition.beginTransition(layout: ConstraintLayout, vararg blocks: ConstraintSet.() -> Unit): Transition {
+    if (blocks.isEmpty()) return this
+    for (i in 0 until blocks.lastIndex) {
+        this.addListener(object : SimpleTransitionListener {
+            override fun onTransitionEnd(transition: Transition) {
+                this@beginTransition.removeListener(this)
+                beginTransition(layout, blocks[i + 1])
+            }
+        })
+    }
+    beginTransition(layout, blocks[0])
+    return this
 }
 
-fun ConstraintLayout.createTransition(transition: Transition, block: ConstraintSet.() -> Unit) {
-    TransitionManager.beginDelayedTransition(this, transition)
+fun Transition.beginTransition(layout: ConstraintLayout, block: ConstraintSet.() -> Unit): Transition {
+    TransitionManager.beginDelayedTransition(layout, this@beginTransition)
     val set = ConstraintSet()
-    set.clone(this)
+    set.clone(layout)
     set.block()
-    set.applyTo(this)
+    set.applyTo(layout)
+    return this
+}
+
+fun Transition.onEndTransition(block: () -> Unit): Transition {
+    addListener(object : SimpleTransitionListener {
+        override fun onTransitionEnd(transition: Transition) {
+            this@onEndTransition.removeListener(this)
+            block()
+        }
+    })
+    return this
 }
 
 interface SimpleTransitionListener : Transition.TransitionListener {
@@ -276,5 +292,4 @@ interface SimpleTransitionListener : Transition.TransitionListener {
     }
 
 }
-
 

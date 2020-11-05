@@ -12,7 +12,6 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/textViewTitle"
             style="@style/Dialog.Title"
-
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
