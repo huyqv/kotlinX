@@ -1,7 +1,7 @@
 package com.kotlin.sample.interval
 
-import com.example.kotlin.R
-import com.example.kotlin.base.view.BaseFragment
+import com.kotlin.sample.R
+import com.kotlin.sample.base.view.BaseFragment
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable

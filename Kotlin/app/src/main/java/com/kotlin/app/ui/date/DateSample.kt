@@ -5,7 +5,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.example.library.extension.activityVM
 import com.example.library.extension.navResultLiveData
-import com.example.library.ui.BaseFragment
+import com.kotlin.app.ui.base.BaseFragment
 import java.text.SimpleDateFormat
 
 /**

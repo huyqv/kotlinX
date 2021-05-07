@@ -1,10 +1,10 @@
 package com.kotlin.sample.diff
 
 import androidx.lifecycle.MutableLiveData
-import com.example.kotlin.base.vm.BaseViewModel
-import com.example.kotlin.data.api.apiClient
-import com.example.kotlin.data.observable.ArchSingleObserver
-import com.example.kotlin.ui.model.Image
+import com.kotlin.sample.base.vm.BaseViewModel
+import com.kotlin.sample.data.api.apiClient
+import com.kotlin.sample.data.observable.ArchSingleObserver
+import com.kotlin.sample.ui.model.Image
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 

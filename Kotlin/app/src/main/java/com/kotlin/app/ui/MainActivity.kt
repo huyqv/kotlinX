@@ -1,6 +1,6 @@
 package com.kotlin.app.ui
 
-import com.example.library.ui.BaseActivity
+import com.kotlin.app.ui.base.BaseActivity
 import com.kotlin.app.BuildConfig
 import com.kotlin.app.R
 import kotlinx.android.synthetic.main.main.*
@@ -30,4 +30,11 @@ class MainActivity : BaseActivity() {
     override fun onLiveDataObserve() {
     }
 
+
 }
+
+
+
+
+
+

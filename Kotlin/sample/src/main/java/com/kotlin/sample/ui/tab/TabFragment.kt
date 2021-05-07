@@ -1,12 +1,12 @@
-package com.example.kotlin.ui.tab
+package com.kotlin.sample.ui.tab
 
 import android.graphics.Color
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.viewpager2.widget.ViewPager2
-import com.example.kotlin.R
-import com.example.kotlin.base.view.BaseFragment
-import com.example.kotlin.ui.member.ColorFragment
+import com.kotlin.sample.R
+import com.kotlin.sample.base.view.BaseFragment
+import com.kotlin.sample.ui.member.ColorFragment
 import com.example.library.adapter.fragment.FragmentAdapter
 import com.example.library.adapter.fragment.PageTransformer
 import com.example.library.extension.color

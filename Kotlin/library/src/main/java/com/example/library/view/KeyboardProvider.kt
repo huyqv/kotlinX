@@ -69,7 +69,7 @@ class KeyboardProvider constructor(private val activity: Activity) : PopupWindow
     init {
 
         val inflater = activity.getSystemService(Activity.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        this.popupView = inflater.inflate(R.layout.view_popup, null, false)
+        this.popupView = inflater.inflate(R.layout.view_holder, null, false)
         contentView = popupView
 
         softInputMode = WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE or WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE

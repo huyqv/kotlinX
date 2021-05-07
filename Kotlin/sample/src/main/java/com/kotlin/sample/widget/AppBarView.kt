@@ -1,4 +1,4 @@
-package com.kotlin.app.widget
+package com.kotlin.sample.widget
 
 import android.app.Activity
 import android.content.Context
@@ -6,7 +6,7 @@ import android.content.res.TypedArray
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.View
-import com.kotlin.app.R
+import com.kotlin.sample.R
 import com.example.library.extension.getSize
 import com.example.library.extension.statusBarHeight
 import com.example.library.widget.AppCustomView

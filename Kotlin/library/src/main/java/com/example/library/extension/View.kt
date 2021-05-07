@@ -5,6 +5,8 @@ import android.app.Application
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.*
+import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.util.DisplayMetrics
 import android.util.TypedValue
@@ -15,6 +17,7 @@ import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import android.widget.LinearLayout
 import android.widget.PopupWindow
 import androidx.annotation.ColorInt
+import androidx.annotation.ColorRes
 import androidx.annotation.LayoutRes
 import androidx.annotation.StyleRes
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -100,13 +103,19 @@ fun gone(vararg views: View) {
     for (v in views) v.gone()
 }
 
-fun View?.activity(): Activity? {
-    return this?.context as? Activity
-}
+val View.activity: Activity? get() = context as? Activity
 
-fun View.fragmentActivity(): FragmentActivity? {
-    return context as? FragmentActivity
-}
+val View.fragmentActivity: FragmentActivity? get() = context as? FragmentActivity
+
+val View?.backgroundColor: Int
+    get() {
+        this ?: return Color.WHITE
+        this.background ?: return Color.WHITE
+        var color = Color.TRANSPARENT
+        val background: Drawable = this.background
+        if (background is ColorDrawable) color = background.color
+        return color
+    }
 
 /**
  * [View] visible state
@@ -138,6 +147,10 @@ fun View.isGone(gone: Boolean?) {
     else View.VISIBLE
 }
 
+fun View?.post(delayed: Long, runnable: Runnable) {
+    this?.postDelayed(runnable, delayed)
+}
+
 /**
  * @param animationStyle animationStyle
  * <style name="PopupStyle">
@@ -162,6 +175,10 @@ fun View.backgroundTint(@ColorInt color: Int) {
             background?.setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
         }
     }
+}
+
+fun View.backgroundTintRes(@ColorRes colorRes: Int) {
+    backgroundTint(color(colorRes))
 }
 
 fun View.getBitmap(w: Int = width, h: Int = height, block: (Bitmap?) -> Unit) {
@@ -217,6 +234,17 @@ fun View.getSize(block: (Int /*width*/, Int/*height*/) -> Unit) {
  */
 fun ViewGroup.inflate(@LayoutRes layoutRes: Int): View {
     return LayoutInflater.from(context).inflate(layoutRes, this, false)
+}
+
+fun ViewGroup.enableChildren(enabled: Boolean) {
+    val childCount = this.childCount
+    for (i in 0 until childCount) {
+        val view = this.getChildAt(i)
+        view.isEnabled = enabled
+        if (view is ViewGroup) {
+            view.enableChildren(enabled)
+        }
+    }
 }
 
 fun inflater(@LayoutRes layoutRes: Int): View {

@@ -1,7 +1,9 @@
-package com.example.kotlin.ui.loadmore
+package com.kotlin.sample.ui.loadmore
 
-import com.example.kotlin.R
-import com.example.kotlin.base.arch.ArchFragment
+import com.kotlin.sample.R
+import com.kotlin.sample.base.arch.ArchFragment
+import com.kotlin.sample.ui.loadmore.LoadMoreAdapter
+import com.kotlin.sample.ui.loadmore.LoadMoreVM
 import kotlinx.android.synthetic.main.loadmore.*
 import kotlin.reflect.KClass
 

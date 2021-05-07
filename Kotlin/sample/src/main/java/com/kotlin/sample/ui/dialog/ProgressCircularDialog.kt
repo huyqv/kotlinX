@@ -3,7 +3,7 @@ package com.kotlin.sample.ui.dialog
 import android.view.Gravity
 import android.view.View
 import androidx.fragment.app.FragmentActivity
-import com.kotlin.app.R
+import com.kotlin.sample.R
 
 /**
  * -------------------------------------------------------------------------------------------------

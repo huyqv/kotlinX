@@ -1,11 +1,11 @@
-package com.kotlin.app.widget
+package com.kotlin.sample.widget
 
 import android.content.Context
 import android.content.res.TypedArray
 import android.util.AttributeSet
 import android.view.View
 import android.widget.CompoundButton
-import com.kotlin.app.R
+import com.kotlin.sample.R
 import com.example.library.widget.AppCustomView
 import kotlinx.android.synthetic.main.widget_setting.view.*
 

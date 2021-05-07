@@ -1,9 +1,9 @@
-package com.example.kotlin.ui.paged
+package com.kotlin.sample.ui.paged
 
 import android.view.View
-import com.example.kotlin.R
-import com.example.kotlin.ui.model.Message
-import com.example.kotlin.util.load
+import com.kotlin.sample.R
+import com.kotlin.sample.ui.model.Message
+import com.kotlin.sample.util.load
 import com.example.library.adapter.recycler.BasePagedListAdapter
 import com.example.library.extension.getDateTimeAgo
 import com.example.library.extension.notNullOrEmpty

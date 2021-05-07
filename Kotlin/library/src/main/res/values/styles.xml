@@ -1,101 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Base Application Theme. -->
 
-    <!-- App Theme. -->
-    <style name="App" />
-
-    <style name="App.Theme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimary</item>
-        <item name="colorAccent">@color/colorAccent</item>
-    </style>
-
-    <style name="App.Theme.NoActionBar" parent="App.Theme">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
-
-    <style name="App.Theme.LightStatusBar" parent="App.Theme">
-        <item name="android:statusBarColor">@color/colorPrimaryDark</item>
-    </style>
-
-    <style name="App.Theme.Launcher" parent="App.Theme.NoActionBar">
-        <item name="android:windowBackground">@color/colorPrimary</item>
-    </style>
-
-    <style name="App.Theme.Transparent" parent="App.Theme.NoActionBar">
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="android:backgroundDimEnabled">false</item>
-    </style>
-
-    <style name="App.Theme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <style name="App.Theme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-
-
-    <!-- Text. -->
-    <style name="TextView" parent="WrapContent">
-        <item name="android:textColor">@color/colorTextPrimary</item>
-        <item name="android:ellipsize">end</item>
-        <item name="android:fontFamily">@font/roboto_regular</item>
-    </style>
-
-    <style name="TextView.Tiny" parent="TextView">
-        <item name="android:textSize">@dimen/textSize</item>
-    </style>
-
-    <style name="TextView.Small" parent="TextView">
-        <item name="android:textSize">@dimen/textSize2</item>
-    </style>
-
-    <style name="TextView.Medium" parent="TextView">
-        <item name="android:textSize">@dimen/textSize3</item>
-        <item name="android:text">Medium Text</item>
-        <item name="android:fontFamily">@font/roboto_regular</item>
-        <item name="android:includeFontPadding">false</item>
-        <item name="android:textColor">@color/colorTextPrimary</item>
-    </style>
-
-    <style name="TextView.Large" parent="TextView">
-        <item name="android:textSize">@dimen/textSize4</item>
-    </style>
-
-    <style name="TextView.Extra" parent="TextView">
-        <item name="android:textSize">@dimen/textSize5</item>
-    </style>
-
-
-    <!-- Dialog. -->
-    <style name="App.Dialog" parent="Theme.AppCompat.Light.Dialog">
-        <item name="android:windowBackground">@null</item>
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowMinWidthMajor">90%</item>
-        <item name="android:windowMinWidthMinor">90%</item>
-    </style>
-
-    <style name="App.Dialog.Transparent">
-        <item name="android:backgroundDimEnabled">false</item>
-    </style>
-
-    <style name="App.Dialog.FullScreen">
-        <item name="android:windowFrame">@null</item>
-        <item name="android:windowIsFloating">true</item>
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowMinWidthMajor">100%</item>
-        <item name="android:windowMinWidthMinor">100%</item>
-        <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
-    </style>
-
-    <style name="App.Dialog.FullScreen.Transparent">
-        <item name="android:backgroundDimEnabled">false</item>
-    </style>
-
-
-    <!-- Scroll View. -->
+    <!-- ScrollView -->
     <style name="ScrollView" parent="MatchParent">
         <item name="android:overScrollMode">never</item>
         <item name="android:fillViewport">true</item>
@@ -108,8 +14,7 @@
         <item name="android:clipToPadding">false</item>
     </style>
 
-
-    <!-- Layout. -->
+    <!-- Layout -->
     <style name="MatchParent">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
@@ -124,7 +29,6 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">match_parent</item>
     </style>
-
 
     <style name="MatchWidth">
         <item name="android:layout_width">match_parent</item>

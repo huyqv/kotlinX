@@ -1,11 +1,11 @@
-package com.example.kotlin.ui.member
+package com.kotlin.sample.ui.member
 
 import android.view.View
-import com.example.kotlin.R
-import com.example.kotlin.base.dialog.ProgressBottomDialog
-import com.example.kotlin.base.dialog.ProgressCircularDialog
-import com.example.kotlin.base.dialog.ProgressDialog
-import com.example.kotlin.base.view.BaseFragment
+import com.kotlin.sample.R
+import com.kotlin.sample.base.dialog.ProgressBottomDialog
+import com.kotlin.sample.base.dialog.ProgressCircularDialog
+import com.kotlin.sample.base.dialog.ProgressDialog
+import com.kotlin.sample.base.view.BaseFragment
 import com.example.library.extension.showConfirmDialog
 import com.example.library.extension.showDialog
 import com.example.library.extension.showMessageDialog

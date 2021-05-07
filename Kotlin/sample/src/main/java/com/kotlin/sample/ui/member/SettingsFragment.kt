@@ -1,8 +1,8 @@
-package com.example.kotlin.ui.member
+package com.kotlin.sample.ui.member
 
 import android.os.Build
-import com.example.kotlin.R
-import com.example.kotlin.base.view.BaseFragment
+import com.kotlin.sample.R
+import com.kotlin.sample.base.view.BaseFragment
 import com.example.library.extension.androidId
 import com.example.library.extension.appVersion
 import com.example.library.extension.deviceName

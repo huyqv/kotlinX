@@ -1,7 +1,7 @@
-package com.example.kotlin.ui.member
+package com.kotlin.sample.ui.member
 
-import com.example.kotlin.R
-import com.example.kotlin.base.view.BaseFragment
+import com.kotlin.sample.R
+import com.kotlin.sample.base.view.BaseFragment
 
 /**
  * -------------------------------------------------------------------------------------------------

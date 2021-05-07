@@ -1,19 +1,20 @@
-package com.kotlin.sample
+package com.kotlin.sample.ui
 
 import android.os.Bundle
 import android.view.View
-import com.example.kotlin.R
-import com.example.kotlin.base.arch.ArchActivity
-import com.example.kotlin.ui.MainVM
-import com.example.kotlin.ui.fm.FragmentManagerActivity
-import com.example.kotlin.ui.format.TextMaskFragment
-import com.example.kotlin.ui.interval.RxIntervalFragment
-import com.example.kotlin.ui.loadmore.LoadMoreFragment
-import com.example.kotlin.ui.member.*
-import com.example.kotlin.ui.paged.PagingFragment
-import com.example.kotlin.ui.tab.TabFragment
+import com.kotlin.sample.R
+import com.kotlin.sample.base.arch.ArchActivity
+import com.kotlin.sample.ui.MainVM
+import com.kotlin.sample.ui.fm.FragmentManagerActivity
+import com.kotlin.sample.ui.format.TextMaskFragment
+import com.kotlin.sample.ui.interval.RxIntervalFragment
+import com.kotlin.sample.ui.loadmore.LoadMoreFragment
+import com.kotlin.sample.ui.member.*
+import com.kotlin.sample.ui.paged.PagingFragment
+import com.kotlin.sample.ui.tab.TabFragment
 import com.example.sample.animation.AnimationFragment
 import com.example.sample.diff.AsyncDiffFragment
+import com.kotlin.sample.ui.base.ArchActivity
 import kotlin.reflect.KClass
 
 /**

@@ -1,10 +1,10 @@
-package com.kotlin.app.widget
+package com.kotlin.sample.widget
 
 import android.content.Context
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatTextView
-import com.kotlin.app.R
+import com.kotlin.sample.R
 import com.example.library.widget.AppCustomView
 import kotlinx.android.synthetic.main.widget_input_center.view.*
 
@@ -22,11 +22,11 @@ class InputViewCenter : InputView {
     /**
      * [AppCustomView] override
      */
-    override val titleView: AppCompatTextView? get() = inputTextViewTitle
+    override val textViewTitle: AppCompatTextView? get() = inputTextViewTitle
 
-    override val errorView: AppCompatTextView? get() = inputTextViewError
+    override val textViewError: AppCompatTextView? get() = inputTextViewError
 
-    override val editView: AppCompatEditText? get() = inputEditText
+    override val editText: AppCompatEditText? get() = inputEditText
 
     override fun layoutResource(): Int {
         return R.layout.widget_input_center

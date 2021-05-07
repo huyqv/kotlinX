@@ -1,10 +1,10 @@
-package com.example.kotlin.ui.zoom
+package com.kotlin.sample.ui.zoom
 
 import android.view.View
-import com.example.kotlin.R
-import com.example.kotlin.base.view.BaseFragment
-import com.example.kotlin.ui.model.ImageOwner
-import com.example.kotlin.util.load
+import com.kotlin.sample.R
+import com.kotlin.sample.base.view.BaseFragment
+import com.kotlin.sample.ui.model.ImageOwner
+import com.kotlin.sample.util.load
 import com.example.library.adapter.fragment.ViewPagerAdapter
 import com.example.library.extension.SimplePageChangeListener
 import com.example.library.extension.gone

@@ -1,9 +1,9 @@
 package com.kotlin.app.ui.alert
 
 import androidx.lifecycle.MutableLiveData
-import com.kotlin.app.app.AppVM
+import com.kotlin.app.ui.vm.BaseVM
 
-class AlertVM : AppVM() {
+class AlertVM : BaseVM() {
 
     val arg = MutableLiveData<AlertArg>()
 

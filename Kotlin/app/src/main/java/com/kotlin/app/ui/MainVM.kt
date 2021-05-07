@@ -1,6 +1,6 @@
 package com.kotlin.app.ui
 
-import com.kotlin.app.app.AppVM
+import com.kotlin.app.ui.vm.BaseVM
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -10,7 +10,7 @@ import com.kotlin.app.app.AppVM
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-class MainVM : AppVM() {
+class MainVM : BaseVM() {
 
     override fun onStart() {
 

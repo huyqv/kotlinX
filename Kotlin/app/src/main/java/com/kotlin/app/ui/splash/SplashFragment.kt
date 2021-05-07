@@ -1,9 +1,7 @@
 package com.kotlin.app.ui.splash
 
-import com.example.library.extension.addOnPressListener
-import com.example.library.ui.BaseFragment
+import com.kotlin.app.ui.base.BaseFragment
 import com.kotlin.app.R
-import kotlinx.android.synthetic.main.splash.*
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -21,11 +19,7 @@ class SplashFragment : BaseFragment() {
     }
 
     override fun onViewCreated() {
-        textViewSplash.addOnPressListener({
 
-        }, {
-
-        })
     }
 
     override fun onLiveDataObserve() {

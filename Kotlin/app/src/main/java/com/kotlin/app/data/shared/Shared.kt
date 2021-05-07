@@ -1,7 +1,5 @@
 package com.kotlin.app.data.shared
 
-import androidx.lifecycle.ViewModel
-
 /**
  * -------------------------------------------------------------------------------------------------
  * @Project: Kotlin
@@ -11,4 +9,4 @@ import androidx.lifecycle.ViewModel
  * All Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-open class SharedVM : ViewModel()
+object Shared

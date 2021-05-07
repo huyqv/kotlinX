@@ -1,4 +1,4 @@
-package com.kotlin.app.util
+package com.kotlin.sample.util
 
 import androidx.lifecycle.*
 import com.example.library.adapter.fragment.InfinityPagerAdapter

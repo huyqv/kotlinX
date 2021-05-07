@@ -1,9 +1,9 @@
-package com.example.kotlin.ui.loadmore
+package com.kotlin.sample.ui.loadmore
 
 import android.view.View
-import com.example.kotlin.R
-import com.example.kotlin.ui.model.User
-import com.example.kotlin.util.load
+import com.kotlin.sample.R
+import com.kotlin.sample.ui.model.User
+import com.kotlin.sample.util.load
 import com.example.library.adapter.recycler.BaseRecyclerAdapter
 import kotlinx.android.synthetic.main.loadmore_item.view.*
 

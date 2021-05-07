@@ -9,7 +9,7 @@ plugins {
 android {
     compileSdkVersion builds.compile_sdk
     defaultConfig {
-        applicationId "com.example.kotlin"
+        applicationId "com.kotlin.sample"
         minSdkVersion builds.min_sdk
         targetSdkVersion builds.target_sdk
         versionCode builds.version_code
@@ -31,15 +31,18 @@ android {
 
 dependencies {
 
-    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation fileTree(include: ["*.jar", "*aar"], dir: "libs")
 
-    implementation project(":app")
-    
     implementation project(":library")
 
+    implementation project(":app")
+
     implementation deps.kotlin.stdlib
+    implementation deps.android.corektx
     implementation deps.android.appcompat
     implementation deps.android.fragment
+
+
     implementation deps.android.recyclerview
     implementation deps.android.cardview
     implementation deps.android.constraintlayout
@@ -84,7 +87,6 @@ dependencies {
     implementation deps.glide.glide
     kapt deps.glide.compiler
 
-    implementation deps.permissions
     implementation deps.squint
     implementation deps.roundedimageview
 }

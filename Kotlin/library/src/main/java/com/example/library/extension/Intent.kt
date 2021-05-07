@@ -33,6 +33,19 @@ val emailIntent: Intent
         return intent
     }
 
+fun <T : Activity> Activity.start(cls: Class<T>) {
+    startActivity(Intent(this, cls))
+}
+
+fun <T : Activity> Activity.startFinish(cls: Class<T>) {
+    startActivity(Intent(this, cls))
+    finish()
+}
+
+fun <T : Activity> Activity.startClear(cls: Class<T>) {
+    startActivity(Intent(this, cls))
+    finish()
+}
 
 fun Activity.navigateEmail() {
     startActivity(emailIntent)

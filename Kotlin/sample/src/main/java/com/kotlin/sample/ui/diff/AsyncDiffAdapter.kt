@@ -1,9 +1,9 @@
 package com.kotlin.sample.diff
 
 import android.view.View
-import com.example.kotlin.R
-import com.example.kotlin.ui.model.Image
-import com.example.kotlin.util.load
+import com.kotlin.sample.R
+import com.kotlin.sample.ui.model.Image
+import com.kotlin.sample.util.load
 import com.example.library.adapter.recycler.BaseListAdapter
 import com.example.library.util.Anim
 import kotlinx.android.synthetic.main.item_image.view.*

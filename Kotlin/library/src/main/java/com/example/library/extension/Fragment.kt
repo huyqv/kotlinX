@@ -6,6 +6,7 @@ import android.view.WindowInsets
 import android.view.WindowManager
 import androidx.annotation.IdRes
 import androidx.fragment.app.*
+import androidx.lifecycle.LifecycleObserver
 import com.example.library.R
 
 /**
@@ -73,6 +74,9 @@ fun Fragment.removeFragment(tag: String?, animations: IntArray? = null) {
     }, animations)
 }
 
+fun Fragment?.addObserver(observer: LifecycleObserver) {
+    this?.viewLifecycleOwner?.lifecycle?.addObserver(observer)
+}
 
 /**
  * [FragmentActivity].[FragmentManager]

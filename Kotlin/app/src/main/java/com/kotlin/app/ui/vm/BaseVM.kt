@@ -1,4 +1,4 @@
-package com.kotlin.app.app
+package com.kotlin.app.ui.vm
 
 import androidx.lifecycle.ViewModel
 
@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModel
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-open class AppVM : ViewModel() {
+open class BaseVM : ViewModel() {
 
     /**
      * View model on initialized

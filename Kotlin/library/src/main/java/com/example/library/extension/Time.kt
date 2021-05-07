@@ -16,14 +16,6 @@ import java.util.concurrent.TimeUnit
  */
 const val GMT7: String = "GMT+7"
 
-const val SECOND = 1000
-
-const val MINUTE = 60 * SECOND
-
-const val HOUR = 60 * MINUTE
-
-const val DAY = 24 * HOUR
-
 var HOUR_FORMAT: SimpleDateFormat = SimpleDateFormat("hh:mm aa")
 
 var SHORT_FORMAT: SimpleDateFormat = SimpleDateFormat("yyyy/MM/dd")
@@ -32,40 +24,35 @@ var LONG_FORMAT: SimpleDateFormat = SimpleDateFormat("yyyy/MM/dd hh:mm aa")
 
 var TIME_ZONE: TimeZone = TimeZone.getTimeZone(GMT7)
 
-val lastDayOfCurrentMonth: Int get() = calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
+val SECOND: Long get() = 1000
 
-val lastDayOfNextMonth: Int
-    get() {
-        return calendar.also {
-            it.add(Calendar.MONTH, 1)
-            it.set(Calendar.DATE, calendar.getActualMaximum(Calendar.DAY_OF_MONTH))
-        }.get(Calendar.DAY_OF_MONTH)
-    }
+val MIN: Long get() = 60 * SECOND
 
-val lastDayOfPreviousMonth: Int
-    get() {
-        return calendar.also {
-            it.add(Calendar.MONTH, -1)
-            it.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH))
-        }.get(Calendar.DAY_OF_MONTH)
-    }
+val HOUR: Long get() = 60 * MIN
 
-val currentTime: Date
-    get() = Calendar.getInstance().time
+val DAY: Long get() = 24 * HOUR
+
+val MONTH: Long get() = 31 * DAY
+
+val YEAR: Long get() = 365 * DAY
+
+val nowInMillis: Long get() = System.currentTimeMillis()
 
 val calendar: Calendar get() = Calendar.getInstance()
 
-val now: Long get() = System.currentTimeMillis()
+val nowInSecond: Long get() = System.currentTimeMillis() / SECOND
 
-/**
- * [Long] time convert
- */
-fun now(formatter: String): String {
-    return now.timeFormat(formatter)
+fun nowFormat(format: String): String {
+    return nowInMillis.timeFormat(format)
 }
 
-fun now(formatter: SimpleDateFormat): String {
-    return now.timeFormat(formatter)
+fun nowFormat(sdf: SimpleDateFormat): String {
+    return nowInMillis.timeFormat(sdf)
+}
+
+// if give up time in second convert to time in millis
+fun Long.correctTime(): Long {
+    return if (this < 1000000000000L) this * 1000 else this
 }
 
 fun Long.timeFormat(formatter: SimpleDateFormat): String {
@@ -82,76 +69,23 @@ fun Long.timeFormat(formatter: String): String {
     return timeFormat(SimpleDateFormat(formatter))
 }
 
-fun Long.isYesterday(): Boolean {
-    var timeCal = Calendar.getInstance().also { it.timeInMillis = this }
-    var nowCal = Calendar.getInstance()
-    if (timeCal.get(Calendar.YEAR) != nowCal.get(Calendar.YEAR)) return false
-    if (timeCal.get(Calendar.MONTH) != nowCal.get(Calendar.MONTH)) return false
-    return timeCal.get(Calendar.DAY_OF_MONTH) < nowCal.get(Calendar.DAY_OF_MONTH)
-}
-
-fun Long.isTomorrow(): Boolean {
-    var timeCal = Calendar.getInstance().also { it.timeInMillis = this }
-    var nowCal = Calendar.getInstance()
-    if (timeCal.get(Calendar.YEAR) != nowCal.get(Calendar.YEAR)) return false
-    if (timeCal.get(Calendar.MONTH) != nowCal.get(Calendar.MONTH)) return false
-    return timeCal.get(Calendar.DAY_OF_MONTH) > nowCal.get(Calendar.DAY_OF_MONTH)
-}
-
-fun Long.isCurrentDay(): Boolean {
-    var timeCal = Calendar.getInstance().also { it.timeInMillis = this }
-    var nowCal = Calendar.getInstance()
-    if (timeCal.get(Calendar.YEAR) != nowCal.get(Calendar.YEAR)) return false
-    if (timeCal.get(Calendar.MONTH) != nowCal.get(Calendar.MONTH)) return false
-    return timeCal.get(Calendar.DAY_OF_MONTH) == nowCal.get(Calendar.DAY_OF_MONTH)
-}
-
-fun Long.getPassTime(): Long {
-    return System.currentTimeMillis() - correctTime()
-}
-
-fun Long.isPassTime(): Boolean {
-    return getPassTime() > 4 * MINUTE
-}
-
-fun Long.isMomentTime(): Boolean {
-    return getPassTime() in (-4 * MINUTE)..(4 * MINUTE)
-}
-
-fun Long.isFutureTime(): Boolean {
-    return -getPassTime() > 4 * MINUTE
-}
-
-fun Long.isAHourAgo(): Boolean {
-    return getPassTime() in 0..HOUR
-}
-
-fun Long.isADayAgo(): Boolean {
-    return getPassTime() in 0..DAY
-}
-
-fun Long.getPassMinutes(): Long {
-    return getPassTime() / MINUTE
-}
-
-fun Long.getPassHour(): Long {
-    return getPassTime() / HOUR
-}
-
-fun Long.getPassDay(): Long {
-    return getPassTime() / DAY
-}
-
-fun Long.correctTime(): Long {
-    return if (this < 1000000000000L) this * 1000 else this
-}
-
-
 /**
  * [String] time convert
  */
 fun String?.timeFormat(formatter: String): Long? {
     return timeFormat(SimpleDateFormat(formatter))
+}
+
+fun String?.timeFormat(formatter1: SimpleDateFormat, formatter2: SimpleDateFormat): String? {
+    this ?: return null
+    return try {
+        val date = this.dateFormat(formatter1)
+        formatter2.format(date)
+    } catch (e: ParseException) {
+        null
+    } catch (e: InvocationTargetException) {
+        null
+    }
 }
 
 fun String?.timeFormat(formatter: SimpleDateFormat): Long? {
@@ -165,6 +99,38 @@ fun String?.timeFormat(formatter: SimpleDateFormat): Long? {
     }
 }
 
+fun String?.dateFormat(formatter: SimpleDateFormat): Date {
+    this ?: return Date()
+    return try {
+        formatter.parse(this) ?: Date()
+    } catch (e: ParseException) {
+        return Date()
+    } catch (e: InvocationTargetException) {
+        return Date()
+    }
+}
+
+fun Date?.dateFormat(formatter: SimpleDateFormat): String? {
+    this ?: return null
+    return try {
+        formatter.format(this)
+    } catch (e: ParseException) {
+        return null
+    } catch (e: InvocationTargetException) {
+        return null
+    }
+}
+
+val Long.secondText: String
+    get() {
+        val seconds = this / 1000
+        return "%02d:%02d".format(seconds / 60, seconds % 60)
+    }
+
+val Long.toSecond: Long
+    get() {
+        return this / 1000
+    }
 
 /**
  * [Calendar] time convert
@@ -200,6 +166,14 @@ fun Calendar.isTomorrow(momentCal: Calendar = calendar): Boolean {
     if (this.get(Calendar.MONTH) != momentCal.get(Calendar.MONTH)) return false
     return this.get(Calendar.DAY_OF_MONTH) - momentCal.get(Calendar.DAY_OF_MONTH) == 1
 }
+
+val Calendar.year: Int get() = this.get(Calendar.YEAR)
+
+val Calendar.month: Int get() = this.get(Calendar.MONTH) + 1
+
+val Calendar.day: Int get() = this.get(Calendar.DAY_OF_MONTH)
+
+val Calendar.maxDayOfMonth: Int get() = this.getActualMaximum(Calendar.DAY_OF_MONTH)
 
 /**
  *
@@ -266,37 +240,36 @@ fun getDateTimeAgo(timeInMillis: Long): String {
     if (timeInMillis <= 0) {
         return "moment"
     }
-    val correctTime = timeInMillis.correctTime()
-    val diff = System.currentTimeMillis() - correctTime
-    if (now - correctTime < 3 * MINUTE) {
+    val diff = System.currentTimeMillis() - timeInMillis
+    if (nowInMillis - timeInMillis < 3 * MIN) {
         return "moment"
     }
     if (diff < HOUR) {
-        return "${diff / MINUTE} minutes ago"
+        return "${diff / MIN} minutes ago"
     }
 
     val calendar = Calendar.getInstance()
     val last = Calendar.getInstance()
-    last.timeInMillis = correctTime
+    last.timeInMillis = timeInMillis
 
     if (calendar.get(Calendar.YEAR) != last.get(Calendar.YEAR)) {
-        return correctTime.timeFormat(LONG_FORMAT)
+        return timeInMillis.timeFormat(LONG_FORMAT)
     }
     if (calendar.get(Calendar.MONTH) != last.get(Calendar.MONTH)) {
-        return correctTime.timeFormat(LONG_FORMAT)
+        return timeInMillis.timeFormat(LONG_FORMAT)
     }
 
     val dayDiff = calendar.get(Calendar.DAY_OF_MONTH) - last.get(Calendar.DAY_OF_MONTH)
     if (dayDiff < 1) {
-        return correctTime.timeFormat(HOUR_FORMAT)
+        return timeInMillis.timeFormat(HOUR_FORMAT)
     }
     if (dayDiff < 2) {
-        return "${correctTime.timeFormat(HOUR_FORMAT)} yesterday"
+        return "${timeInMillis.timeFormat(HOUR_FORMAT)} yesterday"
     }
     if (dayDiff < 8) {
-        return "${correctTime.timeFormat(HOUR_FORMAT)} $dayDiff days ago"
+        return "${timeInMillis.timeFormat(HOUR_FORMAT)} $dayDiff days ago"
     }
-    return correctTime.timeFormat(LONG_FORMAT)
+    return timeInMillis.timeFormat(LONG_FORMAT)
 }
 
 fun getHourOfDay(timeInMillis: Long): String {
@@ -304,25 +277,23 @@ fun getHourOfDay(timeInMillis: Long): String {
     if (timeInMillis <= 0) {
         return "moment"
     }
-    val correctTime = timeInMillis.correctTime()
-    if (now - correctTime < 4 * MINUTE) {
+    if (nowInMillis - timeInMillis < 4 * MIN) {
         return "moment"
     }
-    var momentCal = Calendar.getInstance()
     var timeCal = Calendar.getInstance()
-    timeCal.timeInMillis = correctTime
+    timeCal.timeInMillis = timeInMillis
 
     if (timeCal.isYesterday()) {
-        return "${correctTime.timeFormat(HOUR_FORMAT)} yesterday"
+        return "${timeInMillis.timeFormat(HOUR_FORMAT)} yesterday"
     }
-    if (timeCal.isCurrentDay(momentCal)) {
-        return correctTime.timeFormat(HOUR_FORMAT)
+    if (timeCal.isCurrentDay()) {
+        return timeInMillis.timeFormat(HOUR_FORMAT)
     }
-    return correctTime.timeFormat(LONG_FORMAT)
+    return timeInMillis.timeFormat(LONG_FORMAT)
 }
 
 fun getRangeDay(timeInMillis: Long): Int {
-    val momentDate = now.timeFormat(SHORT_FORMAT)
+    val momentDate = nowInMillis.timeFormat(SHORT_FORMAT)
     val momentMillis = momentDate.timeFormat(SHORT_FORMAT) ?: return -1
     val millisDiff = timeInMillis - momentMillis
     return TimeUnit.DAYS.convert(millisDiff, TimeUnit.MILLISECONDS).toInt()
@@ -330,9 +301,10 @@ fun getRangeDay(timeInMillis: Long): Int {
 
 fun getDuration(timeMillisAfter: Long, timeMillisBefore: Long): String {
     val diff = timeMillisAfter - timeMillisBefore
-    if (diff <= MINUTE) return "..."
+    if (diff <= MIN) return "..."
     val hour = diff / HOUR
-    val min = diff % HOUR / MINUTE
+    val min = diff % HOUR / MIN
     return "$hour:$min"
 }
+
 

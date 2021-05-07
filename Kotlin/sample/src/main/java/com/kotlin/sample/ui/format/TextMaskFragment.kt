@@ -1,7 +1,7 @@
 package com.kotlin.sample.format
 
-import com.example.kotlin.R
-import com.example.kotlin.base.view.BaseFragment
+import com.kotlin.sample.R
+import com.kotlin.sample.base.view.BaseFragment
 import com.example.library.extension.addCashWatcher
 import kotlinx.android.synthetic.main.fragment_text_mask.*
 

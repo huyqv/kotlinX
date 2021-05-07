@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable
 import android.widget.ImageView
 import com.bumptech.glide.annotation.GlideModule
 import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.module.AppGlideModule
 import com.bumptech.glide.request.RequestListener
@@ -40,7 +41,7 @@ interface SimpleRequestListener : RequestListener<Drawable> {
     }
 }
 
-fun ImageView.load(url: String?, block: GlideRequest<*>.() -> Unit = {}) {
+fun ImageView.load(url: String?, block: GlideRequest<Drawable>.() -> Unit = {}) {
     val request = GlideApp
             .with(context)
             .load(url)
@@ -48,7 +49,7 @@ fun ImageView.load(url: String?, block: GlideRequest<*>.() -> Unit = {}) {
     request.into(this)
 }
 
-fun ImageView.load(bitmap: Bitmap?, block: GlideRequest<*>.() -> Unit = {}) {
+fun ImageView.load(bitmap: Bitmap?, block: GlideRequest<Drawable>.() -> Unit = {}) {
     val request = GlideApp
             .with(context)
             .load(bitmap)
@@ -56,7 +57,7 @@ fun ImageView.load(bitmap: Bitmap?, block: GlideRequest<*>.() -> Unit = {}) {
     request.into(this)
 }
 
-fun ImageView.load(res: Int, block: GlideRequest<*>.() -> Unit = {}) {
+fun ImageView.load(res: Int, block: GlideRequest<Drawable>.() -> Unit = {}) {
     val request = GlideApp
             .with(context)
             .load(res)
@@ -64,7 +65,7 @@ fun ImageView.load(res: Int, block: GlideRequest<*>.() -> Unit = {}) {
     request.into(this)
 }
 
-fun ImageView.load(bytes: ByteArray?, block: GlideRequest<*>.() -> Unit = {}) {
+fun ImageView.load(bytes: ByteArray?, block: GlideRequest<Drawable>.() -> Unit = {}) {
     val request = GlideApp
             .with(context)
             .load(bytes)
@@ -72,10 +73,41 @@ fun ImageView.load(bytes: ByteArray?, block: GlideRequest<*>.() -> Unit = {}) {
     request.into(this)
 }
 
-fun ImageView.load(drawable: Drawable?, block: GlideRequest<*>.() -> Unit = {}) {
+fun ImageView.load(drawable: Drawable?, block: GlideRequest<Drawable>.() -> Unit = {}) {
     val request = GlideApp
             .with(context)
             .load(drawable)
     request.block()
     request.into(this)
 }
+
+fun ImageView.reload(res: Int, block: GlideRequest<Drawable>.() -> Unit = {}) {
+    val request = GlideApp.with(context)
+            .load(res)
+            .override(width, height)
+            .thumbnail(0.1f)
+            .diskCacheStrategy(DiskCacheStrategy.NONE)
+            .skipMemoryCache(true)
+    request.block()
+    request.into(this)
+}
+
+fun ImageView.reload(url: String?, block: GlideRequest<Drawable>.() -> Unit = {}) {
+    val request =  GlideApp.with(context)
+            .load(url)
+            .override(width, height)
+            .thumbnail(0.1f)
+            .diskCacheStrategy(DiskCacheStrategy.NONE)
+            .skipMemoryCache(true)
+    request.block()
+    request.into(this)
+}
+
+fun ImageView.clear() {
+    this ?: return
+    val bitmap: Bitmap? = null
+    GlideApp.with(context)
+            .load(bitmap)
+            .into(this)
+}
+

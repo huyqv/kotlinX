@@ -1,7 +1,7 @@
 package com.kotlin.sample.anim
 
 import android.view.View
-import com.example.kotlin.R
+import com.kotlin.sample.R
 import com.example.library.adapter.recycler.BaseRecyclerAdapter
 import kotlinx.android.synthetic.main.item_text.view.*
 

@@ -3,11 +3,23 @@ package com.example.library.widget
 import android.app.Application
 import android.content.Context
 import android.content.res.TypedArray
+import android.graphics.BlendMode
+import android.graphics.BlendModeColorFilter
 import android.graphics.Color
+import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.FrameLayout
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.annotation.*
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import com.example.library.Library
 import com.example.library.R
 
@@ -33,11 +45,9 @@ abstract class AppCustomView : FrameLayout {
         } finally {
             types.recycle()
         }
-
     }
 
     private val app: Application get() = Library.app
-
 
     /**
      * Text
@@ -146,6 +156,83 @@ abstract class AppCustomView : FrameLayout {
 
     val TypedArray.paddingBottom: Int
         get() = getDimensionPixelSize(R.styleable.CustomView_android_paddingBottom, 0)
+
+    fun getPixels(@DimenRes res: Int): Float {
+        return context.resources.getDimensionPixelSize(res).toFloat()
+    }
+
+    fun anim(@AnimRes res: Int): Animation {
+        return AnimationUtils.loadAnimation(context, res)
+    }
+
+    fun drawable(@DrawableRes res: Int): Drawable {
+        return ContextCompat.getDrawable(context, res)!!
+    }
+
+    fun createDrawable(@DrawableRes res: Int): Drawable? {
+        return drawable(res).constantState?.newDrawable()?.mutate()
+    }
+
+    fun Drawable?.tint(@ColorInt color: Int): Drawable? {
+        this ?: return null
+        DrawableCompat.setTint(this, color)
+        DrawableCompat.setTintMode(this, PorterDuff.Mode.SRC_IN)
+        return this
+    }
+
+    fun pixels(@DimenRes res: Int): Float {
+        return context.resources.getDimensionPixelSize(res).toFloat()
+    }
+
+    fun color(@ColorRes res: Int): Int {
+        return ContextCompat.getColor(context, res)
+    }
+
+    fun string(@StringRes res: Int): String {
+        return context.getString(res)
+    }
+
+    fun string(@StringRes res: Int, vararg args: Any?): String {
+        return try {
+            String.format(context.getString(res), *args)
+        } catch (ignore: Exception) {
+            ""
+        }
+    }
+
+    fun View.backgroundTint(@ColorInt color: Int) {
+        post {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                background?.colorFilter = BlendModeColorFilter(color, BlendMode.SRC_OVER)
+            } else {
+                @Suppress("DEPRECATION")
+                background?.setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
+            }
+        }
+    }
+
+    fun View.backgroundTintRes(@ColorRes colorRes: Int) {
+        backgroundTint(com.example.library.extension.color(colorRes))
+    }
+
+    fun ImageView.tintColor(@ColorInt color: Int) {
+        post {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                colorFilter = BlendModeColorFilter(color, BlendMode.SRC_ATOP)
+            } else {
+                @Suppress("DEPRECATION")
+                setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
+            }
+        }
+    }
+
+    fun ImageView.postImage(@DrawableRes drawableRes: Int) {
+        post { this.setImageResource(drawableRes) }
+    }
+
+    fun TextView.textColor(@ColorRes color: Int) {
+        setTextColor(ContextCompat.getColor(context, color))
+    }
 
 }
 

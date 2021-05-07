@@ -1,4 +1,4 @@
-include ':app',
-        ':library',
-        ':dimen'/*,
-        ':sample'*/
+include ':app'
+include ':library'
+include ':sample'
+//include ':dimen'

@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.kotlin.app.R
 import com.example.library.extension.setNavResult
-import com.example.library.ui.BaseDialog
+import com.kotlin.app.ui.base.BaseDialog
 import com.example.library.adapter.recycler.initLayoutManager
 import com.example.library.extension.isGone
 import kotlinx.android.synthetic.main.selectable.*

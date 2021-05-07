@@ -129,7 +129,7 @@ fun copyFile(fileName: String) {
     fos?.close()
 }
 
-fun createFile(fileName: String) {
+fun createFileIfNotExist(fileName: String) {
     val dir = File(filePath)
     if (!dir.exists()) {
         dir.mkdirs()
@@ -137,7 +137,19 @@ fun createFile(fileName: String) {
     val file = File("$filePath/$fileName")
     if (file.exists()) return
     copyFile(fileName)
+}
 
+fun createFile(fileName: String) {
+    val dir = File(filePath)
+    if (!dir.exists()) {
+        dir.mkdirs()
+    }
+    val file = File("$filePath/$fileName")
+    if (file.exists()) {
+        file.delete()
+        File("$filePath/$fileName")
+    }
+    copyFile(fileName)
 }
 
 @RequiresPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)

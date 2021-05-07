@@ -1,14 +1,14 @@
-package com.example.kotlin.ui.paged
+package com.kotlin.sample.ui.paged
 
 import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PageKeyedDataSource
 import androidx.paging.PagedList
-import com.example.kotlin.base.vm.BaseViewModel
-import com.example.kotlin.data.api.apiClient
-import com.example.kotlin.data.observable.ArchSingleObserver
-import com.example.kotlin.ui.model.Message
+import com.kotlin.sample.base.vm.BaseViewModel
+import com.kotlin.sample.data.api.apiClient
+import com.kotlin.sample.data.observable.ArchSingleObserver
+import com.kotlin.sample.ui.model.Message
 
 /**
  * -------------------------------------------------------------------------------------------------

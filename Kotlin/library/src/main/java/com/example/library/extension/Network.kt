@@ -11,7 +11,6 @@ import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import android.os.Build
-import androidx.lifecycle.MutableLiveData
 import com.example.library.Library
 
 /**
@@ -62,26 +61,16 @@ val networkDisconnected: Boolean
 val connectivityManager: ConnectivityManager
     get() = app.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
-val networkCallback
-    get() = object : ConnectivityManager.NetworkCallback() {
+val networkLiveData: SingleLiveData<Boolean> by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
+    SingleLiveData<Boolean>()
+}.apply {
+    registerNetworkCallback()
+}
 
-        private val request: NetworkRequest
-            get() = NetworkRequest.Builder()
-                    .addTransportType(NetworkCapabilities.TRANSPORT_VPN)
-                    .addTransportType(NetworkCapabilities.TRANSPORT_ETHERNET)
-                    .addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
-                    .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
-                    .build()
+@SuppressLint("MissingPermission")
+private fun registerNetworkCallback() {
 
-        @SuppressLint("MissingPermission")
-        fun register() {
-            connectivityManager.registerNetworkCallback(request, this)
-        }
-
-        fun unregister() {
-            connectivityManager.unregisterNetworkCallback(this)
-        }
-
+    val networkCallback = object : ConnectivityManager.NetworkCallback() {
         override fun onAvailable(network: Network) {
             networkLiveData.postValue(true)
         }
@@ -91,17 +80,15 @@ val networkCallback
         }
     }
 
-val networkLiveData: MutableLiveData<Boolean> by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
-    registerNetworkCallback()
-    return@lazy MutableLiveData<Boolean>()
-}
-
-@SuppressLint("MissingPermission")
-private fun registerNetworkCallback() {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
         connectivityManager.registerDefaultNetworkCallback(networkCallback)
     } else {
-        val request = NetworkRequest.Builder().addCapability(NetworkCapabilities.NET_CAPABILITY_WIFI_P2P).build()
+        val request: NetworkRequest = NetworkRequest.Builder()
+                .addTransportType(NetworkCapabilities.TRANSPORT_VPN)
+                .addTransportType(NetworkCapabilities.TRANSPORT_ETHERNET)
+                .addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
+                .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
+                .build()
         connectivityManager.registerNetworkCallback(request, networkCallback)
     }
 }

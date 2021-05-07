@@ -1,6 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <style name="Fragment" />
+
+    <style name="Fragment.Layout" parent="MatchParent">
+        <item name="android:focusable">true</item>
+        <item name="android:focusableInTouchMode">false</item>
+    </style>
+
+    <!-- TextView -->
+    <style name="TextView" parent="WrapContent">
+        <item name="android:textColor">@color/colorTextPrimary</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
+    </style>
+
+    <style name="TextView.Tiny" parent="TextView">
+        <item name="android:textSize">@dimen/textSize</item>
+    </style>
+
+    <style name="TextView.Small" parent="TextView">
+        <item name="android:textSize">@dimen/textSize2</item>
+    </style>
+
+    <style name="TextView.Medium" parent="TextView">
+        <item name="android:textSize">@dimen/textSize3</item>
+        <item name="android:text">Medium Text</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textColor">@color/colorTextPrimary</item>
+    </style>
+
+    <style name="TextView.Large" parent="TextView">
+        <item name="android:textSize">@dimen/textSize4</item>
+    </style>
+
+    <style name="TextView.Extra" parent="TextView">
+        <item name="android:textSize">@dimen/textSize5</item>
+    </style>
+
+    <!-- Button -->
+    <style name="Button" parent="TextView">
+        <item name="android:includeFontPadding">true</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:minHeight">@dimen/_32sdp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:minWidth">@dimen/_90sdp</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:textSize">@dimen/_10ssp</item>
+        <item name="android:elevation">1dp</item>
+    </style>
+
+    <!-- EditText -->
     <style name="EditText">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/_32sdp</item>
@@ -22,18 +74,7 @@
         <item name="android:longClickable">false</item>
     </style>
 
-    <style name="Button" parent="TextView">
-        <item name="android:includeFontPadding">true</item>
-        <item name="android:textColor">@color/colorPrimary</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:minHeight">@dimen/_32sdp</item>
-        <item name="android:gravity">center</item>
-        <item name="android:minWidth">@dimen/_90sdp</item>
-        <item name="android:background">@android:color/transparent</item>
-        <item name="android:textSize">@dimen/_10ssp</item>
-        <item name="android:elevation">1dp</item>
-    </style>
-
+    <!-- Dialog -->
     <style name="Dialog" />
 
     <style name="Dialog.Card" parent="MatchWidth">
@@ -47,7 +88,7 @@
         <item name="android:layout_gravity">center</item>
         <item name="android:orientation">vertical</item>
         <item name="android:gravity">center</item>
-        <item name="android:background">@drawable/drw_dialog</item>
+        <item name="android:background">@color/colorWhite</item>
         <item name="android:padding">1px</item>
     </style>
 

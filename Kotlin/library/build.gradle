@@ -27,12 +27,23 @@ android {
     }
 }
 
+repositories {
+    google()
+    jcenter()
+    mavenCentral()
+    maven { url "https://maven.google.com" }
+    maven { url "https://jitpack.io" }
+}
+
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation fileTree(include: ["*.jar", "*aar"], dir: "libs")
 
     implementation deps.kotlin.stdlib
+    implementation deps.android.corektx
     implementation deps.android.appcompat
     implementation deps.android.fragment
+
     implementation deps.android.recyclerview
     implementation deps.android.cardview
     implementation deps.android.constraintlayout
@@ -49,8 +60,6 @@ dependencies {
     implementation deps.dimens.ssp
 
     implementation deps.google.gson
-
-    implementation deps.permissions
     
     implementation deps.glide.glide
     kapt deps.glide.compiler

@@ -1,4 +1,4 @@
-package com.kotlin.sample
+package com.kotlin.sample.app
 
 import android.app.Application
 import com.example.library.Library
@@ -11,12 +11,7 @@ import com.example.library.Library
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-class SampleApp : Application() {
-
-
-    companion object {
-        lateinit var instance: App private set
-    }
+class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
@@ -24,4 +19,9 @@ class SampleApp : Application() {
         Library.app = this
     }
 
+    companion object {
+
+        lateinit var instance: App private set
+
+    }
 }

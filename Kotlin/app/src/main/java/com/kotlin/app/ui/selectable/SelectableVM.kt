@@ -1,7 +1,7 @@
 package com.kotlin.app.ui.selectable
 
 import androidx.lifecycle.MutableLiveData
-import com.kotlin.app.app.AppVM
+import com.kotlin.app.ui.vm.BaseVM
 
 
 /**
@@ -12,7 +12,7 @@ import com.kotlin.app.app.AppVM
  * All Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-class SelectableVM : AppVM() {
+class SelectableVM : BaseVM() {
 
     val argLiveData = MutableLiveData<SelectableArg>()
 

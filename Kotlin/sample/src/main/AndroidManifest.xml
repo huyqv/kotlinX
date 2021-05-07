@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.kotlin">
+    package="com.kotlin.sample">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -30,7 +30,7 @@
         tools:replace="android:allowBackup">
 
         <activity
-            android:name="com.kotlin.sample.SampleActivity">
+            android:name="com.kotlin.sample.ui.SampleActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

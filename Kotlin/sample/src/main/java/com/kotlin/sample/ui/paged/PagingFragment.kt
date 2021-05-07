@@ -1,8 +1,8 @@
-package com.example.kotlin.ui.paged
+package com.kotlin.sample.ui.paged
 
-import com.example.kotlin.R
-import com.example.kotlin.base.arch.ArchFragment
-import com.example.kotlin.ui.zoom.ZoomFragment
+import com.kotlin.sample.R
+import com.kotlin.sample.base.arch.ArchFragment
+import com.kotlin.sample.ui.zoom.ZoomFragment
 import kotlinx.android.synthetic.main.fragment_adapter_paged.*
 import kotlin.reflect.KClass
 

@@ -1,9 +1,9 @@
 package com.kotlin.app.ui.date
 
 import androidx.lifecycle.MutableLiveData
-import com.kotlin.app.app.AppVM
 import com.example.library.extension.SHORT_FORMAT
 import com.example.library.extension.timeFormat
+import com.kotlin.app.ui.vm.BaseVM
 import java.util.*
 
 /**
@@ -14,7 +14,7 @@ import java.util.*
  * All Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-class DateVM : AppVM() {
+class DateVM : BaseVM() {
 
     val argLiveData = MutableLiveData<DateArg>()
 

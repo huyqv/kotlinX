@@ -1,9 +1,9 @@
 package com.kotlin.sample.diff
 
-import com.example.kotlin.R
-import com.example.kotlin.base.arch.ArchFragment
-import com.example.kotlin.ui.zoom.ZoomFragment
-import com.example.kotlin.widget.onRefresh
+import com.kotlin.sample.R
+import com.kotlin.sample.base.arch.ArchFragment
+import com.kotlin.sample.ui.zoom.ZoomFragment
+import com.kotlin.sample.widget.onRefresh
 import kotlinx.android.synthetic.main.fragment_adapter_async_diff.*
 import kotlin.reflect.KClass
 

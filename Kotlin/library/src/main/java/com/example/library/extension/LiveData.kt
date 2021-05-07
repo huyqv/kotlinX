@@ -23,15 +23,6 @@ fun <T> LiveData<T?>.nonNull(): NonNullLiveData<T> {
 
 @Suppress("UNCHECKED_CAST")
 fun <R, T : LiveData<R>> T.event(): T {
-    val result = EventLiveData<R>()
-    result.addSource(this) {
-        result.value = it as R
-    }
-    return result as T
-}
-
-@Suppress("UNCHECKED_CAST")
-fun <R, T : LiveData<R>> T.single(): T {
     val result = SingleLiveData<R>()
     result.addSource(this) {
         result.value = it as R
@@ -63,7 +54,7 @@ fun <T> NonNullLiveData<T>.observe(owner: LifecycleOwner, observer: (t: T) -> Un
 /**
  * Live data only trigger when data change for multi observer
  */
-open class EventLiveData<T> : MediatorLiveData<T>() {
+open class SingleLiveData<T> : MediatorLiveData<T>() {
 
     private val observers = ConcurrentHashMap<LifecycleOwner, MutableSet<ObserverWrapper<T>>>()
 
@@ -90,8 +81,7 @@ open class EventLiveData<T> : MediatorLiveData<T>() {
 
     override fun removeObserver(observer: Observer<in T>) {
         observers.forEach {
-            @Suppress("TYPE_INFERENCE_ONLY_INPUT_TYPES_WARNING")
-            if (it.value.remove(observer)) {
+            if (it.value.remove(observer as Observer<T>)) {
                 if (it.value.isEmpty()) {
                     observers.remove(it.key)
                 }
@@ -138,24 +128,21 @@ open class EventLiveData<T> : MediatorLiveData<T>() {
 
 }
 
-/**
- * Live data only trigger when data change for single observer
- */
-open class SingleLiveData<T> : MediatorLiveData<T>() {
+open class EventLiveData : MediatorLiveData<Boolean?>() {
 
-    private val observers = ConcurrentHashMap<LifecycleOwner, MutableSet<ObserverWrapper<T>>>()
+    private val observers = ConcurrentHashMap<LifecycleOwner, MutableSet<ObserverWrapper>>()
 
     @MainThread
-    override fun observe(owner: LifecycleOwner, observer: Observer<in T>) {
+    override fun observe(owner: LifecycleOwner, observer: Observer<in Boolean?>) {
         val wrapper = ObserverWrapper(observer)
         val set = observers[owner]
         set?.apply {
             @Suppress("UNCHECKED_CAST")
-            add(wrapper as ObserverWrapper<T>)
+            add(wrapper)
         } ?: run {
-            val newSet = Collections.newSetFromMap(ConcurrentHashMap<ObserverWrapper<T>, Boolean>())
+            val newSet = Collections.newSetFromMap(ConcurrentHashMap<ObserverWrapper, Boolean>())
             @Suppress("UNCHECKED_CAST")
-            newSet.add(wrapper as ObserverWrapper<T>?)
+            newSet.add(wrapper as ObserverWrapper?)
             observers[owner] = newSet
         }
         super.observe(owner, wrapper)
@@ -166,10 +153,9 @@ open class SingleLiveData<T> : MediatorLiveData<T>() {
         super.removeObservers(owner)
     }
 
-    override fun removeObserver(observer: Observer<in T>) {
+    override fun removeObserver(observer: Observer<in Boolean?>) {
         observers.forEach {
-            @Suppress("TYPE_INFERENCE_ONLY_INPUT_TYPES_WARNING")
-            if (it.value.remove(observer)) {
+            if (it.value.remove(observer as EventLiveData.ObserverWrapper)) {
                 if (it.value.isEmpty()) {
                     observers.remove(it.key)
                 }
@@ -180,12 +166,12 @@ open class SingleLiveData<T> : MediatorLiveData<T>() {
     }
 
     @MainThread
-    override fun setValue(t: T?) {
+    override fun setValue(t: Boolean?) {
         observers.forEach { it.value.forEach { wrapper -> wrapper.newValue() } }
         super.setValue(t)
     }
 
-    protected open fun onDataChanged(t: T?) {
+    protected open fun onDataChanged(t: Boolean?) {
     }
 
 
@@ -197,15 +183,18 @@ open class SingleLiveData<T> : MediatorLiveData<T>() {
         value = null
     }
 
-    private inner class ObserverWrapper<R>(private val observer: Observer<R>) : Observer<R> {
+    private inner class ObserverWrapper(private val observer: Observer<in Boolean?>) : Observer<Boolean?> {
 
         private val pending = AtomicBoolean(false)
 
-        override fun onChanged(t: R?) {
+        override fun onChanged(t: Boolean?) {
             if (pending.compareAndSet(true, false)) {
-                @Suppress("UNCHECKED_CAST")
-                (t as? T)?.also { onDataChanged(it) }
-                observer.onChanged(t)
+                when (t) {
+                    true -> {
+                        onDataChanged(t)
+                        observer.onChanged(t)
+                    }
+                }
             }
         }
 

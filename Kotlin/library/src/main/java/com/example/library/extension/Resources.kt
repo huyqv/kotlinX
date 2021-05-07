@@ -40,6 +40,10 @@ fun Drawable?.tint(@ColorInt color: Int): Drawable? {
     return this
 }
 
+fun pixels(@DimenRes res: Int): Float {
+    return app.resources.getDimensionPixelSize(res).toFloat()
+}
+
 fun color(@ColorRes res: Int): Int {
     return ContextCompat.getColor(app, res)
 }
@@ -56,6 +60,3 @@ fun string(@StringRes res: Int, vararg args: Any?): String {
     }
 }
 
-fun pixel(@DimenRes res: Int): Float {
-    return app.resources.getDimension(res)
-}

@@ -1,6 +1,7 @@
 package com.example.library.extension
 
 import android.text.TextUtils
+import java.text.SimpleDateFormat
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -35,85 +36,66 @@ private val PASSWORD_REGEX_4 = Regex("""^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!
 // Minimum eight and maximum 10 characters, at least one uppercase letter, one lowercase letter, one number and one special character:
 private val PASSWORD_REGEX_5 = Regex("""^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,10}$""")
 
-fun String?.isPersonName(): Boolean {
-    if (isNullOrEmpty()) return false
-    return this.matches("[a-zA-Z ]".toRegex())
-}
-
-fun String?.isNotPersonName(): Boolean {
-    return !isPersonName()
-}
-
-fun String?.isCharacters(): Boolean {
-    this ?: return false
-    return matches("[a-zA-Z0-9]+".toRegex())
-}
-
-fun String?.isNotCharacters(): Boolean {
-    return !isCharacters()
-}
-
-fun String?.isEmail(): Boolean {
-    this ?: return false
-    return android.util.Patterns.EMAIL_ADDRESS.matcher(this).matches()
-}
-
-fun String?.isNotEmail(): Boolean {
-    return !isEmail()
-}
-
-fun String?.isPhone(): Boolean {
-    this ?: return false
-    return matches("^[0-9]{16}$".toRegex())
-}
-
-fun String?.isNotPhone(): Boolean {
-    return !isPhone()
-}
-
-fun String?.inRange(min: Int, max: Int): Boolean {
-    return this != null && length in min..max
-}
-
-fun String?.notInRange(min: Int, max: Int): Boolean {
-    return this != null && length !in min..max
-}
-
-fun String?.isPassword(): Boolean {
-    this ?: return false
-    var ch: Char
-    var capitalFlag = false
-    var lowerCaseFlag = false
-    var numberFlag = false
-    for (element in this) {
-        ch = element
-        when {
-            Character.isDigit(ch) -> numberFlag = true
-            Character.isUpperCase(ch) -> capitalFlag = true
-            Character.isLowerCase(ch) -> lowerCaseFlag = true
-        }
-        if (numberFlag && capitalFlag && lowerCaseFlag)
-            return true
+val String?.isEmail: Boolean
+    get() {
+        this ?: return false
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(this).matches()
     }
-    return false
+
+val String?.isPhoneNumber: Boolean
+    get() {
+        val first = this?.firstOrNull() ?: return false
+        return first.toString() == "0" && this.length > 9
+    }
+
+fun String?.isDate(fmt: SimpleDateFormat): Boolean {
+    this ?: return false
+    return try {
+        val date = fmt.parse(this)
+        return date.dateFormat(fmt) == this
+    } catch (e: Throwable) {
+        false
+    }
+
 }
 
-fun String?.isNotPassword(): Boolean {
-    return !isPassword()
-}
+val String?.isPersonName: Boolean
+    get() {
+        if (isNullOrEmpty()) return false
+        return this.matches("[a-zA-Z ]".toRegex())
+    }
 
-fun String?.isDigit(): Boolean {
-    if (isNullOrEmpty()) return false
-    return TextUtils.isDigitsOnly(this)
-}
+val String?.isCharacters: Boolean
+    get() {
+        this ?: return false
+        return matches("[a-zA-Z0-9]+".toRegex())
+    }
 
-fun String?.isNotDigit(): Boolean {
-    return !isDigit()
-}
+val String?.isPassword: Boolean
+    get() {
+        this ?: return false
+        var ch: Char
+        var capitalFlag = false
+        var lowerCaseFlag = false
+        var numberFlag = false
+        for (element in this) {
+            ch = element
+            when {
+                Character.isDigit(ch) -> numberFlag = true
+                Character.isUpperCase(ch) -> capitalFlag = true
+                Character.isLowerCase(ch) -> lowerCaseFlag = true
+            }
+            if (numberFlag && capitalFlag && lowerCaseFlag)
+                return true
+        }
+        return false
+    }
 
-fun String?.isDate(s: String): Boolean {
-    return s.matches(DATE_REGEX.toRegex())
-}
+val String?.isDigit: Boolean
+    get() {
+        if (isNullOrEmpty()) return false
+        return TextUtils.isDigitsOnly(this)
+    }
 
 fun String?.hideText(replacement: String, visibleCount: Int): String? {
     this ?: return null

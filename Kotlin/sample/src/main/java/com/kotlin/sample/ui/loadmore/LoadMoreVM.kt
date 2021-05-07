@@ -1,10 +1,10 @@
-package com.example.kotlin.ui.loadmore
+package com.kotlin.sample.ui.loadmore
 
-import com.example.kotlin.base.ext.SingleLiveData
-import com.example.kotlin.base.vm.BaseViewModel
-import com.example.kotlin.data.api.apiClient
-import com.example.kotlin.data.observable.ArchSingleObserver
-import com.example.kotlin.ui.model.User
+import com.kotlin.sample.base.ext.SingleLiveData
+import com.kotlin.sample.base.vm.BaseViewModel
+import com.kotlin.sample.data.api.apiClient
+import com.kotlin.sample.data.observable.ArchSingleObserver
+import com.kotlin.sample.ui.model.User
 import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
 import io.reactivex.schedulers.Schedulers.io
 

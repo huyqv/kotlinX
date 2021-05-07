@@ -2,7 +2,6 @@ package com.example.library.extension
 
 import android.annotation.TargetApi
 import android.app.Activity
-import android.content.Context
 import android.graphics.*
 import android.graphics.drawable.Drawable
 import android.os.Build
@@ -11,7 +10,6 @@ import android.text.InputFilter
 import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import android.view.inputmethod.InputMethodManager
 import android.webkit.WebChromeClient
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
@@ -20,8 +18,11 @@ import android.widget.*
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.NestedScrollView
+import com.example.library.Library
 import java.util.*
 
 /**
@@ -32,14 +33,6 @@ import java.util.*
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-fun EditText?.showKeyboard() {
-    this?.apply {
-        clearFocus()
-        val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(windowToken, 0)
-    }
-}
-
 fun EditText.filterChars(chars: CharArray) {
     val arrayList = arrayListOf<InputFilter>()
     this.filters?.apply { arrayList.addAll(this) }
@@ -66,6 +59,73 @@ fun EditText?.addOnClickListener(listener: View.OnClickListener) {
     setOnClickListener { listener.onClick(this) }
 }
 
+/**
+ * Add editor action & modify soft keyboard action
+ * @actionId see [android.view.inputmethod.EditorInfo]
+ */
+fun EditText.addEditorActionListener(actionId: Int, block: (String?) -> Unit) {
+    imeOptions = actionId
+    setImeActionLabel(null, actionId)
+    setOnEditorActionListener(object : TextView.OnEditorActionListener {
+        override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
+            if (imeOptions == actionId) {
+                this@addEditorActionListener.post {
+                    isSelected = false
+                    block(text.toString())
+                    (context as? Activity)?.hideKeyboard()
+                    clearFocus()
+                }
+                return true
+            }
+            return false
+        }
+    })
+}
+
+fun EditText.addActionNextListener(block: (String?) -> Unit) {
+    imeOptions = EditorInfo.IME_ACTION_NEXT
+    isSingleLine = true
+    setImeActionLabel("Next", EditorInfo.IME_ACTION_NEXT)
+    setOnEditorActionListener(object : TextView.OnEditorActionListener {
+        override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
+            if (imeOptions == actionId) {
+                this@addActionNextListener.post {
+                    block(text.toString())
+                }
+                return true
+            }
+            return false
+        }
+    })
+}
+
+fun EditText.addActionDoneListener(block: (String?) -> Unit) {
+    imeOptions = EditorInfo.IME_ACTION_DONE
+    isSingleLine = true
+    setImeActionLabel("Next", EditorInfo.IME_ACTION_DONE)
+    setOnEditorActionListener(object : TextView.OnEditorActionListener {
+        override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
+            if (imeOptions == actionId) {
+                this@addActionDoneListener.post {
+                    isSelected = false
+                    block(text.toString())
+                    hideKeyboard()
+                    clearFocus()
+                }
+                return true
+            }
+            return false
+        }
+    })
+}
+
+fun EditText.select() {
+    this.setSelection(text?.toString()?.length ?: 0)
+}
+
+/**
+ *
+ */
 fun ImageView.tintColor(@ColorInt color: Int) {
     post {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -81,24 +141,28 @@ fun ImageView.postImage(@DrawableRes drawableRes: Int) {
     post { this.setImageResource(drawableRes) }
 }
 
+/**
+ *
+ */
 fun NestedScrollView.scrollToTop() {
     post {
         fling(0)
-        scrollTo(0, 0)
+        smoothScrollTo(0, 0)
     }
 }
 
 fun NestedScrollView.scrollToBottom(view: View) {
     post {
         fling(0)
-        scrollTo(0, view.bottom)
+        smoothScrollTo(0, view.bottom)
     }
 }
 
-fun NestedScrollView.scrollToTop(view: View) {
+fun NestedScrollView.scrollToTop(view: View?) {
+    view ?: return
     post {
         fling(0)
-        scrollTo(0, view.top)
+        smoothScrollTo(0, view.top)
     }
 }
 
@@ -107,7 +171,7 @@ fun NestedScrollView.scrollToCenter(view: View) {
         val top = view.top
         val bot = view.bottom
         val height = this.height
-        this.scrollTo(0, (top + bot - height) / 2)
+        this.smoothScrollTo(0, (top + bot - height) / 2)
     }
 }
 
@@ -120,6 +184,9 @@ fun HorizontalScrollView.scrollToCenter(view: View) {
     }
 }
 
+/**
+ *
+ */
 fun RadioGroup.checkedButton(): View? {
     for (i in 0 until this.childCount) {
         val v = this.getChildAt(i)
@@ -136,21 +203,52 @@ fun RadioGroup.addOnCheckedChangeListener(block: (RadioButton) -> Unit) {
     }
 }
 
-fun TextView.color(@ColorRes color: Int) {
+/**
+ *
+ */
+val TextView?.trimText: String
+    get() {
+        this ?: return ""
+        var s = text?.toString()
+        if (s.isNullOrEmpty()) return ""
+        s = s.replace("\\s+", " ").trimIndent()
+        text = s
+        if (this is EditText) {
+            setSelection(s.length)
+        }
+        return s
+    }
+
+fun TextView.textColor(@ColorRes color: Int) {
     setTextColor(ContextCompat.getColor(context, color))
 }
 
-fun TextView.setHyperText(string: String) {
+fun TextView.fontFamily(int: Int) {
+    this.typeface = ResourcesCompat.getFont(Library.app, int)
+}
 
-    text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-        Html.fromHtml(string, 1)
-    } else {
-        @Suppress("DEPRECATION")
-        Html.fromHtml(string)
+fun TextView.setHyperText(@StringRes res: Int, vararg args: Any?) {
+    setHyperText(string(res), * args)
+}
+
+fun TextView.setHyperText(s: String?, vararg args: Any?) {
+    post {
+        text = when {
+            s.isNullOrEmpty() -> {
+                null
+            }
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.N -> {
+                Html.fromHtml(s.format(*args), Html.FROM_HTML_MODE_LEGACY  /*Html.FROM_HTML_MODE_COMPACT*/)
+            }
+            else -> {
+                @Suppress("DEPRECATION")
+                Html.fromHtml(s.format(*args))
+            }
+        }
     }
 }
 
-fun TextView.gradientHorizontal(@ColorRes colorStart: Int, @ColorRes colorEnd: Int= colorStart) {
+fun TextView.gradientHorizontal(@ColorRes colorStart: Int, @ColorRes colorEnd: Int = colorStart) {
     paint.shader = LinearGradient(0f, 0f, this.width.toFloat(), 0f,
             ContextCompat.getColor(context, colorStart),
             ContextCompat.getColor(context, colorEnd),
@@ -208,29 +306,6 @@ fun TextView.randomCapcha(level: Int = 0) {
 }
 
 /**
- * Add editor action & modify soft keyboard action
- * @actionId see [android.view.inputmethod.EditorInfo]
- */
-fun TextView.addEditorActionListener(actionId: Int, block: (String?) -> Unit) {
-    maxLines = 1
-    imeOptions = actionId
-    setImeActionLabel(null, actionId)
-    setOnEditorActionListener(object : TextView.OnEditorActionListener {
-        override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
-            if (actionId == actionId) {
-                (context as? Activity)?.currentFocus?.windowToken.run {
-                    val imm = context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-                    imm.hideSoftInputFromWindow((context as Activity).currentFocus?.windowToken, 0)
-                }
-                block(text.toString())
-                return true
-            }
-            return false
-        }
-    })
-}
-
-/**
  * Filter with a collection of allowed characters
  * @param: charArrayOf( 'A', 'b', 'c' ,'1')
  */
@@ -250,6 +325,9 @@ fun TextView.filter(filterChars: CharArray) {
     filters = arrayList.toArray(arrayOfNulls<InputFilter>(arrayList.size))
 }
 
+/**
+ *
+ */
 fun WebView.setupWebView() {
     settings.builtInZoomControls = true
     settings.displayZoomControls = true
@@ -306,6 +384,7 @@ fun WebView.setClient(progressBar: ProgressBar) {
         }
     }
 }
+
 
 
 

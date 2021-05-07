@@ -7,7 +7,7 @@ import androidx.annotation.LayoutRes
 import androidx.annotation.StyleRes
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.FragmentActivity
-import com.kotlin.app.R
+import com.kotlin.sample.R
 
 /**
  * -------------------------------------------------------------------------------------------------

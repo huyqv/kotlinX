@@ -43,7 +43,7 @@
     <!-- Setting. -->
     <style name="Setting" />
 
-    <style name="Setting.Title" parent="TextView.Medium">
+    <style name="Setting.Title" parent="TextView">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">@dimen/_46sdp</item>
         <item name="android:paddingLeft">@dimen/margin2</item>
@@ -153,7 +153,7 @@
     <!-- Paging. -->
     <style name="Paging" />
 
-    <style name="Paging.Button" parent="TextView.Tiny">
+    <style name="Paging.Button" parent="TextView">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_weight">1</item>
@@ -214,14 +214,14 @@
         <item name="android:background">@drawable/ic_triangle_right</item>
     </style>
 
-    <style name="Chat.Date" parent="TextView.Medium">
+    <style name="Chat.Date" parent="TextView">
         <item name="android:layout_margin">@dimen/marginY2</item>
         <item name="android:text">12/34/5678</item>
         <item name="android:textColor">@color/colorTextSecondary</item>
         <item name="android:textSize">@dimen/_10ssp</item>
     </style>
 
-    <style name="Chat.Text" parent="TextView.Medium">
+    <style name="Chat.Text" parent="TextView">
         <item name="android:maxWidth">@dimen/_216sdp</item>
         <item name="android:minWidth">@dimen/_34sdp</item>
         <item name="android:paddingStart">@dimen/_8sdp</item>
@@ -307,9 +307,11 @@
         <item name="android:text">@string/app_name</item>
     </style>
 
-    <style name="Dialog" />
+
 
     <!-- Custom Dialog. -->
+    <style name="Dialog" />
+
     <style name="Dialog.Card" parent="MatchWidth">
         <item name="cardElevation">1dp</item>
         <item name="cardCornerRadius">@dimen/radius2</item>

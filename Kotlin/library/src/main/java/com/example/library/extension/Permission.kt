@@ -8,7 +8,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import com.tbruyelle.rxpermissions2.RxPermissions
+
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -18,6 +18,35 @@ import com.tbruyelle.rxpermissions2.RxPermissions
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
+
+fun Fragment.registerForActivityResult1() {
+
+    // koin extension
+    /*var activityResultLauncher: ActivityResultLauncher<Intent> =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+                when (result.resultCode) {
+
+                }
+            }*/
+}
+
+fun Fragment.requestPermissionLauncher1() {
+
+    /*registerForActivityResult(ActivityResultContracts.RequestPermission()
+    ) { isGranted: Boolean ->
+        if (isGranted) {
+            // Permission is granted. Continue the action or workflow in your
+            // app.
+        } else {
+            // Explain to the user that the feature is unavailable because the
+            // features requires a permission that the user has denied. At the
+            // same time, respect the user's decision. Don't link to system
+            // settings in an effort to convince the user to change their
+            // decision.
+        }
+    }*/
+}
+
 fun Activity.onGranted(@RequiresPermission vararg permissions: String, onGranted: () -> Unit) {
     val list = mutableListOf<String>()
     permissions.forEach {
@@ -48,9 +77,7 @@ fun Activity.isGranted(@RequiresPermission vararg permission: String): Boolean {
 }
 
 fun FragmentActivity.onGrantedPermission(permission: String, block: () -> Unit) {
-    RxPermissions(this)
-            .request(permission)
-            .subscribe { granted -> if (granted) block() }
+
 }
 
 fun Fragment.onGranted(@RequiresPermission vararg permissions: String, onGranted: () -> Unit) {
@@ -78,9 +105,7 @@ fun Fragment.isGranted(@RequiresPermission vararg permission: String): Boolean {
 }
 
 fun Fragment.onGrantedPermission(permission: String, block: () -> Unit) {
-    RxPermissions(this)
-            .request(permission)
-            .subscribe { granted -> if (granted) block() }
+
 }
 
 

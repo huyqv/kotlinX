@@ -1,13 +1,14 @@
-package com.kotlin.app.widget
+package com.kotlin.sample.widget
 
-import android.app.Activity
 import android.content.Context
 import android.content.res.TypedArray
+import android.graphics.Rect
 import android.os.Build
 import android.text.InputFilter
 import android.util.AttributeSet
 import android.view.KeyEvent
 import android.view.MotionEvent
+import android.view.View
 import android.view.View.OnTouchListener
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
@@ -17,8 +18,8 @@ import androidx.annotation.StringRes
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
-import com.kotlin.app.R
-import com.example.library.extension.tint
+import com.kotlin.sample.R
+import com.example.library.extension.select
 import com.example.library.widget.AppCustomView
 
 /**
@@ -29,7 +30,7 @@ import com.example.library.widget.AppCustomView
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-abstract class InputView : AppCustomView {
+abstract class InputView : AppCustomView, View.OnFocusChangeListener {
 
     /**
      * [AppCustomView] override
@@ -41,10 +42,11 @@ abstract class InputView : AppCustomView {
         configTitleText(types)
         configEditText(types)
         configDrawable(types)
+
     }
 
     override fun setOnClickListener(listener: OnClickListener?) {
-        editView?.apply {
+        editText?.apply {
             isFocusable = false
             isCursorVisible = false
             keyListener = null
@@ -56,24 +58,79 @@ abstract class InputView : AppCustomView {
     }
 
     /**
+     * Focus properties
+     */
+    private val onFocusChange = mutableListOf<(Boolean) -> Unit>()
+
+    override fun onFocusChange(v: View?, hasFocus: Boolean) {
+        onFocusChange.forEach { it(hasFocus) }
+    }
+
+    override fun hasFocusable(): Boolean {
+        return false
+    }
+
+    override fun isFocused(): Boolean {
+        return false
+    }
+
+    override fun hasFocus(): Boolean {
+        return false
+    }
+
+    override fun clearFocus() {
+        editText?.clearFocus()
+        hideKeyboard()
+    }
+
+    override fun requestFocus(direction: Int, previouslyFocusedRect: Rect?): Boolean {
+        editText?.also {
+            if (!it.isFocused) it.post {
+                it.requestFocus()
+                showKeyboard()
+            }
+        }
+        return false
+    }
+
+    fun addOnFocusChangeListener(block: (Boolean) -> Unit) {
+        onFocusChange.add(block)
+    }
+
+    fun disableFocus() {
+        editText?.apply {
+            isFocusable = false
+            isCursorVisible = false
+        }
+    }
+
+    fun enableFocus() {
+        editText?.apply {
+            isFocusable = true
+            isCursorVisible = true
+        }
+    }
+
+
+    /**
      * [InputView] properties
      */
     var title: String?
-        get() = titleView?.text.toString()
+        get() = textViewTitle?.text.toString()
         set(value) {
-            titleView?.text = value
+            textViewTitle?.text = value
         }
 
     var error: String?
-        get() = errorView?.text.toString()
+        get() = textViewError?.text.toString()
         set(value) {
-            errorView?.text = value
+            textViewError?.text = value
         }
 
     var text: String?
-        get() = editView?.text.toString()
+        get() = editText?.text.toString()
         set(value) {
-            editView?.setText(value)
+            editText?.setText(value)
         }
 
     val notError: Boolean get() = error.isNullOrEmpty()
@@ -84,24 +141,24 @@ abstract class InputView : AppCustomView {
 
     val notEmpty: Boolean get() = !isEmpty
 
-    abstract val titleView: AppCompatTextView?
+    abstract val textViewTitle: AppCompatTextView?
 
-    abstract val errorView: AppCompatTextView?
+    abstract val textViewError: AppCompatTextView?
 
-    abstract val editView: AppCompatEditText?
+    abstract val editText: AppCompatEditText?
 
     fun setError(@StringRes res: Int?) {
-        if (res == null) errorView?.text = null
-        else errorView?.setText(res)
+        if (res == null) textViewError?.text = null
+        else textViewError?.setText(res)
     }
 
     fun clear() {
-        editView?.text = null
-        errorView?.text = null
+        editText?.text = null
+        textViewError?.text = null
     }
 
     fun addEditorActionListener(actionId: Int, block: (String?) -> Unit) {
-        editView?.apply {
+        editText?.apply {
             maxLines = 1
             imeOptions = actionId
             setImeActionLabel(null, actionId)
@@ -119,14 +176,14 @@ abstract class InputView : AppCustomView {
     }
 
     fun setDrawableRight(@DrawableRes drawableRes: Int) {
-        editView?.post {
+        editText?.post {
             val drawable = ContextCompat.getDrawable(context, drawableRes)
-            editView?.setCompoundDrawables(null, null, drawable, null)
+            editText?.setCompoundDrawables(null, null, drawable, null)
         }
     }
 
     fun setDrawableClickListener(block: () -> Unit) {
-        editView?.apply {
+        editText?.apply {
             setOnTouchListener(OnTouchListener { _, event ->
                 if (event.action == MotionEvent.ACTION_UP)
                 // LEFT = 0, TOP = 1, RIGHT = 2, BOTTOM = 3
@@ -140,13 +197,15 @@ abstract class InputView : AppCustomView {
     }
 
     open fun configTitleText(types: TypedArray) {
-        titleView?.setTextColor(types.tint)
-        titleView?.text = types.text
+        textViewTitle?.setTextColor(types.tint)
+        textViewTitle?.text = types.text
     }
 
     open fun configEditText(types: TypedArray) {
 
-        editView?.also {
+        editText?.also {
+
+            it.onFocusChangeListener = this
 
             it.setTextColor(types.textColor)
 
@@ -174,7 +233,7 @@ abstract class InputView : AppCustomView {
             it.imeOptions = types.getInt(R.styleable.CustomView_android_imeOptions, EditorInfo.IME_ACTION_NEXT)
 
             val src = types.getResourceId(R.styleable.CustomView_android_src, -1)
-            if (src != -1) editView?.setBackgroundResource(src)
+            if (src != -1) editText?.setBackgroundResource(src)
 
         }
     }
@@ -183,7 +242,7 @@ abstract class InputView : AppCustomView {
         val color = types.drawableTint
         val drawableLeft = types.drawableStart.tint(color)
         val drawableRight = types.drawableEnd.tint(color)
-        editView?.setCompoundDrawablesWithIntrinsicBounds(drawableLeft, null, drawableRight, null)
+        editText?.setCompoundDrawablesWithIntrinsicBounds(drawableLeft, null, drawableRight, null)
     }
 
     private fun clearBackground() {
@@ -192,11 +251,15 @@ abstract class InputView : AppCustomView {
         else this.setBackgroundResource(0)
     }
 
-    private fun hideKeyboard() {
-        (context as? Activity)?.currentFocus?.windowToken.run {
-            val imm = context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.hideSoftInputFromWindow((context as Activity).currentFocus?.windowToken, 0)
-        }
+    fun showKeyboard() {
+        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+        imm?.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT)
     }
+
+    fun hideKeyboard() {
+        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+        imm?.hideSoftInputFromWindow(editText?.windowToken, 0)
+    }
+
 
 }

@@ -1,4 +1,4 @@
-package com.example.library.ui
+package com.kotlin.app.ui.base
 
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity

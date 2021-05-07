@@ -1,18 +1,18 @@
-package com.example.library.ui
+package com.kotlin.app.ui.base
 
-import android.content.Context
+import android.app.Dialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.OnBackPressedCallback
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
-import com.example.library.R
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.kotlin.app.R
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -32,16 +32,16 @@ abstract class BaseBottomDialog : BottomSheetDialogFragment(), BaseView {
         setStyle(STYLE_NORMAL, style())
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        requireActivity().onBackPressedDispatcher.addCallback(this,
-                object : OnBackPressedCallback(true) {
-                    override fun handleOnBackPressed() {
-                        if (onBackPressed()) {
-                            requireActivity().supportFragmentManager.popBackStack()
-                        }
-                    }
-                })
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val dialog = object : Dialog(requireActivity(), theme) {
+            override fun onBackPressed() {
+                this@BaseBottomDialog.onBackPressed()
+            }
+        }
+        dialog.setOnDismissListener {
+            println("onDismiss")
+        }
+        return dialog
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -55,6 +55,11 @@ abstract class BaseBottomDialog : BottomSheetDialogFragment(), BaseView {
         super.onViewCreated(view, savedInstanceState)
         onViewCreated()
         onLiveDataObserve()
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        println("onDismiss")
     }
 
     /**
@@ -78,8 +83,8 @@ abstract class BaseBottomDialog : BottomSheetDialogFragment(), BaseView {
         return R.style.App_Dialog
     }
 
-    protected open fun onBackPressed(): Boolean {
-        return true
+    protected open fun onBackPressed() {
+        dismissAllowingStateLoss()
     }
 
     fun <T> LiveData<T>.observe(block: (T) -> Unit) {
