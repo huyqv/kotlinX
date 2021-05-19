@@ -90,19 +90,18 @@ dependencies {
     implementation deps.android.browser
     implementation deps.android.annotation
     implementation deps.android.vectordrawable
-
     implementation deps.android.security
 
-    implementation deps.navigation.fragment
-    implementation deps.navigation.ui
+    implementation deps.lifecycle.viewmodel
+    implementation deps.lifecycle.livedata
+    kapt deps.lifecycle.compiler
 
     implementation deps.room.runtime
     annotationProcessor deps.room.compiler
     kapt deps.room.compiler
 
-    implementation deps.lifecycle.viewmodel
-    implementation deps.lifecycle.livedata
-    kapt deps.lifecycle.compiler
+    implementation deps.navigation.fragment
+    implementation deps.navigation.ui
 
     implementation deps.paging.runtime
     implementation deps.paging.rx
