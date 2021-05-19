@@ -12,8 +12,12 @@ android {
         targetSdkVersion builds.target_sdk
         versionCode builds.version_code
         versionName builds.version_name
+        consumerProguardFiles "consumer-rules.pro"
     }
     buildTypes {
+        all {
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
         release {
             minifyEnabled true
         }
@@ -43,13 +47,12 @@ dependencies {
     implementation deps.android.corektx
     implementation deps.android.appcompat
     implementation deps.android.fragment
-
     implementation deps.android.recyclerview
     implementation deps.android.cardview
     implementation deps.android.constraintlayout
     implementation deps.android.viewpager
     implementation deps.android.material
-
+    implementation deps.android.crypto
     implementation deps.paging.runtime
     implementation deps.paging.rx
 

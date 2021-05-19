@@ -24,7 +24,7 @@ abstract class ViewClickListener(private val delayedInterval: Long = 400) : View
 
     private val View?.isAcceptClick: Boolean get() = this?.id != lastClickViewId && delayedInterval == 0L
 
-    private val isDelayed: Boolean get() = nowInMillis - lastClickTime > delayedInterval
+    private val isDelayed: Boolean get() = System.currentTimeMillis() - lastClickTime > delayedInterval
 
     private var hasDelayed: Boolean = false
 
@@ -39,7 +39,7 @@ abstract class ViewClickListener(private val delayedInterval: Long = 400) : View
         }
         if (!hasDelayed) {
             hasDelayed = true
-            lastClickTime = nowInMillis
+            lastClickTime = System.currentTimeMillis()
         }
     }
 
@@ -96,10 +96,10 @@ abstract class FastClickListener(private val clickCount: Int) : View.OnClickList
     abstract fun onViewClick(v: View?)
 
     final override fun onClick(v: View?) {
-        if (nowInMillis - lastClickTime > 420 || currentClickCount >= clickCount) {
+        if (System.currentTimeMillis() - lastClickTime > 420 || currentClickCount >= clickCount) {
             currentClickCount = 0
         }
-        lastClickTime = nowInMillis
+        lastClickTime = System.currentTimeMillis()
         currentClickCount++
         if (currentClickCount == clickCount) {
             lastClickTime = 0

@@ -40,7 +40,7 @@ abstract class AppCustomView : FrameLayout {
     private fun onViewInit(context: Context, attrs: AttributeSet?) {
         val types = context.theme.obtainStyledAttributes(attrs, styleResource(), 0, 0)
         try {
-            LayoutInflater.from(context).inflate(layoutResource(), this)
+            inflate(context, layoutResource(), this)
             onInitialize(context, types)
         } finally {
             types.recycle()

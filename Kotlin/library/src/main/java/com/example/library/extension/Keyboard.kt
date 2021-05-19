@@ -31,23 +31,27 @@ fun Activity.showKeyboard() {
 }
 
 fun Fragment.hideKeyboard() {
-    activity?.hideKeyboard()
+    view?.post {
+        requireActivity().hideKeyboard()
+    }
 }
 
 fun Fragment.showKeyboard() {
-    activity?.showKeyboard()
+    view?.post {
+        requireActivity().showKeyboard()
+    }
 }
 
-fun View?.hideKeyboard() {
-    this?.post {
+fun View.hideKeyboard() {
+    this.post {
         clearFocus()
         val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
         imm?.hideSoftInputFromWindow(windowToken, 0)
     }
 }
 
-fun View?.showKeyboard() {
-    this?.post {
+fun View.showKeyboard() {
+    this.post {
         requestFocus()
         val imm: InputMethodManager? = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
         imm?.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)

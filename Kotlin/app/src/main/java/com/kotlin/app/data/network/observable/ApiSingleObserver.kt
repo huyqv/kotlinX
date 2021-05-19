@@ -1,4 +1,4 @@
-package com.kotlin.app.data.api.observable
+package com.kotlin.app.data.network.observable
 
 import com.example.library.extension.toast
 import io.reactivex.observers.DisposableSingleObserver

@@ -8,14 +8,9 @@ import com.google.gson.reflect.TypeToken
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.StringReader
+import kotlin.reflect.KClass
 
-fun <T> readJsonAsset(fileName: String, cls: Class<T>): T? {
-    return readStringFromAssets(fileName).parse(cls)
-}
 
-fun <T> readJsonAsset(fileName: String, cls: Class<Array<T>>): List<T>? {
-    return readStringFromAssets(fileName).parse(cls)
-}
 
 /**
  * Parse [JsonObject]/[JsonArray]/[String] to Kotlin Object/List<Object>
@@ -25,16 +20,23 @@ private val convertFactory: Gson by lazy {
 }
 
 fun <T> JsonObject?.parse(cls: Class<T>): T? {
-    this ?: return null
-    return this.toString().parse(cls)
+    return this?.toString()?.parse(cls)
 }
 
 fun <T> JsonArray?.parse(cls: Class<Array<T>>): List<T>? {
-    this ?: return null
-    return this.toString().parse(cls)
+    return this?.toString()?.parse(cls)
+}
+
+fun <T : Any> JsonObject?.parse(cls: KClass<T>): T? {
+    return this?.toString()?.parse(cls)
+}
+
+fun <T : Any> JsonArray?.parse(cls: KClass<Array<T>>): List<T>? {
+    return this?.toString()?.parse(cls)
 }
 
 fun <T> String?.parse(cls: Class<T>): T? {
+    this ?: return null
     if (isNullOrEmpty()) {
         return null
     }
@@ -46,6 +48,7 @@ fun <T> String?.parse(cls: Class<T>): T? {
 }
 
 fun <T> String?.parse(cls: Class<Array<T>>): List<T>? {
+    this ?: return null
     if (isNullOrEmpty()) {
         return null
     }
@@ -54,6 +57,14 @@ fun <T> String?.parse(cls: Class<Array<T>>): List<T>? {
     } catch (ignore: Exception) {
         null
     }
+}
+
+fun <T : Any> String?.parse(cls: KClass<T>): T? {
+    return this?.parse(cls.java)
+}
+
+fun <T : Any> String?.parse(cls: KClass<Array<T>>): List<T>? {
+    return this?.parse(cls.java)
 }
 
 fun <T> jsonObject(obj: T): JsonObject? {
@@ -253,12 +264,3 @@ fun JsonObject?.stringyJson(): String {
         "null"
     }
 }
-
-
-
-
-
-
-
-
-

@@ -1,4 +1,4 @@
-package com.kotlin.app.data.api.model
+package com.kotlin.app.data.network.model
 
 import com.example.library.adapter.recycler.DiffItemCallback
 import com.google.gson.annotations.SerializedName

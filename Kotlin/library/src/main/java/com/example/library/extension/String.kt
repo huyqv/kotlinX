@@ -124,24 +124,6 @@ fun String?.trimAll(): String? {
     return temp
 }
 
-fun String?.capitalize(): String {
-    this ?: return ""
-    val arr = this.toCharArray()
-    var capitalizeNext = true
-    var phrase = ""
-    for (c in arr) {
-        if (capitalizeNext && Character.isLetter(c)) {
-            phrase += Character.toUpperCase(c)
-            capitalizeNext = false
-            continue
-        } else if (Character.isWhitespace(c)) {
-            capitalizeNext = true
-        }
-        phrase += c
-    }
-    return phrase
-}
-
 fun String?.like(s: String?): Boolean {
     val left = this.normalizer() ?: return false
     val right = s.normalizer() ?: return false

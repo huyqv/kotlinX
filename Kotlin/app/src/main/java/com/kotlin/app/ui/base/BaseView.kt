@@ -6,7 +6,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
-import com.example.library.view.ViewClickListener
+import com.example.library.extension.ViewClickListener
 import kotlin.reflect.KClass
 
 /**
@@ -42,7 +42,7 @@ interface BaseView {
         views.forEach { it?.setOnClickListener(listener) }
     }
 
-    fun onViewClick(v: View?) {}
+    fun onViewClick(v: View?) = Unit
 
     fun <T : ViewModel> ViewModelStoreOwner.viewModel(cls: KClass<T>): T {
         return ViewModelProvider(this).get(cls.java)
@@ -59,6 +59,5 @@ interface BaseView {
     fun <T : ViewModel> AppCompatActivity.activityVM(cls: KClass<T>): T {
         return ViewModelProvider(this).get(cls.java)
     }
-
 
 }

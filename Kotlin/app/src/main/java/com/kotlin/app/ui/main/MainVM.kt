@@ -1,4 +1,4 @@
-package com.kotlin.app.ui
+package com.kotlin.app.ui.main
 
 import com.kotlin.app.ui.vm.BaseVM
 

@@ -501,8 +501,26 @@ fun ByteArray.convertImage(pixels: IntArray, exposureCompensation: Double?) {
     }
 }
 
-fun ByteArray.toBitmap(): Bitmap {
-    return BitmapFactory.decodeByteArray(this, 0, this.size)
+fun ByteArray.toBitmap(config: Bitmap.Config = Bitmap.Config.ALPHA_8, width: Int, height: Int): Bitmap? {
+    val bitmap = Bitmap.createBitmap(width, height, config)
+    val buffer = ByteBuffer.wrap(this)
+    bitmap.copyPixelsFromBuffer(buffer)
+    return bitmap
+}
+
+fun ByteArray.toBitmap(bitmap: Bitmap, pixels: IntArray, exposureCompensation: Double?): Bitmap {
+    val width = bitmap.width
+    val height = bitmap.height
+    this.convertImage(pixels, exposureCompensation)
+    bitmap.setPixels(pixels, 0, width, 0, 0, width, height)
+    return bitmap
+}
+
+fun ByteArray.toBitmap(width: Int, height: Int, exposureCompensation: Double?): Bitmap {
+    val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+    val pixels = IntArray(this.size)
+
+    return this.toBitmap(bitmap, pixels, exposureCompensation)
 }
 
 fun ByteArray.toBitmap(width: Int, height: Int): Bitmap {
@@ -526,37 +544,9 @@ fun ByteArray.toBitmap(width: Int, height: Int): Bitmap {
     return srcBitmap
 }
 
-fun ByteArray.toBitmap(config: Bitmap.Config = Bitmap.Config.ALPHA_8, width: Int, height: Int): Bitmap? {
-    val bitmap = Bitmap.createBitmap(width, height, config)
-    val buffer = ByteBuffer.wrap(this)
-    bitmap.copyPixelsFromBuffer(buffer)
-    return bitmap
-}
-
-fun ByteArray.toBitmap(bitmap: Bitmap, pixels: IntArray, exposureCompensation: Double?): Bitmap {
-    val width = bitmap.width
-    val height = bitmap.height
-    this.convertImage(pixels, exposureCompensation)
-    bitmap.setPixels(pixels, 0, width, 0, 0, width, height)
-    return bitmap
-}
-
-fun ByteArray.toBitmap(width: Int, height: Int, exposureCompensation: Double?): Bitmap {
-    val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
-    val pixels = IntArray(this.size)
-
-    return this.toBitmap(bitmap, pixels, exposureCompensation)
-}
-
 /**
  * [Bitmap]
  */
-fun Bitmap.toBytes(): ByteArray {
-    val stream = ByteArrayOutputStream()
-    this.compress(Bitmap.CompressFormat.JPEG, 80, stream)
-    return stream.toByteArray()
-}
-
 fun Bitmap.size(): Int {
     // From KitKat onward use getAllocationByteCount() as allocated bytes can potentially be
     // larger than bitmap byte count.
@@ -586,16 +576,6 @@ fun Bitmap.threshold(threshold: Int = 128): Bitmap {
 
 
     return image
-}
-
-fun Bitmap.toBase64String(): String? {
-    return try {
-        val outputStream = ByteArrayOutputStream()
-        this.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
-        Base64.encodeToString(outputStream.toByteArray(), Base64.DEFAULT)
-    } catch (e: IOException) {
-        null
-    }
 }
 
 fun Bitmap.convert(config: Bitmap.Config): Bitmap {
@@ -830,4 +810,36 @@ fun Closeable.safeClose() {
         close()
     } catch (ignored: Exception) {
     }
+}
+
+/**
+ * [android.util.Base64] encode
+ */
+fun Bitmap.toBytes(): ByteArray {
+    val outputStream = ByteArrayOutputStream()
+    this.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+    return outputStream.toByteArray()
+}
+
+fun ByteArray.encodeToString(flag: Int = Base64.NO_WRAP): String {
+    return Base64.encodeToString(this, flag)
+}
+
+fun Bitmap.toBase64String(format: Int = Base64.NO_WRAP): String {
+    return toBytes().encodeToString(format)
+}
+
+/**
+ * [android.util.Base64] decode
+ */
+fun String.decodeToBytes(flag: Int = Base64.NO_WRAP): ByteArray {
+    return Base64.decode(this, flag)
+}
+
+fun ByteArray.toBitmap(): Bitmap {
+    return BitmapFactory.decodeByteArray(this, 0, this.size)
+}
+
+fun String.toBitmap(flag: Int = Base64.NO_WRAP): Bitmap {
+    return decodeToBytes(flag).toBitmap()
 }

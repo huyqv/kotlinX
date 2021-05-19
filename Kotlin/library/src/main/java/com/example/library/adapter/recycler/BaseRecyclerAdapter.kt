@@ -139,8 +139,7 @@ abstract class BaseRecyclerAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHo
      * List update
      */
     open fun get(position: Int): T? {
-        if (position in 0..lastIndex) return currentList[position]
-        return null
+        return currentList.getOrNull(position)
     }
 
     open fun set(collection: Collection<T>?) {

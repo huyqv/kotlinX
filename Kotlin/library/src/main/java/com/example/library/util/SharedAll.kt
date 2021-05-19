@@ -1,4 +1,4 @@
-package com.kotlin.app.data.shared
+package com.example.library.util
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -8,19 +8,22 @@ import android.security.keystore.KeyProperties
 import androidx.annotation.RequiresApi
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
-import com.kotlin.app.app.App
+import com.example.library.BuildConfig
+import com.example.library.Library
+
 
 /**
  * -------------------------------------------------------------------------------------------------
  * @Project: Kotlin
- * @Created: Huy QV 2018/1/2
+ * @Created: Huy 2020/10/16
+ * @Organize: Wee Digital
  * @Description: ...
- * None Right Reserved
+ * All Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-object Shared {
+object SharedAll {
 
-    private val context get() = App.instance
+    private val context get() = Library.app
 
     private val pref: SharedPreferences by lazy {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -29,12 +32,12 @@ object Shared {
                     .build()
             EncryptedSharedPreferences.create(
                     context,
-                    "ccv",
+                    BuildConfig.LIBRARY_PACKAGE_NAME,
                     masterKey,
                     EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
                     EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM) as EncryptedSharedPreferences
         } else {
-            context.getSharedPreferences(com.example.library.BuildConfig.LIBRARY_PACKAGE_NAME, Context.MODE_PRIVATE)
+            context.getSharedPreferences(BuildConfig.LIBRARY_PACKAGE_NAME, Context.MODE_PRIVATE)
         }
     }
 

@@ -1,6 +1,8 @@
-package com.kotlin.app.data.api.observable
+package com.kotlin.app.data.network.observable
 
 import com.example.library.extension.toast
+import com.google.gson.JsonObject
+import com.kotlin.app.data.network.errorResponse
 import io.reactivex.observers.DisposableObserver
 import retrofit2.HttpException
 import java.net.SocketException
@@ -38,9 +40,9 @@ abstract class ApiObserver<T> : DisposableObserver<T>() {
     final override fun onError(e: Throwable) {
         onCompleted(null, e)
         when (e) {
-            is HttpException -> onFailed(e.code(), e.message())
+            is HttpException -> onFailed(e.code(), e.message(), e.errorResponse)
             is SocketException, is UnknownHostException, is SocketTimeoutException -> onNetworkError()
-            else -> onFailed(0, e.message ?: "")
+            else -> onFailed(0, e.message, null)
         }
     }
 
@@ -53,12 +55,12 @@ abstract class ApiObserver<T> : DisposableObserver<T>() {
 
     protected open fun onResponse(data: T) {}
 
-    protected open fun onFailed(code: Int, message: String) {
+    protected open fun onFailed(code: Int, message: String?, body: JsonObject?) {
         toast("$code $message")
     }
 
     protected open fun onNetworkError() {
-        onFailed(0, "network error")
+        onFailed(0, "network error", null)
     }
 
 }

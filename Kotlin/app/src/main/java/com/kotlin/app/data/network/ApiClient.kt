@@ -1,10 +1,10 @@
-package com.kotlin.app.data.api
+package com.kotlin.app.data.network
 
-import com.kotlin.app.BuildConfig
 import com.example.library.extension.parse
-import com.kotlin.app.data.api.model.Image
-import com.kotlin.app.data.api.model.Message
-import com.kotlin.app.data.api.model.User
+import com.kotlin.app.BuildConfig
+import com.kotlin.app.data.network.model.Image
+import com.kotlin.app.data.network.model.Message
+import com.kotlin.app.data.network.model.User
 import io.reactivex.Single
 import okhttp3.CertificatePinner
 
@@ -16,45 +16,33 @@ import okhttp3.CertificatePinner
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-val apiClient: ApiClient by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
-    ApiClient()
-}
-
 class ApiClient {
 
     private val publicKey: String = "m9Z7mswlRljf8acQ07EesjKOVJDGy2nR0ZrOM22PE40="
 
+    private var token: String? = null
+
     private val certPinner: CertificatePinner by lazy {
         CertificatePinner.Builder()
-                .add(Rest.domainName(BuildConfig.SERVICE_URL), "sha256/$publicKey")
+                .add(domainName(BuildConfig.SERVICE_URL), "sha256/$publicKey")
                 .build()
     }
 
-    val hasPinning: Boolean get() = !publicKey.isNullOrEmpty()
-
-    var service: ApiService = Rest.initRetrofit(BuildConfig.SERVICE_URL) {
-        if (BuildConfig.SERVICE_URL.indexOf("https") == -1) {
-            if (hasPinning) {
-                certificatePinner(certPinner)
-            } else {
-                Rest.trustClient(this)
-            }
-        }
-    }
-            .build()
-            .create(ApiService::class.java)
-
+    private val hasHttps get() = BuildConfig.SERVICE_URL.indexOf("https") == -1
 
     private var requests: MutableList<Single<*>> = mutableListOf()
 
-    fun setToken(token: String? = null) {
-        apiClient.service = Rest.initRetrofit(BuildConfig.SERVICE_URL) {
-            if (token != null) {
-                addInterceptor(Rest.authInterceptor(token))
+    var service: ApiService = initService(ApiService::class, BuildConfig.SERVICE_URL) {
+        if (hasHttps) {
+            if (!publicKey.isNullOrEmpty()) {
+                certificatePinner(certPinner)
+            } else {
+                trustClient(this)
             }
         }
-                .build()
-                .create(ApiService::class.java)
+        if (!token.isNullOrEmpty()) {
+            addAuthInterceptor(token)
+        }
     }
 
     private fun <T> Single<T>.filterRequest(): Single<T> {

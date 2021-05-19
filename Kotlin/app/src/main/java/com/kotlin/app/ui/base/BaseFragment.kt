@@ -9,6 +9,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -25,12 +26,10 @@ abstract class BaseFragment : Fragment(), BaseView {
      */
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        requireActivity().onBackPressedDispatcher.addCallback(this,
+      requireActivity().onBackPressedDispatcher.addCallback(this,
                 object : OnBackPressedCallback(true) {
                     override fun handleOnBackPressed() {
-                        if (onBackPressed()) {
-                            requireActivity().supportFragmentManager.popBackStack()
-                        }
+                        onBackPressed()
                     }
                 })
     }
@@ -64,8 +63,8 @@ abstract class BaseFragment : Fragment(), BaseView {
     /**
      * [BaseFragment] properties
      */
-    protected open fun onBackPressed(): Boolean {
-        return true
+    protected open fun onBackPressed() {
+        findNavController()?.navigateUp()
     }
 
     fun <T> LiveData<T>.observe(block: (T) -> Unit) {

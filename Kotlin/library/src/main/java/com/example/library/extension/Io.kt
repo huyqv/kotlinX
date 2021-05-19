@@ -11,6 +11,7 @@ import android.provider.MediaStore
 import androidx.annotation.RequiresPermission
 import com.example.library.Library
 import java.io.*
+import kotlin.reflect.KClass
 
 
 /**
@@ -44,7 +45,7 @@ fun readBytesFromAssets(fileName: String): ByteArray? {
 
 }
 
-fun readStringFromAssets(filename: String): String? {
+fun readAssets(filename: String): String? {
     return try {
         val sb = StringBuilder()
         BufferedReader(InputStreamReader(app.assets.open(filename))).useLines { lines ->
@@ -56,6 +57,14 @@ fun readStringFromAssets(filename: String): String? {
     } catch (e: FileNotFoundException) {
         null
     }
+}
+
+fun <T: Any> readAssets(fileName: String, cls: KClass<T>): T? {
+    return readAssets(fileName).parse(cls)
+}
+
+fun <T: Any> readAssets(fileName: String, cls: KClass<Array<T>>): List<T>? {
+    return readAssets(fileName).parse(cls)
 }
 
 fun File.getUri(): Uri? {

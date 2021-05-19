@@ -74,6 +74,9 @@ dependencies {
     implementation project(":library")
 
     implementation deps.kotlin.stdlib
+    implementation deps.kotlin.coroutines_core
+    implementation deps.kotlin.coroutines_android
+
     implementation deps.android.corektx
     implementation deps.android.appcompat
     implementation deps.android.fragment
@@ -87,7 +90,7 @@ dependencies {
     implementation deps.android.browser
     implementation deps.android.material
     implementation deps.android.viewpager
-
+    implementation deps.android.crypto
     implementation deps.navigation.fragment
     implementation deps.navigation.ui
 
@@ -106,31 +109,16 @@ dependencies {
     implementation deps.reactivex.kotlin
     implementation deps.reactivex.binding
 
-    implementation deps.retrofit.retrofit
-    implementation deps.retrofit.gson
-    implementation deps.retrofit.rxjava
-    implementation deps.okhttp_log
+    implementation deps.square.retrofit
+    implementation deps.square.gson
+    implementation deps.square.rxjava
+    implementation deps.square.okhttp_log
 
     implementation deps.dimens.sdp
     implementation deps.dimens.ssp
 
     implementation deps.roundedimageview
 
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation deps.test.extension
-    androidTestImplementation deps.test.espresso
-
-    //implementation 'net.cachapa.expandablelayout:expandablelayout:2.9.2'
-    //implementation 'com.flaviofaria:kenburnsview:1.0.7'
-
-    //implementation 'com.mlsdev.rximagepicker:library:2.0.2'
-    //implementation 'com.github.hkk595:Resizer:v1.5'
-    //implementation 'id.zelory:compressor:2.1.0'
-
-    // WEB SOCKET
-    //implementation('io.socket:socket.io-client:1.0.0') {
-    //    exclude group: 'org.json', module: 'json'
-    //}
 }
 
 

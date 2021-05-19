@@ -228,21 +228,27 @@ fun Window.hideSystemUI(hasFocus: Boolean = true) {
     }
     @Suppress("DEPRECATION")
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && hasFocus) {
-        val flags = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+        val flags = (View.SYSTEM_UI_FLAG_IMMERSIVE
+                // Set the content to appear under the system bars so that the
+                // content doesn't resize when the system bars hide and show.
+                or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                 or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                // Hide the nav bar and status bar
                 or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                or View.SYSTEM_UI_FLAG_FULLSCREEN
-                or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
-        decorView.also {
-            it.systemUiVisibility = flags
-            it.setOnSystemUiVisibilityChangeListener { visibility ->
-                if (visibility and View.SYSTEM_UI_FLAG_FULLSCREEN == 0) {
-                    it.systemUiVisibility = flags
-                }
+                or View.SYSTEM_UI_FLAG_FULLSCREEN)
+        decorView.systemUiVisibility = flags
+        decorView.setOnSystemUiVisibilityChangeListener { visibility ->
+            if (visibility and View.SYSTEM_UI_FLAG_FULLSCREEN == 0) {
+                decorView.systemUiVisibility = flags
             }
         }
     }
+    @Suppress("DEPRECATION")
+    setFlags(
+            WindowManager.LayoutParams.FLAG_FULLSCREEN,
+            WindowManager.LayoutParams.FLAG_FULLSCREEN
+    )
 }
 
 fun Activity.hideSystemUI(hasFocus: Boolean = true) {

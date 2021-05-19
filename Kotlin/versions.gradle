@@ -1,5 +1,5 @@
 def builds = [:]
-builds.min_sdk = 23
+builds.min_sdk = 21
 builds.compile_sdk = 30
 builds.target_sdk = 30
 builds.version_code = 1
@@ -7,8 +7,7 @@ builds.version_name = "1.0.0"
 ext.builds = builds
 
 def versions = [:]
-versions.kotlin = "1.5.0"
-
+versions.kotlin = "1.4.31"
 ext.versions = versions
 
 def deps = [:]
@@ -19,14 +18,24 @@ def kotlin = [:]
 kotlin.stdlib = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$versions.kotlin"
 kotlin.gradle = "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin"
 kotlin.extensions = "org.jetbrains.kotlin:kotlin-android-extensions:$versions.kotlin"
+/**
+ * Concurrency design pattern
+ * [https://developer.android.com/kotlin/coroutines]
+ */
+kotlin.coroutines_core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.1"
+kotlin.coroutines_android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9"
 deps.kotlin = kotlin
 
+
+/**
+ * AndroidX
+ * [https://developer.android.com/jetpack/androidx/versions]
+ */
 def android = [:]
 android.corektx = "androidx.core:core-ktx:1.3.2"
 android.appcompat = "androidx.appcompat:appcompat:1.2.0"
 android.activity = "androidx.activity:activity-ktx:1.3.2"
 android.fragment = "androidx.fragment:fragment-ktx:1.2.5"
-
 android.recyclerview = "androidx.recyclerview:recyclerview:1.2.0"
 android.cardview = "androidx.cardview:cardview:1.0.0"
 android.constraintlayout = "androidx.constraintlayout:constraintlayout:2.0.4"
@@ -43,30 +52,66 @@ android.multidex = "androidx.multidex:multidex:2.0.1"
 android.material = "com.google.android.material:material:1.4.0-alpha02"
 android.print = "androidx.print:print:1.0.0"
 android.viewpager = "androidx.viewpager2:viewpager2:1.0.0"
+android.crypto = "androidx.security:security-crypto:1.1.0-alpha03"
 deps.android = android
 
+
+/**
+ * Test
+ */
+def test = [:]
+test.junit = 'junit:junit:4.13.1'
+test.extension = "androidx.test.ext:junit:1.1.2"
+test.espresso = 'androidx.test.espresso:espresso-core:3.3.0'
+deps.test = test
+
+
+/**
+ * Fragment navigation
+ * [https://developer.android.com/guide/navigation]
+ */
 def navigation = [:]
 navigation.safe_args = "androidx.navigation:navigation-safe-args-gradle-plugin:2.3.5"
 navigation.fragment = "androidx.navigation:navigation-fragment-ktx:2.3.5"
 navigation.ui = "androidx.navigation:navigation-ui-ktx:2.3.5"
 deps.navigation = navigation
 
+
+/**
+ * SQLite database object relational mapping
+ * [https://developer.android.com/jetpack/androidx/releases/room]
+ */
 def room = [:]
 room.runtime = "androidx.room:room-runtime:2.2.6"
 room.compiler = "androidx.room:room-compiler:2.2.6"
 deps.room = room
 
+
+/**
+ * Lifecycle-aware components
+ * [https://developer.android.com/jetpack/androidx/releases/lifecycle]
+ */
 def lifecycle = [:]
 lifecycle.extensions = "androidx.lifecycle:lifecycle-extensions:2.2.0"
 lifecycle.streams = "androidx.lifecycle:lifecycle-reactivestreams:2.3.1"
 lifecycle.compiler = "androidx.lifecycle:lifecycle-compiler:2.3.1"
 deps.lifecycle = lifecycle
 
+
+/**
+ * Recycler view adapter paging
+ * [https://developer.android.com/jetpack/androidx/releases/paging]
+ */
 def paging = [:]
 paging.runtime = "android.arch.paging:runtime:2.1.2"
 paging.rx = "android.arch.paging:rxjava2:2.1.2"
 deps.paging = paging
 
+
+/**
+ * Schedule deferrable, Asynchronous tasks
+ * [https://developer.android.com/jetpack/androidx/releases/work]
+ */
 def work = [:]
 work.version = "2.4.0"
 work.ktx = "androidx.work:work-runtime-ktx:$work.version"
@@ -75,7 +120,65 @@ work.gcm = "androidx.work:work-gcm:$work.version"
 work.test = "androidx.work:work-testing:$work.version"
 deps.work = work
 
-// REACTIVE PROGRAMMING
+
+/**
+ * CameraX
+ * [https://developer.android.com/training/camerax]
+ */
+def camera = [:]
+camera.camera2 = "androidx.camera:camera-camera2:1.0.0"
+camera.lifecycle = "androidx.camera:camera-lifecycle:1.0.0"
+camera.view = "androidx.camera:camera-view:1.0.0"
+deps.camera = camera
+
+
+
+
+/**
+ * Google services
+ */
+def google = [:]
+google.services = "com.google.gms:google-services:4.3.4"
+google.map = "com.google.android.gms:play-services-maps:17.0.0"
+google.gson = "com.google.code.gson:gson:2.8.6"
+deps.google = google
+
+
+/**
+ * Development apis
+ * [https://firebase.google.com/docs]
+ */
+def firebase = [:]
+firebase.core = "com.google.firebase:firebase-core"
+firebase.analytics = "com.google.firebase:firebase-analytics"
+firebase.auth_ktx = "com.google.firebase:firebase-auth-ktx"
+firebase.database_ktx = "com.google.firebase:firebase-database-ktx"
+firebase.messaging_ktx = "com.google.firebase:firebase-messaging-ktx"
+firebase.crashlytics_ktx = "com.google.firebase:firebase-crashlytics-ktx"
+firebase.analytics_ktx = "com.google.firebase:firebase-analytics-ktx"
+deps.firebase = firebase
+
+
+/**
+ * Machine learning
+ * [https://developers.google.com/ml-kit]
+ */
+def ml = [:]
+ml.barcode = 'com.google.mlkit:barcode-scanning:16.1.1'
+ml.face_detection = 'com.google.mlkit:face-detection:16.0.7'
+ml.image_labeling = 'com.google.mlkit:image-labeling:17.0.3'
+ml.image_labeling_custom = 'com.google.mlkit:image-labeling-custom:16.3.1'
+ml.pose_detection = 'com.google.mlkit:pose-detection:17.0.1-beta3'
+ml.pose_detection_accurate = 'com.google.mlkit:pose-detection-accurate:17.0.1-beta3'
+ml.segmentation_selfie = 'com.google.mlkit:segmentation-selfie:16.0.0-beta1'
+ml.camera = 'com.google.mlkit:camera:16.0.0-beta1'
+deps.ml = ml
+
+
+/**
+ * Reactive programming
+ * [http://reactivex.io/]
+ */
 def reactivex = [:]
 reactivex.java = "io.reactivex.rxjava2:rxjava:2.2.21"
 reactivex.android = "io.reactivex.rxjava2:rxandroid:2.1.1"
@@ -83,50 +186,84 @@ reactivex.kotlin = "io.reactivex.rxjava2:rxkotlin:2.4.0"
 reactivex.binding = "com.jakewharton.rxbinding2:rxbinding-kotlin:2.2.0"
 deps.reactivex = reactivex
 
-// RESTFUL API
-def retrofit = [:]
-retrofit.retrofit = "com.squareup.retrofit2:retrofit:2.9.0"
-retrofit.gson = "com.squareup.retrofit2:converter-gson:2.9.0"
-retrofit.rxjava = "com.squareup.retrofit2:adapter-rxjava2:2.9.0"
-deps.retrofit = retrofit
 
-// ASYNC IMAGE LOAD
+/**
+ * RestFUL api client
+ * [https://square.github.io/retrofit/]
+ */
+def square = [:]
+square.retrofit = "com.squareup.retrofit2:retrofit:2.9.0"
+square.gson = "com.squareup.retrofit2:converter-gson:2.9.0"
+square.rxjava = "com.squareup.retrofit2:adapter-rxjava2:2.9.0"
+square.okhttp = "com.squareup.okhttp3:okhttp:3.12.0"
+square.okhttp_log = "com.squareup.okhttp3:logging-interceptor:4.9.0"
+square.okhttp_url = 'com.squareup.okhttp3:okhttp-urlconnection:4.7.2'
+deps.square = square
+
+
+/**
+ * Socket IO client
+ * [https://github.com/socketio/socket.io-client-java]
+ */
+deps.socket_io_client = "io.socket:socket.io-client:1.0.0" // { exclude group: 'org.json', module: 'json' }
+
+
+/**
+ * Asynchronous image load
+ */
 def glide = [:]
 glide.version = "4.11.0"
 glide.glide = "com.github.bumptech.glide:glide:$glide.version"
 glide.compiler = "com.github.bumptech.glide:compiler:$glide.version"
 deps.glide = glide
 
-// DIMENSIONS RESOURCE
+
+/**
+ * Multi dimension resources
+ * [https://github.com/intuit/sdp]
+ * [https://github.com/intuit/ssp]
+ */
 def dimens = [:]
 dimens.sdp = "com.intuit.sdp:sdp-android:1.0.6"
 dimens.ssp = "com.intuit.ssp:ssp-android:1.0.6"
 deps.dimens = dimens
 
-// GOOGLE SERVICE
-def google = [:]
-google.services = "com.google.gms:google-services:4.3.3"
-google.firebase_core = "com.google.firebase:firebase-core:17.5.1"
-google.firebase_messaging = "com.google.firebase:firebase-messaging:20.3.0"
-google.gson = "com.google.code.gson:gson:2.8.6"
-deps.google = google
 
-// TEST
-def test = [:]
-test.junit = 'junit:junit:4.13.1'
-test.extension = "androidx.test.ext:junit:1.1.2"
-test.espresso = 'androidx.test.espresso:espresso-core:3.3.0'
-deps.test = test
-
-// UTILS
-deps.okhttp = "com.squareup.okhttp3:okhttp:3.12.0"
-deps.okhttp_log = "com.squareup.okhttp3:logging-interceptor:4.9.0"
-
-// CUSTOM VIEWS
+/**
+ * Custom view
+ */
+/**
+ * Diagonal layout
+ * [https://github.com/IntruderShanky/Squint]
+ */
 deps.squint = "com.github.IntruderShanky:Squint:3.0.1"
+/**
+ * Rounded, Oval, Circular image view
+ * [https://github.com/vinc3m1/RoundedImageView]
+ */
 deps.roundedimageview = "com.makeramen:roundedimageview:2.3.0"
+/**
+ * Expandable/collapsible layout
+ * [https://github.com/skydoves/ExpandableLayout]
+ */
+deps.expandable_layout = 'net.cachapa.expandablelayout:expandablelayout:2.9.2'
+/**
+ * Ken burns anim
+ * [https://github.com/flavioarfaria/KenBurnsView]
+ */
+deps.kenburnsview = 'com.flaviofaria:kenburnsview:1.0.7'
 
 
-
-
-
+/**
+ * Utils
+ */
+/**
+ * Permission util
+ * [https://github.com/tbruyelle/RxPermissions]
+ */
+deps.permissions = "com.github.tbruyelle:rxpermissions:0.10.2"
+/**
+ * Ken burns anim
+ * [https://github.com/zetbaitsu/Compressor]
+ */
+deps.compressor = 'id.zelory:compressor:2.1.0'

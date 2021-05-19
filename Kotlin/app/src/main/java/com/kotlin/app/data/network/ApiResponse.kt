@@ -1,4 +1,4 @@
-package com.kotlin.app.data.api
+package com.kotlin.app.data.network
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName

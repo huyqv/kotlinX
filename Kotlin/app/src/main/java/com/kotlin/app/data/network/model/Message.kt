@@ -1,4 +1,4 @@
-package com.kotlin.app.data.api.model
+package com.kotlin.app.data.network.model
 
 import androidx.recyclerview.widget.DiffUtil
 import com.google.gson.annotations.Expose

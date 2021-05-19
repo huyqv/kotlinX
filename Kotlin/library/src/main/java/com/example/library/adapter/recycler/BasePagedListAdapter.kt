@@ -142,8 +142,7 @@ abstract class BasePagedListAdapter<T> : PagedListAdapter<T, RecyclerView.ViewHo
     val dataNotEmpty: Boolean get() = size != 0
 
     open fun get(position: Int): T? {
-        if (position in 0..lastIndex) return differ.getItem(position)
-        return null
+        return differ.currentList?.getOrNull(position)
     }
 
     private fun asyncPagedListDiffer(itemCallback: DiffUtil.ItemCallback<T>): AsyncPagedListDiffer<T> {

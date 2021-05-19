@@ -1,6 +1,7 @@
 package com.example.library.extension
 
 import android.annotation.SuppressLint
+import android.app.ActivityManager
 import android.app.Application
 import android.content.Context
 import android.content.res.Configuration
@@ -10,6 +11,7 @@ import android.os.Build
 import android.provider.Settings
 import android.util.DisplayMetrics
 import android.view.WindowManager
+import androidx.appcompat.app.AppCompatActivity
 import com.example.library.Library
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -85,6 +87,14 @@ val displayMetrics: DisplayMetrics
 val screenWidth: Int get() = displayMetrics.widthPixels
 
 val screenHeight: Int get() = displayMetrics.heightPixels
+
+val freeMemory: Long
+    get() {
+        val memoryInfo = ActivityManager.MemoryInfo()
+        val manager = app.getSystemService(AppCompatActivity.ACTIVITY_SERVICE) as ActivityManager
+        manager.getMemoryInfo(memoryInfo)
+        return (memoryInfo.availMem) / (1024 * 1024)
+    }
 
 val dpi: Int get() = displayMetrics.densityDpi
 

@@ -1,7 +1,8 @@
 package com.kotlin.app.ui.splash
 
-import com.kotlin.app.ui.base.BaseFragment
+import com.example.library.extension.showKeyboard
 import com.kotlin.app.R
+import com.kotlin.app.ui.base.BaseFragment
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -19,7 +20,7 @@ class SplashFragment : BaseFragment() {
     }
 
     override fun onViewCreated() {
-
+        showKeyboard()
     }
 
     override fun onLiveDataObserve() {

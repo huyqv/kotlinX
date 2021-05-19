@@ -4,6 +4,7 @@ import android.annotation.TargetApi
 import android.app.Activity
 import android.graphics.*
 import android.graphics.drawable.Drawable
+import android.graphics.drawable.GradientDrawable
 import android.os.Build
 import android.text.Html
 import android.text.InputFilter
@@ -383,6 +384,12 @@ fun WebView.setClient(progressBar: ProgressBar) {
             super.onPageFinished(view, url)
         }
     }
+}
+
+fun createDrawable(@ColorInt startColor:Int, endColor: Int, radius: Float) : Drawable{
+    val gradientDrawable = GradientDrawable(GradientDrawable.Orientation.TL_BR, intArrayOf(startColor, endColor));
+    gradientDrawable.cornerRadius = radius;
+    return gradientDrawable
 }
 
 

@@ -95,28 +95,28 @@ fun RecyclerView.addDragListener(listener: DragListener?) {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 when {
                     dx < 0 -> {
-                        System.out.println("Scrolled Left")
+                        println("Scrolled Left")
                         listener.onLeftDrag()
                     }
                     dx > 0 -> {
-                        System.out.println("Scrolled Right")
+                        println("Scrolled Right")
                         listener.onRightDrag()
                     }
                     else -> {
-                        System.out.println("No Horizontal Scrolled")
+                        println("No Horizontal Scrolled")
                     }
                 }
                 when {
                     dy < 0 -> {
-                        System.out.println("Scrolled Upwards")
+                        println("Scrolled Upwards")
                         listener.onUpDrag()
                     }
                     dy > 0 -> {
-                        System.out.println("Scrolled Downwards")
+                        println("Scrolled Downwards")
                         listener.onDownDrag()
                     }
                     else -> {
-                        System.out.println("No Vertical Scrolled")
+                        println("No Vertical Scrolled")
                     }
                 }
             }

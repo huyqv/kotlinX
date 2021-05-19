@@ -1,20 +1,27 @@
-package com.kotlin.app.data
+package com.kotlin.app.di
 
-import androidx.room.Database
 import androidx.room.Room
-import androidx.room.RoomDatabase
-import com.kotlin.app.app.App
 import com.kotlin.app.BuildConfig
-import com.kotlin.app.data.db.User
+import com.kotlin.app.app.App
+import com.kotlin.app.data.db.RoomDB
+import com.kotlin.app.data.network.ApiClient
+import com.kotlin.app.data.network.ApiService
 
 /**
  * -------------------------------------------------------------------------------------------------
  * @Project: Kotlin
- * @Created: Huy QV 2018/1/2
+ * @Created: Huy 2021/05/17
+ * @Organize: Wee Digital
  * @Description: ...
- * None Right Reserved
+ * All Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
+val apiClient: ApiClient by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
+    ApiClient()
+}
+
+val apiService: ApiService get() = apiClient.service
+
 val room: RoomDB by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
     Room.databaseBuilder(App.instance.applicationContext, RoomDB::class.java, BuildConfig.APPLICATION_ID)
             .allowMainThreadQueries()
@@ -22,14 +29,3 @@ val room: RoomDB by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
             .build()
 }
 
-@Database(
-        entities = [User::class],
-        version = BuildConfig.DATABASE_VERSION,
-        exportSchema = false
-)
-abstract class RoomDB : RoomDatabase() {
-
-    abstract val userDao: User.DAO
-
-
-}

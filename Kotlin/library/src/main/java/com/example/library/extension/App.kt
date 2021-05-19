@@ -10,6 +10,7 @@ import android.database.Cursor
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
+import android.provider.Settings
 import android.util.Base64
 import android.util.Log
 import android.widget.Toast
@@ -30,15 +31,6 @@ import java.security.NoSuchAlgorithmException
  * -------------------------------------------------------------------------------------------------
  */
 private val app: Application get() = Library.app
-
-private val memoryInfo = ActivityManager.MemoryInfo()
-
-val freeMemory: Long
-    get() {
-        val manager = app.getSystemService(AppCompatActivity.ACTIVITY_SERVICE) as ActivityManager
-        manager.getMemoryInfo(memoryInfo)
-        return (memoryInfo.availMem) / (1024 * 1024)
-    }
 
 val appVersion: String
     get() {

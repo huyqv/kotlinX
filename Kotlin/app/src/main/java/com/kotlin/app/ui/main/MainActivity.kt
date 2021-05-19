@@ -1,5 +1,6 @@
-package com.kotlin.app.ui
+package com.kotlin.app.ui.main
 
+import com.example.library.extension.listenKeyboard
 import com.kotlin.app.ui.base.BaseActivity
 import com.kotlin.app.BuildConfig
 import com.kotlin.app.R
@@ -25,6 +26,7 @@ class MainActivity : BaseActivity() {
 
     override fun onViewCreated() {
         textViewVersion.text = "${BuildConfig.VERSION_NAME}-${BuildConfig.VERSION_CODE}"
+        listenKeyboard()
     }
 
     override fun onLiveDataObserve() {
