@@ -46,13 +46,14 @@ dependencies {
     implementation deps.kotlin.stdlib
     implementation deps.android.corektx
     implementation deps.android.appcompat
+    implementation deps.android.activity
     implementation deps.android.fragment
-    implementation deps.android.recyclerview
-    implementation deps.android.cardview
     implementation deps.android.constraintlayout
-    implementation deps.android.viewpager
     implementation deps.android.material
-    implementation deps.android.crypto
+    implementation deps.android.viewpager
+    implementation deps.android.recyclerview
+    implementation deps.android.security
+
     implementation deps.paging.runtime
     implementation deps.paging.rx
 

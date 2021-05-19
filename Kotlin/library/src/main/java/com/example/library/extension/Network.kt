@@ -1,6 +1,5 @@
 package com.example.library.extension
 
-import android.annotation.SuppressLint
 import android.app.Application
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -24,7 +23,6 @@ import com.example.library.Library
 private val app: Application get() = Library.app
 
 val connectionInfo: String?
-    @SuppressLint("MissingPermission")
     get() {
         val cm = connectivityManager
         when {
@@ -67,7 +65,6 @@ val networkLiveData: SingleLiveData<Boolean> by lazy(LazyThreadSafetyMode.SYNCHR
     registerNetworkCallback()
 }
 
-@SuppressLint("MissingPermission")
 private fun registerNetworkCallback() {
 
     val networkCallback = object : ConnectivityManager.NetworkCallback() {

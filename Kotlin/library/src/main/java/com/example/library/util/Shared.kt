@@ -3,11 +3,8 @@ package com.example.library.util
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Build
-import android.security.keystore.KeyGenParameterSpec
-import android.security.keystore.KeyProperties
-import androidx.annotation.RequiresApi
 import androidx.security.crypto.EncryptedSharedPreferences
-import androidx.security.crypto.MasterKey
+import androidx.security.crypto.MasterKeys
 import com.example.library.BuildConfig
 import com.example.library.Library
 
@@ -21,47 +18,27 @@ import com.example.library.Library
  * All Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-object SharedAll {
+class Shared(private val fileName : String) {
 
     private val context get() = Library.app
 
     private val pref: SharedPreferences by lazy {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            val masterKey = MasterKey.Builder(context)
-                    .setKeyGenParameterSpec(specSDK23())
-                    .build()
+            val masterKey = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC);
             EncryptedSharedPreferences.create(
-                    context,
-                    BuildConfig.LIBRARY_PACKAGE_NAME,
+                    fileName,
                     masterKey,
+                    context,
                     EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-                    EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM) as EncryptedSharedPreferences
+                    EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM)
         } else {
             context.getSharedPreferences(BuildConfig.LIBRARY_PACKAGE_NAME, Context.MODE_PRIVATE)
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
-    fun specSDK23(): KeyGenParameterSpec {
-        val builder = KeyGenParameterSpec.Builder("_androidx_security_master_key_",
-                KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT)
-                .setBlockModes(KeyProperties.BLOCK_MODE_GCM)
-                .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
-                .setKeySize(256)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            try {
-                builder.setUnlockedDeviceRequired(true)
-                builder.setIsStrongBoxBacked(true)
-            } catch (ignore: Exception) {
-            }
-        }
-        return builder.build()
-    }
-
     fun edit(block: SharedPreferences.Editor.() -> Unit) {
         val edit = pref.edit()
         edit.block()
-        edit.commit()
         edit.apply()
     }
 

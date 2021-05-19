@@ -2,6 +2,8 @@ package com.kotlin.app.app
 
 import android.app.Application
 import com.example.library.Library
+import com.example.library.util.Shared
+import com.kotlin.app.BuildConfig
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -20,6 +22,11 @@ class App : Application() {
     }
 
     companion object {
+
         lateinit var instance: App private set
+
+        val pref by lazy { Shared(BuildConfig.APPLICATION_ID) }
+
     }
+
 }

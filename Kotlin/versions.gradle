@@ -7,11 +7,11 @@ builds.version_name = "1.0.0"
 ext.builds = builds
 
 def versions = [:]
-versions.kotlin = "1.4.31"
+versions.kotlin = "1.4.32"
 ext.versions = versions
 
 def deps = [:]
-deps.android_gradle = "com.android.tools.build:gradle:4.1.2"
+deps.android_gradle = "com.android.tools.build:gradle:4.1.3"
 ext.deps = deps
 
 def kotlin = [:]
@@ -29,13 +29,13 @@ deps.kotlin = kotlin
 
 /**
  * AndroidX
- * [https://developer.android.com/jetpack/androidx/versions]
+ * [https://developer.android.com/jetpack/androidx/versions/stable-channel]
  */
 def android = [:]
-android.corektx = "androidx.core:core-ktx:1.3.2"
-android.appcompat = "androidx.appcompat:appcompat:1.2.0"
-android.activity = "androidx.activity:activity-ktx:1.3.2"
-android.fragment = "androidx.fragment:fragment-ktx:1.2.5"
+android.corektx = "androidx.core:core-ktx:1.5.0"
+android.appcompat = "androidx.appcompat:appcompat:1.3.0"
+android.activity = "androidx.activity:activity-ktx:1.2.3"
+android.fragment = "androidx.fragment:fragment-ktx:1.3.4"
 android.recyclerview = "androidx.recyclerview:recyclerview:1.2.0"
 android.cardview = "androidx.cardview:cardview:1.0.0"
 android.constraintlayout = "androidx.constraintlayout:constraintlayout:2.0.4"
@@ -44,17 +44,83 @@ android.vectordrawable = "androidx.vectordrawable:vectordrawable:1.1.0"
 android.vectordrawable_animated = "androidx.vectordrawable:vectordrawable-animated:1.1.0"
 android.browser = "androidx.browser:browser:1.3.0"
 android.annotation = "androidx.annotation:annotation:1.2.0"
-android.exifinterface = "androidx.exifinterface:exifinterface:1.1.0"
+android.exifinterface = "androidx.exifinterface:exifinterface:1.3.2"
 android.legacy = "androidx.legacy:legacy-support-core-ui:1.0.0"
 android.legacy_v4 = 'androidx.legacy:legacy-support-v4:1.0.0'
-android.media = "androidx.media:media:1.1.0"
+android.media = "androidx.media:media:1.3.0"
 android.multidex = "androidx.multidex:multidex:2.0.1"
-android.material = "com.google.android.material:material:1.4.0-alpha02"
+android.material = "com.google.android.material:material:1.4.0-beta01"
 android.print = "androidx.print:print:1.0.0"
 android.viewpager = "androidx.viewpager2:viewpager2:1.0.0"
-android.crypto = "androidx.security:security-crypto:1.1.0-alpha03"
+android.security = "androidx.security:security-crypto:1.0.0-rc04"
 deps.android = android
 
+/**
+ * Fragment navigation
+ * [https://developer.android.com/guide/navigation]
+ */
+def navigation = [:]
+navigation.version = "2.3.5"
+navigation.safe_args = "androidx.navigation:navigation-safe-args-gradle-plugin:$navigation.version"
+navigation.fragment = "androidx.navigation:navigation-fragment-ktx:$navigation.version"
+navigation.ui = "androidx.navigation:navigation-ui-ktx:$navigation.version"
+deps.navigation = navigation
+
+/**
+ * SQLite database object relational mapping
+ * [https://developer.android.com/jetpack/androidx/releases/room]
+ */
+def room = [:]
+room.version = "2.3.0"
+room.runtime = "androidx.room:room-runtime:$room.version"
+room.compiler = "androidx.room:room-compiler:$room.version"
+deps.room = room
+
+/**
+ * Lifecycle-aware components
+ * [https://developer.android.com/jetpack/androidx/releases/lifecycle]
+ */
+def lifecycle = [:]
+lifecycle.version = "2.3.1"
+lifecycle.viewmodel= "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle.version"
+lifecycle.livedata = "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle.version"
+lifecycle.compiler = "androidx.lifecycle:lifecycle-compiler:$lifecycle.version"
+lifecycle.process =  "androidx.lifecycle:lifecycle-process:$lifecycle.version"
+lifecycle.streams = "androidx.lifecycle:lifecycle-reactivestreams-ktx:$lifecycle.version"
+deps.lifecycle = lifecycle
+
+/**
+ * Recycler view adapter paging
+ * [https://developer.android.com/jetpack/androidx/releases/paging]
+ */
+def paging = [:]
+paging.version = "3.0.0"
+paging.runtime = "android.arch.paging:runtime:$paging.version"
+paging.rx = "android.arch.paging:rxjava2:$paging.version"
+deps.paging = paging
+
+/**
+ * Schedule deferrable, Asynchronous tasks
+ * [https://developer.android.com/jetpack/androidx/releases/work]
+ */
+def work = [:]
+work.version = "2.5.0"
+work.ktx = "androidx.work:work-runtime-ktx:$work.version"
+work.rx = "androidx.work:work-rxjava2:$work.version"
+work.gcm = "androidx.work:work-gcm:$work.version"
+work.test = "androidx.work:work-testing:$work.version"
+deps.work = work
+
+/**
+ * CameraX
+ * [https://developer.android.com/training/camerax]
+ */
+def camera = [:]
+camera.version = "1.0.0"
+camera.camera2 = "androidx.camera:camera-camera2:$camera.version"
+camera.lifecycle = "androidx.camera:camera-lifecycle:$camera.version"
+camera.view = "androidx.camera:camera-view:$camera.version"
+deps.camera = camera
 
 /**
  * Test
@@ -65,75 +131,6 @@ test.extension = "androidx.test.ext:junit:1.1.2"
 test.espresso = 'androidx.test.espresso:espresso-core:3.3.0'
 deps.test = test
 
-
-/**
- * Fragment navigation
- * [https://developer.android.com/guide/navigation]
- */
-def navigation = [:]
-navigation.safe_args = "androidx.navigation:navigation-safe-args-gradle-plugin:2.3.5"
-navigation.fragment = "androidx.navigation:navigation-fragment-ktx:2.3.5"
-navigation.ui = "androidx.navigation:navigation-ui-ktx:2.3.5"
-deps.navigation = navigation
-
-
-/**
- * SQLite database object relational mapping
- * [https://developer.android.com/jetpack/androidx/releases/room]
- */
-def room = [:]
-room.runtime = "androidx.room:room-runtime:2.2.6"
-room.compiler = "androidx.room:room-compiler:2.2.6"
-deps.room = room
-
-
-/**
- * Lifecycle-aware components
- * [https://developer.android.com/jetpack/androidx/releases/lifecycle]
- */
-def lifecycle = [:]
-lifecycle.extensions = "androidx.lifecycle:lifecycle-extensions:2.2.0"
-lifecycle.streams = "androidx.lifecycle:lifecycle-reactivestreams:2.3.1"
-lifecycle.compiler = "androidx.lifecycle:lifecycle-compiler:2.3.1"
-deps.lifecycle = lifecycle
-
-
-/**
- * Recycler view adapter paging
- * [https://developer.android.com/jetpack/androidx/releases/paging]
- */
-def paging = [:]
-paging.runtime = "android.arch.paging:runtime:2.1.2"
-paging.rx = "android.arch.paging:rxjava2:2.1.2"
-deps.paging = paging
-
-
-/**
- * Schedule deferrable, Asynchronous tasks
- * [https://developer.android.com/jetpack/androidx/releases/work]
- */
-def work = [:]
-work.version = "2.4.0"
-work.ktx = "androidx.work:work-runtime-ktx:$work.version"
-work.rx = "androidx.work:work-rxjava2:$work.version"
-work.gcm = "androidx.work:work-gcm:$work.version"
-work.test = "androidx.work:work-testing:$work.version"
-deps.work = work
-
-
-/**
- * CameraX
- * [https://developer.android.com/training/camerax]
- */
-def camera = [:]
-camera.camera2 = "androidx.camera:camera-camera2:1.0.0"
-camera.lifecycle = "androidx.camera:camera-lifecycle:1.0.0"
-camera.view = "androidx.camera:camera-view:1.0.0"
-deps.camera = camera
-
-
-
-
 /**
  * Google services
  */
@@ -142,7 +139,6 @@ google.services = "com.google.gms:google-services:4.3.4"
 google.map = "com.google.android.gms:play-services-maps:17.0.0"
 google.gson = "com.google.code.gson:gson:2.8.6"
 deps.google = google
-
 
 /**
  * Development apis
@@ -157,7 +153,6 @@ firebase.messaging_ktx = "com.google.firebase:firebase-messaging-ktx"
 firebase.crashlytics_ktx = "com.google.firebase:firebase-crashlytics-ktx"
 firebase.analytics_ktx = "com.google.firebase:firebase-analytics-ktx"
 deps.firebase = firebase
-
 
 /**
  * Machine learning
@@ -174,7 +169,6 @@ ml.segmentation_selfie = 'com.google.mlkit:segmentation-selfie:16.0.0-beta1'
 ml.camera = 'com.google.mlkit:camera:16.0.0-beta1'
 deps.ml = ml
 
-
 /**
  * Reactive programming
  * [http://reactivex.io/]
@@ -185,7 +179,6 @@ reactivex.android = "io.reactivex.rxjava2:rxandroid:2.1.1"
 reactivex.kotlin = "io.reactivex.rxjava2:rxkotlin:2.4.0"
 reactivex.binding = "com.jakewharton.rxbinding2:rxbinding-kotlin:2.2.0"
 deps.reactivex = reactivex
-
 
 /**
  * RestFUL api client
@@ -200,23 +193,20 @@ square.okhttp_log = "com.squareup.okhttp3:logging-interceptor:4.9.0"
 square.okhttp_url = 'com.squareup.okhttp3:okhttp-urlconnection:4.7.2'
 deps.square = square
 
-
 /**
  * Socket IO client
  * [https://github.com/socketio/socket.io-client-java]
  */
 deps.socket_io_client = "io.socket:socket.io-client:1.0.0" // { exclude group: 'org.json', module: 'json' }
 
-
 /**
  * Asynchronous image load
  */
 def glide = [:]
-glide.version = "4.11.0"
+glide.version = '4.12.0'
 glide.glide = "com.github.bumptech.glide:glide:$glide.version"
 glide.compiler = "com.github.bumptech.glide:compiler:$glide.version"
 deps.glide = glide
-
 
 /**
  * Multi dimension resources
@@ -227,7 +217,6 @@ def dimens = [:]
 dimens.sdp = "com.intuit.sdp:sdp-android:1.0.6"
 dimens.ssp = "com.intuit.ssp:ssp-android:1.0.6"
 deps.dimens = dimens
-
 
 /**
  * Custom view
@@ -253,15 +242,17 @@ deps.expandable_layout = 'net.cachapa.expandablelayout:expandablelayout:2.9.2'
  */
 deps.kenburnsview = 'com.flaviofaria:kenburnsview:1.0.7'
 
-
 /**
  * Utils
  */
 /**
  * Permission util
  * [https://github.com/tbruyelle/RxPermissions]
+ * [https://github.com/ParkSangGwon/TedPermission]
  */
-deps.permissions = "com.github.tbruyelle:rxpermissions:0.10.2"
+deps.rx_permissions = "com.github.tbruyelle:rxpermissions:0.10.2"
+deps.permissions = 'gun0912.ted:tedpermission:2.2.3'
+
 /**
  * Ken burns anim
  * [https://github.com/zetbaitsu/Compressor]
