@@ -9,7 +9,15 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
-    <uses-sdk tools:overrideLibrary="androidx.security" />
+    <uses-sdk tools:overrideLibrary="androidx.security, androidx.camera.camera2,
+    androidx.camera.core, androidx.camera.view, androidx.camera.lifecycle" />
+
+    <uses-feature android:name="android.hardware.camera" />
+
+    <meta-data
+        android:name="com.google.mlkit.vision.DEPENDENCIES"
+        android:value="barcode,face" />
 
 </manifest>

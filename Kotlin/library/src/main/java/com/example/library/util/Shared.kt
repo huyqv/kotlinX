@@ -5,7 +5,6 @@ import android.content.SharedPreferences
 import android.os.Build
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
-import com.example.library.BuildConfig
 import com.example.library.Library
 
 
@@ -23,17 +22,18 @@ class Shared(private val fileName : String) {
     private val context get() = Library.app
 
     private val pref: SharedPreferences by lazy {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            val masterKey = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) try {
+            val masterKey = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
             EncryptedSharedPreferences.create(
                     fileName,
                     masterKey,
                     context,
                     EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-                    EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM)
-        } else {
-            context.getSharedPreferences(fileName, Context.MODE_PRIVATE)
+                    EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+            )
+        } catch (e: Exception) {
         }
+        context.getSharedPreferences(fileName, Context.MODE_PRIVATE)
     }
 
     fun edit(block: SharedPreferences.Editor.() -> Unit) {

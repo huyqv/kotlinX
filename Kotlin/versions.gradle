@@ -52,7 +52,7 @@ android.multidex = "androidx.multidex:multidex:2.0.1"
 android.material = "com.google.android.material:material:1.4.0-beta01"
 android.print = "androidx.print:print:1.0.0"
 android.viewpager = "androidx.viewpager2:viewpager2:1.0.0"
-android.security = "androidx.security:security-crypto:1.0.0-rc04"
+android.security = "androidx.security:security-crypto:1.0.0"
 deps.android = android
 
 /**
