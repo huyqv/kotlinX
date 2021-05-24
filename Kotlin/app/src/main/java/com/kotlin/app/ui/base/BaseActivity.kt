@@ -9,10 +9,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
-import androidx.navigation.NavController
-import androidx.navigation.findNavController
+import androidx.lifecycle.LifecycleOwner
 import com.example.library.R
 import com.example.library.extension.addFragment
 import com.example.library.extension.removeFragment
@@ -48,6 +45,22 @@ abstract class BaseActivity : AppCompatActivity(), BaseView {
         overridePendingTransition(R.anim.activity_pop_enter, R.anim.activity_pop_exit)
     }
 
+    override fun dispatchTouchEvent(event: MotionEvent): Boolean {
+        if (event.action == MotionEvent.ACTION_DOWN) {
+            val v = currentFocus
+            if (v is EditText) {
+                val outRect = Rect()
+                v.getGlobalVisibleRect(outRect)
+                if (!outRect.contains(event.rawX.toInt(), event.rawY.toInt())) {
+                    v.clearFocus()
+                    val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    imm.hideSoftInputFromWindow(v.windowToken, 0)
+                }
+            }
+        }
+        return super.dispatchTouchEvent(event)
+    }
+
     /**
      * [BaseActivity] abstract implements
      */
@@ -62,6 +75,8 @@ abstract class BaseActivity : AppCompatActivity(), BaseView {
      */
     final override val baseActivity: BaseActivity? get() = this
 
+    final override val lifecycleOwner: LifecycleOwner get() = this
+
     final override fun add(fragment: Fragment, stack: Boolean) {
         addFragment(fragment, fragmentContainerId(), stack)
     }
@@ -74,42 +89,8 @@ abstract class BaseActivity : AppCompatActivity(), BaseView {
         removeFragment(cls)
     }
 
-    /**
-     * [BaseActivity] properties
-     */
-    val nav: NavController get() = findNavController(navigationHostId())
-
-    protected open fun navigationHostId(): Int {
-        throw NullPointerException("navigationHostId no has implement")
-    }
-
     protected open fun fragmentContainerId(): Int {
         throw NullPointerException("fragmentContainerId no has implement")
-    }
-
-    fun <T> LiveData<T>.observe(block: (T) -> Unit) {
-        observe(this@BaseActivity, Observer(block))
-    }
-
-    override fun dispatchTouchEvent(event: MotionEvent): Boolean {
-        //return hideKeyboardOnTouchDown(event)
-        return super.dispatchTouchEvent(event)
-    }
-
-    private fun hideKeyboardOnTouchEvent(event: MotionEvent): Boolean {
-        if (event.action == MotionEvent.ACTION_DOWN) {
-            val v = currentFocus
-            if (v is EditText) {
-                val outRect = Rect()
-                v.getGlobalVisibleRect(outRect)
-                if (!outRect.contains(event.rawX.toInt(), event.rawY.toInt())) {
-                    v.clearFocus()
-                    val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                    imm.hideSoftInputFromWindow(v.windowToken, 0)
-                }
-            }
-        }
-        return super.dispatchTouchEvent(event)
     }
 
 }

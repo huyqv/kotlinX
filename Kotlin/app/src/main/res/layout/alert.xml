@@ -5,9 +5,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/Dialog.Card">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+
+<androidx.constraintlayout.widget.ConstraintLayout
         style="@style/Dialog.Layout"
-        android:paddingBottom="@dimen/margin2">
+        android:paddingBottom="@dimen/contentMargin">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/textViewTitle"
@@ -19,7 +20,7 @@
             android:id="@+id/imageViewIcon"
             android:layout_width="@dimen/_30sdp"
             android:layout_height="@dimen/_30sdp"
-            android:layout_marginTop="@dimen/margin4"
+            android:layout_marginTop="@dimen/contentMargin"
             android:padding="@dimen/_2sdp"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
@@ -30,11 +31,11 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/textViewMessage"
-            style="@style/TextView.Small"
+            style="@style/TextView"
             android:layout_width="0dp"
-            android:layout_marginStart="@dimen/margin3"
-            android:layout_marginTop="@dimen/margin2"
-            android:layout_marginEnd="@dimen/margin3"
+            android:layout_marginStart="@dimen/contentMargin"
+            android:layout_marginTop="@dimen/contentMargin"
+            android:layout_marginEnd="@dimen/contentMargin"
             android:gravity="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -42,9 +43,9 @@
             tools:text="Hello, you can hide this message by just touch outside the dialog box" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/viewNeutral"
+            android:id="@+id/dialogViewNeutral"
             style="@style/Dialog.Button"
-            app:layout_constraintEnd_toStartOf="@+id/viewPositive"
+            app:layout_constraintEnd_toStartOf="@+id/dialogViewPositive"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/textViewMessage"
@@ -52,21 +53,21 @@
             tools:text="Neutral" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/viewPositive"
+            android:id="@+id/dialogViewPositive"
             style="@style/Dialog.Button"
-            app:layout_constraintEnd_toStartOf="@+id/viewNegative"
+            app:layout_constraintEnd_toStartOf="@+id/dialogViewNegative"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/viewNeutral"
+            app:layout_constraintStart_toEndOf="@+id/dialogViewNeutral"
             app:layout_constraintTop_toBottomOf="@id/textViewMessage"
             tools:ignore="MissingConstraints"
             tools:text="Positive" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/viewNegative"
+            android:id="@+id/dialogViewNegative"
             style="@style/Dialog.Button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/viewPositive"
+            app:layout_constraintStart_toEndOf="@+id/dialogViewPositive"
             app:layout_constraintTop_toBottomOf="@id/textViewMessage"
             tools:ignore="MissingConstraints"
             tools:text="Negative" />

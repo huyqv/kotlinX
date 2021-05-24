@@ -1,11 +1,11 @@
-package com.kotlin.app.ui.date
+package com.kotlin.app.ui.dialog.date
 
 import android.view.View
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.kotlin.app.R
 import com.example.library.adapter.recycler.BaseListAdapter
 import com.example.library.adapter.recycler.BaseRecyclerAdapter
+import com.kotlin.app.R
 import kotlinx.android.synthetic.main.date_item.view.*
 import java.lang.ref.WeakReference
 

@@ -79,4 +79,12 @@ class ApiClient {
                 }
     }
 
+    companion object {
+
+        val instance: ApiClient by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
+            ApiClient()
+        }
+
+        val service: ApiService get() = instance.service
+    }
 }

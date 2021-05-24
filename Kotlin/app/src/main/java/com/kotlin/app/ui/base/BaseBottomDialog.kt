@@ -7,8 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
+import androidx.lifecycle.LifecycleOwner
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -76,6 +75,8 @@ abstract class BaseBottomDialog : BottomSheetDialogFragment(), BaseView {
      */
     override val baseActivity: BaseActivity? get() = activity as? BaseActivity
 
+    override val lifecycleOwner: LifecycleOwner get() = viewLifecycleOwner
+
     /**
      * [BaseBottomDialog] properties
      */
@@ -85,10 +86,6 @@ abstract class BaseBottomDialog : BottomSheetDialogFragment(), BaseView {
 
     protected open fun onBackPressed() {
         dismissAllowingStateLoss()
-    }
-
-    fun <T> LiveData<T>.observe(block: (T) -> Unit) {
-        observe(viewLifecycleOwner, Observer(block))
     }
 
     private fun configDialog() {

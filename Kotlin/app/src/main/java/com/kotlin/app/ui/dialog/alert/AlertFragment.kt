@@ -1,18 +1,14 @@
-package com.kotlin.app.ui.alert
+package com.kotlin.app.ui.dialog.alert
 
 import android.view.View
 import android.widget.TextView
 import com.example.library.extension.setHyperText
 import com.example.library.extension.string
-import com.kotlin.app.ui.base.BaseDialog
 import com.kotlin.app.R
+import com.kotlin.app.ui.main.MainDialog
 import kotlinx.android.synthetic.main.alert.*
 
-class AlertFragment : BaseDialog() {
-
-    private val alertVM by lazy { activityVM(AlertVM::class) }
-
-    private val arg: AlertArg? get() = alertVM.arg.value
+class AlertFragment : MainDialog() {
 
     private var hasBackClick: Boolean = false
 
@@ -26,7 +22,7 @@ class AlertFragment : BaseDialog() {
     }
 
     override fun onLiveDataObserve() {
-        alertVM.arg.observe {
+        dialogVM.alertLiveData.observe {
             if (it != null) {
                 onBindView(it)
             } else {
@@ -37,7 +33,7 @@ class AlertFragment : BaseDialog() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        arg?.also { onBindClick(it) }
+        dialogVM.alertLiveData.value?.also { onBindClick(it) }
     }
 
     override fun onBackPressed() {
@@ -52,23 +48,24 @@ class AlertFragment : BaseDialog() {
         imageViewIcon.setImageResource(arg.icon)
         textViewTitle.text = arg.title ?: string(R.string.app_name)
         textViewMessage.setHyperText(arg.message)
-        viewNeutral.onBindButton(arg.buttonNeutral)
-        viewPositive.onBindButton(arg.buttonPositive)
-        viewNegative.onBindButton(arg.buttonNegative)
+        dialogViewNeutral.onBindButton(arg.buttonNeutral)
+        dialogViewPositive.onBindButton(arg.buttonPositive)
+        dialogViewNegative.onBindButton(arg.buttonNegative)
     }
 
     private fun onBindClick(arg: AlertArg) {
+        arg.onDismiss()
         when {
             hasBackClick -> {
                 arg.onDismissClick()
             }
-            clickedView == viewNeutral -> {
+            clickedView == dialogViewNeutral -> {
                 arg.onNeutralClick()
             }
-            clickedView == viewPositive -> {
+            clickedView == dialogViewPositive -> {
                 arg.onPositiveClick()
             }
-            clickedView == viewNegative -> {
+            clickedView == dialogViewNegative -> {
                 arg.onNegativeClick()
             }
         }

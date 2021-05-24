@@ -1,17 +1,12 @@
-package com.example.library.extension
-
-import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.LifecycleObserver
+package com.kotlin.app.ui.dialog
 
 /**
  * -------------------------------------------------------------------------------------------------
  * @Project: Kotlin
- * @Created: Huy 2021/04/16
+ * @Created: Huy 2021/05/24
  * @Organize: Wee Digital
  * @Description: ...
  * All Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-fun FragmentActivity?.addObserver(observer: LifecycleObserver) {
-    this?.lifecycle?.addObserver(observer)
-}
+object Dialog

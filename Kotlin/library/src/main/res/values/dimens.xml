@@ -1,30 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <dimen name="size">@dimen/_14sdp</dimen>
-    <dimen name="size2">@dimen/_16sdp</dimen>
-    <dimen name="size3">@dimen/_18sdp</dimen>
-    <dimen name="size4">@dimen/_20sdp</dimen>
-    <dimen name="size5">@dimen/_24sdp</dimen>
-    <dimen name="size6">@dimen/_28sdp</dimen>
-    <dimen name="size7">@dimen/_32sdp</dimen>
-    <dimen name="size8">@dimen/_36sdp</dimen>
-
-    <dimen name="marginY2">@dimen/_4sdp</dimen>
-    <dimen name="margin">@dimen/_8sdp</dimen>
-    <dimen name="margin2">@dimen/_16sdp</dimen>
-    <dimen name="margin3">@dimen/_24sdp</dimen>
-    <dimen name="margin4">@dimen/_32sdp</dimen>
-    <dimen name="margin5">@dimen/_40sdp</dimen>
-    <dimen name="margin6">@dimen/_48sdp</dimen>
-
-    <dimen name="textSize">@dimen/_9ssp</dimen>
-    <dimen name="textSize2">@dimen/_10ssp</dimen>
-    <dimen name="textSize3">@dimen/_11ssp</dimen>
-    <dimen name="textSize4">@dimen/_12ssp</dimen>
-    <dimen name="textSize5">@dimen/_13ssp</dimen>
-    <dimen name="textSize6">@dimen/_15ssp</dimen>
-    <dimen name="textSize7">@dimen/_18ssp</dimen>
+    <dimen name="contentMarginD4">@dimen/_4sdp</dimen>
+    <dimen name="contentMarginD2">@dimen/_8sdp</dimen>
+    <dimen name="contentMargin">@dimen/_16sdp</dimen>
+    <dimen name="contentMarginX2">@dimen/_32sdp</dimen>
+    <dimen name="contentMarginX3">@dimen/_48sdp</dimen>
 
     <dimen name="radius">@dimen/_6sdp</dimen>
     <dimen name="radius2">@dimen/_9sdp</dimen>

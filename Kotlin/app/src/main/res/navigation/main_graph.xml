@@ -5,6 +5,43 @@
     android:id="@+id/main"
     app:startDestination="@id/splashFragment">
 
+    <dialog
+        android:id="@+id/alertFragment"
+        android:name="com.kotlin.app.ui.dialog.alert.AlertFragment"
+        android:label="AlertFragment"
+        tools:layout="@layout/alert"/>
+    <action
+        android:id="@+id/action_global_alertFragment"
+        app:destination="@id/alertFragment" />
+
+    <dialog
+        android:id="@+id/dateFragment"
+        android:name="com.kotlin.app.ui.dialog.date.DateFragment"
+        android:label="DateFragment"
+        tools:layout="@layout/date" />
+    <action
+        android:id="@+id/action_global_dateFragment"
+        app:destination="@id/dateFragment" />
+
+    <dialog
+        android:id="@+id/selectableFragment"
+        android:name="com.kotlin.app.ui.dialog.selectable.SelectableFragment"
+        android:label="SelectableFragment"
+        tools:layout="@layout/selectable"/>
+    <action
+        android:id="@+id/action_global_selectableFragment"
+        app:destination="@id/selectableFragment" />
+
+    <dialog
+        android:id="@+id/webFragment"
+        android:name="com.kotlin.app.ui.dialog.web.WebFragment"
+        android:label="WebFragment"
+        tools:layout="@layout/web"/>
+    <action
+        android:id="@+id/action_global_webFragment"
+        app:destination="@id/webFragment" />
+
+
     <fragment
         android:id="@+id/splashFragment"
         android:name="com.kotlin.app.ui.splash.SplashFragment"
@@ -13,5 +50,17 @@
     <action
         android:id="@+id/action_global_splashFragment"
         app:destination="@id/splashFragment" />
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.kotlin.app.ui.home.HomeFragment"
+        android:label="HomeFragment"
+        tools:layout="@layout/home" />
+    <action
+        android:id="@+id/action_global_homeFragment"
+        app:destination="@id/homeFragment" />
+
+
+
 
 </navigation>

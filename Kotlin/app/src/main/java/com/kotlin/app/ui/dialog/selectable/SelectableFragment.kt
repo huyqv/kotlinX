@@ -1,22 +1,20 @@
-package com.kotlin.app.ui.selectable
+package com.kotlin.app.ui.dialog.selectable
 
 import android.view.View
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
-import com.kotlin.app.R
-import com.example.library.extension.setNavResult
-import com.kotlin.app.ui.base.BaseDialog
 import com.example.library.adapter.recycler.initLayoutManager
 import com.example.library.extension.isGone
+import com.example.library.extension.setNavResult
+import com.kotlin.app.R
+import com.kotlin.app.ui.base.BaseDialog
+import com.kotlin.app.ui.main.MainDialog
 import kotlinx.android.synthetic.main.selectable.*
 
 
-class SelectableFragment : BaseDialog() {
+class SelectableFragment : MainDialog() {
 
-    private val vm: SelectableVM by lazy {
-        activityVM(SelectableVM::class)
-    }
 
     /**
      * [BaseDialog] override
@@ -32,7 +30,7 @@ class SelectableFragment : BaseDialog() {
     }
 
     override fun onLiveDataObserve() {
-        vm.argLiveData.observe {
+        dialogVM.selectableLiveData.observe {
             selectableTextViewTitle.text = it.title ?: getString(R.string.app_name)
             selectableEditText.isGone(!it.isSearchable)
             onBindListItem(it.adapter)
@@ -51,7 +49,7 @@ class SelectableFragment : BaseDialog() {
     private fun onBindListItem(adapter: SelectableAdapter<*>) {
         adapter.onItemClick = { _, position ->
             adapter.notifySelectionChanged(position)
-            setNavResult(vm.arg?.key, position)
+            setNavResult(dialogVM.selectableLiveData.value?.key, position)
             findNavController().navigateUp()
         }
         selectableRecyclerView.adapter = adapter

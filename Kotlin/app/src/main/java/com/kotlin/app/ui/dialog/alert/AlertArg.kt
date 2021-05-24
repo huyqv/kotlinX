@@ -1,4 +1,4 @@
-package com.kotlin.app.ui.alert
+package com.kotlin.app.ui.dialog.alert
 
 import com.kotlin.app.R
 
@@ -26,4 +26,5 @@ class AlertArg(
         var onPositiveClick: () -> Unit = {},
 
         var onNegativeClick: () -> Unit = {},
-)
+
+        )

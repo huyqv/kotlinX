@@ -1,16 +1,18 @@
-package com.kotlin.app.ui.selectable
+package com.kotlin.app.shared
+
+import com.example.library.util.SharedPref
+import com.kotlin.app.BuildConfig
 
 /**
  * -------------------------------------------------------------------------------------------------
  * @Project: Kotlin
- * @Created: Huy 2020/10/10
+ * @Created: Huy 2021/05/24
+ * @Organize: Wee Digital
  * @Description: ...
  * All Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-data class SelectableArg(
-        val key: String,
-        val title: String?,
-        val isSearchable: Boolean,
-        val adapter: SelectableAdapter<*>
-)
+object Shared {
+
+    val pref by lazy { SharedPref(BuildConfig.APPLICATION_ID) }
+}

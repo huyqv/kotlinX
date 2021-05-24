@@ -12,5 +12,6 @@
     <color name="colorOnSecondary">#E17371</color>
 
     <color name="colorAccent">#FDD835</color>
+    <color name="colorDialogDim">#000000</color>
 
 </resources>

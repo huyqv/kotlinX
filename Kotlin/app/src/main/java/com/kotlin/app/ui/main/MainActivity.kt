@@ -1,9 +1,11 @@
 package com.kotlin.app.ui.main
 
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import com.example.library.extension.listenKeyboard
-import com.kotlin.app.ui.base.BaseActivity
 import com.kotlin.app.BuildConfig
 import com.kotlin.app.R
+import com.kotlin.app.ui.base.BaseActivity
 import kotlinx.android.synthetic.main.main.*
 
 /**
@@ -16,12 +18,12 @@ import kotlinx.android.synthetic.main.main.*
  */
 class MainActivity : BaseActivity() {
 
-    override fun layoutResource(): Int {
-        return R.layout.main
+    override val navController: NavController? by lazy {
+        findNavController(R.id.mainFragment)
     }
 
-    override fun navigationHostId(): Int {
-        return R.id.mainFragment
+    override fun layoutResource(): Int {
+        return R.layout.main
     }
 
     override fun onViewCreated() {

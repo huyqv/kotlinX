@@ -7,8 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
+import androidx.lifecycle.LifecycleOwner
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
 import com.example.library.extension.hideKeyboard
 import com.example.library.extension.post
 import com.kotlin.app.R
@@ -93,6 +94,10 @@ abstract class BaseDialog : DialogFragment(), BaseView {
      */
     override val baseActivity: BaseActivity? get() = activity as? BaseActivity
 
+    override val lifecycleOwner: LifecycleOwner get() = viewLifecycleOwner
+
+    override val navController: NavController? get() = findNavController()
+
     /**
      * [BaseDialog] properties
      */
@@ -103,10 +108,5 @@ abstract class BaseDialog : DialogFragment(), BaseView {
     protected open fun onBackPressed() {
         dismissAllowingStateLoss()
     }
-
-    fun <T> LiveData<T>.observe(block: (T) -> Unit) {
-        observe(viewLifecycleOwner, Observer(block))
-    }
-
 
 }

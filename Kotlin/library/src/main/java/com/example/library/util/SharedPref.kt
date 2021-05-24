@@ -17,7 +17,7 @@ import com.example.library.Library
  * All Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-class Shared(private val fileName : String) {
+class SharedPref(private val fileName: String) {
 
     private val context get() = Library.app
 

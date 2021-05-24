@@ -1,6 +1,6 @@
 package com.kotlin.app.ui.main
 
-import com.kotlin.app.ui.vm.BaseVM
+import androidx.lifecycle.ViewModel
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -10,9 +10,18 @@ import com.kotlin.app.ui.vm.BaseVM
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-class MainVM : BaseVM() {
+abstract class MainVM : ViewModel() {
 
-    override fun onStart() {
-
+    /**
+     * View model on initialized
+     */
+    open fun onStart() {
     }
+
+    /**
+     * Trigger on view model initialized with network available and connectivity change to state available
+     */
+    open fun onNetworkAvailable() {
+    }
+
 }

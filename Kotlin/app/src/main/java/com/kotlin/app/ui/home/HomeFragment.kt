@@ -1,4 +1,4 @@
-package com.kotlin.app.ui.splash
+package com.kotlin.app.ui.home
 
 import com.kotlin.app.R
 import com.kotlin.app.ui.base.BaseFragment
@@ -12,13 +12,14 @@ import com.kotlin.app.ui.base.BaseFragment
  * All Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-class SplashFragment : BaseFragment() {
+class HomeFragment : BaseFragment() {
 
     override fun layoutResource(): Int {
-        return R.layout.splash
+        return R.layout.home
     }
 
     override fun onViewCreated() {
+
     }
 
     override fun onLiveDataObserve() {

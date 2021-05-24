@@ -13,38 +13,16 @@
         <item name="android:textColor">@color/colorTextPrimary</item>
         <item name="android:ellipsize">end</item>
         <item name="android:fontFamily">@font/roboto_regular</item>
+        <item name="android:textSize">@dimen/_11ssp</item>
     </style>
 
-    <style name="TextView.Tiny" parent="TextView">
-        <item name="android:textSize">@dimen/textSize</item>
-    </style>
-
-    <style name="TextView.Small" parent="TextView">
-        <item name="android:textSize">@dimen/textSize2</item>
-    </style>
-
-    <style name="TextView.Medium" parent="TextView">
-        <item name="android:textSize">@dimen/textSize3</item>
-        <item name="android:text">Medium Text</item>
-        <item name="android:fontFamily">@font/roboto_regular</item>
-        <item name="android:includeFontPadding">false</item>
-        <item name="android:textColor">@color/colorTextPrimary</item>
-    </style>
-
-    <style name="TextView.Large" parent="TextView">
-        <item name="android:textSize">@dimen/textSize4</item>
-    </style>
-
-    <style name="TextView.Extra" parent="TextView">
-        <item name="android:textSize">@dimen/textSize5</item>
-    </style>
 
     <!-- Button -->
     <style name="Button" parent="TextView">
         <item name="android:includeFontPadding">true</item>
         <item name="android:textColor">@color/colorPrimary</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:minHeight">@dimen/_32sdp</item>
+        <item name="android:minHeight">@dimen/_36sdp</item>
         <item name="android:gravity">center</item>
         <item name="android:minWidth">@dimen/_90sdp</item>
         <item name="android:background">@android:color/transparent</item>
@@ -56,8 +34,8 @@
     <style name="EditText">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/_32sdp</item>
-        <item name="android:paddingStart">@dimen/margin</item>
-        <item name="android:paddingEnd">@dimen/margin</item>
+        <item name="android:paddingStart">@dimen/contentMarginD2</item>
+        <item name="android:paddingEnd">@dimen/contentMarginD2</item>
         <item name="android:textSize">@dimen/_10ssp</item>
         <item name="android:maxLines">1</item>
         <item name="android:inputType">textEmailAddress</item>
@@ -81,7 +59,7 @@
         <item name="cardElevation">1dp</item>
         <item name="cardCornerRadius">@dimen/radius2</item>
         <item name="android:layout_gravity">center</item>
-        <item name="android:layout_margin">@dimen/margin4</item>
+        <item name="android:layout_margin">@dimen/contentMargin</item>
     </style>
 
     <style name="Dialog.Layout" parent="MatchWidth">
@@ -103,7 +81,7 @@
         <item name="android:textColor">@color/colorSemiTransparent</item>
         <item name="android:textSize">@dimen/_16ssp</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:layout_marginBottom">@dimen/margin5</item>
+        <item name="android:layout_marginBottom">@dimen/contentMargin</item>
     </style>
 
     <style name="Dialog.Footer">
@@ -119,11 +97,11 @@
         <item name="android:gravity">center_horizontal</item>
         <item name="android:textColor">@color/colorPrimary</item>
         <item name="android:background">@drawable/drw_ripple_light</item>
-        <item name="android:textSize">@dimen/textSize2</item>
+        <item name="android:textSize">@dimen/_11ssp</item>
         <item name="android:textAllCaps">false</item>
-        <item name="android:paddingTop">@dimen/margin2</item>
-        <item name="android:paddingBottom">@dimen/margin3</item>
-        <item name="android:layout_marginTop">@dimen/margin4</item>
+        <item name="android:paddingTop">@dimen/contentMargin</item>
+        <item name="android:paddingBottom">@dimen/contentMargin</item>
+        <item name="android:layout_marginTop">@dimen/contentMargin</item>
     </style>
 
 </resources>

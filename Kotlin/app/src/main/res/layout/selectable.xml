@@ -3,12 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/Dialog.Card"
-    android:layout_margin="@dimen/margin2">
+    style="@style/Dialog.Card">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+<androidx.constraintlayout.widget.ConstraintLayout
         style="@style/Dialog.Layout"
-        android:paddingBottom="@dimen/margin2">
+        android:paddingBottom="@dimen/contentMargin">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/selectableTextViewTitle"
@@ -19,13 +18,13 @@
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/selectableEditText"
             style="@style/EditText"
-            android:layout_marginHorizontal="@dimen/margin2"
-            android:layout_marginTop="@dimen/margin"
+            android:layout_marginHorizontal="@dimen/contentMarginD2"
+            android:layout_marginTop="@dimen/contentMarginD2"
             android:background="@drawable/drw_text"
             android:drawableEnd="@drawable/ic_search"
             android:imeActionLabel="Next"
             android:imeOptions="actionNext"
-            android:paddingHorizontal="@dimen/margin"
+            android:paddingHorizontal="@dimen/contentMargin"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/selectableTextViewTitle"
             tools:text="Search" />
@@ -34,9 +33,7 @@
             android:id="@+id/selectableRecyclerView"
             style="@style/ScrollView"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin2"
-            android:layout_marginTop="@dimen/margin"
-            android:layout_marginEnd="@dimen/margin2"
+            android:layout_marginTop="@dimen/contentMargin"
             android:minHeight="@dimen/_180sdp"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
@@ -47,8 +44,7 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/selectableViewClose"
-            style="@style/Button"
-            android:layout_marginBottom="@dimen/margin2"
+            style="@style/Dialog.Button"
             android:text="Close"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

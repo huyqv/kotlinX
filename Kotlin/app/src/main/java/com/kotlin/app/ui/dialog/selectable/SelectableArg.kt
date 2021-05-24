@@ -1,6 +1,4 @@
-package com.kotlin.app.ui.date
-
-import java.text.SimpleDateFormat
+package com.kotlin.app.ui.dialog.selectable
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -10,10 +8,9 @@ import java.text.SimpleDateFormat
  * All Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-data class DateArg(
+data class SelectableArg(
         val key: String,
-        val format: SimpleDateFormat,
-        val selectedDate: String?,
-        val minDate: String? = null,
-        val maxDate: String? = null,
+        val title: String?,
+        val isSearchable: Boolean,
+        val adapter: SelectableAdapter<*>
 )

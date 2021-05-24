@@ -8,10 +8,8 @@
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/textViewSplash"
         style="@style/TextView"
-        android:layout_width="match_parent"
         android:gravity="center"
-        android:minHeight="@dimen/_100sdp"
-        android:text="SPLASH"
+        android:text="HOME"
         android:textColor="@color/colorWhite"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"

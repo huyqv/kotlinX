@@ -1,4 +1,4 @@
-package com.kotlin.app.ui.selectable
+package com.kotlin.app.ui.dialog.selectable
 
 import android.view.View
 import com.example.library.adapter.recycler.BaseListAdapter
