@@ -2,6 +2,11 @@ package com.kotlin.app.app
 
 import android.app.Application
 import com.example.library.Library
+import com.example.library.util.SharedPref
+import com.kotlin.app.BuildConfig
+import com.kotlin.app.data.db.RoomDB
+import com.kotlin.app.data.network.ApiClient
+import com.kotlin.app.data.network.ApiService
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -15,13 +20,20 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        instance = this
+        app = this
         Library.app = this
     }
-
-    companion object {
-
-        lateinit var instance: App private set
-    }
-
 }
+
+lateinit var app: App private set
+
+val appId: String get() = BuildConfig.APPLICATION_ID
+
+val pref: SharedPref by lazy(LazyThreadSafetyMode.SYNCHRONIZED) { SharedPref(appId) }
+
+val room: RoomDB by lazy(LazyThreadSafetyMode.SYNCHRONIZED) { RoomDB.getInstance(app, appId) }
+
+val apiClient: ApiClient by lazy(LazyThreadSafetyMode.SYNCHRONIZED) { ApiClient() }
+
+val apiService: ApiService get() = apiClient.service
+

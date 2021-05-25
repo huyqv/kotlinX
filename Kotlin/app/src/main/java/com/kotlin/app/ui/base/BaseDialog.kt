@@ -7,9 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.LifecycleOwner
-import androidx.navigation.NavController
-import androidx.navigation.fragment.findNavController
+import androidx.fragment.app.Fragment
 import com.example.library.extension.hideKeyboard
 import com.example.library.extension.post
 import com.kotlin.app.R
@@ -22,23 +20,19 @@ import com.kotlin.app.R
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-abstract class BaseDialog : DialogFragment(), BaseView {
+abstract class BaseDialog : DialogFragment(),
+        FragmentView {
 
     /**
-     * [DialogFragment] override
+     * [DialogFragment] implements
      */
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        dialog?.window?.attributes?.windowAnimations = R.style.App_DialogAnim
-        setStyle(STYLE_NORMAL, dialogTheme())
-    }
-
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val dialog = object : Dialog(requireActivity(), dialogTheme()) {
+        val dialog = object : Dialog(requireActivity(), dialogStyle()) {
             override fun onBackPressed() {
                 this@BaseDialog.onBackPressed()
             }
         }
+        dialog.window?.attributes?.windowAnimations = R.style.App_DialogAnim
         dialog.setOnDismissListener {
             println("onDismiss")
         }
@@ -59,7 +53,7 @@ abstract class BaseDialog : DialogFragment(), BaseView {
 
     override fun onStart() {
         super.onStart()
-        when (dialogTheme()) {
+        when (dialogStyle()) {
             R.style.App_Dialog_FullScreen,
             R.style.App_Dialog_FullScreen_Transparent,
             -> dialog?.window?.apply {
@@ -81,27 +75,14 @@ abstract class BaseDialog : DialogFragment(), BaseView {
     }
 
     /**
-     * [BaseDialog] Required implements
+     * [FragmentView] implements
      */
-    abstract fun layoutResource(): Int
-
-    abstract fun onViewCreated()
-
-    abstract fun onLiveDataObserve()
-
-    /**
-     * [BaseView] implement
-     */
-    override val baseActivity: BaseActivity? get() = activity as? BaseActivity
-
-    override val lifecycleOwner: LifecycleOwner get() = viewLifecycleOwner
-
-    override val navController: NavController? get() = findNavController()
+    override val fragment: Fragment get() = this
 
     /**
      * [BaseDialog] properties
      */
-    protected open fun dialogTheme(): Int {
+    protected open fun dialogStyle(): Int {
         return R.style.App_Dialog
     }
 

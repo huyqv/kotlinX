@@ -8,18 +8,18 @@ class AlertArg(
 
         var title: String? = null,
 
-        var message: String,
+        var message: String? = null,
 
         // Trigger when: On touch outside dialog - on back press
         var onDismissClick: () -> Unit = {},
 
         var onDismiss: () -> Unit = {},
 
-        var buttonNeutral: String? = "Close",
+        var buttonNeutral: String? = null,
 
-        var buttonPositive: String? = "Close",
+        var buttonPositive: String? = null,
 
-        var buttonNegative: String? = "Close",
+        var buttonNegative: String? = null,
 
         var onNeutralClick: () -> Unit = {},
 

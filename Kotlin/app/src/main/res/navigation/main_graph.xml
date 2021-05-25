@@ -52,6 +52,15 @@
         app:destination="@id/splashFragment" />
 
     <fragment
+        android:id="@+id/introFragment"
+        android:name="com.kotlin.app.ui.intro.IntroFragment"
+        android:label="IntroFragment"
+        tools:layout="@layout/intro" />
+    <action
+        android:id="@+id/action_global_introFragment"
+        app:destination="@id/introFragment" />
+
+    <fragment
         android:id="@+id/homeFragment"
         android:name="com.kotlin.app.ui.home.HomeFragment"
         android:label="HomeFragment"
@@ -59,8 +68,6 @@
     <action
         android:id="@+id/action_global_homeFragment"
         app:destination="@id/homeFragment" />
-
-
 
 
 </navigation>

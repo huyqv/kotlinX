@@ -7,7 +7,7 @@ import android.util.Base64
 import com.example.library.extension.parse
 import com.google.gson.JsonObject
 import com.kotlin.app.BuildConfig
-import com.kotlin.app.app.App
+import com.kotlin.app.app.app
 import io.reactivex.*
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -180,7 +180,7 @@ fun Observable<Response<ResponseBody>>.writeFile(fileName: String): Observable<F
                             ?: throw NullPointerException("download data is empty")
                     try {
                         val file = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                            File(App.instance.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)?.absolutePath, fileName)
+                            File(app.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)?.absolutePath, fileName)
                         } else {
                             @Suppress("DEPRECATION")
                             File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), fileName)

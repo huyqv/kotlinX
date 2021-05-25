@@ -25,8 +25,12 @@ class WebFragment : MainDialog() {
 
     override fun onLiveDataObserve() {
         dialogVM.webLiveData.observe {
-            textViewTitle.text = it.title
-            loadUrlToWebView(it.url)
+            if (null != it) {
+                textViewTitle.text = it.title
+                loadUrlToWebView(it.url)
+            } else {
+                dismissAllowingStateLoss()
+            }
         }
     }
 

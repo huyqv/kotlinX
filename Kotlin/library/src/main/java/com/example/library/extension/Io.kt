@@ -24,12 +24,22 @@ import kotlin.reflect.KClass
  */
 private val app: Application get() = Library.app
 
-val filePath: String
+val externalDir: File
     get() = if (Build.VERSION.SDK_INT > -Build.VERSION_CODES.Q) {
-        app.getExternalFilesDir(null)?.absolutePath!!
+        app.getExternalFilesDir(null)!!
     } else {
         @Suppress("DEPRECATION")
-        Environment.getExternalStorageDirectory().toString()
+        Environment.getExternalStorageDirectory()
+    }
+
+val externalPath : String get() = externalDir.absolutePath
+
+val downloadDir: File
+    get() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+        app.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)!!
+    } else {
+        @Suppress("DEPRECATION")
+        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
     }
 
 fun readBytesFromAssets(fileName: String): ByteArray? {
@@ -96,9 +106,8 @@ fun File.getUri(): Uri? {
 }
 
 fun saveBitmap(name: String, bitmap: Bitmap) {
-    val path: String = filePath
     var fOut: OutputStream?
-    val file = File(path, "$name.png")
+    val file = File(externalPath, "$name.png")
     fOut = FileOutputStream(file)
     bitmap.compress(Bitmap.CompressFormat.PNG, 100, fOut)
     fOut.flush()
@@ -107,7 +116,7 @@ fun saveBitmap(name: String, bitmap: Bitmap) {
 }
 
 fun newFile(name: String): File {
-    return File(filePath, name)
+    return File(externalDir, name)
 }
 
 fun open(file: File) {
@@ -124,7 +133,7 @@ fun copyFile(fileName: String) {
     var fos: FileOutputStream? = null
     try {
         inputStream = app.assets.open(fileName)
-        fos = FileOutputStream("$filePath/$fileName")
+        fos = FileOutputStream("$externalDir/$fileName")
         val buffer = ByteArray(1024)
         var read: Int = inputStream.read(buffer)
         while (read >= 0) {
@@ -139,24 +148,24 @@ fun copyFile(fileName: String) {
 }
 
 fun createFileIfNotExist(fileName: String) {
-    val dir = File(filePath)
+    val dir = File(externalPath)
     if (!dir.exists()) {
         dir.mkdirs()
     }
-    val file = File("$filePath/$fileName")
+    val file = File("$externalDir/$fileName")
     if (file.exists()) return
     copyFile(fileName)
 }
 
 fun createFile(fileName: String) {
-    val dir = File(filePath)
+    val dir = File(externalPath)
     if (!dir.exists()) {
         dir.mkdirs()
     }
-    val file = File("$filePath/$fileName")
+    val file = File("$externalDir/$fileName")
     if (file.exists()) {
         file.delete()
-        File("$filePath/$fileName")
+        File("$externalDir/$fileName")
     }
     copyFile(fileName)
 }
@@ -164,7 +173,7 @@ fun createFile(fileName: String) {
 @RequiresPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
 fun writeFile(fileName: String, bytes: ByteArray): File? {
     return try {
-        val file = File(filePath, fileName)
+        val file = File(externalDir, fileName)
         val stream = FileOutputStream(file)
         stream.write(bytes)
         stream.flush()
@@ -177,7 +186,7 @@ fun writeFile(fileName: String, bytes: ByteArray): File? {
 
 @RequiresPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE)
 fun readFile(fileName: String): String {
-    val file = File(filePath, fileName)
+    val file = File(externalDir, fileName)
     val text = java.lang.StringBuilder()
     try {
         val br = BufferedReader(FileReader(file))

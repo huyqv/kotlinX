@@ -26,9 +26,14 @@ interface BaseView {
 
     val lifecycleOwner: LifecycleOwner
 
-    /**
-     * [View.OnClickListener] utils
-     */
+    val navController: NavController?
+
+    fun layoutResource(): Int
+
+    fun onViewCreated()
+
+    fun onLiveDataObserve()
+
     fun addClickListener(vararg views: View?) {
         val listener = object : ViewClickListener() {
             override fun onClicks(v: View?) {
@@ -40,9 +45,6 @@ interface BaseView {
 
     fun onViewClick(v: View?) = Unit
 
-    /**
-     * [ViewModel] utils
-     */
     fun <T : ViewModel> ViewModelStoreOwner.viewModel(cls: KClass<T>): T {
         return ViewModelProvider(this).get(cls.java)
     }
@@ -58,11 +60,6 @@ interface BaseView {
     fun <T : ViewModel> AppCompatActivity.activityVM(cls: KClass<T>): T {
         return ViewModelProvider(this).get(cls.java)
     }
-
-    /**
-     * [NavController] utils
-     */
-    val navController: NavController?
 
     fun navigate(directions: NavDirections, extras: Navigator.Extras? = null, block: (NavOptions.Builder.() -> Unit) = {}) {
         val options = NavOptions.Builder().also {
@@ -130,9 +127,6 @@ interface BaseView {
         removeObservers(lifecycleOwner)
     }
 
-    /**
-     * [Fragment] utils
-     */
     fun add(fragment: Fragment, stack: Boolean = true) {
         baseActivity?.add(fragment, stack)
     }

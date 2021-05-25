@@ -7,9 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LifecycleOwner
-import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import com.example.library.extension.RequestPermission
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -19,10 +18,12 @@ import androidx.navigation.fragment.findNavController
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-abstract class BaseFragment : Fragment(), BaseView {
+abstract class BaseFragment : Fragment(), FragmentView {
+
+
 
     /**
-     * [Fragment] override
+     * [Fragment] implements
      */
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -47,28 +48,17 @@ abstract class BaseFragment : Fragment(), BaseView {
     }
 
     /**
-     * [BaseFragment] required implements
+     * [FragmentView] implements
      */
-    abstract fun layoutResource(): Int
-
-    abstract fun onViewCreated()
-
-    abstract fun onLiveDataObserve()
-
-    /**
-     * [BaseView] implement
-     */
-    override val baseActivity: BaseActivity? get() = activity as? BaseActivity
-
-    override val lifecycleOwner: LifecycleOwner get() = viewLifecycleOwner
-
-    override val navController: NavController? get() = findNavController()
+    override val fragment: Fragment get() = this
 
     /**
      * [BaseFragment] properties
      */
     protected open fun onBackPressed() {
-        findNavController()?.navigateUp()
+        if (!findNavController().popBackStack()) {
+            requireActivity().finish()
+        }
     }
 
 }

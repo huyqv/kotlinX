@@ -54,13 +54,17 @@ fun Fragment.showKeyboard() {
     view?.showKeyboard()
 }
 
+private var keypadHeight: Int = 0
+
 fun AppCompatActivity.listenKeyboard() {
     val contentView = this.findViewById<View>(android.R.id.content)
     val layoutListener = ViewTreeObserver.OnGlobalLayoutListener {
         val rect = Rect()
         contentView.getWindowVisibleDisplayFrame(rect)
         val screenHeight = contentView.rootView.height
-        val keypadHeight = screenHeight - rect.bottom
+        val currentKeypadHeight = screenHeight - rect.bottom
+        if (keypadHeight == currentKeypadHeight) return@OnGlobalLayoutListener
+        keypadHeight = currentKeypadHeight
         if (keypadHeight > screenHeight * 0.15) {
             toast("Keyboard is showing")
         } else {

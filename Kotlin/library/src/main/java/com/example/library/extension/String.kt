@@ -119,7 +119,7 @@ fun String?.encodeHtml(): String? {
 fun String?.trimAll(): String? {
     if (this.isNullOrEmpty()) return null
     var temp: String = this
-    while (temp.indexOf("  ") != -1) temp = temp.replace("  ", " ")
+    while (temp.contains("  ")) temp = temp.replace("  ", " ")
     if (temp.isEmpty()) return null
     return temp
 }

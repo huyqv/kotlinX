@@ -40,7 +40,11 @@ class DateFragment : MainDialog() {
 
     override fun onLiveDataObserve() {
         dialogVM.dateLiveData.observe {
-            updateDayList(it)
+            if (null != it) {
+                updateDayList(it)
+            } else {
+                dismissAllowingStateLoss()
+            }
         }
     }
 

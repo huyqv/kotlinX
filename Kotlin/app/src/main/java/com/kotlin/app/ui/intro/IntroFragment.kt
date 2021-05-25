@@ -1,9 +1,9 @@
-package com.kotlin.app.ui.splash
+package com.kotlin.app.ui.intro
 
 import com.example.library.extension.post
 import com.kotlin.app.MainDirections
 import com.kotlin.app.R
-import com.kotlin.app.ui.base.BaseFragment
+import com.kotlin.app.ui.main.MainFragment
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -14,10 +14,10 @@ import com.kotlin.app.ui.base.BaseFragment
  * All Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-class SplashFragment : BaseFragment() {
+class IntroFragment : MainFragment() {
 
     override fun layoutResource(): Int {
-        return R.layout.splash
+        return R.layout.intro
     }
 
     override fun onViewCreated() {

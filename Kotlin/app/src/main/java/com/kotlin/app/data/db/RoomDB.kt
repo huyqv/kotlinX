@@ -1,10 +1,10 @@
 package com.kotlin.app.data.db
 
+import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.kotlin.app.BuildConfig
-import com.kotlin.app.app.App
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -24,12 +24,12 @@ abstract class RoomDB : RoomDatabase() {
     abstract val userDao: User.DAO
 
     companion object {
-        val instance: RoomDB by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
-            Room.databaseBuilder(App.instance.applicationContext, RoomDB::class.java, BuildConfig.APPLICATION_ID)
+
+        fun getInstance(context: Context, name: String): RoomDB {
+            return Room.databaseBuilder(context.applicationContext, RoomDB::class.java, name)
                     .allowMainThreadQueries()
                     .fallbackToDestructiveMigration()
                     .build()
         }
-
     }
 }

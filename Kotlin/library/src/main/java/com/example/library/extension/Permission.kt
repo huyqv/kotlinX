@@ -1,14 +1,19 @@
 package com.example.library.extension
 
-import android.Manifest
-import android.app.Activity
+import android.app.Application
+import android.content.Intent
 import android.content.pm.PackageManager
-import android.os.Build
-import androidx.annotation.IntDef
+import android.net.Uri
+import android.provider.Settings
+import androidx.activity.ComponentActivity
 import androidx.annotation.RequiresPermission
-import androidx.core.app.ActivityCompat
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.OnLifecycleEvent
+import com.example.library.Library
 
 
 /**
@@ -20,102 +25,95 @@ import androidx.fragment.app.Fragment
  * -------------------------------------------------------------------------------------------------
  */
 
+private val app: Application get() = Library.app
 
-@IntDef(PermissionStatus.GRANTED, PermissionStatus.DENIED, PermissionStatus.BLOCKED_OR_NEVER_ASKED)
-annotation class PermissionStatus {
-    companion object {
-        const val GRANTED = 0
-        const val DENIED = 1
-        const val BLOCKED_OR_NEVER_ASKED = 2
+fun isGranted(@RequiresPermission vararg permission: String): Boolean {
+    val notGrantedPermissions = permission.filter {
+        ContextCompat.checkSelfPermission(app, it) != PackageManager.PERMISSION_GRANTED
     }
-
+    return notGrantedPermissions.isNullOrEmpty()
 }
 
-@PermissionStatus
-fun Activity.permissionStatus(permission: String): Int {
-    return when {
-        ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED -> {
-            PermissionStatus.GRANTED
-        }
-        ActivityCompat.shouldShowRequestPermissionRationale(this, permission) -> {
-            PermissionStatus.DENIED
-        }
-        else -> {
-            PermissionStatus.BLOCKED_OR_NEVER_ASKED
-        }
-    }
-}
+fun Fragment.onGrantedPermission(@RequiresPermission vararg permissions: String, block: () -> Unit) {
 
-@PermissionStatus
-fun Fragment.permissionStatus(permission: String): Int {
-    return requireActivity().permissionStatus(permission)
-}
+    val deniedPermissions = mutableListOf<String>()
 
-fun Activity.isGranted(@RequiresPermission vararg permission: String): Boolean {
-    val list = mutableListOf<String>()
-    permission.iterator().forEach {
-        if (permissionStatus(it) != PermissionStatus.GRANTED) {
-            list.add(it)
+    val blockedPermissions = mutableListOf<String>()
+
+    for (permission in permissions) {
+        when {
+            ContextCompat.checkSelfPermission(requireContext(), permission) == PackageManager.PERMISSION_GRANTED -> {
+                continue
+            }
+            shouldShowRequestPermissionRationale(permission) -> {
+                deniedPermissions.add(permission)
+            }
+            else -> {
+                blockedPermissions.add(permission)
+            }
         }
     }
-    return list.isNullOrEmpty()
-}
 
-fun Fragment.isGranted(@RequiresPermission vararg permission: String): Boolean {
-    return requireActivity().isGranted(* permission)
-}
-
-fun Activity.onGranted(@RequiresPermission vararg permissions: String, onGranted: () -> Unit) {
-    if (isGranted(*permissions)) {
-        onGranted()
-        return
-    }
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+    if (!deniedPermissions.isNullOrEmpty()) {
+        @Suppress("DEPRECATION")
         requestPermissions(permissions, 1)
-    } else {
-        ActivityCompat.requestPermissions(this, permissions, 1)
-    }
-}
-
-fun Fragment.onGranted(@RequiresPermission vararg permissions: String, onGranted: () -> Unit) {
-    if (isGranted(*permissions)) {
-        onGranted()
         return
     }
-    requestPermissions(permissions, 1)
+
+    if (!blockedPermissions.isNullOrEmpty()) {
+        requireActivity().showDialogPermission(*blockedPermissions.toTypedArray())
+        return
+    }
+
+    block()
 }
 
-val Activity.hasCameraPermission: Boolean get() = isGranted(Manifest.permission.CAMERA)
-
-val Fragment.hasCameraPermission: Boolean get() = isGranted(Manifest.permission.CAMERA)
-
-fun Activity.onCameraPermissionGranted(onGranted: () -> Unit) {
-    this.onGranted(Manifest.permission.CAMERA) { onGranted() }
+fun Fragment.observerPermission(@RequiresPermission vararg permissions: String, block: () -> Unit) {
+    lifecycle.addObserver(object : LifecycleObserver {
+        @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+        fun onResume() {
+            if (isGranted(*permissions)) {
+                block()
+                lifecycle.removeObserver(this)
+            } else {
+                onGrantedPermission(*permissions) {
+                    block()
+                }
+            }
+        }
+    })
 }
 
-fun Fragment.onCameraPermissionGranted(onGranted: () -> Unit) {
-    this.onGranted(Manifest.permission.CAMERA) { onGranted() }
+private fun ComponentActivity.showDialogPermission(@RequiresPermission vararg permissions: String) {
+    val message = requirePermissionMessage(*permissions)
+    AlertDialog.Builder(this)
+            .setMessage(message)
+            .setPositiveButton("Close") { dialog, _ -> dialog.cancel() }
+            .setNegativeButton("Setting") { dialog, _ ->
+                navigateAppSettings()
+                dialog.cancel()
+            }
+            .show()
 }
 
-val locationPermission get() = arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
-
-val Activity.hasLocationPermission: Boolean get() = isGranted(*locationPermission)
-
-val Fragment.hasLocationPermission: Boolean get() = isGranted(*locationPermission)
-
-fun Activity.onLocationPermissionGranted(onGranted: () -> Unit) {
-    this.onGranted(*locationPermission) { onGranted() }
+private fun navigateAppSettings() {
+    val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+    val uri = Uri.fromParts("package", app.packageName, null)
+    intent.data = uri
+    app.startActivity(intent)
 }
 
-fun Fragment.onLocationPermissionGranted(onGranted: () -> Unit) {
-    this.onGranted(*locationPermission) { onGranted() }
+private fun requirePermissionMessage(@RequiresPermission vararg permissions: String): String {
+    return StringBuilder().also {
+        it.append("Permission:")
+        permissions.iterator().forEach { permission ->
+            val s = permission.replace("android.permission.", "")
+                    .replace("_", " ").toLowerCase()
+            it.append(" $s,")
+        }
+        it.deleteCharAt(it.lastIndex)
+        it.removeSurrounding(",")
+        it.append(" had been blocked")
+    }.toString()
 }
-
-
-
-
-
-
-
-
 

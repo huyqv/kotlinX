@@ -7,11 +7,14 @@ import android.os.Bundle
 import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import com.example.library.R
 import com.example.library.extension.addFragment
+import com.example.library.extension.isGranted
 import com.example.library.extension.removeFragment
 import com.example.library.extension.replaceFragment
 
@@ -23,10 +26,11 @@ import com.example.library.extension.replaceFragment
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-abstract class BaseActivity : AppCompatActivity(), BaseView {
+abstract class BaseActivity : AppCompatActivity(),
+        BaseView {
 
     /**
-     * [AppCompatActivity] override
+     * [AppCompatActivity] implements
      */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,16 +66,7 @@ abstract class BaseActivity : AppCompatActivity(), BaseView {
     }
 
     /**
-     * [BaseActivity] abstract implements
-     */
-    abstract fun layoutResource(): Int
-
-    abstract fun onViewCreated()
-
-    abstract fun onLiveDataObserve()
-
-    /**
-     * [BaseView] implement
+     * [BaseView] implements
      */
     final override val baseActivity: BaseActivity? get() = this
 
@@ -89,6 +84,9 @@ abstract class BaseActivity : AppCompatActivity(), BaseView {
         removeFragment(cls)
     }
 
+    /**
+     * [BaseActivity] properties
+     */
     protected open fun fragmentContainerId(): Int {
         throw NullPointerException("fragmentContainerId no has implement")
     }

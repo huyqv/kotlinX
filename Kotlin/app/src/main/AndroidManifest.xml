@@ -15,7 +15,10 @@
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
-    <uses-sdk tools:overrideLibrary="androidx.security"></uses-sdk>
+    <uses-sdk tools:overrideLibrary="androidx.security,androidx.camera.camera2,
+        androidx.camera.core, androidx.camera.view, androidx.camera.lifecycle" />
+
+    <uses-feature android:name="android.hardware.camera"/>
 
     <application
         android:name=".app.App"

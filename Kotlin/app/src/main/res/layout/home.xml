@@ -3,13 +3,14 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/MatchParent"
-    android:background="@color/colorPrimary">
+    android:background="#E32636">
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/textViewSplash"
+        android:id="@+id/textView"
         style="@style/TextView"
-        android:gravity="center"
         android:text="HOME"
+        android:gravity="center"
+        android:textSize="@dimen/_24ssp"
         android:textColor="@color/colorWhite"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.lifecycle.LifecycleOwner
+import androidx.fragment.app.Fragment
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -21,18 +21,14 @@ import com.kotlin.app.R
  * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
-abstract class BaseBottomDialog : BottomSheetDialogFragment(), BaseView {
+abstract class BaseBottomDialog : BottomSheetDialogFragment(),
+        FragmentView {
 
     /**
-     * [BottomSheetDialogFragment] override
+     * [BottomSheetDialogFragment] implements
      */
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setStyle(STYLE_NORMAL, style())
-    }
-
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val dialog = object : Dialog(requireActivity(), theme) {
+        val dialog = object : Dialog(requireActivity(), dialogStyle()) {
             override fun onBackPressed() {
                 this@BaseBottomDialog.onBackPressed()
             }
@@ -62,25 +58,14 @@ abstract class BaseBottomDialog : BottomSheetDialogFragment(), BaseView {
     }
 
     /**
-     * [BaseBottomDialog] Required implements
+     * [FragmentView] implements
      */
-    abstract fun layoutResource(): Int
-
-    abstract fun onViewCreated()
-
-    abstract fun onLiveDataObserve()
-
-    /**
-     * [BaseView] implement
-     */
-    override val baseActivity: BaseActivity? get() = activity as? BaseActivity
-
-    override val lifecycleOwner: LifecycleOwner get() = viewLifecycleOwner
+    override val fragment: Fragment get() = this
 
     /**
      * [BaseBottomDialog] properties
      */
-    protected open fun style(): Int {
+    protected open fun dialogStyle(): Int {
         return R.style.App_Dialog
     }
 

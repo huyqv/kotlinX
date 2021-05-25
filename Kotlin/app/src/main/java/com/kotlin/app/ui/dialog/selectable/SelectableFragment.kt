@@ -31,9 +31,13 @@ class SelectableFragment : MainDialog() {
 
     override fun onLiveDataObserve() {
         dialogVM.selectableLiveData.observe {
-            selectableTextViewTitle.text = it.title ?: getString(R.string.app_name)
-            selectableEditText.isGone(!it.isSearchable)
-            onBindListItem(it.adapter)
+            if (null != it) {
+                selectableTextViewTitle.text = it.title ?: getString(R.string.app_name)
+                selectableEditText.isGone(!it.isSearchable)
+                onBindListItem(it.adapter)
+            } else {
+                dismissAllowingStateLoss()
+            }
         }
     }
 
