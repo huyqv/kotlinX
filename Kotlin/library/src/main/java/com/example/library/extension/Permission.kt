@@ -39,7 +39,7 @@ fun hasPermission(vararg permissions: String): Boolean {
     return true
 }
 
-fun ComponentActivity.onGrantedPermission(requestCode: Int, vararg permissions: String, onGrantedPermission: () -> Unit) {
+fun ComponentActivity.onPermissionGranted(requestCode: Int, vararg permissions: String, onGranted: () -> Unit) {
 
     val deniedPermissions = mutableListOf<String>()
 
@@ -60,23 +60,23 @@ fun ComponentActivity.onGrantedPermission(requestCode: Int, vararg permissions: 
     }
 
     if (deniedPermissions.isNotEmpty()) {
-        observerPermission(requestCode, *permissions) { onGrantedPermission() }
+        observerPermission(requestCode, *permissions) { onGranted() }
         ActivityCompat.requestPermissions(this, permissions, requestCode)
         return
     }
 
     if (blockedPermissions.isNotEmpty()) {
-        observerPermission(requestCode, *permissions) { onGrantedPermission() }
+        observerPermission(requestCode, *permissions) { onGranted() }
         showDialogPermission(*blockedPermissions.toTypedArray())
         return
     }
 
-    onGrantedPermission()
+    onGranted()
 }
 
-fun Fragment.onGrantedPermission(requestCode: Int, vararg permissions: String, onGrantedPermission: () -> Unit) {
-    requireActivity().onGrantedPermission(requestCode, *permissions) {
-        onGrantedPermission()
+fun Fragment.onPermissionGranted(requestCode: Int, vararg permissions: String, onGranted: () -> Unit) {
+    requireActivity().onPermissionGranted(requestCode, *permissions) {
+        onGranted()
     }
 }
 
@@ -144,7 +144,7 @@ val notGrantedPermission: Array<String>
             .toTypedArray()
 
 fun ComponentActivity.onGrantedRequiredPermission(onGrantedPermission: () -> Unit) {
-    onGrantedPermission(34534, *notGrantedPermission){
+    onPermissionGranted(34534, *notGrantedPermission){
         onGrantedPermission()
     }
 }

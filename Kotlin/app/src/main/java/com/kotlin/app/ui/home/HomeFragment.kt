@@ -1,7 +1,7 @@
 package com.kotlin.app.ui.home
 
 import android.Manifest
-import com.example.library.extension.onGrantedPermission
+import com.example.library.extension.onPermissionGranted
 import com.kotlin.app.R
 import com.kotlin.app.ui.main.MainFragment
 import kotlinx.android.synthetic.main.home.*
@@ -24,7 +24,7 @@ class HomeFragment : MainFragment() {
     override fun onViewCreated() {
 
         textView.setOnClickListener {
-             onGrantedPermission(1,Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE) {
+             onPermissionGranted(1,Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE) {
                 textView.text = "camera and storage permission is granted"
             }
         }
