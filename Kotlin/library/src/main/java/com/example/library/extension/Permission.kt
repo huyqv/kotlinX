@@ -3,6 +3,7 @@ package com.example.library.extension
 import android.Manifest
 import android.app.Application
 import android.content.pm.PackageManager
+import android.os.Build
 import androidx.activity.ComponentActivity
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
@@ -10,7 +11,6 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.OnLifecycleEvent
 import com.example.library.Library
 
@@ -25,7 +25,9 @@ import com.example.library.Library
  */
 private val app: Application get() = Library.app
 
-private val permissionObserverMap by lazy { mutableMapOf<Int, LifecycleObserver?>() }
+private val permissionObserverMap by lazy { mutableMapOf<Int, LifecycleObserver>() }
+
+private val requestedPermissionMap by lazy { mutableMapOf<String, Boolean>() }
 
 fun hasPermission(vararg permissions: String): Boolean {
     permissions.forEach {
@@ -38,9 +40,9 @@ fun hasPermission(vararg permissions: String): Boolean {
 
 fun ComponentActivity.onPermissionGranted(requestCode: Int, vararg permissions: String, onGranted: () -> Unit) {
 
-    val deniedPermissions = mutableListOf<String>()
+    val notGrantedPermissions = mutableListOf<String>()
 
-    val blockedPermissions = mutableListOf<String>()
+    val deniedPermissions = mutableListOf<String>()
 
     for (permission in permissions) {
         when {
@@ -48,7 +50,10 @@ fun ComponentActivity.onPermissionGranted(requestCode: Int, vararg permissions: 
                 continue
             }
             ActivityCompat.shouldShowRequestPermissionRationale(this, permission) -> {
-                blockedPermissions.add(permission)
+                notGrantedPermissions.add(permission)
+            }
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && shouldShowRequestPermissionRationale(permission) -> {
+                notGrantedPermissions.add(permission)
             }
             else -> {
                 deniedPermissions.add(permission)
@@ -56,15 +61,21 @@ fun ComponentActivity.onPermissionGranted(requestCode: Int, vararg permissions: 
         }
     }
 
-    if (deniedPermissions.isNotEmpty()) {
+    if (notGrantedPermissions.isNotEmpty()) {
         observerPermission(requestCode, *permissions) { onGranted() }
-        ActivityCompat.requestPermissions(this, deniedPermissions.toTypedArray(), requestCode)
+        requestedPermissionMap[this.localClassName] = true
+        ActivityCompat.requestPermissions(this, notGrantedPermissions.toTypedArray(), requestCode)
         return
     }
 
-    if (blockedPermissions.isNotEmpty()) {
+    if (deniedPermissions.isNotEmpty()) {
         observerPermission(requestCode, *permissions) { onGranted() }
-        showDialogPermission(*blockedPermissions.toTypedArray())
+        if (requestedPermissionMap[this.localClassName] == true) {
+            showDialogPermission(*deniedPermissions.toTypedArray())
+        } else {
+            requestedPermissionMap[this.localClassName] = true
+            ActivityCompat.requestPermissions(this, deniedPermissions.toTypedArray(), requestCode)
+        }
         return
     }
 
@@ -77,7 +88,7 @@ fun Fragment.onPermissionGranted(requestCode: Int, vararg permissions: String, o
     }
 }
 
-fun LifecycleOwner.observerPermission(requestCode: Int, vararg permissions: String, onGranted: () -> Unit) {
+fun ComponentActivity.observerPermission(requestCode: Int, vararg permissions: String, onGranted: () -> Unit) {
     permissionObserverMap[requestCode]?.also {
         lifecycle.removeObserver(it)
     }
