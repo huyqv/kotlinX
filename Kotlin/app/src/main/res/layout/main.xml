@@ -17,13 +17,4 @@
         app:layout_constraintTop_toTopOf="parent"
         app:navGraph="@navigation/main_graph" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/textViewVersion"
-        style="@style/TextView"
-        android:layout_margin="@dimen/_2sdp"
-        android:text="1.0.0"
-        android:textSize="@dimen/_4ssp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

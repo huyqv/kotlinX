@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.example.library.extension.backgroundColor
+import com.example.library.extension.statusBarColor
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -18,8 +20,6 @@ import androidx.navigation.fragment.findNavController
  * -------------------------------------------------------------------------------------------------
  */
 abstract class BaseFragment : Fragment(), FragmentView {
-
-
 
     /**
      * [Fragment] implements
@@ -37,6 +37,7 @@ abstract class BaseFragment : Fragment(), FragmentView {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(layoutResource(), container, false)
         view.setOnTouchListener { _, _ -> true }
+        statusBarColor(view.backgroundColor)
         return view
     }
 

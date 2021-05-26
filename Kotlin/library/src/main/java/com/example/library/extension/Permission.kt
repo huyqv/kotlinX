@@ -2,10 +2,7 @@ package com.example.library.extension
 
 import android.Manifest
 import android.app.Application
-import android.content.Intent
 import android.content.pm.PackageManager
-import android.net.Uri
-import android.provider.Settings
 import androidx.activity.ComponentActivity
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
@@ -51,17 +48,17 @@ fun ComponentActivity.onPermissionGranted(requestCode: Int, vararg permissions: 
                 continue
             }
             ActivityCompat.shouldShowRequestPermissionRationale(this, permission) -> {
-                deniedPermissions.add(permission)
+                blockedPermissions.add(permission)
             }
             else -> {
-                blockedPermissions.add(permission)
+                deniedPermissions.add(permission)
             }
         }
     }
 
     if (deniedPermissions.isNotEmpty()) {
         observerPermission(requestCode, *permissions) { onGranted() }
-        ActivityCompat.requestPermissions(this, permissions, requestCode)
+        ActivityCompat.requestPermissions(this, deniedPermissions.toTypedArray(), requestCode)
         return
     }
 
@@ -80,7 +77,7 @@ fun Fragment.onPermissionGranted(requestCode: Int, vararg permissions: String, o
     }
 }
 
-fun LifecycleOwner.observerPermission(requestCode: Int, vararg permissions: String, block: () -> Unit) {
+fun LifecycleOwner.observerPermission(requestCode: Int, vararg permissions: String, onGranted: () -> Unit) {
     permissionObserverMap[requestCode]?.also {
         lifecycle.removeObserver(it)
     }
@@ -89,7 +86,7 @@ fun LifecycleOwner.observerPermission(requestCode: Int, vararg permissions: Stri
         fun onResume() {
             if (hasPermission(*permissions)) {
                 lifecycle.removeObserver(this)
-                block()
+                onGranted()
             }
         }
     }
@@ -98,9 +95,8 @@ fun LifecycleOwner.observerPermission(requestCode: Int, vararg permissions: Stri
 }
 
 private fun ComponentActivity.showDialogPermission(vararg permissions: String) {
-    val message = requirePermissionMessage(*permissions)
     AlertDialog.Builder(this)
-            .setMessage(message)
+            .setMessage("Permission:${permissionsText(*permissions)} had been denied")
             .setPositiveButton("Close") { dialog, _ -> dialog.cancel() }
             .setNegativeButton("Setting") { dialog, _ ->
                 navigateAppSettings()
@@ -109,24 +105,14 @@ private fun ComponentActivity.showDialogPermission(vararg permissions: String) {
             .show()
 }
 
-private fun navigateAppSettings() {
-    val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-    val uri = Uri.fromParts("package", app.packageName, null)
-    intent.data = uri
-    app.startActivity(intent)
-}
-
-private fun requirePermissionMessage(vararg permissions: String): String {
+fun permissionsText(vararg permissions: String): String {
     return StringBuilder().also {
-        it.append("Permission:")
         permissions.iterator().forEach { permission ->
             val s = permission.replace("android.permission.", "")
                     .replace("_", " ").toLowerCase()
             it.append(" $s,")
         }
         it.deleteCharAt(it.lastIndex)
-        it.removeSurrounding(",")
-        it.append(" had been blocked")
     }.toString()
 }
 

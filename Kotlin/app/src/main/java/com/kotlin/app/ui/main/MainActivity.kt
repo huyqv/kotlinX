@@ -36,12 +36,11 @@ class MainActivity : BaseActivity(), MainView {
     }
 
     override fun onViewCreated() {
-        textViewVersion.text = "${BuildConfig.VERSION_NAME}-${BuildConfig.VERSION_CODE}"
         listenKeyboard()
-
     }
 
     override fun onLiveDataObserve() {
+
     }
 
 }
