@@ -4,6 +4,7 @@ import com.example.library.extension.post
 import com.kotlin.app.MainDirections
 import com.kotlin.app.R
 import com.kotlin.app.ui.base.BaseFragment
+import kotlinx.android.synthetic.main.splash.*
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -21,7 +22,11 @@ class SplashFragment : BaseFragment() {
     }
 
     override fun onViewCreated() {
-
+        textView.setOnClickListener {
+            post(1000) {
+                navigate(MainDirections.actionGlobalIntroFragment())
+            }
+        }
     }
 
     override fun onLiveDataObserve() {

@@ -4,6 +4,7 @@ import com.example.library.extension.post
 import com.kotlin.app.MainDirections
 import com.kotlin.app.R
 import com.kotlin.app.ui.main.MainFragment
+import kotlinx.android.synthetic.main.intro.*
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -21,7 +22,11 @@ class IntroFragment : MainFragment() {
     }
 
     override fun onViewCreated() {
-
+        textView.setOnClickListener {
+            post(1000) {
+                navigate(MainDirections.actionGlobalHomeFragment())
+            }
+        }
     }
 
     override fun onLiveDataObserve() {

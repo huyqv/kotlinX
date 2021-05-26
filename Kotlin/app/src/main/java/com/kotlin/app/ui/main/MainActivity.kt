@@ -38,12 +38,7 @@ class MainActivity : BaseActivity(), MainView {
     override fun onViewCreated() {
         textViewVersion.text = "${BuildConfig.VERSION_NAME}-${BuildConfig.VERSION_CODE}"
         listenKeyboard()
-        post(1000) {
-            navigate(MainDirections.actionGlobalIntroFragment())
-        }
-        post(2000) {
-            navigate(MainDirections.actionGlobalHomeFragment())
-        }
+
     }
 
     override fun onLiveDataObserve() {

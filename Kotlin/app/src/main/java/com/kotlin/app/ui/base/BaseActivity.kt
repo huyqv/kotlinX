@@ -7,14 +7,11 @@ import android.os.Bundle
 import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import com.example.library.R
 import com.example.library.extension.addFragment
-import com.example.library.extension.isGranted
 import com.example.library.extension.removeFragment
 import com.example.library.extension.replaceFragment
 
