@@ -4,11 +4,11 @@ import android.Manifest
 import android.app.Application
 import android.content.pm.PackageManager
 import android.os.Build
-import androidx.activity.ComponentActivity
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
@@ -38,7 +38,7 @@ fun hasPermission(vararg permissions: String): Boolean {
     return true
 }
 
-fun ComponentActivity.onPermissionGranted(requestCode: Int, vararg permissions: String, onGranted: () -> Unit) {
+fun FragmentActivity.onPermissionGranted(requestCode: Int, vararg permissions: String, onGranted: () -> Unit) {
 
     val notGrantedPermissions = mutableListOf<String>()
 
@@ -83,12 +83,12 @@ fun ComponentActivity.onPermissionGranted(requestCode: Int, vararg permissions: 
 }
 
 fun Fragment.onPermissionGranted(requestCode: Int, vararg permissions: String, onGranted: () -> Unit) {
-    requireActivity().onPermissionGranted(requestCode, *permissions) {
+    activity?.onPermissionGranted(requestCode, *permissions) {
         onGranted()
     }
 }
 
-fun ComponentActivity.observerPermission(requestCode: Int, vararg permissions: String, onGranted: () -> Unit) {
+fun FragmentActivity.observerPermission(requestCode: Int, vararg permissions: String, onGranted: () -> Unit) {
     permissionObserverMap[requestCode]?.also {
         lifecycle.removeObserver(it)
     }
@@ -105,7 +105,7 @@ fun ComponentActivity.observerPermission(requestCode: Int, vararg permissions: S
     lifecycle.addObserver(observer)
 }
 
-private fun ComponentActivity.showDialogPermission(vararg permissions: String) {
+private fun FragmentActivity.showDialogPermission(vararg permissions: String) {
     AlertDialog.Builder(this)
             .setMessage("Permission:${permissionsText(*permissions)} had been denied")
             .setPositiveButton("Close") { dialog, _ -> dialog.cancel() }
@@ -140,7 +140,7 @@ val notGrantedPermission: Array<String>
             .filter { ContextCompat.checkSelfPermission(app, it) != PackageManager.PERMISSION_GRANTED }
             .toTypedArray()
 
-fun ComponentActivity.onGrantedRequiredPermission(onGrantedPermission: () -> Unit) {
+fun FragmentActivity.onGrantedRequiredPermission(onGrantedPermission: () -> Unit) {
     onPermissionGranted(34534, *notGrantedPermission){
         onGrantedPermission()
     }

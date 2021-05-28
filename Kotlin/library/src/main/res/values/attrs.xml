@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <declare-styleable name="CustomView">
+    <declare-styleable name="AppCustomView">
         <!--TEXT-->
         <attr name="android:title" format="string" />
         <attr name="android:text" format="string" />
@@ -40,12 +40,17 @@
         <attr name="android:paddingBottom" format="dimension" />
     </declare-styleable>
 
-    <declare-styleable name="RoundedLayout">
+    <declare-styleable name="AppConstraintLayout">
         <attr name="radius" format="dimension" />
         <attr name="topLeftRadius" format="dimension" />
         <attr name="topRightRadius" format="dimension" />
         <attr name="bottomLeftRadius" format="dimension" />
         <attr name="bottomRightRadius" format="dimension" />
+        <attr name="strokeLineWidth" format="dimension" />
+        <attr name="dashLineWidth" format="dimension" />
+        <attr name="dashLineGap" format="dimension" />
+        <attr name="backgroundColor" format="color" />
+        <attr name="strokeLineColor" format="color" />
     </declare-styleable>
 
     <declare-styleable name="DashView">

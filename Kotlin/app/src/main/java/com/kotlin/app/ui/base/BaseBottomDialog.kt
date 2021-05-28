@@ -8,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
+import com.example.library.extension.hideKeyboard
+import com.example.library.extension.post
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -53,8 +55,10 @@ abstract class BaseBottomDialog : BottomSheetDialogFragment(),
     }
 
     override fun onDismiss(dialog: DialogInterface) {
-        super.onDismiss(dialog)
-        println("onDismiss")
+        hideKeyboard()
+        view.post(300) {
+            super.onDismiss(dialog)
+        }
     }
 
     /**

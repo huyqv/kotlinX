@@ -63,14 +63,9 @@ abstract class BaseDialog : DialogFragment(),
     }
 
     override fun onDismiss(dialog: DialogInterface) {
-        super.onDismiss(dialog)
-        println("onDismiss")
-    }
-
-    override fun dismiss() {
         hideKeyboard()
         view.post(300) {
-            super.dismiss()
+            super.onDismiss(dialog)
         }
     }
 
