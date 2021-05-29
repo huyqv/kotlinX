@@ -71,28 +71,35 @@ fun String.toTokenList(delim: String = ";"): MutableList<Int> {
     return list
 }
 
-fun String?.color(@ColorRes color: Int): String {
-    return color("#${Integer.toHexString(ContextCompat.getColor(Library.app, color) and 0x00ffffff)}")
+fun String.color(@ColorRes colorRes: Int): String {
+    val colorInt = ContextCompat.getColor(Library.app, colorRes)
+    val hexString = "#${Integer.toHexString(colorInt and 0x00ffffff)}"
+    return "<font color=$hexString>$this</font>"
 }
 
-fun String?.color(color: String): String {
-    this ?: return ""
-    return "<font color=$color>$this</font>"
+fun String.color(hexString: String): String {
+    return "<font color=$hexString>$this</font>"
 }
 
-fun String?.bold(): String {
+fun colorText(string: String, @ColorRes colorRes: Int): String {
+    val colorInt = ContextCompat.getColor(Library.app, colorRes)
+    val hexString = "#${Integer.toHexString(colorInt and 0x00ffffff)}"
+    return "<font color=$hexString>$string</font>"
+}
+
+fun String.bold(): String {
     this ?: return ""
     return "<b>$this</b>"
 }
 
-fun String?.hidden(): String {
+fun String.hidden(): String {
     this ?: return ""
     val length = this.length
     if (length < 4) return ""
     return "•••••••${this.substring(length - 2, length)}"
 }
 
-fun String?.decodeHtml(): String? {
+fun String.decodeHtml(): String? {
 
     if (this.isNullOrEmpty()) return null
 
@@ -104,7 +111,7 @@ fun String?.decodeHtml(): String? {
     }
 }
 
-fun String?.encodeHtml(): String? {
+fun String.encodeHtml(): String? {
 
     if (this.isNullOrEmpty()) return null
 
@@ -116,7 +123,7 @@ fun String?.encodeHtml(): String? {
     }
 }
 
-fun String?.trimAll(): String? {
+fun String.trimAll(): String? {
     if (this.isNullOrEmpty()) return null
     var temp: String = this
     while (temp.contains("  ")) temp = temp.replace("  ", " ")
@@ -125,8 +132,8 @@ fun String?.trimAll(): String? {
 }
 
 fun String?.like(s: String?): Boolean {
-    val left = this.normalizer() ?: return false
-    val right = s.normalizer() ?: return false
+    val left: String = this.normalizer() ?: return false
+    val right: String = s.normalizer() ?: return false
     return left.contains(right) || right.contains(left)
 }
 

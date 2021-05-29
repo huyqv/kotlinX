@@ -1,6 +1,7 @@
 package com.kotlin.app.ui.base
 
 import android.content.Context
+import android.content.DialogInterface
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -8,8 +9,9 @@ import android.view.WindowManager
 import androidx.annotation.LayoutRes
 import androidx.annotation.StyleRes
 import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.FragmentActivity
+import com.example.library.extension.ViewClickListener
 import com.example.library.extension.hideSystemUI
+import com.kotlin.app.R
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -23,96 +25,118 @@ import com.example.library.extension.hideSystemUI
 abstract class BaseAlertDialog {
 
     companion object {
-        val dialogList: MutableList<AlertDialog?> = mutableListOf()
+        val dialogList: MutableList<DialogInterface> = mutableListOf()
     }
 
-    protected var self: AlertDialog? = null
+    protected var dialog: AlertDialog? = null
+        private set
 
-    protected lateinit var view: View
+    protected var view: View? = null
+        private set
 
-    val context: Context? get() = view.context
+    val context: Context? get() = dialog?.context
 
-    val isShown: Boolean
-        get() {
-            self ?: return false
-            return self!!.isShowing
+    /**
+     *
+     */
+    constructor(context: Context?) {
+        context ?: return
+        view = LayoutInflater.from(context).inflate(layoutResource(), null).also {
+            dialog = AlertDialog.Builder(context, dialogTheme())
+                    .setView(view)
+                    .create()
+            dialog?.hideSystemUI()
+
+            onDismiss {}
+            onShow {}
+            it.isFocusable = false
+            it.isFocusableInTouchMode = true
+            it.onViewCreated()
         }
-
-    constructor(activity: FragmentActivity?) {
-        activity ?: return
-        view = LayoutInflater.from(activity).inflate(layoutRes(), null)
-        val builder: AlertDialog.Builder = AlertDialog.Builder(activity, theme())
-        builder.setView(view)
-        self = builder.create()
-        self?.hideSystemUI()
-        if (activity is BaseActivity) dialogList.add(self)
-        if (hasShadow()) setShadow()
-        onDismiss {}
-        onShow {}
-        view.onViewCreated()
-        view.isFocusable = false
-        view.isFocusableInTouchMode = true
     }
-
-    @StyleRes
-    protected open fun theme(): Int = 0
-
-    protected open fun hasShadow(): Boolean = false
 
     @LayoutRes
-    protected abstract fun layoutRes(): Int
+    protected abstract fun layoutResource(): Int
 
     protected abstract fun View.onViewCreated()
 
-    fun setShadow() {
-        val wlp = self?.window?.attributes ?: return
-        wlp.flags = wlp.flags and WindowManager.LayoutParams.FLAG_DIM_BEHIND.inv()
-        self?.window?.attributes = wlp
+
+    /**
+     *
+     */
+    val isShown: Boolean
+        get() {
+            dialog ?: return false
+            return dialog!!.isShowing
+        }
+
+    @StyleRes
+    protected open fun dialogTheme(): Int = R.style.App_Dialog
+
+    protected open fun onViewClick(v: View?) = Unit
+
+    protected open fun onWindowConfig(lp: WindowManager.LayoutParams) = Unit
+
+    protected open fun onShow() = Unit
+
+    protected open fun onDismiss() = Unit
+
+
+    /**
+     *
+     */
+    fun addClickListener(vararg views: View?) {
+        val listener = object : ViewClickListener() {
+            override fun onClicks(v: View?) {
+                onViewClick(v)
+            }
+        }
+        views.forEach { it?.setOnClickListener(listener) }
     }
 
-    fun setGravityBottom() {
-        val wlp = self?.window?.attributes ?: return
-        wlp.flags = wlp.flags and WindowManager.LayoutParams.FLAG_FULLSCREEN.inv()
-        wlp.gravity = Gravity.BOTTOM
-        self?.window?.attributes = wlp
+    fun show() {
+        if (isShown) return
+        try {
+            dialog?.show()
+        } catch (ignore: WindowManager.BadTokenException) {
+        }
     }
 
     fun onShow(block: () -> Unit) {
-        self?.setOnShowListener {
+        dialog?.setOnShowListener {
+            dialogList.add(it)
             onShow()
             block.apply { block() }
         }
     }
 
-    open fun onShow() {
-
+    fun dismiss() {
+        if (isShown) dialog?.dismiss()
     }
 
     fun onDismiss(block: () -> Unit) {
-        self?.setOnDismissListener {
+        dialog?.setOnDismissListener {
+            dialogList.remove(it)
             onDismiss()
             block.apply { block() }
         }
     }
 
-    open fun onDismiss() {
-
-    }
-
     fun disableOnTouchOutside() {
-        self?.setCanceledOnTouchOutside(false)
+        dialog?.setCanceledOnTouchOutside(false)
     }
 
-    open fun show() {
-        if (isShown) return
-        try {
-            self?.show()
-        } catch (ignore: WindowManager.BadTokenException) {
-        }
+    fun setShadow() {
+        val wlp = dialog?.window?.attributes ?: return
+        wlp.flags = wlp.flags and WindowManager.LayoutParams.FLAG_DIM_BEHIND.inv()
+        dialog?.window?.attributes = wlp
     }
 
-    open fun dismiss() {
-        if (isShown) self?.dismiss()
+    fun setGravityBottom() {
+        val wlp = dialog?.window?.attributes ?: return
+        wlp.flags = wlp.flags and WindowManager.LayoutParams.FLAG_FULLSCREEN.inv()
+        wlp.gravity = Gravity.BOTTOM
+        dialog?.window?.attributes = wlp
     }
 
 }

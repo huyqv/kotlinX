@@ -21,11 +21,6 @@ fun <T, R> Collection<T>.transform(block: (T) -> R?): List<R> {
 /**
  * Typed T should be override method toString() : String
  */
-fun <T> Collection<T>?.search(s: String?): Collection<T>? {
-    if (s.isNullOrEmpty() || this.isNullOrEmpty()) return this
-    val list = mutableListOf<T>()
-    for (model in this) {
-        if (s.like(model?.toString())) list.add(model)
-    }
-    return list
+fun <T> Collection<T>?.search(s: String?, searchProperty: (T) -> String?): Collection<T>? {
+    return this?.filter { searchProperty(it).like(s) }
 }

@@ -37,11 +37,11 @@
         parent="ThemeOverlay.AppCompat.Light" />
 
     <!-- Dialog. -->
-    <style name="App.Dialog" parent="Theme.AppCompat.Light.Dialog">
-        <item name="android:windowBackground">@null</item>
+    <style name="App.Dialog">
+        <item name="android:windowBackground">#00000000</item>
+        <item name="android:windowMinWidthMajor">100%</item>
+        <item name="android:windowMinWidthMinor">100%</item>
         <item name="android:windowNoTitle">true</item>
-        <item name="android:windowMinWidthMajor">90%</item>
-        <item name="android:windowMinWidthMinor">90%</item>
     </style>
 
     <style name="App.Dialog.Transparent">
@@ -52,19 +52,11 @@
         <item name="android:windowFrame">@null</item>
         <item name="android:windowIsFloating">true</item>
         <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowMinWidthMajor">100%</item>
-        <item name="android:windowMinWidthMinor">100%</item>
         <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
         <item name="android:backgroundDimEnabled">true</item>
     </style>
 
     <style name="App.Dialog.FullScreen.Transparent">
-        <item name="android:windowFrame">@null</item>
-        <item name="android:windowIsFloating">true</item>
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowMinWidthMajor">100%</item>
-        <item name="android:windowMinWidthMinor">100%</item>
-        <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
         <item name="android:backgroundDimEnabled">false</item>
     </style>
 
