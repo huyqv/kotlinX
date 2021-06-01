@@ -15,13 +15,13 @@ import com.kotlin.app.BuildConfig
  * -------------------------------------------------------------------------------------------------
  */
 @Database(
-        entities = [User::class],
+        entities = [Table::class],
         version = BuildConfig.DATABASE_VERSION,
         exportSchema = false
 )
 abstract class RoomDB : RoomDatabase() {
 
-    abstract val userDao: User.DAO
+    abstract val holder: Table.DAO
 
     companion object {
 

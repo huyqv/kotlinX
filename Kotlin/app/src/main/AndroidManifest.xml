@@ -21,7 +21,7 @@
     <uses-feature android:name="android.hardware.camera"/>
 
     <application
-        android:name=".app.App"
+        android:name=".App"
         android:allowBackup="false"
         android:hardwareAccelerated="true"
         android:icon="@drawable/ic_launcher"

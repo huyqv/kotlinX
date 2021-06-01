@@ -5,7 +5,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.library.extension.setNavResult
 import com.example.library.extension.timeFormat
 import com.kotlin.app.R
-import com.kotlin.app.ui.base.BaseDialog
+import com.example.library.ui.BaseDialog
 import com.kotlin.app.ui.main.MainDialog
 import kotlinx.android.synthetic.main.date.*
 import java.util.*

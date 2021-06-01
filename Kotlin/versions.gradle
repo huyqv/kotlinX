@@ -145,13 +145,14 @@ deps.google = google
  * [https://firebase.google.com/docs]
  */
 def firebase = [:]
-firebase.core = "com.google.firebase:firebase-core"
-firebase.analytics = "com.google.firebase:firebase-analytics"
-firebase.auth_ktx = "com.google.firebase:firebase-auth-ktx"
-firebase.database_ktx = "com.google.firebase:firebase-database-ktx"
-firebase.messaging_ktx = "com.google.firebase:firebase-messaging-ktx"
-firebase.crashlytics_ktx = "com.google.firebase:firebase-crashlytics-ktx"
-firebase.analytics_ktx = "com.google.firebase:firebase-analytics-ktx"
+firebase.bom = "com.google.firebase:firebase-bom:28.0.1"
+firebase.auth = "com.google.firebase:firebase-auth-ktx"
+firebase.database = "com.google.firebase:firebase-database-ktx"
+firebase.firestore = "com.google.firebase:firebase-firestore-ktx"
+firebase.messaging = "com.google.firebase:firebase-messaging-ktx"
+firebase.analytics = "com.google.firebase:firebase-analytics-ktx"
+firebase.crashlytics = "com.google.firebase:firebase-crashlytics-ktx"
+
 deps.firebase = firebase
 
 /**

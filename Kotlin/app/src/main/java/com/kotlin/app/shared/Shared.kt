@@ -14,5 +14,5 @@ import com.kotlin.app.BuildConfig
  */
 object Shared {
 
-    val pref by lazy { SharedPref(BuildConfig.APPLICATION_ID) }
+
 }

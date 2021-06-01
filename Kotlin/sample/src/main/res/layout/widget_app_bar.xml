@@ -2,17 +2,20 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/appBarViewContent"
-    style="@style/MatchWidth"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/appBarSize"
     android:background="@color/colorPrimary">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/appBarImageViewBackground"
-        style="@style/MatchParent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:scaleType="centerCrop" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/appBarViewControls"
-        style="@style/MatchWidth">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imageViewDrawableStart"

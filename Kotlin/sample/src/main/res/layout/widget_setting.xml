@@ -10,7 +10,7 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/settingTextViewTitle"
-        style="@style/TextView.Medium"
+        style="@style/TextView"
         android:clickable="false"
         android:textColor="@android:color/darker_gray"
         app:layout_constraintBottom_toTopOf="@+id/guideline5"
@@ -19,7 +19,7 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/settingTextViewProperty"
-        style="@style/TextView.Small"
+        style="@style/TextView"
         android:layout_marginTop="@dimen/_2sdp"
         android:clickable="false"
         app:layout_constraintStart_toStartOf="parent"

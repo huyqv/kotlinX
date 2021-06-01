@@ -1,6 +1,6 @@
 package com.kotlin.app.ui.main
 
-import com.kotlin.app.ui.base.BaseDialog
+import com.example.library.ui.BaseDialog
 import com.kotlin.app.ui.dialog.DialogVM
 
 abstract class MainDialog : BaseDialog(), MainView {

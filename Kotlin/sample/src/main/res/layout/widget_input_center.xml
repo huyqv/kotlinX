@@ -1,32 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/input_view"
-    style="@style/VerticalView"
-    android:background="@drawable/drw_transparent"
+    style="@style/InputView.Content"
     android:gravity="center">
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/inputTextViewTitle"
-        style="@style/TextView.Small"
-        android:letterSpacing="0.1"
-        android:textAllCaps="true" />
+        style="@style/InputView.Title" />
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/inputEditText"
-        style="@style/TextView.Small"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_40sdp"
-        android:layout_marginTop="@dimen/marginY2"
+        style="@style/InputView.EditText"
+        android:layout_marginTop="@dimen/contentMarginD2"
         android:background="@drawable/drw_under_tray"
-        android:drawablePadding="@dimen/marginY2"
+        android:drawablePadding="@dimen/contentMarginD2"
         android:gravity="center"
-        android:paddingStart="@dimen/marginY2"
-        android:paddingEnd="@dimen/marginY2"
-        android:privateImeOptions="nm" />
+        android:paddingStart="@dimen/contentMarginD2"
+        android:paddingEnd="@dimen/contentMarginD2" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/inputTextViewError"
-        style="@style/TextView.Tiny"
+        style="@style/InputView.ErrorText"
         android:layout_marginTop="@dimen/_6sdp"
         android:textColor="@color/colorIndianRed" />
 

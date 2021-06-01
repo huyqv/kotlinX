@@ -46,7 +46,7 @@ abstract class BasePagedListAdapter<T> : PagedListAdapter<T, RecyclerView.ViewHo
             return footerLayoutResource
         }
         val model = get(position) ?: return 0
-        return layoutResource(model, position)
+        return layoutResource(model, position) //R.layout.myTest
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {

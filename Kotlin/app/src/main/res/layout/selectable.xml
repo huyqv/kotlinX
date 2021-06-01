@@ -21,7 +21,7 @@
             android:layout_marginHorizontal="@dimen/contentMarginD2"
             android:layout_marginTop="@dimen/contentMarginD2"
             android:background="@drawable/drw_text"
-            android:drawableEnd="@drawable/ic_search"
+            android:drawableEnd="@drawable/ic_placeholder"
             android:imeActionLabel="Next"
             android:imeOptions="actionNext"
             android:paddingHorizontal="@dimen/contentMargin"

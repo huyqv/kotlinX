@@ -7,7 +7,7 @@ import android.util.Base64
 import com.example.library.extension.parse
 import com.google.gson.JsonObject
 import com.kotlin.app.BuildConfig
-import com.kotlin.app.app.app
+import com.kotlin.app.app
 import io.reactivex.*
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -49,10 +49,6 @@ import kotlin.reflect.KClass
  * -------------------------------------------------------------------------------------------------
  */
 
-
-/**
- * Client utils
- */
 val loggingInterceptor: Interceptor
     get() {
         val interceptor = HttpLoggingInterceptor()

@@ -9,6 +9,7 @@ import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
 import com.example.library.Library
 import java.security.MessageDigest
+import java.text.Normalizer
 import java.util.*
 import java.util.regex.Pattern
 
@@ -159,6 +160,66 @@ fun String?.sub(start: Int, end: Int, default: String = ""): String {
     if (this.isNullOrEmpty()) return default
     if (end !in 0..this.length) return default
     return this.substring(start, end)
+}
+
+/**
+ * us -> 🇺🇸
+ */
+fun String?.flagIcon(): String {
+    this ?: return ""
+    if (length != 2) return ""
+    val s = toUpperCase()
+    val char1st = Character.codePointAt(s, 0) - 0x41 + 0x1F1E6
+    val char2st = Character.codePointAt(s, 1) - 0x41 + 0x1F1E6
+    return String(Character.toChars(char1st)) + String(Character.toChars(char2st))
+}
+
+fun String?.hideText(replacement: String, visibleCount: Int): String? {
+    this ?: return null
+    if (length < visibleCount) return this
+    val showText = substring(length - visibleCount)
+    val hiddenText = substring(0, length - visibleCount).replace("[^.]".toRegex(), replacement)
+    return "$hiddenText$showText"
+}
+
+fun String?.filter(filterChars: CharArray): String {
+    if (this.isNullOrEmpty()) return ""
+    var s = ""
+    for (i in 0 until lastIndex) {
+        val c = get(i).toString()
+        if (String(filterChars).contains(c)) {
+            s += c
+        }
+    }
+    return s
+}
+
+fun String?.normalizer(): String? {
+    if (this.isNullOrEmpty()) return null
+    return try {
+        val temp = Normalizer.normalize(this, Normalizer.Form.NFD)
+        val pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+")
+        pattern.matcher(temp)
+                .replaceAll("")
+                .toLowerCase()
+                .replace(" ", "-")
+                .replace("đ", "d", true)
+
+    } catch (e: IllegalStateException) {
+        null
+    } catch (e: IllegalArgumentException) {
+        null
+    }
+}
+
+fun String?.normalize(): String? {
+    this ?: return null
+    if (this.isEmpty()) return null
+    val s = this.trim { it <= ' ' }
+    return Normalizer.normalize(s, Normalizer.Form.NFD)
+            .toLowerCase()
+            .replace("\\p{M}".toRegex(), "")
+            .replace("đ".toRegex(), "d")
 }
 
 

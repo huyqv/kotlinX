@@ -1,10 +1,6 @@
 package com.kotlin.app.data.network
 
-import com.example.library.extension.parse
 import com.kotlin.app.BuildConfig
-import com.kotlin.app.data.network.model.Image
-import com.kotlin.app.data.network.model.Message
-import com.kotlin.app.data.network.model.User
 import io.reactivex.Single
 import okhttp3.CertificatePinner
 
@@ -53,30 +49,6 @@ class ApiClient {
         }.doOnEvent { _, _ ->
             requests.remove(this)
         }
-    }
-
-    fun messages(page: Int): Single<List<Message>?> {
-        return service.arrayGET("api/messages$page")
-                .filterRequest()
-                .map {
-                    it.parse(Array<Message>::class.java)
-                }
-    }
-
-    fun images(page: Int): Single<List<Image>> {
-        return service.arrayGET("api/images$page")
-                .filterRequest()
-                .map {
-                    it.parse(Array<Image>::class.java)
-                }
-    }
-
-    fun users(page: Int): Single<List<User>> {
-        return service.arrayGET("api/users$page")
-                .filterRequest()
-                .map {
-                    it.parse(Array<User>::class.java)
-                }
     }
 
 }

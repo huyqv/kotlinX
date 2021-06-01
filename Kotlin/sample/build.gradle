@@ -35,14 +35,14 @@ dependencies {
 
     implementation project(":library")
 
-    implementation project(":app")
-
     implementation deps.kotlin.stdlib
+    implementation deps.kotlin.coroutines_core
+    implementation deps.kotlin.coroutines_android
+
     implementation deps.android.corektx
     implementation deps.android.appcompat
+    implementation deps.android.activity
     implementation deps.android.fragment
-
-
     implementation deps.android.recyclerview
     implementation deps.android.cardview
     implementation deps.android.constraintlayout
@@ -61,8 +61,9 @@ dependencies {
     annotationProcessor deps.room.compiler
     kapt deps.room.compiler
 
-    implementation deps.lifecycle.extensions
-    implementation deps.lifecycle.streams
+    implementation deps.lifecycle.viewmodel
+    implementation deps.lifecycle.livedata
+    kapt deps.lifecycle.compiler
 
     implementation deps.paging.runtime
     implementation deps.paging.rx
@@ -72,13 +73,13 @@ dependencies {
     implementation deps.reactivex.kotlin
     implementation deps.reactivex.binding
 
-    implementation deps.retrofit.retrofit
-    implementation deps.retrofit.gson
-    implementation deps.retrofit.rxjava
-    implementation deps.okhttp_log
+    implementation deps.square.retrofit
+    implementation deps.square.gson
+    implementation deps.square.rxjava
+    implementation deps.square.okhttp_log
 
-    implementation deps.google.firebase_core
-    implementation deps.google.firebase_messaging
+    //implementation deps.firebase.bom
+    //implementation deps.firebase.messaging
     implementation deps.google.gson
 
     implementation deps.dimens.sdp

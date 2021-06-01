@@ -3,7 +3,7 @@ package com.kotlin.app.ui.splash
 import com.example.library.extension.post
 import com.kotlin.app.MainDirections
 import com.kotlin.app.R
-import com.kotlin.app.ui.base.BaseFragment
+import com.example.library.ui.BaseFragment
 import kotlinx.android.synthetic.main.splash.*
 
 /**

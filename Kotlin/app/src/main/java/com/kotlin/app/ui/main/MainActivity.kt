@@ -4,7 +4,7 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.example.library.extension.listenKeyboard
 import com.kotlin.app.R
-import com.kotlin.app.ui.base.BaseActivity
+import com.example.library.ui.BaseActivity
 import com.kotlin.app.ui.dialog.DialogVM
 
 /**

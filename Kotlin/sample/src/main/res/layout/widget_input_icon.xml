@@ -2,15 +2,13 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/MatchWidth">
+    style="@style/InputView.Content">
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/inputTextViewTitle"
-        style="@style/TextView.Small"
+        style="@style/InputView.Title"
         android:layout_height="@dimen/_20sdp"
         android:gravity="center_vertical"
-        android:letterSpacing="0.1"
-        android:textAllCaps="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Title goes here" />
@@ -26,7 +24,7 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/inputTextViewError"
-        style="@style/TextView.Tiny"
+        style="@style/InputView.ErrorText"
         android:layout_marginTop="@dimen/_6sdp"
         android:textColor="@color/colorIndianRed"
         app:layout_constraintEnd_toEndOf="@+id/inputEditText"
@@ -35,11 +33,10 @@
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/inputEditText"
-        style="@style/TextView.Small"
+        style="@style/InputView.EditText"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_36sdp"
-        android:layout_marginTop="@dimen/marginY2"
-        android:height="@dimen/textSize3"
+        android:layout_marginTop="@dimen/contentMarginD2"
         android:background="@null"
         android:textColor="@color/colorGrey"
         android:textColorHint="@color/colorLightSmoke"

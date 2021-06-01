@@ -64,7 +64,7 @@ fun Context.showDialog(title: String?, msg: String, positiveBlock: () -> Unit, n
             dialog.dismiss()
             negativeBlock()
         }
-        setPositiveButton(R.string.yes) { dialog, _ ->
+        setPositiveButton("YES") { dialog, _ ->
             dialog.dismiss()
             positiveBlock()
         }

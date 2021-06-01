@@ -8,7 +8,7 @@ import com.example.library.adapter.recycler.initLayoutManager
 import com.example.library.extension.isGone
 import com.example.library.extension.setNavResult
 import com.kotlin.app.R
-import com.kotlin.app.ui.base.BaseDialog
+import com.example.library.ui.BaseDialog
 import com.kotlin.app.ui.main.MainDialog
 import kotlinx.android.synthetic.main.selectable.*
 

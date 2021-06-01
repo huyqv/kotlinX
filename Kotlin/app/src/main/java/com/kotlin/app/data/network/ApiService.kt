@@ -46,7 +46,6 @@ interface ApiService {
     @GET
     fun download(@Url url: String): Observable<Response<ResponseBody>>
 
-
     /**
      * sample url: https://concacvip.com/api/user/profile?userId=123456789
      * @param userId: annotated by [Query] (one) or [QueryMap] (multi)
