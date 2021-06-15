@@ -1,6 +1,5 @@
 package com.example.library.extension
 
-import android.app.Application
 import android.content.ContentValues
 import android.content.Intent
 import android.graphics.Bitmap
@@ -9,20 +8,9 @@ import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
 import androidx.annotation.RequiresPermission
-import com.example.library.Library
+import com.example.library.app
 import java.io.*
 import kotlin.reflect.KClass
-
-
-/**
- * -------------------------------------------------------------------------------------------------
- * @Project: Kotlin
- * @Created: Huy QV 2019/09/09
- * @Description: ...
- * None Right Reserved
- * -------------------------------------------------------------------------------------------------
- */
-private val app: Application get() = Library.app
 
 val externalDir: File
     get() = if (Build.VERSION.SDK_INT > -Build.VERSION_CODES.Q) {
@@ -123,7 +111,7 @@ fun open(file: File) {
     try {
         val intent = Intent(Intent.ACTION_VIEW)
         intent.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive")
-        Library.app.startActivity(Intent.createChooser(intent, ""))
+        app.startActivity(Intent.createChooser(intent, ""))
     } catch (e: Exception) {
     }
 }

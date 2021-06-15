@@ -6,15 +6,6 @@ import com.kotlin.app.R
 import com.kotlin.app.ui.main.MainFragment
 import kotlinx.android.synthetic.main.intro.*
 
-/**
- * -------------------------------------------------------------------------------------------------
- * @Project: Kotlin
- * @Created: Huy 2020/11/01
- * @Organize: Wee Digital
- * @Description: ...
- * All Right Reserved
- * -------------------------------------------------------------------------------------------------
- */
 class IntroFragment : MainFragment() {
 
     override fun layoutResource(): Int {

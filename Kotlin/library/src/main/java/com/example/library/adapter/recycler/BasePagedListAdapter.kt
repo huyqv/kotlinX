@@ -10,14 +10,6 @@ import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.*
 import com.example.library.extension.addViewClickListener
 
-/**
- * -------------------------------------------------------------------------------------------------
- * @Project: Kotlin
- * @Created: Huy QV 2018/10/06
- * @Description: ...
- * None Right Reserved
- * -------------------------------------------------------------------------------------------------
- */
 abstract class BasePagedListAdapter<T> : PagedListAdapter<T, RecyclerView.ViewHolder> {
 
 

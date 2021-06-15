@@ -7,14 +7,6 @@ import androidx.appcompat.app.AlertDialog
 import com.example.library.R
 import java.util.*
 
-/**
- * -------------------------------------------------------------------------------------------------
- * @Project: Kotlin
- * @Created: Huy QV 2018/09/30
- * @Description: ...
- * None Right Reserved
- * -------------------------------------------------------------------------------------------------
- */
 private fun Context.getText(@StringRes title: Int?): String? {
     return if (null == title) null else getString(title)
 }

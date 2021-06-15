@@ -3,20 +3,9 @@ package com.example.library.extension
 import android.view.View
 import android.widget.EditText
 
-
-/**
- * -------------------------------------------------------------------------------------------------
- * @Project: Kotlin
- * @Created: Huy 2020/10/21
- * @Organize: Wee Digital
- * @Description: ...
- * All Right Reserved
- * -------------------------------------------------------------------------------------------------
- */
-
 private var lastClickTime: Long = 0
 
-private var lastClickViewId: Int = -1
+private var lastClickViewId: Int = 0
 
 abstract class ViewClickListener(private val delayedInterval: Long = 400) : View.OnClickListener {
 
@@ -29,9 +18,7 @@ abstract class ViewClickListener(private val delayedInterval: Long = 400) : View
     private var hasDelayed: Boolean = false
 
     final override fun onClick(v: View?) {
-        val b1 = isDelayed
-        val b2 = v.isAcceptClick
-        if (b1 || b2) {
+        if (isDelayed || v.isAcceptClick) {
             lastClickViewId = v?.id ?: -1
             lastClickTime = 0
             hasDelayed = false

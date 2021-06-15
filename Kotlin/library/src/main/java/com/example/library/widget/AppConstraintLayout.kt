@@ -14,16 +14,6 @@ import androidx.annotation.StyleableRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.library.R
 
-/**
- * -------------------------------------------------------------------------------------------------
- *
- * @Project: Kotlin
- * @Created: Huy 2020/10/12
- * @Organize: Wee Digital
- * @Description: ...
- * All Right Reserved
- * -------------------------------------------------------------------------------------------------
- */
 open class AppConstraintLayout : ConstraintLayout {
 
     var path: Path? = null

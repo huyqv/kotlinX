@@ -1,6 +1,5 @@
 package com.example.library.usb
 
-import android.app.Application
 import android.app.PendingIntent
 import android.content.Intent
 import android.content.IntentFilter
@@ -11,7 +10,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
-import com.example.library.Library
+import com.example.library.app
 
 object Usb {
 
@@ -26,8 +25,6 @@ object Usb {
     const val DENIED: String = "permission denied"
 
     const val PERMISSION = ".USB_PERMISSION"
-
-    private val app: Application get() = Library.app
 
     val manager: UsbManager = ContextCompat.getSystemService(app, UsbManager::class.java) as UsbManager
 

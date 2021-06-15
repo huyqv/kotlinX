@@ -6,14 +6,6 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
 import androidx.viewpager2.adapter.FragmentStateAdapter
 
-/**
- * -------------------------------------------------------------------------------------------------
- * @Project: Kotlin
- * @Created: Huy QV 2018/09/28
- * @Description: ...
- * None Right Reserved
- * -------------------------------------------------------------------------------------------------
- */
 class FragmentAdapter : FragmentStateAdapter {
 
 

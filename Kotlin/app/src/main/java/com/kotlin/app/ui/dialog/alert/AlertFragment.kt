@@ -5,10 +5,10 @@ import android.widget.TextView
 import com.example.library.extension.setHyperText
 import com.example.library.extension.string
 import com.kotlin.app.R
-import com.kotlin.app.ui.main.MainDialog
+import com.kotlin.app.ui.main.MainDialogFragment
 import kotlinx.android.synthetic.main.alert.*
 
-class AlertFragment : MainDialog() {
+class AlertFragment : MainDialogFragment() {
 
     private var hasBackClick: Boolean = false
 

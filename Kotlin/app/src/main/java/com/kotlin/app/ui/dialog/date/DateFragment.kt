@@ -5,21 +5,13 @@ import androidx.navigation.fragment.findNavController
 import com.example.library.extension.setNavResult
 import com.example.library.extension.timeFormat
 import com.kotlin.app.R
-import com.example.library.ui.BaseDialog
-import com.kotlin.app.ui.main.MainDialog
+import com.kotlin.app.ui.main.MainDialogFragment
 import kotlinx.android.synthetic.main.date.*
+import template.ui.BaseDialogFragment
 import java.util.*
 import kotlin.math.abs
 
-/**
- * -------------------------------------------------------------------------------------------------
- * @Project: Kotlin
- * @Created: Huy 2020/10/06
- * @Description: ...
- * All Right Reserved
- * -------------------------------------------------------------------------------------------------
- */
-class DateFragment : MainDialog() {
+class DateFragment : MainDialogFragment() {
 
     private var arg: DateArg
         get() = dialogVM.dateLiveData.value!!
@@ -28,7 +20,7 @@ class DateFragment : MainDialog() {
         }
 
     /**
-     * [BaseDialog] override
+     * [BaseDialogFragment] override
      */
     override fun layoutResource(): Int {
         return R.layout.date

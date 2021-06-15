@@ -2,14 +2,6 @@ package com.kotlin.app.ui.main
 
 import androidx.lifecycle.ViewModel
 
-/**
- * -------------------------------------------------------------------------------------------------
- * @Project: Kotlin
- * @Created: Huy QV 2019/01/18
- * @Description: ...
- * None Right Reserved
- * -------------------------------------------------------------------------------------------------
- */
 abstract class MainVM : ViewModel() {
 
     /**

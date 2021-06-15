@@ -1,7 +1,6 @@
 package com.example.library.extension
 
 import android.annotation.TargetApi
-import android.app.Application
 import android.content.ContentValues
 import android.graphics.*
 import android.media.Image
@@ -11,23 +10,12 @@ import android.provider.MediaStore
 import android.text.TextUtils
 import android.util.Base64
 import androidx.annotation.DrawableRes
-import com.example.library.Library
+import com.example.library.app
 import java.io.*
 import java.lang.reflect.InvocationTargetException
 import java.net.URL
 import java.nio.ByteBuffer
 import kotlin.math.min
-
-
-/**
- * -------------------------------------------------------------------------------------------------
- * @Project: Kotlin
- * @Created: Huy QV 2018/10/28
- * @Description: ...
- * None Right Reserved
- * -------------------------------------------------------------------------------------------------
- */
-private val app: Application get() = Library.app
 
 class CompressConfigs(val maxSize: Long, val compressFormat: Bitmap.CompressFormat) {
     val extension: String

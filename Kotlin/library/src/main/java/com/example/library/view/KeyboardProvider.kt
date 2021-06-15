@@ -20,10 +20,6 @@ import com.example.library.R
 
 /**
  * -------------------------------------------------------------------------------------------------
- * @Project: Kotlin
- * @Created: Huy QV 2018/09/01
- * @Description:
- *
  * Manifest:
  * <activity android:name=".ui.main.MainActivity"
  * android:windowSoftInputMode="adjustNothing"/>

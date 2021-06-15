@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-
     <!-- Dialog -->
     <style name="Dialog" />
 
@@ -11,7 +10,7 @@
         <item name="cardElevation">1dp</item>
         <item name="cardCornerRadius">@dimen/radius2</item>
         <item name="android:layout_gravity">center</item>
-        <item name="android:layout_margin">@dimen/contentMargin</item>
+        <item name="android:layout_margin">@dimen/contentMargin2</item>
     </style>
 
     <style name="Dialog.Layout" >
@@ -32,10 +31,10 @@
         <item name="android:paddingLeft">@dimen/_4sdp</item>
         <item name="android:paddingRight">@dimen/_4sdp</item>
         <item name="android:text">@string/app_name</item>
-        <item name="android:textColor">@color/colorSemiTransparent</item>
+        <item name="android:textColor">#B5A6A6A6</item>
         <item name="android:textSize">@dimen/_16ssp</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:layout_marginBottom">@dimen/contentMargin</item>
+        <item name="android:layout_marginBottom">@dimen/contentMargin2</item>
     </style>
 
     <style name="Dialog.Footer">
@@ -53,9 +52,128 @@
         <item name="android:background">@drawable/drw_ripple_light</item>
         <item name="android:textSize">@dimen/_11ssp</item>
         <item name="android:textAllCaps">false</item>
-        <item name="android:paddingTop">@dimen/contentMargin</item>
-        <item name="android:paddingBottom">@dimen/contentMargin</item>
-        <item name="android:layout_marginTop">@dimen/contentMargin</item>
+        <item name="android:paddingTop">@dimen/contentMargin2</item>
+        <item name="android:paddingBottom">@dimen/contentMargin2</item>
+        <item name="android:layout_marginTop">@dimen/contentMargin2</item>
+    </style>
+
+    <!-- ScrollView -->
+    <style name="ScrollView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:overScrollMode">never</item>
+        <item name="android:fillViewport">true</item>
+        <item name="android:clipToPadding">false</item>
+    </style>
+
+    <style name="RecyclerView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:overScrollMode">never</item>
+        <item name="android:fillViewport">true</item>
+        <item name="android:clipToPadding">false</item>
+    </style>
+
+    <!-- Layout -->
+    <style name="Fragment" />
+
+    <style name="Fragment.Layout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:focusable">true</item>
+        <item name="android:focusableInTouchMode">false</item>
+    </style>
+
+    <!-- TextView -->
+    <style name="TextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/colorTextPrimary</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
+        <item name="android:textSize">@dimen/_11ssp</item>
+        <!--<item name="android:ellipsize">end</item>-->
+    </style>
+
+    <style name="Button"
+        parent="TextView">
+        <item name="android:includeFontPadding">true</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:minHeight">@dimen/_36sdp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:minWidth">@dimen/_90sdp</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+    <style name="EditText"
+        parent="TextView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/_32sdp</item>
+        <item name="android:paddingStart">@dimen/contentMargin2</item>
+        <item name="android:paddingEnd">@dimen/contentMargin2</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:inputType">textEmailAddress</item>
+        <item name="android:textColor">@color/colorTextPrimary</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textColorHint">@color/colorGrey</item>
+        <item name="android:drawablePadding">14dp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:imeOptions">actionNext</item>
+        <item name="android:includeFontPadding">true</item>
+        <item name="android:textCursorDrawable">@color/colorPrimary</item>
+        <item name="android:textIsSelectable">false</item>
+        <item name="android:privateImeOptions">nm</item>
+        <item name="android:longClickable">false</item>
+    </style>
+
+    <!-- TextView -->
+    <style name="InputView" />
+
+    <style name="InputView.Layout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="InputView.Title" parent="TextView">
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:text">Title</item>
+    </style>
+
+    <style name="InputView.ErrorText" parent="TextView">
+        <item name="android:textColor">#D52B2B</item>
+        <item name="android:text">Error text</item>
+    </style>
+
+    <style name="InputView.EditText" parent="EditText">
+        <item name="android:hint">Hint text</item>
+    </style>
+
+    <!-- AppBar -->
+    <style name="AppBar" />
+
+    <style name="AppBar.Layout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/appBarSize</item>
+        <item name="android:background">@color/colorPrimary</item>
+    </style>
+
+    <style name="AppBar.Icon">
+        <item name="android:layout_width">@dimen/appBarSize</item>
+        <item name="android:layout_height">@dimen/appBarSize</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:text">Title</item>
+    </style>
+
+    <style name="AppBar.Title" >
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">@dimen/appBarSize</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:letterSpacing">0.2</item>
+        <item name="android:text">@string/app_name</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">@dimen/_12ssp</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
 </resources>

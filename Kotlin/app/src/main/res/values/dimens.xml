@@ -1,6 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <item name="sampleFloat" type="dimen" format="float">.5</item>
+    <item name="sampleFloat" format="float" type="dimen">.5</item>
+    <dimen name="contentMargin1d2">@dimen/_4sdp</dimen>
+    <dimen name="contentMargin1">@dimen/_8sdp</dimen>
+    <dimen name="contentMargin2">@dimen/_16sdp</dimen>
+    <dimen name="contentMargin3">@dimen/_24sdp</dimen>
+    <dimen name="contentMargin4">@dimen/_32sdp</dimen>
+    <dimen name="contentMargin5">@dimen/_40sdp</dimen>
+    <dimen name="contentMargin6">@dimen/_48sdp</dimen>
+    <dimen name="contentMargin7">@dimen/_56sdp</dimen>
+    <dimen name="contentMargin9">@dimen/_64sdp</dimen>
+    <dimen name="contentMargin10">@dimen/_72sdp</dimen>
+
+    <dimen name="radius1">@dimen/_4sdp</dimen>
+    <dimen name="radius2">@dimen/_6sdp</dimen>
+    <dimen name="radius3">@dimen/_8sdp</dimen>
+    <dimen name="radius4">@dimen/_10sdp</dimen>
+
+    <dimen name="appBarSize">@dimen/_40sdp</dimen>
+    <dimen name="bubbleRadius">@dimen/_6sdp</dimen>
+
 
 </resources>

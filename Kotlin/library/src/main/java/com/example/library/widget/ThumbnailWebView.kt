@@ -10,14 +10,6 @@ import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 
-/**
- * -------------------------------------------------------------------------------------------------
- * @Project: Kotlin
- * @Created: Huy QV 2018/10/02
- * @Description: ...
- * None Right Reserved
- * -------------------------------------------------------------------------------------------------
- */
 class ThumbnailWebView : WebView, View.OnTouchListener {
 
     constructor(context: Context, attrs: AttributeSet? = null) : super(context, attrs)

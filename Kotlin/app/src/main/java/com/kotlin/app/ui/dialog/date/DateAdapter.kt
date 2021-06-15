@@ -9,14 +9,6 @@ import com.kotlin.app.R
 import kotlinx.android.synthetic.main.date_item.view.*
 import java.lang.ref.WeakReference
 
-/**
- * -------------------------------------------------------------------------------------------------
- * @Project: Kotlin
- * @Created: Huy 2020/10/09
- * @Description: ...
- * All Right Reserved
- * -------------------------------------------------------------------------------------------------
- */
 class DateAdapter : BaseListAdapter<Int>() {
 
     /**

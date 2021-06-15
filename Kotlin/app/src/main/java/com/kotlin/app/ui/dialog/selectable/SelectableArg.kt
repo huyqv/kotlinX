@@ -1,13 +1,5 @@
 package com.kotlin.app.ui.dialog.selectable
 
-/**
- * -------------------------------------------------------------------------------------------------
- * @Project: Kotlin
- * @Created: Huy 2020/10/10
- * @Description: ...
- * All Right Reserved
- * -------------------------------------------------------------------------------------------------
- */
 data class SelectableArg(
         val key: String,
         val title: String?,

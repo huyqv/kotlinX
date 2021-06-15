@@ -1,27 +1,18 @@
 package com.example.library.util
 
+import android.graphics.Color
 import android.text.InputFilter
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.TextUtils
 import androidx.annotation.IntDef
-import com.example.library.R
 import java.util.regex.Pattern
 
-/**
- * -------------------------------------------------------------------------------------------------
- * @Project: Kotlin
- * @Created: Huy 2021/05/16
- * @Organize: Wee Digital
- * @Description: ...
- * All Right Reserved
- * -------------------------------------------------------------------------------------------------
- */
 object Sample {
 
     object RandomColor {
 
-        private var colors = getColors(R.color.colorTurquoise)
+        private var colors = getColors(Color.BLACK)
 
         fun next(): Int {
             val color = colors.random()
@@ -32,14 +23,13 @@ object Sample {
 
         private fun getColors(color: Int): MutableList<Int> {
             val colors = mutableListOf(
-                    R.color.colorTurquoise,
-                    R.color.colorPeterRiver,
-                    R.color.colorPink,
-                    R.color.colorGold,
-                    R.color.colorCarrot,
-                    R.color.colorIndianRed,
-                    R.color.colorGrey,
-                    R.color.colorPrimary
+                    Color.BLACK,
+                    Color.RED,
+                    Color.BLUE,
+                    Color.GREEN,
+                    Color.YELLOW,
+                    Color.MAGENTA,
+                    Color.CYAN
             )
             colors.remove(color)
             return colors

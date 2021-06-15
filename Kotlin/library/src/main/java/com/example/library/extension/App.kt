@@ -1,7 +1,6 @@
 package com.example.library.extension
 
 import android.app.ActivityManager
-import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -10,27 +9,13 @@ import android.database.Cursor
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
-import android.provider.Settings
 import android.util.Base64
 import android.util.Log
 import android.widget.Toast
 import androidx.annotation.StringRes
-import androidx.appcompat.app.AppCompatActivity
-import com.example.library.Library
+import com.example.library.app
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
-
-
-/**
- * -------------------------------------------------------------------------------------------------
- *
- * @Project: Kotlin
- * @Created: Huy QV 2019/04/12
- * @Description: ...
- * None Right Reserved
- * -------------------------------------------------------------------------------------------------
- */
-private val app: Application get() = Library.app
 
 val appVersion: String
     get() {

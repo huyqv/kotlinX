@@ -10,15 +10,6 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.module.AppGlideModule
 import com.bumptech.glide.request.RequestListener
 
-/**
- * -------------------------------------------------------------------------------------------------
- * @Project: Kotlin
- * @Created: Huy QV 2017/10/28
- * @Description: ...
- * None Right Reserved
- * -------------------------------------------------------------------------------------------------
- */
-
 @GlideModule
 class MyGlideApp : AppGlideModule()
 

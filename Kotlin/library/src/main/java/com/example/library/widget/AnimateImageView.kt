@@ -7,15 +7,6 @@ import android.view.View
 import android.view.animation.DecelerateInterpolator
 import androidx.appcompat.widget.AppCompatImageView
 
-/**
- * -------------------------------------------------------------------------------------------------
- *
- * @Project: Kotlin
- * @Created: Huy QV 2019/02/18
- * @Description: ...
- * None Right Reserved
- * -------------------------------------------------------------------------------------------------
- */
 class AnimateImageView : AppCompatImageView {
 
     private val defaultAnim: ObjectAnimator

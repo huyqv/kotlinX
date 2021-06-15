@@ -2,41 +2,25 @@ package com.kotlin.app
 
 import android.app.Activity
 import android.app.Application
-import android.os.Bundle
 import com.example.library.Library
 import com.example.library.extension.SimpleActivityLifecycleCallbacks
-import com.example.library.util.Sample
 import com.example.library.util.SharedPref
-import com.kotlin.app.BuildConfig
-import com.kotlin.app.data.db.RoomDB
-import com.kotlin.app.data.network.ApiClient
-import com.kotlin.app.data.network.ApiService
+
+import template.data.db.RoomDB
+import template.data.network.ApiClient
+import template.data.network.ApiService
 import java.lang.ref.WeakReference
 
-
-/**
- * -------------------------------------------------------------------------------------------------
- * @Project: Kotlin
- * @Created: Huy QV 2017/11/24
- * @Description: ...
- * None Right Reserved
- * -------------------------------------------------------------------------------------------------
- */
 class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
         app = this
-        Library.app = this
+        Library.init(this)
         registerActivityLifecycleCallbacks(object : SimpleActivityLifecycleCallbacks {
-            override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
+            override fun onActivityResumed(activity: Activity) {
                 activityReference = WeakReference(activity)
             }
-
-            override fun onActivityDestroyed(activity: Activity) {
-                activityReference?.clear()
-            }
-
         })
     }
 }
@@ -44,8 +28,6 @@ class App : Application() {
 lateinit var app: App private set
 
 private var activityReference: WeakReference<Activity>? = null
-
-val appId: String get() = BuildConfig.APPLICATION_ID
 
 val currentActivity: Activity? get() = activityReference?.get()
 
@@ -56,4 +38,18 @@ val room: RoomDB by lazy(LazyThreadSafetyMode.SYNCHRONIZED) { RoomDB.getInstance
 val apiClient: ApiClient by lazy(LazyThreadSafetyMode.SYNCHRONIZED) { ApiClient() }
 
 val apiService: ApiService get() = apiClient.service
+
+val isDebug get() = BuildConfig.DEBUG
+
+const val appId = BuildConfig.APPLICATION_ID
+
+const val dbVersion = BuildConfig.DATABASE_VERSION
+
+const val serviceUrl = BuildConfig.SERVICE_URL
+
+val flavor get() = BuildConfig.FLAVOR
+
+val versionCode get() = BuildConfig.VERSION_CODE
+
+val versionName get() = BuildConfig.VERSION_NAME
 

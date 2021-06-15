@@ -9,15 +9,6 @@ import com.example.library.extension.show
 import com.kotlin.app.R
 import kotlinx.android.synthetic.main.selectable_item.view.*
 
-
-/**
- * -------------------------------------------------------------------------------------------------
- * @Project: Kotlin
- * @Created: Huy 2020/10/09
- * @Description: ...
- * All Right Reserved
- * -------------------------------------------------------------------------------------------------
- */
 class SelectableAdapter<T> : BaseListAdapter<T>() {
 
     var selectedPosition: Int = -1

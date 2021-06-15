@@ -2,6 +2,7 @@ package com.kotlin.app.ui.dialog.alert
 
 import com.kotlin.app.R
 
+
 class AlertArg(
 
         var icon: Int = R.drawable.ic_launcher,

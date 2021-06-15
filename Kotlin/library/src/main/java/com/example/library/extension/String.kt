@@ -7,27 +7,17 @@ import android.util.Base64
 import android.webkit.MimeTypeMap
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
-import com.example.library.Library
+import com.example.library.app
 import java.security.MessageDigest
 import java.text.Normalizer
 import java.util.*
 import java.util.regex.Pattern
-
-/**
- * -------------------------------------------------------------------------------------------------
- * @Project: Kotlin
- * @Created: Huy QV 2018/09/18
- * @Description: ...
- * None Right Reserved
- * -------------------------------------------------------------------------------------------------
- */
 
 fun String?.notNullOrEmpty(): Boolean {
     return !this.isNullOrEmpty()
 }
 
 fun String.toMD5(): String {
-
     val md = MessageDigest.getInstance("MD5")
     val digested = md.digest(toByteArray())
     return digested.joinToString("") {
@@ -73,7 +63,7 @@ fun String.toTokenList(delim: String = ";"): MutableList<Int> {
 }
 
 fun String.color(@ColorRes colorRes: Int): String {
-    val colorInt = ContextCompat.getColor(Library.app, colorRes)
+    val colorInt = ContextCompat.getColor(app, colorRes)
     val hexString = "#${Integer.toHexString(colorInt and 0x00ffffff)}"
     return "<font color=$hexString>$this</font>"
 }
@@ -83,7 +73,7 @@ fun String.color(hexString: String): String {
 }
 
 fun colorText(string: String, @ColorRes colorRes: Int): String {
-    val colorInt = ContextCompat.getColor(Library.app, colorRes)
+    val colorInt = ContextCompat.getColor(app, colorRes)
     val hexString = "#${Integer.toHexString(colorInt and 0x00ffffff)}"
     return "<font color=$hexString>$string</font>"
 }

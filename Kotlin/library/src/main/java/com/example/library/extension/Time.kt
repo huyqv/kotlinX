@@ -6,14 +6,6 @@ import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-/**
- * -------------------------------------------------------------------------------------------------
- * @Project: Kotlin
- * @Created: Huy QV 2018/08/07
- * @Description: ...
- * None Right Reserved
- * -------------------------------------------------------------------------------------------------
- */
 const val GMT7: String = "GMT+7"
 
 var HOUR_FORMAT: SimpleDateFormat = SimpleDateFormat("hh:mm aa")

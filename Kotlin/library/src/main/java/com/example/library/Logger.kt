@@ -4,14 +4,6 @@ import android.util.Log
 import com.google.gson.JsonObject
 import org.json.JSONObject
 
-/**
- * -------------------------------------------------------------------------------------------------
- * @Project: Kotlin
- * @Created: Huy QV 2018/09/18
- * @Description: ...
- * None Right Reserved
- * -------------------------------------------------------------------------------------------------
- */
 open class Logger {
 
     private val tag: String
@@ -21,10 +13,6 @@ open class Logger {
     }
 
     constructor(cls: Class<*>) : this(cls.simpleName)
-
-    constructor(any: Any) : this(any.javaClass)
-
-    constructor() : this("")
 
     fun d(s: JsonObject) {
         val json = s.toString()

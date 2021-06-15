@@ -1,17 +1,28 @@
 package com.example.library
 
+import android.app.Activity
 import android.app.Application
+import com.example.library.extension.SimpleActivityLifecycleCallbacks
+import java.lang.ref.WeakReference
 
-/**
- * -------------------------------------------------------------------------------------------------
- * @Project: Kotlin
- * @Created: Huy QV 2019/08/10
- * @Description: ...
- * None Right Reserved
- * -------------------------------------------------------------------------------------------------
- */
 object Library {
 
-    lateinit var app: Application
-
+    fun init(application: Application) {
+        mApp = application
+        app.registerActivityLifecycleCallbacks(object : SimpleActivityLifecycleCallbacks {
+            override fun onActivityResumed(activity: Activity) {
+                activityReference = WeakReference(activity)
+            }
+        })
+    }
 }
+
+private var mApp: Application? = null
+
+val app: Application
+    get() = mApp ?: throw NullPointerException("Library module must be init with " +
+            "Library.init(application: Application) in android.app.Application.onCreate()")
+
+private var activityReference: WeakReference<Activity>? = null
+
+val currentActivity: Activity? get() = activityReference?.get()

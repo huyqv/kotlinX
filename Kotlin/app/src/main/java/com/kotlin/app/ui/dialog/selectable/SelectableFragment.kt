@@ -8,16 +8,16 @@ import com.example.library.adapter.recycler.initLayoutManager
 import com.example.library.extension.isGone
 import com.example.library.extension.setNavResult
 import com.kotlin.app.R
-import com.example.library.ui.BaseDialog
-import com.kotlin.app.ui.main.MainDialog
+import com.kotlin.app.ui.main.MainDialogFragment
 import kotlinx.android.synthetic.main.selectable.*
+import template.ui.BaseDialogFragment
 
 
-class SelectableFragment : MainDialog() {
+class SelectableFragment : MainDialogFragment() {
 
 
     /**
-     * [BaseDialog] override
+     * [BaseDialogFragment] override
      */
     override fun layoutResource(): Int {
         return R.layout.selectable

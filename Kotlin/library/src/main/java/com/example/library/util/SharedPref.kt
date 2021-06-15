@@ -5,21 +5,10 @@ import android.content.SharedPreferences
 import android.os.Build
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
-import com.example.library.Library
+import com.example.library.app
 
-
-/**
- * -------------------------------------------------------------------------------------------------
- * @Project: Kotlin
- * @Created: Huy 2020/10/16
- * @Organize: Wee Digital
- * @Description: ...
- * All Right Reserved
- * -------------------------------------------------------------------------------------------------
- */
 class SharedPref(private val fileName: String) {
 
-    private val context get() = Library.app
 
     private val pref: SharedPreferences by lazy {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) try {
@@ -27,13 +16,13 @@ class SharedPref(private val fileName: String) {
             EncryptedSharedPreferences.create(
                     fileName,
                     masterKey,
-                    context,
+                    app,
                     EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
                     EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
             )
         } catch (e: Exception) {
         }
-        context.getSharedPreferences(fileName, Context.MODE_PRIVATE)
+        app.getSharedPreferences(fileName, Context.MODE_PRIVATE)
     }
 
     fun edit(block: SharedPreferences.Editor.() -> Unit) {

@@ -1,6 +1,5 @@
 package com.example.library.extension
 
-import android.app.Application
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import android.view.animation.Animation
@@ -8,18 +7,7 @@ import android.view.animation.AnimationUtils
 import androidx.annotation.*
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
-import com.example.library.Library
-
-/**
- * -------------------------------------------------------------------------------------------------
- * @Project: Kotlin
- * @Created: Huy 2020/04/01
- * @Organize: Wee Digital
- * @Description: ...
- * All Right Reserved
- * -------------------------------------------------------------------------------------------------
- */
-private val app: Application get() = Library.app
+import com.example.library.app
 
 fun anim(@AnimRes res: Int): Animation {
     return AnimationUtils.loadAnimation(app, res)

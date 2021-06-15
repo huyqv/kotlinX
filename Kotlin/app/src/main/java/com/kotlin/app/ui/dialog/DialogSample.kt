@@ -10,15 +10,6 @@ import com.kotlin.app.ui.dialog.selectable.SelectableArg
 import com.kotlin.app.ui.main.MainFragment
 import java.text.SimpleDateFormat
 
-/**
- * -------------------------------------------------------------------------------------------------
- * @Project: Kotlin
- * @Created: Huy 2021/05/24
- * @Organize: Wee Digital
- * @Description: ...
- * All Right Reserved
- * -------------------------------------------------------------------------------------------------
- */
 fun MainFragment.buildDatePicker(view: TextView, builder: (DateArg) -> Unit) {
     val arg = DateArg(
             key = view.id.toString(),

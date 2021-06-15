@@ -4,6 +4,7 @@ plugins {
     id 'kotlin-android-extensions'
     id 'kotlin-kapt'
     id 'androidx.navigation.safeargs.kotlin'
+    //id 'kotlin-parcelize'
 }
 
 android {
@@ -65,6 +66,7 @@ android {
             buildConfigField "String", "SERVICE_URL", "\"https://raw.githubusercontent.com/huyqv/assets/master/\""
         }
     }
+
 }
 
 dependencies {
@@ -113,7 +115,7 @@ dependencies {
 
     implementation deps.square.retrofit
     implementation deps.square.gson
-    implementation deps.square.rxjava
+    implementation deps.square.rx_adapter
     implementation deps.square.okhttp_log
 
     implementation deps.dimens.sdp

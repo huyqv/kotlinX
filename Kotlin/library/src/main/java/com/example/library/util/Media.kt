@@ -4,13 +4,13 @@ import android.content.Context
 import android.media.AudioAttributes
 import android.media.AudioManager
 import android.media.SoundPool
-import com.example.library.Library
+import com.example.library.app
 import com.example.library.extension.post
 
 object Media {
 
     val manager: AudioManager by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
-        (Library.app.getSystemService(Context.AUDIO_SERVICE) as AudioManager).also {
+        (app.getSystemService(Context.AUDIO_SERVICE) as AudioManager).also {
             it.setStreamVolume(AudioManager.STREAM_MUSIC, 11, 0)
         }
     }
@@ -33,7 +33,7 @@ object Media {
     fun play(raw: Int) {
         if (isSilent) return
         if (soundIndex == -1) {
-            soundIndex = soundPool.load(Library.app, raw, 1)
+            soundIndex = soundPool.load(app, raw, 1)
         }
         post(100) {
             if (soundIndex != -1) {

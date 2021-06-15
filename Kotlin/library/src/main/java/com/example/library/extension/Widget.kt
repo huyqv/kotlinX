@@ -23,17 +23,9 @@ import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.NestedScrollView
-import com.example.library.Library
+import com.example.library.app
 import java.util.*
 
-/**
- * -------------------------------------------------------------------------------------------------
- * @Project: Kotlin
- * @Created: Huy QV 2018/02/24
- * @Description: ...
- * None Right Reserved
- * -------------------------------------------------------------------------------------------------
- */
 fun EditText.filterChars(chars: CharArray) {
     val arrayList = arrayListOf<InputFilter>()
     this.filters?.apply { arrayList.addAll(this) }
@@ -225,7 +217,7 @@ fun TextView.textColor(@ColorRes color: Int) {
 }
 
 fun TextView.fontFamily(int: Int) {
-    this.typeface = ResourcesCompat.getFont(Library.app, int)
+    this.typeface = ResourcesCompat.getFont(app, int)
 }
 
 fun TextView.setHyperText(@StringRes res: Int, vararg args: Any?) {

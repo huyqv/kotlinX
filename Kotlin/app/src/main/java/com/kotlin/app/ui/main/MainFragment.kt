@@ -1,7 +1,7 @@
 package com.kotlin.app.ui.main
 
-import com.example.library.ui.BaseFragment
 import com.kotlin.app.ui.dialog.DialogVM
+import template.ui.BaseFragment
 
 abstract class MainFragment : BaseFragment(), MainView {
 

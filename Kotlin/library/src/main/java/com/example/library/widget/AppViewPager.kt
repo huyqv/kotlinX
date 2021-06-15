@@ -7,14 +7,6 @@ import android.view.animation.DecelerateInterpolator
 import android.widget.Scroller
 import androidx.viewpager.widget.ViewPager
 
-/**
- * -------------------------------------------------------------------------------------------------
- * @Project: Kotlin
- * @Created: Huy QV 2017/11/2
- * @Description: ...
- * None Right Reserved
- * -------------------------------------------------------------------------------------------------
- */
 class AppViewPager : ViewPager {
 
     var swipeEnabled: Boolean = true

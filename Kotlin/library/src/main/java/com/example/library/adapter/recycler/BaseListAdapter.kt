@@ -7,14 +7,6 @@ import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.*
 import com.example.library.extension.addViewClickListener
 
-/**
- * -------------------------------------------------------------------------------------------------
- * @Project: Kotlin
- * @Created: Huy QV 2017/10/18
- * @Description: ...
- * None Right Reserved
- * -------------------------------------------------------------------------------------------------
- */
 abstract class BaseListAdapter<T> : ListAdapter<T, RecyclerView.ViewHolder> {
 
 

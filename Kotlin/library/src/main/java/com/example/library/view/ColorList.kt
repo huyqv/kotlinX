@@ -3,14 +3,6 @@ package com.example.library.view
 import android.graphics.Color
 import java.util.*
 
-/**
- * -------------------------------------------------------------------------------------------------
- * @Project: Kotlin
- * @Created: Huy QV 2018/07/08
- * @Description: ...
- * None Right Reserved
- * -------------------------------------------------------------------------------------------------
- */
 class ColorList {
 
     enum class Mode {

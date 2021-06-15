@@ -9,14 +9,6 @@ import androidx.fragment.app.*
 import androidx.lifecycle.LifecycleObserver
 import com.example.library.R
 
-/**
- * -------------------------------------------------------------------------------------------------
- * @Project: Kotlin
- * @Created: Huy QV 2018/02/24
- * @Description: ...
- * None Right Reserved
- * -------------------------------------------------------------------------------------------------
- */
 val HORIZONTAL_ANIMATIONS = intArrayOf(
         R.anim.horizontal_enter,
         R.anim.horizontal_exit,

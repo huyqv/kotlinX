@@ -15,16 +15,6 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 
 /**
- * -------------------------------------------------------------------------------------------------
- * @Project: Kotlin
- * @Created: Huy 2021/04/15
- * @Organize: Wee Digital
- * @Description: ...
- * All Right Reserved
- * -------------------------------------------------------------------------------------------------
- */
-
-/**
  * [Activity] extensions
  */
 val Activity.screenWidth: Int

@@ -7,7 +7,7 @@ import android.security.KeyPairGeneratorSpec
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
 import android.util.Base64
-import com.example.library.Library
+import com.example.library.app
 import com.example.library.extension.androidId
 import com.example.library.extension.packageName
 import java.math.BigInteger
@@ -19,20 +19,11 @@ import java.util.*
 import javax.crypto.Cipher
 import javax.security.auth.x500.X500Principal
 
-/**
- * -------------------------------------------------------------------------------------------------
- * @Project: WeeLib
- * @Created: Huy 2021/05/16
- * @Organize: Wee Digital
- * @Description: ...
- * All Right Reserved
- * -------------------------------------------------------------------------------------------------
- */
 object KeyStoreImp {
 
     private val keyProperties get() = KeyProperties.KEY_ALGORITHM_RSA
 
-    private val aliasKeyStore get() = Library.app.packageName
+    private val aliasKeyStore get() = app.packageName
 
     private val transformation get() = "RSA/ECB/PKCS1Padding"
 
@@ -55,9 +46,9 @@ object KeyStoreImp {
                 val endTime = Calendar.getInstance()
                 endTime.add(Calendar.YEAR, 5)
                 @Suppress("DEPRECATION")
-                KeyPairGeneratorSpec.Builder(Library.app)
+                KeyPairGeneratorSpec.Builder(app)
                         .setAlias(aliasKeyStore)
-                        .setSubject(X500Principal("CN=${Library.app.packageName}, O=Android Authority"))
+                        .setSubject(X500Principal("CN=${app.packageName}, O=Android Authority"))
                         .setSerialNumber(BigInteger.ONE)
                         .setStartDate(startTime.time)
                         .setEndDate(endTime.time)
@@ -121,7 +112,7 @@ object KeyStoreImp {
      */
     val basekey: String get() = "$packageName.$androidId.ks"
 
-    private val shared = Library.app.getSharedPreferences(basekey, Context.MODE_PRIVATE)
+    private val shared = app.getSharedPreferences(basekey, Context.MODE_PRIVATE)
 
     fun save(key: String, clearText: String) {
         shared.edit().also {

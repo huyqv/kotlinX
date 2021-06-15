@@ -10,14 +10,6 @@ import android.widget.ViewFlipper
 import com.example.library.R
 import com.google.android.material.tabs.TabLayout
 
-/**
- * -------------------------------------------------------------------------------------------------
- * @Project: Kotlin
- * @Created: Huy QV 2018/08/29
- * @Description: ...
- * None Right Reserved
- * -------------------------------------------------------------------------------------------------
- */
 class SliderView : ViewFlipper {
 
     var next = true
@@ -37,13 +29,11 @@ class SliderView : ViewFlipper {
     constructor(context: Context, attrs: AttributeSet? = null) : super(context, attrs)
 
     override fun showNext() {
-
         next = true
         displayedChild = whichChild + 1
     }
 
     override fun showPrevious() {
-
         next = false
         displayedChild = whichChild - 1
     }

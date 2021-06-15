@@ -1,7 +1,6 @@
 package com.example.library.extension
 
 import android.app.Activity
-import android.app.Application
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.*
@@ -23,19 +22,8 @@ import androidx.annotation.StyleRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.FragmentActivity
-import com.example.library.Library
+import com.example.library.app
 import kotlin.math.roundToInt
-
-
-/**
- * -------------------------------------------------------------------------------------------------
- * @Project: Kotlin
- * @Created: Huy QV 2018/11/04
- * @Description: ...
- * None Right Reserved
- * -------------------------------------------------------------------------------------------------
- */
-private val app: Application get() = Library.app
 
 fun Float.dpToPx(): Float {
     val resources = app.resources

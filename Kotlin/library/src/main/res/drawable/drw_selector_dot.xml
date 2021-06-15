@@ -3,13 +3,13 @@
 
     <item android:state_selected="false">
         <shape android:innerRadius="0dp" android:shape="ring" android:thickness="4dp" android:useLevel="false">
-            <solid android:color="@color/colorPrimary" />
+            <solid android:color="#9C9C9C" />
         </shape>
     </item>
 
     <item android:state_selected="true">
         <shape android:innerRadius="0dp" android:shape="ring" android:thickness="4dp" android:useLevel="false">
-            <solid android:color="@color/colorAccent" />
+            <solid android:color="#000000" />
         </shape>
     </item>
 

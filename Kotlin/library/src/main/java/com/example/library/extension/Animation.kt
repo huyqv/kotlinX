@@ -8,25 +8,58 @@ import android.view.View
 import android.view.animation.*
 import androidx.annotation.AnimRes
 import androidx.annotation.ColorRes
+import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
+import androidx.transition.ChangeBounds
 import androidx.transition.Transition
 import androidx.transition.TransitionManager
 
-/**
- * -------------------------------------------------------------------------------------------------
- * @Project: Kotlin
- * @Created: Huy QV 2018/02/24
- * @Description: ...
- * None Right Reserved
- * -------------------------------------------------------------------------------------------------
- */
-private const val DURATION = 1000L
+val interpolator = DecelerateInterpolator()
+val interpolator1 = AccelerateDecelerateInterpolator()
+val interpolator2 = OvershootInterpolator()
+val interpolator3 = CycleInterpolator(1f)
+val interpolator4 = OvershootInterpolator()
+val interpolator5 = AnticipateInterpolator()
+val interpolator6 = AnticipateOvershootInterpolator()
+val interpolator7 = BounceInterpolator()
+val interpolator8 = LinearInterpolator()
 
-private val overshootInterpolator: OvershootInterpolator get() = OvershootInterpolator()
 
-private val accelerateDecelerateInterpolator: AccelerateDecelerateInterpolator = AccelerateDecelerateInterpolator()
+fun View.animateAlpha(from: Float, to: Float) {
+    this.post {
+        if (alpha != from) alpha = from
+        val anim = AlphaAnimation(from, to)
+        anim.duration = 600
+        anim.onAnimationEnd {
+            alpha = to
+        }
+        startAnimation(anim)
+    }
+}
+
+fun View.animRotateAxisX(): ObjectAnimator {
+    return ObjectAnimator.ofFloat(this, "rotationX", 0.0F, 360F).apply {
+        duration = 1000L
+        repeatCount = ObjectAnimator.INFINITE
+    }
+}
+
+fun View.animRotateAxisY(): ObjectAnimator {
+    return ObjectAnimator.ofFloat(this, "rotationY", 0.0F, 360F).apply {
+        duration = 1000L
+        repeatCount = ObjectAnimator.INFINITE
+    }
+}
+
+fun View.animRotate(): ObjectAnimator {
+    return ObjectAnimator.ofFloat(this, "rotation", 0F, 360F).apply {
+        duration = 1000L
+        repeatCount = ObjectAnimator.INFINITE
+    }
+}
+
 
 fun View.animate(@AnimRes animRes: Int, duration: Long = 2000, fillAfter: Boolean = true) {
 
@@ -81,105 +114,157 @@ fun View.colorAnimate(@ColorRes fromColor: Int, @ColorRes toColor: Int): ObjectA
     )
     objectAnimator.repeatCount = 1
     objectAnimator.repeatMode = ValueAnimator.REVERSE
-    objectAnimator.duration = DURATION
+    objectAnimator.duration = 1000
     return objectAnimator
 }
 
 fun animTranslateX(from: Float, to: Float): TranslateAnimation {
-    return TranslateAnimation(from, to, 0f, 0f).apply {
-        duration = DURATION
+    return TranslateAnimation(from, to, 0F, 0F).apply {
+        duration = 1000L
     }
 }
 
 fun animTranslateY(from: Float, to: Float): TranslateAnimation {
-    return TranslateAnimation(0f, 0f, from, to).apply {
-        duration = DURATION
+    return TranslateAnimation(0F, 0F, from, to).apply {
+        duration = 1000L
     }
 }
 
-fun animFadeIn(): AlphaAnimation {
-    return AlphaAnimation(0f, 1f).apply {
-        duration = DURATION
+
+fun ConstraintLayout.editConstraint(block: ConstraintSet.() -> Unit) {
+    post {
+        ConstraintSet().also {
+            it.clone(this)
+            it.block()
+            it.applyTo(this)
+        }
     }
 }
 
-fun animFadeOut(): AlphaAnimation {
-    return AlphaAnimation(1f, 0f).apply {
-        duration = DURATION
-    }
+fun Transition.beginTransition(layout: ConstraintLayout, block: ConstraintSet.() -> Unit): Transition {
+    TransitionManager.beginDelayedTransition(layout, this)
+    layout.editConstraint(block)
+    return this
 }
+
+fun Transition.beginTransition(layout: ConstraintLayout, block: ConstraintSet.() -> Unit, onEnd: () -> Unit = {}): Transition {
+
+    addListener(object : SimpleTransitionListener {
+        override fun onTransitionEnd(transition: Transition) {
+            transition.removeListener(this)
+            onEnd()
+        }
+    })
+    TransitionManager.beginDelayedTransition(layout, this)
+    layout.editConstraint(block)
+    return this
+}
+
+fun ConstraintLayout.beginTransition(duration: Long, block: ConstraintSet.() -> Unit) {
+    ChangeBounds().also {
+        it.duration = duration
+        it.startDelay = 0
+    }.beginTransition(this, block)
+}
+
+fun ConstraintLayout.beginTransition(duration: Long, block: ConstraintSet.() -> Unit, onEnd: () -> Unit = {}) {
+    ChangeBounds().also {
+        it.duration = duration
+        it.startDelay = 0
+    }.beginTransition(this, block, onEnd)
+
+}
+
+fun MotionLayout.transitionToState(transitionId: Int, onCompleted: () -> Unit) {
+    addTransitionListener(object : SimpleMotionTransitionListener {
+        override fun onTransitionCompleted(layout: MotionLayout?, currentId: Int) {
+            removeTransitionListener(this)
+            onCompleted()
+        }
+    })
+    transitionToState(transitionId)
+
+}
+
+class ConstraintBuilder(private val constraintLayout: ConstraintLayout) {
+
+    private val constraintSetList = mutableListOf<ConstraintSet.() -> Unit>()
+
+    private val transitionList = mutableListOf<Transition>()
+
+    fun transform(_duration: Long = 400, block: ConstraintSet.() -> Unit): ConstraintBuilder {
+        transitionList.add(ChangeBounds().also {
+            it.duration = _duration
+        })
+        constraintSetList.add(block)
+        return this
+    }
+
+    fun start() {
+        if (transitionList.isEmpty()) return
+        for (i in 0..transitionList.lastIndex) {
+            transitionList[i].addListener(object : SimpleTransitionListener {
+                override fun onTransitionEnd(transition: Transition) {
+                    transitionList[i].removeListener(this)
+                    if (i < transitionList.lastIndex) {
+                        transitionList[i + 1].beginTransition(constraintLayout, constraintSetList[i + 1])
+                    }
+                }
+            })
+        }
+        transitionList[0].beginTransition(constraintLayout, constraintSetList[0])
+    }
+
+}
+
 
 fun animCenterScale(): ScaleAnimation {
     return ScaleAnimation(
-            0f, 1f, 0f, 1f,
-            Animation.RELATIVE_TO_SELF, 0.5f,
-            Animation.RELATIVE_TO_SELF, 0.5f
+            0F, 1F, 0F, 1F,
+            Animation.RELATIVE_TO_SELF, 0.5F,
+            Animation.RELATIVE_TO_SELF, 0.5F
     ).apply {
-        duration = DURATION
+        duration = 1000L
     }
 }
 
 fun animLeftScale(): ScaleAnimation {
     return ScaleAnimation(
-            0f, 1f, 0f, 1f,
+            0F, 1f, 0F, 1f,
             Animation.RELATIVE_TO_SELF, 1f,
-            Animation.RELATIVE_TO_SELF, 0.5f
+            Animation.RELATIVE_TO_SELF, 0.5F
     ).apply {
-        duration = DURATION
+        duration = 1000L
     }
 }
 
 fun animRightScale(): ScaleAnimation {
     return ScaleAnimation(
-            0f, 1f, 0f, 1f,
-            Animation.RELATIVE_TO_SELF, 0f,
-            Animation.RELATIVE_TO_SELF, 0.5f
+            0F, 1f, 0F, 1f,
+            Animation.RELATIVE_TO_SELF, 0F,
+            Animation.RELATIVE_TO_SELF, 0.5F
     ).apply {
-        duration = DURATION
+        duration = 1000L
     }
 }
 
 fun animBumped(): ScaleAnimation {
-    return ScaleAnimation(0f, 1f, 0f, 1f,
+    return ScaleAnimation(0F, 1f, 0F, 1f,
             ScaleAnimation.RELATIVE_TO_SELF, .5f,
             ScaleAnimation.RELATIVE_TO_SELF, .5f).apply {
-        duration = DURATION
-        interpolator = OvershootInterpolator()
+        duration = 1000L
+
     }
 }
 
 fun animVanish(): ScaleAnimation {
-    return ScaleAnimation(0f, 1f, 0f, 1f,
-            ScaleAnimation.RELATIVE_TO_SELF, .0f,
-            ScaleAnimation.RELATIVE_TO_SELF, .0f).apply {
-        duration = DURATION
-        interpolator = OvershootInterpolator()
+    return ScaleAnimation(0F, 1f, 0F, 1f,
+            ScaleAnimation.RELATIVE_TO_SELF, .0F,
+            ScaleAnimation.RELATIVE_TO_SELF, .0F).apply {
+        duration = 1000L
     }
 }
 
-fun animRotate(v: View): ObjectAnimator {
-    return ObjectAnimator.ofFloat(v, "rotation", 0f, 360f).apply {
-        duration = DURATION
-        interpolator = DecelerateInterpolator()
-        repeatCount = ObjectAnimator.INFINITE
-    }
-}
-
-fun animRotateAxisX(v: View): ObjectAnimator {
-    return ObjectAnimator.ofFloat(v, "rotationX", 0.0f, 360f).apply {
-        duration = DURATION
-        interpolator = AccelerateDecelerateInterpolator()
-        repeatCount = ObjectAnimator.INFINITE
-    }
-}
-
-fun animRotateAxisY(v: View): ObjectAnimator {
-    return ObjectAnimator.ofFloat(v, "rotationY", 0.0f, 360f).apply {
-        duration = DURATION
-        interpolator = AccelerateDecelerateInterpolator()
-        repeatCount = ObjectAnimator.INFINITE
-    }
-}
 
 fun Animation?.onAnimationStart(onStart: () -> Unit): Animation? {
     this?.setAnimationListener(object : SimpleAnimationListener {
@@ -240,39 +325,6 @@ interface SimpleAnimatorListener : Animator.AnimatorListener {
 
     override fun onAnimationStart(animator: Animator?) {
     }
-}
-
-fun Transition.beginTransition(layout: ConstraintLayout, vararg blocks: ConstraintSet.() -> Unit): Transition {
-    if (blocks.isEmpty()) return this
-    for (i in 0 until blocks.lastIndex) {
-        this.addListener(object : SimpleTransitionListener {
-            override fun onTransitionEnd(transition: Transition) {
-                this@beginTransition.removeListener(this)
-                beginTransition(layout, blocks[i + 1])
-            }
-        })
-    }
-    beginTransition(layout, blocks[0])
-    return this
-}
-
-fun Transition.beginTransition(layout: ConstraintLayout, block: ConstraintSet.() -> Unit): Transition {
-    TransitionManager.beginDelayedTransition(layout, this@beginTransition)
-    val set = ConstraintSet()
-    set.clone(layout)
-    set.block()
-    set.applyTo(layout)
-    return this
-}
-
-fun Transition.onEndTransition(block: () -> Unit): Transition {
-    addListener(object : SimpleTransitionListener {
-        override fun onTransitionEnd(transition: Transition) {
-            this@onEndTransition.removeListener(this)
-            block()
-        }
-    })
-    return this
 }
 
 interface SimpleTransitionListener : Transition.TransitionListener {

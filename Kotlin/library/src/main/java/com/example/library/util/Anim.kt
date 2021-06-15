@@ -1,19 +1,9 @@
 package com.example.library.util
 
 import android.animation.ObjectAnimator
-import android.content.Context
 import android.view.View
 import android.view.animation.*
-import androidx.annotation.AnimRes
 
-/**
- * -------------------------------------------------------------------------------------------------
- * @Project: Kotlin
- * @Created: Huy QV 2018/11/06
- * @Description: ...
- * None Right Reserved
- * -------------------------------------------------------------------------------------------------
- */
 object Anim {
 
     private val overshootInterpolator by lazy { OvershootInterpolator() }

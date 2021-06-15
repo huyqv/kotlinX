@@ -2,19 +2,10 @@ package com.example.library.extension
 
 import android.os.Handler
 import android.os.Looper
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.*
 
-/**
- * -------------------------------------------------------------------------------------------------
- * @Project: Kotlin
- * @Created: Huy QV 2019/10/18
- * @Description: ...
- * None Right Reserved
- * -------------------------------------------------------------------------------------------------
- */
 fun <T, R> Collection<T>.transform(block: (T) -> R?): List<R> {
     val list = mutableListOf<R>()
     for (item in this) {
@@ -44,10 +35,10 @@ fun <T> emit(block: suspend FlowCollector<Data<T>>.() -> T): Flow<Data<T>> {
     }
 }
 
-fun <T> Flow<Data<T>>.each(vm: ViewModel, block: (Data<T>) -> Unit) {
+fun <T> Flow<Data<T>>.each(block: (Data<T>) -> Unit) {
     flowOn(Dispatchers.IO).onEach {
         block(it)
-    }.launchIn(vm.viewModelScope)
+    }.launchIn(GlobalScope)
 }
 
 val isOnUiThread: Boolean get() = Looper.myLooper() == Looper.getMainLooper()
@@ -62,4 +53,10 @@ fun post(block: () -> Unit) {
 
 fun post(delay: Long, block: () -> Unit) {
     uiHandler.postDelayed({ block() }, delay)
+}
+
+typealias Block = (() -> Unit)?
+
+fun (() -> Unit)?.does() {
+    this?.also { it() }
 }

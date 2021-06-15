@@ -1,6 +1,5 @@
 package com.example.library.widget
 
-import android.app.Application
 import android.content.Context
 import android.content.res.TypedArray
 import android.graphics.BlendMode
@@ -19,7 +18,6 @@ import android.widget.TextView
 import androidx.annotation.*
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
-import com.example.library.Library
 import com.example.library.R
 
 abstract class AppCustomView : FrameLayout {
@@ -45,8 +43,6 @@ abstract class AppCustomView : FrameLayout {
             types.recycle()
         }
     }
-
-    private val app: Application get() = Library.app
 
     /**
      * Text

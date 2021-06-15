@@ -7,15 +7,6 @@ import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.example.library.R
 
-/**
- * -------------------------------------------------------------------------------------------------
- * @Project: Kotlin
- * @Created: Huy 2020/10/22
- * @Organize: Wee Digital
- * @Description: ...
- * All Right Reserved
- * -------------------------------------------------------------------------------------------------
- */
 const val DEFAULT_ARG_KEY: String = "default_arg_key"
 
 fun Fragment.navigate(directions: NavDirections, block: (NavOptions.Builder.() -> Unit) = {}) {

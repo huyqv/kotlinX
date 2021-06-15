@@ -7,14 +7,6 @@ import android.view.View
 import com.example.library.R
 import kotlin.math.floor
 
-/**
- * -------------------------------------------------------------------------------------------------
- * @Project: Kotlin
- * @Created: Huy QV 2019/12/10
- * @Description: ...
- * All Right Reserved
- * -------------------------------------------------------------------------------------------------
- */
 class DashView : View {
 
     private var dashHeight: Float = 1f

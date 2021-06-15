@@ -2,7 +2,6 @@ package com.example.library.extension
 
 import android.annotation.SuppressLint
 import android.app.ActivityManager
-import android.app.Application
 import android.content.Context
 import android.content.res.Configuration
 import android.hardware.camera2.CameraCharacteristics
@@ -12,11 +11,9 @@ import android.provider.Settings
 import android.util.DisplayMetrics
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
-import com.example.library.Library
+import com.example.library.app
 import java.util.*
 import java.util.concurrent.TimeUnit
-
-private val app: Application get() = Library.app
 
 val androidId: String
     get() {

@@ -1,5 +1,37 @@
 package com.example.library.extension
 
+val CHARS = charArrayOf(
+        'a',
+        'b',
+        'c',
+        'd',
+        'e',
+        'g',
+        'h',
+        'i',
+        'k',
+        'l',
+        'm',
+        'n',
+        'o',
+        'p',
+        'q',
+        'r',
+        's',
+        't',
+        'u',
+        'v',
+        'x',
+        'y',
+        'z',
+        'w',
+        'f',
+        'j',
+        '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+        '/',
+        ' '
+)
+
 val VN_CHARS = charArrayOf(
         'a', 'á', 'à', 'ả', 'ã', 'ạ', 'ă',
         'ă', 'ắ', 'ằ', 'ẳ', 'ẵ', 'ặ',

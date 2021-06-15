@@ -7,15 +7,6 @@ import com.kotlin.app.ui.dialog.selectable.SelectableArg
 import com.kotlin.app.ui.dialog.web.WebArg
 import com.kotlin.app.ui.main.MainVM
 
-/**
- * -------------------------------------------------------------------------------------------------
- * @Project: Kotlin
- * @Created: Huy 2021/05/24
- * @Organize: Wee Digital
- * @Description: ...
- * All Right Reserved
- * -------------------------------------------------------------------------------------------------
- */
 class DialogVM : MainVM() {
 
     val dateLiveData = MutableLiveData<DateArg>()

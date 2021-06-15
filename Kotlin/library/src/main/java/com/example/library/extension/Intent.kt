@@ -11,20 +11,10 @@ import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
-import com.example.library.Library
+import com.example.library.app
 import kotlin.reflect.KClass
 
-/**
- * -------------------------------------------------------------------------------------------------
- * @Project: Kotlin
- * @Created: Huy QV 2018/02/24
- * @Description: ...
- * None Right Reserved
- * -------------------------------------------------------------------------------------------------
- */
 const val VOICE_REQUEST_CODE = 1005
-
-private val app get() = Library.app
 
 fun <T : Activity> Fragment.start(cls: KClass<T>) {
     requireActivity().start(cls)
@@ -35,73 +25,66 @@ fun <T : Activity> Activity.start(cls: KClass<T>) {
 }
 
 fun Activity.startVoiceRecord() {
-    val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
-        putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
-        putExtra(RecognizerIntent.EXTRA_PROMPT, "Speech")
+    val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).also {
+        it.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+        it.putExtra(RecognizerIntent.EXTRA_PROMPT, "Speech")
     }
     startActivityForResult(intent, VOICE_REQUEST_CODE)
 }
 
 fun navigateEmail() {
-    val intent = Intent(Intent.ACTION_MAIN).apply {
-        addCategory(Intent.CATEGORY_APP_EMAIL)
-}
-    app.startActivity(intent)
+    app.startActivity(Intent(Intent.ACTION_MAIN).also {
+        it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        it.addCategory(Intent.CATEGORY_APP_EMAIL)
+    })
 }
 
 fun navigateCHPlay() {
     try {
-        val intent = Intent(Intent.ACTION_VIEW).apply {
-            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            data = Uri.parse("market://details?id=${app.packageName}")
-        }
-        app.startActivity(intent)
+        app.startActivity(Intent(Intent.ACTION_VIEW).also {
+            it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            it.data = Uri.parse("market://details?id=${app.packageName}")
+        })
     } catch (ex: android.content.ActivityNotFoundException) {
-        val intent = Intent(Intent.ACTION_VIEW).apply {
-            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            data = Uri.parse("https://play.google.com/store/apps/details?id=${app.packageName}")
-        }
-        app.startActivity(intent)
+        app.startActivity(Intent(Intent.ACTION_VIEW).also {
+            it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            it.data = Uri.parse("https://play.google.com/store/apps/details?id=${app.packageName}")
+        })
     }
 }
 
 fun navigateBrowser(url: String) {
-    val intent = Intent(Intent.ACTION_VIEW).apply {
-        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        data = Uri.parse(url)
-    }
-    app.startActivity(intent)
+    app.startActivity(Intent(Intent.ACTION_VIEW).also {
+        it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        it.data = Uri.parse(url)
+    })
 }
 
 fun navigateCall(phone: String) {
-    val intent = Intent(Intent.ACTION_DIAL).apply {
-        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        data = Uri.parse("tel:$phone")
-    }
-    app.startActivity(intent)
+    app.startActivity(Intent(Intent.ACTION_DIAL).also {
+        it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        it.data = Uri.parse("tel:$phone")
+    })
 }
 
 fun navigateSettings() {
-    val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        data = Uri.fromParts("package", packageName, null)
-    }
-    app.startActivity(intent)
+    app.startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).also {
+        it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        it.data = Uri.fromParts("package", packageName, null)
+    })
 }
 
 fun navigateDateSettings() {
-    val intent = Intent(Settings.ACTION_DATE_SETTINGS).apply {
-        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-    }
-    app.startActivity(intent)
+    app.startActivity(Intent(Settings.ACTION_DATE_SETTINGS).also {
+        it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+    })
 }
 
 fun navigateAppSettings() {
-    val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        data = Uri.fromParts("package", app.packageName, null)
-    }
-    app.startActivity(intent)
+    app.startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).also {
+        it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        it.data = Uri.fromParts("package", app.packageName, null)
+    })
 }
 
 /**

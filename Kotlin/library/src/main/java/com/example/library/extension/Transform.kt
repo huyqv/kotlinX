@@ -1,20 +1,9 @@
 package com.example.library.extension
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.util.Base64
 import java.math.BigDecimal
 import java.text.ParseException
 import java.util.*
 
-/**
- * -------------------------------------------------------------------------------------------------
- * @Project: Kotlin
- * @Created: Huy QV 2018/2/24
- * @Description: ...
- * None Right Reserved
- * -------------------------------------------------------------------------------------------------
- */
 const val BYTE = 1.toByte()
 
 fun Boolean.toByte(): Byte {

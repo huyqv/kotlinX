@@ -1,17 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!--App color-->
+    <!--App colors-->
     <color name="colorPrimary">#37497f</color>
     <color name="colorPrimaryDark">#37497f</color>
     <color name="colorPrimaryVariant">#42507A</color>
     <color name="colorOnPrimary">#515A77</color>
-
     <color name="colorSecondary">#E53935</color>
     <color name="colorSecondaryVariant">#E14F4C</color>
     <color name="colorOnSecondary">#E17371</color>
-
     <color name="colorAccent">#FDD835</color>
-    <color name="colorDialogDim">#000000</color>
+
+
+    <!--Design colors-->
+    <color name="colorTextPrimary">#434343</color>
+    <color name="colorTextSecondary">#787878</color>
+    <color name="colorDialogDim">#5E5E5E</color>
+    <color name="colorBubbleRight">#E3C6C6C6</color>
+    <color name="colorBubbleLeft">#3949AB</color>
+    <color name="colorBubbleBorder">#FDD835</color>
+
+
+
+    <!--Flat colors-->
+    <color name="colorBlack">#000000</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorLight">#EFEFF4</color>
+    <color name="colorLightGray">#d6d6d6</color>
+    <color name="colorSilver">#cfefeff4</color>
+    <color name="colorLightSmoke">#808080</color>
+    <color name="colorMediumSmoke">#4C4C4C</color>
+    <color name="colorHeavySmoke">#3D3D3D</color>
+    <color name="colorGrey">#393939</color>
+    <color name="colorDark">#303030</color>
+    <color name="colorTurquoise">#1ABC9C</color>
+    <color name="colorGreenSea">#16A085</color>
+    <color name="colorEmerald">#2ECC71</color>
+    <color name="colorNephritis">#27AE60</color>
+    <color name="colorCyan">#00A2C7</color>
+    <color name="colorDarkCyan">#00849D</color>
+    <color name="colorToothPaste">#4DB4F9</color>
+    <color name="colorPeterRiver">#3498DB</color>
+    <color name="colorBelizeHole">#2980B9</color>
+    <color name="colorDarkBelizeHole">#186FA7</color>
+    <color name="colorPink">#E358F2</color>
+    <color name="colorAmethyst">#9B59B6</color>
+    <color name="colorWisteria">#8E44AD</color>
+    <color name="colorChickenEgg">#FFE57F</color>
+    <color name="colorGold">#FFC120</color>
+    <color name="colorSunFlower">#F1C40F</color>
+    <color name="colorOrange">#F39C12</color>
+    <color name="colorCarrot">#E67E22</color>
+    <color name="colorPumpkin">#D35400</color>
+    <color name="colorIndianRed">#CD5555</color>
+    <color name="colorDarkIndianRed">#8B3A3A</color>
+    <color name="colorCrimson">#E32636</color>
+    <color name="colorPomegranate">#C0392B</color>
+    <color name="colorFireBrick">#C11B21</color>
+    <color name="colorDarkFireBrick">#8B1A1A</color>
 
 </resources>

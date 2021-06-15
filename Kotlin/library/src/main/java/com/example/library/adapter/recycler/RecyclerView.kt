@@ -11,14 +11,6 @@ import androidx.annotation.DimenRes
 import androidx.annotation.IntDef
 import androidx.recyclerview.widget.*
 
-/**
- * -------------------------------------------------------------------------------------------------
- * @Project: Kotlin
- * @Created: Huy QV 2018/11/02
- * @Description: ...
- * None Right Reserved
- * -------------------------------------------------------------------------------------------------
- */
 class ViewHolder(v: View) : RecyclerView.ViewHolder(v)
 
 interface ScrollListener {

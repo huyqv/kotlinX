@@ -6,13 +6,13 @@ import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import com.kotlin.app.R
-import com.kotlin.app.ui.main.MainDialog
+import com.kotlin.app.ui.main.MainDialogFragment
 import kotlinx.android.synthetic.main.web.*
 
-class WebFragment : MainDialog() {
+class WebFragment : MainDialogFragment() {
 
     /**
-     * [MainDialog] implements
+     * [MainDialogFragment] implements
      */
     override fun layoutResource(): Int {
         return R.layout.web

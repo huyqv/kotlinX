@@ -343,3 +343,11 @@ fun JsonObject?.stringyJson(): String {
         "null"
     }
 }
+
+fun Exception.toExceptionJson(): JsonObject {
+    return JsonObject().also {
+        it.addProperty("code", 1)
+        it.addProperty("message", this.message)
+        it.addProperty("exception", this::class.simpleName)
+    }
+}
