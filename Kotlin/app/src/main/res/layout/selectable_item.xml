@@ -9,7 +9,7 @@
     tools:background="@color/colorWhite">
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/selectableTextViewItem"
+        android:id="@+id/textViewItem"
         style="@style/TextView"
         android:layout_width="match_parent"
         android:clickable="false"
@@ -24,7 +24,7 @@
         tools:text="Item text goes here" />
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/selectableViewSelected"
+        android:id="@+id/imageViewSelected"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:clickable="false"

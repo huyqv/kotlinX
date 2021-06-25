@@ -2,24 +2,19 @@ package com.kotlin.app.ui.main
 
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
+import com.example.library.extension.viewModel
 import com.kotlin.app.R
-import com.kotlin.app.ui.dialog.DialogVM
-import template.ui.BaseActivity
+import com.kotlin.app.databinding.MainBinding
+import com.kotlin.app.ui.base.BaseActivity
 
-class MainActivity : BaseActivity(), MainView {
+class MainActivity : BaseActivity<MainBinding>(MainBinding::inflate), MainView {
 
     override val mainActivity: MainActivity? get() = this
 
-    override val mainVM by lazy { viewModel(MainVM::class) }
+    override val mainVM by viewModel(MainVM::class)
 
-    override val dialogVM by lazy { viewModel(DialogVM::class) }
-
-    override val navController: NavController? by lazy {
-        findNavController(R.id.mainFragment)
-    }
-
-    override fun layoutResource(): Int {
-        return R.layout.main
+    override fun navController(): NavController? {
+        return findNavController(R.id.fragment)
     }
 
     override fun onViewCreated() {
@@ -28,7 +23,6 @@ class MainActivity : BaseActivity(), MainView {
     override fun onLiveDataObserve() {
 
     }
-
 
 }
 

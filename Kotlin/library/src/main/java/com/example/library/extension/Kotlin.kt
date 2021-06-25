@@ -55,8 +55,8 @@ fun post(delay: Long, block: () -> Unit) {
     uiHandler.postDelayed({ block() }, delay)
 }
 
-typealias Block = (() -> Unit)?
+typealias Block<T> = ((T) -> Unit)?
 
-fun (() -> Unit)?.does() {
-    this?.also { it() }
+fun <T> Block<T>.does(t: T) {
+    this?.also { it(t) }
 }

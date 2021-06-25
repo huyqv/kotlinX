@@ -91,6 +91,11 @@ abstract class AppCustomView : FrameLayout {
             return getColor(R.styleable.AppCustomView_android_textColor, Color.BLACK)
         }
 
+    val TypedArray.textColorHint: Int
+        get() {
+            return getColor(R.styleable.AppCustomView_android_textColorHint, Color.BLACK)
+        }
+
     val TypedArray.hintColor: Int
         get() {
             return getColor(R.styleable.AppCustomView_android_textColor, Color.DKGRAY)

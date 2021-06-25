@@ -88,22 +88,30 @@ fun View.animate(@AnimRes animRes: Int, duration: Long, block: () -> Unit) {
     startAnimation(anim)
 }
 
-fun View.animateHide(@AnimRes animRes: Int, duration: Long = 2000, fillAfter: Boolean = true) {
 
-    val anim = AnimationUtils.loadAnimation(context, animRes)
-    anim.duration = duration
-    anim.fillAfter = fillAfter
-    anim.onAnimationEnd { visibility = View.INVISIBLE }
-    startAnimation(anim)
+fun View.animateAlpha(to: Float) {
+    animateAlpha(to) {}
 }
 
-fun View.animateShow(@AnimRes animRes: Int, duration: Long = 2000, fillAfter: Boolean = true) {
-    visibility = View.VISIBLE
-    val anim = AnimationUtils.loadAnimation(context, animRes)
-    anim.duration = duration
-    anim.fillAfter = fillAfter
-    startAnimation(anim)
+fun View.animateAlpha(toAlpha: Float, onEnd: () -> Unit) {
+    this.post {
+        val anim = AlphaAnimation(this.alpha, toAlpha)
+        anim.duration = 1200
+        anim.fillAfter = true
+        anim.setAnimationListener(object : SimpleAnimationListener {
+            override fun onAnimationStart(animation: Animation?) {
+            }
+
+            override fun onAnimationEnd(animation: Animation?) {
+                this@animateAlpha.alpha = toAlpha
+                onEnd()
+            }
+        })
+        this@animateAlpha.alpha = 1f
+        startAnimation(anim)
+    }
 }
+
 
 fun View.colorAnimate(@ColorRes fromColor: Int, @ColorRes toColor: Int): ObjectAnimator {
 
@@ -131,91 +139,6 @@ fun animTranslateY(from: Float, to: Float): TranslateAnimation {
 }
 
 
-fun ConstraintLayout.editConstraint(block: ConstraintSet.() -> Unit) {
-    post {
-        ConstraintSet().also {
-            it.clone(this)
-            it.block()
-            it.applyTo(this)
-        }
-    }
-}
-
-fun Transition.beginTransition(layout: ConstraintLayout, block: ConstraintSet.() -> Unit): Transition {
-    TransitionManager.beginDelayedTransition(layout, this)
-    layout.editConstraint(block)
-    return this
-}
-
-fun Transition.beginTransition(layout: ConstraintLayout, block: ConstraintSet.() -> Unit, onEnd: () -> Unit = {}): Transition {
-
-    addListener(object : SimpleTransitionListener {
-        override fun onTransitionEnd(transition: Transition) {
-            transition.removeListener(this)
-            onEnd()
-        }
-    })
-    TransitionManager.beginDelayedTransition(layout, this)
-    layout.editConstraint(block)
-    return this
-}
-
-fun ConstraintLayout.beginTransition(duration: Long, block: ConstraintSet.() -> Unit) {
-    ChangeBounds().also {
-        it.duration = duration
-        it.startDelay = 0
-    }.beginTransition(this, block)
-}
-
-fun ConstraintLayout.beginTransition(duration: Long, block: ConstraintSet.() -> Unit, onEnd: () -> Unit = {}) {
-    ChangeBounds().also {
-        it.duration = duration
-        it.startDelay = 0
-    }.beginTransition(this, block, onEnd)
-
-}
-
-fun MotionLayout.transitionToState(transitionId: Int, onCompleted: () -> Unit) {
-    addTransitionListener(object : SimpleMotionTransitionListener {
-        override fun onTransitionCompleted(layout: MotionLayout?, currentId: Int) {
-            removeTransitionListener(this)
-            onCompleted()
-        }
-    })
-    transitionToState(transitionId)
-
-}
-
-class ConstraintBuilder(private val constraintLayout: ConstraintLayout) {
-
-    private val constraintSetList = mutableListOf<ConstraintSet.() -> Unit>()
-
-    private val transitionList = mutableListOf<Transition>()
-
-    fun transform(_duration: Long = 400, block: ConstraintSet.() -> Unit): ConstraintBuilder {
-        transitionList.add(ChangeBounds().also {
-            it.duration = _duration
-        })
-        constraintSetList.add(block)
-        return this
-    }
-
-    fun start() {
-        if (transitionList.isEmpty()) return
-        for (i in 0..transitionList.lastIndex) {
-            transitionList[i].addListener(object : SimpleTransitionListener {
-                override fun onTransitionEnd(transition: Transition) {
-                    transitionList[i].removeListener(this)
-                    if (i < transitionList.lastIndex) {
-                        transitionList[i + 1].beginTransition(constraintLayout, constraintSetList[i + 1])
-                    }
-                }
-            })
-        }
-        transitionList[0].beginTransition(constraintLayout, constraintSetList[0])
-    }
-
-}
 
 
 fun animCenterScale(): ScaleAnimation {
@@ -325,23 +248,5 @@ interface SimpleAnimatorListener : Animator.AnimatorListener {
 
     override fun onAnimationStart(animator: Animator?) {
     }
-}
-
-interface SimpleTransitionListener : Transition.TransitionListener {
-    override fun onTransitionStart(transition: Transition) {
-    }
-
-    override fun onTransitionEnd(transition: Transition) {
-    }
-
-    override fun onTransitionCancel(transition: Transition) {
-    }
-
-    override fun onTransitionPause(transition: Transition) {
-    }
-
-    override fun onTransitionResume(transition: Transition) {
-    }
-
 }
 

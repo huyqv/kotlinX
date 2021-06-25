@@ -1,22 +1,15 @@
 package com.kotlin.app.ui.splash
 
 import com.example.library.extension.post
-import com.kotlin.app.MainDirections
 import com.kotlin.app.R
-import kotlinx.android.synthetic.main.splash.*
-import template.ui.BaseFragment
+import com.kotlin.app.databinding.SplashBinding
+import com.kotlin.app.ui.base.BaseFragment
 
-class SplashFragment : BaseFragment() {
-
-    override fun layoutResource(): Int {
-        return R.layout.splash
-    }
+class SplashFragment : BaseFragment<SplashBinding>(SplashBinding::inflate) {
 
     override fun onViewCreated() {
-        textView.setOnClickListener {
-            post(1000) {
-                navigate(MainDirections.actionGlobalIntroFragment())
-            }
+        post(1200) {
+            navigate(R.id.action_global_introFragment)
         }
     }
 

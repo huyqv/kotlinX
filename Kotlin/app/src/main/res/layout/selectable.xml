@@ -10,13 +10,13 @@
         android:paddingBottom="@dimen/contentMargin2">
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/selectableTextViewTitle"
+            android:id="@+id/textViewTitle"
             style="@style/Dialog.Title"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/selectableEditText"
+            android:id="@+id/editTextSearch"
             style="@style/EditText"
             android:layout_marginHorizontal="@dimen/contentMargin2"
             android:layout_marginTop="@dimen/contentMargin2"
@@ -26,11 +26,11 @@
             android:imeOptions="actionNext"
             android:paddingHorizontal="@dimen/contentMargin2"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/selectableTextViewTitle"
+            app:layout_constraintTop_toBottomOf="@id/textViewTitle"
             tools:text="Search" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/selectableRecyclerView"
+            android:id="@+id/recyclerView"
             style="@style/ScrollView"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/contentMargin2"
@@ -38,18 +38,18 @@
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/selectableEditText"
+            app:layout_constraintTop_toBottomOf="@+id/editTextSearch"
             tools:itemCount="7"
             tools:listitem="@layout/selectable_item" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/selectableViewClose"
+            android:id="@+id/viewClose"
             style="@style/Dialog.Button"
             android:text="Close"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/selectableRecyclerView" />
+            app:layout_constraintTop_toBottomOf="@+id/recyclerView" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

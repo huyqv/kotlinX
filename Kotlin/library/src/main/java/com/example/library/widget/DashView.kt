@@ -25,7 +25,7 @@ class DashView : View {
         val types = context.theme.obtainStyledAttributes(attrs, R.styleable.DashView, 0, 0)
         dashLength = types.getDimension(R.styleable.DashView_dashLength, dashLength)
         dashSpace = types.getDimension(R.styleable.DashView_dashSpace, dashSpace)
-        paint.color = types.getColor(R.styleable.DashView_color, Color.BLACK)
+        paint.color = types.getColor(R.styleable.DashView_dashColor, Color.BLACK)
         types.recycle()
         paint.strokeWidth = dashHeight
         paint.style = Paint.Style.STROKE

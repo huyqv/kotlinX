@@ -46,7 +46,7 @@ android.browser = "androidx.browser:browser:1.3.0"
 android.annotation = "androidx.annotation:annotation:1.2.0"
 android.exifinterface = "androidx.exifinterface:exifinterface:1.3.2"
 android.legacy = "androidx.legacy:legacy-support-core-ui:1.0.0"
-android.legacy_v4 = 'androidx.legacy:legacy-support-v4:1.0.0'
+android.legacy_v4 = "androidx.legacy:legacy-support-v4:1.0.0"
 android.media = "androidx.media:media:1.3.0"
 android.multidex = "androidx.multidex:multidex:2.0.1"
 android.material = "com.google.android.material:material:1.4.0-beta01"
@@ -126,9 +126,9 @@ deps.camera = camera
  * Test
  */
 def test = [:]
-test.junit = 'junit:junit:4.13.1'
+test.junit = "junit:junit:4.13.1"
 test.extension = "androidx.test.ext:junit:1.1.2"
-test.espresso = 'androidx.test.espresso:espresso-core:3.3.0'
+test.espresso = "androidx.test.espresso:espresso-core:3.3.0"
 deps.test = test
 
 /**
@@ -160,14 +160,14 @@ deps.firebase = firebase
  * [https://developers.google.com/ml-kit]
  */
 def ml = [:]
-ml.barcode = 'com.google.mlkit:barcode-scanning:16.1.1'
-ml.face_detection = 'com.google.mlkit:face-detection:16.0.7'
-ml.image_labeling = 'com.google.mlkit:image-labeling:17.0.3'
-ml.image_labeling_custom = 'com.google.mlkit:image-labeling-custom:16.3.1'
-ml.pose_detection = 'com.google.mlkit:pose-detection:17.0.1-beta3'
-ml.pose_detection_accurate = 'com.google.mlkit:pose-detection-accurate:17.0.1-beta3'
-ml.segmentation_selfie = 'com.google.mlkit:segmentation-selfie:16.0.0-beta1'
-ml.camera = 'com.google.mlkit:camera:16.0.0-beta1'
+ml.barcode = "com.google.mlkit:barcode-scanning:16.1.1"
+ml.face_detection = "com.google.mlkit:face-detection:16.0.7"
+ml.image_labeling = "com.google.mlkit:image-labeling:17.0.3"
+ml.image_labeling_custom = "com.google.mlkit:image-labeling-custom:16.3.1"
+ml.pose_detection = "com.google.mlkit:pose-detection:17.0.1-beta3"
+ml.pose_detection_accurate = "com.google.mlkit:pose-detection-accurate:17.0.1-beta3"
+ml.segmentation_selfie = "com.google.mlkit:segmentation-selfie:16.0.0-beta1"
+ml.camera = "com.google.mlkit:camera:16.0.0-beta1"
 deps.ml = ml
 
 /**
@@ -175,9 +175,14 @@ deps.ml = ml
  * [http://reactivex.io/]
  */
 def reactivex = [:]
-reactivex.java = "io.reactivex.rxjava2:rxjava:2.2.21"
-reactivex.android = "io.reactivex.rxjava2:rxandroid:2.1.1"
-reactivex.kotlin = "io.reactivex.rxjava2:rxkotlin:2.4.0"
+reactivex.java2 = "io.reactivex.rxjava2:rxjava:2.2.21"
+reactivex.android2 = "io.reactivex.rxjava2:rxandroid:2.1.1"
+reactivex.kotlin2 = "io.reactivex.rxjava2:rxkotlin:2.4.0"
+//maven { url "https://oss.jfrog.org/libs-snapshot" }
+reactivex.java3 = "io.reactivex.rxjava3:rxjava:3.0.13"
+reactivex.android3 = "io.reactivex.rxjava3:rxandroid:3.0.0"
+reactivex.kotlin3 = "io.reactivex.rxjava3:rxkotlin:3.0.1"
+
 reactivex.binding = "com.jakewharton.rxbinding2:rxbinding-kotlin:2.2.0"
 deps.reactivex = reactivex
 
@@ -191,20 +196,20 @@ square.gson = "com.squareup.retrofit2:converter-gson:2.9.0"
 square.rx_adapter = "com.squareup.retrofit2:adapter-rxjava2:2.9.0"
 square.okhttp = "com.squareup.okhttp3:okhttp:3.12.0"
 square.okhttp_log = "com.squareup.okhttp3:logging-interceptor:4.9.0"
-square.okhttp_url = 'com.squareup.okhttp3:okhttp-urlconnection:4.7.2'
+square.okhttp_url = "com.squareup.okhttp3:okhttp-urlconnection:4.7.2"
 deps.square = square
 
 /**
  * Socket IO client
  * [https://github.com/socketio/socket.io-client-java]
  */
-deps.socket_io_client = "io.socket:socket.io-client:1.0.0" // { exclude group: 'org.json', module: 'json' }
+deps.socket_io_client = "io.socket:socket.io-client:1.0.0" // { exclude group: "org.json", module: "json" }
 
 /**
  * Asynchronous image load
  */
 def glide = [:]
-glide.version = '4.12.0'
+glide.version = "4.12.0"
 glide.glide = "com.github.bumptech.glide:glide:$glide.version"
 glide.compiler = "com.github.bumptech.glide:compiler:$glide.version"
 deps.glide = glide
@@ -236,12 +241,12 @@ deps.roundedimageview = "com.makeramen:roundedimageview:2.3.0"
  * Expandable/collapsible layout
  * [https://github.com/skydoves/ExpandableLayout]
  */
-deps.expandable_layout = 'net.cachapa.expandablelayout:expandablelayout:2.9.2'
+deps.expandable_layout = "net.cachapa.expandablelayout:expandablelayout:2.9.2"
 /**
  * Ken burns anim
  * [https://github.com/flavioarfaria/KenBurnsView]
  */
-deps.kenburnsview = 'com.flaviofaria:kenburnsview:1.0.7'
+deps.kenburnsview = "com.flaviofaria:kenburnsview:1.0.7"
 
 /**
  * Utils
@@ -252,10 +257,10 @@ deps.kenburnsview = 'com.flaviofaria:kenburnsview:1.0.7'
  * [https://github.com/ParkSangGwon/TedPermission]
  */
 deps.rx_permissions = "com.github.tbruyelle:rxpermissions:0.10.2"
-deps.permissions = 'gun0912.ted:tedpermission:2.2.3'
+deps.permissions = "gun0912.ted:tedpermission:2.2.3"
 
 /**
  * Ken burns anim
  * [https://github.com/zetbaitsu/Compressor]
  */
-deps.compressor = 'id.zelory:compressor:2.1.0'
+deps.compressor = "id.zelory:compressor:2.1.0"

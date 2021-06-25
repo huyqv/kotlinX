@@ -56,7 +56,7 @@
     <declare-styleable name="DashView">
         <attr name="dashLength" format="reference|dimension" />
         <attr name="dashSpace" format="reference|dimension" />
-        <attr name="color" format="reference|color" />
+        <attr name="dashColor" format="reference|color" />
     </declare-styleable>
 
 </resources>

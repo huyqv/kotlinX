@@ -7,7 +7,7 @@
 
     <dialog
         android:id="@+id/alertFragment"
-        android:name="com.kotlin.app.ui.dialog.alert.AlertFragment"
+        android:name="sample.ui.alert.AlertFragment"
         android:label="AlertFragment"
         tools:layout="@layout/alert"/>
     <action
@@ -16,7 +16,7 @@
 
     <dialog
         android:id="@+id/dateFragment"
-        android:name="com.kotlin.app.ui.dialog.date.DateFragment"
+        android:name="sample.ui.date.DateFragment"
         android:label="DateFragment"
         tools:layout="@layout/date" />
     <action
@@ -25,7 +25,7 @@
 
     <dialog
         android:id="@+id/selectableFragment"
-        android:name="com.kotlin.app.ui.dialog.selectable.SelectableFragment"
+        android:name="sample.ui.selectable.SelectableFragment"
         android:label="SelectableFragment"
         tools:layout="@layout/selectable"/>
     <action
@@ -34,7 +34,7 @@
 
     <dialog
         android:id="@+id/webFragment"
-        android:name="com.kotlin.app.ui.dialog.web.WebFragment"
+        android:name="sample.ui.web.WebFragment"
         android:label="WebFragment"
         tools:layout="@layout/web"/>
     <action

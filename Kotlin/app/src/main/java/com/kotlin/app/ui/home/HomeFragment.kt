@@ -1,20 +1,17 @@
 package com.kotlin.app.ui.home
 
 
-import com.kotlin.app.R
-import template.ui.BaseFragment
+import com.kotlin.app.databinding.HomeBinding
+import com.kotlin.app.ui.base.BaseFragment
 
-class HomeFragment : BaseFragment() {
 
-    override fun layoutResource(): Int {
-        return R.layout.plash
-    }
+class HomeFragment : BaseFragment<HomeBinding>(HomeBinding::inflate) {
 
     override fun onViewCreated() {
-
     }
 
     override fun onLiveDataObserve() {
     }
+
 
 }

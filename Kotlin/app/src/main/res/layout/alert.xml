@@ -20,10 +20,11 @@
             android:id="@+id/imageViewIcon"
             android:layout_width="@dimen/_30sdp"
             android:layout_height="@dimen/_30sdp"
-            android:layout_marginTop="@dimen/contentMargin2"
+            android:layout_marginTop="32dp"
             android:padding="@dimen/_2sdp"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.501"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/textViewTitle"
             app:srcCompat="@drawable/ic_placeholder"
@@ -43,9 +44,9 @@
             tools:text="Hello, you can hide this message by just touch outside the dialog box" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/dialogViewNeutral"
+            android:id="@+id/viewNeutral"
             style="@style/Dialog.Button"
-            app:layout_constraintEnd_toStartOf="@+id/dialogViewPositive"
+            app:layout_constraintEnd_toStartOf="@+id/viewPositive"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/textViewMessage"
@@ -53,21 +54,21 @@
             tools:text="Neutral" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/dialogViewPositive"
+            android:id="@+id/viewPositive"
             style="@style/Dialog.Button"
-            app:layout_constraintEnd_toStartOf="@+id/dialogViewNegative"
+            app:layout_constraintEnd_toStartOf="@+id/viewNegative"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/dialogViewNeutral"
+            app:layout_constraintStart_toEndOf="@+id/viewNeutral"
             app:layout_constraintTop_toBottomOf="@id/textViewMessage"
             tools:ignore="MissingConstraints"
             tools:text="Positive" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/dialogViewNegative"
+            android:id="@+id/viewNegative"
             style="@style/Dialog.Button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/dialogViewPositive"
+            app:layout_constraintStart_toEndOf="@+id/viewPositive"
             app:layout_constraintTop_toBottomOf="@id/textViewMessage"
             tools:ignore="MissingConstraints"
             tools:text="Negative" />

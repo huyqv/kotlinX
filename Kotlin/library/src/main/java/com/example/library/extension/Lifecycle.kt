@@ -9,16 +9,16 @@ import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.reflect.KClass
 
-fun <T : ViewModel> ViewModelStoreOwner.viewModel(cls: KClass<T>): T {
-    return ViewModelProvider(this).get(cls.java)
+fun <T : ViewModel> ViewModelStoreOwner.viewModel(cls: KClass<T>): Lazy<T> {
+    return lazy { ViewModelProvider(this).get(cls.java) }
 }
 
-fun <T : ViewModel> ViewModelStoreOwner.newVM(cls: KClass<T>): T {
-    return ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())[cls.java]
+fun <T : ViewModel> ViewModelStoreOwner.newVM(cls: KClass<T>): Lazy<T> {
+    return lazy { ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())[cls.java] }
 }
 
-fun <T : ViewModel> Fragment.activityVM(cls: KClass<T>): T {
-    return ViewModelProvider(requireActivity()).get(cls.java)
+fun <T : ViewModel> Fragment.activityVM(cls: KClass<T>): Lazy<T> {
+    return lazy { ViewModelProvider(requireActivity()).get(cls.java) }
 }
 
 fun <T> LiveData<T?>.nonNull(): NonNullLiveData<T> {

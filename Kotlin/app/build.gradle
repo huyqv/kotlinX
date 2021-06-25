@@ -1,9 +1,9 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
-    id 'kotlin-android-extensions'
     id 'kotlin-kapt'
     id 'androidx.navigation.safeargs.kotlin'
+    id 'kotlin-android-extensions'
     //id 'kotlin-parcelize'
 }
 
@@ -43,7 +43,7 @@ android {
         }
         release {
             signingConfig signingConfigs.release
-            debuggable false
+            debuggable true
             minifyEnabled true
         }
         debug {
@@ -66,7 +66,9 @@ android {
             buildConfigField "String", "SERVICE_URL", "\"https://raw.githubusercontent.com/huyqv/assets/master/\""
         }
     }
-
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
@@ -108,9 +110,9 @@ dependencies {
     implementation deps.paging.runtime
     implementation deps.paging.rx
 
-    implementation deps.reactivex.java
-    implementation deps.reactivex.android
-    implementation deps.reactivex.kotlin
+    implementation deps.reactivex.java3
+    implementation deps.reactivex.android3
+    implementation deps.reactivex.kotlin3
     implementation deps.reactivex.binding
 
     implementation deps.square.retrofit

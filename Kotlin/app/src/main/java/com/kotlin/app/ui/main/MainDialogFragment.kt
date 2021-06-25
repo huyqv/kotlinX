@@ -1,14 +1,15 @@
 package com.kotlin.app.ui.main
 
-import com.kotlin.app.ui.dialog.DialogVM
-import template.ui.BaseDialogFragment
+import android.view.LayoutInflater
+import androidx.viewbinding.ViewBinding
+import com.example.library.extension.activityVM
+import com.kotlin.app.ui.base.BaseDialogFragment
 
-abstract class MainDialogFragment : BaseDialogFragment(), MainView {
+abstract class MainDialogFragment<B : ViewBinding>(block: (LayoutInflater) -> B) :
+        BaseDialogFragment<B>(block), MainView {
 
-    override val mainActivity: MainActivity? get() = requireActivity() as? MainActivity
+    override val mainActivity get() = requireActivity() as? MainActivity
 
-    override val mainVM by lazy { activityVM(MainVM::class) }
-
-    override val dialogVM by lazy { activityVM(DialogVM::class) }
+    override val mainVM by activityVM(MainVM::class)
 
 }

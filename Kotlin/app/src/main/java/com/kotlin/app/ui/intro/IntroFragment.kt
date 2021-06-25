@@ -1,21 +1,16 @@
 package com.kotlin.app.ui.intro
 
 import com.example.library.extension.post
-import com.kotlin.app.MainDirections
 import com.kotlin.app.R
+import com.kotlin.app.databinding.IntroBinding
 import com.kotlin.app.ui.main.MainFragment
-import kotlinx.android.synthetic.main.intro.*
 
-class IntroFragment : MainFragment() {
-
-    override fun layoutResource(): Int {
-        return R.layout.intro
-    }
+class IntroFragment : MainFragment<IntroBinding>(IntroBinding::inflate) {
 
     override fun onViewCreated() {
-        textView.setOnClickListener {
-            post(1000) {
-                navigate(MainDirections.actionGlobalHomeFragment())
+        bind.textView.setOnClickListener {
+            post(1200) {
+                navigate(R.id.action_global_homeFragment)
             }
         }
     }
