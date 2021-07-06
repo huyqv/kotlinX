@@ -17,10 +17,12 @@ import com.example.library.extension.addFragment
 import com.example.library.extension.removeFragment
 import com.example.library.extension.replaceFragment
 
-abstract class BaseActivity<B : ViewBinding>(block: (LayoutInflater) -> B) : AppCompatActivity(),
+abstract class BaseActivity<B : ViewBinding> : AppCompatActivity(),
         BaseView {
 
-    protected val bind: B by viewBinding(block)
+    protected val bind: B by viewBinding(inflating())
+
+    abstract fun inflating(): (LayoutInflater) -> B
 
     /**
      * [AppCompatActivity] implements

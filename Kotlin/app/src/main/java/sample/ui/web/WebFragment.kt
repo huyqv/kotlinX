@@ -1,6 +1,7 @@
 package sample.ui.web
 
 import android.annotation.SuppressLint
+import android.view.LayoutInflater
 import android.view.View
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
@@ -8,7 +9,11 @@ import android.webkit.WebViewClient
 import com.kotlin.app.databinding.WebBinding
 import sample.ui.main.MainDialogFragment
 
-class WebFragment : MainDialogFragment<WebBinding>(WebBinding::inflate) {
+class WebFragment : MainDialogFragment<WebBinding>() {
+
+    override fun inflating(): (LayoutInflater) -> WebBinding {
+        return WebBinding::inflate
+    }
 
     override fun onViewCreated() {
         addClickListener(bind.viewClose, bind.textViewTitle)

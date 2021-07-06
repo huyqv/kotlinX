@@ -7,6 +7,7 @@ import com.example.library.extension.bold
 import com.example.library.extension.hide
 import com.example.library.extension.regular
 import com.example.library.extension.show
+import com.example.library.recycler.ItemInflating
 import com.kotlin.app.databinding.SelectableItemBinding
 
 
@@ -18,7 +19,7 @@ class SelectableAdapter<T> : BaseListAdapter<T>() {
 
     var onItemSelected: (T) -> Unit = {}
 
-    override fun itemInflating(item: T, position: Int): (LayoutInflater) -> ViewBinding {
+    override fun itemInflating(item: T, position: Int): ItemInflating {
         return SelectableItemBinding::inflate
     }
 

@@ -15,10 +15,12 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.kotlin.app.R
 
-abstract class BaseBottomDialog<B : ViewBinding>(block: (LayoutInflater) -> B) : BottomSheetDialogFragment(),
+abstract class BaseBottomDialog<B : ViewBinding> : BottomSheetDialogFragment(),
         FragmentView {
 
-    protected val bind: B by viewBinding(block)
+    protected val bind: B by viewBinding(inflating())
+
+    abstract fun inflating(): (LayoutInflater) -> B
 
     /**
      * [BottomSheetDialogFragment] implements

@@ -12,10 +12,12 @@ import com.example.library.extension.hideKeyboard
 import com.example.library.extension.post
 import com.kotlin.app.R
 
-abstract class BaseDialogFragment<B : ViewBinding>(block: (LayoutInflater) -> B) : DialogFragment(),
+abstract class BaseDialogFragment<B : ViewBinding> : DialogFragment(),
         FragmentView {
 
-    protected val bind: B by viewBinding(block)
+    protected val bind: B by viewBinding(inflating())
+
+    abstract fun inflating(): (LayoutInflater) -> B
 
     /**
      * [DialogFragment] implements

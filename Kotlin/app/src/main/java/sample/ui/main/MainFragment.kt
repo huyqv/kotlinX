@@ -11,8 +11,7 @@ import sample.ui.selectable.SelectableAdapter
 import sample.ui.selectable.SelectableArg
 import java.text.SimpleDateFormat
 
-abstract class MainFragment<B : ViewBinding>(block: (LayoutInflater) -> B) :
-        BaseFragment<B>(block), MainView {
+abstract class MainFragment<B : ViewBinding> : BaseFragment<B>(), MainView {
 
     override val mainActivity get() = requireActivity() as? MainActivity
 

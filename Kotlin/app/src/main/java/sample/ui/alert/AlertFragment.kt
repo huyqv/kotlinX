@@ -1,5 +1,6 @@
 package sample.ui.alert
 
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
 import com.example.library.extension.setHyperText
@@ -8,11 +9,15 @@ import com.kotlin.app.R
 import com.kotlin.app.databinding.AlertBinding
 import sample.ui.main.MainDialogFragment
 
-class AlertFragment : MainDialogFragment<AlertBinding>(AlertBinding::inflate) {
+class AlertFragment : MainDialogFragment<AlertBinding>() {
 
     private var hasBackClick: Boolean = false
 
     private var clickedView: View? = null
+
+    override fun inflating(): (LayoutInflater) -> AlertBinding {
+        return AlertBinding::inflate
+    }
 
     override fun onViewCreated() {
     }

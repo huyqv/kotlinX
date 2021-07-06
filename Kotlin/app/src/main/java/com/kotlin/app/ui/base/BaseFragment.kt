@@ -12,9 +12,11 @@ import androidx.viewbinding.ViewBinding
 import com.example.library.extension.backgroundColor
 import com.example.library.extension.statusBarColor
 
-abstract class BaseFragment<B : ViewBinding>(block: (LayoutInflater) -> B) : Fragment(), FragmentView {
+abstract class BaseFragment<B : ViewBinding> : Fragment(), FragmentView {
 
-    protected val bind: B by viewBinding(block)
+    protected val bind: B by viewBinding(inflating())
+
+    abstract fun inflating(): (LayoutInflater) -> B
 
     /**
      * [Fragment] implements

@@ -1,5 +1,6 @@
 package sample.ui.date
 
+import android.view.LayoutInflater
 import android.view.View
 import com.example.library.extension.timeFormat
 import com.kotlin.app.databinding.DateBinding
@@ -7,13 +8,17 @@ import sample.ui.main.MainDialogFragment
 import java.util.*
 import kotlin.math.abs
 
-class DateFragment : MainDialogFragment<DateBinding>(DateBinding::inflate) {
+class DateFragment : MainDialogFragment<DateBinding>() {
 
     private var arg: DateArg
         get() = dialogVM.dateLiveData.value!!
         set(value) {
             dialogVM.dateLiveData.value = value
         }
+
+    override fun inflating(): (LayoutInflater) -> DateBinding {
+        return DateBinding::inflate
+    }
 
     override fun onViewCreated() {
         addClickListener(bind.viewDone)
