@@ -6,10 +6,12 @@ import android.os.Bundle
 import android.view.*
 import androidx.annotation.LayoutRes
 import androidx.annotation.StyleRes
-import com.example.library.extension.ViewClickListener
+import androidx.viewbinding.ViewBinding
 import com.kotlin.app.R
+import com.kotlin.app.currentActivity
+import com.sample.widget.extension.ViewClickListener
 
-abstract class BaseAlertDialog {
+abstract class BaseAlertDialog<B : ViewBinding> {
 
     companion object {
         val dialogList: MutableList<DialogInterface> = mutableListOf()
@@ -17,11 +19,9 @@ abstract class BaseAlertDialog {
 
     protected var dialog: Dialog? = null
 
-    lateinit var view: View
-        private set
+    protected lateinit var bind: B
 
-    @LayoutRes
-    protected abstract fun layoutResource(): Int
+    abstract fun inflating(): (LayoutInflater, ViewGroup?, Boolean) -> B
 
     protected open fun onViewCreate() = Unit
 
@@ -41,8 +41,9 @@ abstract class BaseAlertDialog {
     }
 
     constructor() {
-        val activity = com.example.library.currentActivity ?: return
-        view = LayoutInflater.from(activity).inflate(layoutResource(), null).also {
+        val activity = currentActivity ?: return
+        bind = inflating().invoke(LayoutInflater.from(activity), null, false)
+        bind.root.also {
             it.isFocusable = false
             it.isFocusableInTouchMode = true
         }
@@ -57,7 +58,7 @@ abstract class BaseAlertDialog {
         }
         dialog = sDialog.also {
             it.setCanceledOnTouchOutside(true)
-            it.setContentView(view)
+            it.setContentView(bind.root)
         }
         dialog?.window?.also {
             onWindowConfig(it)

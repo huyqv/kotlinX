@@ -1,11 +1,11 @@
 package com.kotlin.app.shared
 
-import com.example.library.util.SharedPref
 import com.kotlin.app.BuildConfig
 import com.kotlin.app.app
 import com.kotlin.app.data.db.RoomDB
 import com.kotlin.app.data.network.ApiClient
 import com.kotlin.app.data.network.ApiService
+import com.sample.library.util.SharedPref
 
 const val appId = BuildConfig.APPLICATION_ID
 

@@ -4,10 +4,10 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
-import com.example.library.recycler.initLayoutManager
-import com.example.library.extension.isGone
 import com.kotlin.app.R
 import com.kotlin.app.databinding.SelectableBinding
+import com.sample.library.recycler.initLayoutManager
+import com.sample.widget.extension.isGone
 import sample.ui.main.MainDialogFragment
 
 class SelectableFragment : MainDialogFragment<SelectableBinding>() {
@@ -34,8 +34,8 @@ class SelectableFragment : MainDialogFragment<SelectableBinding>() {
         }
     }
 
-    override fun onViewClick(view: View?) {
-        when (view) {
+    override fun onViewClick(v: View?) {
+        when (v) {
             bind.viewClose -> dismiss()
         }
     }

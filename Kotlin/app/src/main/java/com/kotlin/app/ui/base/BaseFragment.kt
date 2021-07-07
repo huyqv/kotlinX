@@ -9,8 +9,8 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
-import com.example.library.extension.backgroundColor
-import com.example.library.extension.statusBarColor
+import com.sample.library.extension.statusBarColor
+import com.sample.widget.extension.backgroundColor
 
 abstract class BaseFragment<B : ViewBinding> : Fragment(), FragmentView {
 

@@ -3,10 +3,10 @@ package sample.ui.date
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
-import com.example.library.recycler.BaseListAdapter
-import com.example.library.recycler.BaseRecyclerAdapter
-import com.example.library.recycler.ItemInflating
 import com.kotlin.app.databinding.DateItemBinding
+import com.sample.library.recycler.BaseListAdapter
+import com.sample.library.recycler.BaseRecyclerAdapter
+import com.sample.library.recycler.ItemInflating
 import java.lang.ref.WeakReference
 
 class DateAdapter : BaseListAdapter<Int>() {

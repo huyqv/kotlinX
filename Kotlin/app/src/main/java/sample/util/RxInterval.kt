@@ -1,7 +1,7 @@
 package sample.util
 
 import androidx.lifecycle.*
-import com.example.library.fragment.InfinityPagerAdapter
+import com.sample.library.fragment.InfinityPagerAdapter
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers

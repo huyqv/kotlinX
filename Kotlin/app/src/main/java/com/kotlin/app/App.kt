@@ -2,8 +2,9 @@ package com.kotlin.app
 
 import android.app.Activity
 import android.app.Application
-import com.example.library.Library
-import com.example.library.extension.SimpleActivityLifecycleCallbacks
+import com.sample.library.Library
+import com.sample.library.extension.SimpleActivityLifecycleCallbacks
+import com.sample.widget.Widget
 import java.lang.ref.WeakReference
 
 class App : Application() {
@@ -12,6 +13,7 @@ class App : Application() {
         super.onCreate()
         app = this
         Library.init(this)
+        Widget.init(this)
         registerActivityLifecycleCallbacks(object : SimpleActivityLifecycleCallbacks {
             override fun onActivityResumed(activity: Activity) {
                 activityReference = WeakReference(activity)

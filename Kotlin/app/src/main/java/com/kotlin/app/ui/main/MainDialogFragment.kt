@@ -1,8 +1,8 @@
 package com.kotlin.app.ui.main
 
 import androidx.viewbinding.ViewBinding
-import com.example.library.extension.activityVM
 import com.kotlin.app.ui.base.BaseDialogFragment
+import com.sample.library.extension.activityVM
 
 abstract class MainDialogFragment<B : ViewBinding> : BaseDialogFragment<B>(), MainView {
 

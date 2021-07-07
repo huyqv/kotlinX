@@ -3,10 +3,10 @@ package sample.ui.alert
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
-import com.example.library.extension.setHyperText
-import com.example.library.extension.string
 import com.kotlin.app.R
 import com.kotlin.app.databinding.AlertBinding
+import com.sample.widget.extension.setHyperText
+import com.sample.widget.extension.string
 import sample.ui.main.MainDialogFragment
 
 class AlertFragment : MainDialogFragment<AlertBinding>() {

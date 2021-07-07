@@ -1,11 +1,10 @@
 package sample.ui.main
 
-import android.view.LayoutInflater
 import android.widget.TextView
 import androidx.viewbinding.ViewBinding
-import com.example.library.extension.activityVM
-import com.example.library.extension.addViewClickListener
 import com.kotlin.app.ui.base.BaseFragment
+import com.sample.library.extension.activityVM
+import com.sample.widget.extension.addViewClickListener
 import sample.ui.date.DateArg
 import sample.ui.selectable.SelectableAdapter
 import sample.ui.selectable.SelectableArg

@@ -1,6 +1,6 @@
 package com.kotlin.app.data.network
 
-import com.example.library.extension.toast
+import com.sample.library.extension.toast
 import io.reactivex.observers.DisposableSingleObserver
 import retrofit2.HttpException
 import java.net.SocketException

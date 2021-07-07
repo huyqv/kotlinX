@@ -12,10 +12,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.viewbinding.ViewBinding
-import com.example.library.R
-import com.example.library.extension.addFragment
-import com.example.library.extension.removeFragment
-import com.example.library.extension.replaceFragment
+import com.sample.library.R
+import com.sample.library.extension.addFragment
+import com.sample.library.extension.removeFragment
+import com.sample.library.extension.replaceFragment
 
 abstract class BaseActivity<B : ViewBinding> : AppCompatActivity(),
         BaseView {

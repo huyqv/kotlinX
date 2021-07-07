@@ -2,8 +2,8 @@ package sample.ui.date
 
 import android.view.LayoutInflater
 import android.view.View
-import com.example.library.extension.timeFormat
 import com.kotlin.app.databinding.DateBinding
+import com.sample.library.extension.timeFormat
 import sample.ui.main.MainDialogFragment
 import java.util.*
 import kotlin.math.abs

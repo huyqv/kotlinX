@@ -12,8 +12,8 @@ import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigator
-import com.example.library.R
-import com.example.library.extension.ViewClickListener
+import com.sample.library.R
+import com.sample.widget.extension.ViewClickListener
 
 interface BaseView {
 

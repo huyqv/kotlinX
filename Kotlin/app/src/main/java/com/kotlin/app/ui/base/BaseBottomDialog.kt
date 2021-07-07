@@ -9,11 +9,11 @@ import android.view.ViewGroup
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
-import com.example.library.extension.hideKeyboard
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.kotlin.app.R
+import com.sample.library.extension.hideKeyboard
 
 abstract class BaseBottomDialog<B : ViewBinding> : BottomSheetDialogFragment(),
         FragmentView {

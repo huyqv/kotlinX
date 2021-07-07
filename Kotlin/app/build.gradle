@@ -3,8 +3,6 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'androidx.navigation.safeargs.kotlin'
-    id 'kotlin-android-extensions'
-    //id 'kotlin-parcelize'
 }
 
 android {
@@ -75,13 +73,23 @@ dependencies {
 
     implementation fileTree(include: ["*.jar", "*aar"], dir: "libs")
 
+    // utils lib
     implementation project(":library")
 
+    // widgets lib
+    implementation project(":widget")
+
+
+    //kotlin
     implementation deps.kotlin.stdlib
+
+    // concurrency pattern
     implementation deps.kotlin.coroutines_core
     implementation deps.kotlin.coroutines_android
 
+    // android
     implementation deps.android.corektx
+    implementation deps.android.multidex
     implementation deps.android.appcompat
     implementation deps.android.activity
     implementation deps.android.fragment
@@ -96,17 +104,21 @@ dependencies {
     implementation deps.android.vectordrawable
     implementation deps.android.security
 
+    // android lifecycle aware
     implementation deps.lifecycle.viewmodel
     implementation deps.lifecycle.livedata
     kapt deps.lifecycle.compiler
 
+    // sq-lite database orm
     implementation deps.room.runtime
     annotationProcessor deps.room.compiler
     kapt deps.room.compiler
 
+    // fragment navigation
     implementation deps.navigation.fragment
     implementation deps.navigation.ui
 
+    // paging recycler view adapter
     implementation deps.paging.runtime
     implementation deps.paging.rx
 
@@ -120,6 +132,7 @@ dependencies {
     implementation deps.square.rx_adapter
     implementation deps.square.okhttp_log
 
+    // dimension resources
     implementation deps.dimens.sdp
     implementation deps.dimens.ssp
 

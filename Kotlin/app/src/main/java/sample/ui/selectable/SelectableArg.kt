@@ -4,5 +4,5 @@ data class SelectableArg(
         val key: String,
         val title: String?,
         val isSearchable: Boolean,
-        val adapter: SelectableAdapter<*>
+        val adapter: SelectableAdapter<*>,
 )

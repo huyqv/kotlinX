@@ -4,10 +4,10 @@ import android.net.http.X509TrustManagerExtensions
 import android.os.Build
 import android.os.Environment
 import android.util.Base64
-import com.example.library.extension.parse
 import com.google.gson.JsonObject
 import com.kotlin.app.app
 import com.kotlin.app.shared.isDebug
+import com.sample.library.extension.parse
 import io.reactivex.*
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers

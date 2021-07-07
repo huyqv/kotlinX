@@ -3,10 +3,10 @@ package sample.ui.main
 import android.view.LayoutInflater
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
-import com.example.library.extension.viewModel
 import com.kotlin.app.R
 import com.kotlin.app.databinding.SampleBinding
 import com.kotlin.app.ui.base.BaseActivity
+import com.sample.library.extension.viewModel
 
 class MainActivity : BaseActivity<SampleBinding>(), MainView {
 
