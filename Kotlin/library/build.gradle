@@ -1,7 +1,7 @@
 plugins {
-    id 'com.android.library'
-    id 'kotlin-android'
-    id 'kotlin-kapt'
+    id "com.android.library"
+    id "kotlin-android"
+    id "kotlin-kapt"
 }
 
 android {
@@ -15,7 +15,7 @@ android {
     }
     buildTypes {
         all {
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
         }
         release {
             minifyEnabled true
@@ -26,7 +26,7 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = "1.8"
     }
     buildFeatures {
         viewBinding = true
@@ -73,9 +73,5 @@ dependencies {
 
     // json convert
     implementation deps.google.gson
-
-    // asynchronous image load
-    implementation deps.glide.glide
-    kapt deps.glide.compiler
 
 }
