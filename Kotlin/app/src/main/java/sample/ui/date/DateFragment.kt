@@ -54,7 +54,11 @@ class DateFragment : MainDialogFragment<DateBinding>() {
 
     private val currentDate: String
         get() {
-            return getCurrentDate(yearAdapter.currentValue, monthAdapter.currentValue, dayAdapter.currentValue)
+            return getCurrentDate(
+                yearAdapter.currentValue,
+                monthAdapter.currentValue,
+                dayAdapter.currentValue
+            )
         }
 
     private val yearList: List<Int> get() = IntRange(1970, 2020).toList()

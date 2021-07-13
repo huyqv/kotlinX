@@ -43,15 +43,16 @@ import kotlin.reflect.KClass
 val loggingInterceptor: Interceptor
     get() {
         val interceptor = HttpLoggingInterceptor()
-        interceptor.level = if (isDebug) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
+        interceptor.level =
+            if (isDebug) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
         return interceptor
     }
 
 fun initClient(block: OkHttpClient.Builder.() -> Unit = {}): OkHttpClient {
     val client = OkHttpClient.Builder()
-            .connectTimeout(30, TimeUnit.SECONDS)
-            .readTimeout(30, TimeUnit.SECONDS)
-            .writeTimeout(30, TimeUnit.SECONDS)
+        .connectTimeout(30, TimeUnit.SECONDS)
+        .readTimeout(30, TimeUnit.SECONDS)
+        .writeTimeout(30, TimeUnit.SECONDS)
     if (isDebug) {
         client.addInterceptor(loggingInterceptor)
     }
@@ -61,14 +62,18 @@ fun initClient(block: OkHttpClient.Builder.() -> Unit = {}): OkHttpClient {
 
 fun initRetrofit(baseURL: String, block: OkHttpClient.Builder.() -> Unit = {}): Retrofit {
     return Retrofit.Builder()
-            .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .client(initClient(block))
-            .baseUrl(baseURL)
-            .build()
+        .addConverterFactory(GsonConverterFactory.create())
+        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+        .client(initClient(block))
+        .baseUrl(baseURL)
+        .build()
 }
 
-fun <T : Any> initService(kClass: KClass<T>, baseURL: String, block: OkHttpClient.Builder.() -> Unit = {}): T {
+fun <T : Any> initService(
+    kClass: KClass<T>,
+    baseURL: String,
+    block: OkHttpClient.Builder.() -> Unit = {}
+): T {
     return initRetrofit(baseURL, block).create(kClass.java)
 }
 
@@ -104,7 +109,11 @@ val sslContext: SSLContext
     }
 
 @Throws(SSLException::class)
-fun validatePinning(trustManagerExt: X509TrustManagerExtensions, conn: HttpsURLConnection, validPins: Set<String>) {
+fun validatePinning(
+    trustManagerExt: X509TrustManagerExtensions,
+    conn: HttpsURLConnection,
+    validPins: Set<String>
+) {
     var certChainMsg = ""
     try {
         val md: MessageDigest = MessageDigest.getInstance("SHA-256")
@@ -125,9 +134,13 @@ fun validatePinning(trustManagerExt: X509TrustManagerExtensions, conn: HttpsURLC
 }
 
 @Throws(SSLException::class)
-fun trustedChain(trustManagerExt: X509TrustManagerExtensions, conn: HttpsURLConnection): List<X509Certificate> {
+fun trustedChain(
+    trustManagerExt: X509TrustManagerExtensions,
+    conn: HttpsURLConnection
+): List<X509Certificate> {
     val serverCerts: Array<out Certificate> = conn.serverCertificates
-    val untrustedCerts: Array<X509Certificate> = Arrays.copyOf(serverCerts, serverCerts.size, Array<X509Certificate>::class.java)
+    val untrustedCerts: Array<X509Certificate> =
+        Arrays.copyOf(serverCerts, serverCerts.size, Array<X509Certificate>::class.java)
     val host: String = conn.url.host
     return try {
         trustManagerExt.checkServerTrusted(untrustedCerts, "RSA", host)
@@ -144,7 +157,7 @@ fun String.sha256(): String? {
 
 fun trustClient(client: OkHttpClient.Builder) {
     client.sslSocketFactory(sslContext.socketFactory, trustManager)
-            .hostnameVerifier(HostnameVerifier { _, _ -> true })
+        .hostnameVerifier(HostnameVerifier { _, _ -> true })
 }
 
 
@@ -181,13 +194,19 @@ fun Observable<Response<ResponseBody>>.writeFile(fileName: String): Observable<F
             return Observable.create(object : ObservableOnSubscribe<File> {
                 override fun subscribe(emitter: ObservableEmitter<File>) {
                     val source = response.body()?.source()
-                            ?: throw NullPointerException("download data is empty")
+                        ?: throw NullPointerException("download data is empty")
                     try {
                         val file = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                            File(app.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)?.absolutePath, fileName)
+                            File(
+                                app.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)?.absolutePath,
+                                fileName
+                            )
                         } else {
                             @Suppress("DEPRECATION")
-                            File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), fileName)
+                            File(
+                                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
+                                fileName
+                            )
                         }
                         file.sink().buffer().apply {
                             writeAll(source)
@@ -203,8 +222,8 @@ fun Observable<Response<ResponseBody>>.writeFile(fileName: String): Observable<F
             })
         }
     })
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
 }
 
 

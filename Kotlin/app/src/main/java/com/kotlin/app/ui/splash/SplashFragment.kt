@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import com.kotlin.app.R
 import com.kotlin.app.databinding.SplashBinding
 import com.kotlin.app.ui.base.BaseFragment
-import com.sample.widget.extension.post
+import com.sample.library.extension.launch
 
 class SplashFragment : BaseFragment<SplashBinding>() {
 
@@ -13,8 +13,10 @@ class SplashFragment : BaseFragment<SplashBinding>() {
     }
 
     override fun onViewCreated() {
-        view.post(1200) {
-            navigate(R.id.action_global_introFragment)
+        launch(1200) {
+            navigate(R.id.action_global_introFragment) {
+                setLaunchSingleTop()
+            }
         }
     }
 

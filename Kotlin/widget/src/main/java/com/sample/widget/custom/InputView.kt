@@ -155,7 +155,11 @@ abstract class InputView<B : ViewBinding> : AppCustomView<B>, View.OnFocusChange
             imeOptions = actionId
             setImeActionLabel(null, actionId)
             setOnEditorActionListener(object : TextView.OnEditorActionListener {
-                override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
+                override fun onEditorAction(
+                    v: TextView?,
+                    actionId: Int,
+                    event: KeyEvent?
+                ): Boolean {
                     if (actionId == actionId) {
                         hideKeyboard()
                         block(this@InputView.text)
@@ -201,7 +205,10 @@ abstract class InputView<B : ViewBinding> : AppCustomView<B>, View.OnFocusChange
 
             it.setTextColor(types.textColor)
 
-            val inputType = types.getInt(R.styleable.AppCustomView_android_inputType, EditorInfo.TYPE_CLASS_TEXT)
+            val inputType = types.getInt(
+                R.styleable.AppCustomView_android_inputType,
+                EditorInfo.TYPE_CLASS_TEXT
+            )
             if (inputType == EditorInfo.TYPE_NULL) {
                 setOnKeyListener(null)
                 it.isFocusable = false
@@ -220,9 +227,13 @@ abstract class InputView<B : ViewBinding> : AppCustomView<B>, View.OnFocusChange
 
             it.filters = filters.toArray(arrayOfNulls<InputFilter>(filters.size))
 
-            it.nextFocusForwardId = types.getResourceId(R.styleable.AppCustomView_android_nextFocusForward, -1)
+            it.nextFocusForwardId =
+                types.getResourceId(R.styleable.AppCustomView_android_nextFocusForward, -1)
 
-            it.imeOptions = types.getInt(R.styleable.AppCustomView_android_imeOptions, EditorInfo.IME_ACTION_NEXT)
+            it.imeOptions = types.getInt(
+                R.styleable.AppCustomView_android_imeOptions,
+                EditorInfo.IME_ACTION_NEXT
+            )
 
             val src = types.getResourceId(R.styleable.AppCustomView_android_src, -1)
             if (src != -1) editText?.setBackgroundResource(src)

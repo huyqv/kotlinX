@@ -58,12 +58,13 @@ val navigationBarHeight: Int
         } else 0
     }
 
+var currentToast: Toast? = null
+
 fun toast(message: String?) {
     message ?: return
-    if (isOnUiThread) {
-        Toast.makeText(app.applicationContext, message, Toast.LENGTH_SHORT).show()
-    } else uiHandler.post {
-        Toast.makeText(app.applicationContext, message, Toast.LENGTH_SHORT).show()
+    onUi {
+        currentToast = Toast.makeText(app.applicationContext, message, Toast.LENGTH_SHORT)
+        currentToast?.show()
     }
 }
 
@@ -88,7 +89,10 @@ fun keyHash() {
 
     try {
         val signatures = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            app.packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNING_CERTIFICATES).signingInfo.signingCertificateHistory
+            app.packageManager.getPackageInfo(
+                packageName,
+                PackageManager.GET_SIGNING_CERTIFICATES
+            ).signingInfo.signingCertificateHistory
         } else {
             @Suppress("DEPRECATION")
             app.packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNATURES).signatures
@@ -108,7 +112,7 @@ fun keyHash() {
 fun realPathFromURI(uri: Uri): String? {
     val projection = arrayOf(MediaStore.Images.Media._ID)
     val cursor: Cursor = app.contentResolver.query(uri, projection, null, null, null)
-            ?: return uri.path
+        ?: return uri.path
     cursor.use {
         val columnIndex = it.getColumnIndexOrThrow(MediaStore.MediaColumns._ID)
         it.moveToFirst()

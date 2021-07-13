@@ -28,24 +28,24 @@ abstract class IntervalObservable<T> {
     fun start() {
         disposable?.dispose()
         disposable = Observable
-                .interval(0, 1000, TimeUnit.MILLISECONDS)
-                .map { onData() }
-                .subscribeOn(Schedulers.io())
-                .delay(delayInterval, TimeUnit.MILLISECONDS)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(object : DisposableObserver<T>() {
-                    override fun onComplete() {
-                        this@IntervalObservable.onComplete()
-                    }
+            .interval(0, 1000, TimeUnit.MILLISECONDS)
+            .map { onData() }
+            .subscribeOn(Schedulers.io())
+            .delay(delayInterval, TimeUnit.MILLISECONDS)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeWith(object : DisposableObserver<T>() {
+                override fun onComplete() {
+                    this@IntervalObservable.onComplete()
+                }
 
-                    override fun onNext(t: T) {
-                        this@IntervalObservable.onNext(t)
-                    }
+                override fun onNext(t: T) {
+                    this@IntervalObservable.onNext(t)
+                }
 
-                    override fun onError(e: Throwable) {
-                        this@IntervalObservable.onError(e)
-                    }
-                })
+                override fun onError(e: Throwable) {
+                    this@IntervalObservable.onError(e)
+                }
+            })
     }
 
     fun stop() {
@@ -70,19 +70,19 @@ abstract class IntervalSingle<T> {
     fun start() {
         disposable?.dispose()
         disposable = Single
-                .just(onData())
-                .subscribeOn(Schedulers.io())
-                .delay(delayInterval, TimeUnit.MILLISECONDS)
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnEvent { t, e ->
-                    if (t != null) {
-                        onSuccess(t)
-                    } else if (e != null) {
-                        onError(e)
-                    }
-                    start()
+            .just(onData())
+            .subscribeOn(Schedulers.io())
+            .delay(delayInterval, TimeUnit.MILLISECONDS)
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnEvent { t, e ->
+                if (t != null) {
+                    onSuccess(t)
+                } else if (e != null) {
+                    onError(e)
                 }
-                .subscribe()
+                start()
+            }
+            .subscribe()
     }
 
     fun stop() {

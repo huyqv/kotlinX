@@ -42,15 +42,18 @@ class AppTextView : AppCompatTextView {
     }
 
     fun setTextColorRes(@ColorRes topColor: Int, @ColorRes bottomColor: Int) {
-        setTextColor(ContextCompat.getColor(context, topColor),
-                ContextCompat.getColor(context, bottomColor))
+        setTextColor(
+            ContextCompat.getColor(context, topColor),
+            ContextCompat.getColor(context, bottomColor)
+        )
     }
 
     fun setTextColor(@ColorInt topColor: Int, @ColorInt bottomColor: Int) {
-        val shader = LinearGradient(0f, 0f, 0f, lineHeight.toFloat(),
-                topColor,
-                bottomColor,
-                Shader.TileMode.CLAMP
+        val shader = LinearGradient(
+            0f, 0f, 0f, lineHeight.toFloat(),
+            topColor,
+            bottomColor,
+            Shader.TileMode.CLAMP
         )
         paint.shader = shader
     }

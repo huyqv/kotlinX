@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import com.kotlin.app.R
 import com.kotlin.app.databinding.IntroBinding
 import com.kotlin.app.ui.main.MainFragment
-import com.sample.widget.extension.post
 
 class IntroFragment : MainFragment<IntroBinding>() {
 
@@ -14,8 +13,8 @@ class IntroFragment : MainFragment<IntroBinding>() {
 
     override fun onViewCreated() {
         bind.textView.setOnClickListener {
-            view.post(1200) {
-                navigate(R.id.action_global_homeFragment)
+            navigate(R.id.action_global_homeFragment) {
+                setLaunchSingleTop()
             }
         }
     }

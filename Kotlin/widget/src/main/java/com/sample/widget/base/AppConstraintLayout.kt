@@ -95,9 +95,11 @@ open class AppConstraintLayout : ConstraintLayout {
                     cornerRightBottom = pixels(R.styleable.AppConstraintLayout_bottomRightRadius)
                 }
 
-                backgroundColor = getColor(R.styleable.AppConstraintLayout_backgroundColor, Color.WHITE)
+                backgroundColor =
+                    getColor(R.styleable.AppConstraintLayout_backgroundColor, Color.WHITE)
                 strokeLineWidth = pixels(R.styleable.AppConstraintLayout_strokeLineWidth)
-                strokeLineColor = getColor(R.styleable.AppConstraintLayout_strokeLineColor, Color.BLACK)
+                strokeLineColor =
+                    getColor(R.styleable.AppConstraintLayout_strokeLineColor, Color.BLACK)
                 dashLineWidth = pixels(R.styleable.AppConstraintLayout_dashLineWidth)
                 dashLineGap = pixels(R.styleable.AppConstraintLayout_dashLineGap)
 
@@ -115,16 +117,18 @@ open class AppConstraintLayout : ConstraintLayout {
         /** for outline remake when ever draw */
         path = Path()
 
-        clipPathCanvas(canvas, floatArrayOf(
+        clipPathCanvas(
+            canvas, floatArrayOf(
                 cornerLeftTop, cornerLeftTop, cornerRightTop, cornerRightTop, cornerRightBottom,
                 cornerRightBottom, cornerLeftBottom, cornerLeftBottom
-        ))
+            )
+        )
 
         /** set drawable resource corner & background & stroke */
         GradientDrawable().apply {
             cornerRadii = floatArrayOf(
-                    cornerLeftTop, cornerLeftTop, cornerRightTop, cornerRightTop,
-                    cornerRightBottom, cornerRightBottom, cornerLeftBottom, cornerLeftBottom
+                cornerLeftTop, cornerLeftTop, cornerRightTop, cornerRightTop,
+                cornerRightBottom, cornerRightBottom, cornerLeftBottom, cornerLeftBottom
             )
             if (strokeLineWidth != 0f && strokeLineColor != null) {
                 this.setStroke(strokeLineWidth.toInt(), strokeLineColor, dashLineWidth, dashLineGap)
@@ -146,9 +150,9 @@ open class AppConstraintLayout : ConstraintLayout {
     private fun clipPathCanvas(canvas: Canvas, floatArray: FloatArray) {
         path?.let {
             it.addRoundRect(
-                    RectF(0f, 0f, canvas.width.toFloat(), canvas.height.toFloat()),
-                    floatArray,
-                    Path.Direction.CW
+                RectF(0f, 0f, canvas.width.toFloat(), canvas.height.toFloat()),
+                floatArray,
+                Path.Direction.CW
             )
             canvas.clipPath(it)
         }

@@ -26,7 +26,11 @@ fun hasPermission(vararg permissions: String): Boolean {
     return true
 }
 
-fun FragmentActivity.onPermissionGranted(requestCode: Int, vararg permissions: String, onGranted: () -> Unit) {
+fun FragmentActivity.onPermissionGranted(
+    requestCode: Int,
+    vararg permissions: String,
+    onGranted: () -> Unit
+) {
 
     val notGrantedPermissions = mutableListOf<String>()
 
@@ -34,13 +38,18 @@ fun FragmentActivity.onPermissionGranted(requestCode: Int, vararg permissions: S
 
     for (permission in permissions) {
         when {
-            ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED -> {
+            ContextCompat.checkSelfPermission(
+                this,
+                permission
+            ) == PackageManager.PERMISSION_GRANTED -> {
                 continue
             }
             ActivityCompat.shouldShowRequestPermissionRationale(this, permission) -> {
                 notGrantedPermissions.add(permission)
             }
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && shouldShowRequestPermissionRationale(permission) -> {
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && shouldShowRequestPermissionRationale(
+                permission
+            ) -> {
                 notGrantedPermissions.add(permission)
             }
             else -> {
@@ -70,13 +79,21 @@ fun FragmentActivity.onPermissionGranted(requestCode: Int, vararg permissions: S
     onGranted()
 }
 
-fun Fragment.onPermissionGranted(requestCode: Int, vararg permissions: String, onGranted: () -> Unit) {
+fun Fragment.onPermissionGranted(
+    requestCode: Int,
+    vararg permissions: String,
+    onGranted: () -> Unit
+) {
     activity?.onPermissionGranted(requestCode, *permissions) {
         onGranted()
     }
 }
 
-fun FragmentActivity.observerPermission(requestCode: Int, vararg permissions: String, onGranted: () -> Unit) {
+fun FragmentActivity.observerPermission(
+    requestCode: Int,
+    vararg permissions: String,
+    onGranted: () -> Unit
+) {
     permissionObserverMap[requestCode]?.also {
         lifecycle.removeObserver(it)
     }
@@ -95,38 +112,42 @@ fun FragmentActivity.observerPermission(requestCode: Int, vararg permissions: St
 
 private fun FragmentActivity.showDialogPermission(vararg permissions: String) {
     AlertDialog.Builder(this)
-            .setMessage("Permission:${permissionsText(*permissions)} had been denied")
-            .setPositiveButton("Close") { dialog, _ -> dialog.cancel() }
-            .setNegativeButton("Setting") { dialog, _ ->
-                navigateAppSettings()
-                dialog.cancel()
-            }
-            .show()
+        .setMessage("Permission:${permissionsText(*permissions)} had been denied")
+        .setPositiveButton("Close") { dialog, _ -> dialog.cancel() }
+        .setNegativeButton("Setting") { dialog, _ ->
+            navigateAppSettings()
+            dialog.cancel()
+        }
+        .show()
 }
 
 fun permissionsText(vararg permissions: String): String {
     return StringBuilder().also {
         permissions.iterator().forEach { permission ->
             val s = permission.replace("android.permission.", "")
-                    .replace("_", " ").toLowerCase()
+                .replace("_", " ").toLowerCase()
             it.append(" $s,")
         }
         it.deleteCharAt(it.lastIndex)
     }.toString()
 }
 
-val locationPermission get() = arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
+val locationPermission
+    get() = arrayOf(
+        Manifest.permission.ACCESS_COARSE_LOCATION,
+        Manifest.permission.ACCESS_FINE_LOCATION
+    )
 
 val requestedPermission: Array<String>
     get() = app
-            .packageManager
-            .getPackageInfo(app.packageName, PackageManager.GET_PERMISSIONS)
-            .requestedPermissions
+        .packageManager
+        .getPackageInfo(app.packageName, PackageManager.GET_PERMISSIONS)
+        .requestedPermissions
 
 val notGrantedPermission: Array<String>
     get() = requestedPermission
-            .filter { ContextCompat.checkSelfPermission(app, it) != PackageManager.PERMISSION_GRANTED }
-            .toTypedArray()
+        .filter { ContextCompat.checkSelfPermission(app, it) != PackageManager.PERMISSION_GRANTED }
+        .toTypedArray()
 
 fun FragmentActivity.onGrantedRequiredPermission(onGrantedPermission: () -> Unit) {
     onPermissionGranted(34534, *notGrantedPermission) {

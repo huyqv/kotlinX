@@ -22,7 +22,7 @@ val Activity.screenWidth: Int
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             val windowMetrics: WindowMetrics = this.windowManager.currentWindowMetrics
             val insets: Insets = windowMetrics.windowInsets
-                    .getInsetsIgnoringVisibility(WindowInsets.Type.systemBars())
+                .getInsetsIgnoringVisibility(WindowInsets.Type.systemBars())
             windowMetrics.bounds.width() - insets.left - insets.right
         } else {
             val displayMetrics = DisplayMetrics()
@@ -37,7 +37,7 @@ val Activity.screenHeight: Int
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             val windowMetrics: WindowMetrics = this.windowManager.currentWindowMetrics
             val insets: Insets = windowMetrics.windowInsets
-                    .getInsetsIgnoringVisibility(WindowInsets.Type.systemBars())
+                .getInsetsIgnoringVisibility(WindowInsets.Type.systemBars())
             windowMetrics.bounds.height() - insets.top - insets.bottom
         } else {
             val displayMetrics = DisplayMetrics()
@@ -64,8 +64,8 @@ fun Window.setFullScreen() {
     when {
         android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R -> {
             this.decorView?.windowInsetsController?.hide(
-                    WindowInsets.Type.statusBars()
-                            or WindowInsets.Type.navigationBars()
+                WindowInsets.Type.statusBars()
+                        or WindowInsets.Type.navigationBars()
             )
         }
         else -> {
@@ -94,7 +94,10 @@ fun Window.navBarColor(@ColorInt color: Int) {
 
 fun Window.lightStatusBarWidgets() {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-        insetsController?.setSystemBarsAppearance(0, WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS)
+        insetsController?.setSystemBarsAppearance(
+            0,
+            WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
+        )
         return
     }
     @Suppress("DEPRECATION")
@@ -106,7 +109,10 @@ fun Window.lightStatusBarWidgets() {
 
 fun Window.lightNavBarWidgets() {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-        insetsController?.setSystemBarsAppearance(0, WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS)
+        insetsController?.setSystemBarsAppearance(
+            0,
+            WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS
+        )
         return
     }
     @Suppress("DEPRECATION")
@@ -118,7 +124,10 @@ fun Window.lightNavBarWidgets() {
 
 fun Window.darkNavBarWidgets() {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-        insetsController?.setSystemBarsAppearance(WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS, WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS)
+        insetsController?.setSystemBarsAppearance(
+            WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS,
+            WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS
+        )
         return
     }
     @Suppress("DEPRECATION")
@@ -130,7 +139,10 @@ fun Window.darkNavBarWidgets() {
 
 fun Window.darkStatusBarWidgets() {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-        insetsController?.setSystemBarsAppearance(WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS, WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS)
+        insetsController?.setSystemBarsAppearance(
+            WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS,
+            WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
+        )
         return
     }
     @Suppress("DEPRECATION")
@@ -166,15 +178,15 @@ fun Window.hideSystemUI(hasFocus: Boolean = true) {
     }
     @Suppress("DEPRECATION")
     setFlags(
-            WindowManager.LayoutParams.FLAG_FULLSCREEN,
-            WindowManager.LayoutParams.FLAG_FULLSCREEN
+        WindowManager.LayoutParams.FLAG_FULLSCREEN,
+        WindowManager.LayoutParams.FLAG_FULLSCREEN
     )
 }
 
 fun Window.windowFullScreen() {
     setFlags(
-            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
-            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+        WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+        WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
     )
 }
 
@@ -291,8 +303,8 @@ fun AlertDialog.windowFullScreen() {
 
 fun Activity.windowSafeArea() {
     window.setFlags(
-            0,
-            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+        0,
+        WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
     )
 }
 
@@ -331,7 +343,10 @@ fun Activity?.hideStatusBar() {
         window.insetsController?.hide(WindowInsets.Type.statusBars())
     } else {
         @Suppress("DEPRECATION")
-        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_FULLSCREEN,
+            WindowManager.LayoutParams.FLAG_FULLSCREEN
+        )
     }
 }
 

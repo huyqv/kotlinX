@@ -85,7 +85,11 @@ class ZoomImageView : AppCompatImageView {
         onViewInit()
     }
 
-    constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0) : super(context, attrs, defStyle) {
+    constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0) : super(
+        context,
+        attrs,
+        defStyle
+    ) {
         onViewInit()
     }
 

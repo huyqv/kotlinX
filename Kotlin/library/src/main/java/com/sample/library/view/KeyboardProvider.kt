@@ -68,7 +68,8 @@ class KeyboardProvider constructor(private val activity: Activity) : PopupWindow
         this.popupView = inflater.inflate(R.layout.view_holder, null, false)
         contentView = popupView
 
-        softInputMode = WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE or WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE
+        softInputMode =
+            WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE or WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE
         inputMethodMode = PopupWindow.INPUT_METHOD_NEEDED
 
         parentView = activity.findViewById<View>(android.R.id.content)
@@ -92,9 +93,9 @@ class KeyboardProvider constructor(private val activity: Activity) : PopupWindow
             @OnLifecycleEvent(Lifecycle.Event.ON_START)
             fun onStart() {
                 Handler(Looper.getMainLooper())
-                        .postDelayed({
-                            start()
-                        }, 2000)
+                    .postDelayed({
+                        start()
+                    }, 2000)
             }
 
             @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)

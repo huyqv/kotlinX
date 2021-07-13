@@ -1,7 +1,8 @@
 package com.sample.library.extension
 
-import android.content.ContentValues
-import android.content.Intent
+import android.app.Activity
+import android.app.DownloadManager
+import android.content.*
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
@@ -69,10 +70,12 @@ fun File.getUri(): Uri? {
 
     val filePath = this.absolutePath
 
-    val cursor = app.contentResolver.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-            arrayOf(MediaStore.Images.Media._ID),
-            null,
-            arrayOf(filePath), null)
+    val cursor = app.contentResolver.query(
+        MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+        arrayOf(MediaStore.Images.Media._ID),
+        null,
+        arrayOf(filePath), null
+    )
 
     if (cursor != null && cursor.moveToFirst()) {
         val id = cursor.getInt(cursor.getColumnIndex(MediaStore.MediaColumns._ID))
@@ -86,7 +89,10 @@ fun File.getUri(): Uri? {
             put(MediaStore.MediaColumns.MIME_TYPE, "image/*")
             put(MediaStore.MediaColumns.IS_PENDING, 1)
         }
-        return app.contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
+        return app.contentResolver.insert(
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+            contentValues
+        )
     }
 
     return null
@@ -100,7 +106,12 @@ fun saveBitmap(name: String, bitmap: Bitmap) {
     bitmap.compress(Bitmap.CompressFormat.PNG, 100, fOut)
     fOut.flush()
     fOut.close()
-    MediaStore.Images.Media.insertImage(app.contentResolver, file.absolutePath, file.name, file.name)
+    MediaStore.Images.Media.insertImage(
+        app.contentResolver,
+        file.absolutePath,
+        file.name,
+        file.name
+    )
 }
 
 fun newFile(name: String): File {
@@ -191,6 +202,22 @@ fun readFile(fileName: String): String {
 
 }
 
-
-
+fun Activity.download(url: String, fileName: String, onCompleted: (File) -> Unit) {
+    val onComplete: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(ctxt: Context?, intent: Intent?) {
+            val file = File(
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absoluteFile,
+                fileName
+            )
+            onCompleted(file)
+            unregisterReceiver(this)
+        }
+    }
+    registerReceiver(onComplete, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
+    val request = DownloadManager.Request(Uri.parse(url))
+    request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName)
+    val downloadManager: DownloadManager =
+        this.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+    downloadManager.enqueue(request)
+}
 

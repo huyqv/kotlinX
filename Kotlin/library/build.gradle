@@ -44,14 +44,16 @@ repositories {
 dependencies {
 
     implementation fileTree(include: ["*.jar", "*aar"], dir: "libs")
+
+    // kotlin
     implementation deps.kotlin.stdlib
 
     // android
     implementation deps.android.corektx
     implementation deps.android.appcompat
     implementation deps.android.activity
-    implementation deps.android.fragment
     implementation deps.android.constraintlayout
+    implementation deps.android.fragment
     implementation deps.android.material
     implementation deps.android.viewpager
     implementation deps.android.recyclerview
@@ -59,17 +61,17 @@ dependencies {
 
     // paging recycler view adapter
     implementation deps.paging.runtime
-    implementation deps.paging.rx
 
-    // fragment navigation
-    implementation deps.navigation.fragment
-    implementation deps.navigation.ui
+    // android lifecycle aware
+    implementation deps.lifecycle.viewmodel
+    implementation deps.lifecycle.livedata
+    kapt deps.lifecycle.compiler
 
     // dimension resources
     implementation deps.dimens.sdp
     implementation deps.dimens.ssp
 
-    // json, P.O.J.O convert/parse
+    // json convert
     implementation deps.google.gson
 
     // asynchronous image load

@@ -26,7 +26,8 @@ object Usb {
 
     const val PERMISSION = ".USB_PERMISSION"
 
-    val manager: UsbManager = ContextCompat.getSystemService(app, UsbManager::class.java) as UsbManager
+    val manager: UsbManager =
+        ContextCompat.getSystemService(app, UsbManager::class.java) as UsbManager
 
     val intentFilter: IntentFilter = IntentFilter(PERMISSION).also {
         it.addAction(UsbManager.ACTION_USB_DEVICE_ATTACHED)

@@ -20,7 +20,10 @@ abstract class BaseListAdapter<T> : ListAdapter<T, RecyclerView.ViewHolder> {
         return position
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int /* also it position */): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int /* also it position */
+    ): RecyclerView.ViewHolder {
         when {
             dataIsEmpty -> blankInflating().invokeItem(parent)?.also {
                 return BaseViewHolder(it)
@@ -206,7 +209,11 @@ abstract class BaseListAdapter<T> : ListAdapter<T, RecyclerView.ViewHolder> {
         recyclerView.adapter = this
     }
 
-    open fun bind(recyclerView: RecyclerView, spanCount: Int, block: GridLayoutManager.() -> Unit = {}) {
+    open fun bind(
+        recyclerView: RecyclerView,
+        spanCount: Int,
+        block: GridLayoutManager.() -> Unit = {}
+    ) {
         val lm = GridLayoutManager(recyclerView.context, spanCount)
         lm.block()
         lm.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {

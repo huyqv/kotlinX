@@ -12,5 +12,7 @@ object Widget {
 private var mApp: Application? = null
 
 val app: Application
-    get() = mApp ?: throw NullPointerException("Library module must be init with " +
-            "Widget.init(application: Application) in android.app.Application.onCreate()")
+    get() = mApp ?: throw NullPointerException(
+        "Library module must be init with " +
+                "Widget.init(application: Application) in android.app.Application.onCreate()"
+    )

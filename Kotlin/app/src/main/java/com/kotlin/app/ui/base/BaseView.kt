@@ -38,7 +38,12 @@ interface BaseView {
 
     fun onViewClick(v: View?) = Unit
 
-    fun navigate(@IdRes actionId: Int, args: Bundle? = null, extras: Navigator.Extras? = null, block: (NavOptions.Builder.() -> Unit) = {}) {
+    fun navigate(
+        @IdRes actionId: Int,
+        args: Bundle? = null,
+        extras: Navigator.Extras? = null,
+        block: (NavOptions.Builder.() -> Unit) = {}
+    ) {
         val options = NavOptions.Builder().also {
             it.setVerticalAnim()
             it.block()
@@ -46,7 +51,12 @@ interface BaseView {
         navController()?.navigate(actionId, args, options, extras)
     }
 
-    fun navigate(directions: NavDirections, args: Bundle? = null, extras: Navigator.Extras? = null, block: (NavOptions.Builder.() -> Unit) = {}) {
+    fun navigate(
+        directions: NavDirections,
+        args: Bundle? = null,
+        extras: Navigator.Extras? = null,
+        block: (NavOptions.Builder.() -> Unit) = {}
+    ) {
         navigate(directions.actionId, args, extras, block)
     }
 
@@ -106,8 +116,10 @@ interface BaseView {
     }
 
     fun <T> setNavResult(key: String?, result: T) {
-        navController()?.previousBackStackEntry?.savedStateHandle?.set(key
-                ?: defaultArgKey, result)
+        navController()?.previousBackStackEntry?.savedStateHandle?.set(
+            key
+                ?: defaultArgKey, result
+        )
     }
 
     fun <T> setNavResult(result: T) {

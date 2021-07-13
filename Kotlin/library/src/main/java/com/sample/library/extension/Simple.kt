@@ -9,22 +9,24 @@ import androidx.lifecycle.OnLifecycleEvent
 
 interface SimpleActivityLifecycleCallbacks : Application.ActivityLifecycleCallbacks {
 
-    override fun onActivityCreated(activity: Activity, bundle: Bundle?) {}
-
-    override fun onActivityStarted(activity: Activity) {}
-
-    override fun onActivityResumed(activity: Activity) {}
-
-    override fun onActivityPaused(activity: Activity) {}
-
-    override fun onActivityDestroyed(activity: Activity) {}
-
-    override fun onActivitySaveInstanceState(activity: Activity, p1: Bundle) {}
-
-    override fun onActivityStopped(activity: Activity) {}
+    override fun onActivityCreated(activity: Activity, bundle: Bundle?) = Unit
+    override fun onActivityStarted(activity: Activity) = Unit
+    override fun onActivityResumed(activity: Activity) = Unit
+    override fun onActivityPaused(activity: Activity) = Unit
+    override fun onActivityDestroyed(activity: Activity) = Unit
+    override fun onActivitySaveInstanceState(activity: Activity, p1: Bundle) = Unit
+    override fun onActivityStopped(activity: Activity) = Unit
 }
 
 abstract class SimpleLifecycleObserver : LifecycleObserver {
+
+    open fun onCreated() = Unit
+    open fun onStart() = Unit
+    open fun onResume() = Unit
+    open fun onPause() = Unit
+    open fun onStop() = Unit
+    open fun onDestroy() = Unit
+
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     fun onEventCreated() {
         onCreated()
@@ -55,10 +57,5 @@ abstract class SimpleLifecycleObserver : LifecycleObserver {
         onDestroy()
     }
 
-    open fun onCreated() {}
-    open fun onStart() {}
-    open fun onResume() {}
-    open fun onPause() {}
-    open fun onStop() {}
-    open fun onDestroy() {}
+
 }

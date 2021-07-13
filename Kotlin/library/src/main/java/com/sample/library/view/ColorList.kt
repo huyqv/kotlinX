@@ -38,7 +38,8 @@ class ColorList {
     }
 
     private fun initColorList() {
-        colorList.addAll(listOf(
+        colorList.addAll(
+            listOf(
                 Color.rgb(133, 68, 214),
                 Color.rgb(40, 168, 201),
                 Color.rgb(192, 61, 51),
@@ -48,7 +49,8 @@ class ColorList {
                 Color.rgb(22, 138, 205),
                 Color.rgb(206, 103, 27),
                 Color.rgb(141, 89, 13)
-        ))
+            )
+        )
     }
 
 }

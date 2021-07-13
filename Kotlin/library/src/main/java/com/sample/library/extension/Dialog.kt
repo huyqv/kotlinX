@@ -10,7 +10,11 @@ private fun Context.getText(@StringRes title: Int?): String? {
     return if (null == title) null else getString(title)
 }
 
-private fun Context.initDialog(title: String?, msg: String, block: (AlertDialog.Builder.() -> Unit)? = null) {
+private fun Context.initDialog(
+    title: String?,
+    msg: String,
+    block: (AlertDialog.Builder.() -> Unit)? = null
+) {
     val dialog = AlertDialog.Builder(this).setMessage(msg)
     if (null != title) {
         dialog.setTitle(title)
@@ -49,7 +53,12 @@ fun Context.showConfirmDialog(@StringRes title: Int?, @StringRes msg: Int, block
     showConfirmDialog(getText(title), getString(msg), block)
 }
 
-fun Context.showDialog(title: String?, msg: String, positiveBlock: () -> Unit, negativeBlock: () -> Unit) {
+fun Context.showDialog(
+    title: String?,
+    msg: String,
+    positiveBlock: () -> Unit,
+    negativeBlock: () -> Unit
+) {
     initDialog(title, msg) {
         setNegativeButton("NO") { dialog, _ ->
             dialog.dismiss()
@@ -63,7 +72,11 @@ fun Context.showDialog(title: String?, msg: String, positiveBlock: () -> Unit, n
     }
 }
 
-fun Context?.showDateDialog(minDate: Long, maxDate: Long = System.currentTimeMillis(), block: (Int, Int, Int) -> Unit) {
+fun Context?.showDateDialog(
+    minDate: Long,
+    maxDate: Long = System.currentTimeMillis(),
+    block: (Int, Int, Int) -> Unit
+) {
 
     this ?: return
     val cal = Calendar.getInstance()
@@ -71,24 +84,33 @@ fun Context?.showDateDialog(minDate: Long, maxDate: Long = System.currentTimeMil
     val m = cal.get(Calendar.MONTH)
     val d = cal.get(Calendar.DAY_OF_MONTH)
 
-    val dialog = DatePickerDialog(this, DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
-        val correctMonth = month + 1
-        block(year, correctMonth, dayOfMonth)
-    }, y, m, d)
+    val dialog =
+        DatePickerDialog(this, DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
+            val correctMonth = month + 1
+            block(year, correctMonth, dayOfMonth)
+        }, y, m, d)
     dialog.datePicker.maxDate = maxDate
     dialog.datePicker.minDate = minDate
     dialog.show()
 
 }
 
-fun Context?.dateTextPicker(minDate: Long, maxDate: Long = System.currentTimeMillis(), block: (String) -> Unit) {
+fun Context?.dateTextPicker(
+    minDate: Long,
+    maxDate: Long = System.currentTimeMillis(),
+    block: (String) -> Unit
+) {
     @Suppress("IMPLICIT_CAST_TO_ANY")
     showDateDialog(minDate, maxDate) { y, m, d ->
         block("${if (d < 10) "0$d" else d}-${if (m < 10) "0$m" else m}-$y")
     }
 }
 
-fun Context?.timestampPicker(minDate: Long, maxDate: Long = System.currentTimeMillis(), block: (Long) -> Unit) {
+fun Context?.timestampPicker(
+    minDate: Long,
+    maxDate: Long = System.currentTimeMillis(),
+    block: (Long) -> Unit
+) {
     @Suppress("IMPLICIT_CAST_TO_ANY")
     showDateDialog(minDate, maxDate) { y, m, d ->
         val cal = Calendar.getInstance()

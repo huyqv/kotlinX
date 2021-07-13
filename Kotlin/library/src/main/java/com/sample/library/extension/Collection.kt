@@ -23,6 +23,28 @@ fun <T, R> Collection<T>.transform(block: (T) -> R?): List<R> {
     return list
 }
 
+fun <T> List<T>?.join(collection: Collection<T>?): List<T>? {
+    val list = mutableListOf<T>()
+    if (!this.isNullOrEmpty()) {
+        list.addAll(this!!)
+    }
+    if (!collection.isNullOrEmpty()) {
+        list.addAll(collection!!)
+    }
+    return if (list.isEmpty()) return null else list
+}
+
+fun <T> Collection<T?>?.filters(block: (T) -> T?): MutableList<T>? {
+    this ?: return null
+    val list = mutableListOf<T>()
+    for (item in this) {
+        item ?: continue
+        val filterItem = block(item) ?: continue
+        list.add(filterItem)
+    }
+    return list
+}
+
 /**
  * Typed T should be override method toString() : String
  */
@@ -42,10 +64,10 @@ private fun String?.normalizer(): String? {
         val temp = Normalizer.normalize(this, Normalizer.Form.NFD)
         val pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+")
         pattern.matcher(temp)
-                .replaceAll("")
-                .toLowerCase()
-                .replace(" ", "-")
-                .replace("đ", "d", true)
+            .replaceAll("")
+            .toLowerCase()
+            .replace(" ", "-")
+            .replace("đ", "d", true)
 
     } catch (e: IllegalStateException) {
         null

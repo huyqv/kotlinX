@@ -48,7 +48,10 @@ fun String?.floatCash(): String {
         if (sLength > 2 && substring(sLength - 3, sLength) == ".00") return this
 
         val docIndex = indexOf(".")
-        if (docIndex != -1 && substring(docIndex, length).length > 3) return substring(0, docIndex + 3)
+        if (docIndex != -1 && substring(docIndex, length).length > 3) return substring(
+            0,
+            docIndex + 3
+        )
 
         var originalString = this
         if (originalString.contains(",")) originalString = originalString.replace(",".toRegex(), "")
@@ -65,7 +68,8 @@ fun String?.floatCash(): String {
  * Text watcher to apply pattern: #,###,###,###
  */
 fun EditText.addCashWatcher() {
-    inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL or InputType.TYPE_NUMBER_FLAG_SIGNED
+    inputType =
+        InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL or InputType.TYPE_NUMBER_FLAG_SIGNED
     addTextChangedListener(object : SimpleTextWatcher {
         override fun afterTextChanged(s: Editable?) {
             setSilentText(text.toString().intCash())
@@ -89,7 +93,8 @@ val EditText.amount: BigDecimal
  * Text watcher to apply pattern: USD #,###,###,###.##
  */
 fun EditText.addCashWatcher(maxLength: Int, prefix: String = "") {
-    inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL or InputType.TYPE_NUMBER_FLAG_SIGNED
+    inputType =
+        InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL or InputType.TYPE_NUMBER_FLAG_SIGNED
     addTextChangedListener(object : SimpleTextWatcher {
 
         var previousCleanString = ""
@@ -107,7 +112,8 @@ fun EditText.addCashWatcher(maxLength: Int, prefix: String = "") {
             if (cleanString == previousCleanString || cleanString.isEmpty()) return
             previousCleanString = cleanString
             val formattedString: String
-            formattedString = if (cleanString.contains(".")) cleanString.formatDecimal() else cleanString.formatInteger()
+            formattedString =
+                if (cleanString.contains(".")) cleanString.formatDecimal() else cleanString.formatInteger()
             removeTextChangedListener(this)
             setText(formattedString)
             handleSelection()
@@ -125,7 +131,10 @@ fun EditText.addCashWatcher(maxLength: Int, prefix: String = "") {
             this ?: return ""
             if (this == ".") return "$prefix."
             val parsed = BigDecimal(this)
-            val formatter = DecimalFormat(prefix + "#,###." + getDecimalPattern(), DecimalFormatSymbols(Locale.US))
+            val formatter = DecimalFormat(
+                prefix + "#,###." + getDecimalPattern(),
+                DecimalFormatSymbols(Locale.US)
+            )
             formatter.roundingMode = RoundingMode.DOWN
             return formatter.format(parsed)
         }
@@ -162,11 +171,13 @@ fun EditText.addDateWatcher() {
             }
 
             sb.clear()
-            sb.append(if (s!!.length > 10) {
-                s.subSequence(0, 10)
-            } else {
-                s
-            })
+            sb.append(
+                if (s!!.length > 10) {
+                    s.subSequence(0, 10)
+                } else {
+                    s
+                }
+            )
 
             if (sb.lastIndex == 2) {
                 if (sb[2] != '/') {

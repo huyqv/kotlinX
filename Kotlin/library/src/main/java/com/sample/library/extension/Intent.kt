@@ -26,7 +26,10 @@ fun <T : Activity> Activity.start(cls: KClass<T>) {
 
 fun Activity.startVoiceRecord() {
     val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).also {
-        it.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+        it.putExtra(
+            RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+            RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
+        )
         it.putExtra(RecognizerIntent.EXTRA_PROMPT, "Speech")
     }
     startActivityForResult(intent, VOICE_REQUEST_CODE)
@@ -105,7 +108,8 @@ class IntentResultLauncher {
 
         activity.lifecycle.addObserver(object : SimpleLifecycleObserver() {
             override fun onCreated() {
-                launcher = activity.registerForActivityResult(startActivityForResult, resultCallback)
+                launcher =
+                    activity.registerForActivityResult(startActivityForResult, resultCallback)
             }
 
             override fun onDestroy() {
@@ -125,7 +129,8 @@ class IntentResultLauncher {
 
         fragment.lifecycle.addObserver(object : SimpleLifecycleObserver() {
             override fun onCreated() {
-                launcher = fragment.registerForActivityResult(startActivityForResult, resultCallback)
+                launcher =
+                    fragment.registerForActivityResult(startActivityForResult, resultCallback)
             }
 
             override fun onDestroy() {

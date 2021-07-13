@@ -8,9 +8,9 @@ import com.kotlin.app.shared.dbVersion
 
 
 @Database(
-        entities = [SettingDBO::class],
-        version = dbVersion,
-        exportSchema = false
+    entities = [SettingDBO::class],
+    version = dbVersion,
+    exportSchema = false
 )
 abstract class RoomDB : RoomDatabase() {
 
@@ -20,9 +20,9 @@ abstract class RoomDB : RoomDatabase() {
 
         fun getInstance(context: Context, name: String): RoomDB {
             return Room.databaseBuilder(context.applicationContext, RoomDB::class.java, name)
-                    .allowMainThreadQueries()
-                    .fallbackToDestructiveMigration()
-                    .build()
+                .allowMainThreadQueries()
+                .fallbackToDestructiveMigration()
+                .build()
         }
     }
 }

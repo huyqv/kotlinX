@@ -20,7 +20,12 @@ class SettingItemView : AppCustomView<SettingItemBinding> {
     override fun onInitialize(context: Context, types: TypedArray) {
 
         bind.layoutContent.setBackgroundResource(types.background)
-        bind.layoutContent.setPadding(types.paddingStart, types.paddingTop, types.paddingEnd, types.paddingBottom)
+        bind.layoutContent.setPadding(
+            types.paddingStart,
+            types.paddingTop,
+            types.paddingEnd,
+            types.paddingBottom
+        )
         bind.textViewTitle.text = types.title
         bind.textViewTitle.setTextColor(types.hintColor)
 

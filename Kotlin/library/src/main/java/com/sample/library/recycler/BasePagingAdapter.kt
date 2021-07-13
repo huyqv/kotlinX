@@ -3,19 +3,17 @@ package com.sample.library.recycler
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
-import androidx.paging.AsyncPagedListDiffer
-import androidx.paging.PagedList
-import androidx.paging.PagedListAdapter
-import androidx.recyclerview.widget.*
+import androidx.paging.LoadState
+import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.DiffUtil.ItemCallback
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 
-abstract class BasePagedListAdapter<T> : PagedListAdapter<T, RecyclerView.ViewHolder> {
+abstract class BasePagingAdapter<T : Any> : PagingDataAdapter<T, RecyclerView.ViewHolder> {
 
-    private val differ: AsyncPagedListDiffer<T>
-
-    constructor(itemCallback: DiffUtil.ItemCallback<T> = DiffItemCallback()) : super(itemCallback) {
-        differ = asyncPagedListDiffer(itemCallback)
-    }
+    constructor(itemCallback: ItemCallback<T> = DiffItemCallback()) : super(itemCallback)
 
     override fun getItemCount(): Int {
         return size + 1
@@ -25,7 +23,10 @@ abstract class BasePagedListAdapter<T> : PagedListAdapter<T, RecyclerView.ViewHo
         return position
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int /* also it position */): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int /* also it position */
+    ): RecyclerView.ViewHolder {
         when {
             dataIsEmpty -> blankInflating().invokeItem(parent)?.also {
                 return BaseViewHolder(it)
@@ -60,19 +61,6 @@ abstract class BasePagedListAdapter<T> : PagedListAdapter<T, RecyclerView.ViewHo
         }
     }
 
-    override fun getCurrentList(): PagedList<T>? {
-        return differ.currentList
-    }
-
-    override fun submitList(pagedList: PagedList<T>?) {
-        if (pagedList.isNullOrEmpty()) return
-        else differ.submitList(pagedList)
-    }
-
-
-    /**
-     * [BasePagedListAdapter] abstractions
-     */
     @LayoutRes
     protected abstract fun layoutResource(model: T, position: Int): Int
 
@@ -84,11 +72,11 @@ abstract class BasePagedListAdapter<T> : PagedListAdapter<T, RecyclerView.ViewHo
 
     var onFooterIndexChanged: (Int) -> Unit = {}
 
-    val size: Int get() = currentList?.size ?: 0
+    val size: Int get() = snapshot().size
 
     var lastBindIndex: Int = -1
 
-    val lastIndex: Int get() = currentList?.lastIndex ?: -1
+    val lastIndex: Int get() = snapshot().lastIndex
 
     val dataIsEmpty: Boolean get() = size == 0
 
@@ -103,30 +91,7 @@ abstract class BasePagedListAdapter<T> : PagedListAdapter<T, RecyclerView.ViewHo
     protected abstract fun ViewBinding.onBindItem(item: T, position: Int)
 
     open fun get(position: Int): T? {
-        return differ.currentList?.getOrNull(position)
-    }
-
-    private fun asyncPagedListDiffer(itemCallback: DiffUtil.ItemCallback<T>): AsyncPagedListDiffer<T> {
-
-        val adapterCallback = AdapterListUpdateCallback(this)
-        val listCallback = object : ListUpdateCallback {
-            override fun onChanged(position: Int, count: Int, payload: Any?) {
-                adapterCallback.onChanged(position + 1, count, payload)
-            }
-
-            override fun onMoved(fromPosition: Int, toPosition: Int) {
-                adapterCallback.onMoved(fromPosition + 1, toPosition + 1)
-            }
-
-            override fun onInserted(position: Int, count: Int) {
-                adapterCallback.onInserted(position + 1, count + 1)
-            }
-
-            override fun onRemoved(position: Int, count: Int) {
-                adapterCallback.onRemoved(position + 1, count)
-            }
-        }
-        return AsyncPagedListDiffer<T>(listCallback, AsyncDifferConfig.Builder<T>(itemCallback).build())
+        return snapshot().getOrNull(position)
     }
 
     open fun bind(recyclerView: RecyclerView, block: LinearLayoutManager.() -> Unit = {}) {
@@ -134,9 +99,18 @@ abstract class BasePagedListAdapter<T> : PagedListAdapter<T, RecyclerView.ViewHo
         lm.block()
         recyclerView.layoutManager = lm
         recyclerView.adapter = this
+        addLoadStateListener {
+            //val retryVisible = it.refresh is LoadState.Error
+            //val swipeRefreshLayoutIsRefreshing = it.refresh is LoadState.Loading
+            //val emptyStateIsVisible = it.refresh is LoadState.Loading && itemCount == 0
+        }
     }
 
-    open fun bind(recyclerView: RecyclerView, spanCount: Int, block: GridLayoutManager.() -> Unit = {}) {
+    open fun bind(
+        recyclerView: RecyclerView,
+        spanCount: Int,
+        block: GridLayoutManager.() -> Unit = {}
+    ) {
         val lm = GridLayoutManager(recyclerView.context, spanCount)
         lm.block()
         lm.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {

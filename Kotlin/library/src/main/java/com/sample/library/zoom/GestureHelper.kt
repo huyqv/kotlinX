@@ -83,7 +83,12 @@ class GestureHelper {
          * @param velocityX distance of user's horizontal fling.
          * @param velocityY distance of user's vertical fling.
          */
-        fun onSingleFling(e1: MotionEvent, e2: MotionEvent, velocityX: Float, velocityY: Float): Boolean
+        fun onSingleFling(
+            e1: MotionEvent,
+            e2: MotionEvent,
+            velocityX: Float,
+            velocityY: Float
+        ): Boolean
     }
 
     /**

@@ -108,8 +108,8 @@ open class AppMotionLayout : MotionLayout {
             val scaleWidth = (it.width - it.width * it.scaleX).toInt() / 2
             val scaleHeight = (it.height - it.height * it.scaleY).toInt() / 2
             if (
-                    x in it.left + scaleWidth..it.right - scaleWidth &&
-                    y in it.top + scaleHeight..it.bottom - scaleHeight
+                x in it.left + scaleWidth..it.right - scaleWidth &&
+                y in it.top + scaleHeight..it.bottom - scaleHeight
             ) {
                 return it
             }

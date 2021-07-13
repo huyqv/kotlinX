@@ -1,13 +1,13 @@
 package com.kotlin.app
 
 import android.app.Activity
-import android.app.Application
+import androidx.multidex.MultiDexApplication
 import com.sample.library.Library
 import com.sample.library.extension.SimpleActivityLifecycleCallbacks
 import com.sample.widget.Widget
 import java.lang.ref.WeakReference
 
-class App : Application() {
+class App : MultiDexApplication() {
 
     override fun onCreate() {
         super.onCreate()

@@ -57,7 +57,8 @@ fun EditText?.addOnClickListener(listener: View.OnClickListener) {
 fun EditText?.showKeyboard() {
     this?.post {
         requestFocus()
-        val imm: InputMethodManager? = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+        val imm: InputMethodManager? =
+            context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
         imm?.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
     }
 }
@@ -149,7 +150,7 @@ fun ImageView.tint(@ColorInt color: Int) {
 }
 
 fun ImageView.tintRes(@ColorRes res: Int) {
-    tint(ContextCompat.getColor(context,res))
+    tint(ContextCompat.getColor(context, res))
 }
 
 fun ImageView.postImage(@DrawableRes drawableRes: Int) {
@@ -253,7 +254,10 @@ fun TextView.setHyperText(s: String?, vararg args: Any?) {
                 null
             }
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.N -> {
-                Html.fromHtml(s.format(*args), Html.FROM_HTML_MODE_LEGACY  /*Html.FROM_HTML_MODE_COMPACT*/)
+                Html.fromHtml(
+                    s.format(*args),
+                    Html.FROM_HTML_MODE_LEGACY  /*Html.FROM_HTML_MODE_COMPACT*/
+                )
             }
             else -> {
                 @Suppress("DEPRECATION")
@@ -264,17 +268,21 @@ fun TextView.setHyperText(s: String?, vararg args: Any?) {
 }
 
 fun TextView.gradientHorizontal(@ColorRes colorStart: Int, @ColorRes colorEnd: Int = colorStart) {
-    paint.shader = LinearGradient(0f, 0f, this.width.toFloat(), 0f,
-            ContextCompat.getColor(context, colorStart),
-            ContextCompat.getColor(context, colorEnd),
-            Shader.TileMode.CLAMP)
+    paint.shader = LinearGradient(
+        0f, 0f, this.width.toFloat(), 0f,
+        ContextCompat.getColor(context, colorStart),
+        ContextCompat.getColor(context, colorEnd),
+        Shader.TileMode.CLAMP
+    )
 }
 
 fun TextView.gradientVertical(@ColorRes colorStart: Int, @ColorRes colorEnd: Int = colorStart) {
-    paint.shader = LinearGradient(0f, 0f, 0f, this.height.toFloat(),
-            ContextCompat.getColor(context, colorStart),
-            ContextCompat.getColor(context, colorEnd),
-            Shader.TileMode.CLAMP)
+    paint.shader = LinearGradient(
+        0f, 0f, 0f, this.height.toFloat(),
+        ContextCompat.getColor(context, colorStart),
+        ContextCompat.getColor(context, colorEnd),
+        Shader.TileMode.CLAMP
+    )
 }
 
 fun TextView.drawableStart(drawable: Drawable?) {
@@ -377,7 +385,10 @@ fun WebView.setClient(progressBar: ProgressBar) {
         }
 
         @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-        override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
+        override fun shouldOverrideUrlLoading(
+            view: WebView?,
+            request: WebResourceRequest?
+        ): Boolean {
             view?.loadUrl(request?.url.toString())
             return super.shouldOverrideUrlLoading(view, request)
         }
@@ -401,7 +412,8 @@ fun WebView.setClient(progressBar: ProgressBar) {
 }
 
 fun createDrawable(@ColorInt startColor: Int, endColor: Int, radius: Float): Drawable {
-    val gradientDrawable = GradientDrawable(GradientDrawable.Orientation.TL_BR, intArrayOf(startColor, endColor));
+    val gradientDrawable =
+        GradientDrawable(GradientDrawable.Orientation.TL_BR, intArrayOf(startColor, endColor));
     gradientDrawable.cornerRadius = radius;
     return gradientDrawable
 }

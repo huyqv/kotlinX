@@ -31,8 +31,13 @@ android {
 }
 
 dependencies {
+
     implementation fileTree(include: ["*.jar", "*aar"], dir: "libs")
+
+    // kotlin
     implementation deps.kotlin.stdlib
+
+    // android
     implementation deps.android.appcompat
     implementation deps.android.corektx
     implementation deps.android.constraintlayout
@@ -40,6 +45,9 @@ dependencies {
     implementation deps.android.cardview
     implementation deps.android.material
     implementation deps.android.browser
+
+    // dimension resources
     implementation deps.dimens.sdp
     implementation deps.dimens.ssp
+
 }

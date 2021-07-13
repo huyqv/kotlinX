@@ -63,7 +63,7 @@ open class Logger {
 
         var enable: Boolean = true
 
-        fun breakpoint() {}
+        fun breakpoint() = Unit
 
         fun error() {
             arrayOf(true)[-1]

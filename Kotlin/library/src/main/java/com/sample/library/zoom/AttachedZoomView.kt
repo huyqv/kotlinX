@@ -130,8 +130,10 @@ class AttachedZoomView : View.OnTouchListener, View.OnLayoutChangeListener {
 
         override fun onFling(startX: Float, startY: Float, velocityX: Float, velocityY: Float) {
             currentFlingRunnable = FlingRunnable(imageView.context)
-            currentFlingRunnable!!.fling(getImageViewWidth(imageView),
-                    getImageViewHeight(imageView), velocityX.toInt(), velocityY.toInt())
+            currentFlingRunnable!!.fling(
+                getImageViewWidth(imageView),
+                getImageViewHeight(imageView), velocityX.toInt(), velocityY.toInt()
+            )
             imageView.post(currentFlingRunnable)
         }
 
@@ -174,7 +176,11 @@ class AttachedZoomView : View.OnTouchListener, View.OnLayoutChangeListener {
         }
 
     var currentScale: Float
-        get() = Math.sqrt((Math.pow(getValue(suppMatrix, Matrix.MSCALE_X).toDouble(), 2.0).toFloat() + Math.pow(getValue(suppMatrix, Matrix.MSKEW_Y).toDouble(), 2.0).toFloat()).toDouble()).toFloat()
+        get() = Math.sqrt(
+            (Math.pow(getValue(suppMatrix, Matrix.MSCALE_X).toDouble(), 2.0).toFloat() + Math.pow(getValue(suppMatrix, Matrix.MSKEW_Y).toDouble(),
+                2.0
+            ).toFloat()).toDouble()
+        ).toFloat()
         set(scale) = setScale(scale, false)
 
     private val drawMatrix: Matrix
@@ -195,31 +201,34 @@ class AttachedZoomView : View.OnTouchListener, View.OnLayoutChangeListener {
         baseRotation = 0.0f
         // Create Gesture Detectors...
         scaleDragDetector = GestureDetector(imageView.context, gestureListener)
-        gestureDetector = android.view.GestureDetector(imageView.context, object : android.view.GestureDetector.SimpleOnGestureListener() {
+        gestureDetector = android.view.GestureDetector(
+            imageView.context,
+            object : android.view.GestureDetector.SimpleOnGestureListener() {
 
-            // forward long click listener
-            override fun onLongPress(e: MotionEvent) {
-                if (longClickListener != null) {
-                    longClickListener!!.onLongClick(imageView)
+                // forward long click listener
+                override fun onLongPress(e: MotionEvent) {
+                    if (longClickListener != null) {
+                        longClickListener!!.onLongClick(imageView)
+                    }
                 }
-            }
 
-            override fun onFling(
+                override fun onFling(
                     e1: MotionEvent, e2: MotionEvent,
                     velocityX: Float, velocityY: Float,
-            ): Boolean {
-                if (singleFlingListener != null) {
-                    if (currentScale > DEFAULT_MIN_SCALE) {
-                        return false
+                ): Boolean {
+                    if (singleFlingListener != null) {
+                        if (currentScale > DEFAULT_MIN_SCALE) {
+                            return false
+                        }
+                        return if (e1.pointerCount > SINGLE_TOUCH || e2.pointerCount > SINGLE_TOUCH) {
+                            false
+                        } else singleFlingListener!!.onSingleFling(e1, e2, velocityX, velocityY)
                     }
-                    return if (e1.pointerCount > SINGLE_TOUCH || e2.pointerCount > SINGLE_TOUCH) {
-                        false
-                    } else singleFlingListener!!.onSingleFling(e1, e2, velocityX, velocityY)
+                    return false
                 }
-                return false
-            }
-        })
-        gestureDetector?.setOnDoubleTapListener(object : android.view.GestureDetector.OnDoubleTapListener {
+            })
+        gestureDetector?.setOnDoubleTapListener(object :
+            android.view.GestureDetector.OnDoubleTapListener {
             override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
                 onClickListener?.onClick(imageView)
                 val rect = displayRect
@@ -306,7 +315,17 @@ class AttachedZoomView : View.OnTouchListener, View.OnLayoutChangeListener {
         checkAndDisplayMatrix()
     }
 
-    override fun onLayoutChange(v: View, left: Int, top: Int, right: Int, bottom: Int, oldLeft: Int, oldTop: Int, oldRight: Int, oldBottom: Int) {
+    override fun onLayoutChange(
+        v: View,
+        left: Int,
+        top: Int,
+        right: Int,
+        bottom: Int,
+        oldLeft: Int,
+        oldTop: Int,
+        oldRight: Int,
+        oldBottom: Int
+    ) {
         // Update our base matrix, as the bounds have changed
         if (left != oldLeft || top != oldTop || right != oldRight || bottom != oldBottom) {
             updateBaseMatrix(imageView.drawable)
@@ -332,15 +351,23 @@ class AttachedZoomView : View.OnTouchListener, View.OnLayoutChangeListener {
                     if (currentScale < minScale) {
                         val rect = displayRect
                         if (rect != null) {
-                            v.post(AnimatedZoomRunnable(currentScale, minScale,
-                                    rect.centerX(), rect.centerY()))
+                            v.post(
+                                AnimatedZoomRunnable(
+                                    currentScale, minScale,
+                                    rect.centerX(), rect.centerY()
+                                )
+                            )
                             handled = true
                         }
                     } else if (currentScale > maxScale) {
                         val rect = displayRect
                         if (rect != null) {
-                            v.post(AnimatedZoomRunnable(currentScale, maxScale,
-                                    rect.centerX(), rect.centerY()))
+                            v.post(
+                                AnimatedZoomRunnable(
+                                    currentScale, maxScale,
+                                    rect.centerX(), rect.centerY()
+                                )
+                            )
                             handled = true
                         }
                     }
@@ -514,8 +541,10 @@ class AttachedZoomView : View.OnTouchListener, View.OnLayoutChangeListener {
     private fun getDisplayRect(matrix: Matrix): RectF? {
         val d = imageView.drawable
         if (d != null) {
-            mDisplayRect.set(0f, 0f, d.intrinsicWidth.toFloat(),
-                    d.intrinsicHeight.toFloat())
+            mDisplayRect.set(
+                0f, 0f, d.intrinsicWidth.toFloat(),
+                d.intrinsicHeight.toFloat()
+            )
             matrix.mapRect(mDisplayRect)
             return mDisplayRect
         }
@@ -539,20 +568,26 @@ class AttachedZoomView : View.OnTouchListener, View.OnLayoutChangeListener {
         val widthScale = viewWidth / drawableWidth
         val heightScale = viewHeight / drawableHeight
         when (scaleType) {
-            ScaleType.CENTER -> baseMatrix.postTranslate((viewWidth - drawableWidth) / 2f,
-                    (viewHeight - drawableHeight) / 2f)
+            ScaleType.CENTER -> baseMatrix.postTranslate(
+                (viewWidth - drawableWidth) / 2f,
+                (viewHeight - drawableHeight) / 2f
+            )
             ScaleType.CENTER_CROP -> {
                 val scale = Math.max(widthScale, heightScale)
                 baseMatrix.postScale(scale, scale)
-                baseMatrix.postTranslate((viewWidth - drawableWidth * scale) / 2f,
-                        (viewHeight - drawableHeight * scale) / 2f)
+                baseMatrix.postTranslate(
+                    (viewWidth - drawableWidth * scale) / 2f,
+                    (viewHeight - drawableHeight * scale) / 2f
+                )
 
             }
             ScaleType.CENTER_INSIDE -> {
                 val scale = Math.min(1.0f, Math.min(widthScale, heightScale))
                 baseMatrix.postScale(scale, scale)
-                baseMatrix.postTranslate((viewWidth - drawableWidth * scale) / 2f,
-                        (viewHeight - drawableHeight * scale) / 2f)
+                baseMatrix.postTranslate(
+                    (viewWidth - drawableWidth * scale) / 2f,
+                    (viewHeight - drawableHeight * scale) / 2f
+                )
 
             }
             else -> {
@@ -562,10 +597,26 @@ class AttachedZoomView : View.OnTouchListener, View.OnLayoutChangeListener {
                     mTempSrc = RectF(0f, 0f, drawableHeight.toFloat(), drawableWidth.toFloat())
                 }
                 when (scaleType) {
-                    ImageView.ScaleType.FIT_CENTER -> baseMatrix.setRectToRect(mTempSrc, mTempDst, ScaleToFit.CENTER)
-                    ImageView.ScaleType.FIT_START -> baseMatrix.setRectToRect(mTempSrc, mTempDst, ScaleToFit.START)
-                    ImageView.ScaleType.FIT_END -> baseMatrix.setRectToRect(mTempSrc, mTempDst, ScaleToFit.END)
-                    ImageView.ScaleType.FIT_XY -> baseMatrix.setRectToRect(mTempSrc, mTempDst, ScaleToFit.FILL)
+                    ImageView.ScaleType.FIT_CENTER -> baseMatrix.setRectToRect(
+                        mTempSrc,
+                        mTempDst,
+                        ScaleToFit.CENTER
+                    )
+                    ImageView.ScaleType.FIT_START -> baseMatrix.setRectToRect(
+                        mTempSrc,
+                        mTempDst,
+                        ScaleToFit.START
+                    )
+                    ImageView.ScaleType.FIT_END -> baseMatrix.setRectToRect(
+                        mTempSrc,
+                        mTempDst,
+                        ScaleToFit.END
+                    )
+                    ImageView.ScaleType.FIT_XY -> baseMatrix.setRectToRect(
+                        mTempSrc,
+                        mTempDst,
+                        ScaleToFit.FILL
+                    )
                     else -> {
                     }
                 }
@@ -632,10 +683,10 @@ class AttachedZoomView : View.OnTouchListener, View.OnLayoutChangeListener {
     }
 
     private inner class AnimatedZoomRunnable(
-            private val zoomStart: Float,
-            private val zoomEnd: Float,
-            private val focalX: Float,
-            private val focalY: Float,
+        private val zoomStart: Float,
+        private val zoomEnd: Float,
+        private val focalX: Float,
+        private val focalY: Float,
     ) : Runnable {
 
         private val startTime: Long = System.currentTimeMillis()
@@ -695,8 +746,10 @@ class AttachedZoomView : View.OnTouchListener, View.OnLayoutChangeListener {
             currentY = startY
             // If we actually can move, fling the scroller
             if (startX != maxX || startY != maxY) {
-                scroller.fling(startX, startY, velocityX, velocityY, minX,
-                        maxX, minY, maxY, 0, 0)
+                scroller.fling(
+                    startX, startY, velocityX, velocityY, minX,
+                    maxX, minY, maxY, 0, 0
+                )
             }
         }
 

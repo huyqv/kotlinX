@@ -5,7 +5,7 @@ import android.media.AudioAttributes
 import android.media.AudioManager
 import android.media.SoundPool
 import com.sample.library.app
-import com.sample.library.extension.post
+import com.sample.library.extension.onIo
 
 object Media {
 
@@ -21,13 +21,13 @@ object Media {
 
     private val soundPool: SoundPool by lazy {
         val attrs = AudioAttributes.Builder()
-                .setUsage(AudioAttributes.USAGE_MEDIA)
-                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-                .build()
+            .setUsage(AudioAttributes.USAGE_MEDIA)
+            .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+            .build()
         return@lazy SoundPool.Builder()
-                .setMaxStreams(1)
-                .setAudioAttributes(attrs)
-                .build()
+            .setMaxStreams(1)
+            .setAudioAttributes(attrs)
+            .build()
     }
 
     fun play(raw: Int) {
@@ -35,7 +35,7 @@ object Media {
         if (soundIndex == -1) {
             soundIndex = soundPool.load(app, raw, 1)
         }
-        post(100) {
+        onIo(100) {
             if (soundIndex != -1) {
                 soundPool.play(soundIndex, 1f, 1f, 1, 0, 1.0f)
                 isSilent = true

@@ -23,13 +23,13 @@ object Sample {
 
         private fun getColors(color: Int): MutableList<Int> {
             val colors = mutableListOf(
-                    Color.BLACK,
-                    Color.RED,
-                    Color.BLUE,
-                    Color.GREEN,
-                    Color.YELLOW,
-                    Color.MAGENTA,
-                    Color.CYAN
+                Color.BLACK,
+                Color.RED,
+                Color.BLUE,
+                Color.GREEN,
+                Color.YELLOW,
+                Color.MAGENTA,
+                Color.CYAN
             )
             colors.remove(color)
             return colors
@@ -40,7 +40,14 @@ object Sample {
 
         val PERSON_NAME = object : InputFilter {
 
-            override fun filter(source: CharSequence, start: Int, end: Int, dest: Spanned, dstart: Int, dend: Int): CharSequence? {
+            override fun filter(
+                source: CharSequence,
+                start: Int,
+                end: Int,
+                dest: Spanned,
+                dstart: Int,
+                dend: Int
+            ): CharSequence? {
 
                 var keepOriginal = true
                 val sb = StringBuilder(end - start)

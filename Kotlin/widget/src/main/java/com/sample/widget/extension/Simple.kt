@@ -61,7 +61,12 @@ interface SimplePageChangeListener : ViewPager.OnPageChangeListener {
 }
 
 interface SimpleMotionTransitionListener : MotionLayout.TransitionListener {
-    override fun onTransitionChange(layout: MotionLayout?, startId: Int, endId: Int, progress: Float) {
+    override fun onTransitionChange(
+        layout: MotionLayout?,
+        startId: Int,
+        endId: Int,
+        progress: Float
+    ) {
     }
 
     override fun onTransitionStarted(layout: MotionLayout?, startId: Int, endId: Int) {
@@ -70,6 +75,11 @@ interface SimpleMotionTransitionListener : MotionLayout.TransitionListener {
     override fun onTransitionCompleted(layout: MotionLayout?, currentId: Int) {
     }
 
-    override fun onTransitionTrigger(layout: MotionLayout?, triggerId: Int, positive: Boolean, progress: Float) {
+    override fun onTransitionTrigger(
+        layout: MotionLayout?,
+        triggerId: Int,
+        positive: Boolean,
+        progress: Float
+    ) {
     }
 }

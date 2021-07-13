@@ -24,14 +24,18 @@ abstract class BaseFragment<B : ViewBinding> : Fragment(), FragmentView {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         requireActivity().onBackPressedDispatcher.addCallback(this,
-                object : OnBackPressedCallback(true) {
-                    override fun handleOnBackPressed() {
-                        onBackPressed()
-                    }
-                })
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    onBackPressed()
+                }
+            })
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val view = bind.root
         view.setOnTouchListener { _, _ -> true }
         statusBarColor(view.backgroundColor)

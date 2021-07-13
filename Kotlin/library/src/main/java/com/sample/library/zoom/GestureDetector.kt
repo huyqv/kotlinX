@@ -9,7 +9,10 @@ import android.view.ViewConfiguration
 /**
  * Does a whole lot of gesture detecting.
  */
-class GestureDetector internal constructor(context: Context, private val listener: GestureHelper.GestureListener) {
+class GestureDetector internal constructor(
+    context: Context,
+    private val listener: GestureHelper.GestureListener
+) {
 
     companion object {
         private const val INVALID_POINTER_ID = -1
@@ -49,8 +52,10 @@ class GestureDetector internal constructor(context: Context, private val listene
                 if (scaleFactor.isNaN() || scaleFactor.isInfinite())
                     return false
 
-                listener.onScale(scaleFactor,
-                        detector.focusX, detector.focusY)
+                listener.onScale(
+                    scaleFactor,
+                    detector.focusX, detector.focusY
+                )
                 return true
             }
 
@@ -151,13 +156,15 @@ class GestureDetector internal constructor(context: Context, private val listene
 
                         val vX = velocityTracker!!.xVelocity
                         val vY = velocityTracker!!
-                                .yVelocity
+                            .yVelocity
 
                         // If the velocity is greater than minVelocity, call
                         // listener
                         if (Math.max(Math.abs(vX), Math.abs(vY)) >= minimumVelocity) {
-                            listener.onFling(lastTouchX, lastTouchY, -vX,
-                                    -vY)
+                            listener.onFling(
+                                lastTouchX, lastTouchY, -vX,
+                                -vY
+                            )
                         }
                     }
                 }
@@ -182,8 +189,10 @@ class GestureDetector internal constructor(context: Context, private val listene
             }
         }
 
-        activePointerIndex = ev.findPointerIndex(if (activePointerId != INVALID_POINTER_ID)
-            activePointerId else 0)
+        activePointerIndex = ev.findPointerIndex(
+            if (activePointerId != INVALID_POINTER_ID)
+                activePointerId else 0
+        )
         return true
     }
 

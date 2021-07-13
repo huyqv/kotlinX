@@ -8,12 +8,8 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/textView"
-        style="@style/TextView"
-        android:gravity="center"
-        android:text="INTRO"
-        android:textSize="@dimen/_24ssp"
-        android:textColor="@color/colorWhite"
-        android:textStyle="bold"
+        style="@style/Fragment.BlankText"
+        android:text="intro"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

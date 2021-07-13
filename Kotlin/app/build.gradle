@@ -13,10 +13,14 @@ android {
         targetSdkVersion builds.target_sdk
         versionCode builds.version_code
         versionName builds.version_name
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     flavorDimensions "default"
+    testOptions {
+        unitTests.includeAndroidResources = true
+        unitTests.returnDefaultValues = true
+    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -79,8 +83,7 @@ dependencies {
     // widgets lib
     implementation project(":widget")
 
-
-    //kotlin
+    // kotlin
     implementation deps.kotlin.stdlib
 
     // concurrency pattern
@@ -104,6 +107,13 @@ dependencies {
     implementation deps.android.vectordrawable
     implementation deps.android.security
 
+    // fragment navigation
+    implementation deps.navigation.fragment
+    implementation deps.navigation.ui
+
+    // paging recycler view adapter
+    implementation deps.paging.runtime
+
     // android lifecycle aware
     implementation deps.lifecycle.viewmodel
     implementation deps.lifecycle.livedata
@@ -114,29 +124,37 @@ dependencies {
     annotationProcessor deps.room.compiler
     kapt deps.room.compiler
 
-    // fragment navigation
-    implementation deps.navigation.fragment
-    implementation deps.navigation.ui
-
-    // paging recycler view adapter
-    implementation deps.paging.runtime
-    implementation deps.paging.rx
-
-    implementation deps.reactivex.java3
-    implementation deps.reactivex.android3
-    implementation deps.reactivex.kotlin3
+    // reactive programming
+    implementation deps.reactivex.java
+    implementation deps.reactivex.android
+    implementation deps.reactivex.kotlin
     implementation deps.reactivex.binding
 
+    // http client
     implementation deps.square.retrofit
     implementation deps.square.gson
     implementation deps.square.rx_adapter
+    implementation deps.square.okhttp
     implementation deps.square.okhttp_log
+    implementation deps.square.okhttp_url
 
     // dimension resources
     implementation deps.dimens.sdp
     implementation deps.dimens.ssp
 
+    // rounded/oval image view
     implementation deps.roundedimageview
+
+    // unit test
+    testImplementation deps.kotlin.test
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation "org.mockito:mockito-core:1.10.19"
+    testImplementation 'org.mockito:mockito-inline:3.11.2'
+    androidTestImplementation deps.navigation.test
+    androidTestImplementation 'androidx.test:core:1.4.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    debugImplementation "androidx.fragment:fragment-testing:1.3.5"
 
 }
 
