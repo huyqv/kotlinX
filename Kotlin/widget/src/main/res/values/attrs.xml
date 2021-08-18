@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <declare-styleable name="AppCustomView">
         <!--TEXT-->
         <attr name="android:title" format="string" />
         <attr name="android:text" format="string" />
+        <attr name="android:textSize" format="reference" />
         <attr name="android:hint" format="string" />
+        <attr name="android:clickable" format="boolean" />
         <!--INPUT TYPE-->
         <attr name="android:textAllCaps" format="boolean" />
         <attr name="android:maxLength" format="integer" />
@@ -18,7 +20,7 @@
         <attr name="android:textColor" format="reference" />
         <attr name="android:textColorHint" format="reference" />
         <attr name="android:tint" format="integer" />
-        <attr name="android:drawableTint" format="integer" />
+        <attr name="android:drawableTint" format="integer"/>
         <attr name="android:backgroundTint" format="integer" />
         <!--DRAWABLE-->
         <attr name="android:src" format="reference" />

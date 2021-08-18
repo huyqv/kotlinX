@@ -88,9 +88,9 @@ open class AppMotionLayout : MotionLayout {
     private fun detectActionClick(event: MotionEvent) {
         val v = getViewOnTouchEvent(event)
         if (isTransitionCompleted && touchView != null && touchView == v) {
-            val touchDistance = sqrt((event.x - touchX).pow(2.0f) + (event.y - touchY).pow(2.0f))
+            val touchDistance = sqrt((event.x - touchX).pow(2F) + (event.y - touchY).pow(2.0f))
             val touchDuration = System.currentTimeMillis() - touchTime
-            if (touchDistance < 6f && touchDuration < 250) {
+            if (touchDistance < 6F && touchDuration < 250) {
                 onViewClick(touchView!!)
             }
         }

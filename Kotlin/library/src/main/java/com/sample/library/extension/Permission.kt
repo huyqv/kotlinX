@@ -17,7 +17,7 @@ private val permissionObserverMap by lazy { mutableMapOf<Int, LifecycleObserver>
 
 private val requestedPermissionMap by lazy { mutableMapOf<String, Boolean>() }
 
-fun hasPermission(vararg permissions: String): Boolean {
+fun isGranted(vararg permissions: String): Boolean {
     permissions.forEach {
         if (ContextCompat.checkSelfPermission(app, it) != PackageManager.PERMISSION_GRANTED) {
             return false
@@ -26,10 +26,17 @@ fun hasPermission(vararg permissions: String): Boolean {
     return true
 }
 
-fun FragmentActivity.onPermissionGranted(
-    requestCode: Int,
+fun isNotGranted(vararg permissions: String): Boolean {
+    return !isGranted(*permissions)
+}
+
+/**
+ *
+ */
+fun FragmentActivity.onGranted(
     vararg permissions: String,
-    onGranted: () -> Unit
+    onGranted: () -> Unit,
+    onDenied: (List<String>) -> Unit
 ) {
 
     val notGrantedPermissions = mutableListOf<String>()
@@ -59,19 +66,19 @@ fun FragmentActivity.onPermissionGranted(
     }
 
     if (notGrantedPermissions.isNotEmpty()) {
-        observerPermission(requestCode, *permissions) { onGranted() }
+        //observerPermission(1, *permissions) { onGranted() }
         requestedPermissionMap[this.localClassName] = true
-        ActivityCompat.requestPermissions(this, notGrantedPermissions.toTypedArray(), requestCode)
+        ActivityCompat.requestPermissions(this, notGrantedPermissions.toTypedArray(), 1)
         return
     }
 
     if (deniedPermissions.isNotEmpty()) {
-        observerPermission(requestCode, *permissions) { onGranted() }
+        //observerPermission(1, *permissions) { onGranted() }
         if (requestedPermissionMap[this.localClassName] == true) {
-            showDialogPermission(*deniedPermissions.toTypedArray())
+            onDenied(deniedPermissions.toList())
         } else {
             requestedPermissionMap[this.localClassName] = true
-            ActivityCompat.requestPermissions(this, deniedPermissions.toTypedArray(), requestCode)
+            ActivityCompat.requestPermissions(this, deniedPermissions.toTypedArray(), 1)
         }
         return
     }
@@ -79,14 +86,66 @@ fun FragmentActivity.onPermissionGranted(
     onGranted()
 }
 
-fun Fragment.onPermissionGranted(
+fun Fragment.onGranted(
+    vararg permissions: String,
+    onGranted: () -> Unit,
+    onDenied: (List<String>) -> Unit
+) {
+    activity?.onGranted(
+        permissions = *permissions,
+        onGranted = onGranted,
+        onDenied = onDenied
+    )
+}
+
+/**
+ *
+ */
+fun FragmentActivity.onGranted(
+    vararg permissions: String,
+    onGranted: () -> Unit
+) {
+    onGranted(permissions = *permissions, onGranted, {
+        showDialogPermission(it)
+    })
+}
+
+fun Fragment.onGranted(
+    vararg permissions: String,
+    onGranted: () -> Unit
+) {
+    activity?.onGranted(
+        permissions = *permissions,
+        onGranted = onGranted
+    )
+}
+
+/**
+ *
+ */
+fun Lifecycle.observerPermission(
     requestCode: Int,
     vararg permissions: String,
     onGranted: () -> Unit
 ) {
-    activity?.onPermissionGranted(requestCode, *permissions) {
+    if (isGranted(*permissions)) {
         onGranted()
+        return
     }
+    permissionObserverMap[requestCode]?.also {
+        removeObserver(it)
+    }
+    val observer = object : LifecycleObserver {
+        @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+        fun onResume() {
+            if (isGranted(*permissions)) {
+                removeObserver(this)
+                onGranted()
+            }
+        }
+    }
+    permissionObserverMap[requestCode] = observer
+    addObserver(observer)
 }
 
 fun FragmentActivity.observerPermission(
@@ -94,25 +153,20 @@ fun FragmentActivity.observerPermission(
     vararg permissions: String,
     onGranted: () -> Unit
 ) {
-    permissionObserverMap[requestCode]?.also {
-        lifecycle.removeObserver(it)
-    }
-    val observer = object : LifecycleObserver {
-        @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-        fun onResume() {
-            if (hasPermission(*permissions)) {
-                lifecycle.removeObserver(this)
-                onGranted()
-            }
-        }
-    }
-    permissionObserverMap[requestCode] = observer
-    lifecycle.addObserver(observer)
+    lifecycle.observerPermission(requestCode, permissions = *permissions, onGranted)
 }
 
-private fun FragmentActivity.showDialogPermission(vararg permissions: String) {
+fun Fragment.observerPermission(
+    requestCode: Int,
+    vararg permissions: String,
+    onGranted: () -> Unit
+) {
+    lifecycle.observerPermission(requestCode, permissions = *permissions, onGranted)
+}
+
+private fun FragmentActivity.showDialogPermission(permissions: List<String>) {
     AlertDialog.Builder(this)
-        .setMessage("Permission:${permissionsText(*permissions)} had been denied")
+        .setMessage("Permission:${permissionsText(permissions)} had been denied")
         .setPositiveButton("Close") { dialog, _ -> dialog.cancel() }
         .setNegativeButton("Setting") { dialog, _ ->
             navigateAppSettings()
@@ -121,7 +175,7 @@ private fun FragmentActivity.showDialogPermission(vararg permissions: String) {
         .show()
 }
 
-fun permissionsText(vararg permissions: String): String {
+fun permissionsText(permissions: List<String>): String {
     return StringBuilder().also {
         permissions.iterator().forEach { permission ->
             val s = permission.replace("android.permission.", "")
@@ -150,7 +204,7 @@ val notGrantedPermission: Array<String>
         .toTypedArray()
 
 fun FragmentActivity.onGrantedRequiredPermission(onGrantedPermission: () -> Unit) {
-    onPermissionGranted(34534, *notGrantedPermission) {
+    onGranted(*notGrantedPermission) {
         onGrantedPermission()
     }
 }

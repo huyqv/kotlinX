@@ -71,6 +71,7 @@
     <style name="Fragment.Layout">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
+        <item name="android:background">?android:windowBackground</item>
         <item name="android:focusable">true</item>
         <item name="android:focusableInTouchMode">false</item>
     </style>

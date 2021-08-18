@@ -6,13 +6,18 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.viewpager.widget.PagerAdapter
 
-abstract class ViewPagerAdapter<T> : PagerAdapter() {
+abstract class BasePagerAdapter<T> : PagerAdapter() {
 
     var selectedItem: T? = null
 
     var data: MutableList<T> = mutableListOf()
 
     val size: Int get() = data.size
+
+    @LayoutRes
+    abstract fun itemLayoutResource(): Int
+
+    abstract fun View.onBind(model: T)
 
     open fun set(collection: List<T>?) {
         collection ?: return
@@ -49,11 +54,6 @@ abstract class ViewPagerAdapter<T> : PagerAdapter() {
         return indexOf(selectedItem)
     }
 
-    @LayoutRes
-    abstract fun layoutRes(): Int
-
-    abstract fun View.onBind(model: T)
-
     override fun getCount(): Int {
         return size
     }
@@ -69,7 +69,7 @@ abstract class ViewPagerAdapter<T> : PagerAdapter() {
     }
 
     override fun instantiateItem(viewGroup: ViewGroup, position: Int): Any {
-        val view = LayoutInflater.from(viewGroup.context).inflate(layoutRes(), viewGroup, false)
+        val view = LayoutInflater.from(viewGroup.context).inflate(itemLayoutResource(), viewGroup, false)
         view.onBind(data[position])
         viewGroup.addView(view, 0)
         return view

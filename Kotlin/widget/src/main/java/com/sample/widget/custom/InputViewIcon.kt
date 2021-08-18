@@ -25,7 +25,7 @@ class InputViewIcon : InputView<InputIconBinding> {
 
     override fun configDrawable(types: TypedArray) {
         bind.imageViewIcon.also {
-            it.setColorFilter(types.drawableTint)
+            it.setColorFilter(types.tint)
             it.setImageDrawable(types.drawable)
         }
     }

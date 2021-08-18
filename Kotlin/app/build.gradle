@@ -143,7 +143,7 @@ dependencies {
     implementation deps.dimens.ssp
 
     // rounded/oval image view
-    implementation deps.roundedimageview
+    implementation deps.rounded_image_view
 
     // unit test
     testImplementation deps.kotlin.test

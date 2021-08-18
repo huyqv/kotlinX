@@ -2,7 +2,10 @@ package com.sample.library.extension
 
 import android.app.Activity
 import android.app.DownloadManager
-import android.content.*
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
@@ -10,11 +13,15 @@ import android.os.Environment
 import android.provider.MediaStore
 import androidx.annotation.RequiresPermission
 import com.sample.library.app
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.io.*
+import java.util.zip.ZipEntry
+import java.util.zip.ZipInputStream
 import kotlin.reflect.KClass
 
 val externalDir: File
-    get() = if (Build.VERSION.SDK_INT > -Build.VERSION_CODES.Q) {
+    get() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
         app.getExternalFilesDir(null)!!
     } else {
         @Suppress("DEPRECATION")
@@ -66,42 +73,9 @@ fun <T : Any> readAssets(fileName: String, cls: KClass<Array<T>>): List<T>? {
     return readAssets(fileName).parse(cls)
 }
 
-fun File.getUri(): Uri? {
-
-    val filePath = this.absolutePath
-
-    val cursor = app.contentResolver.query(
-        MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-        arrayOf(MediaStore.Images.Media._ID),
-        null,
-        arrayOf(filePath), null
-    )
-
-    if (cursor != null && cursor.moveToFirst()) {
-        val id = cursor.getInt(cursor.getColumnIndex(MediaStore.MediaColumns._ID))
-        cursor.close()
-        return Uri.withAppendedPath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "" + id)
-    }
-
-    if (this.exists()) {
-        val contentValues = ContentValues().apply {
-            put(MediaStore.MediaColumns.DISPLAY_NAME, System.currentTimeMillis().toString())
-            put(MediaStore.MediaColumns.MIME_TYPE, "image/*")
-            put(MediaStore.MediaColumns.IS_PENDING, 1)
-        }
-        return app.contentResolver.insert(
-            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-            contentValues
-        )
-    }
-
-    return null
-
-}
-
-fun saveBitmap(name: String, bitmap: Bitmap) {
+fun saveBitmap(fileName: String, bitmap: Bitmap) {
     var fOut: OutputStream?
-    val file = File(externalPath, "$name.png")
+    val file = File(externalPath, "$fileName.png")
     fOut = FileOutputStream(file)
     bitmap.compress(Bitmap.CompressFormat.PNG, 100, fOut)
     fOut.flush()
@@ -114,8 +88,8 @@ fun saveBitmap(name: String, bitmap: Bitmap) {
     )
 }
 
-fun newFile(name: String): File {
-    return File(externalDir, name)
+fun newFile(fileName: String): File {
+    return File(externalDir, fileName)
 }
 
 fun open(file: File) {
@@ -132,7 +106,7 @@ fun copyFile(fileName: String) {
     var fos: FileOutputStream? = null
     try {
         inputStream = app.assets.open(fileName)
-        fos = FileOutputStream("$externalDir/$fileName")
+        fos = FileOutputStream("${externalDir.absolutePath}/$fileName")
         val buffer = ByteArray(1024)
         var read: Int = inputStream.read(buffer)
         while (read >= 0) {
@@ -147,13 +121,21 @@ fun copyFile(fileName: String) {
 }
 
 fun createFileIfNotExist(fileName: String) {
-    val dir = File(externalPath)
+    val dir = File(externalDir.absolutePath)
     if (!dir.exists()) {
         dir.mkdirs()
     }
-    val file = File("$externalDir/$fileName")
+    val file = File(externalDir, fileName)
     if (file.exists()) return
     copyFile(fileName)
+}
+
+fun getFile(fileName: String): File {
+    return File(externalDir, fileName)
+}
+
+fun isExistFile(fileName: String): Boolean {
+    return File(externalDir, fileName).exists()
 }
 
 fun createFile(fileName: String) {
@@ -161,10 +143,10 @@ fun createFile(fileName: String) {
     if (!dir.exists()) {
         dir.mkdirs()
     }
-    val file = File("$externalDir/$fileName")
+    val file = getFile(fileName)
     if (file.exists()) {
         file.delete()
-        File("$externalDir/$fileName")
+        getFile(fileName)
     }
     copyFile(fileName)
 }
@@ -204,20 +186,55 @@ fun readFile(fileName: String): String {
 
 fun Activity.download(url: String, fileName: String, onCompleted: (File) -> Unit) {
     val onComplete: BroadcastReceiver = object : BroadcastReceiver() {
-        override fun onReceive(ctxt: Context?, intent: Intent?) {
-            val file = File(
-                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absoluteFile,
-                fileName
-            )
+        override fun onReceive(ctx: Context?, intent: Intent?) {
+            val file = File(externalDir, fileName)
             onCompleted(file)
             unregisterReceiver(this)
         }
     }
     registerReceiver(onComplete, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
     val request = DownloadManager.Request(Uri.parse(url))
-    request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName)
-    val downloadManager: DownloadManager =
-        this.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-    downloadManager.enqueue(request)
+    val file = File(externalDir, fileName)
+    request.setDestinationUri(Uri.fromFile(file))
+    val manager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+    GlobalScope.launch {
+        manager.enqueue(request)
+    }
+}
+
+fun Activity.downloadIfNotExist(url: String, fileName: String, onCompleted: (File) -> Unit) {
+    val file = File(externalDir, fileName)
+    if (file.exists()) {
+        onCompleted(file)
+    } else {
+        download(url, fileName, onCompleted)
+    }
+}
+
+@Throws(IOException::class)
+fun unzip(zipFile: File?, targetDirectory: File?) {
+    val zis = ZipInputStream(
+        BufferedInputStream(FileInputStream(zipFile))
+    )
+    zis.use { zis ->
+        var ze: ZipEntry
+        var count: Int
+        val buffer = ByteArray(8192)
+        while (zis.nextEntry.also { ze = it } != null) {
+            val file = File(targetDirectory, ze.name)
+            val dir = if (ze.isDirectory) file else file.parentFile
+            if (!dir.isDirectory && !dir.mkdirs()) throw FileNotFoundException(
+                "Failed to ensure directory: " +
+                        dir.absolutePath
+            )
+            if (ze.isDirectory) continue
+            val fos = FileOutputStream(file)
+            fos.use { fos ->
+                while (zis.read(buffer).also { count = it } != -1) {
+                    fos.write(buffer, 0, count)
+                }
+            }
+        }
+    }
 }
 

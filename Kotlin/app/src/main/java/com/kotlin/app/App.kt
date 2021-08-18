@@ -20,6 +20,7 @@ class App : MultiDexApplication() {
             }
         })
     }
+
 }
 
 lateinit var app: App private set

@@ -102,8 +102,8 @@ fun Window.lightStatusBarWidgets() {
     }
     @Suppress("DEPRECATION")
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-        val flags = decorView.systemUiVisibility
-        decorView.systemUiVisibility = flags and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
+        var flags = decorView.systemUiVisibility
+        decorView.systemUiVisibility = flags xor View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
     }
 }
 
@@ -190,6 +190,18 @@ fun Window.windowFullScreen() {
     )
 }
 
+fun Window.lightStatusBarWidgets1() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+        insetsController!!.setSystemBarsAppearance(
+            WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS,
+            WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
+        )
+        return
+    }
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
+    }
+}
 /**
  * Set status bar color
  */

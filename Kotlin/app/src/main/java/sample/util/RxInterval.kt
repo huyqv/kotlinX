@@ -1,7 +1,7 @@
 package sample.util
 
 import androidx.lifecycle.*
-import com.sample.library.fragment.InfinityPagerAdapter
+import com.sample.library.fragment.BasePagerInfinityAdapter
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -91,7 +91,7 @@ abstract class IntervalSingle<T> {
 
 }
 
-abstract class AutoSlideAdapter<T> : InfinityPagerAdapter<Int>() {
+abstract class AutoSlideAdapter<T> : BasePagerInfinityAdapter<Int>() {
 
     val pageLiveData = MutableLiveData<Int>()
 

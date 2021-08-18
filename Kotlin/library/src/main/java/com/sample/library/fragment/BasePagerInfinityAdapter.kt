@@ -1,6 +1,6 @@
 package com.sample.library.fragment
 
-abstract class InfinityPagerAdapter<T> : ViewPagerAdapter<T>() {
+abstract class BasePagerInfinityAdapter<T> : BasePagerAdapter<T>() {
 
     override fun get(position: Int): T? {
         if (data.isEmpty()) return null

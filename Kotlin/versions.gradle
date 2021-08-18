@@ -225,7 +225,7 @@ deps.squint = "com.github.IntruderShanky:Squint:3.0.1"
  * Rounded, Oval, Circular image view
  * [https://github.com/vinc3m1/RoundedImageView]
  */
-deps.roundedimageview = "com.makeramen:roundedimageview:2.3.0"
+deps.rounded_image_view = "com.makeramen:roundedimageview:2.3.0"
 
 /**
  * Expandable/collapsible layout
@@ -237,4 +237,14 @@ deps.expandable_layout = "net.cachapa.expandablelayout:expandablelayout:2.9.2"
  * Ken burns anim
  * [https://github.com/flavioarfaria/KenBurnsView]
  */
-deps.kenburnsview = "com.flaviofaria:kenburnsview:1.0.7"
+deps.kenburns_view = "com.flaviofaria:kenburnsview:1.0.7"
+
+/**
+ * [https://github.com/aurelhubert/ahbottomnavigation]
+ */
+deps.bottom_navigation = "com.aurelhubert:ahbottomnavigation:2.3.4"
+
+/**
+ * [https://github.com/CanHub/Android-Image-Cropper]
+ */
+deps.image_cropper = "com.github.CanHub:Android-Image-Cropper:3.2.0"

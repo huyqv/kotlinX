@@ -2,16 +2,25 @@ package com.sample.library.fragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
 import androidx.viewpager2.adapter.FragmentStateAdapter
 
-class FragmentAdapter : FragmentStateAdapter {
-
+/**
+ * Base fragment adapter for [androidx.viewpager2.widget.ViewPager2]
+ */
+open class FragmentAdapter : FragmentStateAdapter {
 
     /**
      * [FragmentStateAdapter] override
      */
+    constructor(fragment: Fragment)
+            : super(fragment.childFragmentManager, fragment.lifecycle)
+
+    constructor(activity: FragmentActivity)
+            : super(activity.supportFragmentManager, activity.lifecycle)
+
     constructor(fragmentManager: FragmentManager, lifecycleOwner: LifecycleOwner)
             : super(fragmentManager, lifecycleOwner.lifecycle)
 
@@ -30,7 +39,7 @@ class FragmentAdapter : FragmentStateAdapter {
     /**
      * [FragmentAdapter] properties
      */
-    private var fragments = mutableListOf<Fragment>()
+    open var fragments = mutableListOf<Fragment>()
 
     fun set(position: Int, fragment: Fragment) {
         fragments.removeAt(position)

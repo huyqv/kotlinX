@@ -81,10 +81,10 @@ abstract class AppCustomView<B : ViewBinding> : ConstraintLayout {
             return getColor(R.styleable.AppCustomView_android_tint, Color.BLACK)
         }
 
-    val TypedArray.drawableTint: Int
+    /*val TypedArray.drawableTint: Int
         get() {
             return getColor(R.styleable.AppCustomView_android_drawableTint, Color.BLACK)
-        }
+        }*/
 
     val TypedArray.backgroundTint: Int
         get() {

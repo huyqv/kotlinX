@@ -33,39 +33,36 @@
     <color name="colorHeavySmoke">#3D3D3D</color>
     <color name="colorGrey">#393939</color>
     <color name="colorDark">#303030</color>
+    <color name="colorCyan">#00A2C7</color>
+    <color name="colorDarkCyan">#00849D</color>
+    <color name="colorToothPaste">#4DB4F9</color>
+    <color name="colorDarkBelizeHole">#186FA7</color>
+    <color name="colorPink">#E358F2</color>
+    <color name="colorChickenEgg">#FFE57F</color>
+    <color name="colorGold">#FFC120</color>
+    <color name="colorIndianRed">#CD5555</color>
+    <color name="colorDarkIndianRed">#8B3A3A</color>
+    <color name="colorCrimson">#E32636</color>
+    <color name="colorFireBrick">#C11B21</color>
+    <color name="colorDarkFireBrick">#8B1A1A</color>
+
+    <!--Flat UI Platte v1-->
     <color name="colorTurquoise">#1ABC9C</color>
     <color name="colorGreenSea">#16A085</color>
     <color name="colorEmerald">#2ECC71</color>
     <color name="colorNephritis">#27AE60</color>
-    <color name="colorCyan">#00A2C7</color>
-    <color name="colorDarkCyan">#00849D</color>
-    <color name="colorToothPaste">#4DB4F9</color>
     <color name="colorPeterRiver">#3498DB</color>
     <color name="colorBelizeHole">#2980B9</color>
-    <color name="colorDarkBelizeHole">#186FA7</color>
-    <color name="colorPink">#E358F2</color>
-    <color name="colorAmethyst">#9B59B6</color>
-    <color name="colorWisteria">#8E44AD</color>
-    <color name="colorChickenEgg">#FFE57F</color>
-    <color name="colorGold">#FFC120</color>
     <color name="colorSunFlower">#F1C40F</color>
     <color name="colorOrange">#F39C12</color>
     <color name="colorCarrot">#E67E22</color>
     <color name="colorPumpkin">#D35400</color>
-    <color name="colorIndianRed">#CD5555</color>
-    <color name="colorDarkIndianRed">#8B3A3A</color>
-    <color name="colorCrimson">#E32636</color>
+    <color name="colorAlizarin">#e74c3c</color>
     <color name="colorPomegranate">#C0392B</color>
-    <color name="colorFireBrick">#C11B21</color>
-    <color name="colorDarkFireBrick">#8B1A1A</color>
+    <color name="colorAmethyst">#9B59B6</color>
+    <color name="colorWisteria">#8E44AD</color>
 
-
-    <color name="colorFusionRed">#FC5C65</color>
-    <color name="colorDesire">#EB3B5A</color>
-    <color name="colorOrangeHibiscus">#FD9644</color>
-    <color name="colorBeniukonBronze">#FA8231</color>
-    <color name="colorFlirtatious">#FED330</color>
-    <color name="colorNycTaxi">#F7B731</color>
+    <!--German Platte-->
     <color name="colorReptileGreen">#26DE81</color>
     <color name="colorAlgalFuel">#20BF6B</color>
     <color name="colorMaximumBlueGreen">#2BCBBA</color>
@@ -74,11 +71,39 @@
     <color name="colorBoyzone">#2D98DA</color>
     <color name="colorC64NTSC">#4B7BEC</color>
     <color name="colorRoyalBlue">#3867D6</color>
+    <color name="colorFlirtatious">#FED330</color>
+    <color name="colorNycTaxi">#F7B731</color>
+    <color name="colorOrangeHibiscus">#FD9644</color>
+    <color name="colorBeniukonBronze">#FA8231</color>
+    <color name="colorFusionRed">#FC5C65</color>
+    <color name="colorDesire">#EB3B5A</color>
     <color name="colorLighterPurple">#A55EEA</color>
     <color name="colorGloomyPurple">#8854D0</color>
     <color name="colorTwinkleBlue">#D1D8E0</color>
     <color name="colorInnuedo">#A5B1C2</color>
     <color name="colorBlueGrey">#778CA3</color>
     <color name="colorBlueHorizon">#4B6584</color>
+
+    <!--American Platte-->
+    <color name="colorLightGreenishBLue">#55efc4</color>
+    <color name="colorMintLeaf">#00b894</color>
+    <color name="colorFadedPoster">#81ecec</color>
+    <color name="colorRobinEggBlue">#00cec9</color>
+    <color name="colorGreenDarnerTail">#ff7675</color>
+    <color name="colorElectronBlue">#0984e3</color>
+    <color name="colorShyMoment">#a29bfe</color>
+    <color name="colorExodusFruit">#6c5ce7</color>
+    <color name="colorSourLemon">#ffeaa7</color>
+    <color name="colorBrightYarrow">#fdcb6e</color>
+    <color name="colorFirstDate">#fab1a0</color>
+    <color name="colorOrangeVille">#e17055</color>
+    <color name="colorPinkGlamour">#ff7675</color>
+    <color name="colorChiGong">#d63031</color>
+    <color name="colorPico8Pink">#fd79a8</color>
+    <color name="colorPrunusAvium">#e84393</color>
+    <color name="colorCityLight">#dfe6e9</color>
+    <color name="colorSoothingBreeze">#b2bec3</color>
+    <color name="colorAmericanRiver">#636e72</color>
+    <color name="colorDraculaOrchid">#2d3436</color>
 
 </resources>

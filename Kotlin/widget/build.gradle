@@ -11,6 +11,7 @@ android {
         targetSdkVersion builds.target_sdk
         versionCode builds.version_code
         versionName builds.version_name
+        vectorDrawables.useSupportLibrary = true
         consumerProguardFiles "consumer-rules.pro"
     }
     buildTypes {
@@ -46,6 +47,7 @@ dependencies {
     implementation deps.android.cardview
     implementation deps.android.material
     implementation deps.android.browser
+    implementation deps.android.vectordrawable
 
     // dimension resources
     implementation deps.dimens.sdp

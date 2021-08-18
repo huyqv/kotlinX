@@ -34,7 +34,6 @@ abstract class InputView<B : ViewBinding> : AppCustomView<B>, View.OnFocusChange
         configTitleText(types)
         configEditText(types)
         configDrawable(types)
-
     }
 
     override fun setOnClickListener(listener: OnClickListener?) {
@@ -242,7 +241,7 @@ abstract class InputView<B : ViewBinding> : AppCustomView<B>, View.OnFocusChange
     }
 
     open fun configDrawable(types: TypedArray) {
-        val color = types.drawableTint
+        val color = types.tint
         val drawableLeft = types.drawableStart.tint(color)
         val drawableRight = types.drawableEnd.tint(color)
         editText?.setCompoundDrawablesWithIntrinsicBounds(drawableLeft, null, drawableRight, null)

@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.res.TypedArray
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,6 +30,9 @@ class AppBarView : AppCustomView<AppBarBinding> {
             it.isAllCaps = types.textAllCaps
             it.setTypeface(it.typeface, it.typeface.style)
             it.setTextColor(types.textColor)
+            it.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                types.getDimension(R.styleable.AppCustomView_android_textSize, 9F)
+            );
         }
 
         bind.imageViewDrawableStart.also {
