@@ -12,7 +12,7 @@
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/textViewTitle"
         style="@style/TextView"
-        android:layout_marginStart="@dimen/contentMargin1"
+        android:layout_marginStart="@dimen/contentMargin"
         android:clickable="false"
         android:textColor="@android:color/darker_gray"
         app:layout_constraintBottom_toTopOf="@+id/textViewProperty"
@@ -24,7 +24,7 @@
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/textViewProperty"
         style="@style/TextView"
-        android:layout_marginStart="@dimen/contentMargin1"
+        android:layout_marginStart="@dimen/contentMargin"
         android:layout_marginTop="@dimen/_2sdp"
         android:clickable="false"
         app:layout_constraintBottom_toBottomOf="parent"

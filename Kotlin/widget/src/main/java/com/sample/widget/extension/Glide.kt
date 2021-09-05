@@ -3,9 +3,6 @@ package com.sample.widget.extension
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.widget.ImageView
-import androidx.annotation.ColorInt
-import androidx.annotation.ColorRes
-import androidx.core.content.ContextCompat
 import com.bumptech.glide.annotation.GlideModule
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -37,6 +34,13 @@ interface SimpleRequestListener : RequestListener<Drawable> {
         onCompleted()
         return true
     }
+}
+
+fun ImageView.load(url: String?, block: ((GlideRequest<Drawable>) -> Unit)? = null) {
+    val request = GlideApp.with(context)
+        .load(url)
+    block?.also { it(request) }
+    request.into(this)
 }
 
 fun ImageView.load(url: String?) {

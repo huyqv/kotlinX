@@ -14,12 +14,16 @@ import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
 import com.sample.library.extension.realPathFromURI
 import com.sample.library.extension.safeClose
 import com.sample.library.extension.statusBarColor
 import com.sample.widget.extension.backgroundColor
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileInputStream
@@ -99,6 +103,19 @@ abstract class BaseFragment<B : ViewBinding> : Fragment(), FragmentView {
     protected open fun onBackPressed() {
         if (!findNavController().popBackStack()) {
             requireActivity().finish()
+        }
+    }
+
+    fun launch(delayInterval: Long, block: suspend CoroutineScope.() -> Unit) {
+        lifecycleScope.launch {
+            delay(delayInterval)
+            block()
+        }
+    }
+
+    fun launch(block: suspend CoroutineScope.() -> Unit) {
+        lifecycleScope.launch {
+            block()
         }
     }
 

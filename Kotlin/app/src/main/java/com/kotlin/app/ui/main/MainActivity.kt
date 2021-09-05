@@ -1,6 +1,9 @@
 package com.kotlin.app.ui.main
 
 import android.view.LayoutInflater
+import androidx.annotation.ColorInt
+import androidx.annotation.ColorRes
+import androidx.annotation.DrawableRes
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.kotlin.app.R
@@ -27,6 +30,10 @@ class MainActivity : BaseActivity<MainBinding>(), MainView {
 
     override fun onLiveDataObserve() {
 
+    }
+
+    fun setBackground(@ColorInt color: Int){
+        bind.layoutContent.setBackgroundColor(color)
     }
 
 }

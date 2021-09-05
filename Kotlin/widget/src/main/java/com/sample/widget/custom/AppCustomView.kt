@@ -49,6 +49,11 @@ abstract class AppCustomView<B : ViewBinding> : ConstraintLayout {
         }
     }
 
+    override fun onFinishInflate() {
+        super.onFinishInflate()
+        println("onFinishInflate")
+    }
+
     /**
      * Text
      */

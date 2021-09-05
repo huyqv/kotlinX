@@ -9,22 +9,17 @@
     <color name="colorSecondary">#E53935</color>
     <color name="colorSecondaryVariant">#E14F4C</color>
     <color name="colorOnSecondary">#E17371</color>
-    <color name="colorAccent">#FDD835</color>
-
+    <color name="colorAccent">#E53935</color>
 
     <!--Design colors-->
     <color name="colorTextPrimary">#434343</color>
     <color name="colorTextSecondary">#787878</color>
     <color name="colorDialogDim">#5E5E5E</color>
-    <color name="colorBubbleRight">#E3C6C6C6</color>
-    <color name="colorBubbleLeft">#3949AB</color>
-    <color name="colorBubbleBorder">#FDD835</color>
-
-
 
     <!--Flat colors-->
     <color name="colorBlack">#000000</color>
     <color name="colorWhite">#FFFFFF</color>
+    <color name="colorTransparent">#00000000</color>
     <color name="colorLight">#EFEFF4</color>
     <color name="colorLightGray">#d6d6d6</color>
     <color name="colorSilver">#cfefeff4</color>

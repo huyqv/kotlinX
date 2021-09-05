@@ -19,10 +19,10 @@ interface SimpleTextWatcher : TextWatcher {
     override fun afterTextChanged(s: Editable?) {
     }
 
-    fun EditText.setSilentText(s: String) {
+    fun EditText.setTextSilently(s: String?) {
         removeTextChangedListener(this@SimpleTextWatcher)
         setText(s)
-        setSelection(s.length)
+        setSelection(s?.length ?: 0)
         addTextChangedListener(this@SimpleTextWatcher)
     }
 }
@@ -57,29 +57,5 @@ interface SimplePageChangeListener : ViewPager.OnPageChangeListener {
     }
 
     override fun onPageSelected(position: Int) {
-    }
-}
-
-interface SimpleMotionTransitionListener : MotionLayout.TransitionListener {
-    override fun onTransitionChange(
-        layout: MotionLayout?,
-        startId: Int,
-        endId: Int,
-        progress: Float
-    ) {
-    }
-
-    override fun onTransitionStarted(layout: MotionLayout?, startId: Int, endId: Int) {
-    }
-
-    override fun onTransitionCompleted(layout: MotionLayout?, currentId: Int) {
-    }
-
-    override fun onTransitionTrigger(
-        layout: MotionLayout?,
-        triggerId: Int,
-        positive: Boolean,
-        progress: Float
-    ) {
     }
 }

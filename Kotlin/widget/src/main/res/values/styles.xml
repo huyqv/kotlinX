@@ -1,5 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="VerticalView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="HorizontalItem">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+
+    <style name="VerticalItem">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+
+    <style name="MatchConstraint">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">0dp</item>
+    </style>
+
+    <style name="HorizontalGuideLine">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <style name="VerticalGuideLine">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="HorizontalSeparator">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0.5px</item>
+        <item name="android:background">@color/colorLightGray</item>
+    </style>
+
+    <style name="VerticalSeparator">
+        <item name="android:layout_width">0.5px</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@color/colorLightGray</item>
+    </style>
 
     <!-- ScrollView -->
     <style name="ScrollView">
@@ -16,6 +63,7 @@
         <item name="android:overScrollMode">never</item>
         <item name="android:fillViewport">true</item>
         <item name="android:clipToPadding">false</item>
+        <item name="android:nestedScrollingEnabled">false</item>
     </style>
 
     <!-- TextView -->
@@ -41,23 +89,40 @@
 
     <style name="EditText"
         parent="TextView">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/_32sdp</item>
-        <item name="android:paddingStart">@dimen/contentMargin2</item>
-        <item name="android:paddingEnd">@dimen/contentMargin2</item>
-        <item name="android:maxLines">1</item>
-        <item name="android:inputType">textEmailAddress</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">@dimen/rowHeight</item>
         <item name="android:textColor">@color/colorTextPrimary</item>
+        <item name="android:maxLines">1</item>
         <item name="android:gravity">center_vertical</item>
-        <item name="android:textColorHint">@color/colorGrey</item>
-        <item name="android:drawablePadding">14dp</item>
         <item name="android:textStyle">normal</item>
         <item name="android:imeOptions">actionNext</item>
         <item name="android:includeFontPadding">true</item>
-        <item name="android:textCursorDrawable">@color/colorPrimary</item>
         <item name="android:textIsSelectable">false</item>
         <item name="android:privateImeOptions">nm</item>
         <item name="android:longClickable">false</item>
+        <item name="android:paddingStart">@dimen/contentMarginX2</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:paddingEnd">@dimen/contentMarginX2</item>
+        <item name="android:textColorHint">#BEBEBE</item>
+        <item name="android:maxLength">256</item>
+        <item name="android:background">@null</item>
+        <item name="android:textSize">@dimen/textSize2</item>
+        <item name="android:importantForAutofill"
+            tools:targetApi="o">no</item>
+    </style>
+
+    <style name="EditText.MultiLines" parent="EditText">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:ellipsize">none</item>
+        <item name="android:gravity">start</item>
+        <item name="android:inputType">textMultiLine</item>
+        <item name="android:maxLength">256</item>
+        <item name="android:maxLines">10</item>
+        <item name="android:minHeight">@dimen/rowHeight</item>
+        <item name="android:paddingStart">@dimen/contentMarginX2</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:paddingEnd">@dimen/contentMarginX2</item>
     </style>
 
     <!-- TextView -->
@@ -109,5 +174,6 @@
         <item name="android:textSize">@dimen/_12ssp</item>
         <item name="android:textStyle">bold</item>
     </style>
+
 
 </resources>

@@ -1,5 +1,6 @@
 package com.sample.widget.extension
 
+import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.app.Activity
 import android.content.Context
@@ -28,10 +29,21 @@ import androidx.core.widget.NestedScrollView
 import com.sample.widget.app
 import java.util.*
 
-fun EditText.filterChars(chars: CharArray) {
-    val arrayList = arrayListOf<InputFilter>()
-    this.filters?.apply { arrayList.addAll(this) }
-    arrayList.add(InputFilter { source, start, end, _, _, _ ->
+fun EditText.addFilter(filter: InputFilter) {
+    val newFilter = mutableListOf<InputFilter>()
+    newFilter.add(filter)
+    if (!this.filters.isNullOrEmpty()) {
+        newFilter.addAll(this.filters)
+    }
+    this.filters = newFilter.toTypedArray()
+}
+
+fun EditText.addCharsFilter(chars: CharArray) {
+    addFilter(charsFilter(chars))
+}
+
+fun charsFilter(chars: CharArray): InputFilter {
+    return InputFilter { source, start, end, _, _, _ ->
         when {
             end > start -> for (index in start until end) {
                 if (!String(chars).contains(source[index].toString())) {
@@ -40,10 +52,10 @@ fun EditText.filterChars(chars: CharArray) {
             }
         }
         return@InputFilter null
-    })
-    this.filters = arrayList.toArray(arrayOfNulls<InputFilter>(arrayList.size))
-    this.inputType = EditorInfo.TYPE_TEXT_FLAG_NO_SUGGESTIONS
+    }
 }
+
+val DIGIT_FILTER = charsFilter(charArrayOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9'))
 
 fun EditText?.addOnClickListener(listener: View.OnClickListener) {
     this ?: return
@@ -135,6 +147,18 @@ fun EditText.select() {
     this.setSelection(text?.toString()?.length ?: 0)
 }
 
+fun EditText.disableFocus() {
+    hideKeyboard()
+    clearFocus()
+    isFocusable = false
+    isCursorVisible = false
+}
+
+fun EditText.enableFocus() {
+    isFocusable = false
+    isCursorVisible = false
+}
+
 /**
  *
  */
@@ -160,6 +184,13 @@ fun ImageView.postImage(@DrawableRes drawableRes: Int) {
 /**
  *
  */
+val NestedScrollView?.hasInvisibleScrollContent: Boolean
+    @SuppressLint("RestrictedApi")
+    get() {
+        this ?: return false
+        return this.scrollY < (this.computeVerticalScrollRange() - this.height)
+    }
+
 fun NestedScrollView.scrollToTop() {
     post {
         fling(0)

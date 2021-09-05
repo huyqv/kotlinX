@@ -223,10 +223,10 @@ fun unzip(zipFile: File?, targetDirectory: File?) {
         while (zis.nextEntry.also { ze = it } != null) {
             val file = File(targetDirectory, ze.name)
             val dir = if (ze.isDirectory) file else file.parentFile
-            if (!dir.isDirectory && !dir.mkdirs()) throw FileNotFoundException(
-                "Failed to ensure directory: " +
-                        dir.absolutePath
-            )
+            if (!dir.isDirectory && !dir.mkdirs()) {
+                toast("Failed to ensure directory: ${dir.absolutePath}")
+                return
+            }
             if (ze.isDirectory) continue
             val fos = FileOutputStream(file)
             fos.use { fos ->

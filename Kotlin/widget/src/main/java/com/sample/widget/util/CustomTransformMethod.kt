@@ -1,4 +1,4 @@
-package com.sample.library.view
+package com.sample.widget.util
 
 import android.text.method.PasswordTransformationMethod
 import android.view.View

@@ -10,12 +10,12 @@
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/editText"
         style="@style/InputView.EditText"
-        android:layout_marginTop="@dimen/contentMargin1"
+        android:layout_marginTop="@dimen/contentMargin"
         android:background="@drawable/drw_under_tray"
-        android:drawablePadding="@dimen/contentMargin1"
+        android:drawablePadding="@dimen/contentMargin"
         android:gravity="center"
-        android:paddingStart="@dimen/contentMargin1"
-        android:paddingEnd="@dimen/contentMargin1" />
+        android:paddingStart="@dimen/contentMargin"
+        android:paddingEnd="@dimen/contentMargin" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/textViewError"

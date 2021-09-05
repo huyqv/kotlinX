@@ -25,7 +25,7 @@
         style="@style/InputView.EditText"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_40sdp"
-        android:layout_marginTop="@dimen/contentMargin2"
+        android:layout_marginTop="@dimen/contentMarginX2"
         android:background="@drawable/drw_under_line"
         android:drawablePadding="@dimen/_4sdp"
         android:privateImeOptions="nm"

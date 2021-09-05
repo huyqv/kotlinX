@@ -7,7 +7,7 @@
 
 <androidx.constraintlayout.widget.ConstraintLayout
         style="@style/Dialog.Layout"
-        android:paddingBottom="@dimen/contentMargin2">
+        android:paddingBottom="@dimen/contentMarginX2">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/textViewTitle"
@@ -18,13 +18,13 @@
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/editTextSearch"
             style="@style/EditText"
-            android:layout_marginHorizontal="@dimen/contentMargin2"
-            android:layout_marginTop="@dimen/contentMargin2"
+            android:layout_marginHorizontal="@dimen/contentMarginX2"
+            android:layout_marginTop="@dimen/contentMarginX2"
             android:background="@drawable/drw_text"
             android:drawableEnd="@drawable/ic_placeholder"
             android:imeActionLabel="Next"
             android:imeOptions="actionNext"
-            android:paddingHorizontal="@dimen/contentMargin2"
+            android:paddingHorizontal="@dimen/contentMarginX2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/textViewTitle"
             tools:text="Search" />
@@ -33,7 +33,7 @@
             android:id="@+id/recyclerView"
             style="@style/ScrollView"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/contentMargin2"
+            android:layout_marginTop="@dimen/contentMarginX2"
             android:minHeight="@dimen/_180sdp"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"

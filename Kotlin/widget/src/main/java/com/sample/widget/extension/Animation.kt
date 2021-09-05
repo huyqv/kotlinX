@@ -68,14 +68,14 @@ fun View.animate(@AnimRes animRes: Int, duration: Long, block: () -> Unit) {
     anim.duration = duration
     anim.fillAfter = false
     anim.setAnimationListener(object : Animation.AnimationListener {
-        override fun onAnimationEnd(animation: Animation?) {
+        override fun onAnimationEnd(animation: Animation) {
             block()
         }
 
-        override fun onAnimationStart(animation: Animation?) {
+        override fun onAnimationStart(animation: Animation) {
         }
 
-        override fun onAnimationRepeat(animation: Animation?) {
+        override fun onAnimationRepeat(animation: Animation) {
         }
 
     })
@@ -93,10 +93,10 @@ fun View.animateAlpha(toAlpha: Float, onEnd: () -> Unit) {
         anim.duration = 1200
         anim.fillAfter = true
         anim.setAnimationListener(object : SimpleAnimationListener {
-            override fun onAnimationStart(animation: Animation?) {
+            override fun onAnimationStart(animation: Animation) {
             }
 
-            override fun onAnimationEnd(animation: Animation?) {
+            override fun onAnimationEnd(animation: Animation) {
                 this@animateAlpha.alpha = toAlpha
                 onEnd()
             }
@@ -185,36 +185,36 @@ fun animVanish(): ScaleAnimation {
 }
 
 
-fun Animation?.onAnimationStart(onStart: () -> Unit): Animation? {
-    this?.setAnimationListener(object : SimpleAnimationListener {
-        override fun onAnimationStart(animation: Animation?) {
+fun Animation.onAnimationStart(onStart: () -> Unit): Animation {
+    this.setAnimationListener(object : SimpleAnimationListener {
+        override fun onAnimationStart(animation: Animation) {
             onStart()
         }
     })
     return this
 }
 
-fun Animation?.onAnimationEnd(onEnd: () -> Unit): Animation? {
-    this?.setAnimationListener(object : SimpleAnimationListener {
-        override fun onAnimationEnd(animation: Animation?) {
+fun Animation.onAnimationEnd(onEnd: () -> Unit): Animation {
+    this.setAnimationListener(object : SimpleAnimationListener {
+        override fun onAnimationEnd(animation: Animation) {
             onEnd()
         }
     })
     return this
 }
 
-fun ObjectAnimator?.onAnimatorStart(onStart: () -> Unit): ObjectAnimator? {
-    this?.addListener(object : SimpleAnimatorListener {
-        override fun onAnimationStart(animator: Animator?) {
+fun ObjectAnimator.onAnimatorStart(onStart: () -> Unit): ObjectAnimator {
+    this.addListener(object : SimpleAnimatorListener {
+        override fun onAnimationStart(animator: Animator) {
             onStart()
         }
     })
     return this
 }
 
-fun ObjectAnimator?.onAnimatorEnd(onEnd: () -> Unit): ObjectAnimator? {
-    this?.addListener(object : SimpleAnimatorListener {
-        override fun onAnimationEnd(animator: Animator?) {
+fun ObjectAnimator.onAnimatorEnd(onEnd: () -> Unit): ObjectAnimator {
+    this.addListener(object : SimpleAnimatorListener {
+        override fun onAnimationEnd(animator: Animator) {
             onEnd()
         }
     })
@@ -222,27 +222,27 @@ fun ObjectAnimator?.onAnimatorEnd(onEnd: () -> Unit): ObjectAnimator? {
 }
 
 interface SimpleAnimationListener : Animation.AnimationListener {
-    override fun onAnimationRepeat(animation: Animation?) {
+    override fun onAnimationRepeat(animation: Animation) {
     }
 
-    override fun onAnimationEnd(animation: Animation?) {
+    override fun onAnimationEnd(animation: Animation) {
     }
 
-    override fun onAnimationStart(animation: Animation?) {
+    override fun onAnimationStart(animation: Animation) {
     }
 }
 
 interface SimpleAnimatorListener : Animator.AnimatorListener {
-    override fun onAnimationRepeat(animator: Animator?) {
+    override fun onAnimationRepeat(animator: Animator) {
     }
 
-    override fun onAnimationEnd(animator: Animator?) {
+    override fun onAnimationEnd(animator: Animator) {
     }
 
-    override fun onAnimationCancel(animator: Animator?) {
+    override fun onAnimationCancel(animator: Animator) {
     }
 
-    override fun onAnimationStart(animator: Animator?) {
+    override fun onAnimationStart(animator: Animator) {
     }
 }
 

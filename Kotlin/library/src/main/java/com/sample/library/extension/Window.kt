@@ -43,7 +43,7 @@ val Activity.screenHeight: Int
             val displayMetrics = DisplayMetrics()
             @Suppress("DEPRECATION")
             this.windowManager.defaultDisplay.getMetrics(displayMetrics)
-            displayMetrics.widthPixels
+            displayMetrics.heightPixels
         }
     }
 
@@ -92,6 +92,25 @@ fun Window.navBarColor(@ColorInt color: Int) {
     }
 }
 
+fun Window.lightSystemWidgets() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+        insetsController?.setSystemBarsAppearance(
+            0,
+            WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
+        )
+        insetsController?.setSystemBarsAppearance(
+            0,
+            WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS
+        )
+        return
+    }
+    @Suppress("DEPRECATION")
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        var flags = decorView.systemUiVisibility
+        decorView.systemUiVisibility = flags xor View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+    }
+}
+
 fun Window.lightStatusBarWidgets() {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
         insetsController?.setSystemBarsAppearance(
@@ -103,7 +122,9 @@ fun Window.lightStatusBarWidgets() {
     @Suppress("DEPRECATION")
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
         var flags = decorView.systemUiVisibility
-        decorView.systemUiVisibility = flags xor View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        decorView.systemUiVisibility = flags xor
+                View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR xor
+                View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
     }
 }
 
@@ -122,8 +143,12 @@ fun Window.lightNavBarWidgets() {
     }
 }
 
-fun Window.darkNavBarWidgets() {
+fun Window.darkSystemWidgets() {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+        insetsController?.setSystemBarsAppearance(
+            WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS,
+            WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
+        )
         insetsController?.setSystemBarsAppearance(
             WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS,
             WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS
@@ -133,7 +158,9 @@ fun Window.darkNavBarWidgets() {
     @Suppress("DEPRECATION")
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
         val flags = decorView.systemUiVisibility
-        decorView.systemUiVisibility = flags or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
+        decorView.systemUiVisibility = flags or
+                View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR or
+                View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
     }
 }
 
@@ -149,6 +176,21 @@ fun Window.darkStatusBarWidgets() {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
         val flags = decorView.systemUiVisibility
         decorView.systemUiVisibility = flags or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+    }
+}
+
+fun Window.darkNavBarWidgets() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+        insetsController?.setSystemBarsAppearance(
+            WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS,
+            WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS
+        )
+        return
+    }
+    @Suppress("DEPRECATION")
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        val flags = decorView.systemUiVisibility
+        decorView.systemUiVisibility = flags or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
     }
 }
 
@@ -231,6 +273,37 @@ fun Fragment.navBarColor(@ColorInt color: Int) {
 fun DialogFragment.navBarColor(@ColorInt color: Int) {
     dialog?.window?.navBarColor(color)
 }
+
+/**
+ * Set light status bar widgets
+ */
+fun Activity.lightSystemWidgets() {
+    window.lightSystemWidgets()
+}
+
+fun Fragment.lightSystemWidgets() {
+    activity?.lightSystemWidgets()
+}
+
+fun DialogFragment.lightSystemWidgets() {
+    dialog?.window?.lightSystemWidgets()
+}
+
+/**
+ * Set dark status bar widgets
+ */
+fun Activity.darkSystemWidgets() {
+    window.darkSystemWidgets()
+}
+
+fun Fragment.darkSystemWidgets() {
+    activity?.darkSystemWidgets()
+}
+
+fun DialogFragment.darkSystemWidgets() {
+    dialog?.window?.darkSystemWidgets()
+}
+
 
 /**
  * Set light status bar widgets

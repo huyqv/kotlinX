@@ -74,7 +74,7 @@ abstract class BaseListAdapter<T> : ListAdapter<T, RecyclerView.ViewHolder> {
     /**
      *
      */
-    var onItemClick: (T, Int) -> Unit = { _, _ -> }
+    open var onItemClick: (T, Int) -> Unit = { _, _ -> }
 
     var onItemLongClick: (T, Int) -> Unit = { _, _ -> }
 

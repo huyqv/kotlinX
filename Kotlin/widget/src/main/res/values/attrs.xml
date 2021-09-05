@@ -55,6 +55,13 @@
         <attr name="strokeLineColor" format="color" />
     </declare-styleable>
 
+    <declare-styleable name="ExpandableLayout">
+        <attr name="expandDuration" format="integer" />
+        <attr name="expanded" format="boolean" />
+        <attr name="expandOrientation" format="integer" />
+        <attr name="expandParallax" format="float" />
+    </declare-styleable>
+
     <declare-styleable name="DashView">
         <attr name="dashLength" format="reference|dimension" />
         <attr name="dashSpace" format="reference|dimension" />

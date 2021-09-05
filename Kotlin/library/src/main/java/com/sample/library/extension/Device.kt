@@ -54,6 +54,7 @@ val timeZone: String
 
 val isTablet: Boolean
     get() {
+        //return com.google.android.gms.common.util.DeviceProperties.isTablet(app.resources)
         return app.resources.configuration.screenLayout and
                 Configuration.SCREENLAYOUT_SIZE_MASK >= Configuration.SCREENLAYOUT_SIZE_LARGE
     }
@@ -67,23 +68,36 @@ val chipSet: String
             val platform = method.invoke(null, "ro.board.platform")
 
             platform as? String ?: "<$platform>"
-
         } catch (e: Exception) {
             "<$e>"
         }
     }
 
-val displayMetrics: DisplayMetrics
+val screenWidth: Int
     get() {
         val windowManager = app.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            val bounds = windowManager.currentWindowMetrics.bounds
+            return bounds.width()
+        }
         val dm = DisplayMetrics()
+        @Suppress("DEPRECATION")
         windowManager.defaultDisplay.getMetrics(dm)
-        return dm
+        return dm.widthPixels
     }
 
-val screenWidth: Int get() = displayMetrics.widthPixels
-
-val screenHeight: Int get() = displayMetrics.heightPixels
+val screenHeight: Int
+    get() {
+        val windowManager = app.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            val bounds = windowManager.currentWindowMetrics.bounds
+            return bounds.width()
+        }
+        val dm = DisplayMetrics()
+        @Suppress("DEPRECATION")
+        windowManager.defaultDisplay.getMetrics(dm)
+        return dm.widthPixels
+    }
 
 val freeMemory: Long
     get() {
@@ -93,7 +107,10 @@ val freeMemory: Long
         return (memoryInfo.availMem) / (1024 * 1024)
     }
 
-val dpi: Int get() = displayMetrics.densityDpi
+val dpi: Int
+    get() {
+        return app.resources.displayMetrics.density.toInt();
+    }
 
 /**
  * [CameraCharacteristics.LENS_FACING_FRONT]

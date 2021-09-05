@@ -6,18 +6,6 @@ import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 
-typealias Void = () -> Unit
-
-fun Void?.does() {
-    this?.also { it() }
-}
-
-typealias Block<reified T> = T.() -> Unit
-
-fun <T> Block<T>?.does(t: T) {
-    this?.also { t.it() }
-}
-
 data class Data<T>(val data: T?, val e: Exception?)
 
 fun <T> emit(block: suspend FlowCollector<Data<T>>.() -> T): Flow<Data<T>> {
@@ -38,7 +26,7 @@ fun <T> Flow<Data<T>>.each(block: (Data<T>) -> Unit) {
 
 val isOnUiThread: Boolean get() = Looper.myLooper() == Looper.getMainLooper()
 
-fun LifecycleOwner.launch(interval: Long = 0, block: Void) {
+fun LifecycleOwner.launch(interval: Long = 0, block: () -> Unit) {
     lifecycleScope.launch {
         if (interval > 0) delay(interval)
         withContext(Dispatchers.Main) {
@@ -47,17 +35,16 @@ fun LifecycleOwner.launch(interval: Long = 0, block: Void) {
     }
 }
 
-fun onUi(interval: Long = 0, block: Void) {
+fun onUi(interval: Long = 0, block: () -> Unit) {
     GlobalScope.launch {
         if (interval > 0) delay(interval)
         withContext(Dispatchers.Main) {
             block()
         }
     }
-
 }
 
-fun onIo(interval: Long = 0, block: Void) {
+fun onIo(interval: Long = 0, block: () -> Unit) {
     flow {
         if (interval > 0) delay(interval)
         emit(true)

@@ -7,7 +7,7 @@
 
 <androidx.constraintlayout.widget.ConstraintLayout
         style="@style/Dialog.Layout"
-        android:paddingBottom="@dimen/contentMargin2">
+        android:paddingBottom="@dimen/contentMarginX2">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/textViewTitle"
@@ -30,7 +30,7 @@
             android:id="@+id/recyclerViewMonth"
             android:layout_width="@dimen/_60sdp"
             android:layout_height="@dimen/_108sdp"
-            android:layout_marginTop="@dimen/contentMargin2"
+            android:layout_marginTop="@dimen/contentMarginX2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textViewTitle"
@@ -61,7 +61,7 @@
             android:id="@+id/viewDone"
             style="@style/Dialog.Button"
             android:layout_width="@dimen/_180sdp"
-            android:layout_marginTop="@dimen/contentMargin2"
+            android:layout_marginTop="@dimen/contentMarginX2"
             android:text="Done"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

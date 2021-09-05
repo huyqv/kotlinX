@@ -1,4 +1,4 @@
-package com.sample.library.view
+package com.sample.widget.util
 
 import android.app.Activity
 import android.content.res.Configuration
@@ -16,7 +16,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.OnLifecycleEvent
-import com.sample.library.R
+import com.sample.widget.R
 
 /**
  * -------------------------------------------------------------------------------------------------

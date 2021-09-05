@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
+import android.util.AttributeSet
 import android.util.DisplayMetrics
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -12,6 +13,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import androidx.annotation.DimenRes
 import androidx.annotation.IntDef
+import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.recyclerview.widget.*
 import androidx.viewbinding.ViewBinding
 
@@ -52,7 +54,6 @@ interface DragListener {
 }
 
 fun RecyclerView.addScrollListener(listener: ScrollListener?) {
-
     if (listener == null) {
         clearOnScrollListeners()
     } else {
@@ -71,24 +72,24 @@ fun RecyclerView.addScrollListener(listener: ScrollListener?) {
             }
         })
     }
-
 }
 
 fun RecyclerView.addMostScrollListener(listener: MostScrollListener?) {
-
-    if (listener == null)
+    if (listener == null) {
         clearOnScrollListeners()
-    else
+    } else {
         addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 if (layoutManager is LinearLayoutManager) {
                     val pastVisibleItems: Int = (layoutManager as LinearLayoutManager)
                         .findFirstCompletelyVisibleItemPosition()
-                    if (pastVisibleItems == 0)
+                    if (pastVisibleItems == 0) {
                         listener.onMostTopScrolled()
+                    }
                 }
             }
         })
+    }
 }
 
 fun RecyclerView.addDragListener(listener: DragListener?) {
@@ -346,6 +347,7 @@ class ItemDecoration(
 }
 
 fun RecyclerView.intLinearSnapper(onSnap: (Int) -> Unit): SnapHelper {
+    this.onFlingListener = null
     val snapHelper = LinearSnapHelper()
     snapHelper.attachToRecyclerView(this)
     addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -418,7 +420,32 @@ abstract class ViewClickListener(private val delayedInterval: Long = 400) : View
             lastClickTime = System.currentTimeMillis()
         }
     }
+}
 
+abstract class ItemViewMotionListener(private val itemView: View) :
+    MotionLayout.TransitionListener {
+
+    open fun onTransitionStart(layout: MotionLayout, startId: Int, endId: Int) {
+    }
+
+    open fun onTransitionComplete(layout: MotionLayout, currentId: Int) {
+    }
+
+    final override fun onTransitionStarted(layout: MotionLayout, startId: Int, endId: Int) {
+        itemView.parent.requestDisallowInterceptTouchEvent(true)
+        onTransitionStart(layout, startId, endId)
+    }
+
+    final override fun onTransitionCompleted(layout: MotionLayout, currentId: Int) {
+        itemView.parent.requestDisallowInterceptTouchEvent(false)
+        onTransitionComplete(layout, currentId)
+    }
+
+    override fun onTransitionChange(layout: MotionLayout, startId: Int, endId: Int, progress: Float) {
+    }
+
+    override fun onTransitionTrigger(layout: MotionLayout, triggerId: Int, positive: Boolean, progress: Float) {
+    }
 }
 
 fun View?.addViewClickListener(delayedInterval: Long, listener: ((View?) -> Unit)? = null) {
@@ -444,4 +471,30 @@ fun View?.addViewClickListener(delayedInterval: Long, listener: ((View?) -> Unit
 
 fun View?.addViewClickListener(listener: ((View?) -> Unit)? = null) {
     addViewClickListener(0, listener)
+}
+
+fun RecyclerView.scrollToCenter(position: Int){
+    val smoothScroller: RecyclerView.SmoothScroller = CenterLayoutManager.CenterSmoothScroller(context)
+    smoothScroller.targetPosition = position
+    this.layoutManager?.startSmoothScroll(smoothScroller)
+}
+
+class CenterLayoutManager : LinearLayoutManager {
+
+    constructor(context: Context) : super(context)
+
+    constructor(context: Context, orientation: Int, reverseLayout: Boolean) : super(context, orientation, reverseLayout)
+
+    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int, defStyleRes: Int) : super(context, attrs, defStyleAttr, defStyleRes)
+
+    override fun smoothScrollToPosition(recyclerView: RecyclerView, state: RecyclerView.State, position: Int) {
+        val centerSmoothScroller = CenterSmoothScroller(recyclerView.context)
+        centerSmoothScroller.targetPosition = position
+        startSmoothScroll(centerSmoothScroller)
+    }
+
+    class CenterSmoothScroller(context: Context) : LinearSmoothScroller(context) {
+        override fun calculateDtToFit(viewStart: Int, viewEnd: Int, boxStart: Int, boxEnd: Int, snapPreference: Int): Int = (boxStart + (boxEnd - boxStart) / 2) - (viewStart + (viewEnd - viewStart) / 2)
+    }
+
 }

@@ -14,7 +14,7 @@ open class AppMotionLayout : MotionLayout {
 
     constructor(context: Context, attrs: AttributeSet? = null) : super(context, attrs) {
         addTransitionListener(object : SimpleMotionTransitionListener {
-            override fun onTransitionCompleted(layout: MotionLayout?, currentId: Int) {
+            override fun onTransitionCompleted(layout: MotionLayout, currentId: Int) {
                 this@AppMotionLayout.also {
                     it.isInteractionEnabled = true
                     it.previousId = it.currentId

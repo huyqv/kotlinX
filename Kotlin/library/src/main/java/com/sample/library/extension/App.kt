@@ -43,10 +43,16 @@ val packageUrl: String get() = "package:$packageName"
 
 val statusBarHeight: Int
     get() {
-        var result = 0
-        val resourceId = app.resources.getIdentifier("status_bar_height", "dimen", "android")
-        if (resourceId > 0) result = app.resources.getDimensionPixelSize(resourceId)
-        return result
+        val resources = app.resources
+        val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
+        if (resourceId > 0) return resources.getDimensionPixelSize(resourceId)
+        return 0
+    }
+
+val gridSpanCount: Int
+    get() {
+        val isTablet = isTablet
+        return if(com.sample.library.extension.isTablet) 3 else 2
     }
 
 val navigationBarHeight: Int

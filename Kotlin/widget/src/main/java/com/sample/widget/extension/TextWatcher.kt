@@ -72,7 +72,7 @@ fun EditText.addCashWatcher() {
         InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL or InputType.TYPE_NUMBER_FLAG_SIGNED
     addTextChangedListener(object : SimpleTextWatcher {
         override fun afterTextChanged(s: Editable?) {
-            setSilentText(text.toString().intCash())
+            setTextSilently(text.toString().intCash())
         }
     })
 }

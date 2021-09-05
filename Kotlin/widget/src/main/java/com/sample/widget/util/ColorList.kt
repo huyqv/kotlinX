@@ -1,4 +1,4 @@
-package com.sample.library.view
+package com.sample.widget.util
 
 import android.graphics.Color
 import java.util.*
