@@ -13,7 +13,7 @@ import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.sample.widget.R
 
-class ExpandableLayout : ConstraintLayout {
+class AppExpandableLayout : ConstraintLayout {
 
     companion object {
         const val COLLAPSED = 0

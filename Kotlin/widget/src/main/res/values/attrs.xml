@@ -53,6 +53,10 @@
         <attr name="dashLineGap" format="dimension" />
         <attr name="backgroundColor" format="color" />
         <attr name="strokeLineColor" format="color" />
+        <attr name="expandDuration" format="integer" />
+        <attr name="expanded" format="boolean" />
+        <attr name="expandOrientation" format="integer" />
+        <attr name="expandParallax" format="float" />
     </declare-styleable>
 
     <declare-styleable name="ExpandableLayout">

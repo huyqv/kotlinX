@@ -30,13 +30,16 @@ val externalDir: File
 
 val externalPath: String get() = externalDir.absolutePath
 
-val downloadDir: File
-    get() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-        app.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)!!
+val downloadDir: File get() = fileDir(Environment.DIRECTORY_DOWNLOADS)
+
+fun fileDir(dir: String): File {
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+        app.getExternalFilesDir(dir)!!
     } else {
         @Suppress("DEPRECATION")
-        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+        Environment.getExternalStoragePublicDirectory(dir)
     }
+}
 
 fun readBytesFromAssets(fileName: String): ByteArray? {
     return try {
