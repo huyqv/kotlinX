@@ -7,7 +7,7 @@ import android.view.MotionEvent
 import androidx.core.widget.NestedScrollView
 
 
-abstract class AppScrollView : NestedScrollView {
+abstract class AppNestedScrollView : NestedScrollView {
 
     var scrollable = true
 

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:motion="http://schemas.android.com/apk/res-auto">
+
+    <Transition
+        motion:constraintSetEnd="@id/focused"
+        motion:constraintSetStart="@id/unfocused"
+        motion:duration="280" />
+
+    <Transition
+        motion:constraintSetEnd="@id/unfocused"
+        motion:constraintSetStart="@id/focused"
+        motion:duration="280" />
+
+    <ConstraintSet android:id="@+id/unfocused">
+        <Constraint
+            android:id="@id/inputEditText"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/rowHeight"
+            android:layout_marginStart="1px"
+            android:layout_marginTop="@dimen/contentMargin"
+            android:layout_marginEnd="1px"
+            android:textSize="@dimen/_10ssp"
+            motion:layout_constrainedWidth="true"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintHorizontal_bias="0.0"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintWidth_default="percent">
+            <CustomAttribute
+                motion:attributeName="textColor"
+                motion:customColorValue="#00000000" />
+        </Constraint>
+        <Constraint
+            android:id="@id/inputImageViewIcon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="@dimen/contentMarginX2"
+            android:scaleX="1.0"
+            android:scaleY="1.0"
+            motion:layout_constraintBottom_toBottomOf="@+id/inputEditText"
+            motion:layout_constraintStart_toStartOf="@id/inputEditText"
+            motion:layout_constraintTop_toTopOf="@+id/inputEditText" />
+        <Constraint
+            android:id="@id/inputTextViewTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_2sdp"
+            android:scaleX="1"
+            android:scaleY="1"
+            motion:layout_constraintBottom_toBottomOf="@+id/inputEditText"
+            motion:layout_constraintStart_toEndOf="@+id/inputImageViewIcon"
+            motion:layout_constraintTop_toTopOf="@+id/inputEditText">
+            <CustomAttribute
+                motion:attributeName="textColor"
+                motion:customColorValue="#7D7D7D" />
+            <CustomAttribute
+                motion:attributeName="background"
+                motion:customColorValue="#00000000" />
+        </Constraint>
+        <Constraint
+            android:id="@id/inputTextViewError"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/contentMarginD2"
+            android:layout_marginTop="@dimen/contentMarginD4"
+            motion:layout_constraintStart_toStartOf="@id/inputEditText"
+            motion:layout_constraintTop_toBottomOf="@id/inputEditText" />
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/focused">
+        <Constraint
+            android:id="@id/inputEditText"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/rowHeight"
+            android:layout_marginStart="1px"
+            android:layout_marginTop="@dimen/contentMargin"
+            android:layout_marginEnd="1px"
+            motion:layout_constrainedWidth="true"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintWidth_default="percent">
+            <CustomAttribute
+                motion:attributeName="textColor"
+                motion:customColorValue="#000000" />
+            <CustomAttribute
+                motion:attributeName="backgroundTint"
+                motion:customColorValue="@color/colorPrimary" />
+        </Constraint>
+        <Constraint
+            android:id="@id/inputImageViewIcon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="@dimen/contentMarginX2"
+            android:scaleX="1.0"
+            android:scaleY="1.0"
+            motion:layout_constraintBottom_toBottomOf="@+id/inputEditText"
+            motion:layout_constraintStart_toStartOf="@id/inputEditText"
+            motion:layout_constraintTop_toTopOf="@+id/inputEditText" />
+        <Constraint
+            android:id="@id/inputTextViewTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleX=".9"
+            android:scaleY=".9"
+            motion:layout_constraintBottom_toTopOf="@+id/inputEditText"
+            motion:layout_constraintStart_toStartOf="@+id/inputImageViewIcon"
+            motion:layout_constraintTop_toTopOf="@+id/inputEditText">
+            <CustomAttribute
+                motion:attributeName="textColor"
+                motion:customColorValue="@color/colorPrimary" />
+            <CustomAttribute
+                motion:attributeName="background"
+                motion:customColorValue="#FFFFFF" />
+        </Constraint>
+        <Constraint
+            android:id="@id/inputTextViewError"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/contentMarginD2"
+            android:layout_marginTop="@dimen/contentMarginD4"
+            motion:layout_constraintStart_toStartOf="@id/inputEditText"
+            motion:layout_constraintTop_toBottomOf="@id/inputEditText" />
+    </ConstraintSet>
+
+</MotionScene>

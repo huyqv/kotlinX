@@ -39,10 +39,10 @@ interface BaseView {
     fun onViewClick(v: View?) = Unit
 
     fun navigate(
-        @IdRes actionId: Int,
-        args: Bundle? = null,
-        extras: Navigator.Extras? = null,
-        block: (NavOptions.Builder.() -> Unit) = {}
+            @IdRes actionId: Int,
+            args: Bundle? = null,
+            extras: Navigator.Extras? = null,
+            block: (NavOptions.Builder.() -> Unit) = {}
     ) {
         val options = NavOptions.Builder().also {
             it.setVerticalAnim()
@@ -52,10 +52,10 @@ interface BaseView {
     }
 
     fun navigate(
-        directions: NavDirections,
-        args: Bundle? = null,
-        extras: Navigator.Extras? = null,
-        block: (NavOptions.Builder.() -> Unit) = {}
+            directions: NavDirections,
+            args: Bundle? = null,
+            extras: Navigator.Extras? = null,
+            block: (NavOptions.Builder.() -> Unit) = {}
     ) {
         navigate(directions.actionId, args, extras, block)
     }
@@ -109,6 +109,10 @@ interface BaseView {
         return this
     }
 
+    fun NavOptions.Builder.setPopUpTo(@IdRes fragmentId: Int) {
+        setPopUpTo(fragmentId, false)
+    }
+
     val defaultArgKey: String get() = "DEFAULT_ARG_KEY"
 
     fun <T> navResultLiveData(key: String = defaultArgKey): MutableLiveData<T>? {
@@ -117,8 +121,8 @@ interface BaseView {
 
     fun <T> setNavResult(key: String?, result: T) {
         navController()?.previousBackStackEntry?.savedStateHandle?.set(
-            key
-                ?: defaultArgKey, result
+                key
+                        ?: defaultArgKey, result
         )
     }
 

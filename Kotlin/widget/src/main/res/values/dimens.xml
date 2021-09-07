@@ -3,6 +3,7 @@
 
     <item name="sampleFloat" format="float" type="dimen">.5</item>
 
+    <dimen name="contentMarginD4">@dimen/_1sdp</dimen>
     <dimen name="contentMarginD2">@dimen/_2sdp</dimen>
     <dimen name="contentMargin">@dimen/_4sdp</dimen>
     <dimen name="contentMarginX2">@dimen/_8sdp</dimen>
@@ -13,17 +14,20 @@
     <dimen name="contentMarginX7">@dimen/_28sdp</dimen>
     <dimen name="contentMarginX8">@dimen/_32sdp</dimen>
     <dimen name="contentMarginX9">@dimen/_36sdp</dimen>
+    <dimen name="contentMarginX10">@dimen/_40sdp</dimen>
 
+    <dimen name="textSizeD2">@dimen/_7sdp</dimen>
     <dimen name="textSize">@dimen/_9sdp</dimen>
     <dimen name="textSize2">@dimen/_11sdp</dimen>
     <dimen name="textSize3">@dimen/_13sdp</dimen>
     <dimen name="textSize4">@dimen/_15sdp</dimen>
     <dimen name="textSize5">@dimen/_17sdp</dimen>
 
-    <dimen name="appBarSize">@dimen/_36sdp</dimen>
-    <dimen name="rowHeight">@dimen/_36sdp</dimen>
-    <dimen name="rowHeightD2">@dimen/_20sdp</dimen>
-    <dimen name="rowRadius">@dimen/_4sdp</dimen>
-    <dimen name="itemRadius">@dimen/_6sdp</dimen>
+    <dimen name="appBarSize">@dimen/_40sdp</dimen>
+    <dimen name="rowHeight">@dimen/_32sdp</dimen>
+    <dimen name="rowHeightX3">@dimen/_96sdp</dimen>
+    <dimen name="rowHeightD2">@dimen/_16sdp</dimen>
+    <dimen name="rowRadius">@dimen/_8sdp</dimen>
+    <dimen name="itemRadius">@dimen/_8sdp</dimen>
 
 </resources>

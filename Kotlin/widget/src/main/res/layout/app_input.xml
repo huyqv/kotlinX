@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.motion.widget.MotionLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/inputViewLayout"
+    style="@style/MatchWidth"
+    app:layoutDescription="@xml/motion_input">
+
+    <View
+        android:id="@+id/inputViewBackground"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/drw_input_bg"
+        app:layout_constraintBottom_toBottomOf="@id/inputEditText"
+        app:layout_constraintEnd_toEndOf="@id/inputEditText"
+        app:layout_constraintStart_toStartOf="@id/inputEditText"
+        app:layout_constraintTop_toTopOf="@id/inputEditText" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/inputEditText"
+        style="@style/EditText"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/drw_input_border"
+        android:paddingStart="48dp"
+        android:paddingEnd="@dimen/contentMarginX2"
+        android:textColor="#000000"
+        android:textColorHint="#595959"
+        android:textCursorDrawable="@drawable/drw_input_cursor"
+        android:textStyle="bold"
+        android:tint="@android:color/darker_gray"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/inputImageViewIcon"
+        android:layout_width="14dp"
+        android:layout_height="14dp"
+        android:clickable="false"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_placeholder"
+        android:tint="@android:color/darker_gray"
+        android:visibility="gone" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/inputTextViewTitle"
+        style="@style/TextView"
+        android:clickable="false"
+        android:paddingStart="4dp"
+        android:paddingEnd="4dp"
+        android:textSize="@dimen/textSize2"
+        tools:text="Hint text" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/inputTextViewError"
+        style="@style/TextView"
+        android:layout_marginTop="2dp"
+        android:textColor="@android:color/holo_red_dark"
+        tools:text="Error text" />
+
+</androidx.constraintlayout.motion.widget.MotionLayout>

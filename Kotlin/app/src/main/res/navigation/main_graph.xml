@@ -9,7 +9,7 @@
         android:id="@+id/alertFragment"
         android:name="sample.ui.alert.AlertFragment"
         android:label="AlertFragment"
-        tools:layout="@layout/alert"/>
+        tools:layout="@layout/alert" />
     <action
         android:id="@+id/action_global_alertFragment"
         app:destination="@id/alertFragment" />
@@ -27,7 +27,7 @@
         android:id="@+id/selectableFragment"
         android:name="sample.ui.selectable.SelectableFragment"
         android:label="SelectableFragment"
-        tools:layout="@layout/selectable"/>
+        tools:layout="@layout/selectable" />
     <action
         android:id="@+id/action_global_selectableFragment"
         app:destination="@id/selectableFragment" />
@@ -36,7 +36,7 @@
         android:id="@+id/webFragment"
         android:name="sample.ui.web.WebFragment"
         android:label="WebFragment"
-        tools:layout="@layout/web"/>
+        tools:layout="@layout/web" />
     <action
         android:id="@+id/action_global_webFragment"
         app:destination="@id/webFragment" />
@@ -68,6 +68,14 @@
     <action
         android:id="@+id/action_global_homeFragment"
         app:destination="@id/homeFragment" />
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="com.kotlin.app.ui.chat.ChatFragment"
+        android:label="ChatFragment" />
+    <action
+        android:id="@+id/action_global_chatFragment"
+        app:destination="@id/chatFragment"
+        tools:layout="@layout/chat"/>
 
 
 </navigation>

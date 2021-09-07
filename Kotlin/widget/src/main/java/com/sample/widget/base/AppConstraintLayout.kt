@@ -8,7 +8,10 @@ import android.graphics.drawable.GradientDrawable
 import android.os.Build
 import android.util.AttributeSet
 import android.view.View
+import android.view.ViewGroup
 import android.view.ViewOutlineProvider
+import android.widget.CompoundButton
+import android.widget.RadioButton
 import androidx.annotation.ColorInt
 import androidx.annotation.StyleableRes
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -183,4 +186,20 @@ open class AppConstraintLayout : ConstraintLayout {
         }
     }
 
+    var onCheckedChanged: ((RadioButton, Boolean) -> Unit)? = null
+
+    private val checkedChangeListener : CompoundButton.OnCheckedChangeListener by lazy {
+        CompoundButton.OnCheckedChangeListener { buttonView, isChecked ->
+            if(onCheckedChanged != null && buttonView is RadioButton) {
+                onCheckedChanged!!(buttonView, isChecked)
+            }
+        }
+    }
+
+    override fun addViewInLayout(child: View?, index: Int, params: ViewGroup.LayoutParams?): Boolean {
+        (child as? RadioButton)?.also { radioButton ->
+            radioButton.setOnCheckedChangeListener(checkedChangeListener)
+        }
+        return super.addViewInLayout(child, index, params)
+    }
 }

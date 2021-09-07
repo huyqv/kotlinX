@@ -6,7 +6,7 @@
     style="@style/Dialog.Card">
 
 
-<androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         style="@style/Dialog.Layout"
         android:paddingBottom="@dimen/contentMarginX2">
 

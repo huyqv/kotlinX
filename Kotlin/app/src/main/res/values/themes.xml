@@ -27,19 +27,16 @@
         <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
     </style>
 
-    <style name="App.Theme.Transparent"
-        parent="App.Theme">
+    <style name="App.Theme.Transparent" parent="App.Theme">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:backgroundDimEnabled">false</item>
     </style>
 
-    <style name="App.Theme.AppBarOverlay"
-        parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="App.Theme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="App.Theme.PopupOverlay"
-        parent="ThemeOverlay.AppCompat.Light" />
+    <style name="App.Theme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <!-- Dialog. -->
     <style name="App.Dialog">

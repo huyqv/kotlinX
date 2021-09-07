@@ -12,8 +12,8 @@ class ApiClient {
 
     private val certPinner: CertificatePinner by lazy {
         CertificatePinner.Builder()
-            .add(domainName(serviceUrl), "sha256/$publicKey")
-            .build()
+                .add(domainName(serviceUrl), "sha256/$publicKey")
+                .build()
     }
 
     private val hasHttps get() = serviceUrl.indexOf("https") == -1

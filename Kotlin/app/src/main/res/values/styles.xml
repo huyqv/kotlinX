@@ -13,7 +13,7 @@
         <item name="android:layout_margin">@dimen/contentMarginX2</item>
     </style>
 
-    <style name="Dialog.Layout" >
+    <style name="Dialog.Layout">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center</item>
@@ -63,7 +63,7 @@
     <style name="Fragment.BlankText" parent="TextView">
         <item name="android:textColor">@color/colorTextPrimary</item>
         <item name="android:textAllCaps">true</item>
-        <item name="android:textSize">@dimen/_20ssp</item>
+        <item name="android:textSize">@dimen/textSize4</item>
         <item name="android:letterSpacing">0.08</item>
         <item name="android:gravity">center</item>
     </style>

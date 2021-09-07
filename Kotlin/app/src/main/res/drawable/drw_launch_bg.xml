@@ -12,6 +12,6 @@
         android:width="100dp"
         android:height="100dp"
         android:drawable="@drawable/ic_kotlin"
-        android:gravity="center"/>
+        android:gravity="center" />
 
 </layer-list>

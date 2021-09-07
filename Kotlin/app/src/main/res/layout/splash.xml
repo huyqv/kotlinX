@@ -2,9 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     style="@style/Fragment.Layout"
-    android:background="@color/colorTransparent"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:background="@color/colorTransparent">
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/textView"
@@ -12,10 +12,10 @@
         android:text="splash"
         android:textColor="@color/colorBlack"
         android:visibility="gone"
-        tools:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

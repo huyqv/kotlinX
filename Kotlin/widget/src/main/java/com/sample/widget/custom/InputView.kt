@@ -20,6 +20,8 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.viewbinding.ViewBinding
 import com.sample.widget.R
+import com.sample.widget.extension.DIGIT_FILTER
+import com.sample.widget.extension.addFilter
 import com.sample.widget.extension.addViewClickListener
 
 abstract class InputView<B : ViewBinding> : AppCustomView<B>, View.OnFocusChangeListener {
@@ -197,24 +199,27 @@ abstract class InputView<B : ViewBinding> : AppCustomView<B>, View.OnFocusChange
     }
 
     open fun configEditText(types: TypedArray) {
-
         editText?.also {
 
             it.onFocusChangeListener = this
 
             it.setTextColor(types.textColor)
 
-            val inputType = types.getInt(
-                R.styleable.AppCustomView_android_inputType,
-                EditorInfo.TYPE_CLASS_TEXT
+            val attrInputType = types.getInt(
+                    R.styleable.AppCustomView_android_inputType,
+                    EditorInfo.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
             )
-            if (inputType == EditorInfo.TYPE_NULL) {
-                setOnKeyListener(null)
-                it.isFocusable = false
-                it.isEnabled = false
-                it.isCursorVisible = false
-            } else {
-                it.inputType = inputType
+            when (attrInputType) {
+                EditorInfo.TYPE_NULL -> {
+                    disableFocus()
+                }
+                EditorInfo.TYPE_CLASS_NUMBER -> {
+                    it.addFilter(DIGIT_FILTER)
+                    it.inputType = attrInputType
+                }
+                else -> {
+                    it.inputType = attrInputType or EditorInfo.TYPE_TEXT_FLAG_NO_SUGGESTIONS or EditorInfo.IME_FLAG_NO_PERSONALIZED_LEARNING
+                }
             }
 
             it.maxLines = types.getInt(R.styleable.AppCustomView_android_maxLines, 1)
@@ -262,6 +267,5 @@ abstract class InputView<B : ViewBinding> : AppCustomView<B>, View.OnFocusChange
         val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
         imm?.hideSoftInputFromWindow(editText?.windowToken, 0)
     }
-
 
 }

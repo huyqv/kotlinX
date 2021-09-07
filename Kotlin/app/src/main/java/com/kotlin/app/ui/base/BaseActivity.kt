@@ -1,13 +1,9 @@
 package com.kotlin.app.ui.base
 
-import android.content.Context
 import android.content.Intent
-import android.graphics.Rect
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MotionEvent
-import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
@@ -18,7 +14,7 @@ import com.sample.library.extension.removeFragment
 import com.sample.library.extension.replaceFragment
 
 abstract class BaseActivity<B : ViewBinding> : AppCompatActivity(),
-    BaseView {
+        BaseView {
 
     protected val bind: B by viewBinding(inflating())
 
@@ -45,7 +41,7 @@ abstract class BaseActivity<B : ViewBinding> : AppCompatActivity(),
     }
 
     override fun dispatchTouchEvent(event: MotionEvent): Boolean {
-        if (event.action == MotionEvent.ACTION_DOWN) {
+        /*if (event.action == MotionEvent.ACTION_DOWN) {
             val v = currentFocus
             if (v is EditText) {
                 val outRect = Rect()
@@ -56,7 +52,7 @@ abstract class BaseActivity<B : ViewBinding> : AppCompatActivity(),
                     imm.hideSoftInputFromWindow(v.windowToken, 0)
                 }
             }
-        }
+        }*/
         return super.dispatchTouchEvent(event)
     }
 

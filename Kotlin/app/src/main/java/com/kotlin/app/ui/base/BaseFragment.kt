@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
@@ -43,18 +44,14 @@ abstract class BaseFragment<B : ViewBinding> : Fragment(), FragmentView {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         requireActivity().onBackPressedDispatcher.addCallback(this,
-            object : OnBackPressedCallback(true) {
-                override fun handleOnBackPressed() {
-                    onBackPressed()
-                }
-            })
+                object : OnBackPressedCallback(true) {
+                    override fun handleOnBackPressed() {
+                        onBackPressed()
+                    }
+                })
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = bind.root
         view.setOnTouchListener { _, _ -> true }
         statusBarColor(view.backgroundColor)
@@ -64,24 +61,24 @@ abstract class BaseFragment<B : ViewBinding> : Fragment(), FragmentView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         launcher = registerForActivityResult(
-            ActivityResultContracts.StartActivityForResult(),
-            ActivityResultCallback { result ->
-                val data: Intent = result?.data ?: return@ActivityResultCallback
-                val uri: Uri = data.data ?: return@ActivityResultCallback
-                val outputStream = ByteArrayOutputStream()
-                try {
-                    val path = realPathFromURI(uri)
-                    val file = File(path)
-                    val inputStream = FileInputStream(file)
-                    val bitmap = BitmapFactory.decodeStream(inputStream)
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
-                    println("")
-                } catch (ignore: IOException) {
+                ActivityResultContracts.StartActivityForResult(),
+                ActivityResultCallback { result ->
+                    val data: Intent = result?.data ?: return@ActivityResultCallback
+                    val uri: Uri = data.data ?: return@ActivityResultCallback
+                    val outputStream = ByteArrayOutputStream()
+                    try {
+                        val path = realPathFromURI(uri)
+                        val file = File(path)
+                        val inputStream = FileInputStream(file)
+                        val bitmap = BitmapFactory.decodeStream(inputStream)
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+                        println("")
+                    } catch (ignore: IOException) {
 
-                } finally {
-                    outputStream.safeClose()
-                }
-            })
+                    } finally {
+                        outputStream.safeClose()
+                    }
+                })
 
         onViewCreated()
         onLiveDataObserve()
@@ -106,6 +103,10 @@ abstract class BaseFragment<B : ViewBinding> : Fragment(), FragmentView {
         }
     }
 
+    fun requestFocus(v: View?) {
+        launch(240) { v?.requestFocus() }
+    }
+
     fun launch(delayInterval: Long, block: suspend CoroutineScope.() -> Unit) {
         lifecycleScope.launch {
             delay(delayInterval)
@@ -117,6 +118,15 @@ abstract class BaseFragment<B : ViewBinding> : Fragment(), FragmentView {
         lifecycleScope.launch {
             block()
         }
+    }
+
+    fun inputModeAdjustResize() {
+        requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+
+    }
+
+    fun inputModeAdjustNothing() {
+        requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
     }
 
 }

@@ -5,7 +5,8 @@ import android.view.LayoutInflater
 import com.kotlin.app.R
 import com.kotlin.app.databinding.SplashBinding
 import com.kotlin.app.ui.main.MainFragment
-import com.sample.library.extension.*
+import com.sample.library.extension.darkSystemWidgets
+import com.sample.library.extension.statusBarColor
 
 class SplashFragment : MainFragment<SplashBinding>() {
 
@@ -18,7 +19,7 @@ class SplashFragment : MainFragment<SplashBinding>() {
             mainActivity?.setBackground(Color.WHITE)
             statusBarColor(Color.WHITE)
             darkSystemWidgets()
-            navigate(R.id.action_global_introFragment) {
+            navigate(R.id.action_global_chatFragment) {
                 setLaunchSingleTop()
             }
         }

@@ -3,16 +3,25 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    style="@style/MatchParent">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewConversation"
-        style="@style/RecyclerView"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/viewFooter"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            style="@style/RecyclerView"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHeight_default="wrap"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/viewFooter"
@@ -26,42 +35,29 @@
             android:id="@+id/viewMessage"
             style="@style/ScrollView"
             android:layout_width="0dp"
+            android:layout_marginStart="@dimen/contentMarginX2"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/contentMargin"
+            android:layout_marginBottom="@dimen/contentMarginX2"
             android:layout_marginTop="@dimen/contentMargin"
-            android:layout_marginBottom="@dimen/contentMargin"
+            android:backgroundTint="@android:color/darker_gray"
             android:background="@drawable/drw_rounded_outline"
-            android:backgroundTint="@color/colorPrimary"
             android:fillViewport="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/viewSend"
             app:layout_constraintStart_toStartOf="parent">
 
             <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                style="@style/MatchWidth"
                 android:gravity="center_vertical"
-                android:minHeight="@dimen/rowHeight"
                 android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/editTextMessage"
-                    style="@style/EditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    style="@style/EditText.MultiLines"
                     android:background="@color/colorTransparent"
-                    android:gravity="bottom"
-                    android:includeFontPadding="true"
-                    android:inputType="textMultiLine"
-                    android:lineSpacingExtra="0dp"
-                    android:maxLines="10"
-                    android:minLines="1"
-                    android:padding="@dimen/_8sdp"
-                    android:paddingStart="@dimen/_10sdp"
-                    android:paddingEnd="@dimen/_10sdp"
-                    app:layout_constraintEnd_toStartOf="@+id/viewSend"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    tools:maxLines="3"
                     tools:text="@tools:sample/lorem/random" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
@@ -70,15 +66,50 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/viewSend"
-            android:layout_width="@dimen/rowHeight"
-            android:layout_height="@dimen/rowHeight"
-            android:layout_marginBottom="@dimen/contentMargin"
-            android:padding="@dimen/_8sdp"
+            android:layout_width="@dimen/_48sdp"
+            android:layout_height="@dimen/_48sdp"
+            android:padding="@dimen/contentMarginX2"
             android:src="@drawable/ic_send"
             android:tint="@color/colorPrimary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textView1"
+        style="@style/Fragment.BlankText"
+        android:text="single line"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textView2"
+        style="@style/Fragment.BlankText"
+        android:layout_marginTop="@dimen/contentMarginX4"
+        android:text="multi line"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView1" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textView3"
+        style="@style/Fragment.BlankText"
+        android:layout_width="@dimen/_100sdp"
+        android:layout_height="@dimen/_32sdp"
+        android:text="none auto text size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textView4"
+        style="@style/Fragment.BlankText"
+        android:layout_width="@dimen/_100sdp"
+        android:layout_height="@dimen/_32sdp"
+        android:layout_marginTop="@dimen/contentMarginX4"
+        android:text="auto text size"
+        app:autoSizePresetSizes="@array/auto_size_text_sizes"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
