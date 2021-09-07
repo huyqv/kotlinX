@@ -24,10 +24,17 @@
     <dimen name="textSize5">@dimen/_17sdp</dimen>
 
     <dimen name="appBarSize">@dimen/_40sdp</dimen>
-    <dimen name="rowHeight">@dimen/_32sdp</dimen>
-    <dimen name="rowHeightX3">@dimen/_96sdp</dimen>
-    <dimen name="rowHeightD2">@dimen/_16sdp</dimen>
-    <dimen name="rowRadius">@dimen/_8sdp</dimen>
-    <dimen name="itemRadius">@dimen/_8sdp</dimen>
+    <dimen name="rowHeight">@dimen/_36sdp</dimen>
+    <dimen name="rowHeightX3">@dimen/_108sdp</dimen>
+    <dimen name="rowHeightD2">@dimen/_18sdp</dimen>
+    <dimen name="rowRadius">@dimen/_4sdp</dimen>
+    <dimen name="itemRadius">@dimen/_4sdp</dimen>
+
+
+    <dimen name="inputIconSize">@dimen/_16sdp</dimen>
+    <dimen name="inputIconMargin">@dimen/_8sdp</dimen>
+    <dimen name="inputTitleMarginStart">@dimen/_4sdp</dimen>
+    <dimen name="inputTextPaddingStart">@dimen/_32sdp</dimen>
+    <dimen name="inputTextMarginTop">@dimen/_4sdp</dimen>
 
 </resources>

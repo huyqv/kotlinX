@@ -6,10 +6,14 @@ import androidx.viewbinding.ViewBinding
 
 abstract class BaseListAdapter<T> : ListAdapter<T, RecyclerView.ViewHolder> {
 
-    constructor(itemCallback: DiffUtil.ItemCallback<T> = DiffItemCallback()) : super(itemCallback)
+    private val differ: AsyncListDiffer<T>
+
+    constructor(itemCallback: DiffUtil.ItemCallback<T> = DiffItemCallback()) : super(itemCallback) {
+        differ = asyncListDiffer(itemCallback)
+    }
 
     override fun getItemCount(): Int {
-        return size + 1
+        return size
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -51,16 +55,34 @@ abstract class BaseListAdapter<T> : ListAdapter<T, RecyclerView.ViewHolder> {
         }
     }
 
+    override fun getCurrentList(): MutableList<T> {
+        return differ.currentList
+    }
+
+    override fun submitList(list: MutableList<T>?) {
+        differ.submitList(list)
+    }
+
+    override fun submitList(list: MutableList<T>?, commitCallback: Runnable?) {
+        differ.submitList(list, commitCallback)
+    }
+
+
     /**
      *
      */
     open var onItemClick: (T, Int) -> Unit = { _, _ -> }
 
-    var onItemLongClick: (T, Int) -> Unit = { _, _ -> }
+    open var onItemLongClick: (T, Int) -> Unit = { _, _ -> }
 
     var onFooterIndexChanged: (Int) -> Unit = {}
 
-    val size: Int get() = currentList.size
+    val size: Int
+        get() {
+            var s = currentList.size
+            if (footerInflating() != null) s++
+            return s
+        }
 
     var lastBindIndex: Int = -1
 
@@ -86,23 +108,41 @@ abstract class BaseListAdapter<T> : ListAdapter<T, RecyclerView.ViewHolder> {
         return currentList.getOrNull(position)
     }
 
-    open fun set(collection: Collection<T>?) {
+    open fun set(collection: Collection<T>?, commitCallback: Runnable? = null) {
         lastBindIndex = -1
-        submitList(if (collection != null) ArrayList(collection) else null)
+        submitList(collection?.toMutableList(), commitCallback)
     }
 
-    open fun set(list: MutableList<T>?) {
+    open fun set(array: Array<T>?, commitCallback: Runnable? = null) {
         lastBindIndex = -1
-        submitList(if (list != null) ArrayList(list) else null)
+        submitList(array?.toMutableList(), commitCallback)
     }
 
-    open fun set(array: Array<T>?) {
-        lastBindIndex = -1
-        submitList(array?.toMutableList())
+    private fun asyncListDiffer(itemCallback: DiffUtil.ItemCallback<T>): AsyncListDiffer<T> {
+
+        val adapterCallback = AdapterListUpdateCallback(this)
+        val listCallback = object : ListUpdateCallback {
+            override fun onChanged(position: Int, count: Int, payload: Any?) {
+                adapterCallback.onChanged(position + 1, count, payload)
+            }
+
+            override fun onMoved(fromPosition: Int, toPosition: Int) {
+                adapterCallback.onMoved(fromPosition + 1, toPosition + 1)
+            }
+
+            override fun onInserted(position: Int, count: Int) {
+                adapterCallback.onInserted(position + 1, count + 1)
+            }
+
+            override fun onRemoved(position: Int, count: Int) {
+                adapterCallback.onRemoved(position + 1, count)
+            }
+        }
+        return AsyncListDiffer<T>(listCallback, AsyncDifferConfig.Builder<T>(itemCallback).build())
     }
 
     open fun bind(recyclerView: RecyclerView, block: LinearLayoutManager.() -> Unit = {}) {
-        val lm = LinearLayoutManager(recyclerView.context)
+        val lm = CenterLayoutManager(recyclerView.context)
         lm.block()
         recyclerView.layoutManager = lm
         recyclerView.adapter = this

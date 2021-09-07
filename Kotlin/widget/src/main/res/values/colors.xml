@@ -2,10 +2,10 @@
 <resources>
 
     <!--App colors-->
-    <color name="colorPrimary">#37497f</color>
-    <color name="colorPrimaryDark">#37497f</color>
-    <color name="colorPrimaryVariant">#42507A</color>
-    <color name="colorOnPrimary">#515A77</color>
+    <color name="colorPrimary">#2D98DA</color>
+    <color name="colorPrimaryDark">#2D98DA</color>
+    <color name="colorPrimaryVariant">#2D98DA</color>
+    <color name="colorOnPrimary">#2D98DA</color>
     <color name="colorSecondary">#E53935</color>
     <color name="colorSecondaryVariant">#E14F4C</color>
     <color name="colorOnSecondary">#E17371</color>
@@ -14,6 +14,7 @@
     <!--Design colors-->
     <color name="colorTextPrimary">#434343</color>
     <color name="colorTextSecondary">#787878</color>
+    <color name="colorBackgroundDefault">#F8F8F8</color>
     <color name="colorDialogDim">#5E5E5E</color>
 
     <!--Flat colors-->
@@ -63,7 +64,7 @@
     <color name="colorMaximumBlueGreen">#2BCBBA</color>
     <color name="colorTurquoiseTopaz">#0FB9B1</color>
     <color name="colorHighBlue">#45AAF2</color>
-    <color name="colorBoyzone">#2D98DA</color>
+    <color name="colorBoyZone">#2D98DA</color>
     <color name="colorC64NTSC">#4B7BEC</color>
     <color name="colorRoyalBlue">#3867D6</color>
     <color name="colorFlirtatious">#FED330</color>

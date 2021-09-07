@@ -17,16 +17,277 @@ import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.recyclerview.widget.*
 import androidx.viewbinding.ViewBinding
 
-class BaseViewHolder<B : ViewBinding>(val bind: B) : RecyclerView.ViewHolder(bind.root)
-
 typealias ItemInflating = (LayoutInflater, ViewGroup, Boolean) -> ViewBinding
 
 fun ItemInflating?.invokeItem(parent: ViewGroup): ViewBinding? {
     return this?.invoke(LayoutInflater.from(parent.context), parent, false)
 }
 
-class GoneViewHolder(parent: ViewGroup) :
-    RecyclerView.ViewHolder(View(parent.context).also { it.visibility = View.GONE })
+class BaseViewHolder<B : ViewBinding>(val bind: B) : RecyclerView.ViewHolder(bind.root)
+
+class GoneViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(View(parent.context).also { it.visibility = View.GONE })
+
+open class DiffItemCallback<T> : DiffUtil.ItemCallback<T>() {
+
+    override fun areItemsTheSame(oldItem: T, newItem: T): Boolean {
+        return oldItem == newItem
+    }
+
+    override fun areContentsTheSame(oldItem: T, newItem: T): Boolean {
+        return oldItem.hashCode() == newItem.hashCode()
+    }
+}
+
+class GridDecoration : RecyclerView.ItemDecoration {
+
+    private val spanCount: Int
+
+    private val spacing: Int
+
+    private val includeEdge: Boolean
+
+    constructor(context: Context, spanCount: Int, dp: Int, includeEdge: Boolean) {
+
+        val resources = context.resources
+        val metrics = resources.displayMetrics
+
+        this.spanCount = spanCount
+        this.spacing = dp * (metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT)
+        this.includeEdge = includeEdge
+    }
+
+    override fun getItemOffsets(
+            outRect: Rect,
+            view: View,
+            parent: RecyclerView,
+            state: RecyclerView.State
+    ) {
+
+        val position = parent.getChildAdapterPosition(view)
+        val column = position % spanCount
+
+        if (includeEdge) {
+
+            outRect.left = spacing - column * spacing / spanCount
+            outRect.right = (column + 1) * spacing / spanCount
+            if (position < spanCount) outRect.top = spacing
+            outRect.bottom = spacing
+        } else {
+
+            outRect.left = column * spacing / spanCount
+            outRect.right = spacing - (column + 1) * spacing / spanCount
+            if (position >= spanCount) outRect.top = spacing
+        }
+    }
+
+    companion object {
+
+        fun drawByRes(
+                recycler: RecyclerView,
+                col: Int,
+                @DimenRes dimenRes: Int,
+                includeEdge: Boolean = false
+        ) {
+            val dp = recycler.resources.getDimensionPixelSize(dimenRes)
+            draw(recycler, col, dp, includeEdge)
+        }
+
+        fun draw(recycler: RecyclerView, col: Int, dp: Int, includeEdge: Boolean = false) {
+            recycler.addItemDecoration(GridDecoration(recycler.context, col, dp, includeEdge))
+        }
+    }
+
+}
+
+class ItemDecoration(
+        private val margin: Int = 0,
+        @Orientation val orientation: Int = VERTICAL,
+        private val column: Int = 1,
+) : RecyclerView.ItemDecoration() {
+
+    companion object {
+        const val HORIZONTAL = 0
+        const val VERTICAL = 1
+        const val GRID = 2
+    }
+
+    @IntDef(HORIZONTAL, VERTICAL, GRID)
+    private annotation class Orientation
+
+    private var hasLeftSpacing = false
+
+    override fun getItemOffsets(
+            outRect: Rect,
+            view: View,
+            parent: RecyclerView,
+            state: RecyclerView.State
+    ) {
+
+        val context = parent.context
+        if (orientation == GRID) {
+            addGridOffset(outRect, view, parent)
+            return
+        }
+
+        val divider = getDivider(context)
+        if (orientation == VERTICAL)
+            outRect.set(0, 0, 0, divider.intrinsicHeight)
+        else
+            outRect.set(0, 0, divider.intrinsicWidth, 0)
+    }
+
+    override fun onDrawOver(canvas: Canvas, parent: RecyclerView, state: RecyclerView.State) {
+
+        if (orientation == VERTICAL)
+            drawVertical(canvas, parent)
+        else if (orientation == HORIZONTAL)
+            drawHorizontal(canvas, parent)
+    }
+
+    private fun drawVertical(canvas: Canvas, parent: RecyclerView) {
+
+        val context = parent.context
+        val divider = getDivider(context)
+        val left = parent.paddingLeft
+        val right = parent.width - parent.paddingRight
+        val childCount = parent.childCount
+        for (i in 0 until childCount) {
+            val child = parent.getChildAt(i)
+            val params = child.layoutParams as RecyclerView.LayoutParams
+            val top = child.bottom + params.bottomMargin
+            val bottom = top + divider.intrinsicHeight
+            divider.setBounds(
+                    left + dpToPixel(context, margin),
+                    top,
+                    right - dpToPixel(context, margin),
+                    bottom
+            )
+            divider.draw(canvas)
+        }
+    }
+
+    private fun drawHorizontal(canvas: Canvas, parent: RecyclerView) {
+
+        val context = parent.context
+        val divider = getDivider(context)
+        val top = parent.paddingTop
+        val bottom = parent.height - parent.paddingBottom
+        val childCount = parent.childCount
+        for (i in 0 until childCount) {
+            val child = parent.getChildAt(i)
+            val params = child.layoutParams as RecyclerView.LayoutParams
+            val left = child.right + params.rightMargin
+            val right = left + divider.intrinsicHeight
+            divider.setBounds(
+                    left,
+                    top + dpToPixel(context, margin),
+                    right,
+                    bottom - dpToPixel(context, margin)
+            )
+            divider.draw(canvas)
+        }
+    }
+
+    private fun addGridOffset(outRect: Rect, view: View, parent: RecyclerView) {
+
+        val frameWidth = ((parent.width - margin.toFloat() * (column - 1)) / column).toInt()
+        val padding = parent.width / column - frameWidth
+        val itemPosition = (view.layoutParams as RecyclerView.LayoutParams).viewAdapterPosition
+        outRect.top = if (itemPosition >= column) margin else 0
+        when {
+            itemPosition % column == 0 -> {
+                outRect.left = 0
+                outRect.right = padding
+                hasLeftSpacing = true
+            }
+            (itemPosition + 1) % column == 0 -> {
+                hasLeftSpacing = false
+                outRect.right = 0
+                outRect.left = padding
+            }
+            hasLeftSpacing -> {
+                hasLeftSpacing = false
+                outRect.left = margin - padding
+                outRect.right = if ((itemPosition + 2) % column == 0) margin - padding
+                else margin / 2
+            }
+            (itemPosition + 2) % column == 0 -> {
+                hasLeftSpacing = false
+                outRect.left = margin / 2
+                outRect.right = margin - padding
+            }
+            else -> {
+                hasLeftSpacing = false
+                outRect.left = margin / 2
+                outRect.right = margin / 2
+            }
+        }
+        outRect.bottom = 0
+    }
+
+    private fun dpToPixel(context: Context, dp: Int): Int {
+
+        val resources = context.resources
+        val dimen = TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                dp.toFloat(),
+                resources?.displayMetrics
+        )
+        return Math.round(dimen) + 0
+    }
+
+    private fun getDivider(context: Context): Drawable {
+        val attrArray = intArrayOf(android.R.attr.listDivider)
+        val attr = context.obtainStyledAttributes(attrArray)
+        return attr.getDrawable(0)!!
+    }
+
+}
+
+abstract class ItemViewMotionListener(private val itemView: View) : MotionLayout.TransitionListener {
+
+    open fun onTransitionStart(layout: MotionLayout, startId: Int, endId: Int) {
+    }
+
+    open fun onTransitionComplete(layout: MotionLayout, currentId: Int) {
+    }
+
+    final override fun onTransitionStarted(layout: MotionLayout, startId: Int, endId: Int) {
+        itemView.parent.requestDisallowInterceptTouchEvent(true)
+        onTransitionStart(layout, startId, endId)
+    }
+
+    final override fun onTransitionCompleted(layout: MotionLayout, currentId: Int) {
+        itemView.parent.requestDisallowInterceptTouchEvent(false)
+        onTransitionComplete(layout, currentId)
+    }
+
+    override fun onTransitionChange(layout: MotionLayout, startId: Int, endId: Int, progress: Float) {
+    }
+
+    override fun onTransitionTrigger(layout: MotionLayout, triggerId: Int, positive: Boolean, progress: Float) {
+    }
+}
+
+class CenterLayoutManager : LinearLayoutManager {
+
+    constructor(context: Context) : super(context)
+
+    constructor(context: Context, orientation: Int, reverseLayout: Boolean) : super(context, orientation, reverseLayout)
+
+    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int, defStyleRes: Int) : super(context, attrs, defStyleAttr, defStyleRes)
+
+    override fun smoothScrollToPosition(recyclerView: RecyclerView, state: RecyclerView.State, position: Int) {
+        val centerSmoothScroller = CenterSmoothScroller(recyclerView.context)
+        centerSmoothScroller.targetPosition = position
+        startSmoothScroll(centerSmoothScroller)
+    }
+
+    class CenterSmoothScroller(context: Context) : LinearSmoothScroller(context) {
+        override fun calculateDtToFit(viewStart: Int, viewEnd: Int, boxStart: Int, boxEnd: Int, snapPreference: Int): Int = (boxStart + (boxEnd - boxStart) / 2) - (viewStart + (viewEnd - viewStart) / 2)
+    }
+
+}
 
 interface ScrollListener {
 
@@ -129,223 +390,6 @@ fun RecyclerView.addDragListener(listener: DragListener?) {
         })
 }
 
-open class DiffItemCallback<T> : DiffUtil.ItemCallback<T>() {
-
-    override fun areItemsTheSame(oldItem: T, newItem: T): Boolean {
-        return oldItem == newItem
-    }
-
-    override fun areContentsTheSame(oldItem: T, newItem: T): Boolean {
-        return false
-    }
-}
-
-class GridDecoration : RecyclerView.ItemDecoration {
-
-    private val spanCount: Int
-
-    private val spacing: Int
-
-    private val includeEdge: Boolean
-
-    constructor(context: Context, spanCount: Int, dp: Int, includeEdge: Boolean) {
-
-        val resources = context.resources
-        val metrics = resources.displayMetrics
-
-        this.spanCount = spanCount
-        this.spacing = dp * (metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT)
-        this.includeEdge = includeEdge
-    }
-
-    override fun getItemOffsets(
-        outRect: Rect,
-        view: View,
-        parent: RecyclerView,
-        state: RecyclerView.State
-    ) {
-
-        val position = parent.getChildAdapterPosition(view)
-        val column = position % spanCount
-
-        if (includeEdge) {
-
-            outRect.left = spacing - column * spacing / spanCount
-            outRect.right = (column + 1) * spacing / spanCount
-            if (position < spanCount) outRect.top = spacing
-            outRect.bottom = spacing
-        } else {
-
-            outRect.left = column * spacing / spanCount
-            outRect.right = spacing - (column + 1) * spacing / spanCount
-            if (position >= spanCount) outRect.top = spacing
-        }
-    }
-
-    companion object {
-
-        fun drawByRes(
-            recycler: RecyclerView,
-            col: Int,
-            @DimenRes dimenRes: Int,
-            includeEdge: Boolean = false
-        ) {
-            val dp = recycler.resources.getDimensionPixelSize(dimenRes)
-            draw(recycler, col, dp, includeEdge)
-        }
-
-        fun draw(recycler: RecyclerView, col: Int, dp: Int, includeEdge: Boolean = false) {
-            recycler.addItemDecoration(GridDecoration(recycler.context, col, dp, includeEdge))
-        }
-    }
-
-}
-
-class ItemDecoration(
-    private val margin: Int = 0,
-    @Orientation val orientation: Int = VERTICAL,
-    private val column: Int = 1,
-) : RecyclerView.ItemDecoration() {
-
-    companion object {
-        const val HORIZONTAL = 0
-        const val VERTICAL = 1
-        const val GRID = 2
-    }
-
-    @IntDef(HORIZONTAL, VERTICAL, GRID)
-    private annotation class Orientation
-
-    private var hasLeftSpacing = false
-
-    override fun getItemOffsets(
-        outRect: Rect,
-        view: View,
-        parent: RecyclerView,
-        state: RecyclerView.State
-    ) {
-
-        val context = parent.context
-        if (orientation == GRID) {
-            addGridOffset(outRect, view, parent)
-            return
-        }
-
-        val divider = getDivider(context)
-        if (orientation == VERTICAL)
-            outRect.set(0, 0, 0, divider.intrinsicHeight)
-        else
-            outRect.set(0, 0, divider.intrinsicWidth, 0)
-    }
-
-    override fun onDrawOver(canvas: Canvas, parent: RecyclerView, state: RecyclerView.State) {
-
-        if (orientation == VERTICAL)
-            drawVertical(canvas, parent)
-        else if (orientation == HORIZONTAL)
-            drawHorizontal(canvas, parent)
-    }
-
-    private fun drawVertical(canvas: Canvas, parent: RecyclerView) {
-
-        val context = parent.context
-        val divider = getDivider(context)
-        val left = parent.paddingLeft
-        val right = parent.width - parent.paddingRight
-        val childCount = parent.childCount
-        for (i in 0 until childCount) {
-            val child = parent.getChildAt(i)
-            val params = child.layoutParams as RecyclerView.LayoutParams
-            val top = child.bottom + params.bottomMargin
-            val bottom = top + divider.intrinsicHeight
-            divider.setBounds(
-                left + dpToPixel(context, margin),
-                top,
-                right - dpToPixel(context, margin),
-                bottom
-            )
-            divider.draw(canvas)
-        }
-    }
-
-    private fun drawHorizontal(canvas: Canvas, parent: RecyclerView) {
-
-        val context = parent.context
-        val divider = getDivider(context)
-        val top = parent.paddingTop
-        val bottom = parent.height - parent.paddingBottom
-        val childCount = parent.childCount
-        for (i in 0 until childCount) {
-            val child = parent.getChildAt(i)
-            val params = child.layoutParams as RecyclerView.LayoutParams
-            val left = child.right + params.rightMargin
-            val right = left + divider.intrinsicHeight
-            divider.setBounds(
-                left,
-                top + dpToPixel(context, margin),
-                right,
-                bottom - dpToPixel(context, margin)
-            )
-            divider.draw(canvas)
-        }
-    }
-
-    private fun addGridOffset(outRect: Rect, view: View, parent: RecyclerView) {
-
-        val frameWidth = ((parent.width - margin.toFloat() * (column - 1)) / column).toInt()
-        val padding = parent.width / column - frameWidth
-        val itemPosition = (view.layoutParams as RecyclerView.LayoutParams).viewAdapterPosition
-        outRect.top = if (itemPosition >= column) margin else 0
-        when {
-            itemPosition % column == 0 -> {
-                outRect.left = 0
-                outRect.right = padding
-                hasLeftSpacing = true
-            }
-            (itemPosition + 1) % column == 0 -> {
-                hasLeftSpacing = false
-                outRect.right = 0
-                outRect.left = padding
-            }
-            hasLeftSpacing -> {
-                hasLeftSpacing = false
-                outRect.left = margin - padding
-                outRect.right = if ((itemPosition + 2) % column == 0) margin - padding
-                else margin / 2
-            }
-            (itemPosition + 2) % column == 0 -> {
-                hasLeftSpacing = false
-                outRect.left = margin / 2
-                outRect.right = margin - padding
-            }
-            else -> {
-                hasLeftSpacing = false
-                outRect.left = margin / 2
-                outRect.right = margin / 2
-            }
-        }
-        outRect.bottom = 0
-    }
-
-    private fun dpToPixel(context: Context, dp: Int): Int {
-
-        val resources = context.resources
-        val dimen = TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP,
-            dp.toFloat(),
-            resources?.displayMetrics
-        )
-        return Math.round(dimen) + 0
-    }
-
-    private fun getDivider(context: Context): Drawable {
-        val attrArray = intArrayOf(android.R.attr.listDivider)
-        val attr = context.obtainStyledAttributes(attrArray)
-        return attr.getDrawable(0)!!
-    }
-
-}
-
 fun RecyclerView.intLinearSnapper(onSnap: (Int) -> Unit): SnapHelper {
     this.onFlingListener = null
     val snapHelper = LinearSnapHelper()
@@ -373,10 +417,7 @@ fun RecyclerView.initLayoutManager(block: (LinearLayoutManager.() -> Unit) = {})
     return lm
 }
 
-fun RecyclerView.initLayoutManager(
-    spanCount: Int,
-    block: (GridLayoutManager.() -> Unit) = {}
-): GridLayoutManager {
+fun RecyclerView.initLayoutManager(spanCount: Int, block: (GridLayoutManager.() -> Unit) = {}): GridLayoutManager {
     val lm = GridLayoutManager(context, spanCount)
     lm.spanSizeLookup =
         object : GridLayoutManager.SpanSizeLookup() {
@@ -422,32 +463,6 @@ abstract class ViewClickListener(private val delayedInterval: Long = 400) : View
     }
 }
 
-abstract class ItemViewMotionListener(private val itemView: View) :
-    MotionLayout.TransitionListener {
-
-    open fun onTransitionStart(layout: MotionLayout, startId: Int, endId: Int) {
-    }
-
-    open fun onTransitionComplete(layout: MotionLayout, currentId: Int) {
-    }
-
-    final override fun onTransitionStarted(layout: MotionLayout, startId: Int, endId: Int) {
-        itemView.parent.requestDisallowInterceptTouchEvent(true)
-        onTransitionStart(layout, startId, endId)
-    }
-
-    final override fun onTransitionCompleted(layout: MotionLayout, currentId: Int) {
-        itemView.parent.requestDisallowInterceptTouchEvent(false)
-        onTransitionComplete(layout, currentId)
-    }
-
-    override fun onTransitionChange(layout: MotionLayout, startId: Int, endId: Int, progress: Float) {
-    }
-
-    override fun onTransitionTrigger(layout: MotionLayout, triggerId: Int, positive: Boolean, progress: Float) {
-    }
-}
-
 fun View?.addViewClickListener(delayedInterval: Long, listener: ((View?) -> Unit)? = null) {
     this ?: return
     if (listener == null) {
@@ -477,24 +492,4 @@ fun RecyclerView.scrollToCenter(position: Int){
     val smoothScroller: RecyclerView.SmoothScroller = CenterLayoutManager.CenterSmoothScroller(context)
     smoothScroller.targetPosition = position
     this.layoutManager?.startSmoothScroll(smoothScroller)
-}
-
-class CenterLayoutManager : LinearLayoutManager {
-
-    constructor(context: Context) : super(context)
-
-    constructor(context: Context, orientation: Int, reverseLayout: Boolean) : super(context, orientation, reverseLayout)
-
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int, defStyleRes: Int) : super(context, attrs, defStyleAttr, defStyleRes)
-
-    override fun smoothScrollToPosition(recyclerView: RecyclerView, state: RecyclerView.State, position: Int) {
-        val centerSmoothScroller = CenterSmoothScroller(recyclerView.context)
-        centerSmoothScroller.targetPosition = position
-        startSmoothScroll(centerSmoothScroller)
-    }
-
-    class CenterSmoothScroller(context: Context) : LinearSmoothScroller(context) {
-        override fun calculateDtToFit(viewStart: Int, viewEnd: Int, boxStart: Int, boxEnd: Int, snapPreference: Int): Int = (boxStart + (boxEnd - boxStart) / 2) - (viewStart + (viewEnd - viewStart) / 2)
-    }
-
 }

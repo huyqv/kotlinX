@@ -8,16 +8,16 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:navigationBarColor">@color/colorBackgroundDefault</item>
+        <item name="android:statusBarColor">@color/colorBackgroundDefault</item>
+        <item name="android:splitMotionEvents">false</item>
+        <item name="android:windowActivityTransitions">true</item>
+        <item name="android:windowBackground">@color/colorBackgroundDefault</item>
+        <item name="android:windowEnableSplitTouch">false</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="android:splitMotionEvents">false</item>
-        <item name="android:windowEnableSplitTouch">false</item>
-        <item name="android:statusBarColor">@color/colorPrimaryDark</item>
-        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
-        <item name="android:windowActivityTransitions">true</item>
-        <item name="android:navigationBarColor">@android:color/white</item>
-        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true
-        </item>
     </style>
 
     <style name="App.Theme.Launch" parent="App.Theme">

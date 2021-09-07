@@ -19,7 +19,7 @@ class SplashFragment : MainFragment<SplashBinding>() {
             mainActivity?.setBackground(Color.WHITE)
             statusBarColor(Color.WHITE)
             darkSystemWidgets()
-            navigate(R.id.action_global_chatFragment) {
+            navigate(R.id.action_global_introFragment) {
                 setLaunchSingleTop()
             }
         }

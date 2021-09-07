@@ -29,7 +29,7 @@ class AppInputView(context: Context, attrs: AttributeSet? = null) :
         OnFocusChangeListener,
         SimpleTextWatcher {
 
-    var onTextChanged: ((String) -> Unit)? = null
+
 
     override fun inflating(): (LayoutInflater, ViewGroup?, Boolean) -> AppInputBinding {
         return AppInputBinding::inflate
@@ -147,6 +147,8 @@ class AppInputView(context: Context, attrs: AttributeSet? = null) :
     private val colorUnFocus get() = android.R.color.darker_gray
 
     private val colorError get() = android.R.color.holo_red_dark
+
+    var onTextChanged: ((String) -> Unit)? = null
 
     var text: String?
         get() {

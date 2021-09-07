@@ -57,7 +57,7 @@
                     android:background="@color/colorTransparent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:maxLines="3"
+                    tools:maxLines="1"
                     tools:text="@tools:sample/lorem/random" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
@@ -66,8 +66,8 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/viewSend"
-            android:layout_width="@dimen/_48sdp"
-            android:layout_height="@dimen/_48sdp"
+            android:layout_width="@dimen/_52sdp"
+            android:layout_height="@dimen/_52sdp"
             android:padding="@dimen/contentMarginX2"
             android:src="@drawable/ic_send"
             android:tint="@color/colorPrimary"
