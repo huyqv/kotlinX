@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.NavController
-import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
 
 interface FragmentView : BaseView {

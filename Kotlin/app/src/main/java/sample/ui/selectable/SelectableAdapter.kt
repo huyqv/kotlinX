@@ -1,14 +1,14 @@
 package sample.ui.selectable
 
 import androidx.viewbinding.ViewBinding
+import com.kotlin.app.R
 import com.kotlin.app.databinding.SelectableItemBinding
 import com.sample.library.recycler.BaseListAdapter
-import com.sample.library.recycler.ItemInflating
+import com.sample.library.recycler.ItemOptions
 import com.sample.widget.extension.bold
 import com.sample.widget.extension.hide
 import com.sample.widget.extension.regular
 import com.sample.widget.extension.show
-
 
 class SelectableAdapter<T> : BaseListAdapter<T>() {
 
@@ -18,11 +18,18 @@ class SelectableAdapter<T> : BaseListAdapter<T>() {
 
     var onItemSelected: (T) -> Unit = {}
 
-    override fun itemInflating(item: T, position: Int): ItemInflating? {
-        return SelectableItemBinding::inflate
+    fun notifySelectionChanged(position: Int) {
+        notifyItemChanged(selectedPosition)
+        selectedPosition = position
+        notifyItemChanged(position)
+        get(position)?.also { onItemSelected(it) }
     }
 
-    override fun ViewBinding.onBindItem(item: T, position: Int) {
+    override fun modelItemOptions(item: T, position: Int): ItemOptions? {
+        return ItemOptions(R.layout.selectable_item, SelectableItemBinding::bind)
+    }
+
+    override fun ViewBinding.onBindModelItem(item: T, position: Int) {
         (this as? SelectableItemBinding?)?.apply {
             if (position != selectedPosition) {
                 onBindModelUnselected(item)
@@ -31,10 +38,6 @@ class SelectableAdapter<T> : BaseListAdapter<T>() {
             }
             textViewItem.text = onItemText(item)
         }
-    }
-
-    fun SelectableItemBinding.onBindModel(item: T) {
-        textViewItem.text = onItemText(item)
     }
 
     private fun SelectableItemBinding.onBindModelSelected(item: T) {
@@ -48,14 +51,6 @@ class SelectableAdapter<T> : BaseListAdapter<T>() {
         textViewItem.regular()
         textViewItem.text = item.toString()
     }
-
-    fun notifySelectionChanged(position: Int) {
-        notifyItemChanged(selectedPosition)
-        selectedPosition = position
-        notifyItemChanged(position)
-        get(position)?.also { onItemSelected(it) }
-    }
-
 
 }
 

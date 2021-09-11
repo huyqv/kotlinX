@@ -179,9 +179,9 @@ abstract class BaseJsonAdapter<T : JsonElement> : RecyclerView.Adapter<RecyclerV
     }
 
     open fun bind(
-        recyclerView: RecyclerView,
-        spanCount: Int,
-        block: GridLayoutManager.() -> Unit = {}
+            recyclerView: RecyclerView,
+            spanCount: Int,
+            block: GridLayoutManager.() -> Unit = {}
     ) {
         val lm = GridLayoutManager(recyclerView.context, spanCount)
         lm.block()

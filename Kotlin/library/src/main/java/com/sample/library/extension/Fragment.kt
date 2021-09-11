@@ -10,24 +10,24 @@ import androidx.lifecycle.LifecycleObserver
 import com.sample.library.R
 
 val HORIZONTAL_ANIMATIONS = intArrayOf(
-    R.anim.horizontal_enter,
-    R.anim.horizontal_exit,
-    R.anim.horizontal_pop_enter,
-    R.anim.horizontal_pop_exit
+        R.anim.horizontal_enter,
+        R.anim.horizontal_exit,
+        R.anim.horizontal_pop_enter,
+        R.anim.horizontal_pop_exit
 )
 
 val VERTICAL_ANIMATIONS = intArrayOf(
-    R.anim.vertical_enter,
-    R.anim.vertical_exit,
-    R.anim.vertical_pop_enter,
-    R.anim.vertical_pop_exit
+        R.anim.vertical_enter,
+        R.anim.vertical_exit,
+        R.anim.vertical_pop_enter,
+        R.anim.vertical_pop_exit
 )
 
 val PARALLAX_ANIMATIONS = intArrayOf(
-    R.anim.parallax_enter,
-    R.anim.parallax_exit,
-    R.anim.parallax_pop_enter,
-    R.anim.parallax_pop_exit
+        R.anim.parallax_enter,
+        R.anim.parallax_exit,
+        R.anim.parallax_pop_enter,
+        R.anim.parallax_pop_exit
 )
 
 /**
@@ -39,10 +39,10 @@ private fun String.tag(): String {
 }
 
 fun Fragment.addFragment(
-    fragment: Fragment,
-    @IdRes container: Int,
-    backStack: Boolean = true,
-    animations: IntArray? = VERTICAL_ANIMATIONS
+        fragment: Fragment,
+        @IdRes container: Int,
+        backStack: Boolean = true,
+        animations: IntArray? = VERTICAL_ANIMATIONS
 ) {
     val tag = this::class.java.simpleName.tag()
     childFragmentManager.scheduleTransaction({
@@ -52,10 +52,10 @@ fun Fragment.addFragment(
 }
 
 fun Fragment.replaceFragment(
-    fragment: Fragment,
-    @IdRes container: Int,
-    backStack: Boolean = true,
-    animations: IntArray? = VERTICAL_ANIMATIONS
+        fragment: Fragment,
+        @IdRes container: Int,
+        backStack: Boolean = true,
+        animations: IntArray? = VERTICAL_ANIMATIONS
 ) {
 
     val tag = fragment::class.java.simpleName.tag()
@@ -91,10 +91,10 @@ fun Fragment?.addObserver(observer: LifecycleObserver) {
  * [FragmentActivity].[FragmentManager]
  */
 fun FragmentActivity.addFragment(
-    fragment: Fragment,
-    @IdRes container: Int,
-    backStack: Boolean = true,
-    animations: IntArray? = VERTICAL_ANIMATIONS
+        fragment: Fragment,
+        @IdRes container: Int,
+        backStack: Boolean = true,
+        animations: IntArray? = VERTICAL_ANIMATIONS
 ) {
 
     val tag = fragment::class.java.simpleName.tag()
@@ -105,10 +105,10 @@ fun FragmentActivity.addFragment(
 }
 
 fun FragmentActivity.replaceFragment(
-    fragment: Fragment,
-    @IdRes container: Int,
-    backStack: Boolean = true,
-    animations: IntArray? = VERTICAL_ANIMATIONS
+        fragment: Fragment,
+        @IdRes container: Int,
+        backStack: Boolean = true,
+        animations: IntArray? = VERTICAL_ANIMATIONS
 ) {
     val tag = fragment::class.java.simpleName.tag()
     supportFragmentManager.scheduleTransaction({
@@ -144,16 +144,16 @@ fun FragmentActivity.clearStack() {
 }
 
 fun FragmentManager.scheduleTransaction(
-    block: FragmentTransaction.() -> Unit,
-    animations: IntArray? = VERTICAL_ANIMATIONS
+        block: FragmentTransaction.() -> Unit,
+        animations: IntArray? = VERTICAL_ANIMATIONS
 ) {
 
     val transaction = beginTransaction()
     if (null != animations) transaction.setCustomAnimations(
-        animations[0],
-        animations[1],
-        animations[2],
-        animations[3]
+            animations[0],
+            animations[1],
+            animations[2],
+            animations[3]
     )
     transaction.block()
     transaction.commitAllowingStateLoss()
@@ -179,8 +179,8 @@ fun DialogFragment?.hideStatusBar() {
     } else {
         @Suppress("DEPRECATION")
         dialog?.window?.setFlags(
-            WindowManager.LayoutParams.FLAG_FULLSCREEN,
-            WindowManager.LayoutParams.FLAG_FULLSCREEN
+                WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN
         )
     }
 }

@@ -89,10 +89,10 @@ fun saveBitmap(fileName: String, bitmap: Bitmap) {
     fOut.flush()
     fOut.close()
     MediaStore.Images.Media.insertImage(
-        app.contentResolver,
-        file.absolutePath,
-        file.name,
-        file.name
+            app.contentResolver,
+            file.absolutePath,
+            file.name,
+            file.name
     )
 }
 
@@ -222,7 +222,7 @@ fun Activity.downloadIfNotExist(url: String, fileName: String, onCompleted: (Fil
 @Throws(IOException::class)
 fun unzip(zipFile: File?, targetDirectory: File?) {
     val zis = ZipInputStream(
-        BufferedInputStream(FileInputStream(zipFile))
+            BufferedInputStream(FileInputStream(zipFile))
     )
     zis.use { zis ->
         var ze: ZipEntry

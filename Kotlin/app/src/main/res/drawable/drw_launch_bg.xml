@@ -11,7 +11,7 @@
     <item
         android:width="100dp"
         android:height="100dp"
-        android:drawable="@drawable/ic_kotlin"
+        android:drawable="@drawable/ic_kotlin_white"
         android:gravity="center" />
 
 </layer-list>

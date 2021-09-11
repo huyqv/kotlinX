@@ -17,7 +17,7 @@ class PageTransformer {
                 // [-1,1] Half the normal speed
                 position <= 1 -> {
                     view.findViewById<View>(parallaxViewId())?.translationX =
-                        -position * (view.width / 2)
+                            -position * (view.width / 2)
                 }
                 // (1,+Infinity] This page is way off-screen to the right.
                 else -> {
@@ -61,7 +61,7 @@ class PageTransformer {
 
                     // Fade the page relative to its size.
                     view.alpha =
-                        MIN_ALPHA + (scaleFactor - MIN_SCALE) / (1 - MIN_SCALE) * (1 - MIN_ALPHA)
+                            MIN_ALPHA + (scaleFactor - MIN_SCALE) / (1 - MIN_SCALE) * (1 - MIN_ALPHA)
 
                 }
                 // (1,+Infinity] This page is way off-screen to the right.

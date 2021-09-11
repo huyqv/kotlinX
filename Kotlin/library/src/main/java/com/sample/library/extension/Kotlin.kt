@@ -39,7 +39,7 @@ typealias ResultLiveData<T> = SingleLiveData<Result<T>>
 
 typealias ResultFlow<T> = Flow<Result<T>>
 
-fun <T> tryFlow(block: suspend FlowCollector<Result<T>>.() -> T): Flow<Result<T>> {
+fun <T> tryFlow(block: FlowCollector<Result<T>>.() -> T): Flow<Result<T>> {
     return flow {
         try {
             emit(Result.success(this.block()))

@@ -89,7 +89,7 @@ fun navigateAppSettings() {
 fun realPathFromURI(uri: Uri): String? {
     val projection = arrayOf(MediaStore.Images.Media._ID)
     val cursor: Cursor = app.contentResolver.query(uri, projection, null, null, null)
-        ?: return uri.path
+            ?: return uri.path
     val columnIndex = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns._ID)
     cursor.moveToFirst()
     return cursor.getString(columnIndex)
@@ -114,7 +114,7 @@ class IntentResultLauncher {
         activity.lifecycle.addObserver(object : SimpleLifecycleObserver() {
             override fun onCreated() {
                 launcher =
-                    activity.registerForActivityResult(startActivityForResult, resultCallback)
+                        activity.registerForActivityResult(startActivityForResult, resultCallback)
             }
 
             override fun onDestroy() {
@@ -135,7 +135,7 @@ class IntentResultLauncher {
         fragment.lifecycle.addObserver(object : SimpleLifecycleObserver() {
             override fun onCreated() {
                 launcher =
-                    fragment.registerForActivityResult(startActivityForResult, resultCallback)
+                        fragment.registerForActivityResult(startActivityForResult, resultCallback)
             }
 
             override fun onDestroy() {
@@ -272,8 +272,8 @@ class VoicePickerJob(val lifecycleOwner: LifecycleOwner) {
         this.callBack = callBack
         val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).also {
             it.putExtra(
-                RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
+                    RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                    RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
             )
             it.putExtra(RecognizerIntent.EXTRA_PROMPT, "Speech")
         }

@@ -22,8 +22,8 @@ class ChatFragment : BaseFragment<ChatBinding>() {
 
     override fun onViewClick(v: View?) {
         when (v) {
-            bind.viewSend-> {
-                bind.editTextMessage.setText(null)
+            bind.viewSend -> {
+                bind.editTextMessage.text = null
             }
             bind.textView1 -> {
                 bind.editTextMessage.setText("lorem")

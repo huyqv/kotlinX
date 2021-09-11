@@ -103,7 +103,7 @@ fun JsonElement?.toMap(): Map<String, Any?>? {
     try {
         this ?: return null
         return convertFactory.fromJson(this, object : TypeToken<HashMap<String?, Any?>?>() {}.type)
-    }catch (e  : Exception){
+    } catch (e: Exception) {
         return null
     }
 }

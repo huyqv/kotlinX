@@ -16,14 +16,14 @@ val connectionInfo: String?
         val cm = connectivityManager
         when {
             Build.VERSION.SDK_INT > Build.VERSION_CODES.O -> cm.getNetworkCapabilities(cm.activeNetwork)
-                ?.run {
-                    return when {
-                        hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> "wifi"
-                        hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> "cellular"
-                        hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> "ethernet"
-                        else -> null
+                    ?.run {
+                        return when {
+                            hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> "wifi"
+                            hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> "cellular"
+                            hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> "ethernet"
+                            else -> null
+                        }
                     }
-                }
             Build.VERSION.SDK_INT > Build.VERSION_CODES.M -> @Suppress("DEPRECATION") cm.activeNetworkInfo?.run {
                 return when (type) {
                     ConnectivityManager.TYPE_WIFI -> "wifi"
@@ -71,11 +71,11 @@ private fun registerNetworkCallback() {
         connectivityManager.registerDefaultNetworkCallback(networkCallback)
     } else {
         val request: NetworkRequest = NetworkRequest.Builder()
-            .addTransportType(NetworkCapabilities.TRANSPORT_VPN)
-            .addTransportType(NetworkCapabilities.TRANSPORT_ETHERNET)
-            .addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
-            .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
-            .build()
+                .addTransportType(NetworkCapabilities.TRANSPORT_VPN)
+                .addTransportType(NetworkCapabilities.TRANSPORT_ETHERNET)
+                .addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
+                .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
+                .build()
         connectivityManager.registerNetworkCallback(request, networkCallback)
     }
 }

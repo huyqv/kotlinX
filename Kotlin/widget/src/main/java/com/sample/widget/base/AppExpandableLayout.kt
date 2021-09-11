@@ -31,9 +31,7 @@ class AppExpandableLayout : ConstraintLayout {
 
     var parallax: Float = 0F
         set(value) {
-            var parallax = value
-            parallax = 1F.coerceAtMost(0F.coerceAtLeast(parallax))
-            field = value
+            field = 1F.coerceAtMost(0F.coerceAtLeast(value))
         }
 
     var expansion: Float = 0F
@@ -78,11 +76,11 @@ class AppExpandableLayout : ConstraintLayout {
     constructor(context: Context, attrs: AttributeSet? = null) : super(context, attrs) {
         attrs ?: return
         interpolator = FastOutSlowInInterpolator()
-        val a = context.obtainStyledAttributes(attrs, R.styleable.AppConstraintLayout)
-        duration = a.getInt(R.styleable.ExpandableLayout_expandDuration, DEFAULT_DURATION)
-        expansion = if (a.getBoolean(R.styleable.ExpandableLayout_expanded, false)) 1F else 0F
-        orientation = a.getInt(R.styleable.ExpandableLayout_expandOrientation, VERTICAL)
-        parallax = a.getFloat(R.styleable.ExpandableLayout_expandParallax, 1F)
+        val a = context.obtainStyledAttributes(attrs, R.styleable.AppCustomView)
+        duration = a.getInt(R.styleable.AppCustomView_expandDuration, DEFAULT_DURATION)
+        expansion = if (a.getBoolean(R.styleable.AppCustomView_expanded, false)) 1F else 0F
+        orientation = a.getInt(R.styleable.AppCustomView_expandOrientation, VERTICAL)
+        parallax = a.getFloat(R.styleable.AppCustomView_expandParallax, 1F)
         state = if (expansion == 0f) COLLAPSED else EXPANDED
         a.recycle()
     }

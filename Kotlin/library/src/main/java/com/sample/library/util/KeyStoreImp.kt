@@ -33,33 +33,33 @@ object KeyStoreImp {
 
     private val keyPairGenerator: KeyPairGenerator
         get() = KeyPairGenerator.getInstance(
-            keyProperties,
-            provider
+                keyProperties,
+                provider
         )
 
     private val algorithmParameterSpec: AlgorithmParameterSpec
         get() {
             return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 KeyGenParameterSpec.Builder(
-                    aliasKeyStore,
-                    KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT
+                        aliasKeyStore,
+                        KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT
                 )
-                    .setBlockModes(KeyProperties.BLOCK_MODE_GCM)
-                    .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
-                    .build()
+                        .setBlockModes(KeyProperties.BLOCK_MODE_GCM)
+                        .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
+                        .build()
             } else {
                 val startTime = Calendar.getInstance()
                 val endTime = Calendar.getInstance()
                 endTime.add(Calendar.YEAR, 5)
                 @Suppress("DEPRECATION")
                 KeyPairGeneratorSpec.Builder(app)
-                    .setAlias(aliasKeyStore)
-                    .setSubject(X500Principal("CN=${app.packageName}, O=Android Authority"))
-                    .setSerialNumber(BigInteger.ONE)
-                    .setStartDate(startTime.time)
-                    .setEndDate(endTime.time)
-                    .setKeySize(2048)
-                    .build()
+                        .setAlias(aliasKeyStore)
+                        .setSubject(X500Principal("CN=${app.packageName}, O=Android Authority"))
+                        .setSerialNumber(BigInteger.ONE)
+                        .setStartDate(startTime.time)
+                        .setEndDate(endTime.time)
+                        .setKeySize(2048)
+                        .build()
             }
         }
 

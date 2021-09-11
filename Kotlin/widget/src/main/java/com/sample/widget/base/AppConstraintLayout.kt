@@ -22,25 +22,25 @@ open class AppConstraintLayout : ConstraintLayout {
     var path: Path? = null
 
     /** corner radius */
-    var cornerLeftTop: Float = 0f
+    var radiusTopLeft: Float = 0F
         set(value) {
             field = value
             postInvalidate()
         }
 
-    var cornerRightTop: Float = 0f
+    var radiusTopRight: Float = 0F
         set(value) {
             field = value
             postInvalidate()
         }
 
-    var cornerLeftBottom: Float = 0f
+    var radiusBottomLeft: Float = 0F
         set(value) {
             field = value
             postInvalidate()
         }
 
-    var cornerRightBottom: Float = 0f
+    var radiusBottomRight: Float = 0F
         set(value) {
             field = value
             postInvalidate()
@@ -52,7 +52,7 @@ open class AppConstraintLayout : ConstraintLayout {
             postInvalidate()
         }
 
-    var strokeLineWidth: Float = 0f
+    var strokeLineWidth: Float = 0F
         set(value) {
             field = value
             postInvalidate()
@@ -64,13 +64,13 @@ open class AppConstraintLayout : ConstraintLayout {
             postInvalidate()
         }
 
-    var dashLineGap: Float = 0f
+    var dashLineGap: Float = 0F
         set(value) {
             field = value
             postInvalidate()
         }
 
-    var dashLineWidth: Float = 0f
+    var dashLineWidth: Float = 0F
         set(value) {
             field = value
             postInvalidate()
@@ -81,35 +81,31 @@ open class AppConstraintLayout : ConstraintLayout {
     }
 
     private fun render(attrs: AttributeSet?) {
-        attrs?.let {
-            /** set corner radii */
-            context.obtainStyledAttributes(it, R.styleable.AppConstraintLayout).apply {
-                val radius = pixels(R.styleable.AppConstraintLayout_radius)
+        attrs ?: return
+        val a = context.obtainStyledAttributes(attrs, R.styleable.AppCustomView)
+        val radius = a.pixels(R.styleable.AppCustomView_radius)
 
-                if (radius != 0f) {
-                    cornerLeftTop = radius
-                    cornerRightTop = radius
-                    cornerLeftBottom = radius
-                    cornerRightBottom = radius
-                } else {
-                    cornerLeftTop = pixels(R.styleable.AppConstraintLayout_topLeftRadius)
-                    cornerRightTop = pixels(R.styleable.AppConstraintLayout_topRightRadius)
-                    cornerLeftBottom = pixels(R.styleable.AppConstraintLayout_bottomLeftRadius)
-                    cornerRightBottom = pixels(R.styleable.AppConstraintLayout_bottomRightRadius)
-                }
+        val attrTopLeftRadius = a.pixels(R.styleable.AppCustomView_radiusTopLeft)
+        radiusTopLeft = if (attrTopLeftRadius > 0F) attrTopLeftRadius else radius
 
-                backgroundColor =
-                    getColor(R.styleable.AppConstraintLayout_backgroundColor, Color.WHITE)
-                strokeLineWidth = pixels(R.styleable.AppConstraintLayout_strokeLineWidth)
-                strokeLineColor =
-                    getColor(R.styleable.AppConstraintLayout_strokeLineColor, Color.BLACK)
-                dashLineWidth = pixels(R.styleable.AppConstraintLayout_dashLineWidth)
-                dashLineGap = pixels(R.styleable.AppConstraintLayout_dashLineGap)
+        val attrTopRightRadius = a.pixels(R.styleable.AppCustomView_radiusTopRight)
+        radiusTopRight = if (attrTopLeftRadius > 0F) attrTopRightRadius else radius
 
-            }.run {
-                recycle()
-            }
-        }
+        val attrBottomLeftRadius = a.pixels(R.styleable.AppCustomView_radiusBottomLeft)
+        radiusBottomLeft = if (attrTopLeftRadius > 0F) attrBottomLeftRadius else radius
+
+        val attrBottomRightRadius = a.pixels(R.styleable.AppCustomView_radiusBottomRight)
+        radiusBottomRight = if (attrTopLeftRadius > 0F) attrBottomRightRadius else radius
+
+        backgroundColor = a.getColor(R.styleable.AppCustomView_android_background, Color.WHITE)
+
+        strokeLineWidth = a.pixels(R.styleable.AppCustomView_strokeLineWidth)
+        strokeLineColor = a.getColor(R.styleable.AppCustomView_strokeLineColor, Color.BLACK)
+
+        dashLineWidth = a.pixels(R.styleable.AppCustomView_dashLineWidth)
+        dashLineGap = a.pixels(R.styleable.AppCustomView_dashLineGap)
+
+        a.recycle()
     }
 
     fun TypedArray.pixels(@StyleableRes id: Int): Float {
@@ -120,20 +116,18 @@ open class AppConstraintLayout : ConstraintLayout {
         /** for outline remake when ever draw */
         path = Path()
 
-        clipPathCanvas(
-            canvas, floatArrayOf(
-                cornerLeftTop, cornerLeftTop, cornerRightTop, cornerRightTop, cornerRightBottom,
-                cornerRightBottom, cornerLeftBottom, cornerLeftBottom
-            )
-        )
+        clipPathCanvas(canvas, floatArrayOf(
+                radiusTopLeft, radiusTopLeft, radiusTopRight, radiusTopRight, radiusBottomRight,
+                radiusBottomRight, radiusBottomLeft, radiusBottomLeft
+        ))
 
         /** set drawable resource corner & background & stroke */
         GradientDrawable().apply {
             cornerRadii = floatArrayOf(
-                cornerLeftTop, cornerLeftTop, cornerRightTop, cornerRightTop,
-                cornerRightBottom, cornerRightBottom, cornerLeftBottom, cornerLeftBottom
+                    radiusTopLeft, radiusTopLeft, radiusTopRight, radiusTopRight,
+                    radiusBottomRight, radiusBottomRight, radiusBottomLeft, radiusBottomLeft
             )
-            if (strokeLineWidth != 0f && strokeLineColor != null) {
+            if (strokeLineWidth != 0F) {
                 this.setStroke(strokeLineWidth.toInt(), strokeLineColor, dashLineWidth, dashLineGap)
             }
             backgroundColor?.let {
@@ -153,9 +147,9 @@ open class AppConstraintLayout : ConstraintLayout {
     private fun clipPathCanvas(canvas: Canvas, floatArray: FloatArray) {
         path?.let {
             it.addRoundRect(
-                RectF(0f, 0f, canvas.width.toFloat(), canvas.height.toFloat()),
-                floatArray,
-                Path.Direction.CW
+                    RectF(0F, 0F, canvas.width.toFloat(), canvas.height.toFloat()),
+                    floatArray,
+                    Path.Direction.CW
             )
             canvas.clipPath(it)
         }

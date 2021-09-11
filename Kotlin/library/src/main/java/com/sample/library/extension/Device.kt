@@ -29,7 +29,7 @@ val osVersionCode: Int
 val deviceModel: String
     get() {
         return if (Build.MODEL.startsWith(Build.MANUFACTURER)) {
-            Build.MODEL.capitalize()
+            Build.MODEL.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
         } else {
             Build.MODEL
         }
@@ -38,9 +38,9 @@ val deviceModel: String
 val deviceName: String
     get() {
         return if (Build.MODEL.startsWith(Build.MANUFACTURER)) {
-            Build.MODEL.capitalize()
+            Build.MODEL.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
         } else {
-            Build.MANUFACTURER.capitalize() + " " + Build.MODEL
+            Build.MANUFACTURER.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() } + " " + Build.MODEL
         }
     }
 
@@ -109,7 +109,7 @@ val freeMemory: Long
 
 val dpi: Int
     get() {
-        return app.resources.displayMetrics.density.toInt();
+        return app.resources.displayMetrics.density.toInt()
     }
 
 /**
@@ -121,7 +121,7 @@ fun cameraId(facing: Int): Int {
     val manager = app.getSystemService(Context.CAMERA_SERVICE) as CameraManager
     return manager.cameraIdList.first {
         manager.getCameraCharacteristics(it)
-            .get(CameraCharacteristics.LENS_FACING) == facing
+                .get(CameraCharacteristics.LENS_FACING) == facing
     }.toInt()
 }
 

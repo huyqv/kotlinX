@@ -13,7 +13,6 @@ import android.view.ViewGroup
 import android.widget.EditText
 import androidx.annotation.DimenRes
 import androidx.annotation.IntDef
-import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.recyclerview.widget.*
 import androidx.viewbinding.ViewBinding
 
@@ -35,7 +34,7 @@ class RtlGridLayoutManager : GridLayoutManager {
 
     constructor(context: Context?, attrs: AttributeSet? = null, defStyleAttr: Int = 0, defStyleRes: Int = 0) : super(context, attrs, defStyleAttr, defStyleRes)
 
-    constructor(context: Context?, spanCount: Int = 1, orientation: Int = RecyclerView.VERTICAL, reverseLayout: Boolean = false) : super(context, spanCount, orientation, reverseLayout) {}
+    constructor(context: Context?, spanCount: Int = 1, orientation: Int = RecyclerView.VERTICAL, reverseLayout: Boolean = false) : super(context, spanCount, orientation, reverseLayout)
 
     override fun isLayoutRTL(): Boolean {
         return true
@@ -46,7 +45,7 @@ class RtlGridLayoutManager : GridLayoutManager {
 open class DiffItemCallback<T> : DiffUtil.ItemCallback<T>() {
 
     override fun areItemsTheSame(oldItem: T, newItem: T): Boolean {
-        return  oldItem == newItem
+        return oldItem == newItem
     }
 
     override fun areContentsTheSame(oldItem: T, newItem: T): Boolean {
@@ -365,7 +364,7 @@ fun RecyclerView.initLayoutManager(spanCount: Int, block: (GridLayoutManager.() 
     lm.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
         override fun getSpanSize(position: Int): Int {
             adapter?.also {
-                if(it.itemCount < 2 || position == it.itemCount) {
+                if (it.itemCount < 2 || position == it.itemCount) {
                     return lm.spanCount
                 }
             }
@@ -431,7 +430,7 @@ fun View?.addViewClickListener(listener: ((View?) -> Unit)? = null) {
     addViewClickListener(0, listener)
 }
 
-fun RecyclerView.scrollToCenter(position: Int){
+fun RecyclerView.scrollToCenter(position: Int) {
     val smoothScroller: RecyclerView.SmoothScroller = CenterLayoutManager.CenterSmoothScroller(context)
     smoothScroller.targetPosition = position
     this.layoutManager?.startSmoothScroll(smoothScroller)

@@ -31,12 +31,12 @@ abstract class BaseSelectableAdapter<T> : BaseListAdapter<T>() {
     }
 
     private fun updateSelectedItem(item: T, position: Int) {
-        if(isSelected(item)) {
+        if (isSelected(item)) {
             itemClickList.forEach { it(item, false) }
             return
         }
         val tempSelectedPosition = selectedPosition
-        if(selectedPosition in 0..lastIndex) {
+        if (selectedPosition in 0..lastIndex) {
             notifyItemChanged(tempSelectedPosition)
         }
         selectedItem = item

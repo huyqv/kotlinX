@@ -3,10 +3,11 @@ package sample.ui.date
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
+import com.kotlin.app.R
 import com.kotlin.app.databinding.DateItemBinding
 import com.sample.library.recycler.BaseListAdapter
 import com.sample.library.recycler.BaseRecyclerAdapter
-import com.sample.library.recycler.ItemInflating
+import com.sample.library.recycler.ItemOptions
 import java.lang.ref.WeakReference
 
 class DateAdapter : BaseListAdapter<Int>() {
@@ -22,11 +23,11 @@ class DateAdapter : BaseListAdapter<Int>() {
         return size * 1000
     }
 
-    override fun itemInflating(item: Int, position: Int): ItemInflating? {
-        return DateItemBinding::inflate
+    override fun modelItemOptions(item: Int, position: Int): ItemOptions? {
+        return ItemOptions(R.layout.date_item, DateItemBinding::bind)
     }
 
-    override fun ViewBinding.onBindItem(item: Int, position: Int) {
+    override fun ViewBinding.onBindModelItem(item: Int, position: Int) {
         (this as? DateItemBinding)?.apply {
             textViewDate.text = item.toString()
         }

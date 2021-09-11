@@ -5,10 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Resources
-import android.database.Cursor
-import android.net.Uri
 import android.os.Build
-import android.provider.MediaStore
 import android.util.Base64
 import android.util.Log
 import android.widget.Toast
@@ -52,7 +49,7 @@ val statusBarHeight: Int
 val gridSpanCount: Int
     get() {
         val isTablet = isTablet
-        return if(com.sample.library.extension.isTablet) 3 else 2
+        return if (com.sample.library.extension.isTablet) 3 else 2
     }
 
 val navigationBarHeight: Int
@@ -96,8 +93,8 @@ fun keyHash() {
     try {
         val signatures = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             app.packageManager.getPackageInfo(
-                packageName,
-                PackageManager.GET_SIGNING_CERTIFICATES
+                    packageName,
+                    PackageManager.GET_SIGNING_CERTIFICATES
             ).signingInfo.signingCertificateHistory
         } else {
             @Suppress("DEPRECATION")
