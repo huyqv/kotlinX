@@ -8,11 +8,8 @@ import com.google.gson.JsonObject
 import com.kotlin.app.app
 import com.kotlin.app.shared.isDebug
 import com.sample.library.extension.parse
-import io.reactivex.*
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.functions.Function
-import io.reactivex.schedulers.Schedulers
+import com.sample.library.extension.tryFlow
+import kotlinx.coroutines.flow.Flow
 import okhttp3.Interceptor
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType
@@ -24,10 +21,8 @@ import okio.sink
 import retrofit2.HttpException
 import retrofit2.Response
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.File
-import java.io.IOException
 import java.net.*
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
@@ -43,12 +38,12 @@ import kotlin.reflect.KClass
 val loggingInterceptor: Interceptor
     get() {
         val interceptor = HttpLoggingInterceptor()
-        interceptor.level =
-                if (isDebug) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
+        interceptor.level = if (isDebug) HttpLoggingInterceptor.Level.BODY
+        else HttpLoggingInterceptor.Level.NONE
         return interceptor
     }
 
-fun initClient(block: OkHttpClient.Builder.() -> Unit = {}): OkHttpClient {
+fun initClient(block: (OkHttpClient.Builder.() -> Unit)? = null): OkHttpClient {
     val client = OkHttpClient.Builder()
             .connectTimeout(30, TimeUnit.SECONDS)
             .readTimeout(30, TimeUnit.SECONDS)
@@ -56,29 +51,24 @@ fun initClient(block: OkHttpClient.Builder.() -> Unit = {}): OkHttpClient {
     if (isDebug) {
         client.addInterceptor(loggingInterceptor)
     }
-    client.block()
+    block?.invoke(client)
     return client.build()
 }
 
-fun initRetrofit(baseURL: String, block: OkHttpClient.Builder.() -> Unit = {}): Retrofit {
+fun initRetrofit(baseURL: String, block: (OkHttpClient.Builder.() -> Unit)? = null): Retrofit {
     return Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .client(initClient(block))
             .baseUrl(baseURL)
             .build()
 }
 
-fun <T : Any> initService(
-        kClass: KClass<T>,
-        baseURL: String,
-        block: OkHttpClient.Builder.() -> Unit = {}
-): T {
-    return initRetrofit(baseURL, block).create(kClass.java)
+fun <T : Any> initService(cls: KClass<T>, url: String, block: (OkHttpClient.Builder.() -> Unit)? = null): T {
+    return initRetrofit(url, block).create(cls.java)
 }
 
-fun OkHttpClient.Builder.addAuthInterceptor(token: String?) {
-    addInterceptor(object : Interceptor {
+fun authInterceptor(token: String): Interceptor {
+    return object : Interceptor {
         override fun intercept(chain: Interceptor.Chain): okhttp3.Response {
             val request = chain.request().newBuilder()
             if (token != null) {
@@ -86,9 +76,8 @@ fun OkHttpClient.Builder.addAuthInterceptor(token: String?) {
             }
             return chain.proceed(request.build())
         }
-    })
+    }
 }
-
 
 /**
  * Network security utils
@@ -109,15 +98,11 @@ val sslContext: SSLContext
     }
 
 @Throws(SSLException::class)
-fun validatePinning(
-        trustManagerExt: X509TrustManagerExtensions,
-        conn: HttpsURLConnection,
-        validPins: Set<String>
-) {
+fun validatePinning(x509Extensions: X509TrustManagerExtensions, connection: HttpsURLConnection, validPins: Set<String>) {
     var certChainMsg = ""
     try {
         val md: MessageDigest = MessageDigest.getInstance("SHA-256")
-        val trustedChain = trustedChain(trustManagerExt, conn)
+        val trustedChain = trustedChain(x509Extensions, connection)
         for (cert in trustedChain) {
             val publicKey = cert.publicKey.encoded
             md.update(publicKey, 0, publicKey.size)
@@ -134,14 +119,11 @@ fun validatePinning(
 }
 
 @Throws(SSLException::class)
-fun trustedChain(
-        trustManagerExt: X509TrustManagerExtensions,
-        conn: HttpsURLConnection
-): List<X509Certificate> {
-    val serverCerts: Array<out Certificate> = conn.serverCertificates
+fun trustedChain(trustManagerExt: X509TrustManagerExtensions, connection: HttpsURLConnection): List<X509Certificate> {
+    val serverCerts: Array<out Certificate> = connection.serverCertificates
     val untrustedCerts: Array<X509Certificate> =
             Arrays.copyOf(serverCerts, serverCerts.size, Array<X509Certificate>::class.java)
-    val host: String = conn.url.host
+    val host: String = connection.url.host
     return try {
         trustManagerExt.checkServerTrusted(untrustedCerts, "RSA", host)
     } catch (e: CertificateException) {
@@ -159,7 +141,6 @@ fun trustClient(client: OkHttpClient.Builder) {
     client.sslSocketFactory(sslContext.socketFactory, trustManager)
             .hostnameVerifier(HostnameVerifier { _, _ -> true })
 }
-
 
 /**
  * Response utils
@@ -188,44 +169,25 @@ fun Throwable.isNetworkError(): Boolean {
     return this is SocketException || this is UnknownHostException || this is SocketTimeoutException
 }
 
-fun Observable<Response<ResponseBody>>.writeFile(fileName: String): Observable<File> {
-    return flatMap(object : Function<Response<ResponseBody>, ObservableSource<File>> {
-        override fun apply(response: Response<ResponseBody>): ObservableSource<File> {
-            return Observable.create(object : ObservableOnSubscribe<File> {
-                override fun subscribe(emitter: ObservableEmitter<File>) {
-                    val source = response.body()?.source()
-                            ?: throw NullPointerException("download data is empty")
-                    try {
-                        val file = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                            File(
-                                    app.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)?.absolutePath,
-                                    fileName
-                            )
-                        } else {
-                            @Suppress("DEPRECATION")
-                            File(
-                                    Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
-                                    fileName
-                            )
-                        }
-                        file.sink().buffer().apply {
-                            writeAll(source)
-                            close()
-                        }
-                        emitter.onNext(file)
-                    } catch (e: IOException) {
-                        emitter.onError(e)
-                    } finally {
-                        emitter.onComplete()
-                    }
-                }
-            })
+fun writeFile(response: Response<ResponseBody>, fileName: String): Flow<Result<File>> {
+    return tryFlow {
+        val source = response.body()?.source()
+                ?: throw NullPointerException("download data is empty")
+        val file = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            File(app.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)?.absolutePath,
+                    fileName)
+        } else {
+            @Suppress("DEPRECATION")
+            (File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
+                    fileName))
         }
-    })
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+        file.sink().buffer().apply {
+            writeAll(source)
+            close()
+        }
+        return@tryFlow file
+    }
 }
-
 
 /**
  *
@@ -241,9 +203,3 @@ fun domainName(url: String): String {
 }
 
 val JSON: MediaType = "application/json; charset=utf-8".toMediaType()
-
-
-
-
-
-

@@ -22,13 +22,13 @@ interface ApiService {
     }
 
     @GET(PATH_FMT)
-    fun objectGET(@Path(PATH) path: String): Single<JsonObject>
+    suspend fun objectGET(@Path(PATH) path: String): Single<JsonObject>
 
     @GET(PATH_FMT)
-    fun arrayGET(@Path(PATH) path: String): Single<JsonArray>
+    suspend fun arrayGET(@Path(PATH) path: String): Single<JsonArray>
 
     @POST(PATH_FMT)
-    fun post(@Path(PATH) path: String, @Body body: JsonObject): Single<JsonObject>
+    suspend fun post(@Path(PATH) path: String, @Body body: JsonObject): Single<JsonObject>
 
     @Multipart
     @POST(PATH_FMT)

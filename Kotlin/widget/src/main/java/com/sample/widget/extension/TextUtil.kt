@@ -116,14 +116,6 @@ fun String.encodeHtml(): String? {
     }
 }
 
-fun String.trimAll(): String? {
-    if (this.isNullOrEmpty()) return null
-    var temp: String = this
-    while (temp.contains("  ")) temp = temp.replace("  ", " ")
-    if (temp.isEmpty()) return null
-    return temp
-}
-
 fun String?.like(s: String?): Boolean {
     val left: String = this.normalizer() ?: return false
     val right: String = s.normalizer() ?: return false
@@ -206,6 +198,17 @@ fun String.getDomainName(): String {
         ""
     }
 }
+
+val String?.trimText: String
+    get() {
+        var s = this ?: return ""
+        if (s.isNullOrEmpty()) return ""
+        s = s.replace("\n", " ")
+                .replace("\\s+".toRegex(), " ")
+                .trim()
+                .trimIndent()
+        return s
+    }
 
 fun <T> String?.search(collection: Collection<T>?, block: (T) -> String): Collection<T>? {
     if (collection.isNullOrEmpty()) return null

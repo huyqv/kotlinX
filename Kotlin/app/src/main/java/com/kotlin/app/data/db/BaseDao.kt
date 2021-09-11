@@ -3,21 +3,21 @@ package com.kotlin.app.data.db
 import androidx.room.*
 
 @Dao
-interface BaseDao<Model> {
+interface BaseDao<T> {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(model: Model)
+    fun insert(model: T)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(coll: Collection<Model>)
+    fun insert(coll: Collection<T>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(array: Array<Model>)
+    fun insert(array: Array<T>)
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    fun update(t: Model)
+    fun update(t: T)
 
     @Delete
-    fun delete(t: Model)
+    fun delete(t: T)
 
 }

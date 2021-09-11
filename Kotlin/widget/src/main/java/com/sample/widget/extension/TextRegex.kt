@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class RegexBuilder {
-    var str = ""
+    private var str = ""
 
     fun leastOnce(s: String) {
         str += """(?=.*[$s])"""
@@ -26,7 +26,6 @@ class RegexBuilder {
     fun build(): Regex {
         return str.toRegex()
     }
-
 }
 
 val passwordRex = RegexBuilder().apply {

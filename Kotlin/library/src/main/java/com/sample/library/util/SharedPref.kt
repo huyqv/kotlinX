@@ -9,7 +9,6 @@ import com.sample.library.app
 
 class SharedPref(private val fileName: String) {
 
-
     private val pref: SharedPreferences by lazy {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) try {
             val masterKey = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
@@ -29,6 +28,13 @@ class SharedPref(private val fileName: String) {
         val edit = pref.edit()
         edit.block()
         edit.apply()
+        edit.commit()
+    }
+
+    fun edit(key: String, value: String?) {
+        edit {
+            putString(key, value)
+        }
     }
 
     fun str(key: String, default: String? = null): String? = pref.getString(key, default)

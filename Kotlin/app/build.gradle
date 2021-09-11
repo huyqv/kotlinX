@@ -124,16 +124,9 @@ dependencies {
     annotationProcessor deps.room.compiler
     kapt deps.room.compiler
 
-    // reactive programming
-    implementation deps.reactivex.java
-    implementation deps.reactivex.android
-    implementation deps.reactivex.kotlin
-    implementation deps.reactivex.binding
-
     // http client
     implementation deps.square.retrofit
     implementation deps.square.gson
-    implementation deps.square.rx_adapter
     implementation deps.square.okhttp
     implementation deps.square.okhttp_log
     implementation deps.square.okhttp_url

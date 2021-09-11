@@ -152,7 +152,7 @@ class AppInputView(context: Context, attrs: AttributeSet? = null) :
 
     var text: String?
         get() {
-            val s = editText.text?.toString()?.trimIndent()?.trim()?.replace("\\s+".toRegex(), " ")
+            val s = editText.trimText
             isSilent = true
             if (hasFocus()) {
                 editText.setSelection(s?.length ?: 0)

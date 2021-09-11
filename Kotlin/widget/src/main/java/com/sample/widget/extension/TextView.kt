@@ -203,9 +203,7 @@ fun EditText.enableFocus() {
 val TextView?.trimText: String
     get() {
         this ?: return ""
-        var s = text?.toString()
-        if (s.isNullOrEmpty()) return ""
-        s = s.replace("\\s+", " ").trimIndent()
+        val s = this?.text?.toString().trimText
         text = s
         if (this is EditText) {
             setSelection(s.length)
