@@ -56,6 +56,4 @@ abstract class SimpleLifecycleObserver : LifecycleObserver {
     fun onEventDestroy() {
         onDestroy()
     }
-
-
 }

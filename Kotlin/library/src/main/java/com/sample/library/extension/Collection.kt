@@ -11,7 +11,6 @@ fun <T> List<T>.copyList(): MutableList<T> {
     } else {
         this.toMutableList()
     }
-
 }
 
 fun <T, R> Collection<T>.transform(block: (T) -> R?): List<R> {
@@ -65,11 +64,10 @@ private fun String?.normalizer(): String? {
         val temp = Normalizer.normalize(this, Normalizer.Form.NFD)
         val pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+")
         pattern.matcher(temp)
-                .replaceAll("")
-                .lowercase(Locale.getDefault())
-                .replace(" ", "-")
-                .replace("đ", "d", true)
-
+            .replaceAll("")
+            .lowercase(Locale.getDefault())
+            .replace(" ", "-")
+            .replace("đ", "d", true)
     } catch (e: IllegalStateException) {
         null
     } catch (e: IllegalArgumentException) {

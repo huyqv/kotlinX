@@ -21,5 +21,4 @@ class InputViewMaterial : InputView<InputMaterialBinding> {
     override fun inflating(): (LayoutInflater, ViewGroup, Boolean) -> InputMaterialBinding {
         return InputMaterialBinding::inflate
     }
-
 }

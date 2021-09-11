@@ -29,7 +29,6 @@ abstract class ViewClickListener(private val delayedInterval: Long = 400) : View
             lastClickTime = System.currentTimeMillis()
         }
     }
-
 }
 
 fun View?.addViewClickListener(delayedInterval: Long, listener: ((View?) -> Unit)? = null) {
@@ -94,7 +93,6 @@ abstract class FastClickListener(private val clickCount: Int) : View.OnClickList
             onViewClick(v)
         }
     }
-
 }
 
 fun View?.addFastClickListener(clickCount: Int, block: () -> Unit) {

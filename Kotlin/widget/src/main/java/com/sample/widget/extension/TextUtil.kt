@@ -45,7 +45,7 @@ fun String.getFileExtension(): String {
 
     val docIndex = this.lastIndexOf(".") + 1
     if (docIndex == -1) return ""
-    return this.substring(docIndex).toLowerCase()
+    return this.substring(docIndex).lowercase(Locale.getDefault())
 }
 
 fun String.getFileName(): String {
@@ -81,12 +81,12 @@ fun colorText(string: String, @ColorRes colorRes: Int): String {
 }
 
 fun String.bold(): String {
-    this ?: return ""
+    this
     return "<b>$this</b>"
 }
 
 fun String.hidden(): String {
-    this ?: return ""
+    this
     val length = this.length
     if (length < 4) return ""
     return "•••••••${this.substring(length - 2, length)}"
@@ -168,7 +168,6 @@ fun String?.normalizer(): String? {
             .lowercase()
             .replace(" ", "-")
             .replace("đ", "d", true)
-
     } catch (e: IllegalStateException) {
         null
     } catch (e: IllegalArgumentException) {
@@ -204,9 +203,9 @@ val String?.trimText: String
         var s = this ?: return ""
         if (s.isNullOrEmpty()) return ""
         s = s.replace("\n", " ")
-                .replace("\\s+".toRegex(), " ")
-                .trim()
-                .trimIndent()
+            .replace("\\s+".toRegex(), " ")
+            .trim()
+            .trimIndent()
         return s
     }
 

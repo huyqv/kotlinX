@@ -61,5 +61,4 @@ class AppTextView : AppCompatTextView {
     private fun clearColor() {
         paint.shader = null
     }
-
 }

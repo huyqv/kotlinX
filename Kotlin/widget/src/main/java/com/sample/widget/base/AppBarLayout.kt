@@ -45,5 +45,4 @@ open class AppBarLayout @JvmOverloads constructor(context: Context, attrs: Attri
             return isExpandable && super.onStartNestedScroll(parent, child, directTargetChild, target, nestedScrollAxes, type)
         }
     }
-
 }

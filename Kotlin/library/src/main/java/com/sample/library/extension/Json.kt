@@ -11,7 +11,6 @@ import java.io.StringReader
 import java.math.BigDecimal
 import kotlin.reflect.KClass
 
-
 /**
  * Parse [JsonObject]/[JsonArray]/[String] to Kotlin Object/List<Object>
  */
@@ -119,7 +118,6 @@ fun String?.toArray(): JsonArray? {
     return parse(JsonArray::class.java)
 }
 
-
 /**
  * [JsonElement] to [JsonObject]/[JsonArray]
  */
@@ -138,7 +136,6 @@ fun JsonElement?.toArray(): JsonArray? {
     if (arr.size() == 0) return null
     return arr
 }
-
 
 /**
  * [JsonArray]
@@ -190,7 +187,6 @@ fun JsonArray?.notEmpty(): Boolean {
     return this.size() != 0
 }
 
-
 /**
  * [JsonObject] properties setter
  */
@@ -218,7 +214,6 @@ fun <T> JsonObject.put(key: String, value: List<T?>?): JsonObject {
     if (null != value) add(key, value.toJsonArray())
     return this
 }
-
 
 /**
  * [JsonObject] properties getter
@@ -328,7 +323,6 @@ fun JsonObject?.listString(key: String): List<String>? {
         null
     }
 }
-
 
 /**
  * Beauty json

@@ -10,9 +10,9 @@ class StatusBarView : View {
 
     override fun onVisibilityChanged(changedView: View, visibility: Int) {
         super.onVisibilityChanged(changedView, visibility)
-        if(visibility  == VISIBLE){
-            val lp  = this.layoutParams
-            lp.height =  statusBarHeight
+        if (visibility == VISIBLE) {
+            val lp = this.layoutParams
+            lp.height = statusBarHeight
             this.layoutParams = lp
         }
     }
@@ -24,5 +24,4 @@ class StatusBarView : View {
             if (resourceId > 0) return resources.getDimensionPixelSize(resourceId)
             return 0
         }
-
 }

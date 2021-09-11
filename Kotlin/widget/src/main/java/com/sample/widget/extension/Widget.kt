@@ -3,17 +3,14 @@ package com.sample.widget.extension
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.app.Activity
-import android.content.Context
-import android.graphics.*
+import android.graphics.Bitmap
+import android.graphics.BlendMode
+import android.graphics.BlendModeColorFilter
+import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.os.Build
-import android.text.Html
-import android.text.InputFilter
-import android.view.KeyEvent
 import android.view.View
-import android.view.inputmethod.EditorInfo
-import android.view.inputmethod.InputMethodManager
 import android.webkit.WebChromeClient
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
@@ -22,12 +19,8 @@ import android.widget.*
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.NestedScrollView
-import com.sample.widget.app
-import java.util.*
 
 /**
  *
@@ -120,8 +113,6 @@ fun RadioGroup.addOnCheckedChangeListener(block: (RadioButton) -> Unit) {
     }
 }
 
-
-
 /**
  *
  */
@@ -187,8 +178,8 @@ fun WebView.setClient(progressBar: ProgressBar) {
 
 fun createDrawable(@ColorInt startColor: Int, endColor: Int, radius: Float): Drawable {
     val gradientDrawable =
-        GradientDrawable(GradientDrawable.Orientation.TL_BR, intArrayOf(startColor, endColor));
-    gradientDrawable.cornerRadius = radius;
+        GradientDrawable(GradientDrawable.Orientation.TL_BR, intArrayOf(startColor, endColor))
+    gradientDrawable.cornerRadius = radius
     return gradientDrawable
 }
 

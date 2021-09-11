@@ -46,7 +46,5 @@ class ThumbnailWebView : WebView, View.OnTouchListener {
             view?.loadUrl(request?.url.toString())
             return false
         }
-
     }
-
 }

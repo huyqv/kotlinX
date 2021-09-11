@@ -28,7 +28,6 @@ class ColorList {
             val color = colorList[index]
             colorList.removeAt(index)
             color
-
         } else {
 
             val color = colorList[0]
@@ -52,5 +51,4 @@ class ColorList {
             )
         )
     }
-
 }

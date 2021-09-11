@@ -61,5 +61,4 @@ class SettingItemView : AppCustomView<SettingItemBinding> {
         set(value) {
             bind.checkbox.setOnCheckedChangeListener(value)
         }
-
 }

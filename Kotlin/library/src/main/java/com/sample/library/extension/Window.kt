@@ -17,7 +17,7 @@ val Activity.screenWidth: Int
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             val windowMetrics: WindowMetrics = this.windowManager.currentWindowMetrics
             val insets: Insets = windowMetrics.windowInsets
-                    .getInsetsIgnoringVisibility(WindowInsets.Type.systemBars())
+                .getInsetsIgnoringVisibility(WindowInsets.Type.systemBars())
             windowMetrics.bounds.width() - insets.left - insets.right
         } else {
             val displayMetrics = DisplayMetrics()
@@ -32,7 +32,7 @@ val Activity.screenHeight: Int
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             val windowMetrics: WindowMetrics = this.windowManager.currentWindowMetrics
             val insets: Insets = windowMetrics.windowInsets
-                    .getInsetsIgnoringVisibility(WindowInsets.Type.systemBars())
+                .getInsetsIgnoringVisibility(WindowInsets.Type.systemBars())
             windowMetrics.bounds.height() - insets.top - insets.bottom
         } else {
             val displayMetrics = DisplayMetrics()
@@ -72,8 +72,8 @@ fun DialogFragment.statusBarColor(@ColorInt color: Int) {
 fun Window.lightStatusBarWidgets() {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
         insetsController?.setSystemBarsAppearance(
-                0,
-                WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
+            0,
+            WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
         )
         return
     }
@@ -101,8 +101,8 @@ fun DialogFragment.lightStatusBarWidgets() {
 fun Window.darkStatusBarWidgets() {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
         insetsController?.setSystemBarsAppearance(
-                WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS,
-                WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
+            WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS,
+            WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
         )
         return
     }
@@ -150,8 +150,8 @@ fun DialogFragment.navBarColor(@ColorInt color: Int) {
 fun Window.lightNavBarWidgets() {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
         insetsController?.setSystemBarsAppearance(
-                0,
-                WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS
+            0,
+            WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS
         )
         return
     }
@@ -177,8 +177,8 @@ fun DialogFragment.lightNavBarWidgets() {
 fun Window.darkNavBarWidgets() {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
         insetsController?.setSystemBarsAppearance(
-                WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS,
-                WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS
+            WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS,
+            WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS
         )
         return
     }
@@ -207,12 +207,12 @@ fun DialogFragment.darkNavBarWidgets() {
 fun Window.lightSystemWidgets() {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
         insetsController?.setSystemBarsAppearance(
-                0,
-                WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
+            0,
+            WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
         )
         insetsController?.setSystemBarsAppearance(
-                0,
-                WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS
+            0,
+            WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS
         )
         return
     }
@@ -238,12 +238,12 @@ fun DialogFragment.lightSystemWidgets() {
 fun Window.darkSystemWidgets() {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
         insetsController?.setSystemBarsAppearance(
-                WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS,
-                WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
+            WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS,
+            WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
         )
         insetsController?.setSystemBarsAppearance(
-                WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS,
-                WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS
+            WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS,
+            WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS
         )
         return
     }
@@ -267,7 +267,6 @@ fun Fragment.darkSystemWidgets() {
 fun DialogFragment.darkSystemWidgets() {
     dialog?.window?.darkSystemWidgets()
 }
-
 
 /**
  * Fullscreen
@@ -326,8 +325,8 @@ fun Window.hideSystemUI(hasFocus: Boolean = true) {
     }
     @Suppress("DEPRECATION")
     setFlags(
-            WindowManager.LayoutParams.FLAG_FULLSCREEN,
-            WindowManager.LayoutParams.FLAG_FULLSCREEN
+        WindowManager.LayoutParams.FLAG_FULLSCREEN,
+        WindowManager.LayoutParams.FLAG_FULLSCREEN
     )
 }
 

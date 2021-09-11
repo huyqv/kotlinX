@@ -81,7 +81,6 @@ abstract class BaseListAdapter<T> : ListAdapter<T, RecyclerView.ViewHolder> {
         differ.submitList(list, commitCallback)
     }
 
-
     /**
      *
      */
@@ -184,5 +183,4 @@ abstract class BaseListAdapter<T> : ListAdapter<T, RecyclerView.ViewHolder> {
         v.layoutManager = lm
         v.adapter = this
     }
-
 }

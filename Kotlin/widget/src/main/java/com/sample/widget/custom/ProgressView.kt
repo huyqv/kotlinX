@@ -17,5 +17,4 @@ class ProgressView : AppCustomView<ProgressBinding> {
 
     override fun onInitialize(context: Context, types: TypedArray) {
     }
-
 }

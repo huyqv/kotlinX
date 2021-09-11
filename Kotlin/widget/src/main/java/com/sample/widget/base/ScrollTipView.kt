@@ -8,7 +8,8 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.widget.NestedScrollView
 import com.sample.widget.extension.isShow
 
-class ScrollTipView(context: Context, attrs: AttributeSet? = null) : AppCompatImageView(context, attrs) {
+class ScrollTipView(context: Context, attrs: AttributeSet? = null) :
+    AppCompatImageView(context, attrs) {
 
     fun updateScrollTipView(scrollView: NestedScrollView) {
         isShow(scrollView.hasInvisibleScrollContent)
@@ -28,5 +29,4 @@ class ScrollTipView(context: Context, attrs: AttributeSet? = null) : AppCompatIm
         get() {
             return this.scrollY < (this.computeVerticalScrollRange() - this.height)
         }
-
 }

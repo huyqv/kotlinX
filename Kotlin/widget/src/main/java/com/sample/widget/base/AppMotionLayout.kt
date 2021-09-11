@@ -125,6 +125,5 @@ open class AppMotionLayout : MotionLayout {
         }
         this.postDelayed(enableInteraction, 320)
     }
-
 }
 

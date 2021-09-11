@@ -41,7 +41,6 @@ fun String?.moneyFormat(currency: String? = "VND"): String {
 
             val docId = indexOf(".")
             if (docId != -1 && substring(docId, length).length > 3) return substring(0, docId + 3)
-
         }
         var originalString = when (currency) {
             null, "VND" -> this.replace(".", "")
@@ -62,7 +61,6 @@ fun String?.moneyFormat(currency: String? = "VND"): String {
                 decimalFormat.format(value)
             }
         }
-
     } catch (nfe: Exception) {
         ""
     }
@@ -121,7 +119,7 @@ fun Long.cashToText(): String {
         .replace("tỷ triệu nghìn đồng", "tỷ đồng")
         .replace("triệu nghìn đồng", "triệu đồng")
 
-    return text.substring(0, 1).toUpperCase() + text.substring(1, text.length)
+    return text.substring(0, 1).uppercase(Locale.getDefault()) + text.substring(1, text.length)
 }
 
 /**
@@ -130,7 +128,7 @@ fun Long.cashToText(): String {
 fun String?.flagIcon(): String {
     this ?: return ""
     if (length != 2) return ""
-    val s = toUpperCase()
+    val s = uppercase(Locale.getDefault())
     val char1st = Character.codePointAt(s, 0) - 0x41 + 0x1F1E6
     val char2st = Character.codePointAt(s, 1) - 0x41 + 0x1F1E6
     return String(Character.toChars(char1st)) + String(Character.toChars(char2st))
@@ -192,5 +190,4 @@ private fun cashText(numText: String): String {
         else -> " chín"
     }
     return "$s100$s10$s1"
-
 }

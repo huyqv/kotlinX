@@ -23,5 +23,4 @@ class NavigateItemView : AppCustomView<NavItemBinding> {
         bind.imageViewIcon.setImageDrawable(types.src)
         bind.layoutContent.setBackgroundResource(types.background)
     }
-
 }

@@ -63,5 +63,4 @@ object AES {
 
         return cipherDecrypt.doFinal(encryptedBytes)
     }
-
 }

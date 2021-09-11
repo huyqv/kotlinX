@@ -75,7 +75,5 @@ open class Logger {
         fun crash() {
             throw RuntimeException("crash")
         }
-
     }
-
 }

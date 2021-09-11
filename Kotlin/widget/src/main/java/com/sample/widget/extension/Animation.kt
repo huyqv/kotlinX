@@ -20,7 +20,6 @@ val interpolator6 = AnticipateOvershootInterpolator()
 val interpolator7 = BounceInterpolator()
 val interpolator8 = LinearInterpolator()
 
-
 fun View.animateAlpha(from: Float, to: Float) {
     this.post {
         if (alpha != from) alpha = from
@@ -54,7 +53,6 @@ fun View.animRotate(): ObjectAnimator {
     }
 }
 
-
 fun View.animate(@AnimRes animRes: Int, duration: Long = 2000, fillAfter: Boolean = true) {
 
     val anim = AnimationUtils.loadAnimation(context, animRes)
@@ -77,11 +75,9 @@ fun View.animate(@AnimRes animRes: Int, duration: Long, block: () -> Unit) {
 
         override fun onAnimationRepeat(animation: Animation) {
         }
-
     })
     startAnimation(anim)
 }
-
 
 fun View.animateAlpha(to: Float) {
     animateAlpha(to) {}
@@ -105,7 +101,6 @@ fun View.animateAlpha(toAlpha: Float, onEnd: () -> Unit) {
         startAnimation(anim)
     }
 }
-
 
 fun View.colorAnimate(@ColorRes fromColor: Int, @ColorRes toColor: Int): ObjectAnimator {
 
@@ -131,7 +126,6 @@ fun animTranslateY(from: Float, to: Float): TranslateAnimation {
         duration = 1000L
     }
 }
-
 
 fun animCenterScale(): ScaleAnimation {
     return ScaleAnimation(
@@ -183,7 +177,6 @@ fun animVanish(): ScaleAnimation {
         duration = 1000L
     }
 }
-
 
 fun Animation.onAnimationStart(onStart: () -> Unit): Animation {
     this.setAnimationListener(object : SimpleAnimationListener {

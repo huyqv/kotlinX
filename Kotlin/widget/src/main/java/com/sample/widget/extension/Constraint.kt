@@ -58,7 +58,6 @@ fun MotionLayout.transitionToState(transitionId: Int, onCompleted: () -> Unit) {
         }
     })
     transitionToState(transitionId)
-
 }
 
 class ConstraintBuilder(private val constraintLayout: ConstraintLayout) {
@@ -92,7 +91,6 @@ class ConstraintBuilder(private val constraintLayout: ConstraintLayout) {
         }
         constraintLayout.beginTransition(transitionList[0], constraintSetList[0])
     }
-
 }
 
 interface SimpleMotionTransitionListener : MotionLayout.TransitionListener {
@@ -124,7 +122,6 @@ interface SimpleTransitionListener : Transition.TransitionListener {
 
     override fun onTransitionResume(transition: Transition) {
     }
-
 }
 
 class ItemTransitionListener(private val vh: RecyclerView.ViewHolder, private val position: Int) :

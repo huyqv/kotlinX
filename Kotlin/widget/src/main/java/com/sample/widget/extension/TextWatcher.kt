@@ -58,7 +58,6 @@ fun String?.floatCash(): String {
 
         val value = originalString.toDouble()
         FLOAT_CAST_FORMAT.format(value)
-
     } catch (nfe: Exception) {
         ""
     }
@@ -153,7 +152,6 @@ fun EditText.addCashWatcher(maxLength: Int, prefix: String = "") {
         private fun EditText.handleSelection() {
             setSelection(if (text.length <= maxLength) text.length else maxLength)
         }
-
     })
 }
 

@@ -74,5 +74,4 @@ class DashView : View {
         const val HORIZONTAL: Int = 0
         const val VERTICAL: Int = 1
     }
-
 }

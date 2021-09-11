@@ -13,11 +13,11 @@ class SharedPref(private val fileName: String) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) try {
             val masterKey = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
             EncryptedSharedPreferences.create(
-                    fileName,
-                    masterKey,
-                    app,
-                    EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-                    EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+                fileName,
+                masterKey,
+                app,
+                EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+                EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
             )
         } catch (e: Exception) {
         }
@@ -44,5 +44,4 @@ class SharedPref(private val fileName: String) {
     fun int(key: String, default: Int = -1): Int = pref.getInt(key, default)
 
     fun bool(key: String, default: Boolean = false): Boolean = pref.getBoolean(key, default)
-
 }

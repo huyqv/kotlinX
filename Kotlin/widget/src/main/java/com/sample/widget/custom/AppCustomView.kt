@@ -263,5 +263,4 @@ abstract class AppCustomView<B : ViewBinding> : ConstraintLayout {
     fun TextView.textColor(@ColorRes color: Int) {
         setTextColor(ContextCompat.getColor(context, color))
     }
-
 }

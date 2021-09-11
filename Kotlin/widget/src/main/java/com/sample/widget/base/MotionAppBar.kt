@@ -17,5 +17,4 @@ class MotionAppBar : MotionLayout, AppBarLayout.OnOffsetChangedListener {
         super.onAttachedToWindow()
         (parent as? AppBarLayout)?.addOnOffsetChangedListener(this)
     }
-
 }

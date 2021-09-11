@@ -2,7 +2,6 @@ package com.sample.library.recycler
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.paging.LoadState
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.GridLayoutManager
@@ -127,6 +126,5 @@ abstract class BasePagingAdapter<T : Any> : PagingDataAdapter<T, RecyclerView.Vi
             //val emptyStateIsVisible = it.refresh is LoadState.Loading && itemCount == 0
         }
     }
-
 }
 

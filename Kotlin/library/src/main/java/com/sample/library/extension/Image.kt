@@ -43,7 +43,6 @@ private fun canUseForInBitmap(candidate: Bitmap, targetOptions: BitmapFactory.Op
                 && candidate.height == targetOptions.outHeight
                 && targetOptions.inSampleSize == 1)
 
-
     // From Android 4.4 (KitKat) onward we can re-use if the byte size of the new bitmap
     // is smaller than the reusable bitmap candidate allocation byte count.
     val width = targetOptions.outWidth / targetOptions.inSampleSize
@@ -273,9 +272,9 @@ fun orientation(src: String): Int {
             val exifConstructor = exifClass.getConstructor(String::class.java)
             val exifInstance = exifConstructor.newInstance(src)
             val getAttributeInt = exifClass.getMethod(
-                    "getAttributeInt",
-                    String::class.java,
-                    Int::class.javaPrimitiveType!!
+                "getAttributeInt",
+                String::class.java,
+                Int::class.javaPrimitiveType!!
             )
             val tagOrientationField = exifClass.getField("TAG_ORIENTATION")
             val tagOrientation = tagOrientationField.get(null) as String
@@ -330,8 +329,8 @@ fun orientation(bytes: ByteArray?): Int {
         }
         // Break if the marker is EXIF in APP1.
         if (marker == 0xE1 && length >= 8 &&
-                pack(bytes, offset + 2, 4, false) == 1165519206 &&
-                pack(bytes, offset + 6, 2, false) == 0
+            pack(bytes, offset + 2, 4, false) == 1165519206 &&
+            pack(bytes, offset + 6, 2, false) == 0
         ) {
             offset += 8
             length -= 8
@@ -496,9 +495,9 @@ fun ByteArray.convertImage(pixels: IntArray, exposureCompensation: Double?) {
 }
 
 fun ByteArray.toBitmap(
-        config: Bitmap.Config = Bitmap.Config.ALPHA_8,
-        width: Int,
-        height: Int
+    config: Bitmap.Config = Bitmap.Config.ALPHA_8,
+    width: Int,
+    height: Int
 ): Bitmap? {
     val bitmap = Bitmap.createBitmap(width, height, config)
     val buffer = ByteBuffer.wrap(this)
@@ -536,7 +535,7 @@ fun ByteArray.toBitmap(width: Int, height: Int): Bitmap {
         val matrix = Matrix()
         matrix.postRotate(orientation.toFloat())
         val bitmap =
-                Bitmap.createBitmap(srcBitmap, 0, 0, srcBitmap.width, srcBitmap.height, matrix, true)
+            Bitmap.createBitmap(srcBitmap, 0, 0, srcBitmap.width, srcBitmap.height, matrix, true)
         srcBitmap.recycle()
         return bitmap
     }
@@ -629,7 +628,6 @@ fun Bitmap.rotate(src: String): Bitmap {
         e.printStackTrace()
         this
     }
-
 }
 
 fun Bitmap.scale(width: Int, height: Int): Bitmap {
@@ -688,7 +686,6 @@ fun Bitmap.crop(aspectWidth: Int, aspectHeight: Int): Bitmap {
     } else {
         this
     }
-
 }
 
 fun Bitmap.flipVertical(): Bitmap {

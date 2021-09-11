@@ -56,5 +56,4 @@ class SecondCountdownTimer(private val intervalMillis: Long = 10 * SECOND) {
     open fun onTicks(second: Long, text: String) = Unit
 
     open fun onFinished() = Unit
-
 }

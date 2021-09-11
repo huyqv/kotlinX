@@ -50,5 +50,4 @@ class AnimateImageView : AppCompatImageView {
     private fun stopAnimation() {
         animation?.end()
     }
-
 }

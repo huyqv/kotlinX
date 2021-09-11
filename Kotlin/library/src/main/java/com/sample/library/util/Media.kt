@@ -21,13 +21,13 @@ object Media {
 
     private val soundPool: SoundPool by lazy {
         val attrs = AudioAttributes.Builder()
-                .setUsage(AudioAttributes.USAGE_MEDIA)
-                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-                .build()
+            .setUsage(AudioAttributes.USAGE_MEDIA)
+            .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+            .build()
         return@lazy SoundPool.Builder()
-                .setMaxStreams(1)
-                .setAudioAttributes(attrs)
-                .build()
+            .setMaxStreams(1)
+            .setAudioAttributes(attrs)
+            .build()
     }
 
     fun play(raw: Int) {
@@ -42,6 +42,5 @@ object Media {
             }
         }
     }
-
 }
 

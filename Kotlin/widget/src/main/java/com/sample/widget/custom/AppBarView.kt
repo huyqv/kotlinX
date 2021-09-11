@@ -32,7 +32,7 @@ class AppBarView : AppCustomView<AppBarBinding> {
             it.setTextColor(types.textColor)
             it.setTextSize(TypedValue.COMPLEX_UNIT_PX,
                 types.getDimension(R.styleable.AppCustomView_android_textSize, 9F)
-            );
+            )
         }
 
         bind.imageViewDrawableStart.also {
@@ -44,7 +44,6 @@ class AppBarView : AppCustomView<AppBarBinding> {
             it.setColorFilter(types.textColor)
             it.setImageDrawable(types.drawableEnd)
         }
-
     }
 
     /**
@@ -114,5 +113,4 @@ class AppBarView : AppCustomView<AppBarBinding> {
             bind.layoutContent.invalidate()
         }
     }
-
 }

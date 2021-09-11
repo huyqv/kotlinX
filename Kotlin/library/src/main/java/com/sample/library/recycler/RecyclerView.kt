@@ -28,7 +28,8 @@ fun InflaterInvoker?.invokeItem(parent: ViewGroup): ViewBinding? {
     return this?.invoke(LayoutInflater.from(parent.context), parent, false)
 }
 
-class GoneViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(View(parent.context).also { it.visibility = View.GONE })
+class GoneViewHolder(parent: ViewGroup) :
+    RecyclerView.ViewHolder(View(parent.context).also { it.visibility = View.GONE })
 
 class RtlGridLayoutManager : GridLayoutManager {
 
@@ -39,7 +40,6 @@ class RtlGridLayoutManager : GridLayoutManager {
     override fun isLayoutRTL(): Boolean {
         return true
     }
-
 }
 
 open class DiffItemCallback<T> : DiffUtil.ItemCallback<T>() {
@@ -101,13 +101,12 @@ class GridDecoration : RecyclerView.ItemDecoration {
             recycler.addItemDecoration(GridDecoration(recycler.context, col, dp, includeEdge))
         }
     }
-
 }
 
 class ItemDecoration(
-        private val margin: Int = 0,
-        @Orientation val orientation: Int = VERTICAL,
-        private val column: Int = 1,
+    private val margin: Int = 0,
+    @Orientation val orientation: Int = VERTICAL,
+    private val column: Int = 1,
 ) : RecyclerView.ItemDecoration() {
 
     companion object {
@@ -227,7 +226,6 @@ class ItemDecoration(
         val attr = context.obtainStyledAttributes(attrArray)
         return attr.getDrawable(0)!!
     }
-
 }
 
 interface ScrollListener {
@@ -275,7 +273,6 @@ fun RecyclerView.addScrollListener(listener: ScrollListener?) {
             }
         })
     }
-
 }
 
 fun RecyclerView.addMostScrollListener(listener: MostScrollListener?) {
@@ -287,7 +284,7 @@ fun RecyclerView.addMostScrollListener(listener: MostScrollListener?) {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 if (layoutManager is LinearLayoutManager) {
                     val pastVisibleItems: Int = (layoutManager as LinearLayoutManager)
-                            .findFirstCompletelyVisibleItemPosition()
+                        .findFirstCompletelyVisibleItemPosition()
                     if (pastVisibleItems == 0)
                         listener.onMostTopScrolled()
                 }
@@ -402,7 +399,6 @@ abstract class ViewClickListener(private val delayedInterval: Long = 400) : View
             lastClickTime = System.currentTimeMillis()
         }
     }
-
 }
 
 fun View?.addViewClickListener(delayedInterval: Long, listener: ((View?) -> Unit)? = null) {
@@ -453,5 +449,4 @@ class CenterLayoutManager : LinearLayoutManager {
     class CenterSmoothScroller(context: Context) : LinearSmoothScroller(context) {
         override fun calculateDtToFit(viewStart: Int, viewEnd: Int, boxStart: Int, boxEnd: Int, snapPreference: Int): Int = (boxStart + (boxEnd - boxStart) / 2) - (viewStart + (viewEnd - viewStart) / 2)
     }
-
 }

@@ -21,5 +21,4 @@ class InputViewCenter : InputView<InputCenterBinding> {
     override fun inflating(): (LayoutInflater, ViewGroup, Boolean) -> InputCenterBinding {
         return InputCenterBinding::inflate
     }
-
 }

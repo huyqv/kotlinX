@@ -34,7 +34,7 @@ fun Activity.hideKeyboard() {
 
 fun Activity.showKeyboard() {
     (this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
-            .toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY)
+        .toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY)
 }
 
 fun Fragment.hideKeyboard() {
@@ -63,5 +63,4 @@ fun AppCompatActivity.listenKeyboard() {
         }
     }
     contentView.viewTreeObserver.addOnGlobalLayoutListener(layoutListener)
-
 }

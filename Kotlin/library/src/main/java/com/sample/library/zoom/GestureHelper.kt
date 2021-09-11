@@ -14,7 +14,6 @@ class GestureHelper {
         fun onFling(startX: Float, startY: Float, velocityX: Float, velocityY: Float)
 
         fun onScale(scaleFactor: Float, focusX: Float, focusY: Float)
-
     }
 
     interface MatrixChangedListener {
@@ -84,10 +83,10 @@ class GestureHelper {
          * @param velocityY distance of user's vertical fling.
          */
         fun onSingleFling(
-                e1: MotionEvent,
-                e2: MotionEvent,
-                velocityX: Float,
-                velocityY: Float
+            e1: MotionEvent,
+            e2: MotionEvent,
+            velocityX: Float,
+            velocityY: Float
         ): Boolean
     }
 
@@ -118,5 +117,4 @@ class GestureHelper {
          */
         fun onViewTap(view: View, x: Float, y: Float)
     }
-
 }

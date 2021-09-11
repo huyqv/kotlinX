@@ -78,5 +78,4 @@ abstract class BasePagerAdapter<T> : PagerAdapter() {
     override fun destroyItem(viewGroup: ViewGroup, position: Int, obj: Any) {
         viewGroup.removeView(obj as View)
     }
-
 }

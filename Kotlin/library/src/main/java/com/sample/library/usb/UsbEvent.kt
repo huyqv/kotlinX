@@ -12,5 +12,4 @@ class UsbEvent(val status: String, val usb: UsbDevice?) {
         usb ?: return "device not found"
         return "${usb.productName} $status"
     }
-
 }

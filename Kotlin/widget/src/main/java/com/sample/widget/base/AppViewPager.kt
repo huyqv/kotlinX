@@ -54,11 +54,9 @@ class AppViewPager : ViewPager {
             scroller.isAccessible = true
             scroller.set(this, MySwipe(context))
             swipeEnabled = true
-
         } catch (e: Exception) {
             e.printStackTrace()
         }
-
     }
 
     inner class MySwipe(context: Context) : Scroller(context, DecelerateInterpolator()) {

@@ -196,6 +196,4 @@ abstract class BaseRecyclerAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHo
         v.layoutManager = lm
         v.adapter = this
     }
-
-
 }

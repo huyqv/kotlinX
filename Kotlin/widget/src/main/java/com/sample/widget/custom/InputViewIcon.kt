@@ -29,5 +29,4 @@ class InputViewIcon : InputView<InputIconBinding> {
             it.setImageDrawable(types.drawable)
         }
     }
-
 }

@@ -38,7 +38,6 @@ fun fileDir(dir: String, fileName: String? = null): File {
     } else {
         @Suppress("DEPRECATION")
         Environment.getExternalStoragePublicDirectory(dir)
-
     }
     if (fileName != null) {
         return File(parent, fileName)
@@ -56,7 +55,6 @@ fun readBytesFromAssets(fileName: String): ByteArray? {
     } catch (e: FileNotFoundException) {
         null
     }
-
 }
 
 fun readAssets(filename: String): String? {
@@ -89,10 +87,10 @@ fun saveBitmap(fileName: String, bitmap: Bitmap) {
     fOut.flush()
     fOut.close()
     MediaStore.Images.Media.insertImage(
-            app.contentResolver,
-            file.absolutePath,
-            file.name,
-            file.name
+        app.contentResolver,
+        file.absolutePath,
+        file.name,
+        file.name
     )
 }
 
@@ -188,8 +186,6 @@ fun readFile(fileName: String): String {
     } catch (e: IOException) {
     }
     return text.toString()
-
-
 }
 
 fun Activity.download(url: String, fileName: String, onCompleted: (File) -> Unit) {
@@ -222,7 +218,7 @@ fun Activity.downloadIfNotExist(url: String, fileName: String, onCompleted: (Fil
 @Throws(IOException::class)
 fun unzip(zipFile: File?, targetDirectory: File?) {
     val zis = ZipInputStream(
-            BufferedInputStream(FileInputStream(zipFile))
+        BufferedInputStream(FileInputStream(zipFile))
     )
     var ze: ZipEntry
     var count: Int

@@ -52,6 +52,5 @@ class UsbDriver {
         } catch (e: Exception) {
         }
     }
-
 }
 

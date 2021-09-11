@@ -11,5 +11,4 @@ class SquareLayout : ConstraintLayout {
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, widthMeasureSpec)
     }
-
 }

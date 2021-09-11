@@ -32,7 +32,5 @@ class CustomTransformMethod(val visibleCount: Int = 1) : PasswordTransformationM
         override fun subSequence(startIndex: Int, endIndex: Int): CharSequence {
             return source.subSequence(startIndex, endIndex)
         }
-
     }
-
 }

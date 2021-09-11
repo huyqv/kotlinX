@@ -92,8 +92,8 @@ fun keyHash() {
     try {
         val signatures = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             app.packageManager.getPackageInfo(
-                    packageName,
-                    PackageManager.GET_SIGNING_CERTIFICATES
+                packageName,
+                PackageManager.GET_SIGNING_CERTIFICATES
             ).signingInfo.signingCertificateHistory
         } else {
             @Suppress("DEPRECATION")
@@ -104,11 +104,9 @@ fun keyHash() {
             md.update(signature.toByteArray())
             Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT))
         }
-
     } catch (ignore: PackageManager.NameNotFoundException) {
     } catch (ignore: NoSuchAlgorithmException) {
     }
-
 }
 
 

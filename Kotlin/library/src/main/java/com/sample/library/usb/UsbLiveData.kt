@@ -33,5 +33,4 @@ class UsbLiveData private constructor() : MutableLiveData<UsbDevice>() {
         })
         Usb.observer(activity, *vendorIds)
     }
-
 }

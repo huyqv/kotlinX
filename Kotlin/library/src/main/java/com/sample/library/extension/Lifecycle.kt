@@ -110,7 +110,6 @@ open class SingleLiveData<T> : MediatorLiveData<T>() {
     protected open fun onDataChanged(t: T?) {
     }
 
-
     /**
      * Used for cases where T is Void, to make calls cleaner.
      */
@@ -135,7 +134,6 @@ open class SingleLiveData<T> : MediatorLiveData<T>() {
             pending.set(true)
         }
     }
-
 }
 
 open class EventLiveData : MediatorLiveData<Boolean?>() {
@@ -184,7 +182,6 @@ open class EventLiveData : MediatorLiveData<Boolean?>() {
     protected open fun onDataChanged(t: Boolean?) {
     }
 
-
     /**
      * Used for cases where T is Void, to make calls cleaner.
      */
@@ -194,7 +191,7 @@ open class EventLiveData : MediatorLiveData<Boolean?>() {
     }
 
     private inner class ObserverWrapper(private val observer: Observer<in Boolean?>) :
-            Observer<Boolean?> {
+        Observer<Boolean?> {
 
         private val pending = AtomicBoolean(false)
 
@@ -213,7 +210,6 @@ open class EventLiveData : MediatorLiveData<Boolean?>() {
             pending.set(true)
         }
     }
-
 }
 
 /**

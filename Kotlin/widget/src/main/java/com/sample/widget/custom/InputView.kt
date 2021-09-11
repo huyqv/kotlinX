@@ -104,7 +104,6 @@ abstract class InputView<B : ViewBinding> : AppCustomView<B>, View.OnFocusChange
         }
     }
 
-
     /**
      * [InputView] properties
      */
@@ -206,8 +205,8 @@ abstract class InputView<B : ViewBinding> : AppCustomView<B>, View.OnFocusChange
             it.setTextColor(types.textColor)
 
             val attrInputType = types.getInt(
-                    R.styleable.AppCustomView_android_inputType,
-                    EditorInfo.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
+                R.styleable.AppCustomView_android_inputType,
+                EditorInfo.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
             )
             when (attrInputType) {
                 EditorInfo.TYPE_NULL -> {
@@ -267,5 +266,4 @@ abstract class InputView<B : ViewBinding> : AppCustomView<B>, View.OnFocusChange
         val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
         imm?.hideSoftInputFromWindow(editText?.windowToken, 0)
     }
-
 }

@@ -51,5 +51,4 @@ open class FragmentAdapter : FragmentStateAdapter {
         fragments.addAll(frags)
         notifyDataSetChanged()
     }
-
 }

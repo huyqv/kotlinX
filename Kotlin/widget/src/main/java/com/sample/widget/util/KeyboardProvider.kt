@@ -149,7 +149,5 @@ class KeyboardProvider constructor(private val activity: Activity) : PopupWindow
                 keyboardListener?.onKeyboardShow(keyboardHeight, orientation)
             }
         }
-
     }
-
 }

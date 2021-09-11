@@ -67,5 +67,4 @@ abstract class BaseSelectableAdapter<T> : BaseListAdapter<T>() {
     abstract fun ViewBinding.onBindSelectedItem(item: T, position: Int)
 
     abstract fun ViewBinding.onBindUnselectedItem(item: T, position: Int)
-
 }

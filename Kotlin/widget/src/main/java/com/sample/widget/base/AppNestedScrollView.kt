@@ -6,7 +6,6 @@ import android.util.Log
 import android.view.MotionEvent
 import androidx.core.widget.NestedScrollView
 
-
 abstract class AppNestedScrollView : NestedScrollView {
 
     var scrollable = true
@@ -41,6 +40,5 @@ abstract class AppNestedScrollView : NestedScrollView {
             }
             scrollYPos = scrollY
         }
-
     }
 }

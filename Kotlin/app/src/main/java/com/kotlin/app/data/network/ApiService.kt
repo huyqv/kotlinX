@@ -2,8 +2,6 @@ package com.kotlin.app.data.network
 
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
-import io.reactivex.Observable
-import io.reactivex.Single
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -22,35 +20,35 @@ interface ApiService {
     }
 
     @GET(PATH_FMT)
-    suspend fun objectGET(@Path(PATH) path: String): Single<JsonObject>
+    suspend fun objectGET(@Path(PATH) path: String): JsonObject
 
     @GET(PATH_FMT)
-    suspend fun arrayGET(@Path(PATH) path: String): Single<JsonArray>
+    suspend fun arrayGET(@Path(PATH) path: String): JsonArray
 
     @POST(PATH_FMT)
-    suspend fun post(@Path(PATH) path: String, @Body body: JsonObject): Single<JsonObject>
+    suspend fun post(@Path(PATH) path: String, @Body body: JsonObject): JsonObject
 
     @Multipart
     @POST(PATH_FMT)
-    fun post(
-            @Path(PATH) path: String,
-            @Part files: Array<MultipartBody.Part>,
-            @Part("description") des: RequestBody?
+    suspend fun post(
+        @Path(PATH) path: String,
+        @Part files: Array<MultipartBody.Part>,
+        @Part("description") des: RequestBody?
     ): Call<ResponseBody>
 
     @Streaming
     @GET
-    fun download(@Url url: String): Observable<Response<ResponseBody>>
+    suspend fun download(@Url url: String): Response<ResponseBody>
 
     /**
-     * sample url: https://concacvip.com/api/user/profile?userId=123456789
+     * sample url: https://sample.com/api/user/profile?userId=123456789
      * @param userId: annotated by [Query] (one) or [QueryMap] (multi)
      * @param body: request body from binary/json
      */
-    @POST("{path}")
+    @POST(PATH_FMT)
     suspend fun post(
-            @Path("path") path: String = "api/user/profile",
-            @Query("userId") userId: String = "123456789",
-            @Body body: RequestBody = "ccv".toRequestBody(),
+        @Path(PATH) path: String = "api/user/profile",
+        @Query("userId") userId: String = "123456789",
+        @Body body: RequestBody = "ccv".toRequestBody(),
     ): JsonObject
 }
