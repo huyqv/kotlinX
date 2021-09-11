@@ -104,9 +104,9 @@ abstract class BasePagingAdapter<T : Any> : PagingDataAdapter<T, RecyclerView.Vi
         recyclerView.layoutManager = lm
         recyclerView.adapter = this
         addLoadStateListener {
-            val retryVisible = it.refresh is LoadState.Error
-            val swipeRefreshLayoutIsRefreshing = it.refresh is LoadState.Loading
-            val emptyStateIsVisible = it.refresh is LoadState.Loading && itemCount == 0
+            //val retryVisible = it.refresh is LoadState.Error
+            //val swipeRefreshLayoutIsRefreshing = it.refresh is LoadState.Loading
+            //val emptyStateIsVisible = it.refresh is LoadState.Loading && itemCount == 0
         }
     }
 
@@ -122,9 +122,9 @@ abstract class BasePagingAdapter<T : Any> : PagingDataAdapter<T, RecyclerView.Vi
         recyclerView.layoutManager = lm
         recyclerView.adapter = this
         addLoadStateListener {
-            val retryVisible = it.refresh is LoadState.Error
-            val swipeRefreshLayoutIsRefreshing = it.refresh is LoadState.Loading
-            val emptyStateIsVisible = it.refresh is LoadState.Loading && itemCount == 0
+            //val retryVisible = it.refresh is LoadState.Error
+            //val swipeRefreshLayoutIsRefreshing = it.refresh is LoadState.Loading
+            //val emptyStateIsVisible = it.refresh is LoadState.Loading && itemCount == 0
         }
     }
 

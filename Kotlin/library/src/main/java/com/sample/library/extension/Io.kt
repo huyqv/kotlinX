@@ -224,24 +224,20 @@ fun unzip(zipFile: File?, targetDirectory: File?) {
     val zis = ZipInputStream(
             BufferedInputStream(FileInputStream(zipFile))
     )
-    zis.use { zis ->
-        var ze: ZipEntry
-        var count: Int
-        val buffer = ByteArray(8192)
-        while (zis.nextEntry.also { ze = it } != null) {
-            val file = File(targetDirectory, ze.name)
-            val dir = if (ze.isDirectory) file else file.parentFile
-            if (!dir.isDirectory && !dir.mkdirs()) {
-                toast("Failed to ensure directory: ${dir.absolutePath}")
-                return
-            }
-            if (ze.isDirectory) continue
-            val fos = FileOutputStream(file)
-            fos.use { fos ->
-                while (zis.read(buffer).also { count = it } != -1) {
-                    fos.write(buffer, 0, count)
-                }
-            }
+    var ze: ZipEntry
+    var count: Int
+    val buffer = ByteArray(8192)
+    while (zis.nextEntry.also { ze = it } != null) {
+        val file = File(targetDirectory, ze.name)
+        val dir = if (ze.isDirectory) file else file.parentFile
+        if (!dir.isDirectory && !dir.mkdirs()) {
+            toast("Failed to ensure directory: ${dir.absolutePath}")
+            return
+        }
+        if (ze.isDirectory) continue
+        val fos = FileOutputStream(file)
+        while (zis.read(buffer).also { count = it } != -1) {
+            fos.write(buffer, 0, count)
         }
     }
 }

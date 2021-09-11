@@ -107,7 +107,7 @@
         android:layout_height="@dimen/_32sdp"
         android:layout_marginTop="@dimen/contentMarginX4"
         android:text="auto text size"
-        app:autoSizePresetSizes="@array/auto_size_text_sizes"
+        app:autoSizePresetSizes="@array/auto_text_sizes"
         app:autoSizeTextType="uniform"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />

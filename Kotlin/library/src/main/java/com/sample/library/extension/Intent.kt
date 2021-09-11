@@ -198,7 +198,7 @@ class ImagePickerJob(val lifecycleOwner: LifecycleOwner) {
         val uri: Uri = data.data ?: return null
         val outputStream = ByteArrayOutputStream()
         return try {
-            val path = realPathFromURI(uri)
+            val path = realPathFromURI(uri)?:return null
             val file = File(path)
             val inputStream = FileInputStream(file)
             val bitmap = BitmapFactory.decodeStream(inputStream)
@@ -255,7 +255,7 @@ class VoicePickerJob(val lifecycleOwner: LifecycleOwner) {
         val uri: Uri = data.data ?: return null
         val outputStream = ByteArrayOutputStream()
         return try {
-            val path = realPathFromURI(uri)
+            val path = realPathFromURI(uri)?:return null
             val file = File(path)
             val inputStream = FileInputStream(file)
             val bitmap = BitmapFactory.decodeStream(inputStream)

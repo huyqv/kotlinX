@@ -54,6 +54,7 @@ fun Map<String, Any>?.doubleOrThrow(key: String): Double {
 }
 
 fun Map<String, Any>?.mapOrNull(key: String): Map<String, Any>? {
+    @Suppress("UNCHECKED_CAST")
     return this?.get(key) as? Map<String, Any>
 }
 
@@ -65,9 +66,11 @@ fun Map<String, Any>?.mapOrThrow(key: String): Map<String, Any> {
     return mapOrNull(key) ?: throw MapValueNullException(key)
 }
 
-inline fun <reified T> Map<String, Any>?.listOrNull(key: String): List<T>? {
+inline fun <reified T : Any> Map<String, Any>?.listOrNull(key: String): List<T>? {
+    @Suppress("UNCHECKED_CAST")
     val a = this?.get(key)
-    return (a as? Array<T>)?.toList() ?: (a as? ArrayList<T>)
+    @Suppress("UNCHECKED_CAST")
+    return (a as? Array<T>)?.toList() ?: a as? ArrayList<T>
 }
 
 inline fun <reified T> Map<String, Any>?.list(key: String): List<T> {
@@ -91,8 +94,8 @@ fun Map<String, Any>?.timestampOrThrow(key: String): Timestamp {
 }
 
 inline fun <T : Any> Map<String, Any>?.list(key: String, transformer: (Map<String, Any>) -> T): List<T> {
-
     val list = mutableListOf<T>()
+    @Suppress("UNCHECKED_CAST")
     (this?.get(key) as? Array<Map<String, Any>>)?.forEach {
         list.add(transformer(it))
     }

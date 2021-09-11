@@ -48,8 +48,7 @@ val statusBarHeight: Int
 
 val gridSpanCount: Int
     get() {
-        val isTablet = isTablet
-        return if (com.sample.library.extension.isTablet) 3 else 2
+        return if (isTablet) 3 else 2
     }
 
 val navigationBarHeight: Int

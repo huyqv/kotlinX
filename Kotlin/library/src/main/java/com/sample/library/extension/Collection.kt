@@ -5,7 +5,7 @@ import java.util.*
 import java.util.regex.Pattern
 import java.util.stream.Collectors
 
-fun <T> java.util.List<T>.copyList(): MutableList<T> {
+fun <T> List<T>.copyList(): MutableList<T> {
     return if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
         this.stream().collect(Collectors.toList())
     } else {

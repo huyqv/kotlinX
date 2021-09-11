@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <array name="auto_size_text_sizes">
+    <array name="auto_text_sizes">
         <item>@dimen/textSize</item>
         <item>@dimen/textSize2</item>
         <item>@dimen/textSize3</item>

@@ -93,7 +93,7 @@ fun Fragment.onGranted(
         onDenied: (List<String>) -> Unit
 ) {
     activity?.onGranted(
-            permissions = *permissions,
+            permissions = permissions,
             onGranted = onGranted,
             onDenied = onDenied
     )
@@ -106,7 +106,7 @@ fun FragmentActivity.onGranted(
         vararg permissions: String,
         onGranted: () -> Unit
 ) {
-    onGranted(permissions = *permissions, onGranted, {
+    onGranted(permissions = permissions, onGranted, {
         showDialogPermission(it)
     })
 }
@@ -115,10 +115,7 @@ fun Fragment.onGranted(
         vararg permissions: String,
         onGranted: () -> Unit
 ) {
-    activity?.onGranted(
-            permissions = *permissions,
-            onGranted = onGranted
-    )
+    activity?.onGranted(permissions = permissions, onGranted = onGranted)
 }
 
 /**
@@ -154,7 +151,7 @@ fun FragmentActivity.observerPermission(
         vararg permissions: String,
         onGranted: () -> Unit
 ) {
-    lifecycle.observerPermission(requestCode, permissions = *permissions, onGranted)
+    lifecycle.observerPermission(requestCode, permissions = permissions, onGranted)
 }
 
 fun Fragment.observerPermission(
@@ -162,7 +159,7 @@ fun Fragment.observerPermission(
         vararg permissions: String,
         onGranted: () -> Unit
 ) {
-    lifecycle.observerPermission(requestCode, permissions = *permissions, onGranted)
+    lifecycle.observerPermission(requestCode, permissions = permissions, onGranted)
 }
 
 private fun FragmentActivity.showDialogPermission(permissions: List<String>) {

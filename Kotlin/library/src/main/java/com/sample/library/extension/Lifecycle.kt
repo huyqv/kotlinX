@@ -91,7 +91,7 @@ open class SingleLiveData<T> : MediatorLiveData<T>() {
 
     override fun removeObserver(observer: Observer<in T>) {
         observers.forEach {
-            if (it.value.remove(observer as Observer<T>)) {
+            if (it.value.remove(observer as Observer<*>)) {
                 if (it.value.isEmpty()) {
                     observers.remove(it.key)
                 }
