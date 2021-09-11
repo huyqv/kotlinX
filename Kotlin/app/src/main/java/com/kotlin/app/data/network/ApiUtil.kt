@@ -72,7 +72,7 @@ fun authInterceptor(token: String): Interceptor {
         override fun intercept(chain: Interceptor.Chain): okhttp3.Response {
             val request = chain.request().newBuilder()
             if (token != null) {
-                request.addHeader("Authorization", String.format("Bearer %s", token))
+                request.addHeader("Authorization", token)
             }
             return chain.proceed(request.build())
         }
