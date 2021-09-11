@@ -11,9 +11,9 @@ private fun Context.getText(@StringRes title: Int?): String? {
 }
 
 private fun Context.initDialog(
-    title: String?,
-    msg: String,
-    block: (AlertDialog.Builder.() -> Unit)? = null
+        title: String?,
+        msg: String,
+        block: (AlertDialog.Builder.() -> Unit)? = null
 ) {
     val dialog = AlertDialog.Builder(this).setMessage(msg)
     if (null != title) {
@@ -54,10 +54,10 @@ fun Context.showConfirmDialog(@StringRes title: Int?, @StringRes msg: Int, block
 }
 
 fun Context.showDialog(
-    title: String?,
-    msg: String,
-    positiveBlock: () -> Unit,
-    negativeBlock: () -> Unit
+        title: String?,
+        msg: String,
+        positiveBlock: () -> Unit,
+        negativeBlock: () -> Unit
 ) {
     initDialog(title, msg) {
         setNegativeButton("NO") { dialog, _ ->
@@ -73,9 +73,9 @@ fun Context.showDialog(
 }
 
 fun Context?.showDateDialog(
-    minDate: Long,
-    maxDate: Long = System.currentTimeMillis(),
-    block: (Int, Int, Int) -> Unit
+        minDate: Long,
+        maxDate: Long = System.currentTimeMillis(),
+        block: (Int, Int, Int) -> Unit
 ) {
 
     this ?: return
@@ -85,19 +85,19 @@ fun Context?.showDateDialog(
     val d = cal.get(Calendar.DAY_OF_MONTH)
 
     val dialog =
-        DatePickerDialog(this, DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
-            val correctMonth = month + 1
-            block(year, correctMonth, dayOfMonth)
-        }, y, m, d)
+            DatePickerDialog(this, DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
+                val correctMonth = month + 1
+                block(year, correctMonth, dayOfMonth)
+            }, y, m, d)
     dialog.datePicker.maxDate = maxDate
     dialog.datePicker.minDate = minDate
     dialog.show()
 }
 
 fun Context?.dateTextPicker(
-    minDate: Long,
-    maxDate: Long = System.currentTimeMillis(),
-    block: (String) -> Unit
+        minDate: Long,
+        maxDate: Long = System.currentTimeMillis(),
+        block: (String) -> Unit
 ) {
     @Suppress("IMPLICIT_CAST_TO_ANY")
     showDateDialog(minDate, maxDate) { y, m, d ->
@@ -106,9 +106,9 @@ fun Context?.dateTextPicker(
 }
 
 fun Context?.timestampPicker(
-    minDate: Long,
-    maxDate: Long = System.currentTimeMillis(),
-    block: (Long) -> Unit
+        minDate: Long,
+        maxDate: Long = System.currentTimeMillis(),
+        block: (Long) -> Unit
 ) {
     @Suppress("IMPLICIT_CAST_TO_ANY")
     showDateDialog(minDate, maxDate) { y, m, d ->

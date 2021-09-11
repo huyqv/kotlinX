@@ -117,25 +117,25 @@ abstract class AppCustomView<B : ViewBinding> : ConstraintLayout {
     val TypedArray.drawableStart: Drawable?
         get() {
             return getDrawable(R.styleable.AppCustomView_android_drawableStart)
-                ?.constantState?.newDrawable()?.mutate()
+                    ?.constantState?.newDrawable()?.mutate()
         }
 
     val TypedArray.drawableEnd: Drawable?
         get() {
             return getDrawable(R.styleable.AppCustomView_android_drawableEnd)
-                ?.constantState?.newDrawable()?.mutate()
+                    ?.constantState?.newDrawable()?.mutate()
         }
 
     val TypedArray.drawable: Drawable?
         get() {
             return getDrawable(R.styleable.AppCustomView_android_drawable)
-                ?.constantState?.newDrawable()?.mutate()
+                    ?.constantState?.newDrawable()?.mutate()
         }
 
     val TypedArray.src: Drawable?
         get() {
             return getDrawable(R.styleable.AppCustomView_android_src)
-                ?.constantState?.newDrawable()?.mutate()
+                    ?.constantState?.newDrawable()?.mutate()
         }
 
     val TypedArray.srcRes: Int

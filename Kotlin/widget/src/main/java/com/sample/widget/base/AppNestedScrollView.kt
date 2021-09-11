@@ -27,11 +27,11 @@ abstract class AppNestedScrollView : NestedScrollView {
         open fun onMostTopScroll() = Unit
 
         override fun onScrollChange(
-            v: NestedScrollView?,
-            scrollX: Int,
-            scrollY: Int,
-            oldScrollX: Int,
-            oldScrollY: Int
+                v: NestedScrollView?,
+                scrollX: Int,
+                scrollY: Int,
+                oldScrollX: Int,
+                oldScrollY: Int
         ) {
             if (scrollYPos != 0 && scrollY == 0) {
                 scrollYPos = 0

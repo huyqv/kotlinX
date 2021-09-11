@@ -82,8 +82,8 @@ class ConstraintBuilder(private val constraintLayout: ConstraintLayout) {
                     transitionList[i].removeListener(this)
                     if (i < transitionList.lastIndex) {
                         constraintLayout.beginTransition(
-                            transitionList[i + 1],
-                            constraintSetList[i + 1]
+                                transitionList[i + 1],
+                                constraintSetList[i + 1]
                         )
                     }
                 }
@@ -125,7 +125,7 @@ interface SimpleTransitionListener : Transition.TransitionListener {
 }
 
 class ItemTransitionListener(private val vh: RecyclerView.ViewHolder, private val position: Int) :
-    SimpleMotionTransitionListener {
+        SimpleMotionTransitionListener {
     override fun equals(other: Any?): Boolean {
         return position === (other as? ItemTransitionListener)?.position
     }

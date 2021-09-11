@@ -13,6 +13,6 @@ private var mApp: Application? = null
 
 val app: Application
     get() = mApp ?: throw NullPointerException(
-        "Library module must be init with " +
-                "Library.init(application: Application) in android.app.Application.onCreate()"
+            "Library module must be init with " +
+                    "Library.init(application: Application) in android.app.Application.onCreate()"
     )

@@ -121,7 +121,7 @@ fun cameraId(facing: Int): Int {
     val manager = app.getSystemService(Context.CAMERA_SERVICE) as CameraManager
     return manager.cameraIdList.first {
         manager.getCameraCharacteristics(it)
-            .get(CameraCharacteristics.LENS_FACING) == facing
+                .get(CameraCharacteristics.LENS_FACING) == facing
     }.toInt()
 }
 

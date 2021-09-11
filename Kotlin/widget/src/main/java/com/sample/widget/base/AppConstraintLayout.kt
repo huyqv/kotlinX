@@ -117,15 +117,15 @@ open class AppConstraintLayout : ConstraintLayout {
         path = Path()
 
         clipPathCanvas(canvas, floatArrayOf(
-            radiusTopLeft, radiusTopLeft, radiusTopRight, radiusTopRight, radiusBottomRight,
-            radiusBottomRight, radiusBottomLeft, radiusBottomLeft
+                radiusTopLeft, radiusTopLeft, radiusTopRight, radiusTopRight, radiusBottomRight,
+                radiusBottomRight, radiusBottomLeft, radiusBottomLeft
         ))
 
         /** set drawable resource corner & background & stroke */
         GradientDrawable().apply {
             cornerRadii = floatArrayOf(
-                radiusTopLeft, radiusTopLeft, radiusTopRight, radiusTopRight,
-                radiusBottomRight, radiusBottomRight, radiusBottomLeft, radiusBottomLeft
+                    radiusTopLeft, radiusTopLeft, radiusTopRight, radiusTopRight,
+                    radiusBottomRight, radiusBottomRight, radiusBottomLeft, radiusBottomLeft
             )
             if (strokeLineWidth != 0F) {
                 this.setStroke(strokeLineWidth.toInt(), strokeLineColor, dashLineWidth, dashLineGap)
@@ -147,9 +147,9 @@ open class AppConstraintLayout : ConstraintLayout {
     private fun clipPathCanvas(canvas: Canvas, floatArray: FloatArray) {
         path?.let {
             it.addRoundRect(
-                RectF(0F, 0F, canvas.width.toFloat(), canvas.height.toFloat()),
-                floatArray,
-                Path.Direction.CW
+                    RectF(0F, 0F, canvas.width.toFloat(), canvas.height.toFloat()),
+                    floatArray,
+                    Path.Direction.CW
             )
             canvas.clipPath(it)
         }

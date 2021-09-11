@@ -128,10 +128,10 @@ fun String?.rgbToHex(): String {
     val m = c.matcher(this)
     return if (m.matches()) {
         String.format(
-            "#%02x%02x%02x",
-            m.group(1)?.toInt(),
-            m.group(2)?.toInt(),
-            m.group(3)?.toInt()
+                "#%02x%02x%02x",
+                m.group(1)?.toInt(),
+                m.group(2)?.toInt(),
+                m.group(3)?.toInt()
         )
     } else "#000"
 }
@@ -164,10 +164,10 @@ fun String?.normalizer(): String? {
         val temp = Normalizer.normalize(this, Normalizer.Form.NFD)
         val pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+")
         pattern.matcher(temp)
-            .replaceAll("")
-            .lowercase()
-            .replace(" ", "-")
-            .replace("đ", "d", true)
+                .replaceAll("")
+                .lowercase()
+                .replace(" ", "-")
+                .replace("đ", "d", true)
     } catch (e: IllegalStateException) {
         null
     } catch (e: IllegalArgumentException) {
@@ -180,9 +180,9 @@ fun String?.normalize(): String? {
     if (this.isEmpty()) return null
     val s = this.trim { it <= ' ' }
     return Normalizer.normalize(s, Normalizer.Form.NFD)
-        .lowercase()
-        .replace("\\p{M}".toRegex(), "")
-        .replace("đ".toRegex(), "d")
+            .lowercase()
+            .replace("\\p{M}".toRegex(), "")
+            .replace("đ".toRegex(), "d")
 }
 
 /**
@@ -203,9 +203,9 @@ val String?.trimText: String
         var s = this ?: return ""
         if (s.isNullOrEmpty()) return ""
         s = s.replace("\n", " ")
-            .replace("\\s+".toRegex(), " ")
-            .trim()
-            .trimIndent()
+                .replace("\\s+".toRegex(), " ")
+                .trim()
+                .trimIndent()
         return s
     }
 

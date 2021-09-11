@@ -156,9 +156,9 @@ abstract class InputView<B : ViewBinding> : AppCustomView<B>, View.OnFocusChange
             setImeActionLabel(null, actionId)
             setOnEditorActionListener(object : TextView.OnEditorActionListener {
                 override fun onEditorAction(
-                    v: TextView?,
-                    actionId: Int,
-                    event: KeyEvent?
+                        v: TextView?,
+                        actionId: Int,
+                        event: KeyEvent?
                 ): Boolean {
                     if (actionId == actionId) {
                         hideKeyboard()
@@ -205,8 +205,8 @@ abstract class InputView<B : ViewBinding> : AppCustomView<B>, View.OnFocusChange
             it.setTextColor(types.textColor)
 
             val attrInputType = types.getInt(
-                R.styleable.AppCustomView_android_inputType,
-                EditorInfo.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
+                    R.styleable.AppCustomView_android_inputType,
+                    EditorInfo.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
             )
             when (attrInputType) {
                 EditorInfo.TYPE_NULL -> {
@@ -231,11 +231,11 @@ abstract class InputView<B : ViewBinding> : AppCustomView<B>, View.OnFocusChange
             it.filters = filters.toArray(arrayOfNulls<InputFilter>(filters.size))
 
             it.nextFocusForwardId =
-                types.getResourceId(R.styleable.AppCustomView_android_nextFocusForward, -1)
+                    types.getResourceId(R.styleable.AppCustomView_android_nextFocusForward, -1)
 
             it.imeOptions = types.getInt(
-                R.styleable.AppCustomView_android_imeOptions,
-                EditorInfo.IME_ACTION_NEXT
+                    R.styleable.AppCustomView_android_imeOptions,
+                    EditorInfo.IME_ACTION_NEXT
             )
 
             val src = types.getResourceId(R.styleable.AppCustomView_android_src, -1)

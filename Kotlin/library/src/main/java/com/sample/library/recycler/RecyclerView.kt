@@ -29,7 +29,7 @@ fun InflaterInvoker?.invokeItem(parent: ViewGroup): ViewBinding? {
 }
 
 class GoneViewHolder(parent: ViewGroup) :
-    RecyclerView.ViewHolder(View(parent.context).also { it.visibility = View.GONE })
+        RecyclerView.ViewHolder(View(parent.context).also { it.visibility = View.GONE })
 
 class RtlGridLayoutManager : GridLayoutManager {
 
@@ -104,9 +104,9 @@ class GridDecoration : RecyclerView.ItemDecoration {
 }
 
 class ItemDecoration(
-    private val margin: Int = 0,
-    @Orientation val orientation: Int = VERTICAL,
-    private val column: Int = 1,
+        private val margin: Int = 0,
+        @Orientation val orientation: Int = VERTICAL,
+        private val column: Int = 1,
 ) : RecyclerView.ItemDecoration() {
 
     companion object {
@@ -284,7 +284,7 @@ fun RecyclerView.addMostScrollListener(listener: MostScrollListener?) {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 if (layoutManager is LinearLayoutManager) {
                     val pastVisibleItems: Int = (layoutManager as LinearLayoutManager)
-                        .findFirstCompletelyVisibleItemPosition()
+                            .findFirstCompletelyVisibleItemPosition()
                     if (pastVisibleItems == 0)
                         listener.onMostTopScrolled()
                 }

@@ -7,7 +7,7 @@ import android.view.View
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 
 class AppCoordinatorLayout(context: Context, attrs: AttributeSet) :
-    CoordinatorLayout(context, attrs) {
+        CoordinatorLayout(context, attrs) {
 
     var isExpandable: Boolean = true
 

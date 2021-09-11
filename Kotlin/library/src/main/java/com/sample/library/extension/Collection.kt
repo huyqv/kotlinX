@@ -64,10 +64,10 @@ private fun String?.normalizer(): String? {
         val temp = Normalizer.normalize(this, Normalizer.Form.NFD)
         val pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+")
         pattern.matcher(temp)
-            .replaceAll("")
-            .lowercase(Locale.getDefault())
-            .replace(" ", "-")
-            .replace("đ", "d", true)
+                .replaceAll("")
+                .lowercase(Locale.getDefault())
+                .replace(" ", "-")
+                .replace("đ", "d", true)
     } catch (e: IllegalStateException) {
         null
     } catch (e: IllegalArgumentException) {

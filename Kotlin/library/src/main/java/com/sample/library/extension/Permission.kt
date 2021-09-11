@@ -35,9 +35,9 @@ fun isNotGranted(vararg permissions: String): Boolean {
  *
  */
 fun FragmentActivity.onGranted(
-    vararg permissions: String,
-    onGranted: () -> Unit,
-    onDenied: (List<String>) -> Unit
+        vararg permissions: String,
+        onGranted: () -> Unit,
+        onDenied: (List<String>) -> Unit
 ) {
 
     val notGrantedPermissions = mutableListOf<String>()
@@ -47,8 +47,8 @@ fun FragmentActivity.onGranted(
     for (permission in permissions) {
         when {
             ContextCompat.checkSelfPermission(
-                this,
-                permission
+                    this,
+                    permission
             ) == PackageManager.PERMISSION_GRANTED -> {
                 continue
             }
@@ -56,7 +56,7 @@ fun FragmentActivity.onGranted(
                 notGrantedPermissions.add(permission)
             }
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && shouldShowRequestPermissionRationale(
-                permission
+                    permission
             ) -> {
                 notGrantedPermissions.add(permission)
             }
@@ -88,14 +88,14 @@ fun FragmentActivity.onGranted(
 }
 
 fun Fragment.onGranted(
-    vararg permissions: String,
-    onGranted: () -> Unit,
-    onDenied: (List<String>) -> Unit
+        vararg permissions: String,
+        onGranted: () -> Unit,
+        onDenied: (List<String>) -> Unit
 ) {
     activity?.onGranted(
-        permissions = permissions,
-        onGranted = onGranted,
-        onDenied = onDenied
+            permissions = permissions,
+            onGranted = onGranted,
+            onDenied = onDenied
     )
 }
 
@@ -103,8 +103,8 @@ fun Fragment.onGranted(
  *
  */
 fun FragmentActivity.onGranted(
-    vararg permissions: String,
-    onGranted: () -> Unit
+        vararg permissions: String,
+        onGranted: () -> Unit
 ) {
     onGranted(permissions = permissions, onGranted, {
         showDialogPermission(it)
@@ -112,8 +112,8 @@ fun FragmentActivity.onGranted(
 }
 
 fun Fragment.onGranted(
-    vararg permissions: String,
-    onGranted: () -> Unit
+        vararg permissions: String,
+        onGranted: () -> Unit
 ) {
     activity?.onGranted(permissions = permissions, onGranted = onGranted)
 }
@@ -122,9 +122,9 @@ fun Fragment.onGranted(
  *
  */
 fun Lifecycle.observerPermission(
-    requestCode: Int,
-    vararg permissions: String,
-    onGranted: () -> Unit
+        requestCode: Int,
+        vararg permissions: String,
+        onGranted: () -> Unit
 ) {
     if (isGranted(*permissions)) {
         onGranted()
@@ -147,37 +147,37 @@ fun Lifecycle.observerPermission(
 }
 
 fun FragmentActivity.observerPermission(
-    requestCode: Int,
-    vararg permissions: String,
-    onGranted: () -> Unit
+        requestCode: Int,
+        vararg permissions: String,
+        onGranted: () -> Unit
 ) {
     lifecycle.observerPermission(requestCode, permissions = permissions, onGranted)
 }
 
 fun Fragment.observerPermission(
-    requestCode: Int,
-    vararg permissions: String,
-    onGranted: () -> Unit
+        requestCode: Int,
+        vararg permissions: String,
+        onGranted: () -> Unit
 ) {
     lifecycle.observerPermission(requestCode, permissions = permissions, onGranted)
 }
 
 private fun FragmentActivity.showDialogPermission(permissions: List<String>) {
     AlertDialog.Builder(this)
-        .setMessage("Permission:${permissionsText(permissions)} had been denied")
-        .setPositiveButton("Close") { dialog, _ -> dialog.cancel() }
-        .setNegativeButton("Setting") { dialog, _ ->
-            navigateAppSettings()
-            dialog.cancel()
-        }
-        .show()
+            .setMessage("Permission:${permissionsText(permissions)} had been denied")
+            .setPositiveButton("Close") { dialog, _ -> dialog.cancel() }
+            .setNegativeButton("Setting") { dialog, _ ->
+                navigateAppSettings()
+                dialog.cancel()
+            }
+            .show()
 }
 
 fun permissionsText(permissions: List<String>): String {
     return StringBuilder().also {
         permissions.iterator().forEach { permission ->
             val s = permission.replace("android.permission.", "")
-                .replace("_", " ").lowercase(Locale.getDefault())
+                    .replace("_", " ").lowercase(Locale.getDefault())
             it.append(" $s,")
         }
         it.deleteCharAt(it.lastIndex)
@@ -186,20 +186,20 @@ fun permissionsText(permissions: List<String>): String {
 
 val locationPermission
     get() = arrayOf(
-        Manifest.permission.ACCESS_COARSE_LOCATION,
-        Manifest.permission.ACCESS_FINE_LOCATION
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.ACCESS_FINE_LOCATION
     )
 
 val requestedPermission: Array<String>
     get() = app
-        .packageManager
-        .getPackageInfo(app.packageName, PackageManager.GET_PERMISSIONS)
-        .requestedPermissions
+            .packageManager
+            .getPackageInfo(app.packageName, PackageManager.GET_PERMISSIONS)
+            .requestedPermissions
 
 val notGrantedPermission: Array<String>
     get() = requestedPermission
-        .filter { ContextCompat.checkSelfPermission(app, it) != PackageManager.PERMISSION_GRANTED }
-        .toTypedArray()
+            .filter { ContextCompat.checkSelfPermission(app, it) != PackageManager.PERMISSION_GRANTED }
+            .toTypedArray()
 
 fun FragmentActivity.onGrantedRequiredPermission(onGrantedPermission: () -> Unit) {
     onGranted(*notGrantedPermission) {

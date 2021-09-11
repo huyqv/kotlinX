@@ -31,7 +31,7 @@ class AppBarView : AppCustomView<AppBarBinding> {
             it.setTypeface(it.typeface, it.typeface.style)
             it.setTextColor(types.textColor)
             it.setTextSize(TypedValue.COMPLEX_UNIT_PX,
-                types.getDimension(R.styleable.AppCustomView_android_textSize, 9F)
+                    types.getDimension(R.styleable.AppCustomView_android_textSize, 9F)
             )
         }
 

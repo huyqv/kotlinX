@@ -3,7 +3,7 @@ package com.sample.library.extension
 import java.sql.Timestamp
 
 class MapValueNullException(key: String) :
-    NullPointerException("value of key $key is null or empty")
+        NullPointerException("value of key $key is null or empty")
 
 fun Map<String, Any>?.strOrNull(key: String): String? {
     return this?.get(key) as? String

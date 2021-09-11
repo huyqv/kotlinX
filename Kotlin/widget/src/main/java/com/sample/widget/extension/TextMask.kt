@@ -115,9 +115,9 @@ fun Long.cashToText(): String {
     }
 
     text = text.replace("  ", " ")
-        .trim()
-        .replace("tỷ triệu nghìn đồng", "tỷ đồng")
-        .replace("triệu nghìn đồng", "triệu đồng")
+            .trim()
+            .replace("tỷ triệu nghìn đồng", "tỷ đồng")
+            .replace("triệu nghìn đồng", "triệu đồng")
 
     return text.substring(0, 1).uppercase(Locale.getDefault()) + text.substring(1, text.length)
 }

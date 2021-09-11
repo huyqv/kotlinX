@@ -40,8 +40,8 @@ class ThumbnailWebView : WebView, View.OnTouchListener {
 
         @TargetApi(Build.VERSION_CODES.LOLLIPOP)
         override fun shouldOverrideUrlLoading(
-            view: WebView?,
-            request: WebResourceRequest?
+                view: WebView?,
+                request: WebResourceRequest?
         ): Boolean {
             view?.loadUrl(request?.url.toString())
             return false
