@@ -17,24 +17,40 @@ import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.recyclerview.widget.*
 import androidx.viewbinding.ViewBinding
 
-typealias ItemInflating = (LayoutInflater, ViewGroup, Boolean) -> ViewBinding
+class BaseViewHolder : RecyclerView.ViewHolder {
+    constructor(v: View) : super(v)
+}
 
-fun ItemInflating?.invokeItem(parent: ViewGroup): ViewBinding? {
+class ItemOptions(val layoutId: Int = 1, val inflaterInvoker: (View) -> ViewBinding)
+
+typealias InflaterInvoker = (LayoutInflater, ViewGroup, Boolean) -> ViewBinding
+
+fun InflaterInvoker?.invokeItem(parent: ViewGroup): ViewBinding? {
     return this?.invoke(LayoutInflater.from(parent.context), parent, false)
 }
 
-class BaseViewHolder<B : ViewBinding>(val bind: B) : RecyclerView.ViewHolder(bind.root)
-
 class GoneViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(View(parent.context).also { it.visibility = View.GONE })
+
+class RtlGridLayoutManager : GridLayoutManager {
+
+    constructor(context: Context?, attrs: AttributeSet? = null, defStyleAttr: Int = 0, defStyleRes: Int = 0) : super(context, attrs, defStyleAttr, defStyleRes)
+
+    constructor(context: Context?, spanCount: Int = 1, orientation: Int = RecyclerView.VERTICAL, reverseLayout: Boolean = false) : super(context, spanCount, orientation, reverseLayout) {}
+
+    override fun isLayoutRTL(): Boolean {
+        return true
+    }
+
+}
 
 open class DiffItemCallback<T> : DiffUtil.ItemCallback<T>() {
 
     override fun areItemsTheSame(oldItem: T, newItem: T): Boolean {
-        return oldItem == newItem
+        return  oldItem == newItem
     }
 
     override fun areContentsTheSame(oldItem: T, newItem: T): Boolean {
-        return oldItem.hashCode() == newItem.hashCode()
+        return false
     }
 }
 
@@ -56,12 +72,7 @@ class GridDecoration : RecyclerView.ItemDecoration {
         this.includeEdge = includeEdge
     }
 
-    override fun getItemOffsets(
-            outRect: Rect,
-            view: View,
-            parent: RecyclerView,
-            state: RecyclerView.State
-    ) {
+    override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
 
         val position = parent.getChildAdapterPosition(view)
         val column = position % spanCount
@@ -82,12 +93,7 @@ class GridDecoration : RecyclerView.ItemDecoration {
 
     companion object {
 
-        fun drawByRes(
-                recycler: RecyclerView,
-                col: Int,
-                @DimenRes dimenRes: Int,
-                includeEdge: Boolean = false
-        ) {
+        fun drawByRes(recycler: RecyclerView, col: Int, @DimenRes dimenRes: Int, includeEdge: Boolean = false) {
             val dp = recycler.resources.getDimensionPixelSize(dimenRes)
             draw(recycler, col, dp, includeEdge)
         }
@@ -116,12 +122,7 @@ class ItemDecoration(
 
     private var hasLeftSpacing = false
 
-    override fun getItemOffsets(
-            outRect: Rect,
-            view: View,
-            parent: RecyclerView,
-            state: RecyclerView.State
-    ) {
+    override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
 
         val context = parent.context
         if (orientation == GRID) {
@@ -156,12 +157,7 @@ class ItemDecoration(
             val params = child.layoutParams as RecyclerView.LayoutParams
             val top = child.bottom + params.bottomMargin
             val bottom = top + divider.intrinsicHeight
-            divider.setBounds(
-                    left + dpToPixel(context, margin),
-                    top,
-                    right - dpToPixel(context, margin),
-                    bottom
-            )
+            divider.setBounds(left + dpToPixel(context, margin), top, right - dpToPixel(context, margin), bottom)
             divider.draw(canvas)
         }
     }
@@ -178,12 +174,7 @@ class ItemDecoration(
             val params = child.layoutParams as RecyclerView.LayoutParams
             val left = child.right + params.rightMargin
             val right = left + divider.intrinsicHeight
-            divider.setBounds(
-                    left,
-                    top + dpToPixel(context, margin),
-                    right,
-                    bottom - dpToPixel(context, margin)
-            )
+            divider.setBounds(left, top + dpToPixel(context, margin), right, bottom - dpToPixel(context, margin))
             divider.draw(canvas)
         }
     }
@@ -228,11 +219,7 @@ class ItemDecoration(
     private fun dpToPixel(context: Context, dp: Int): Int {
 
         val resources = context.resources
-        val dimen = TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP,
-                dp.toFloat(),
-                resources?.displayMetrics
-        )
+        val dimen = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp.toFloat(), resources?.displayMetrics)
         return Math.round(dimen) + 0
     }
 
@@ -240,51 +227,6 @@ class ItemDecoration(
         val attrArray = intArrayOf(android.R.attr.listDivider)
         val attr = context.obtainStyledAttributes(attrArray)
         return attr.getDrawable(0)!!
-    }
-
-}
-
-abstract class ItemViewMotionListener(private val itemView: View) : MotionLayout.TransitionListener {
-
-    open fun onTransitionStart(layout: MotionLayout, startId: Int, endId: Int) {
-    }
-
-    open fun onTransitionComplete(layout: MotionLayout, currentId: Int) {
-    }
-
-    final override fun onTransitionStarted(layout: MotionLayout, startId: Int, endId: Int) {
-        itemView.parent.requestDisallowInterceptTouchEvent(true)
-        onTransitionStart(layout, startId, endId)
-    }
-
-    final override fun onTransitionCompleted(layout: MotionLayout, currentId: Int) {
-        itemView.parent.requestDisallowInterceptTouchEvent(false)
-        onTransitionComplete(layout, currentId)
-    }
-
-    override fun onTransitionChange(layout: MotionLayout, startId: Int, endId: Int, progress: Float) {
-    }
-
-    override fun onTransitionTrigger(layout: MotionLayout, triggerId: Int, positive: Boolean, progress: Float) {
-    }
-}
-
-class CenterLayoutManager : LinearLayoutManager {
-
-    constructor(context: Context) : super(context)
-
-    constructor(context: Context, orientation: Int, reverseLayout: Boolean) : super(context, orientation, reverseLayout)
-
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int, defStyleRes: Int) : super(context, attrs, defStyleAttr, defStyleRes)
-
-    override fun smoothScrollToPosition(recyclerView: RecyclerView, state: RecyclerView.State, position: Int) {
-        val centerSmoothScroller = CenterSmoothScroller(recyclerView.context)
-        centerSmoothScroller.targetPosition = position
-        startSmoothScroll(centerSmoothScroller)
-    }
-
-    class CenterSmoothScroller(context: Context) : LinearSmoothScroller(context) {
-        override fun calculateDtToFit(viewStart: Int, viewEnd: Int, boxStart: Int, boxEnd: Int, snapPreference: Int): Int = (boxStart + (boxEnd - boxStart) / 2) - (viewStart + (viewEnd - viewStart) / 2)
     }
 
 }
@@ -315,6 +257,7 @@ interface DragListener {
 }
 
 fun RecyclerView.addScrollListener(listener: ScrollListener?) {
+
     if (listener == null) {
         clearOnScrollListeners()
     } else {
@@ -333,24 +276,24 @@ fun RecyclerView.addScrollListener(listener: ScrollListener?) {
             }
         })
     }
+
 }
 
 fun RecyclerView.addMostScrollListener(listener: MostScrollListener?) {
-    if (listener == null) {
+
+    if (listener == null)
         clearOnScrollListeners()
-    } else {
+    else
         addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 if (layoutManager is LinearLayoutManager) {
                     val pastVisibleItems: Int = (layoutManager as LinearLayoutManager)
-                        .findFirstCompletelyVisibleItemPosition()
-                    if (pastVisibleItems == 0) {
+                            .findFirstCompletelyVisibleItemPosition()
+                    if (pastVisibleItems == 0)
                         listener.onMostTopScrolled()
-                    }
                 }
             }
         })
-    }
 }
 
 fun RecyclerView.addDragListener(listener: DragListener?) {
@@ -419,17 +362,16 @@ fun RecyclerView.initLayoutManager(block: (LinearLayoutManager.() -> Unit) = {})
 
 fun RecyclerView.initLayoutManager(spanCount: Int, block: (GridLayoutManager.() -> Unit) = {}): GridLayoutManager {
     val lm = GridLayoutManager(context, spanCount)
-    lm.spanSizeLookup =
-        object : GridLayoutManager.SpanSizeLookup() {
-            override fun getSpanSize(position: Int): Int {
-                adapter?.also {
-                    if (it.itemCount < 2 || position == it.itemCount) {
-                        return lm.spanCount
-                    }
+    lm.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+        override fun getSpanSize(position: Int): Int {
+            adapter?.also {
+                if(it.itemCount < 2 || position == it.itemCount) {
+                    return lm.spanCount
                 }
-                return 1
             }
+            return 1
         }
+    }
     lm.block()
     layoutManager = lm
     return lm
@@ -461,6 +403,7 @@ abstract class ViewClickListener(private val delayedInterval: Long = 400) : View
             lastClickTime = System.currentTimeMillis()
         }
     }
+
 }
 
 fun View?.addViewClickListener(delayedInterval: Long, listener: ((View?) -> Unit)? = null) {
@@ -492,4 +435,24 @@ fun RecyclerView.scrollToCenter(position: Int){
     val smoothScroller: RecyclerView.SmoothScroller = CenterLayoutManager.CenterSmoothScroller(context)
     smoothScroller.targetPosition = position
     this.layoutManager?.startSmoothScroll(smoothScroller)
+}
+
+class CenterLayoutManager : LinearLayoutManager {
+
+    constructor(context: Context) : super(context)
+
+    constructor(context: Context, orientation: Int, reverseLayout: Boolean) : super(context, orientation, reverseLayout)
+
+    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int, defStyleRes: Int) : super(context, attrs, defStyleAttr, defStyleRes)
+
+    override fun smoothScrollToPosition(recyclerView: RecyclerView, state: RecyclerView.State, position: Int) {
+        val centerSmoothScroller = CenterSmoothScroller(recyclerView.context)
+        centerSmoothScroller.targetPosition = position
+        startSmoothScroll(centerSmoothScroller)
+    }
+
+    class CenterSmoothScroller(context: Context) : LinearSmoothScroller(context) {
+        override fun calculateDtToFit(viewStart: Int, viewEnd: Int, boxStart: Int, boxEnd: Int, snapPreference: Int): Int = (boxStart + (boxEnd - boxStart) / 2) - (viewStart + (viewEnd - viewStart) / 2)
+    }
+
 }

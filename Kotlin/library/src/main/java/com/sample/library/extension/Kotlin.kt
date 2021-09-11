@@ -6,24 +6,6 @@ import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 
-data class Data<T>(val data: T?, val e: Exception?)
-
-fun <T> emit(block: suspend FlowCollector<Data<T>>.() -> T): Flow<Data<T>> {
-    return flow {
-        try {
-            emit(Data(this.block(), null))
-        } catch (e: Exception) {
-            emit(Data<T>(null, e))
-        }
-    }
-}
-
-fun <T> Flow<Data<T>>.each(block: (Data<T>) -> Unit) {
-    flowOn(Dispatchers.IO).onEach {
-        block(it)
-    }.launchIn(GlobalScope)
-}
-
 val isOnUiThread: Boolean get() = Looper.myLooper() == Looper.getMainLooper()
 
 fun LifecycleOwner.launch(interval: Long = 0, block: () -> Unit) {
@@ -51,4 +33,30 @@ fun onIo(interval: Long = 0, block: () -> Unit) {
     }.flowOn(Dispatchers.IO).onEach {
         block()
     }.launchIn(GlobalScope)
+}
+
+typealias ResultLiveData<T> = SingleLiveData<Result<T>>
+
+typealias ResultFlow<T> = Flow<Result<T>>
+
+fun <T> tryFlow(block: suspend FlowCollector<Result<T>>.() -> T): Flow<Result<T>> {
+    return flow {
+        try {
+            emit(Result.success(this.block()))
+        } catch (e: Throwable) {
+            emit(Result.failure<T>(e))
+        }
+    }.flowOn(Dispatchers.IO)
+}
+
+fun <T> Flow<T>.globalLaunch(block: suspend (T) -> Unit) {
+    onEach(block).launchIn(GlobalScope)
+}
+
+fun sampleTryFlow() {
+    tryFlow<String> {
+        "Hello World"
+    }.globalLaunch {
+        toast(it.getOrNull())
+    }
 }

@@ -22,7 +22,7 @@ class DateAdapter : BaseListAdapter<Int>() {
         return size * 1000
     }
 
-    override fun itemInflating(item: Int, position: Int): ItemInflating {
+    override fun itemInflating(item: Int, position: Int): ItemInflating? {
         return DateItemBinding::inflate
     }
 

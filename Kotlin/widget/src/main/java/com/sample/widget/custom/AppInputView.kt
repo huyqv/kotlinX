@@ -105,7 +105,7 @@ class AppInputView(context: Context, attrs: AttributeSet? = null) :
                 disableFocus()
             }
             EditorInfo.TYPE_CLASS_NUMBER -> {
-                editText.addFilter(DIGIT_FILTER)
+                editText.addFilter(DIGIT_CHARS)
                 it.inputType = attrInputType
             }
             else -> {

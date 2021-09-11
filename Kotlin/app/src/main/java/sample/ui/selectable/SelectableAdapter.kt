@@ -18,7 +18,7 @@ class SelectableAdapter<T> : BaseListAdapter<T>() {
 
     var onItemSelected: (T) -> Unit = {}
 
-    override fun itemInflating(item: T, position: Int): ItemInflating {
+    override fun itemInflating(item: T, position: Int): ItemInflating? {
         return SelectableItemBinding::inflate
     }
 

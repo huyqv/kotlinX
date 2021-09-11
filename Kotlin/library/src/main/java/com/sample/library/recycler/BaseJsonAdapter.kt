@@ -1,5 +1,6 @@
 package com.sample.library.recycler
 
+import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,49 +15,59 @@ import com.sample.library.extension.toArray
 abstract class BaseJsonAdapter<T : JsonElement> : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun getItemCount(): Int {
-        return size + 1
+        var s = size
+        blankItemOptions()?.also { s++ }
+        footerItemOptions()?.also { s++ }
+        return s
     }
 
     override fun getItemViewType(position: Int): Int {
-        return position
+        blankItemOptions()?.also {
+            if (it.layoutId != 0 && dataIsEmpty) {
+                return it.layoutId
+            }
+        }
+        footerItemOptions()?.also {
+            if (it.layoutId != 0 && dataNotEmpty && position == size) {
+                return it.layoutId
+            }
+        }
+        val model = get(position) ?: return 0
+        return modelItemOptions(model, position)?.layoutId ?: 0
     }
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int /* also it position */
-    ): RecyclerView.ViewHolder {
-        when {
-            dataIsEmpty -> blankInflating().invokeItem(parent)?.also {
-                return BaseViewHolder(it)
-            }
-            dataNotEmpty && viewType == size -> footerInflating().invokeItem(parent)?.also {
-                if (viewType > lastBindIndex) onFooterIndexChanged(viewType)
-                return BaseViewHolder(it)
-            }
-            else -> get(viewType)?.also { item ->
-                itemInflating(item, viewType).invokeItem(parent)?.also {
-                    return BaseViewHolder(it)
-                }
-            }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int /* also it layout resource id */): RecyclerView.ViewHolder {
+        if (viewType != 0) {
+            val v = LayoutInflater.from(parent.context).inflate(viewType, parent, false)
+            return BaseViewHolder(v)
         }
         return GoneViewHolder(parent)
     }
 
     override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
-        val model = get(position) ?: return
-        when (viewHolder) {
-            is BaseViewHolder<*> -> viewHolder.bind.apply {
-                onBindItem(model, position)
-                root.addViewClickListener {
-                    onItemClick(model, position)
-                }
-                root.setOnLongClickListener {
-                    onItemLongClick(model, position)
-                    true
-                }
-                lastBindIndex = position
-            }
+        val viewType: Int = viewHolder.itemViewType
+        if (viewType == blankItemOptions()?.layoutId) {
+            return
         }
+        if (viewType == footerItemOptions()?.layoutId) {
+            return
+        }
+        if (viewType == 0) {
+            return
+        }
+        val model = get(position) ?: return
+        val itemView = viewHolder.itemView
+        itemView.addViewClickListener {
+            onItemClick(model, viewHolder.absoluteAdapterPosition)
+        }
+        itemView.setOnLongClickListener {
+            onItemLongClick(model, viewHolder.absoluteAdapterPosition)
+            true
+        }
+        val options = modelItemOptions(model, position) ?: return
+        val binding: ViewBinding = options.inflaterInvoker(itemView)
+        binding.onBindModelItem(model, position)
+        lastBindIndex = position
     }
 
     /**
@@ -80,13 +91,13 @@ abstract class BaseJsonAdapter<T : JsonElement> : RecyclerView.Adapter<RecyclerV
 
     val dataNotEmpty: Boolean get() = size != 0
 
-    protected open fun blankInflating(): ItemInflating? = null
+    protected open fun blankItemOptions(): ItemOptions? = null
 
-    protected open fun footerInflating(): ItemInflating? = null
+    protected open fun footerItemOptions(): ItemOptions? = null
 
-    protected abstract fun itemInflating(item: T, position: Int): ItemInflating
+    protected abstract fun modelItemOptions(item: T, position: Int): ItemOptions?
 
-    protected abstract fun ViewBinding.onBindItem(item: T, position: Int)
+    protected abstract fun ViewBinding.onBindModelItem(item: T, position: Int)
 
     open fun get(position: Int): T? {
         if (currentList.isEmpty()) return null

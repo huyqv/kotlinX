@@ -1,5 +1,7 @@
 package com.sample.library.recycler
 
+import android.util.Log
+import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -9,55 +11,65 @@ import androidx.viewbinding.ViewBinding
 abstract class BaseRecyclerAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun getItemCount(): Int {
-        return size + 1
+        var s = size
+        blankItemOptions()?.also { s++ }
+        footerItemOptions()?.also { s++ }
+        return s
     }
 
     override fun getItemViewType(position: Int): Int {
-        return position
+        blankItemOptions()?.also {
+            if (it.layoutId != 0 && dataIsEmpty) {
+                return it.layoutId
+            }
+        }
+        footerItemOptions()?.also {
+            if (it.layoutId != 0 && dataNotEmpty && position == size) {
+                return it.layoutId
+            }
+        }
+        val model = get(position) ?: return 0
+        return modelItemOptions(model, position)?.layoutId ?: 0
     }
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int /* also it position */
-    ): RecyclerView.ViewHolder {
-        when {
-            dataIsEmpty -> blankInflating().invokeItem(parent)?.also {
-                return BaseViewHolder(it)
-            }
-            dataNotEmpty && viewType == size -> footerInflating().invokeItem(parent)?.also {
-                if (viewType > lastBindIndex) onFooterIndexChanged(viewType)
-                return BaseViewHolder(it)
-            }
-            else -> get(viewType)?.also { item ->
-                itemInflating(item, viewType).invokeItem(parent)?.also {
-                    return BaseViewHolder(it)
-                }
-            }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int /* also it layout resource id */): RecyclerView.ViewHolder {
+        if (viewType != 0) {
+            val v = LayoutInflater.from(parent.context).inflate(viewType, parent, false)
+            return BaseViewHolder(v)
         }
         return GoneViewHolder(parent)
     }
 
     override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
-        val model = get(position) ?: return
-        when (viewHolder) {
-            is BaseViewHolder<*> -> viewHolder.bind.apply {
-                onBindItem(model, position)
-                root.addViewClickListener {
-                    onItemClick(model, position)
-                }
-                root.setOnLongClickListener {
-                    onItemLongClick(model, position)
-                    true
-                }
-                lastBindIndex = position
-            }
+        val viewType: Int = viewHolder.itemViewType
+        if (viewType == blankItemOptions()?.layoutId) {
+            return
         }
+        if (viewType == footerItemOptions()?.layoutId) {
+            return
+        }
+        if (viewType == 0) {
+            return
+        }
+        val model = get(position) ?: return
+        val itemView = viewHolder.itemView
+        itemView.addViewClickListener {
+            onItemClick(model, viewHolder.absoluteAdapterPosition)
+        }
+        itemView.setOnLongClickListener {
+            onItemLongClick(model, viewHolder.absoluteAdapterPosition)
+            true
+        }
+        val options = modelItemOptions(model, position) ?: return
+        val binding: ViewBinding = options.inflaterInvoker(itemView)
+        binding.onBindModelItem(model, position)
+        lastBindIndex = position
     }
 
     /**
      *
      */
-    var onItemClick: (T, Int) -> Unit = { _, _ -> }
+    open var onItemClick: (T, Int) -> Unit = { _, _ -> }
 
     var onItemLongClick: (T, Int) -> Unit = { _, _ -> }
 
@@ -75,13 +87,13 @@ abstract class BaseRecyclerAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHo
 
     val dataNotEmpty: Boolean get() = !dataIsEmpty
 
-    protected open fun blankInflating(): ItemInflating? = null
+    protected open fun blankItemOptions(): ItemOptions? = null
 
-    protected open fun footerInflating(): ItemInflating? = null
+    protected open fun footerItemOptions(): ItemOptions? = null
 
-    protected abstract fun itemInflating(item: T, position: Int): ItemInflating
+    protected abstract fun modelItemOptions(item: T, position: Int): ItemOptions?
 
-    protected abstract fun ViewBinding.onBindItem(item: T, position: Int)
+    protected abstract fun ViewBinding.onBindModelItem(item: T, position: Int)
 
     open fun get(position: Int): T? {
         return currentList.getOrNull(position)
@@ -89,18 +101,20 @@ abstract class BaseRecyclerAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHo
 
     open fun set(collection: Collection<T>?) {
         currentList = collection?.toMutableList() ?: mutableListOf()
+        Log.d("BRA", "=====================")
+        currentList.forEach {
+            Log.d("BRA", it.toString())
+        }
         lastBindIndex = -1
-        notifyDataSetChanged()
-    }
-
-    open fun set(list: MutableList<T>?) {
-        currentList = list ?: mutableListOf()
-        lastBindIndex = -1
+        //notifyItemRangeChanged(0, itemCount-1)
         notifyDataSetChanged()
     }
 
     open fun set(array: Array<T>?) {
         currentList = array?.toMutableList() ?: mutableListOf()
+        currentList.forEach {
+            Log.d("BRA", it.toString())
+        }
         lastBindIndex = -1
         notifyDataSetChanged()
     }
@@ -108,11 +122,6 @@ abstract class BaseRecyclerAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHo
     open fun setElseEmpty(collection: Collection<T>?) {
         if (collection.isNullOrEmpty()) return
         set(collection)
-    }
-
-    open fun setElseEmpty(list: MutableList<T>?) {
-        if (list.isNullOrEmpty()) return
-        set(list)
     }
 
     open fun setElseEmpty(array: Array<T>?) {
@@ -168,19 +177,15 @@ abstract class BaseRecyclerAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHo
         notifyDataSetChanged()
     }
 
-    open fun bind(recyclerView: RecyclerView, block: LinearLayoutManager.() -> Unit = {}) {
-        val lm = LinearLayoutManager(recyclerView.context)
+    open fun bind(v: RecyclerView, block: LinearLayoutManager.() -> Unit = {}) {
+        val lm = LinearLayoutManager(v.context)
         lm.block()
-        recyclerView.layoutManager = lm
-        recyclerView.adapter = this
+        v.layoutManager = lm
+        v.adapter = this
     }
 
-    open fun bind(
-        recyclerView: RecyclerView,
-        spanCount: Int,
-        block: GridLayoutManager.() -> Unit = {}
-    ) {
-        val lm = GridLayoutManager(recyclerView.context, spanCount)
+    open fun bind(v: RecyclerView, spanCount: Int, block: GridLayoutManager.() -> Unit = {}) {
+        val lm = GridLayoutManager(v.context, spanCount)
         lm.block()
         lm.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
@@ -188,8 +193,9 @@ abstract class BaseRecyclerAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHo
                 else 1
             }
         }
-        recyclerView.layoutManager = lm
-        recyclerView.adapter = this
+        v.layoutManager = lm
+        v.adapter = this
     }
+
 
 }

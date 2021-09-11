@@ -12,7 +12,10 @@ open class Logger {
         this.tag = if (string.length > 23) string.substring(0, 22) else string
     }
 
-    constructor(cls: Class<*>) : this(cls.simpleName)
+    constructor(cls: Class<*>) {
+        val s = cls.simpleName
+        this.tag = if (s.length > 23) s.substring(0, 22) else s
+    }
 
     fun d(s: JsonObject) {
         val json = s.toString()

@@ -20,7 +20,7 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.viewbinding.ViewBinding
 import com.sample.widget.R
-import com.sample.widget.extension.DIGIT_FILTER
+import com.sample.widget.extension.DIGIT_CHARS
 import com.sample.widget.extension.addFilter
 import com.sample.widget.extension.addViewClickListener
 
@@ -214,7 +214,7 @@ abstract class InputView<B : ViewBinding> : AppCustomView<B>, View.OnFocusChange
                     disableFocus()
                 }
                 EditorInfo.TYPE_CLASS_NUMBER -> {
-                    it.addFilter(DIGIT_FILTER)
+                    it.addFilter(DIGIT_CHARS)
                     it.inputType = attrInputType
                 }
                 else -> {

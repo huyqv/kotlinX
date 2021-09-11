@@ -16,7 +16,7 @@ interface FragmentView : BaseView {
     override val lifecycleOwner: LifecycleOwner get() = fragment.viewLifecycleOwner
 
     override fun navController(): NavController? {
-        return fragment.findNavController()
+        return baseActivity?.navController()
     }
 
     override fun add(fragment: Fragment, stack: Boolean) {

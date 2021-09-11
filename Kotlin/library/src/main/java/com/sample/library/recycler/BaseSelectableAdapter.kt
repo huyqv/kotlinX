@@ -7,7 +7,7 @@ abstract class BaseSelectableAdapter<T> : BaseListAdapter<T>() {
     var selectedItem: T? = null
         set(value) {
             field = value
-            if(!areSameItems(value, selectedItem)) {
+            if (!areSameItems(value, selectedItem)) {
                 notifyDataSetChanged()
             }
         }
@@ -45,9 +45,9 @@ abstract class BaseSelectableAdapter<T> : BaseListAdapter<T>() {
         itemClickList.forEach { it(item, true) }
     }
 
-    final override fun ViewBinding.onBindItem(item: T, position: Int) {
+    final override fun ViewBinding.onBindModelItem(item: T, position: Int) {
         onBindDefaultItem(item, position)
-        if(isSelected(item)) {
+        if (isSelected(item)) {
             onBindSelectedItem(item, position)
         } else {
             onBindUnselectedItem(item, position)
