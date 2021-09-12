@@ -9,8 +9,6 @@ android {
     defaultConfig {
         minSdkVersion builds.min_sdk
         targetSdkVersion builds.target_sdk
-        versionCode builds.version_code
-        versionName builds.version_name
         consumerProguardFiles "consumer-rules.pro"
     }
     buildTypes {
@@ -35,7 +33,6 @@ android {
 
 repositories {
     google()
-    jcenter()
     mavenCentral()
     maven { url "https://maven.google.com" }
     maven { url "https://jitpack.io" }

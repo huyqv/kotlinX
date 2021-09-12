@@ -108,7 +108,7 @@ open class AppConstraintLayout : ConstraintLayout {
         a.recycle()
     }
 
-    fun TypedArray.pixels(@StyleableRes id: Int): Float {
+    private fun TypedArray.pixels(@StyleableRes id: Int): Float {
         return getDimensionPixelSize(id, 0).toFloat()
     }
 

@@ -181,7 +181,7 @@ class ItemDecoration(
 
         val frameWidth = ((parent.width - margin.toFloat() * (column - 1)) / column).toInt()
         val padding = parent.width / column - frameWidth
-        val itemPosition = (view.layoutParams as RecyclerView.LayoutParams).viewAdapterPosition
+        val itemPosition = (view.layoutParams as RecyclerView.LayoutParams).absoluteAdapterPosition
         outRect.top = if (itemPosition >= column) margin else 0
         when {
             itemPosition % column == 0 -> {

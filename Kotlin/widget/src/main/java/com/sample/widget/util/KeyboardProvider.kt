@@ -7,6 +7,7 @@ import android.graphics.Rect
 import android.graphics.drawable.ColorDrawable
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -31,7 +32,6 @@ import com.sample.widget.R
  * Activity:
  * keyboardProvider = KeyboardProvider(this)
  * post { keyboardProvider!!.start() }
- * None Right Reserved
  * -------------------------------------------------------------------------------------------------
  */
 class KeyboardProvider constructor(private val activity: Activity) : PopupWindow(activity) {
@@ -132,9 +132,7 @@ class KeyboardProvider constructor(private val activity: Activity) : PopupWindow
 
         val orientation = screenOrientation
         val keyboardHeight = screenSize.y - rect.bottom
-
         when {
-
             keyboardHeight == 0 -> {
                 keyboardListener?.onKeyboardHide(orientation)
             }

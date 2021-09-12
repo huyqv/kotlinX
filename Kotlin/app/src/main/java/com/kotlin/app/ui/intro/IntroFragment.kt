@@ -14,7 +14,7 @@ class IntroFragment : MainFragment<IntroBinding>() {
     override fun onViewCreated() {
         bind.textView.setOnClickListener {
             navigate(R.id.action_global_homeFragment) {
-                setLaunchSingleTop()
+                clearBackStack()
             }
         }
     }

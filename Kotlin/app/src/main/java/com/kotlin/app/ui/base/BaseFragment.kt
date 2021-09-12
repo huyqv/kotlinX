@@ -16,7 +16,6 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
 import com.sample.library.extension.realPathFromURI
 import com.sample.library.extension.safeClose
@@ -43,12 +42,7 @@ abstract class BaseFragment<B : ViewBinding> : Fragment(), FragmentView {
      */
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        requireActivity().onBackPressedDispatcher.addCallback(this,
-                object : OnBackPressedCallback(true) {
-                    override fun handleOnBackPressed() {
-                        onBackPressed()
-                    }
-                })
+        requireActivity().onBackPressedDispatcher.addCallback(this, backPressedCallback)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -94,15 +88,11 @@ abstract class BaseFragment<B : ViewBinding> : Fragment(), FragmentView {
      */
     override val fragment: Fragment get() = this
 
+    override val backPressedCallback: OnBackPressedCallback = getBackPressCallBack()
+
     /**
      * [BaseFragment] properties
      */
-    protected open fun onBackPressed() {
-        if (!findNavController().popBackStack()) {
-            requireActivity().finish()
-        }
-    }
-
     fun requestFocus(v: View?) {
         launch(240) { v?.requestFocus() }
     }

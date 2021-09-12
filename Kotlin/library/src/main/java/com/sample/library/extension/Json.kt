@@ -4,7 +4,6 @@ import com.google.gson.Gson
 import com.google.gson.JsonArray
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
-import com.google.gson.reflect.TypeToken
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.StringReader
@@ -68,7 +67,7 @@ fun <T : Any> String?.parse(cls: KClass<Array<T>>): List<T>? {
 
 fun <T> T.toJsonObject(): JsonObject? {
     return try {
-        val element = convertFactory.toJsonTree(this, object : TypeToken<T>() {}.type)
+        val element = convertFactory.toJsonTree(this, JsonObject()::class.java)
         return element.asJsonObject
     } catch (ignore: Exception) {
         null
@@ -101,7 +100,8 @@ fun <T> Collection<T?>?.toJsonArray(): JsonArray? {
 fun JsonElement?.toMap(): Map<String, Any?>? {
     try {
         this ?: return null
-        return convertFactory.fromJson(this, object : TypeToken<HashMap<String?, Any?>?>() {}.type)
+        val map: Map<String, Any?> = HashMap()
+        return convertFactory.fromJson(this, map::class.java)
     } catch (e: Exception) {
         return null
     }

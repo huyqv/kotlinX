@@ -1,10 +1,12 @@
 package com.kotlin.app.ui.base
 
 import android.app.Dialog
+import android.content.Context
 import android.content.DialogInterface
 import android.graphics.Color
 import android.os.Bundle
 import android.view.*
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
@@ -21,8 +23,17 @@ abstract class BaseDialogFragment<B : ViewBinding> : DialogFragment(),
     /**
      * [DialogFragment] implements
      */
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        requireActivity().onBackPressedDispatcher.addCallback(this, backPressedCallback)
+    }
+
+    override fun getTheme(): Int {
+        return R.style.App_Dialog_FullScreen_Transparent
+    }
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val dialog = object : Dialog(requireActivity(), dialogStyle()) {
+        val dialog = object : Dialog(requireActivity(), theme) {
             override fun onBackPressed() {
                 this@BaseDialogFragment.onBackPressed()
             }
@@ -56,7 +67,7 @@ abstract class BaseDialogFragment<B : ViewBinding> : DialogFragment(),
 
     override fun onStart() {
         super.onStart()
-        when (dialogStyle()) {
+        when (theme) {
             R.style.App_Dialog_FullScreen,
             R.style.App_Dialog_FullScreen_Transparent,
             -> dialog?.window?.apply {
@@ -77,17 +88,11 @@ abstract class BaseDialogFragment<B : ViewBinding> : DialogFragment(),
      */
     override val fragment: Fragment get() = this
 
+    override val backPressedCallback: OnBackPressedCallback = getBackPressCallBack()
+
     /**
      * [BaseDialogFragment] properties
      */
-    protected open fun dialogStyle(): Int {
-        return R.style.App_Dialog
-    }
-
-    protected open fun onBackPressed() {
-        dismissAllowingStateLoss()
-    }
-
     protected open fun onWindowConfig(window: Window) = Unit
 
 }

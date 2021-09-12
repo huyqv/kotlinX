@@ -75,21 +75,6 @@ fun String?.unHyper(): String? {
     }
 }
 
-fun String?.jsonFormat(): String? {
-    this ?: return null
-    return try {
-        val obj = JSONObject(this)
-        obj.keys().forEach {
-            if (obj.getString(it).length > 256) {
-                obj.put(it, obj.getString(it).substring(0, 256) + "...")
-            }
-        }
-        obj.toString(2)
-    } catch (ignore: Exception) {
-        null
-    }
-}
-
 fun Long.cashToText(): String {
 
     val number = this.toString()

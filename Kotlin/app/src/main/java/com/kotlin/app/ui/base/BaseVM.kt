@@ -15,7 +15,7 @@ import java.net.UnknownHostException
 
 abstract class BaseVM : ViewModel() {
 
-    val log by lazy { Logger(this::class.java.name) }
+    val log by lazy { Logger(this::class.java.simpleName) }
 
     fun <T> Flow<T>.launch(block: suspend T.() -> Unit) {
         onEach(block).launchIn(viewModelScope)
@@ -75,7 +75,7 @@ abstract class BaseVM : ViewModel() {
             when (it) {
                 is SocketException, is UnknownHostException, is SocketTimeoutException -> {
                     log.d("$className: ${it.message}")
-                    onNetworkException.invoke(this as Exception)
+                    onNetworkException.invoke(it as Exception)
                 }
                 is HttpException -> {
                     log.d("$className: code ${it.code()}, message: ${it.message()}, body: ${it.errorBody.stringyJson()}")

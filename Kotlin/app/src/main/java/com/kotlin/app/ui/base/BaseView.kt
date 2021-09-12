@@ -21,7 +21,7 @@ interface BaseView {
 
     val lifecycleOwner: LifecycleOwner
 
-    fun navController(): NavController?
+    fun navController(): NavController
 
     fun onViewCreated()
 
@@ -48,7 +48,7 @@ interface BaseView {
             it.setVerticalAnim()
             it.block()
         }.build()
-        navController()?.navigate(actionId, args, options, extras)
+        navController().navigate(actionId, args, options, extras)
     }
 
     fun navigate(
@@ -60,8 +60,15 @@ interface BaseView {
         navigate(directions.actionId, args, extras, block)
     }
 
-    fun navigateUp() {
-        navController()?.navigateUp()
+    fun NavOptions.Builder.clearBackStack(): NavOptions.Builder {
+        setLaunchSingleTop(true)
+        setPopUpTo(navController().graph.id, true)
+        return this
+    }
+
+    fun NavOptions.Builder.setPopUpTo(@IdRes fragmentId: Int) {
+        setLaunchSingleTop(true)
+        setPopUpTo(fragmentId, false)
     }
 
     fun NavOptions.Builder.setParallaxAnim(reserved: Boolean = false) {
@@ -101,33 +108,18 @@ interface BaseView {
         return this
     }
 
-    fun NavOptions.Builder.setLaunchSingleTop(): NavOptions.Builder {
-        setLaunchSingleTop(true)
-        navController()?.graph?.id?.also {
-            setPopUpTo(it, false)
-        }
-        return this
-    }
-
-    fun NavOptions.Builder.setPopUpTo(@IdRes fragmentId: Int) {
-        setPopUpTo(fragmentId, false)
-    }
-
     val defaultArgKey: String get() = "DEFAULT_ARG_KEY"
 
     fun <T> navResultLiveData(key: String = defaultArgKey): MutableLiveData<T>? {
-        return navController()?.currentBackStackEntry?.savedStateHandle?.getLiveData<T>(key)
+        return navController().currentBackStackEntry?.savedStateHandle?.getLiveData<T>(key)
     }
 
     fun <T> setNavResult(key: String?, result: T) {
-        navController()?.previousBackStackEntry?.savedStateHandle?.set(
-                key
-                        ?: defaultArgKey, result
-        )
+        navController().previousBackStackEntry?.savedStateHandle?.set(key ?: defaultArgKey, result)
     }
 
     fun <T> setNavResult(result: T) {
-        navController()?.previousBackStackEntry?.savedStateHandle?.set(defaultArgKey, result)
+        navController().previousBackStackEntry?.savedStateHandle?.set(defaultArgKey, result)
     }
 
     fun <T> LiveData<T>.observe(block: (T) -> Unit) {

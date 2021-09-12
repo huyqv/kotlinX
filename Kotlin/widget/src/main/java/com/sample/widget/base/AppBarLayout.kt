@@ -5,7 +5,7 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 
-open class AppBarLayout @JvmOverloads constructor(context: Context, attrs: AttributeSet) :
+open class AppBarLayout constructor(context: Context, attrs: AttributeSet? = null) :
         com.google.android.material.appbar.AppBarLayout(context, attrs) {
 
     val behavior: Behavior?

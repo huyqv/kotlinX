@@ -47,7 +47,7 @@ class SelectableFragment : MainDialogFragment<SelectableBinding>() {
         adapter.onItemClick = { _, position ->
             adapter.notifySelectionChanged(position)
             setNavResult(dialogVM.selectableLiveData.value?.key, position)
-            navigateUp()
+            onBackPressed()
         }
         bind.recyclerView.adapter = adapter
     }

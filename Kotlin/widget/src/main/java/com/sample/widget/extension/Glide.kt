@@ -99,9 +99,5 @@ fun ImageView.reload(url: String?) {
 }
 
 fun ImageView.clear() {
-    this
-    val bitmap: Bitmap? = null
-    GlideApp.with(context)
-            .load(bitmap)
-            .into(this)
+    setImageResource(0)
 }

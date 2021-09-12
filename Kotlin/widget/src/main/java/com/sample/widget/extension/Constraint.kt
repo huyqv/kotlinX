@@ -126,8 +126,9 @@ interface SimpleTransitionListener : Transition.TransitionListener {
 
 class ItemTransitionListener(private val vh: RecyclerView.ViewHolder, private val position: Int) :
         SimpleMotionTransitionListener {
+
     override fun equals(other: Any?): Boolean {
-        return position === (other as? ItemTransitionListener)?.position
+        return position == (other as? ItemTransitionListener)?.position
     }
 
     override fun onTransitionStarted(layout: MotionLayout, startId: Int, endId: Int) {
@@ -137,6 +138,7 @@ class ItemTransitionListener(private val vh: RecyclerView.ViewHolder, private va
     override fun onTransitionCompleted(layout: MotionLayout, currentId: Int) {
         vh.itemView.parent.requestDisallowInterceptTouchEvent(false)
     }
+
 }
 
 

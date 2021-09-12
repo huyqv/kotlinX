@@ -38,11 +38,11 @@ class InputFilterBuilder {
             when {
                 end > start -> for (index in start until end) {
                     if (!String(chars).contains(source[index].toString())) {
-                        ""
+                        return@InputFilter ""
                     }
                 }
             }
-            null
+            return@InputFilter null
         })
     }
 
@@ -51,11 +51,11 @@ class InputFilterBuilder {
             when {
                 end > start -> for (index in start until end) {
                     if (!source[index].toString().matches(regex.toRegex())) {
-                        ""
+                        return@InputFilter ""
                     }
                 }
             }
-            null
+            return@InputFilter null
         })
     }
 

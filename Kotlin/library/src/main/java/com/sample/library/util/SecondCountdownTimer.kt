@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import kotlinx.coroutines.*
 
-class SecondCountdownTimer(private val intervalMillis: Long = 10 * SECOND) {
+abstract class SecondCountdownTimer(private val intervalMillis: Long = 10 * SECOND) {
 
     companion object {
         private const val SECOND = 1000L
@@ -53,7 +53,7 @@ class SecondCountdownTimer(private val intervalMillis: Long = 10 * SECOND) {
         stickLiveData.postValue(remainMillis)
     }
 
-    open fun onTicks(second: Long, text: String) = Unit
+    abstract fun onTicks(second: Long, text: String)
 
-    open fun onFinished() = Unit
+    abstract fun onFinished()
 }

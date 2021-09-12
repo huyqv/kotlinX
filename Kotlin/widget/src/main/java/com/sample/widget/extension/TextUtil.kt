@@ -81,12 +81,10 @@ fun colorText(string: String, @ColorRes colorRes: Int): String {
 }
 
 fun String.bold(): String {
-    this
     return "<b>$this</b>"
 }
 
 fun String.hidden(): String {
-    this
     val length = this.length
     if (length < 4) return ""
     return "•••••••${this.substring(length - 2, length)}"

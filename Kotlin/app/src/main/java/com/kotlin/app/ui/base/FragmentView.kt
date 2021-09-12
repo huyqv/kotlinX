@@ -1,9 +1,11 @@
 package com.kotlin.app.ui.base
 
 import android.view.LayoutInflater
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
 
 interface FragmentView : BaseView {
@@ -14,8 +16,8 @@ interface FragmentView : BaseView {
 
     override val lifecycleOwner: LifecycleOwner get() = fragment.viewLifecycleOwner
 
-    override fun navController(): NavController? {
-        return baseActivity?.navController()
+    override fun navController(): NavController {
+        return fragment.findNavController()
     }
 
     override fun add(fragment: Fragment, stack: Boolean) {
@@ -40,6 +42,21 @@ interface FragmentView : BaseView {
 
     fun post(delayed: Long, runnable: Runnable) {
         fragment.view?.postDelayed(runnable, delayed)
+    }
+
+    val backPressedCallback: OnBackPressedCallback
+
+    fun getBackPressCallBack(): OnBackPressedCallback {
+        return object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                onBackPressed()
+            }
+        }
+    }
+
+    fun onBackPressed() {
+        backPressedCallback.remove()
+        fragment.requireActivity().onBackPressed()
     }
 
 }

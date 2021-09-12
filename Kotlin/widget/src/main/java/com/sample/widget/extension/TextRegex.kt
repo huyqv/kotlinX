@@ -160,7 +160,7 @@ val String?.isPhoneNumber: Boolean
 fun String?.isDate(fmt: SimpleDateFormat): Boolean {
     this ?: return false
     return try {
-        val date: Date = fmt.parse(this)
+        val date = fmt.parse(this)
         return fmt.format(date) == this
     } catch (e: Throwable) {
         false

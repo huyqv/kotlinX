@@ -16,7 +16,7 @@ class MainActivity : BaseActivity<SampleBinding>(), MainView {
 
     override val dialogVM by viewModel(DialogVM::class)
 
-    override fun navController(): NavController? {
+    override fun navController(): NavController {
         return findNavController(R.id.fragment)
     }
 

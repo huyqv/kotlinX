@@ -38,7 +38,7 @@ class DateFragment : MainDialogFragment<DateBinding>() {
         when (v) {
             bind.viewDone -> {
                 setNavResult(arg.key, currentDate)
-                navigateUp()
+                onBackPressed()
             }
         }
     }

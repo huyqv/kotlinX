@@ -68,14 +68,10 @@ fun <T : Any> initService(cls: KClass<T>, url: String, block: (OkHttpClient.Buil
 }
 
 fun authInterceptor(token: String): Interceptor {
-    return object : Interceptor {
-        override fun intercept(chain: Interceptor.Chain): okhttp3.Response {
-            val request = chain.request().newBuilder()
-            if (token != null) {
-                request.addHeader("Authorization", token)
-            }
-            return chain.proceed(request.build())
-        }
+    return Interceptor { chain: Interceptor.Chain ->
+        val request = chain.request().newBuilder()
+        request.addHeader("Authorization", token)
+        chain.proceed(request.build())
     }
 }
 

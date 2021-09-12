@@ -1,11 +1,13 @@
 package com.kotlin.app.ui.base
 
 import android.app.Dialog
+import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
@@ -25,6 +27,11 @@ abstract class BaseBottomDialog<B : ViewBinding> : BottomSheetDialogFragment(),
     /**
      * [BottomSheetDialogFragment] implements
      */
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        requireActivity().onBackPressedDispatcher.addCallback(this, backPressedCallback)
+    }
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = object : Dialog(requireActivity(), dialogStyle()) {
             override fun onBackPressed() {
@@ -66,15 +73,13 @@ abstract class BaseBottomDialog<B : ViewBinding> : BottomSheetDialogFragment(),
      */
     override val fragment: Fragment get() = this
 
+    override val backPressedCallback: OnBackPressedCallback = getBackPressCallBack()
+
     /**
      * [BaseBottomDialog] properties
      */
     protected open fun dialogStyle(): Int {
         return R.style.App_Dialog
-    }
-
-    protected open fun onBackPressed() {
-        dismissAllowingStateLoss()
     }
 
     private fun configDialog() {

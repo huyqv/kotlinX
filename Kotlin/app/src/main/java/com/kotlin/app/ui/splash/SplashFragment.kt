@@ -20,7 +20,7 @@ class SplashFragment : MainFragment<SplashBinding>() {
             statusBarColor(Color.WHITE)
             darkSystemWidgets()
             navigate(R.id.action_global_introFragment) {
-                setLaunchSingleTop()
+                clearBackStack()
             }
         }
     }
