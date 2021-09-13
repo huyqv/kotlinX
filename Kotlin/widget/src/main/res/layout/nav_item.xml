@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layoutContent"
@@ -11,12 +10,12 @@
         android:id="@+id/imageViewIcon"
         android:layout_width="@dimen/_14sdp"
         android:layout_height="@dimen/_14sdp"
-        tools:src="@drawable/ic_adb"
         android:layout_marginLeft="@dimen/contentMarginX2"
         android:scaleType="centerInside"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/ic_adb" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/textViewLabel"

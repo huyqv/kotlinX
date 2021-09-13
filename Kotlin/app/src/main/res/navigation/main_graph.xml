@@ -75,7 +75,7 @@
     <action
         android:id="@+id/action_global_chatFragment"
         app:destination="@id/chatFragment"
-        tools:layout="@layout/chat"/>
+        tools:layout="@layout/chat" />
 
 
 </navigation>

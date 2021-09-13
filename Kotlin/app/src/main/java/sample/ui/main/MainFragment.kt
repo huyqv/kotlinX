@@ -20,9 +20,9 @@ abstract class MainFragment<B : ViewBinding> : BaseFragment<B>(), MainView {
 
     fun buildDatePicker(view: TextView, builder: (DateArg) -> Unit) {
         val arg = DateArg(
-                key = view.id.toString(),
-                format = SimpleDateFormat("yyyy/MM/dd"),
-                selectedDate = view.text?.toString()
+            key = view.id.toString(),
+            format = SimpleDateFormat("yyyy/MM/dd"),
+            selectedDate = view.text?.toString()
         )
         builder(arg)
         navResultLiveData<String>(arg.key)?.observe {
@@ -42,10 +42,10 @@ abstract class MainFragment<B : ViewBinding> : BaseFragment<B>(), MainView {
             it.set(data)
         }
         val arg = SelectableArg(
-                key = view.id.toString(),
-                isSearchable = false,
-                title = "Select a string",
-                adapter = adapter
+            key = view.id.toString(),
+            isSearchable = false,
+            title = "Select a string",
+            adapter = adapter
         )
         navResultLiveData<Int>(arg.key)?.observe {
             println("selected position: $it")

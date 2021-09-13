@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.motion.widget.MotionLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/inputViewLayout"
@@ -26,14 +25,14 @@
         android:paddingStart="@dimen/inputTextPaddingStart"
         android:paddingEnd="@dimen/contentMarginX2"
         android:textColor="@color/colorTextPrimary"
-        tools:text="@tools:sample/lorem"
         android:textColorHint="@color/colorTextSecondary"
         android:textCursorDrawable="@drawable/drw_input_cursor"
         android:tint="@android:color/darker_gray"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="@tools:sample/lorem" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/inputImageViewIcon"

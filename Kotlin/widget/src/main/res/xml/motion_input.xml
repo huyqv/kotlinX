@@ -98,9 +98,9 @@
             android:id="@id/inputTextViewTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/inputTitleMarginStart"
             android:scaleX=".9"
             android:scaleY=".9"
-            android:layout_marginStart="@dimen/inputTitleMarginStart"
             motion:layout_constraintBottom_toTopOf="@+id/inputEditText"
             motion:layout_constraintStart_toStartOf="parent"
             motion:layout_constraintTop_toTopOf="@+id/inputEditText">

@@ -37,8 +37,8 @@ class WebFragment : MainDialogFragment<WebBinding>() {
         settings.loadWithOverviewMode = true
         webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(
-                    view: WebView?,
-                    request: WebResourceRequest?
+                view: WebView?,
+                request: WebResourceRequest?
             ): Boolean {
                 view?.loadUrl(url)
                 return super.shouldOverrideUrlLoading(view, request)

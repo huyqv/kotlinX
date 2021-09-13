@@ -20,7 +20,7 @@
         <attr name="android:textColor" format="reference" />
         <attr name="android:textColorHint" format="reference" />
         <attr name="android:tint" format="integer" />
-        <attr name="android:drawableTint" format="integer"/>
+        <attr name="android:drawableTint" format="integer" />
         <attr name="android:backgroundTint" format="integer" />
         <!--DRAWABLE-->
         <attr name="android:src" format="reference" />

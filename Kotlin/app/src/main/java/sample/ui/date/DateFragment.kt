@@ -55,9 +55,9 @@ class DateFragment : MainDialogFragment<DateBinding>() {
     private val currentDate: String
         get() {
             return getCurrentDate(
-                    yearAdapter.currentValue,
-                    monthAdapter.currentValue,
-                    dayAdapter.currentValue
+                yearAdapter.currentValue,
+                monthAdapter.currentValue,
+                dayAdapter.currentValue
             )
         }
 
