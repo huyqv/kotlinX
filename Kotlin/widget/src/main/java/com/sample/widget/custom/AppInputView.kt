@@ -2,8 +2,10 @@ package com.sample.widget.custom
 
 import android.content.Context
 import android.content.res.TypedArray
+import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
+import android.graphics.drawable.Drawable
 import android.os.*
 import android.text.Editable
 import android.text.InputFilter
@@ -14,19 +16,30 @@ import android.view.View.OnFocusChangeListener
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.AppCompatEditText
+import androidx.constraintlayout.motion.widget.MotionLayout
 import com.sample.widget.R
 import com.sample.widget.databinding.AppInputBinding
 import com.sample.widget.extension.*
 
-class AppInputView(context: Context, attrs: AttributeSet? = null) :
-    AppCustomView<AppInputBinding>(context, attrs),
-    SimpleMotionTransitionListener,
-    OnFocusChangeListener,
-    SimpleTextWatcher {
+class AppInputView : AppCustomView<AppInputBinding>,
+        SimpleMotionTransitionListener,
+        OnFocusChangeListener,
+        SimpleTextWatcher {
+
+    private val colorFocused get() = R.color.colorPrimary
+
+    private val colorUnFocus get() = android.R.color.darker_gray
+
+    private val colorError get() = android.R.color.holo_red_dark
+
+    private val colorHint get() = android.R.color.darker_gray
+
+    constructor(context: Context, attrs: AttributeSet? = null) : super(context, attrs)
 
     override fun inflating(): (LayoutInflater, ViewGroup?, Boolean) -> AppInputBinding {
         return AppInputBinding::inflate
@@ -61,6 +74,29 @@ class AppInputView(context: Context, attrs: AttributeSet? = null) :
         bind.inputViewLayout.clearAnimation()
         onFocusChange.clear()
         super.onDetachedFromWindow()
+    }
+
+    override fun onSaveInstanceState(): Parcelable? {
+        val superState = super.onSaveInstanceState()
+        superState?.let {
+            val state = SaveState(superState)
+            state.dataInput = text.toString()
+            return state
+        } ?: run {
+            return superState
+        }
+    }
+
+    override fun onRestoreInstanceState(state: Parcelable?) {
+        super.onRestoreInstanceState(state)
+        when (state) {
+            is SaveState -> {
+                super.onRestoreInstanceState(state.superState)
+                Handler(Looper.getMainLooper()).post {
+                    text = state.dataInput
+                }
+            }
+        }
     }
 
     private fun onIconInitialize(types: TypedArray) {
@@ -142,14 +178,6 @@ class AppInputView(context: Context, attrs: AttributeSet? = null) :
      */
     private val editText: EditText get() = bind.inputEditText
 
-    private val colorFocused get() = R.color.colorPrimary
-
-    private val colorUnFocus get() = android.R.color.darker_gray
-
-    private val colorError get() = android.R.color.holo_red_dark
-
-    var onTextChanged: ((String) -> Unit)? = null
-
     var text: String?
         get() {
             val s = editText.trimText
@@ -186,6 +214,7 @@ class AppInputView(context: Context, attrs: AttributeSet? = null) :
             if (value.isNullOrEmpty()) {
                 updateUiOnFocusChanged()
             } else {
+                setTitleColor(colorError)
                 setBorderColor(colorError)
                 setIconColor(colorError)
             }
@@ -279,14 +308,82 @@ class AppInputView(context: Context, attrs: AttributeSet? = null) :
     }
 
     /**
-     * Util
+     * [SimpleMotionTransitionListener] implement
      */
+    override fun onTransitionCompleted(layout: MotionLayout, currentId: Int) {
+        when (currentId) {
+            R.id.focused -> {
+                setTitleBackground(Color.WHITE)
+            }
+        }
+    }
+
+    /**
+     * [SimpleTextWatcher] implements
+     */
+    var onTextChanged: ((String) -> Unit)? = null
+
+    override fun afterTextChanged(s: Editable?) {
+        onTextChanged?.invoke(s.toString())
+        when {
+            isSilent -> {
+                return
+            }
+            hasError && !text.isNullOrEmpty() -> {
+                error = null
+                setTitleColor(colorFocused)
+                updateUiOnFocusChanged()
+            }
+        }
+    }
+
+    /**
+     * ui state on focus change, error change, text change
+     */
+    fun updateUiOnFocusChanged(hasFocus: Boolean = editText.hasFocus()) {
+        when {
+            hasFocus -> {
+                if (editText.isFocusable) {
+                    editText.select()
+                    showKeyboard()
+                }
+                setInputBackground(0)
+                setMotionState(R.id.focused)
+                if (error.isNullOrEmpty()) {
+                    setBorderColor(colorFocused)
+                    setIconColor(colorFocused)
+                    setInputBackground(0)
+                }
+            }
+            !hasFocus && text.isNullOrEmpty() -> {
+                setTitleColor(colorHint)
+                setTitleBackground(Color.TRANSPARENT)
+                setMotionState(R.id.unfocused)
+                if (error.isNullOrEmpty()) {
+                    setBorderColor(colorUnFocus)
+                    setIconColor(colorUnFocus)
+                    setInputBackground(R.drawable.drw_input_bg)
+                }
+            }
+            !hasFocus && !text.isNullOrEmpty() -> {
+                setTitleBackground(Color.WHITE)
+                setMotionState(R.id.focused)
+                if (error.isNullOrEmpty()) {
+                    setTitleColor(colorFocused)
+                    setBorderColor(colorUnFocus)
+                    setIconColor(colorUnFocus)
+                    setInputBackground(0)
+                }
+            }
+        }
+    }
+
     fun showKeyboard() {
         editText.post {
             val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
             imm?.toggleSoftInput(
-                InputMethodManager.SHOW_FORCED,
-                InputMethodManager.HIDE_IMPLICIT_ONLY
+                    InputMethodManager.SHOW_FORCED,
+                    InputMethodManager.HIDE_IMPLICIT_ONLY
             )
         }
     }
@@ -325,62 +422,6 @@ class AppInputView(context: Context, attrs: AttributeSet? = null) :
         editText.filters = arrayList.toArray(arrayOfNulls<InputFilter>(arrayList.size))
     }
 
-    /**
-     * [SimpleTextWatcher] implements
-     */
-    override fun afterTextChanged(s: Editable?) {
-        onTextChanged?.invoke(s.toString())
-        when {
-            isSilent -> {
-                return
-            }
-            hasError -> {
-                error = null
-                updateUiOnFocusChanged()
-            }
-        }
-    }
-
-    /**
-     * ui state on focus change, error change, text change
-     */
-    fun updateUiOnFocusChanged(hasFocus: Boolean = editText.hasFocus()) {
-        when {
-            hasFocus -> {
-                if (editText.isFocusable) {
-                    editText.select()
-                    showKeyboard()
-                }
-                setInputBackground(0)
-                setTitleBackground(android.R.color.white)
-                setMotionState(R.id.focused)
-                if (error.isNullOrEmpty()) {
-                    setBorderColor(colorFocused)
-                    setIconColor(colorFocused)
-                    setInputBackground(0)
-                }
-            }
-            !hasFocus && text.isNullOrEmpty() -> {
-                setTitleBackground(0)
-                setMotionState(R.id.unfocused)
-                if (error.isNullOrEmpty()) {
-                    setBorderColor(colorUnFocus)
-                    setIconColor(colorUnFocus)
-                    setInputBackground(R.drawable.drw_input_bg)
-                }
-            }
-            !hasFocus && !text.isNullOrEmpty() -> {
-                setTitleBackground(android.R.color.white)
-                setMotionState(R.id.focused)
-                if (error.isNullOrEmpty()) {
-                    setBorderColor(colorUnFocus)
-                    setIconColor(colorUnFocus)
-                    setInputBackground(0)
-                }
-            }
-        }
-    }
-
     private fun setMotionState(id: Int) {
         bind.inputViewLayout.transitionToState(id)
     }
@@ -393,35 +434,20 @@ class AppInputView(context: Context, attrs: AttributeSet? = null) :
         bind.inputImageViewIcon.tintRes(res)
     }
 
+    private fun setTitleColor(@ColorRes res: Int) {
+        bind.inputTextViewTitle.textColorRes(res)
+    }
+
     private fun setInputBackground(@DrawableRes res: Int) {
         bind.inputViewBackground.setBackgroundResource(res)
     }
 
-    private fun setTitleBackground(@ColorRes res: Int) {
-        bind.inputTextViewTitle.setBackgroundResource(res)
+    private fun setTitleBackground(drawable: Drawable?) {
+        bind.inputTextViewTitle.background = drawable
     }
 
-    override fun onSaveInstanceState(): Parcelable? {
-        val superState = super.onSaveInstanceState()
-        superState?.let {
-            val state = SaveState(superState)
-            state.dataInput = text.toString()
-            return state
-        } ?: run {
-            return superState
-        }
-    }
-
-    override fun onRestoreInstanceState(state: Parcelable?) {
-        super.onRestoreInstanceState(state)
-        when (state) {
-            is SaveState -> {
-                super.onRestoreInstanceState(state.superState)
-                Handler(Looper.getMainLooper()).post {
-                    text = state.dataInput
-                }
-            }
-        }
+    private fun setTitleBackground(@ColorInt color: Int) {
+        bind.inputTextViewTitle.setBackgroundColor(color)
     }
 
     inner class SaveState : AbsSavedState {

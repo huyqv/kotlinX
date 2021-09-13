@@ -13,7 +13,7 @@ import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.sample.widget.R
 
-class AppExpandableLayout : ConstraintLayout {
+open class AppExpandableLayout : ConstraintLayout {
 
     companion object {
         const val COLLAPSED = 0
@@ -155,7 +155,7 @@ class AppExpandableLayout : ConstraintLayout {
         setExpanded(false, animate)
     }
 
-    fun setExpanded(expand: Boolean, animate: Boolean) {
+    open fun setExpanded(expand: Boolean, animate: Boolean) {
         if (expand == isExpanded) {
             return
         }

@@ -25,14 +25,11 @@
         android:paddingStart="@dimen/inputTextPaddingStart"
         android:paddingEnd="@dimen/contentMarginX2"
         android:textColor="@color/colorTextPrimary"
-        android:textColorHint="@color/colorTextSecondary"
         android:textCursorDrawable="@drawable/drw_input_cursor"
-        android:tint="@android:color/darker_gray"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="@tools:sample/lorem" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/inputImageViewIcon"
@@ -47,11 +44,12 @@
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/inputTextViewTitle"
         style="@style/TextView"
+        android:includeFontPadding="false"
         android:clickable="false"
         android:paddingStart="4dp"
         android:paddingEnd="4dp"
         android:textSize="@dimen/textSize2"
-        tools:text="Hint text" />
+        tools:text="Title text" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/inputTextViewError"

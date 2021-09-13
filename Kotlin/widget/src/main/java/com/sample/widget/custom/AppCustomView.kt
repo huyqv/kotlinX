@@ -260,7 +260,12 @@ abstract class AppCustomView<B : ViewBinding> : ConstraintLayout {
         post { this.setImageResource(drawableRes) }
     }
 
-    fun TextView.textColor(@ColorRes color: Int) {
-        setTextColor(ContextCompat.getColor(context, color))
+    fun TextView.textColor(@ColorInt color: Int) {
+        setTextColor(color)
     }
+
+    fun TextView.textColorRes(@ColorRes res: Int) {
+        setTextColor(ContextCompat.getColor(context, res))
+    }
+
 }

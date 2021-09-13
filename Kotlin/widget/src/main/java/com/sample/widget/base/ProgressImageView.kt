@@ -5,9 +5,28 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import android.view.animation.DecelerateInterpolator
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageView
+import com.sample.widget.R
+import com.sample.widget.extension.GlideApp
 
-class AnimateImageView : AppCompatImageView {
+class ProgressImageView : AppCompatImageView {
+
+    companion object {
+        val imageRes = R.drawable.ic_adb
+        val GIF = 0
+        val ANIM = 1
+    }
+
+    constructor(context: Context, attrs: AttributeSet? = null) : super(context, attrs) {
+        if (context is AppCompatActivity) {
+            visibility = View.INVISIBLE
+        } else {
+            setImageResource(imageRes)
+        }
+    }
+
+    private var style: Int = GIF
 
     private val defaultAnim: ObjectAnimator
         get() {
@@ -21,25 +40,17 @@ class AnimateImageView : AppCompatImageView {
 
     private var animation: ObjectAnimator? = null
 
-    constructor(context: Context, attrs: AttributeSet? = null) : super(context, attrs)
-
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        startAnimation()
+        if (context is AppCompatActivity) when (style) {
+            ANIM -> startAnimation()
+            GIF -> loadImage()
+        }
     }
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
         stopAnimation()
-    }
-
-    override fun onVisibilityChanged(changedView: View, visibility: Int) {
-        super.onVisibilityChanged(changedView, visibility)
-        if (visibility == View.VISIBLE) {
-            startAnimation()
-        } else {
-            stopAnimation()
-        }
     }
 
     private fun startAnimation() {
@@ -50,4 +61,20 @@ class AnimateImageView : AppCompatImageView {
     private fun stopAnimation() {
         animation?.end()
     }
+
+    private fun loadImage() {
+        GlideApp.with(context)
+                .load(imageRes)
+                .override(width, height)
+                .into(this)
+    }
+
+    fun show() {
+        visibility = View.VISIBLE
+    }
+
+    fun hide() {
+        visibility = View.INVISIBLE
+    }
+
 }

@@ -15,9 +15,8 @@ class HomeFragment : BaseFragment<HomeBinding>() {
 
     override fun onViewCreated() {
         bind.textView.setOnClickListener {
-            navigate(R.id.action_global_chatFragment) {
-                setPopUpTo(R.id.introFragment)
-            }
+            bind.inputView1.error = "Error text"
+            bind.inputView2.error = "Error text"
         }
     }
 

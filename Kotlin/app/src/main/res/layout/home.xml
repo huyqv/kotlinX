@@ -5,6 +5,7 @@
     android:layout_height="match_parent">
 
     <com.sample.widget.custom.AppInputView
+        android:id="@+id/inputView1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/contentMarginX2"
@@ -13,6 +14,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <com.sample.widget.custom.AppInputView
+        android:id="@+id/inputView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/contentMarginX2"
+        android:src="@drawable/ic_adb"
+        android:title="Hello"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/inputView1" />
+
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/textView"

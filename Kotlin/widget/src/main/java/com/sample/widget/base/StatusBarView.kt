@@ -2,17 +2,27 @@ package com.sample.widget.base
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.View
 
-class StatusBarView : View {
+class StatusBarView : AppExpandableLayout {
+
+    companion object{
+        private var savedStatusBarHeight: Int = 0
+    }
 
     constructor(context: Context, attrs: AttributeSet? = null) : super(context, attrs)
 
-    override fun onVisibilityChanged(changedView: View, visibility: Int) {
-        super.onVisibilityChanged(changedView, visibility)
-        if (visibility == VISIBLE) {
-            val lp = this.layoutParams
-            lp.height = statusBarHeight
+    override fun setExpanded(expand: Boolean, animate: Boolean) {
+        updateStatusBar()
+        super.setExpanded(expand, animate)
+    }
+
+    private fun updateStatusBar() {
+        if(savedStatusBarHeight == 0) {
+            savedStatusBarHeight = statusBarHeight
+        }
+        val lp = this.layoutParams
+        if(lp.height != savedStatusBarHeight) {
+            lp.height = savedStatusBarHeight
             this.layoutParams = lp
         }
     }
@@ -21,7 +31,8 @@ class StatusBarView : View {
         get() {
             val resources = context.resources
             val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
-            if (resourceId > 0) return resources.getDimensionPixelSize(resourceId)
+            if(resourceId > 0) return resources.getDimensionPixelSize(resourceId)
             return 0
         }
+
 }

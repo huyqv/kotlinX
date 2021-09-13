@@ -25,11 +25,7 @@
             motion:layout_constraintHorizontal_bias="0.0"
             motion:layout_constraintStart_toStartOf="parent"
             motion:layout_constraintTop_toTopOf="parent"
-            motion:layout_constraintWidth_default="percent">
-            <CustomAttribute
-                motion:attributeName="textColor"
-                motion:customColorValue="#00000000" />
-        </Constraint>
+            motion:layout_constraintWidth_default="percent" />
         <Constraint
             android:id="@id/inputImageViewIcon"
             android:layout_width="@dimen/inputIconSize"
@@ -49,14 +45,7 @@
             android:scaleY="1"
             motion:layout_constraintBottom_toBottomOf="@+id/inputEditText"
             motion:layout_constraintStart_toEndOf="@+id/inputImageViewIcon"
-            motion:layout_constraintTop_toTopOf="@+id/inputEditText">
-            <CustomAttribute
-                motion:attributeName="textColor"
-                motion:customColorValue="#7D7D7D" />
-            <CustomAttribute
-                motion:attributeName="background"
-                motion:customColorValue="#00000000" />
-        </Constraint>
+            motion:layout_constraintTop_toTopOf="@+id/inputEditText" />
         <Constraint
             android:id="@id/inputTextViewError"
             android:layout_width="wrap_content"
@@ -79,11 +68,7 @@
             motion:layout_constraintEnd_toEndOf="parent"
             motion:layout_constraintStart_toStartOf="parent"
             motion:layout_constraintTop_toTopOf="parent"
-            motion:layout_constraintWidth_default="percent">
-            <CustomAttribute
-                motion:attributeName="textColor"
-                motion:customColorValue="#000000" />
-        </Constraint>
+            motion:layout_constraintWidth_default="percent" />
         <Constraint
             android:id="@id/inputImageViewIcon"
             android:layout_width="@dimen/inputIconSize"
@@ -103,14 +88,7 @@
             android:scaleY=".9"
             motion:layout_constraintBottom_toTopOf="@+id/inputEditText"
             motion:layout_constraintStart_toStartOf="parent"
-            motion:layout_constraintTop_toTopOf="@+id/inputEditText">
-            <CustomAttribute
-                motion:attributeName="textColor"
-                motion:customColorValue="@color/colorPrimary" />
-            <CustomAttribute
-                motion:attributeName="background"
-                motion:customColorValue="#FFFFFF" />
-        </Constraint>
+            motion:layout_constraintTop_toTopOf="@+id/inputEditText" />
         <Constraint
             android:id="@id/inputTextViewError"
             android:layout_width="wrap_content"
