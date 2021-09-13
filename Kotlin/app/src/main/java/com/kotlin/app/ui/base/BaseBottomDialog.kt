@@ -18,7 +18,7 @@ import com.kotlin.app.R
 import com.sample.library.extension.hideKeyboard
 
 abstract class BaseBottomDialog<B : ViewBinding> : BottomSheetDialogFragment(),
-        FragmentView {
+    FragmentView {
 
     protected val bind: B by viewBinding(inflating())
 
@@ -45,9 +45,9 @@ abstract class BaseBottomDialog<B : ViewBinding> : BottomSheetDialogFragment(),
     }
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         val view = bind.root
         view.setOnTouchListener { _, _ -> true }

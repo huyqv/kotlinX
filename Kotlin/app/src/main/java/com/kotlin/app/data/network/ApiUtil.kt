@@ -45,9 +45,9 @@ val loggingInterceptor: Interceptor
 
 fun initClient(block: (OkHttpClient.Builder.() -> Unit)? = null): OkHttpClient {
     val client = OkHttpClient.Builder()
-            .connectTimeout(30, TimeUnit.SECONDS)
-            .readTimeout(30, TimeUnit.SECONDS)
-            .writeTimeout(30, TimeUnit.SECONDS)
+        .connectTimeout(30, TimeUnit.SECONDS)
+        .readTimeout(30, TimeUnit.SECONDS)
+        .writeTimeout(30, TimeUnit.SECONDS)
     if (isDebug) {
         client.addInterceptor(loggingInterceptor)
     }
@@ -57,13 +57,17 @@ fun initClient(block: (OkHttpClient.Builder.() -> Unit)? = null): OkHttpClient {
 
 fun initRetrofit(baseURL: String, block: (OkHttpClient.Builder.() -> Unit)? = null): Retrofit {
     return Retrofit.Builder()
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(initClient(block))
-            .baseUrl(baseURL)
-            .build()
+        .addConverterFactory(GsonConverterFactory.create())
+        .client(initClient(block))
+        .baseUrl(baseURL)
+        .build()
 }
 
-fun <T : Any> initService(cls: KClass<T>, url: String, block: (OkHttpClient.Builder.() -> Unit)? = null): T {
+fun <T : Any> initService(
+    cls: KClass<T>,
+    url: String,
+    block: (OkHttpClient.Builder.() -> Unit)? = null
+): T {
     return initRetrofit(url, block).create(cls.java)
 }
 
@@ -94,7 +98,11 @@ val sslContext: SSLContext
     }
 
 @Throws(SSLException::class)
-fun validatePinning(x509Extensions: X509TrustManagerExtensions, connection: HttpsURLConnection, validPins: Set<String>) {
+fun validatePinning(
+    x509Extensions: X509TrustManagerExtensions,
+    connection: HttpsURLConnection,
+    validPins: Set<String>
+) {
     var certChainMsg = ""
     try {
         val md: MessageDigest = MessageDigest.getInstance("SHA-256")
@@ -115,10 +123,13 @@ fun validatePinning(x509Extensions: X509TrustManagerExtensions, connection: Http
 }
 
 @Throws(SSLException::class)
-fun trustedChain(trustManagerExt: X509TrustManagerExtensions, connection: HttpsURLConnection): List<X509Certificate> {
+fun trustedChain(
+    trustManagerExt: X509TrustManagerExtensions,
+    connection: HttpsURLConnection
+): List<X509Certificate> {
     val serverCerts: Array<out Certificate> = connection.serverCertificates
     val untrustedCerts: Array<X509Certificate> =
-            Arrays.copyOf(serverCerts, serverCerts.size, Array<X509Certificate>::class.java)
+        Arrays.copyOf(serverCerts, serverCerts.size, Array<X509Certificate>::class.java)
     val host: String = connection.url.host
     return try {
         trustManagerExt.checkServerTrusted(untrustedCerts, "RSA", host)
@@ -135,7 +146,7 @@ fun String.sha256(): String? {
 
 fun trustClient(client: OkHttpClient.Builder) {
     client.sslSocketFactory(sslContext.socketFactory, trustManager)
-            .hostnameVerifier(HostnameVerifier { _, _ -> true })
+        .hostnameVerifier(HostnameVerifier { _, _ -> true })
 }
 
 /**
@@ -168,14 +179,18 @@ fun Throwable.isNetworkError(): Boolean {
 fun writeFile(response: Response<ResponseBody>, fileName: String): Flow<Result<File>> {
     return tryFlow {
         val source = response.body()?.source()
-                ?: throw NullPointerException("download data is empty")
+            ?: throw NullPointerException("download data is empty")
         val file = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            File(app.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)?.absolutePath,
-                    fileName)
+            File(
+                app.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)?.absolutePath,
+                fileName
+            )
         } else {
             @Suppress("DEPRECATION")
-            (File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
-                    fileName))
+            (File(
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
+                fileName
+            ))
         }
         file.sink().buffer().apply {
             writeAll(source)

@@ -39,10 +39,10 @@ interface BaseView {
     fun onViewClick(v: View?) = Unit
 
     fun navigate(
-            @IdRes actionId: Int,
-            args: Bundle? = null,
-            extras: Navigator.Extras? = null,
-            block: (NavOptions.Builder.() -> Unit) = {}
+        @IdRes actionId: Int,
+        args: Bundle? = null,
+        extras: Navigator.Extras? = null,
+        block: (NavOptions.Builder.() -> Unit) = {}
     ) {
         val options = NavOptions.Builder().also {
             it.setVerticalAnim()
@@ -52,10 +52,10 @@ interface BaseView {
     }
 
     fun navigate(
-            directions: NavDirections,
-            args: Bundle? = null,
-            extras: Navigator.Extras? = null,
-            block: (NavOptions.Builder.() -> Unit) = {}
+        directions: NavDirections,
+        args: Bundle? = null,
+        extras: Navigator.Extras? = null,
+        block: (NavOptions.Builder.() -> Unit) = {}
     ) {
         navigate(directions.actionId, args, extras, block)
     }

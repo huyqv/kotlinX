@@ -3,7 +3,7 @@ package com.sample.library.extension
 import java.sql.Timestamp
 
 class MapValueNullException(key: String) :
-        NullPointerException("value of key $key is null or empty")
+    NullPointerException("value of key $key is null or empty")
 
 fun Map<String, Any>?.strOrNull(key: String): String? {
     return this?.get(key) as? String
@@ -93,7 +93,10 @@ fun Map<String, Any>?.timestampOrThrow(key: String): Timestamp {
     return timestampOrNull(key) ?: throw MapValueNullException(key)
 }
 
-inline fun <T : Any> Map<String, Any>?.list(key: String, transformer: (Map<String, Any>) -> T): List<T> {
+inline fun <T : Any> Map<String, Any>?.list(
+    key: String,
+    transformer: (Map<String, Any>) -> T
+): List<T> {
     val list = mutableListOf<T>()
     @Suppress("UNCHECKED_CAST")
     (this?.get(key) as? Array<Map<String, Any>>)?.forEach {

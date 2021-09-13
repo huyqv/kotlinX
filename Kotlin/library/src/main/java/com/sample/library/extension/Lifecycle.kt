@@ -191,7 +191,7 @@ open class EventLiveData : MediatorLiveData<Boolean?>() {
     }
 
     private inner class ObserverWrapper(private val observer: Observer<in Boolean?>) :
-            Observer<Boolean?> {
+        Observer<Boolean?> {
 
         private val pending = AtomicBoolean(false)
 

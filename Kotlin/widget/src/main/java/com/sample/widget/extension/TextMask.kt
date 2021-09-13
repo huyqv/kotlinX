@@ -2,7 +2,6 @@ package com.sample.widget.extension
 
 import android.os.Build
 import android.text.Html
-import org.json.JSONObject
 import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.util.*
@@ -100,9 +99,9 @@ fun Long.cashToText(): String {
     }
 
     text = text.replace("  ", " ")
-            .trim()
-            .replace("tỷ triệu nghìn đồng", "tỷ đồng")
-            .replace("triệu nghìn đồng", "triệu đồng")
+        .trim()
+        .replace("tỷ triệu nghìn đồng", "tỷ đồng")
+        .replace("triệu nghìn đồng", "triệu đồng")
 
     return text.substring(0, 1).uppercase(Locale.getDefault()) + text.substring(1, text.length)
 }

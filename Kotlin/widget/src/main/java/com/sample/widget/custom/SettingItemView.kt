@@ -21,10 +21,10 @@ class SettingItemView : AppCustomView<SettingItemBinding> {
 
         bind.layoutContent.setBackgroundResource(types.background)
         bind.layoutContent.setPadding(
-                types.paddingStart,
-                types.paddingTop,
-                types.paddingEnd,
-                types.paddingBottom
+            types.paddingStart,
+            types.paddingTop,
+            types.paddingEnd,
+            types.paddingBottom
         )
         bind.textViewTitle.text = types.title
         bind.textViewTitle.setTextColor(types.hintColor)

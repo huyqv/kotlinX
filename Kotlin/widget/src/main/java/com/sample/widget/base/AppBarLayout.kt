@@ -6,7 +6,7 @@ import android.view.View
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 
 open class AppBarLayout constructor(context: Context, attrs: AttributeSet? = null) :
-        com.google.android.material.appbar.AppBarLayout(context, attrs) {
+    com.google.android.material.appbar.AppBarLayout(context, attrs) {
 
     val behavior: Behavior?
         get() {
@@ -41,8 +41,22 @@ open class AppBarLayout constructor(context: Context, attrs: AttributeSet? = nul
 
         constructor(context: Context?, attrs: AttributeSet? = null) : super(context, attrs)
 
-        override fun onStartNestedScroll(parent: CoordinatorLayout, child: com.google.android.material.appbar.AppBarLayout, directTargetChild: View, target: View, nestedScrollAxes: Int, type: Int): Boolean {
-            return isExpandable && super.onStartNestedScroll(parent, child, directTargetChild, target, nestedScrollAxes, type)
+        override fun onStartNestedScroll(
+            parent: CoordinatorLayout,
+            child: com.google.android.material.appbar.AppBarLayout,
+            directTargetChild: View,
+            target: View,
+            nestedScrollAxes: Int,
+            type: Int
+        ): Boolean {
+            return isExpandable && super.onStartNestedScroll(
+                parent,
+                child,
+                directTargetChild,
+                target,
+                nestedScrollAxes,
+                type
+            )
         }
     }
 }

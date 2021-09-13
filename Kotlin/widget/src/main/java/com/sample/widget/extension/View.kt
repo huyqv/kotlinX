@@ -34,9 +34,9 @@ fun Float.dpToPx(): Float {
 
 fun Float.spToPx(): Int {
     return TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_SP,
-            this,
-            Resources.getSystem().displayMetrics
+        TypedValue.COMPLEX_UNIT_SP,
+        this,
+        Resources.getSystem().displayMetrics
     ).roundToInt()
 }
 
@@ -50,9 +50,9 @@ fun Float.pxToDp(): Float {
 
 fun Float.dipToPx(): Float {
     return TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP,
-            this,
-            app.resources.displayMetrics
+        TypedValue.COMPLEX_UNIT_DIP,
+        this,
+        app.resources.displayMetrics
     )
 }
 
@@ -66,7 +66,7 @@ fun Int.pxToSp(): Int {
 
 fun Int.isDarkColor(): Boolean {
     val darkness =
-            1 - (0.299 * Color.red(this) + 0.587 * Color.green(this) + 0.114 * Color.blue(this)) / 255
+        1 - (0.299 * Color.red(this) + 0.587 * Color.green(this) + 0.114 * Color.blue(this)) / 255
     return darkness >= 0.5
 }
 
@@ -144,17 +144,17 @@ fun View?.post(delayed: Long, runnable: Runnable) {
  * </style>
  */
 fun View.showPopup(
-        @LayoutRes layoutRes: Int,
-        @StyleRes animationStyle: Int,
-        block: (View, PopupWindow) -> Unit
+    @LayoutRes layoutRes: Int,
+    @StyleRes animationStyle: Int,
+    block: (View, PopupWindow) -> Unit
 ) {
     val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
     val v = inflater.inflate(layoutRes, null)
     val popup = PopupWindow(
-            v,
-            LinearLayout.LayoutParams.MATCH_PARENT,
-            LinearLayout.LayoutParams.WRAP_CONTENT,
-            true
+        v,
+        LinearLayout.LayoutParams.MATCH_PARENT,
+        LinearLayout.LayoutParams.WRAP_CONTENT,
+        true
     )
     popup.animationStyle = animationStyle
     popup.showAsDropDown(this)
@@ -179,15 +179,15 @@ fun View.backgroundTintRes(@ColorRes colorRes: Int) {
 fun View.getBitmap(w: Int = width, h: Int = height, block: (Bitmap?) -> Unit) {
     addOnLayoutChangeListener(object : View.OnLayoutChangeListener {
         override fun onLayoutChange(
-                v: View,
-                left: Int,
-                top: Int,
-                right: Int,
-                bottom: Int,
-                oldLeft: Int,
-                oldTop: Int,
-                oldRight: Int,
-                oldBottom: Int
+            v: View,
+            left: Int,
+            top: Int,
+            right: Int,
+            bottom: Int,
+            oldLeft: Int,
+            oldTop: Int,
+            oldRight: Int,
+            oldBottom: Int
         ) {
             this@getBitmap.removeOnLayoutChangeListener(this)
             v.post {
@@ -202,13 +202,13 @@ fun View.getBitmap(w: Int = width, h: Int = height): Bitmap? {
     return try {
         if (w > 0 && h > 0) {
             this.measure(
-                    View.MeasureSpec.makeMeasureSpec(w, View.MeasureSpec.EXACTLY),
-                    View.MeasureSpec.makeMeasureSpec(h, View.MeasureSpec.EXACTLY)
+                View.MeasureSpec.makeMeasureSpec(w, View.MeasureSpec.EXACTLY),
+                View.MeasureSpec.makeMeasureSpec(h, View.MeasureSpec.EXACTLY)
             )
         }
         this.layout(0, 0, this.measuredWidth, this.measuredHeight)
         val bitmap =
-                Bitmap.createBitmap(this.measuredWidth, this.measuredHeight, Bitmap.Config.ARGB_8888)
+            Bitmap.createBitmap(this.measuredWidth, this.measuredHeight, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
         this.background?.draw(canvas)
         this.draw(canvas)

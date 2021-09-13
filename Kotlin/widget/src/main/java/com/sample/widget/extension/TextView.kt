@@ -107,7 +107,7 @@ fun EditText?.showKeyboard() {
     this?.post {
         requestFocus()
         val imm: InputMethodManager? =
-                context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+            context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
         imm?.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
     }
 }
@@ -230,8 +230,8 @@ fun TextView.setHyperText(s: String?, vararg args: Any?) {
             }
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.N -> {
                 Html.fromHtml(
-                        s.format(*args),
-                        Html.FROM_HTML_MODE_LEGACY  /*Html.FROM_HTML_MODE_COMPACT*/
+                    s.format(*args),
+                    Html.FROM_HTML_MODE_LEGACY  /*Html.FROM_HTML_MODE_COMPACT*/
                 )
             }
             else -> {
@@ -244,19 +244,19 @@ fun TextView.setHyperText(s: String?, vararg args: Any?) {
 
 fun TextView.gradientHorizontal(@ColorRes colorStart: Int, @ColorRes colorEnd: Int = colorStart) {
     paint.shader = LinearGradient(
-            0f, 0f, this.width.toFloat(), 0f,
-            ContextCompat.getColor(context, colorStart),
-            ContextCompat.getColor(context, colorEnd),
-            Shader.TileMode.CLAMP
+        0f, 0f, this.width.toFloat(), 0f,
+        ContextCompat.getColor(context, colorStart),
+        ContextCompat.getColor(context, colorEnd),
+        Shader.TileMode.CLAMP
     )
 }
 
 fun TextView.gradientVertical(@ColorRes colorStart: Int, @ColorRes colorEnd: Int = colorStart) {
     paint.shader = LinearGradient(
-            0f, 0f, 0f, this.height.toFloat(),
-            ContextCompat.getColor(context, colorStart),
-            ContextCompat.getColor(context, colorEnd),
-            Shader.TileMode.CLAMP
+        0f, 0f, 0f, this.height.toFloat(),
+        ContextCompat.getColor(context, colorStart),
+        ContextCompat.getColor(context, colorEnd),
+        Shader.TileMode.CLAMP
     )
 }
 

@@ -151,8 +151,8 @@ fun WebView.setClient(progressBar: ProgressBar) {
 
         @TargetApi(Build.VERSION_CODES.LOLLIPOP)
         override fun shouldOverrideUrlLoading(
-                view: WebView?,
-                request: WebResourceRequest?
+            view: WebView?,
+            request: WebResourceRequest?
         ): Boolean {
             view?.loadUrl(request?.url.toString())
             return super.shouldOverrideUrlLoading(view, request)
@@ -178,7 +178,7 @@ fun WebView.setClient(progressBar: ProgressBar) {
 
 fun createDrawable(@ColorInt startColor: Int, endColor: Int, radius: Float): Drawable {
     val gradientDrawable =
-            GradientDrawable(GradientDrawable.Orientation.TL_BR, intArrayOf(startColor, endColor))
+        GradientDrawable(GradientDrawable.Orientation.TL_BR, intArrayOf(startColor, endColor))
     gradientDrawable.cornerRadius = radius
     return gradientDrawable
 }

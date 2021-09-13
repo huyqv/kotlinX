@@ -105,9 +105,9 @@ fun View.animateAlpha(toAlpha: Float, onEnd: () -> Unit) {
 fun View.colorAnimate(@ColorRes fromColor: Int, @ColorRes toColor: Int): ObjectAnimator {
 
     val objectAnimator = ObjectAnimator.ofObject(
-            this, "backgroundColor", ArgbEvaluator(),
-            ContextCompat.getColor(context, fromColor),
-            ContextCompat.getColor(context, toColor)
+        this, "backgroundColor", ArgbEvaluator(),
+        ContextCompat.getColor(context, fromColor),
+        ContextCompat.getColor(context, toColor)
     )
     objectAnimator.repeatCount = 1
     objectAnimator.repeatMode = ValueAnimator.REVERSE
@@ -129,9 +129,9 @@ fun animTranslateY(from: Float, to: Float): TranslateAnimation {
 
 fun animCenterScale(): ScaleAnimation {
     return ScaleAnimation(
-            0F, 1F, 0F, 1F,
-            Animation.RELATIVE_TO_SELF, 0.5F,
-            Animation.RELATIVE_TO_SELF, 0.5F
+        0F, 1F, 0F, 1F,
+        Animation.RELATIVE_TO_SELF, 0.5F,
+        Animation.RELATIVE_TO_SELF, 0.5F
     ).apply {
         duration = 1000L
     }
@@ -139,9 +139,9 @@ fun animCenterScale(): ScaleAnimation {
 
 fun animLeftScale(): ScaleAnimation {
     return ScaleAnimation(
-            0F, 1f, 0F, 1f,
-            Animation.RELATIVE_TO_SELF, 1f,
-            Animation.RELATIVE_TO_SELF, 0.5F
+        0F, 1f, 0F, 1f,
+        Animation.RELATIVE_TO_SELF, 1f,
+        Animation.RELATIVE_TO_SELF, 0.5F
     ).apply {
         duration = 1000L
     }
@@ -149,9 +149,9 @@ fun animLeftScale(): ScaleAnimation {
 
 fun animRightScale(): ScaleAnimation {
     return ScaleAnimation(
-            0F, 1f, 0F, 1f,
-            Animation.RELATIVE_TO_SELF, 0F,
-            Animation.RELATIVE_TO_SELF, 0.5F
+        0F, 1f, 0F, 1f,
+        Animation.RELATIVE_TO_SELF, 0F,
+        Animation.RELATIVE_TO_SELF, 0.5F
     ).apply {
         duration = 1000L
     }
@@ -159,9 +159,9 @@ fun animRightScale(): ScaleAnimation {
 
 fun animBumped(): ScaleAnimation {
     return ScaleAnimation(
-            0F, 1f, 0F, 1f,
-            ScaleAnimation.RELATIVE_TO_SELF, .5f,
-            ScaleAnimation.RELATIVE_TO_SELF, .5f
+        0F, 1f, 0F, 1f,
+        ScaleAnimation.RELATIVE_TO_SELF, .5f,
+        ScaleAnimation.RELATIVE_TO_SELF, .5f
     ).apply {
         duration = 1000L
 
@@ -170,9 +170,9 @@ fun animBumped(): ScaleAnimation {
 
 fun animVanish(): ScaleAnimation {
     return ScaleAnimation(
-            0F, 1f, 0F, 1f,
-            ScaleAnimation.RELATIVE_TO_SELF, .0F,
-            ScaleAnimation.RELATIVE_TO_SELF, .0F
+        0F, 1f, 0F, 1f,
+        ScaleAnimation.RELATIVE_TO_SELF, .0F,
+        ScaleAnimation.RELATIVE_TO_SELF, .0F
     ).apply {
         duration = 1000L
     }

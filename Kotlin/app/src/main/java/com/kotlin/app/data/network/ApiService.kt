@@ -31,9 +31,9 @@ interface ApiService {
     @Multipart
     @POST(PATH_FMT)
     suspend fun post(
-            @Path(PATH) path: String,
-            @Part files: Array<MultipartBody.Part>,
-            @Part("description") des: RequestBody?
+        @Path(PATH) path: String,
+        @Part files: Array<MultipartBody.Part>,
+        @Part("description") des: RequestBody?
     ): Call<ResponseBody>
 
     @Streaming
@@ -47,8 +47,8 @@ interface ApiService {
      */
     @POST(PATH_FMT)
     suspend fun post(
-            @Path(PATH) path: String = "api/user/profile",
-            @Query("userId") userId: String = "123456789",
-            @Body body: RequestBody = "ccv".toRequestBody(),
+        @Path(PATH) path: String = "api/user/profile",
+        @Query("userId") userId: String = "123456789",
+        @Body body: RequestBody = "ccv".toRequestBody(),
     ): JsonObject
 }

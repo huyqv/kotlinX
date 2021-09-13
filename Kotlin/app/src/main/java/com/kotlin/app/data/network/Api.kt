@@ -9,8 +9,8 @@ private var token: String? = null
 
 private val certPinner: CertificatePinner by lazy {
     CertificatePinner.Builder()
-            .add(domainName(serviceUrl), "sha256/$publicKey")
-            .build()
+        .add(domainName(serviceUrl), "sha256/$publicKey")
+        .build()
 }
 
 val apiService: ApiService by lazy {

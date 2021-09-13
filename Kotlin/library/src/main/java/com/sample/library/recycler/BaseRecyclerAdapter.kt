@@ -32,7 +32,10 @@ abstract class BaseRecyclerAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHo
         return modelItemOptions(model, position)?.layoutId ?: 0
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int /* also it layout resource id */): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int /* also it layout resource id */
+    ): RecyclerView.ViewHolder {
         if (viewType != 0) {
             val v = LayoutInflater.from(parent.context).inflate(viewType, parent, false)
             return BaseViewHolder(v)

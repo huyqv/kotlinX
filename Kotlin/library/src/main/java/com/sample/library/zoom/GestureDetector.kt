@@ -10,8 +10,8 @@ import android.view.ViewConfiguration
  * Does a whole lot of gesture detecting.
  */
 class GestureDetector internal constructor(
-        context: Context,
-        private val listener: GestureHelper.GestureListener
+    context: Context,
+    private val listener: GestureHelper.GestureListener
 ) {
 
     companion object {
@@ -53,8 +53,8 @@ class GestureDetector internal constructor(
                     return false
 
                 listener.onScale(
-                        scaleFactor,
-                        detector.focusX, detector.focusY
+                    scaleFactor,
+                    detector.focusX, detector.focusY
                 )
                 return true
             }
@@ -156,14 +156,14 @@ class GestureDetector internal constructor(
 
                         val vX = velocityTracker!!.xVelocity
                         val vY = velocityTracker!!
-                                .yVelocity
+                            .yVelocity
 
                         // If the velocity is greater than minVelocity, call
                         // listener
                         if (Math.max(Math.abs(vX), Math.abs(vY)) >= minimumVelocity) {
                             listener.onFling(
-                                    lastTouchX, lastTouchY, -vX,
-                                    -vY
+                                lastTouchX, lastTouchY, -vX,
+                                -vY
                             )
                         }
                     }
@@ -190,8 +190,8 @@ class GestureDetector internal constructor(
         }
 
         activePointerIndex = ev.findPointerIndex(
-                if (activePointerId != INVALID_POINTER_ID)
-                    activePointerId else 0
+            if (activePointerId != INVALID_POINTER_ID)
+                activePointerId else 0
         )
         return true
     }

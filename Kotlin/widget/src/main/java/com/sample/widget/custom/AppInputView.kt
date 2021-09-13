@@ -23,10 +23,10 @@ import com.sample.widget.databinding.AppInputBinding
 import com.sample.widget.extension.*
 
 class AppInputView(context: Context, attrs: AttributeSet? = null) :
-        AppCustomView<AppInputBinding>(context, attrs),
-        SimpleMotionTransitionListener,
-        OnFocusChangeListener,
-        SimpleTextWatcher {
+    AppCustomView<AppInputBinding>(context, attrs),
+    SimpleMotionTransitionListener,
+    OnFocusChangeListener,
+    SimpleTextWatcher {
 
     override fun inflating(): (LayoutInflater, ViewGroup?, Boolean) -> AppInputBinding {
         return AppInputBinding::inflate
@@ -75,8 +75,11 @@ class AppInputView(context: Context, attrs: AttributeSet? = null) :
         it.onFocusChangeListener = this
         it.paintFlags = it.paintFlags and Paint.UNDERLINE_TEXT_FLAG.inv()
         it.setTextSize(
-                TypedValue.COMPLEX_UNIT_PX,
-                types.getDimension(R.styleable.AppCustomView_android_textSize, getPixels(R.dimen.textSize2))
+            TypedValue.COMPLEX_UNIT_PX,
+            types.getDimension(
+                R.styleable.AppCustomView_android_textSize,
+                getPixels(R.dimen.textSize2)
+            )
         )
         it.maxLines = 1
 
@@ -94,8 +97,8 @@ class AppInputView(context: Context, attrs: AttributeSet? = null) :
 
         // Input type
         val attrInputType = types.getInt(
-                R.styleable.AppCustomView_android_inputType,
-                EditorInfo.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
+            R.styleable.AppCustomView_android_inputType,
+            EditorInfo.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
         )
         when (attrInputType) {
             EditorInfo.TYPE_NULL -> {
@@ -106,7 +109,8 @@ class AppInputView(context: Context, attrs: AttributeSet? = null) :
                 it.inputType = attrInputType
             }
             else -> {
-                it.inputType = attrInputType or EditorInfo.TYPE_TEXT_FLAG_NO_SUGGESTIONS or EditorInfo.IME_FLAG_NO_PERSONALIZED_LEARNING
+                it.inputType =
+                    attrInputType or EditorInfo.TYPE_TEXT_FLAG_NO_SUGGESTIONS or EditorInfo.IME_FLAG_NO_PERSONALIZED_LEARNING
             }
         }
 
@@ -281,8 +285,8 @@ class AppInputView(context: Context, attrs: AttributeSet? = null) :
         editText.post {
             val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
             imm?.toggleSoftInput(
-                    InputMethodManager.SHOW_FORCED,
-                    InputMethodManager.HIDE_IMPLICIT_ONLY
+                InputMethodManager.SHOW_FORCED,
+                InputMethodManager.HIDE_IMPLICIT_ONLY
             )
         }
     }

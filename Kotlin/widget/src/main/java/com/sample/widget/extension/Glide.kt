@@ -18,18 +18,18 @@ interface SimpleRequestListener : RequestListener<Drawable> {
     fun onCompleted()
 
     override fun onLoadFailed(
-            e: GlideException?, model: Any?,
-            target: com.bumptech.glide.request.target.Target<Drawable>?,
-            isFirstResource: Boolean,
+        e: GlideException?, model: Any?,
+        target: com.bumptech.glide.request.target.Target<Drawable>?,
+        isFirstResource: Boolean,
     ): Boolean {
         onCompleted()
         return true
     }
 
     override fun onResourceReady(
-            resource: Drawable?, model: Any?,
-            target: com.bumptech.glide.request.target.Target<Drawable>?, dataSource: DataSource?,
-            isFirstResource: Boolean,
+        resource: Drawable?, model: Any?,
+        target: com.bumptech.glide.request.target.Target<Drawable>?, dataSource: DataSource?,
+        isFirstResource: Boolean,
     ): Boolean {
         onCompleted()
         return true
@@ -38,63 +38,63 @@ interface SimpleRequestListener : RequestListener<Drawable> {
 
 fun ImageView.load(url: String?, block: ((GlideRequest<Drawable>) -> Unit)? = null) {
     val request = GlideApp.with(context)
-            .load(url)
+        .load(url)
     block?.also { it(request) }
     request.into(this)
 }
 
 fun ImageView.load(url: String?) {
     val request = GlideApp.with(context)
-            .load(url)
-            .override(width, height)
+        .load(url)
+        .override(width, height)
     request.into(this)
 }
 
 fun ImageView.load(bitmap: Bitmap?) {
     val request = GlideApp.with(context)
-            .load(bitmap)
-            .override(width, height)
+        .load(bitmap)
+        .override(width, height)
     request.into(this)
 }
 
 fun ImageView.load(res: Int) {
     val request = GlideApp.with(context)
-            .load(res)
-            .override(width, height)
+        .load(res)
+        .override(width, height)
     request.into(this)
 }
 
 fun ImageView.load(bytes: ByteArray?) {
     val request = GlideApp.with(context)
-            .load(bytes)
-            .override(width, height)
+        .load(bytes)
+        .override(width, height)
     request.into(this)
 }
 
 fun ImageView.load(drawable: Drawable?) {
     val request = GlideApp.with(context)
-            .load(drawable)
-            .override(width, height)
+        .load(drawable)
+        .override(width, height)
     request.into(this)
 }
 
 fun ImageView.reload(res: Int) {
     val request = GlideApp.with(context)
-            .load(res)
-            .override(width, height)
-            .thumbnail(0.1f)
-            .diskCacheStrategy(DiskCacheStrategy.NONE)
-            .skipMemoryCache(true)
+        .load(res)
+        .override(width, height)
+        .thumbnail(0.1f)
+        .diskCacheStrategy(DiskCacheStrategy.NONE)
+        .skipMemoryCache(true)
     request.into(this)
 }
 
 fun ImageView.reload(url: String?) {
     val request = GlideApp.with(context)
-            .load(url)
-            .override(width, height)
-            .thumbnail(0.1f)
-            .diskCacheStrategy(DiskCacheStrategy.NONE)
-            .skipMemoryCache(true)
+        .load(url)
+        .override(width, height)
+        .thumbnail(0.1f)
+        .diskCacheStrategy(DiskCacheStrategy.NONE)
+        .skipMemoryCache(true)
     request.into(this)
 }
 

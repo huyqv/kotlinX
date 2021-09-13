@@ -49,8 +49,8 @@ fun String?.floatCash(): String {
 
         val docIndex = indexOf(".")
         if (docIndex != -1 && substring(docIndex, length).length > 3) return substring(
-                0,
-                docIndex + 3
+            0,
+            docIndex + 3
         )
 
         var originalString = this
@@ -68,7 +68,7 @@ fun String?.floatCash(): String {
  */
 fun EditText.addCashWatcher() {
     inputType =
-            InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL or InputType.TYPE_NUMBER_FLAG_SIGNED
+        InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL or InputType.TYPE_NUMBER_FLAG_SIGNED
     addTextChangedListener(object : SimpleTextWatcher {
         override fun afterTextChanged(s: Editable?) {
             setTextSilently(text.toString().intCash())
@@ -93,7 +93,7 @@ val EditText.amount: BigDecimal
  */
 fun EditText.addCashWatcher(maxLength: Int, prefix: String = "") {
     inputType =
-            InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL or InputType.TYPE_NUMBER_FLAG_SIGNED
+        InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL or InputType.TYPE_NUMBER_FLAG_SIGNED
     addTextChangedListener(object : SimpleTextWatcher {
 
         var previousCleanString = ""
@@ -112,7 +112,7 @@ fun EditText.addCashWatcher(maxLength: Int, prefix: String = "") {
             previousCleanString = cleanString
             val formattedString: String
             formattedString =
-                    if (cleanString.contains(".")) cleanString.formatDecimal() else cleanString.formatInteger()
+                if (cleanString.contains(".")) cleanString.formatDecimal() else cleanString.formatInteger()
             removeTextChangedListener(this)
             setText(formattedString)
             handleSelection()
@@ -131,8 +131,8 @@ fun EditText.addCashWatcher(maxLength: Int, prefix: String = "") {
             if (this == ".") return "$prefix."
             val parsed = BigDecimal(this)
             val formatter = DecimalFormat(
-                    prefix + "#,###." + getDecimalPattern(),
-                    DecimalFormatSymbols(Locale.US)
+                prefix + "#,###." + getDecimalPattern(),
+                DecimalFormatSymbols(Locale.US)
             )
             formatter.roundingMode = RoundingMode.DOWN
             return formatter.format(parsed)
@@ -170,11 +170,11 @@ fun EditText.addDateWatcher() {
 
             sb.clear()
             sb.append(
-                    if (s!!.length > 10) {
-                        s.subSequence(0, 10)
-                    } else {
-                        s
-                    }
+                if (s!!.length > 10) {
+                    s.subSequence(0, 10)
+                } else {
+                    s
+                }
             )
 
             if (sb.lastIndex == 2) {

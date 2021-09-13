@@ -9,7 +9,7 @@ buildscript {
     }
 
     dependencies {
-        classpath deps.android_gradle
+        classpath 'com.android.tools.build:gradle:7.0.2'
         classpath deps.kotlin.gradle
     }
 

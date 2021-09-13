@@ -16,7 +16,7 @@ object Shell {
             val outputStream = DataOutputStream(su.outputStream)
             for (s in strings) {
                 outputStream.writeBytes(
-                        """
+                    """
     $s
 
     """.trimIndent()
@@ -98,9 +98,9 @@ object Shell {
     @Throws(IOException::class)
     fun startADB(port: Int) {
         val cmds = arrayOf(
-                "setprop service.adb.tcp.port $port",
-                "stop adbd",
-                "start adbd"
+            "setprop service.adb.tcp.port $port",
+            "stop adbd",
+            "start adbd"
         )
         var result = execForResult("getprop service.adb.tcp.port")
         Log.i(TAG, "Starting ADB, current port = $result")
@@ -137,7 +137,7 @@ object Shell {
             response = su.inputStream
             for (s in strings) {
                 outputStream.writeBytes(
-                        """
+                    """
     $s
 
     """.trimIndent()

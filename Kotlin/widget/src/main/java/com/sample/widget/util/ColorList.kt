@@ -38,17 +38,17 @@ class ColorList {
 
     private fun initColorList() {
         colorList.addAll(
-                listOf(
-                        Color.rgb(133, 68, 214),
-                        Color.rgb(40, 168, 201),
-                        Color.rgb(192, 61, 51),
-                        Color.rgb(79, 173, 45),
-                        Color.rgb(253, 201, 43),
-                        Color.rgb(205, 65, 164),
-                        Color.rgb(22, 138, 205),
-                        Color.rgb(206, 103, 27),
-                        Color.rgb(141, 89, 13)
-                )
+            listOf(
+                Color.rgb(133, 68, 214),
+                Color.rgb(40, 168, 201),
+                Color.rgb(192, 61, 51),
+                Color.rgb(79, 173, 45),
+                Color.rgb(253, 201, 43),
+                Color.rgb(205, 65, 164),
+                Color.rgb(22, 138, 205),
+                Color.rgb(206, 103, 27),
+                Color.rgb(141, 89, 13)
+            )
         )
     }
 }

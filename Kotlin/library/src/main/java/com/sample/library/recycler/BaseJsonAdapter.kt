@@ -36,7 +36,10 @@ abstract class BaseJsonAdapter<T : JsonElement> : RecyclerView.Adapter<RecyclerV
         return modelItemOptions(model, position)?.layoutId ?: 0
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int /* also it layout resource id */): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int /* also it layout resource id */
+    ): RecyclerView.ViewHolder {
         if (viewType != 0) {
             val v = LayoutInflater.from(parent.context).inflate(viewType, parent, false)
             return BaseViewHolder(v)
@@ -179,9 +182,9 @@ abstract class BaseJsonAdapter<T : JsonElement> : RecyclerView.Adapter<RecyclerV
     }
 
     open fun bind(
-            recyclerView: RecyclerView,
-            spanCount: Int,
-            block: GridLayoutManager.() -> Unit = {}
+        recyclerView: RecyclerView,
+        spanCount: Int,
+        block: GridLayoutManager.() -> Unit = {}
     ) {
         val lm = GridLayoutManager(recyclerView.context, spanCount)
         lm.block()

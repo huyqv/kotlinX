@@ -172,7 +172,9 @@ class AppExpandableLayout : ConstraintLayout {
         animator = ValueAnimator.ofFloat(expansion, targetExpansion.toFloat()).also {
             it.interpolator = this.interpolator
             it.duration = this.duration.toLong()
-            it.addUpdateListener { valueAnimator -> expansion = valueAnimator.animatedValue as Float }
+            it.addUpdateListener { valueAnimator ->
+                expansion = valueAnimator.animatedValue as Float
+            }
             it.addListener(ExpansionListener(targetExpansion))
             it.start()
         }
@@ -203,7 +205,7 @@ class AppExpandableLayout : ConstraintLayout {
     }
 
     private inner class ExpansionListener(private val targetExpansion: Int) :
-            Animator.AnimatorListener {
+        Animator.AnimatorListener {
 
         private var canceled = false
 
@@ -229,7 +231,8 @@ class AppExpandableLayout : ConstraintLayout {
      * Lookup table values sampled with x at regular intervals between 0 and 1 for a total of
      * 201 points.
      */
-    inner class FastOutSlowInInterpolator : LookupTableInterpolator(floatArrayOf(
+    inner class FastOutSlowInInterpolator : LookupTableInterpolator(
+        floatArrayOf(
             0.0000f, 0.0001f, 0.0002f, 0.0005f, 0.0009f, 0.0014f, 0.0020f,
             0.0027f, 0.0036f, 0.0046f, 0.0058f, 0.0071f, 0.0085f, 0.0101f,
             0.0118f, 0.0137f, 0.0158f, 0.0180f, 0.0205f, 0.0231f, 0.0259f,
@@ -259,5 +262,6 @@ class AppExpandableLayout : ConstraintLayout {
             0.9955f, 0.9960f, 0.9964f, 0.9969f, 0.9973f, 0.9977f, 0.9980f,
             0.9984f, 0.9986f, 0.9989f, 0.9991f, 0.9993f, 0.9995f, 0.9997f,
             0.9998f, 0.9999f, 0.9999f, 1.0000f, 1.0000f
-    ))
+        )
+    )
 }

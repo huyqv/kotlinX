@@ -18,13 +18,20 @@ fun ConstraintLayout.editConstraint(block: ConstraintSet.() -> Unit) {
     }
 }
 
-fun ConstraintLayout.beginTransition(transition: Transition, block: ConstraintSet.() -> Unit): Transition {
+fun ConstraintLayout.beginTransition(
+    transition: Transition,
+    block: ConstraintSet.() -> Unit
+): Transition {
     TransitionManager.beginDelayedTransition(this, transition)
     this.editConstraint(block)
     return transition
 }
 
-fun ConstraintLayout.beginTransition(transition: Transition, block: ConstraintSet.() -> Unit, onEnd: () -> Unit = {}): Transition {
+fun ConstraintLayout.beginTransition(
+    transition: Transition,
+    block: ConstraintSet.() -> Unit,
+    onEnd: () -> Unit = {}
+): Transition {
     transition.addListener(object : SimpleTransitionListener {
         override fun onTransitionEnd(transition: Transition) {
             transition.removeListener(this)
@@ -43,7 +50,11 @@ fun ConstraintLayout.beginTransition(duration: Long, block: ConstraintSet.() -> 
     beginTransition(transition, block)
 }
 
-fun ConstraintLayout.beginTransition(duration: Long, block: ConstraintSet.() -> Unit, onEnd: () -> Unit = {}) {
+fun ConstraintLayout.beginTransition(
+    duration: Long,
+    block: ConstraintSet.() -> Unit,
+    onEnd: () -> Unit = {}
+) {
     val transition = ChangeBounds().also {
         it.duration = duration
     }
@@ -82,8 +93,8 @@ class ConstraintBuilder(private val constraintLayout: ConstraintLayout) {
                     transitionList[i].removeListener(this)
                     if (i < transitionList.lastIndex) {
                         constraintLayout.beginTransition(
-                                transitionList[i + 1],
-                                constraintSetList[i + 1]
+                            transitionList[i + 1],
+                            constraintSetList[i + 1]
                         )
                     }
                 }
@@ -94,7 +105,12 @@ class ConstraintBuilder(private val constraintLayout: ConstraintLayout) {
 }
 
 interface SimpleMotionTransitionListener : MotionLayout.TransitionListener {
-    override fun onTransitionChange(layout: MotionLayout, startId: Int, endId: Int, progress: Float) {
+    override fun onTransitionChange(
+        layout: MotionLayout,
+        startId: Int,
+        endId: Int,
+        progress: Float
+    ) {
     }
 
     override fun onTransitionStarted(layout: MotionLayout, startId: Int, endId: Int) {
@@ -103,7 +119,12 @@ interface SimpleMotionTransitionListener : MotionLayout.TransitionListener {
     override fun onTransitionCompleted(layout: MotionLayout, currentId: Int) {
     }
 
-    override fun onTransitionTrigger(layout: MotionLayout, triggerId: Int, positive: Boolean, progress: Float) {
+    override fun onTransitionTrigger(
+        layout: MotionLayout,
+        triggerId: Int,
+        positive: Boolean,
+        progress: Float
+    ) {
     }
 }
 
@@ -125,7 +146,7 @@ interface SimpleTransitionListener : Transition.TransitionListener {
 }
 
 class ItemTransitionListener(private val vh: RecyclerView.ViewHolder, private val position: Int) :
-        SimpleMotionTransitionListener {
+    SimpleMotionTransitionListener {
 
     override fun equals(other: Any?): Boolean {
         return position == (other as? ItemTransitionListener)?.position

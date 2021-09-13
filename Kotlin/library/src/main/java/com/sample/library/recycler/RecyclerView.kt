@@ -29,13 +29,23 @@ fun InflaterInvoker?.invokeItem(parent: ViewGroup): ViewBinding? {
 }
 
 class GoneViewHolder(parent: ViewGroup) :
-        RecyclerView.ViewHolder(View(parent.context).also { it.visibility = View.GONE })
+    RecyclerView.ViewHolder(View(parent.context).also { it.visibility = View.GONE })
 
 class RtlGridLayoutManager : GridLayoutManager {
 
-    constructor(context: Context?, attrs: AttributeSet? = null, defStyleAttr: Int = 0, defStyleRes: Int = 0) : super(context, attrs, defStyleAttr, defStyleRes)
+    constructor(
+        context: Context?,
+        attrs: AttributeSet? = null,
+        defStyleAttr: Int = 0,
+        defStyleRes: Int = 0
+    ) : super(context, attrs, defStyleAttr, defStyleRes)
 
-    constructor(context: Context?, spanCount: Int = 1, orientation: Int = RecyclerView.VERTICAL, reverseLayout: Boolean = false) : super(context, spanCount, orientation, reverseLayout)
+    constructor(
+        context: Context?,
+        spanCount: Int = 1,
+        orientation: Int = RecyclerView.VERTICAL,
+        reverseLayout: Boolean = false
+    ) : super(context, spanCount, orientation, reverseLayout)
 
     override fun isLayoutRTL(): Boolean {
         return true
@@ -71,7 +81,12 @@ class GridDecoration : RecyclerView.ItemDecoration {
         this.includeEdge = includeEdge
     }
 
-    override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+    override fun getItemOffsets(
+        outRect: Rect,
+        view: View,
+        parent: RecyclerView,
+        state: RecyclerView.State
+    ) {
 
         val position = parent.getChildAdapterPosition(view)
         val column = position % spanCount
@@ -92,7 +107,12 @@ class GridDecoration : RecyclerView.ItemDecoration {
 
     companion object {
 
-        fun drawByRes(recycler: RecyclerView, col: Int, @DimenRes dimenRes: Int, includeEdge: Boolean = false) {
+        fun drawByRes(
+            recycler: RecyclerView,
+            col: Int,
+            @DimenRes dimenRes: Int,
+            includeEdge: Boolean = false
+        ) {
             val dp = recycler.resources.getDimensionPixelSize(dimenRes)
             draw(recycler, col, dp, includeEdge)
         }
@@ -104,9 +124,9 @@ class GridDecoration : RecyclerView.ItemDecoration {
 }
 
 class ItemDecoration(
-        private val margin: Int = 0,
-        @Orientation val orientation: Int = VERTICAL,
-        private val column: Int = 1,
+    private val margin: Int = 0,
+    @Orientation val orientation: Int = VERTICAL,
+    private val column: Int = 1,
 ) : RecyclerView.ItemDecoration() {
 
     companion object {
@@ -120,7 +140,12 @@ class ItemDecoration(
 
     private var hasLeftSpacing = false
 
-    override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+    override fun getItemOffsets(
+        outRect: Rect,
+        view: View,
+        parent: RecyclerView,
+        state: RecyclerView.State
+    ) {
 
         val context = parent.context
         if (orientation == GRID) {
@@ -155,7 +180,12 @@ class ItemDecoration(
             val params = child.layoutParams as RecyclerView.LayoutParams
             val top = child.bottom + params.bottomMargin
             val bottom = top + divider.intrinsicHeight
-            divider.setBounds(left + dpToPixel(context, margin), top, right - dpToPixel(context, margin), bottom)
+            divider.setBounds(
+                left + dpToPixel(context, margin),
+                top,
+                right - dpToPixel(context, margin),
+                bottom
+            )
             divider.draw(canvas)
         }
     }
@@ -172,7 +202,12 @@ class ItemDecoration(
             val params = child.layoutParams as RecyclerView.LayoutParams
             val left = child.right + params.rightMargin
             val right = left + divider.intrinsicHeight
-            divider.setBounds(left, top + dpToPixel(context, margin), right, bottom - dpToPixel(context, margin))
+            divider.setBounds(
+                left,
+                top + dpToPixel(context, margin),
+                right,
+                bottom - dpToPixel(context, margin)
+            )
             divider.draw(canvas)
         }
     }
@@ -217,7 +252,11 @@ class ItemDecoration(
     private fun dpToPixel(context: Context, dp: Int): Int {
 
         val resources = context.resources
-        val dimen = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp.toFloat(), resources?.displayMetrics)
+        val dimen = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            dp.toFloat(),
+            resources?.displayMetrics
+        )
         return Math.round(dimen) + 0
     }
 
@@ -284,7 +323,7 @@ fun RecyclerView.addMostScrollListener(listener: MostScrollListener?) {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 if (layoutManager is LinearLayoutManager) {
                     val pastVisibleItems: Int = (layoutManager as LinearLayoutManager)
-                            .findFirstCompletelyVisibleItemPosition()
+                        .findFirstCompletelyVisibleItemPosition()
                     if (pastVisibleItems == 0)
                         listener.onMostTopScrolled()
                 }
@@ -356,7 +395,10 @@ fun RecyclerView.initLayoutManager(block: (LinearLayoutManager.() -> Unit) = {})
     return lm
 }
 
-fun RecyclerView.initLayoutManager(spanCount: Int, block: (GridLayoutManager.() -> Unit) = {}): GridLayoutManager {
+fun RecyclerView.initLayoutManager(
+    spanCount: Int,
+    block: (GridLayoutManager.() -> Unit) = {}
+): GridLayoutManager {
     val lm = GridLayoutManager(context, spanCount)
     lm.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
         override fun getSpanSize(position: Int): Int {
@@ -427,7 +469,8 @@ fun View?.addViewClickListener(listener: ((View?) -> Unit)? = null) {
 }
 
 fun RecyclerView.scrollToCenter(position: Int) {
-    val smoothScroller: RecyclerView.SmoothScroller = CenterLayoutManager.CenterSmoothScroller(context)
+    val smoothScroller: RecyclerView.SmoothScroller =
+        CenterLayoutManager.CenterSmoothScroller(context)
     smoothScroller.targetPosition = position
     this.layoutManager?.startSmoothScroll(smoothScroller)
 }
@@ -436,17 +479,36 @@ class CenterLayoutManager : LinearLayoutManager {
 
     constructor(context: Context) : super(context)
 
-    constructor(context: Context, orientation: Int, reverseLayout: Boolean) : super(context, orientation, reverseLayout)
+    constructor(context: Context, orientation: Int, reverseLayout: Boolean) : super(
+        context,
+        orientation,
+        reverseLayout
+    )
 
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int, defStyleRes: Int) : super(context, attrs, defStyleAttr, defStyleRes)
+    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int, defStyleRes: Int) : super(
+        context,
+        attrs,
+        defStyleAttr,
+        defStyleRes
+    )
 
-    override fun smoothScrollToPosition(recyclerView: RecyclerView, state: RecyclerView.State, position: Int) {
+    override fun smoothScrollToPosition(
+        recyclerView: RecyclerView,
+        state: RecyclerView.State,
+        position: Int
+    ) {
         val centerSmoothScroller = CenterSmoothScroller(recyclerView.context)
         centerSmoothScroller.targetPosition = position
         startSmoothScroll(centerSmoothScroller)
     }
 
     class CenterSmoothScroller(context: Context) : LinearSmoothScroller(context) {
-        override fun calculateDtToFit(viewStart: Int, viewEnd: Int, boxStart: Int, boxEnd: Int, snapPreference: Int): Int = (boxStart + (boxEnd - boxStart) / 2) - (viewStart + (viewEnd - viewStart) / 2)
+        override fun calculateDtToFit(
+            viewStart: Int,
+            viewEnd: Int,
+            boxStart: Int,
+            boxEnd: Int,
+            snapPreference: Int
+        ): Int = (boxStart + (boxEnd - boxStart) / 2) - (viewStart + (viewEnd - viewStart) / 2)
     }
 }
