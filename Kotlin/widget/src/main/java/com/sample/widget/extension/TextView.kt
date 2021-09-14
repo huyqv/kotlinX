@@ -199,12 +199,11 @@ fun EditText.enableFocus() {
 /**
  *
  */
-val TextView?.trimText: String
+val TextView.trimText: String
     get() {
-        this ?: return ""
         val s = this.text?.toString().trimText
         text = s
-        if (this is EditText) {
+        if (this is EditText && this.hasFocus()) {
             setSelection(s.length)
         }
         return s
@@ -281,26 +280,7 @@ fun TextView.bold() {
 }
 
 fun TextView.regular() {
-    setTypeface(this.typeface, Typeface.NORMAL)
-}
-
-fun TextView.randomCapcha(level: Int = 0) {
-
-    // Define max cap length
-    val maxLength = 9
-    // Define random value scope
-    val scope = "qwertyuiopasdfghjklmnbvcxzQWERTYUIOPLKJHGFDSAZXCVBNM0123456789"
-
-    val bonusCapCharacter = level * 2
-    var capLength = 5 + bonusCapCharacter
-    if (capLength > maxLength)
-        capLength = maxLength
-
-    val capText = CharArray(capLength)
-    for (i in capText.indices)
-        capText[i] = scope[Random().nextInt(scope.length)]
-
-    this.text = capText.toString()
+    typeface = Typeface.create(this.typeface, Typeface.NORMAL)
 }
 
 /**

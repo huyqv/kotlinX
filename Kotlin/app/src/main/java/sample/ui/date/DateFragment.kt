@@ -2,6 +2,7 @@ package sample.ui.date
 
 import android.view.LayoutInflater
 import android.view.View
+import androidx.viewbinding.ViewBinding
 import com.kotlin.app.databinding.DateBinding
 import com.sample.library.extension.timeFormat
 import sample.ui.main.MainDialogFragment
@@ -16,7 +17,7 @@ class DateFragment : MainDialogFragment<DateBinding>() {
             dialogVM.dateLiveData.value = value
         }
 
-    override fun inflating(): (LayoutInflater) -> DateBinding {
+    override fun inflating(): (LayoutInflater) -> ViewBinding {
         return DateBinding::inflate
     }
 

@@ -10,7 +10,7 @@ import com.kotlin.app.R
 import com.kotlin.app.currentActivity
 import com.sample.widget.extension.ViewClickListener
 
-abstract class BaseAlertDialog<B : ViewBinding> {
+abstract class BaseAlertDialog<T : ViewBinding> {
 
     companion object {
         val dialogList: MutableList<DialogInterface> = mutableListOf()
@@ -18,9 +18,9 @@ abstract class BaseAlertDialog<B : ViewBinding> {
 
     protected var dialog: Dialog? = null
 
-    protected lateinit var bind: B
+    protected lateinit var bind: T
 
-    abstract fun inflating(): (LayoutInflater, ViewGroup?, Boolean) -> B
+    abstract fun inflating(): (LayoutInflater, ViewGroup?, Boolean) -> ViewBinding
 
     protected open fun onViewCreate() = Unit
 
@@ -41,7 +41,7 @@ abstract class BaseAlertDialog<B : ViewBinding> {
 
     constructor() {
         val activity = currentActivity ?: return
-        bind = inflating().invoke(LayoutInflater.from(activity), null, false)
+        bind = inflating().invoke(LayoutInflater.from(activity), null, false) as T
         bind.root.also {
             it.isFocusable = false
             it.isFocusableInTouchMode = true

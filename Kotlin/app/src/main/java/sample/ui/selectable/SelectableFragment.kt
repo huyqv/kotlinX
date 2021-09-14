@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewbinding.ViewBinding
 import com.kotlin.app.R
 import com.kotlin.app.databinding.SelectableBinding
 import com.sample.library.recycler.initLayoutManager
@@ -12,7 +13,7 @@ import sample.ui.main.MainDialogFragment
 
 class SelectableFragment : MainDialogFragment<SelectableBinding>() {
 
-    override fun inflating(): (LayoutInflater) -> SelectableBinding {
+    override fun inflating(): (LayoutInflater) -> ViewBinding {
         return SelectableBinding::inflate
     }
 

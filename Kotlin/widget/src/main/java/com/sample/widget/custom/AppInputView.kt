@@ -174,17 +174,16 @@ class AppInputView : AppCustomView<AppInputBinding>,
     }
 
     /**
-     * [InputView] properties
+     * [AppInputView] properties
      */
     private val editText: EditText get() = bind.inputEditText
 
+    private val parentBackgroundColor : Int get() = (parent as? View)?.backgroundColor?: Color.WHITE
+
     var text: String?
         get() {
-            val s = editText.trimText
             isSilent = true
-            if (hasFocus()) {
-                editText.setSelection(s.length)
-            }
+            val s = editText.text?.toString()?.trimText
             isSilent = false
             return s
         }
@@ -198,7 +197,10 @@ class AppInputView : AppCustomView<AppInputBinding>,
 
     val trimText: String
         get() {
-            return editText.trimText
+            isSilent = true
+            val s = editText.trimText
+            isSilent = false
+            return s
         }
 
     var title: String?
@@ -211,13 +213,7 @@ class AppInputView : AppCustomView<AppInputBinding>,
         get() = bind.inputTextViewError.text?.toString()
         set(value) {
             bind.inputTextViewError.text = value
-            if (value.isNullOrEmpty()) {
-                updateUiOnFocusChanged()
-            } else {
-                setTitleColor(colorError)
-                setBorderColor(colorError)
-                setIconColor(colorError)
-            }
+            updateUiOnFocusChanged()
         }
 
     @DrawableRes
@@ -234,7 +230,7 @@ class AppInputView : AppCustomView<AppInputBinding>,
 
     val hasError: Boolean get() = !error.isNullOrEmpty()
 
-    val textLength: Int get() = trimText.length
+    val textLength: Int get() = text?.length ?: 0
 
     /**
      * [OnFocusChangeListener] implements
@@ -257,7 +253,7 @@ class AppInputView : AppCustomView<AppInputBinding>,
     }
 
     override fun hasFocus(): Boolean {
-        return false
+        return editText.hasFocus()
     }
 
     override fun clearFocus() {
@@ -313,7 +309,7 @@ class AppInputView : AppCustomView<AppInputBinding>,
     override fun onTransitionCompleted(layout: MotionLayout, currentId: Int) {
         when (currentId) {
             R.id.focused -> {
-                setTitleBackground(Color.WHITE)
+                setTitleBackground(parentBackgroundColor)
             }
         }
     }
@@ -331,8 +327,6 @@ class AppInputView : AppCustomView<AppInputBinding>,
             }
             hasError && !text.isNullOrEmpty() -> {
                 error = null
-                setTitleColor(colorFocused)
-                updateUiOnFocusChanged()
             }
         }
     }
@@ -340,7 +334,7 @@ class AppInputView : AppCustomView<AppInputBinding>,
     /**
      * ui state on focus change, error change, text change
      */
-    fun updateUiOnFocusChanged(hasFocus: Boolean = editText.hasFocus()) {
+    private fun updateUiOnFocusChanged(hasFocus: Boolean = editText.hasFocus()) {
         when {
             hasFocus -> {
                 if (editText.isFocusable) {
@@ -350,29 +344,41 @@ class AppInputView : AppCustomView<AppInputBinding>,
                 setInputBackground(0)
                 setMotionState(R.id.focused)
                 if (error.isNullOrEmpty()) {
+                    setTitleColor(colorFocused)
                     setBorderColor(colorFocused)
                     setIconColor(colorFocused)
                     setInputBackground(0)
+                } else {
+                    setTitleColor(colorError)
+                    setBorderColor(colorError)
+                    setIconColor(colorError)
                 }
             }
             !hasFocus && text.isNullOrEmpty() -> {
                 setTitleColor(colorHint)
                 setTitleBackground(Color.TRANSPARENT)
+                setInputBackground(R.drawable.drw_input_bg)
                 setMotionState(R.id.unfocused)
                 if (error.isNullOrEmpty()) {
                     setBorderColor(colorUnFocus)
                     setIconColor(colorUnFocus)
-                    setInputBackground(R.drawable.drw_input_bg)
+                } else {
+                    setBorderColor(colorError)
+                    setIconColor(colorError)
                 }
             }
             !hasFocus && !text.isNullOrEmpty() -> {
-                setTitleBackground(Color.WHITE)
+                setTitleBackground(parentBackgroundColor)
+                setInputBackground(0)
                 setMotionState(R.id.focused)
                 if (error.isNullOrEmpty()) {
                     setTitleColor(colorFocused)
                     setBorderColor(colorUnFocus)
                     setIconColor(colorUnFocus)
-                    setInputBackground(0)
+                } else {
+                    setTitleColor(colorError)
+                    setBorderColor(colorError)
+                    setIconColor(colorError)
                 }
             }
         }
@@ -442,10 +448,6 @@ class AppInputView : AppCustomView<AppInputBinding>,
         bind.inputViewBackground.setBackgroundResource(res)
     }
 
-    private fun setTitleBackground(drawable: Drawable?) {
-        bind.inputTextViewTitle.background = drawable
-    }
-
     private fun setTitleBackground(@ColorInt color: Int) {
         bind.inputTextViewTitle.setBackgroundColor(color)
     }
@@ -466,4 +468,5 @@ class AppInputView : AppCustomView<AppInputBinding>,
             dest?.writeString(dataInput)
         }
     }
+
 }

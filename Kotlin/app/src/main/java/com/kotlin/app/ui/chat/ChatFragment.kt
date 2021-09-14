@@ -3,13 +3,14 @@ package com.kotlin.app.ui.chat
 
 import android.view.LayoutInflater
 import android.view.View
+import androidx.viewbinding.ViewBinding
 import com.kotlin.app.databinding.ChatBinding
 import com.kotlin.app.ui.base.BaseFragment
 
 
 class ChatFragment : BaseFragment<ChatBinding>() {
 
-    override fun inflating(): (LayoutInflater) -> ChatBinding {
+    override fun inflating(): (LayoutInflater) -> ViewBinding {
         return ChatBinding::inflate
     }
 

@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import androidx.annotation.ColorInt
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
+import androidx.viewbinding.ViewBinding
 import com.kotlin.app.R
 import com.kotlin.app.databinding.MainBinding
 import com.kotlin.app.ui.base.BaseActivity
@@ -19,7 +20,7 @@ class MainActivity : BaseActivity<MainBinding>(), MainView {
         return findNavController(R.id.fragment)
     }
 
-    override fun inflating(): (LayoutInflater) -> MainBinding {
+    override fun inflating(): (LayoutInflater) -> ViewBinding {
         return MainBinding::inflate
     }
 

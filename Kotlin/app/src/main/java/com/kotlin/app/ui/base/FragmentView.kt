@@ -32,8 +32,9 @@ interface FragmentView : BaseView {
         baseActivity?.remove(cls)
     }
 
-    fun <T : ViewBinding> viewBinding(block: (LayoutInflater) -> T): Lazy<T> {
-        return lazy { block.invoke(fragment.layoutInflater) }
+    fun <T : ViewBinding> viewBinding(block: (LayoutInflater) -> ViewBinding): Lazy<T> {
+        @Suppress("UNCHECKED_CAST")
+        return lazy { block.invoke(fragment.layoutInflater) as T }
     }
 
     fun post(runnable: Runnable) {

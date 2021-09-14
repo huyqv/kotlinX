@@ -13,12 +13,12 @@ import androidx.viewbinding.ViewBinding
 import com.kotlin.app.R
 import com.sample.library.extension.hideKeyboard
 
-abstract class BaseDialogFragment<B : ViewBinding> : DialogFragment(),
+abstract class BaseDialogFragment<T : ViewBinding> : DialogFragment(),
     FragmentView {
 
-    protected val bind: B by viewBinding(inflating())
+    protected val bind: T by viewBinding(inflating())
 
-    abstract fun inflating(): (LayoutInflater) -> B
+    abstract fun inflating(): (LayoutInflater) -> ViewBinding
 
     /**
      * [DialogFragment] implements

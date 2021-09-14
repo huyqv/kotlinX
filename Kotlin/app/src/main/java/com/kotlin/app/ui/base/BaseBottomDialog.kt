@@ -17,12 +17,12 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.kotlin.app.R
 import com.sample.library.extension.hideKeyboard
 
-abstract class BaseBottomDialog<B : ViewBinding> : BottomSheetDialogFragment(),
+abstract class BaseBottomDialog<T : ViewBinding> : BottomSheetDialogFragment(),
     FragmentView {
 
-    protected val bind: B by viewBinding(inflating())
+    protected val bind: T by viewBinding(inflating())
 
-    abstract fun inflating(): (LayoutInflater) -> B
+    abstract fun inflating(): (LayoutInflater) -> ViewBinding
 
     /**
      * [BottomSheetDialogFragment] implements

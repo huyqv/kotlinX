@@ -1,12 +1,10 @@
 package com.sample.widget.extension
 
-import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.annotation.*
 import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.DrawableCompat
 import com.sample.widget.app
 
 fun anim(@AnimRes res: Int): Animation {
@@ -19,13 +17,6 @@ fun drawable(@DrawableRes res: Int): Drawable {
 
 fun createDrawable(@DrawableRes res: Int): Drawable? {
     return drawable(res).constantState?.newDrawable()?.mutate()
-}
-
-fun Drawable?.tint(@ColorInt color: Int): Drawable? {
-    this ?: return null
-    DrawableCompat.setTint(this, color)
-    DrawableCompat.setTintMode(this, PorterDuff.Mode.SRC_IN)
-    return this
 }
 
 fun pixels(@DimenRes res: Int): Float {

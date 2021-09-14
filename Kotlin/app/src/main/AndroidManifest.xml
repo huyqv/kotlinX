@@ -40,7 +40,7 @@
             android:fitsSystemWindows="true"
             android:screenOrientation="portrait"
             android:theme="@style/App.Theme.Launch"
-            android:windowSoftInputMode="stateHidden|adjustResize">
+            android:windowSoftInputMode="stateAlwaysHidden|adjustNothing">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

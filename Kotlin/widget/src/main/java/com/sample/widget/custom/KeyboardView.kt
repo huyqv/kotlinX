@@ -92,7 +92,8 @@ class KeyboardView : AppCustomView<KeyboardBinding> {
 
     override fun onInitialize(context: Context, types: TypedArray) {
         if (context is AppCompatActivity) {
-            imageView.setBackgroundColor(Color.BLACK)
+            context.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
+            imageView.setBackgroundColor(Color.TRANSPARENT)
             imageView.setImageResource(0)
         } else {
             imageView.scaleType = ImageView.ScaleType.FIT_END

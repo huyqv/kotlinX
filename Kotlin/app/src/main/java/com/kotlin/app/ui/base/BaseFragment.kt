@@ -29,13 +29,13 @@ import java.io.File
 import java.io.FileInputStream
 import java.io.IOException
 
-abstract class BaseFragment<B : ViewBinding> : Fragment(), FragmentView {
+abstract class BaseFragment<T : ViewBinding> : Fragment(), FragmentView {
 
-    protected val bind: B by viewBinding(inflating())
+    protected val bind: T by viewBinding(inflating())
 
     private var launcher: ActivityResultLauncher<Intent>? = null
 
-    abstract fun inflating(): (LayoutInflater) -> B
+    abstract fun inflating(): (LayoutInflater) -> ViewBinding
 
     /**
      * [Fragment] implements

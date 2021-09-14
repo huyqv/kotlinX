@@ -3,6 +3,7 @@ package sample.ui.alert
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
+import androidx.viewbinding.ViewBinding
 import com.kotlin.app.R
 import com.kotlin.app.databinding.AlertBinding
 import com.sample.widget.extension.setHyperText
@@ -15,7 +16,7 @@ class AlertFragment : MainDialogFragment<AlertBinding>() {
 
     private var clickedView: View? = null
 
-    override fun inflating(): (LayoutInflater) -> AlertBinding {
+    override fun inflating(): (LayoutInflater) -> ViewBinding {
         return AlertBinding::inflate
     }
 

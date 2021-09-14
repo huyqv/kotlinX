@@ -201,11 +201,28 @@ val String?.trimText: String
         var s = this ?: return ""
         if (s.isNullOrEmpty()) return ""
         s = s.replace("\n", " ")
-            .replace("\\s+".toRegex(), " ")
-            .trim()
-            .trimIndent()
+                .replace("\\s+".toRegex(), " ")
+                .trim()
+                .trimIndent()
         return s
     }
+
+fun randomCAP(level: Int = 0): String {
+    // Define max cap length
+    val maxLength = 9
+    // Define random value scope
+    val scope = "qwertyuiopasdfghjklmnbvcxzQWERTYUIOPLKJHGFDSAZXCVBNM0123456789"
+    val bonusCapCharacter = level * 2
+    var capLength = 5 + bonusCapCharacter
+    if (capLength > maxLength) {
+        capLength = maxLength
+    }
+    val capText = CharArray(capLength)
+    for (i in capText.indices) {
+        capText[i] = scope[Random().nextInt(scope.length)]
+    }
+    return capText.toString()
+}
 
 fun <T> String?.search(collection: Collection<T>?, block: (T) -> String): Collection<T>? {
     if (collection.isNullOrEmpty()) return null

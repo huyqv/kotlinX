@@ -9,38 +9,31 @@ import androidx.transition.Transition
 import androidx.transition.TransitionManager
 
 fun ConstraintLayout.editConstraint(block: ConstraintSet.() -> Unit) {
-    post {
-        ConstraintSet().also {
-            it.clone(this)
-            it.block()
-            it.applyTo(this)
-        }
+    ConstraintSet().also {
+        it.clone(this)
+        it.block()
+        it.applyTo(this)
     }
 }
 
-fun ConstraintLayout.beginTransition(
-    transition: Transition,
-    block: ConstraintSet.() -> Unit
-): Transition {
+fun ConstraintLayout.beginTransition(transition: Transition, block: ConstraintSet.() -> Unit): Transition {
+    val set = ConstraintSet().also {
+        it.clone(this)
+        it.block()
+    }
     TransitionManager.beginDelayedTransition(this, transition)
-    this.editConstraint(block)
+    set.applyTo(this)
     return transition
 }
 
-fun ConstraintLayout.beginTransition(
-    transition: Transition,
-    block: ConstraintSet.() -> Unit,
-    onEnd: () -> Unit = {}
-): Transition {
+fun ConstraintLayout.beginTransition(transition: Transition, block: ConstraintSet.() -> Unit, onEnd: () -> Unit): Transition {
     transition.addListener(object : SimpleTransitionListener {
         override fun onTransitionEnd(transition: Transition) {
             transition.removeListener(this)
             onEnd()
         }
     })
-    TransitionManager.beginDelayedTransition(this, transition)
-    this.editConstraint(block)
-    return transition
+    return beginTransition(transition, block)
 }
 
 fun ConstraintLayout.beginTransition(duration: Long, block: ConstraintSet.() -> Unit) {
@@ -50,11 +43,7 @@ fun ConstraintLayout.beginTransition(duration: Long, block: ConstraintSet.() -> 
     beginTransition(transition, block)
 }
 
-fun ConstraintLayout.beginTransition(
-    duration: Long,
-    block: ConstraintSet.() -> Unit,
-    onEnd: () -> Unit = {}
-) {
+fun ConstraintLayout.beginTransition(duration: Long, block: ConstraintSet.() -> Unit, onEnd: () -> Unit) {
     val transition = ChangeBounds().also {
         it.duration = duration
     }
@@ -69,6 +58,7 @@ fun MotionLayout.transitionToState(transitionId: Int, onCompleted: () -> Unit) {
         }
     })
     transitionToState(transitionId)
+
 }
 
 class ConstraintBuilder(private val constraintLayout: ConstraintLayout) {
@@ -93,8 +83,8 @@ class ConstraintBuilder(private val constraintLayout: ConstraintLayout) {
                     transitionList[i].removeListener(this)
                     if (i < transitionList.lastIndex) {
                         constraintLayout.beginTransition(
-                            transitionList[i + 1],
-                            constraintSetList[i + 1]
+                                transitionList[i + 1],
+                                constraintSetList[i + 1]
                         )
                     }
                 }
@@ -102,15 +92,26 @@ class ConstraintBuilder(private val constraintLayout: ConstraintLayout) {
         }
         constraintLayout.beginTransition(transitionList[0], constraintSetList[0])
     }
+
+}
+
+class ItemTransitionListener(private val vh: RecyclerView.ViewHolder, private val position: Int) :
+        SimpleMotionTransitionListener {
+    override fun equals(other: Any?): Boolean {
+        return position === (other as? ItemTransitionListener)?.position
+    }
+
+    override fun onTransitionStarted(layout: MotionLayout, startId: Int, endId: Int) {
+        vh.itemView.parent.requestDisallowInterceptTouchEvent(true)
+    }
+
+    override fun onTransitionCompleted(layout: MotionLayout, currentId: Int) {
+        vh.itemView.parent.requestDisallowInterceptTouchEvent(false)
+    }
 }
 
 interface SimpleMotionTransitionListener : MotionLayout.TransitionListener {
-    override fun onTransitionChange(
-        layout: MotionLayout,
-        startId: Int,
-        endId: Int,
-        progress: Float
-    ) {
+    override fun onTransitionChange(layout: MotionLayout, startId: Int, endId: Int, progress: Float) {
     }
 
     override fun onTransitionStarted(layout: MotionLayout, startId: Int, endId: Int) {
@@ -119,12 +120,7 @@ interface SimpleMotionTransitionListener : MotionLayout.TransitionListener {
     override fun onTransitionCompleted(layout: MotionLayout, currentId: Int) {
     }
 
-    override fun onTransitionTrigger(
-        layout: MotionLayout,
-        triggerId: Int,
-        positive: Boolean,
-        progress: Float
-    ) {
+    override fun onTransitionTrigger(layout: MotionLayout, triggerId: Int, positive: Boolean, progress: Float) {
     }
 }
 
@@ -142,22 +138,6 @@ interface SimpleTransitionListener : Transition.TransitionListener {
     }
 
     override fun onTransitionResume(transition: Transition) {
-    }
-}
-
-class ItemTransitionListener(private val vh: RecyclerView.ViewHolder, private val position: Int) :
-    SimpleMotionTransitionListener {
-
-    override fun equals(other: Any?): Boolean {
-        return position == (other as? ItemTransitionListener)?.position
-    }
-
-    override fun onTransitionStarted(layout: MotionLayout, startId: Int, endId: Int) {
-        vh.itemView.parent.requestDisallowInterceptTouchEvent(true)
-    }
-
-    override fun onTransitionCompleted(layout: MotionLayout, currentId: Int) {
-        vh.itemView.parent.requestDisallowInterceptTouchEvent(false)
     }
 
 }

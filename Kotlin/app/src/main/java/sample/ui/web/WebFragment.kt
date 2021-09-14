@@ -6,12 +6,13 @@ import android.view.View
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.viewbinding.ViewBinding
 import com.kotlin.app.databinding.WebBinding
 import sample.ui.main.MainDialogFragment
 
 class WebFragment : MainDialogFragment<WebBinding>() {
 
-    override fun inflating(): (LayoutInflater) -> WebBinding {
+    override fun inflating(): (LayoutInflater) -> ViewBinding {
         return WebBinding::inflate
     }
 

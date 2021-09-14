@@ -13,12 +13,12 @@ import com.sample.library.extension.addFragment
 import com.sample.library.extension.removeFragment
 import com.sample.library.extension.replaceFragment
 
-abstract class BaseActivity<B : ViewBinding> : AppCompatActivity(),
-    BaseView {
+abstract class BaseActivity<T : ViewBinding> : AppCompatActivity(),
+        BaseView {
 
-    protected val bind: B by viewBinding(inflating())
+    protected val bind: T by viewBinding(inflating())
 
-    abstract fun inflating(): (LayoutInflater) -> B
+    abstract fun inflating(): (LayoutInflater) -> ViewBinding
 
     /**
      * [AppCompatActivity] implements
@@ -82,8 +82,9 @@ abstract class BaseActivity<B : ViewBinding> : AppCompatActivity(),
         throw NullPointerException("fragmentContainerId no has implement")
     }
 
-    protected fun <T : ViewBinding> viewBinding(block: (LayoutInflater) -> T): Lazy<T> {
-        return lazy { block.invoke(layoutInflater) }
+    protected fun <T : ViewBinding> viewBinding(block: (LayoutInflater) -> ViewBinding): Lazy<T> {
+        @Suppress("UNCHECKED_CAST")
+        return lazy { block.invoke(layoutInflater) as T }
     }
 
 }

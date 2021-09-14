@@ -44,6 +44,7 @@
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/inputTextViewTitle"
         style="@style/TextView"
+        android:textColor="@android:color/darker_gray"
         android:includeFontPadding="false"
         android:clickable="false"
         android:paddingStart="4dp"

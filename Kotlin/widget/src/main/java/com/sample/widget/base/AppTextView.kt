@@ -3,6 +3,7 @@ package com.sample.widget.base
 import android.content.Context
 import android.graphics.LinearGradient
 import android.graphics.Shader
+import android.text.TextWatcher
 import android.util.AttributeSet
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
@@ -61,4 +62,5 @@ class AppTextView : AppCompatTextView {
     private fun clearColor() {
         paint.shader = null
     }
+
 }
