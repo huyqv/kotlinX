@@ -74,7 +74,7 @@ class KeyboardView : AppCustomView<KeyboardBinding> {
             return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                 val windowMetrics: WindowMetrics = this.windowManager.currentWindowMetrics
                 val insets: Insets = windowMetrics.windowInsets
-                        .getInsetsIgnoringVisibility(WindowInsets.Type.systemBars())
+                    .getInsetsIgnoringVisibility(WindowInsets.Type.systemBars())
                 windowMetrics.bounds.height() - insets.top - insets.bottom
             } else {
                 val displayMetrics = DisplayMetrics()
@@ -113,7 +113,8 @@ class KeyboardView : AppCustomView<KeyboardBinding> {
         val inflater = context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         popupWindow = PopupWindow().also {
             it.contentView = inflater.inflate(R.layout.keyboard_popup, null, false)
-            it.softInputMode = WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE or WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE
+            it.softInputMode =
+                WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE or WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE
             it.inputMethodMode = PopupWindow.INPUT_METHOD_NEEDED
             it.width = 0
             it.height = WindowManager.LayoutParams.MATCH_PARENT
@@ -207,7 +208,7 @@ class KeyboardView : AppCustomView<KeyboardBinding> {
 
     fun requestFocus(v: View?) {
         actionFocus = {
-            v?.postDelayed({ v?.requestFocus() }, 320)
+            v?.postDelayed({ v.requestFocus() }, 320)
         }
     }
 

@@ -5,7 +5,6 @@ import android.content.res.TypedArray
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import com.sample.widget.custom.AppCustomView
 import com.sample.widget.databinding.ProgressBinding
 
 class ProgressBar : AppCustomView<ProgressBinding> {

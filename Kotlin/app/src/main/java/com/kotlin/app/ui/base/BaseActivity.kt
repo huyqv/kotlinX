@@ -14,7 +14,7 @@ import com.sample.library.extension.removeFragment
 import com.sample.library.extension.replaceFragment
 
 abstract class BaseActivity<T : ViewBinding> : AppCompatActivity(),
-        BaseView {
+    BaseView {
 
     protected val bind: T by viewBinding(inflating())
 

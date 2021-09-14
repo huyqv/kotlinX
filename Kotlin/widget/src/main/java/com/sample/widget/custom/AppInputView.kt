@@ -5,7 +5,6 @@ import android.content.res.TypedArray
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
-import android.graphics.drawable.Drawable
 import android.os.*
 import android.text.Editable
 import android.text.InputFilter
@@ -27,9 +26,9 @@ import com.sample.widget.databinding.AppInputBinding
 import com.sample.widget.extension.*
 
 class AppInputView : AppCustomView<AppInputBinding>,
-        SimpleMotionTransitionListener,
-        OnFocusChangeListener,
-        SimpleTextWatcher {
+    SimpleMotionTransitionListener,
+    OnFocusChangeListener,
+    SimpleTextWatcher {
 
     private val colorFocused get() = R.color.colorPrimary
 
@@ -178,7 +177,7 @@ class AppInputView : AppCustomView<AppInputBinding>,
      */
     private val editText: EditText get() = bind.inputEditText
 
-    private val parentBackgroundColor : Int get() = (parent as? View)?.backgroundColor?: Color.WHITE
+    private val parentBackgroundColor: Int get() = (parent as? View)?.backgroundColor ?: Color.WHITE
 
     var text: String?
         get() {
@@ -388,8 +387,8 @@ class AppInputView : AppCustomView<AppInputBinding>,
         editText.post {
             val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
             imm?.toggleSoftInput(
-                    InputMethodManager.SHOW_FORCED,
-                    InputMethodManager.HIDE_IMPLICIT_ONLY
+                InputMethodManager.SHOW_FORCED,
+                InputMethodManager.HIDE_IMPLICIT_ONLY
             )
         }
     }

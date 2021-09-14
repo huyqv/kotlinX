@@ -64,9 +64,9 @@ class ProgressImageView : AppCompatImageView {
 
     private fun loadImage() {
         GlideApp.with(context)
-                .load(imageRes)
-                .override(width, height)
-                .into(this)
+            .load(imageRes)
+            .override(width, height)
+            .into(this)
     }
 
     fun show() {

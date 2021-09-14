@@ -22,7 +22,11 @@ class AppRadioGroup : ConstraintLayout {
         }
     }
 
-    override fun addViewInLayout(child: View?, index: Int, params: ViewGroup.LayoutParams?): Boolean {
+    override fun addViewInLayout(
+        child: View?,
+        index: Int,
+        params: ViewGroup.LayoutParams?
+    ): Boolean {
         (child as? RadioButton)?.also { radioButton ->
             radioButton.setOnCheckedChangeListener(checkedChangeListener)
         }

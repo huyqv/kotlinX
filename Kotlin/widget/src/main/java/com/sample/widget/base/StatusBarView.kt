@@ -5,7 +5,7 @@ import android.util.AttributeSet
 
 class StatusBarView : AppExpandableLayout {
 
-    companion object{
+    companion object {
         private var savedStatusBarHeight: Int = 0
     }
 
@@ -17,11 +17,11 @@ class StatusBarView : AppExpandableLayout {
     }
 
     private fun updateStatusBar() {
-        if(savedStatusBarHeight == 0) {
+        if (savedStatusBarHeight == 0) {
             savedStatusBarHeight = statusBarHeight
         }
         val lp = this.layoutParams
-        if(lp.height != savedStatusBarHeight) {
+        if (lp.height != savedStatusBarHeight) {
             lp.height = savedStatusBarHeight
             this.layoutParams = lp
         }
@@ -31,7 +31,7 @@ class StatusBarView : AppExpandableLayout {
         get() {
             val resources = context.resources
             val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
-            if(resourceId > 0) return resources.getDimensionPixelSize(resourceId)
+            if (resourceId > 0) return resources.getDimensionPixelSize(resourceId)
             return 0
         }
 

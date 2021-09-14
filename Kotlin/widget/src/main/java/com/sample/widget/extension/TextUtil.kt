@@ -201,9 +201,9 @@ val String?.trimText: String
         var s = this ?: return ""
         if (s.isNullOrEmpty()) return ""
         s = s.replace("\n", " ")
-                .replace("\\s+".toRegex(), " ")
-                .trim()
-                .trimIndent()
+            .replace("\\s+".toRegex(), " ")
+            .trim()
+            .trimIndent()
         return s
     }
 
