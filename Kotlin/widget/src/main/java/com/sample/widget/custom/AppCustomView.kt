@@ -81,35 +81,34 @@ abstract class AppCustomView<B : ViewBinding> : ConstraintLayout {
     /**
      * Color
      */
-    val TypedArray.tint: Int
-        get() {
-            return getColor(R.styleable.AppCustomView_android_tint, Color.BLACK)
-        }
+    val TypedArray.textColor: Int get() = textColor(Color.BLACK)
+
+    fun TypedArray.textColor(@ColorInt default: Int): Int {
+        return getColor(R.styleable.AppCustomView_android_textColor, default)
+    }
+
+    val TypedArray.textColorHint: Int get() = textColorHint(Color.DKGRAY)
+
+    fun TypedArray.textColorHint(@ColorInt default: Int): Int {
+        return getColor(R.styleable.AppCustomView_android_textColorHint, default)
+    }
+
+    val TypedArray.tint: Int get() = tint(color(R.color.colorPrimary))
+
+    fun TypedArray.tint(@ColorInt default: Int): Int {
+        return getColor(R.styleable.AppCustomView_android_tint, default)
+    }
+
+    val TypedArray.backgroundTint: Int get() = backgroundTint(Color.WHITE)
+
+    fun TypedArray.backgroundTint(@ColorInt default: Int): Int {
+        return getColor(R.styleable.AppCustomView_android_backgroundTint, default)
+    }
 
     /*val TypedArray.drawableTint: Int
-        get() {
-            return getColor(R.styleable.AppCustomView_android_drawableTint, Color.BLACK)
-        }*/
-
-    val TypedArray.backgroundTint: Int
-        get() {
-            return getColor(R.styleable.AppCustomView_android_backgroundTint, Color.WHITE)
-        }
-
-    val TypedArray.textColor: Int
-        get() {
-            return getColor(R.styleable.AppCustomView_android_textColor, Color.BLACK)
-        }
-
-    val TypedArray.textColorHint: Int
-        get() {
-            return getColor(R.styleable.AppCustomView_android_textColorHint, Color.BLACK)
-        }
-
-    val TypedArray.hintColor: Int
-        get() {
-            return getColor(R.styleable.AppCustomView_android_textColor, Color.DKGRAY)
-        }
+    get() {
+        return getColor(R.styleable.AppCustomView_android_drawableTint, Color.BLACK)
+    }*/
 
     /**
      * Drawable
@@ -117,7 +116,7 @@ abstract class AppCustomView<B : ViewBinding> : ConstraintLayout {
     val TypedArray.drawableStart: Drawable?
         get() {
             return getDrawable(R.styleable.AppCustomView_android_drawableStart)
-                ?.constantState?.newDrawable()?.mutate()
+                    ?.constantState?.newDrawable()?.mutate()
         }
 
     val TypedArray.drawableEnd: Drawable?

@@ -298,7 +298,6 @@ class AppInputView : AppCustomView<AppInputBinding>,
 
     fun clear() {
         editText.text = null
-        error = null
         updateUiOnFocusChanged()
     }
 
@@ -333,7 +332,14 @@ class AppInputView : AppCustomView<AppInputBinding>,
     /**
      * ui state on focus change, error change, text change
      */
+    private var tempHasFocus = false
+    private var tempHasText = false
+    private var tempHasError = false
+
     private fun updateUiOnFocusChanged(hasFocus: Boolean = editText.hasFocus()) {
+        tempHasFocus = hasFocus
+        tempHasText = !text.isNullOrEmpty()
+        tempHasError = !error.isNullOrEmpty()
         when {
             hasFocus -> {
                 if (editText.isFocusable) {

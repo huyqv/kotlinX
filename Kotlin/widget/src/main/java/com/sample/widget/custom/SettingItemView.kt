@@ -27,7 +27,7 @@ class SettingItemView : AppCustomView<SettingItemBinding> {
             types.paddingBottom
         )
         bind.textViewTitle.text = types.title
-        bind.textViewTitle.setTextColor(types.hintColor)
+        bind.textViewTitle.setTextColor(types.textColorHint)
 
         bind.textViewProperty.text = types.text
         bind.textViewProperty.setTextColor(types.textColor)
