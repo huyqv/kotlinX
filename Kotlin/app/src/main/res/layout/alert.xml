@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/Dialog.Card">
+    style="@style/MatchParent"
+    android:background="@color/colorWhite">
 
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        style="@style/Dialog.Layout"
-        android:paddingBottom="@dimen/contentMarginX2">
+    <com.sample.widget.base.AppConstraintLayout
+        style="@style/Dialog.BottomLayout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/textViewTitle"
@@ -17,61 +18,59 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imageViewIcon"
-            android:layout_width="@dimen/_30sdp"
-            android:layout_height="@dimen/_30sdp"
-            android:layout_marginTop="32dp"
-            android:padding="@dimen/_2sdp"
+            android:layout_width="@dimen/rowHeight"
+            android:layout_height="@dimen/rowHeight"
             android:visibility="gone"
+            android:layout_marginEnd="@dimen/contentMarginX2"
+            app:layout_constraintBottom_toBottomOf="@+id/textViewTitle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.501"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textViewTitle"
-            app:srcCompat="@drawable/ic_placeholder"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_launcher"
             tools:visibility="visible" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/textViewMessage"
             style="@style/TextView"
             android:layout_width="0dp"
-            android:layout_marginStart="@dimen/contentMarginX2"
-            android:layout_marginTop="@dimen/contentMarginX2"
-            android:layout_marginEnd="@dimen/contentMarginX2"
             android:gravity="center"
+            android:paddingTop="@dimen/contentMargin"
+            android:paddingBottom="@dimen/contentMargin"
+            android:paddingStart="@dimen/contentMarginX2"
+            android:paddingEnd="@dimen/contentMarginX2"
+            app:layout_constraintBottom_toTopOf="@+id/viewPositive"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/imageViewIcon"
-            tools:text="Hello, you can hide this message by just touch outside the dialog box" />
+            app:layout_constraintTop_toBottomOf="@+id/textViewTitle"
+            tools:text="Hello, you can hide this message by just\ntouch outside the dialog box" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/viewNeutral"
             style="@style/Dialog.Button"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/viewPositive"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textViewMessage"
-            tools:ignore="MissingConstraints"
             tools:text="Neutral" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/viewPositive"
             style="@style/Dialog.Button"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/viewNegative"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/viewNeutral"
-            app:layout_constraintTop_toBottomOf="@id/textViewMessage"
-            tools:ignore="MissingConstraints"
             tools:text="Positive" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/viewNegative"
             style="@style/Dialog.Button"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/viewPositive"
-            app:layout_constraintTop_toBottomOf="@id/textViewMessage"
-            tools:ignore="MissingConstraints"
             tools:text="Negative" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.sample.widget.base.AppConstraintLayout>
 
-</androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

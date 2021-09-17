@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.sample.widget.base.DialogLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/Dialog.Card">
+    style="@style/MatchParent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        style="@style/Dialog.Layout"
-        android:paddingBottom="@dimen/contentMarginX2">
+    <com.sample.widget.base.AppConstraintLayout
+        style="@style/Dialog.CenterLayout"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias=".0">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/textViewTitle"
@@ -18,9 +23,9 @@
             android:id="@+id/editTextSearch"
             style="@style/EditText"
             android:layout_marginHorizontal="@dimen/contentMarginX2"
-            android:layout_marginTop="@dimen/contentMarginX2"
+
             android:background="@drawable/drw_text"
-            android:drawableEnd="@drawable/ic_placeholder"
+            android:drawableEnd="@drawable/ic_search"
             android:imeActionLabel="Next"
             android:imeOptions="actionNext"
             android:paddingHorizontal="@dimen/contentMarginX2"
@@ -34,23 +39,24 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/contentMarginX2"
             android:minHeight="@dimen/_180sdp"
+            app:layout_constraintBottom_toTopOf="@+id/viewClose"
             android:orientation="vertical"
+            app:layout_constraintVertical_bias=".0"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editTextSearch"
             tools:itemCount="7"
             tools:listitem="@layout/selectable_item" />
 
-        <androidx.appcompat.widget.AppCompatButton
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/viewClose"
             style="@style/Dialog.Button"
             android:text="Close"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/recyclerView" />
+            app:layout_constraintStart_toStartOf="parent" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.sample.widget.base.AppConstraintLayout>
 
-</androidx.cardview.widget.CardView>
+</com.sample.widget.base.DialogLayout>
 

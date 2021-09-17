@@ -45,16 +45,16 @@ dependencies {
     // kotlin
     implementation deps.kotlin.stdlib
 
-    // android
+    // ui components
     implementation deps.android.corektx
     implementation deps.android.appcompat
     implementation deps.android.activity
     implementation deps.android.constraintlayout
     implementation deps.android.fragment
-    implementation deps.android.material
     implementation deps.android.viewpager
     implementation deps.android.recyclerview
     implementation deps.android.security
+    implementation deps.google.material
 
     // paging recycler view adapter
     implementation deps.paging.runtime

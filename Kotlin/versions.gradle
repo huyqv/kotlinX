@@ -50,7 +50,6 @@ android.legacy = "androidx.legacy:legacy-support-core-ui:1.0.0"
 android.legacy_v4 = "androidx.legacy:legacy-support-v4:1.0.0"
 android.media = "androidx.media:media:1.3.0"
 android.multidex = "androidx.multidex:multidex:2.0.1"
-android.material = "com.google.android.material:material:1.4.0"
 android.print = "androidx.print:print:1.0.0"
 android.viewpager = "androidx.viewpager2:viewpager2:1.0.0"
 android.security = "androidx.security:security-crypto:1.0.0"
@@ -106,11 +105,13 @@ deps.paging = paging
  * [https://developer.android.com/jetpack/androidx/releases/work]
  */
 def work = [:]
-work.version = "2.5.0"
-work.ktx = "androidx.work:work-runtime-ktx:$work.version"
+work.version = "2.6.0"
+work.java = "androidx.work:work-runtime:$work.version" // Java only
+work.ktx = "androidx.work:work-runtime-ktx:$work.version" // Kotlin + coroutines
 work.rx = "androidx.work:work-rxjava2:$work.version"
 work.gcm = "androidx.work:work-gcm:$work.version"
 work.test = "androidx.work:work-testing:$work.version"
+work.multiprocess = "androidx.work:work-multiprocess:$work.version"
 deps.work = work
 
 /**
@@ -118,11 +119,11 @@ deps.work = work
  * [https://developer.android.com/training/camerax]
  */
 def camera = [:]
-camera.version = "1.0.0-alpha06"
-camera.camera2 = "androidx.camera:camera-camera2:$camera.version"
-camera.lifecycle = "androidx.camera:camera-lifecycle:$camera.version"
-camera.view = "androidx.camera:camera-view:$camera.version"
-camera.extension = "androidx.camera:camera-extensions:$camera.version"
+camera.core = "androidx.camera:camera-camera2:1.0.1"
+camera.camera2 = "androidx.camera:camera-camera2:1.0.1"
+camera.lifecycle = "androidx.camera:camera-lifecycle:1.0.1"
+camera.view = "androidx.camera:camera-view:1.0.0-alpha28"
+camera.extension = "androidx.camera:camera-extensions:1.0.0-alpha28"
 deps.camera = camera
 
 /**
@@ -132,6 +133,7 @@ def google = [:]
 google.services = "com.google.gms:google-services:4.3.4"
 google.map = "com.google.android.gms:play-services-maps:17.0.0"
 google.gson = "com.google.code.gson:gson:2.8.6"
+google.material = "com.google.android.material:material:1.4.0"
 deps.google = google
 
 /**
@@ -153,17 +155,28 @@ deps.firebase = firebase
 /**
  * Machine learning
  * [https://developers.google.com/ml-kit]
+ * [https://developers.google.com/ml-kit/release-notes]
  */
 def ml = [:]
-ml.barcode = "com.google.mlkit:barcode-scanning:16.1.1"
-ml.face_detection = "com.google.mlkit:face-detection:16.0.7"
-ml.image_labeling = "com.google.mlkit:image-labeling:17.0.3"
+// bundle the model
+ml.face_detection = "com.google.mlkit:face-detection:16.1.2"
+ml.barcode_scanning = "com.google.mlkit:barcode-scanning:17.0.0"
+ml.image_labeling = "com.google.mlkit:image-labeling:17.0.5"
 ml.image_labeling_custom = "com.google.mlkit:image-labeling-custom:16.3.1"
-ml.pose_detection = "com.google.mlkit:pose-detection:17.0.1-beta3"
-ml.pose_detection_accurate = "com.google.mlkit:pose-detection-accurate:17.0.1-beta3"
-ml.segmentation_selfie = "com.google.mlkit:segmentation-selfie:16.0.0-beta1"
+ml.language_id = "com.google.mlkit:language-id:17.0.0"
+ml.text_recognition = "com.google.mlkit:text-recognition:17.0.0"
+ml.segmentation_selfie = "com.google.mlkit:segmentation-selfie:16.0.0-beta2"
+ml.pose_detection = "com.google.mlkit:pose-detection:17.0.1-beta5"
+ml.pose_detection_accurate = "com.google.mlkit:pose-detection-accurate:17.0.1-beta5"
 ml.camera = "com.google.mlkit:camera:16.0.0-beta1"
+// dynamically downloaded model in Google Play Service
+ml.face_detection_gms = 'com.google.android.gms:play-services-mlkit-face-detection:16.2.0'
+ml.barcode_scanning_gms = "com.google.android.gms:play-services-mlkit-barcode-scanning:16.2.1"
+ml.image_labeling_gms = "com.google.android.gms:play-services-mlkit-image-labeling:16.0.5"
+ml.language_id_gms = "com.google.android.gms:play-services-mlkit-language-id:16.0.0-beta1"
+ml.text_recognition_gms = "com.google.android.gms:play-services-mlkit-text-recognition:17.0.0"
 deps.ml = ml
+
 
 /**
  * Reactive programming

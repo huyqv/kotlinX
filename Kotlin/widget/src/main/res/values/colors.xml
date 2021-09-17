@@ -2,10 +2,10 @@
 <resources>
 
     <!--App colors-->
-    <color name="colorPrimary">#2D98DA</color>
-    <color name="colorPrimaryDark">#2D98DA</color>
-    <color name="colorPrimaryVariant">#2D98DA</color>
-    <color name="colorOnPrimary">#2D98DA</color>
+    <color name="colorPrimary">#373737</color>
+    <color name="colorPrimaryDark">#373737</color>
+    <color name="colorPrimaryVariant">#373737</color>
+    <color name="colorOnPrimary">#373737</color>
     <color name="colorSecondary">#E53935</color>
     <color name="colorSecondaryVariant">#E14F4C</color>
     <color name="colorOnSecondary">#E17371</color>

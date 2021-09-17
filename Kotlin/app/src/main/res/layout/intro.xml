@@ -12,60 +12,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.sample.widget.base.AppConstraintLayout
-        android:id="@+id/appConstraintLayout"
-        android:layout_width="@dimen/_100sdp"
-        android:layout_height="@dimen/_100sdp"
-        android:layout_margin="@dimen/contentMargin"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:radiusBottomLeft="@dimen/_5sdp"
-        app:radiusBottomRight="@dimen/_10sdp"
-        app:radiusTopLeft="@dimen/_20sdp"
-        app:radiusTopRight="@dimen/_40sdp">
 
-        <androidx.appcompat.widget.AppCompatImageView
-            style="@style/MatchParent"
-            android:src="@mipmap/img_placeholder" />
-
-    </com.sample.widget.base.AppConstraintLayout>
-
-    <com.sample.widget.base.AppConstraintLayout
-        android:id="@+id/appConstraintLayout1"
-        android:layout_width="@dimen/_100sdp"
-        android:layout_height="@dimen/_100sdp"
-        android:layout_margin="@dimen/contentMargin"
-        app:layout_constraintStart_toEndOf="@+id/appConstraintLayout"
-        app:layout_constraintTop_toTopOf="parent"
-        app:radius="@dimen/_20sdp">
-
-        <androidx.appcompat.widget.AppCompatImageView
-            style="@style/MatchParent"
-            android:src="@mipmap/img_placeholder" />
-
-    </com.sample.widget.base.AppConstraintLayout>
-
-    <com.sample.widget.base.AppConstraintLayout
-        android:id="@+id/appConstraintLayout2"
-        android:layout_width="@dimen/_100sdp"
-        android:layout_height="@dimen/_100sdp"
-        android:layout_margin="@dimen/contentMargin"
-        android:background="@color/colorPrimary"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appConstraintLayout"
-        app:radiusBottomLeft="@dimen/_5sdp"
-        app:radiusBottomRight="@dimen/_10sdp"
-        app:radiusTopLeft="@dimen/_20sdp"
-        app:radiusTopRight="@dimen/_40sdp" />
-
-    <com.sample.widget.base.AppConstraintLayout
-        android:id="@+id/appConstraintLayout3"
-        android:layout_width="@dimen/_100sdp"
-        android:layout_height="@dimen/_100sdp"
-        android:layout_margin="@dimen/contentMargin"
-        android:background="@color/colorPrimary"
-        app:layout_constraintStart_toEndOf="@+id/appConstraintLayout"
-        app:layout_constraintTop_toBottomOf="@+id/appConstraintLayout1"
-        app:radius="@dimen/_20sdp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

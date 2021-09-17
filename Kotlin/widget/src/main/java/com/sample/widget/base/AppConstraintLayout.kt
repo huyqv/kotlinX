@@ -100,7 +100,7 @@ open class AppConstraintLayout : ConstraintLayout {
         backgroundColor = a.getColor(R.styleable.AppCustomView_android_background, Color.WHITE)
 
         strokeLineWidth = a.pixels(R.styleable.AppCustomView_strokeLineWidth)
-        strokeLineColor = a.getColor(R.styleable.AppCustomView_strokeLineColor, Color.BLACK)
+        strokeLineColor = a.getColor(R.styleable.AppCustomView_strokeLineColor, Color.DKGRAY)
 
         dashLineWidth = a.pixels(R.styleable.AppCustomView_dashLineWidth)
         dashLineGap = a.pixels(R.styleable.AppCustomView_dashLineGap)

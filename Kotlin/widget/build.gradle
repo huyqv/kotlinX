@@ -37,15 +37,15 @@ dependencies {
     // kotlin
     implementation deps.kotlin.stdlib
 
-    // android
+    // ui components
     implementation deps.android.appcompat
     implementation deps.android.corektx
     implementation deps.android.constraintlayout
     implementation deps.android.recyclerview
     implementation deps.android.cardview
-    implementation deps.android.material
     implementation deps.android.browser
     implementation deps.android.vectordrawable
+    implementation deps.google.material
 
     // dimension resources
     implementation deps.dimens.sdp

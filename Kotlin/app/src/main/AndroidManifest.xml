@@ -14,6 +14,7 @@
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
 
     <uses-sdk tools:overrideLibrary="androidx.security,androidx.camera.camera2,
         androidx.camera.core, androidx.camera.view, androidx.camera.lifecycle" />
