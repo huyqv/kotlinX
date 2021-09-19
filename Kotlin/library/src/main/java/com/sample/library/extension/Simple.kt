@@ -3,9 +3,6 @@ package com.sample.library.extension
 import android.app.Activity
 import android.app.Application
 import android.os.Bundle
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.OnLifecycleEvent
 
 interface SimpleActivityLifecycleCallbacks : Application.ActivityLifecycleCallbacks {
 
