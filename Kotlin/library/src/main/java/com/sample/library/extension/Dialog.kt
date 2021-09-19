@@ -4,18 +4,16 @@ import android.app.DatePickerDialog
 import android.content.Context
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.LifecycleOwner
 import java.util.*
 
-private fun Context.getText(@StringRes title: Int?): String? {
-    return if (null == title) null else getString(title)
-}
-
-private fun Context.initDialog(
+private fun LifecycleOwner.initDialog(
     title: String?,
     msg: String,
     block: (AlertDialog.Builder.() -> Unit)? = null
 ) {
-    val dialog = AlertDialog.Builder(this).setMessage(msg)
+    val activity = requireActivity() ?: return
+    val dialog = AlertDialog.Builder(activity).setMessage(msg)
     if (null != title) {
         dialog.setTitle(title)
     } else {
@@ -27,17 +25,13 @@ private fun Context.initDialog(
     dialog.create().show()
 }
 
-fun Context.showMessageDialog(title: String?, msg: String) {
+fun LifecycleOwner.showMessageDialog(title: String?, msg: String) {
     initDialog(title, msg) {
         setPositiveButton("CLOSE", null)
     }
 }
 
-fun Context.showMessageDialog(@StringRes title: Int?, @StringRes msg: Int) {
-    showMessageDialog(getText(title), getString(msg))
-}
-
-fun Context.showConfirmDialog(title: String?, msg: String, block: () -> Unit) {
+fun LifecycleOwner.showConfirmDialog(title: String?, msg: String, block: () -> Unit) {
     initDialog(title, msg) {
         setNegativeButton("CLOSE") { dialog, _ ->
             dialog.dismiss()
@@ -49,11 +43,7 @@ fun Context.showConfirmDialog(title: String?, msg: String, block: () -> Unit) {
     }
 }
 
-fun Context.showConfirmDialog(@StringRes title: Int?, @StringRes msg: Int, block: () -> Unit) {
-    showConfirmDialog(getText(title), getString(msg), block)
-}
-
-fun Context.showDialog(
+fun LifecycleOwner.showDialog(
     title: String?,
     msg: String,
     positiveBlock: () -> Unit,
@@ -72,20 +62,19 @@ fun Context.showDialog(
     }
 }
 
-fun Context?.showDateDialog(
+fun LifecycleOwner.showDateDialog(
     minDate: Long,
     maxDate: Long = System.currentTimeMillis(),
     block: (Int, Int, Int) -> Unit
 ) {
 
-    this ?: return
+    val activity = requireActivity() ?: return
     val cal = Calendar.getInstance()
     val y = cal.get(Calendar.YEAR)
     val m = cal.get(Calendar.MONTH)
     val d = cal.get(Calendar.DAY_OF_MONTH)
 
-    val dialog =
-        DatePickerDialog(this, DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
+    val dialog = DatePickerDialog(activity, { _, year, month, dayOfMonth ->
             val correctMonth = month + 1
             block(year, correctMonth, dayOfMonth)
         }, y, m, d)
@@ -94,7 +83,7 @@ fun Context?.showDateDialog(
     dialog.show()
 }
 
-fun Context?.dateTextPicker(
+fun LifecycleOwner.dateTextPicker(
     minDate: Long,
     maxDate: Long = System.currentTimeMillis(),
     block: (String) -> Unit
@@ -105,7 +94,7 @@ fun Context?.dateTextPicker(
     }
 }
 
-fun Context?.timestampPicker(
+fun LifecycleOwner.timestampPicker(
     minDate: Long,
     maxDate: Long = System.currentTimeMillis(),
     block: (Long) -> Unit

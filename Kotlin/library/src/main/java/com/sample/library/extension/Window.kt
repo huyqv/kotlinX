@@ -1,6 +1,7 @@
 package com.sample.library.extension
 
 import android.app.Activity
+import android.app.Dialog
 import android.content.pm.ActivityInfo
 import android.graphics.Insets
 import android.graphics.drawable.Drawable
@@ -11,6 +12,7 @@ import androidx.annotation.ColorInt
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LifecycleOwner
 
 val Activity.screenWidth: Int
     get() {
@@ -57,16 +59,8 @@ fun Window.statusBarColor(@ColorInt color: Int) {
     }
 }
 
-fun Activity.statusBarColor(@ColorInt color: Int) {
-    window.statusBarColor(color)
-}
-
-fun Fragment.statusBarColor(@ColorInt color: Int) {
-    activity?.statusBarColor(color)
-}
-
-fun DialogFragment.statusBarColor(@ColorInt color: Int) {
-    dialog?.window?.statusBarColor(color)
+fun LifecycleOwner.statusBarColor(@ColorInt color: Int) {
+    requireWindow()?.statusBarColor(color)
 }
 
 fun Window.lightStatusBarWidgets() {
@@ -86,16 +80,8 @@ fun Window.lightStatusBarWidgets() {
     }
 }
 
-fun Activity.lightStatusBarWidgets() {
-    window.lightStatusBarWidgets()
-}
-
-fun Fragment.lightStatusBarWidgets() {
-    activity?.lightStatusBarWidgets()
-}
-
-fun DialogFragment.lightStatusBarWidgets() {
-    dialog?.window?.lightStatusBarWidgets()
+fun LifecycleOwner.lightStatusBarWidgets() {
+    requireWindow()?.lightStatusBarWidgets()
 }
 
 fun Window.darkStatusBarWidgets() {
@@ -113,17 +99,10 @@ fun Window.darkStatusBarWidgets() {
     }
 }
 
-fun Activity.darkStatusBarWidgets() {
-    window.darkStatusBarWidgets()
+fun LifecycleOwner.darkStatusBarWidgets() {
+    requireWindow()?.darkStatusBarWidgets()
 }
 
-fun Fragment.darkStatusBarWidgets() {
-    activity?.darkStatusBarWidgets()
-}
-
-fun DialogFragment.darkStatusBarWidgets() {
-    dialog?.window?.darkStatusBarWidgets()
-}
 
 /**
  * Navigation bar
@@ -135,16 +114,8 @@ fun Window.navBarColor(@ColorInt color: Int) {
     }
 }
 
-fun Activity.navBarColor(@ColorInt color: Int) {
-    window.navBarColor(color)
-}
-
-fun Fragment.navBarColor(@ColorInt color: Int) {
-    activity?.navBarColor(color)
-}
-
-fun DialogFragment.navBarColor(@ColorInt color: Int) {
-    dialog?.window?.navBarColor(color)
+fun LifecycleOwner.navBarColor(@ColorInt color: Int) {
+    requireWindow()?.navBarColor(color)
 }
 
 fun Window.lightNavBarWidgets() {
@@ -162,16 +133,8 @@ fun Window.lightNavBarWidgets() {
     }
 }
 
-fun Activity.lightNavBarWidgets() {
-    window.lightNavBarWidgets()
-}
-
-fun Fragment.lightNavBarWidgets() {
-    activity?.lightNavBarWidgets()
-}
-
-fun DialogFragment.lightNavBarWidgets() {
-    dialog?.window?.lightNavBarWidgets()
+fun LifecycleOwner.lightNavBarWidgets() {
+    requireWindow()?.lightNavBarWidgets()
 }
 
 fun Window.darkNavBarWidgets() {
@@ -189,16 +152,8 @@ fun Window.darkNavBarWidgets() {
     }
 }
 
-fun Activity.darkNavBarWidgets() {
-    window?.darkNavBarWidgets()
-}
-
-fun Fragment.darkNavBarWidgets() {
-    activity?.darkNavBarWidgets()
-}
-
-fun DialogFragment.darkNavBarWidgets() {
-    dialog?.window?.darkNavBarWidgets()
+fun LifecycleOwner.darkNavBarWidgets() {
+    requireWindow()?.darkNavBarWidgets()
 }
 
 /**
@@ -223,16 +178,8 @@ fun Window.lightSystemWidgets() {
     }
 }
 
-fun Activity.lightSystemWidgets() {
-    window.lightSystemWidgets()
-}
-
-fun Fragment.lightSystemWidgets() {
-    activity?.lightSystemWidgets()
-}
-
-fun DialogFragment.lightSystemWidgets() {
-    dialog?.window?.lightSystemWidgets()
+fun LifecycleOwner.lightSystemWidgets() {
+    requireWindow()?.lightSystemWidgets()
 }
 
 fun Window.darkSystemWidgets() {
@@ -256,16 +203,8 @@ fun Window.darkSystemWidgets() {
     }
 }
 
-fun Activity.darkSystemWidgets() {
-    window.darkSystemWidgets()
-}
-
-fun Fragment.darkSystemWidgets() {
-    activity?.darkSystemWidgets()
-}
-
-fun DialogFragment.darkSystemWidgets() {
-    dialog?.window?.darkSystemWidgets()
+fun LifecycleOwner.darkSystemWidgets() {
+    requireWindow()?.darkSystemWidgets()
 }
 
 /**
@@ -278,24 +217,16 @@ fun Window.windowFullScreen() {
     )
 }
 
-fun Activity.windowFullScreen() {
-    window.windowFullScreen()
-}
-
-fun Fragment.windowFullScreen() {
-    activity?.windowFullScreen()
+fun LifecycleOwner.windowFullScreen() {
+    requireWindow()?.windowFullScreen()
 }
 
 fun Window.windowSafeArea() {
     setFlags(0, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
 }
 
-fun Activity.windowSafeArea() {
-    window.windowSafeArea()
-}
-
-fun Fragment.windowSafeArea() {
-    activity?.windowSafeArea()
+fun LifecycleOwner.windowSafeArea() {
+    requireWindow()?.windowSafeArea()
 }
 
 /**
@@ -333,27 +264,23 @@ fun Window.hideSystemUI(hasFocus: Boolean = true) {
     )
 }
 
-fun Activity.hideSystemUI(hasFocus: Boolean = true) {
-    window.hideSystemUI(hasFocus)
-}
-
-fun AlertDialog.hideSystemUI(hasFocus: Boolean = true) {
-    window?.hideSystemUI(hasFocus)
+fun LifecycleOwner.hideSystemUI(hasFocus: Boolean = true) {
+    requireWindow()?.hideSystemUI(hasFocus)
 }
 
 /**
  * Activity orientation
  */
-fun Activity.lockLandscape() {
-    requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+fun LifecycleOwner.lockLandscape() {
+    requireActivity()?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
 }
 
-fun Activity.lockPortrait() {
-    requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+fun LifecycleOwner.lockPortrait() {
+    requireActivity()?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 }
 
-fun Activity.unlockOrientation() {
-    requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+fun LifecycleOwner.unlockOrientation() {
+    requireActivity()?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
 }
 
 /**
@@ -365,10 +292,6 @@ fun Window.windowDrawable(drawable: Drawable?) {
     setBackgroundDrawable(drawable)
 }
 
-fun Activity.windowDrawable(drawable: Drawable?) {
-    window.windowDrawable(drawable)
-}
-
-fun Fragment.windowDrawable(drawable: Drawable?) {
-    activity?.windowDrawable(drawable)
+fun LifecycleOwner.windowDrawable(drawable: Drawable?) {
+    requireWindow()?.windowDrawable(drawable)
 }

@@ -1,6 +1,9 @@
 package com.sample.library.extension
 
+import android.app.Activity
+import android.view.Window
 import androidx.annotation.MainThread
+import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
 import androidx.lifecycle.Observer
@@ -8,6 +11,14 @@ import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.reflect.KClass
+
+fun LifecycleOwner.requireActivity(): Activity? {
+    return (this as? Fragment)?.requireActivity() ?: (this as? Activity)
+}
+
+fun LifecycleOwner.requireWindow(): Window? {
+    return requireActivity()?.window
+}
 
 fun <T : ViewModel> ViewModelStoreOwner.viewModel(cls: KClass<T>): Lazy<T> {
     return lazy { ViewModelProvider(this).get(cls.java) }
@@ -31,21 +42,23 @@ fun <T> LiveData<T?>.nonNull(): NonNullLiveData<T> {
     return mediator
 }
 
-@Suppress("UNCHECKED_CAST")
 fun <R, T : LiveData<R>> T.event(): T {
     val result = SingleLiveData<R>()
     result.addSource(this) {
+        @Suppress("UNCHECKED_CAST")
         result.value = it as R
     }
+    @Suppress("UNCHECKED_CAST")
     return result as T
 }
 
-@Suppress("UNCHECKED_CAST")
 fun <R, T : LiveData<R>> T.noneNull(): T {
     val result = NonNullLiveData<R>()
     result.addSource(this) {
+        @Suppress("UNCHECKED_CAST")
         result.value = it as R
     }
+    @Suppress("UNCHECKED_CAST")
     return result as T
 }
 
