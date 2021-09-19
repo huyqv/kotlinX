@@ -47,6 +47,9 @@ dependencies {
     implementation deps.android.vectordrawable
     implementation deps.google.material
 
+    // android lifecycle aware
+    implementation deps.lifecycle.runtime
+
     // dimension resources
     implementation deps.dimens.sdp
     implementation deps.dimens.ssp

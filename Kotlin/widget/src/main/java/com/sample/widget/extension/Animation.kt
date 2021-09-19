@@ -10,15 +10,16 @@ import androidx.annotation.AnimRes
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
 
-val interpolator = DecelerateInterpolator()
-val interpolator1 = AccelerateDecelerateInterpolator()
-val interpolator2 = OvershootInterpolator()
-val interpolator3 = CycleInterpolator(1f)
+val interpolator1 = DecelerateInterpolator()
+val interpolator2 = AccelerateInterpolator()
+val interpolator3 = AccelerateDecelerateInterpolator()
 val interpolator4 = OvershootInterpolator()
-val interpolator5 = AnticipateInterpolator()
-val interpolator6 = AnticipateOvershootInterpolator()
-val interpolator7 = BounceInterpolator()
-val interpolator8 = LinearInterpolator()
+val interpolator5 = CycleInterpolator(1f)
+val interpolator6 = OvershootInterpolator()
+val interpolator7 = AnticipateInterpolator()
+val interpolator8 = AnticipateOvershootInterpolator()
+val interpolator9 = BounceInterpolator()
+val interpolator10 = LinearInterpolator()
 
 fun View.animateAlpha(from: Float, to: Float) {
     this.post {

@@ -51,6 +51,10 @@ open class AppExpandableLayout : ConstraintLayout {
             field = value
             requestLayout()
             listener?.invoke(value, state)
+            when (state) {
+                COLLAPSED -> onCollapsed?.invoke()
+                EXPANDED -> onExpanded?.invoke()
+            }
         }
 
     var orientation: Int = 0
@@ -72,6 +76,10 @@ open class AppExpandableLayout : ConstraintLayout {
     private var animator: ValueAnimator? = null
 
     var listener: ((/*expansionFraction*/ Float, /*state*/ Int) -> Unit)? = null
+
+    var onExpanded: (() -> Unit)? = null
+
+    var onCollapsed: (() -> Unit)? = null
 
     constructor(context: Context, attrs: AttributeSet? = null) : super(context, attrs) {
         attrs ?: return

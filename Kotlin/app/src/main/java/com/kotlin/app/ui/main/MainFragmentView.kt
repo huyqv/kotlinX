@@ -1,7 +1,7 @@
 package com.kotlin.app.ui.main
 
 
-interface MainView {
+interface MainFragmentView {
 
     val mainActivity: MainActivity?
 

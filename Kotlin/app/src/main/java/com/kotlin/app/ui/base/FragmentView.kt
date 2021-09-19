@@ -1,12 +1,17 @@
 package com.kotlin.app.ui.base
 
 import android.view.LayoutInflater
+import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 interface FragmentView : BaseView {
 
@@ -37,12 +42,25 @@ interface FragmentView : BaseView {
         return lazy { block.invoke(fragment.layoutInflater) as T }
     }
 
-    fun post(runnable: Runnable) {
-        fragment.view?.post(runnable)
+    fun requestFocus(v: View?) {
+        launch(240) { v?.requestFocus() }
     }
 
-    fun post(delayed: Long, runnable: Runnable) {
-        fragment.view?.postDelayed(runnable, delayed)
+    fun launch(delayInterval: Long, block: suspend CoroutineScope.() -> Unit) {
+        fragment.lifecycleScope.launch {
+            delay(delayInterval)
+            block()
+        }
+    }
+
+    fun launch(block: suspend CoroutineScope.() -> Unit) {
+        fragment.lifecycleScope.launch {
+            block()
+        }
+    }
+
+    fun launch(delayInterval: Long, unit: Unit) {
+        launch(delayInterval) { unit }
     }
 
     val backPressedCallback: OnBackPressedCallback

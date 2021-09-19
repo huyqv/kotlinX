@@ -97,23 +97,6 @@ abstract class BaseFragment<T : ViewBinding> : Fragment(), FragmentView {
     /**
      * [BaseFragment] properties
      */
-    fun requestFocus(v: View?) {
-        launch(240) { v?.requestFocus() }
-    }
-
-    fun launch(delayInterval: Long, block: suspend CoroutineScope.() -> Unit) {
-        lifecycleScope.launch {
-            delay(delayInterval)
-            block()
-        }
-    }
-
-    fun launch(block: suspend CoroutineScope.() -> Unit) {
-        lifecycleScope.launch {
-            block()
-        }
-    }
-
     fun inputModeAdjustResize() {
         requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
 

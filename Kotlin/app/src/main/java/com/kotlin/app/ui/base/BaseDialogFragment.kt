@@ -78,9 +78,7 @@ abstract class BaseDialogFragment<T : ViewBinding> : DialogFragment(),
 
     override fun onDismiss(dialog: DialogInterface) {
         hideKeyboard()
-        post(200) {
-            super.onDismiss(dialog)
-        }
+        launch(200) { super.onDismiss(dialog) }
     }
 
     /**

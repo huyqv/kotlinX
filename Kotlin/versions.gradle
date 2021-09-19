@@ -83,6 +83,7 @@ deps.room = room
  */
 def lifecycle = [:]
 lifecycle.version = "2.3.1"
+lifecycle.runtime = "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle.version"
 lifecycle.viewmodel = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle.version"
 lifecycle.livedata = "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle.version"
 lifecycle.compiler = "androidx.lifecycle:lifecycle-compiler:$lifecycle.version"

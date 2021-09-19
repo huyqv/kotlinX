@@ -13,6 +13,7 @@ class ScrollTipImageView : AppCompatImageView {
     constructor(context: Context, attrs: AttributeSet? = null) : super(context, attrs)
 
     fun updateScrollTipView(scrollView: NestedScrollView) {
+        isClickable = false
         isShow(scrollView.hasInvisibleScrollContent)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             scrollView.setOnScrollChangeListener { _, _, _, _, _ ->

@@ -18,11 +18,11 @@ import android.widget.ImageView
 import android.widget.PopupWindow
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.*
 import com.sample.widget.R
 import com.sample.widget.databinding.KeyboardBinding
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 /**
  * -------------------------------------------------------------------------------------------------
@@ -173,13 +173,16 @@ class KeyboardView : AppCustomView<KeyboardBinding> {
         this.layoutParams = lp
     }
 
-    private fun observer(lifecycle: Lifecycle) {
-        lifecycle.addObserver(object : LifecycleObserver {
+    private fun observer(lifecycleOwner: LifecycleOwner) {
+        lifecycleOwner.lifecycle.addObserver(object : LifecycleObserver {
             @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
             fun oResume() {
                 start()
-                actionFocus?.invoke()
-                actionFocus = null
+                lifecycleOwner.lifecycleScope.launch {
+                    delay(320)
+                    actionFocus?.invoke()
+                    actionFocus = null
+                }
             }
 
             @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
@@ -196,19 +199,19 @@ class KeyboardView : AppCustomView<KeyboardBinding> {
      */
     fun observer(fragment: Fragment): KeyboardView {
         initPopup(fragment.requireActivity() as AppCompatActivity)
-        observer(fragment.lifecycle)
+        observer(lifecycleOwner = fragment)
         return this
     }
 
     fun observer(activity: AppCompatActivity): KeyboardView {
         initPopup(activity)
-        observer(activity.lifecycle)
+        observer(lifecycleOwner = activity)
         return this
     }
 
     fun requestFocus(v: View?) {
         actionFocus = {
-            v?.postDelayed({ v.requestFocus() }, 320)
+            v?.requestFocus()
         }
     }
 

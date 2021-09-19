@@ -60,6 +60,7 @@ dependencies {
     implementation deps.paging.runtime
 
     // android lifecycle aware
+    implementation deps.lifecycle.runtime
     implementation deps.lifecycle.viewmodel
     implementation deps.lifecycle.livedata
     kapt deps.lifecycle.compiler

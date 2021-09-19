@@ -10,11 +10,9 @@ import com.kotlin.app.databinding.MainBinding
 import com.kotlin.app.ui.base.BaseActivity
 import com.sample.library.extension.viewModel
 
-class MainActivity : BaseActivity<MainBinding>(), MainView {
+class MainActivity : BaseActivity<MainBinding>() {
 
-    override val mainActivity: MainActivity? get() = this
-
-    override val mainVM by viewModel(MainVM::class)
+    private val mainVM by viewModel(MainVM::class)
 
     override fun navController(): NavController {
         return findNavController(R.id.fragment)
