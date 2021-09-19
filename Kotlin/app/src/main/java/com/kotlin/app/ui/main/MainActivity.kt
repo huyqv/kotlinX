@@ -8,11 +8,11 @@ import androidx.viewbinding.ViewBinding
 import com.kotlin.app.R
 import com.kotlin.app.databinding.MainBinding
 import com.kotlin.app.ui.base.BaseActivity
-import com.sample.library.extension.viewModel
+import com.sample.library.extension.lazyViewModel
 
 class MainActivity : BaseActivity<MainBinding>() {
 
-    private val mainVM by viewModel(MainVM::class)
+    private val mainVM by lazyViewModel(MainVM::class)
 
     override fun activityNavController(): NavController {
         return findNavController(R.id.fragment)
