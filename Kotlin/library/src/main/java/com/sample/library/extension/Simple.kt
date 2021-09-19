@@ -18,42 +18,4 @@ interface SimpleActivityLifecycleCallbacks : Application.ActivityLifecycleCallba
     override fun onActivityStopped(activity: Activity) = Unit
 }
 
-abstract class SimpleLifecycleObserver : LifecycleObserver {
 
-    open fun onCreated() = Unit
-    open fun onStart() = Unit
-    open fun onResume() = Unit
-    open fun onPause() = Unit
-    open fun onStop() = Unit
-    open fun onDestroy() = Unit
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-    fun onEventCreated() {
-        onCreated()
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    fun onEventStart() {
-        onStart()
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-    fun onEventResume() {
-        onResume()
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
-    fun onEventPause() {
-        onPause()
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-    fun onEventStop() {
-        onStop()
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    fun onEventDestroy() {
-        onDestroy()
-    }
-}

@@ -1,8 +1,6 @@
 package com.sample.library.extension
 
 import android.app.DatePickerDialog
-import android.content.Context
-import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.LifecycleOwner
 import java.util.*
@@ -75,9 +73,9 @@ fun LifecycleOwner.showDateDialog(
     val d = cal.get(Calendar.DAY_OF_MONTH)
 
     val dialog = DatePickerDialog(activity, { _, year, month, dayOfMonth ->
-            val correctMonth = month + 1
-            block(year, correctMonth, dayOfMonth)
-        }, y, m, d)
+        val correctMonth = month + 1
+        block(year, correctMonth, dayOfMonth)
+    }, y, m, d)
     dialog.datePicker.maxDate = maxDate
     dialog.datePicker.minDate = minDate
     dialog.show()

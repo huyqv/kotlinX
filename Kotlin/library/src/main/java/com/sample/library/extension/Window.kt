@@ -1,7 +1,6 @@
 package com.sample.library.extension
 
 import android.app.Activity
-import android.app.Dialog
 import android.content.pm.ActivityInfo
 import android.graphics.Insets
 import android.graphics.drawable.Drawable
@@ -9,10 +8,10 @@ import android.os.Build
 import android.util.DisplayMetrics
 import android.view.*
 import androidx.annotation.ColorInt
-import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.Fragment
+import androidx.annotation.ColorRes
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
+import com.sample.library.app
 
 val Activity.screenWidth: Int
     get() {
@@ -61,6 +60,14 @@ fun Window.statusBarColor(@ColorInt color: Int) {
 
 fun LifecycleOwner.statusBarColor(@ColorInt color: Int) {
     requireWindow()?.statusBarColor(color)
+}
+
+fun Window.statusBarColorRes(@ColorRes res: Int) {
+    statusBarColor(ContextCompat.getColor(app, res))
+}
+
+fun LifecycleOwner.statusBarColorRes(@ColorRes res: Int) {
+    statusBarColor(ContextCompat.getColor(app, res))
 }
 
 fun Window.lightStatusBarWidgets() {
