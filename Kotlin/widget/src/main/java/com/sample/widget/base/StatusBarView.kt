@@ -9,7 +9,9 @@ class StatusBarView : AppExpandableLayout {
         private var savedStatusBarHeight: Int = 0
     }
 
-    constructor(context: Context, attrs: AttributeSet? = null) : super(context, attrs)
+    constructor(context: Context, attrs: AttributeSet? = null) : super(context, attrs){
+        duration = 420
+    }
 
     override fun setExpanded(expand: Boolean, animate: Boolean) {
         updateStatusBar()

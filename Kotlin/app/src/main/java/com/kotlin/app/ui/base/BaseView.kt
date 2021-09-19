@@ -1,6 +1,5 @@
 package com.kotlin.app.ui.base
 
-import android.os.Bundle
 import android.view.View
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
@@ -9,10 +8,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
-import androidx.navigation.NavDirections
-import androidx.navigation.NavOptions
-import androidx.navigation.Navigator
-import com.sample.library.R
 import com.sample.widget.extension.ViewClickListener
 
 interface BaseView {
@@ -21,7 +16,7 @@ interface BaseView {
 
     val lifecycleOwner: LifecycleOwner
 
-    fun navController(): NavController
+    fun activityNavController(): NavController?
 
     fun onViewCreated()
 
@@ -38,88 +33,37 @@ interface BaseView {
 
     fun onViewClick(v: View?) = Unit
 
-    fun navigate(
-        @IdRes actionId: Int,
-        args: Bundle? = null,
-        extras: Navigator.Extras? = null,
-        block: (NavOptions.Builder.() -> Unit) = {}
-    ) {
-        val options = NavOptions.Builder().also {
-            it.setVerticalAnim()
-            it.block()
-        }.build()
-        navController().navigate(actionId, args, options, extras)
-    }
+    fun add(fragment: Fragment, stack: Boolean = true)
 
-    fun navigate(
-        directions: NavDirections,
-        args: Bundle? = null,
-        extras: Navigator.Extras? = null,
-        block: (NavOptions.Builder.() -> Unit) = {}
-    ) {
-        navigate(directions.actionId, args, extras, block)
-    }
+    fun replace(fragment: Fragment, stack: Boolean = true)
 
-    fun NavOptions.Builder.clearBackStack(): NavOptions.Builder {
-        setLaunchSingleTop(true)
-        setPopUpTo(navController().graph.id, true)
-        return this
-    }
+    fun <T : Fragment> remove(cls: Class<T>)
 
-    fun NavOptions.Builder.setPopUpTo(@IdRes fragmentId: Int) {
-        setLaunchSingleTop(true)
-        setPopUpTo(fragmentId, false)
-    }
-
-    fun NavOptions.Builder.setParallaxAnim(reserved: Boolean = false) {
-        if (reserved) {
-            setEnterAnim(R.anim.parallax_pop_enter)
-            setExitAnim(R.anim.parallax_pop_exit)
-            setPopEnterAnim(R.anim.parallax_enter)
-            setPopExitAnim(R.anim.parallax_exit)
-        } else {
-            setEnterAnim(R.anim.parallax_enter)
-            setExitAnim(R.anim.parallax_exit)
-            setPopEnterAnim(R.anim.parallax_pop_enter)
-            setPopExitAnim(R.anim.parallax_pop_exit)
+    fun NavController?.navigate(@IdRes actionId: Int, block: (NavigationBuilder.() -> Unit)? = null) {
+        this ?: return
+        NavigationBuilder(this).also {
+            block?.invoke(it)
+            it.navigate(actionId)
         }
     }
 
-    fun NavOptions.Builder.setHorizontalAnim(reserved: Boolean = false) {
-        if (reserved) {
-            setEnterAnim(R.anim.horizontal_pop_enter)
-            setExitAnim(R.anim.horizontal_pop_exit)
-            setPopEnterAnim(R.anim.horizontal_enter)
-            setPopExitAnim(R.anim.horizontal_exit)
-        } else {
-            setEnterAnim(R.anim.horizontal_enter)
-            setExitAnim(R.anim.horizontal_exit)
-            setPopEnterAnim(R.anim.horizontal_pop_enter)
-            setPopExitAnim(R.anim.horizontal_pop_exit)
-        }
-
-    }
-
-    fun NavOptions.Builder.setVerticalAnim(): NavOptions.Builder {
-        setEnterAnim(R.anim.vertical_enter)
-        setExitAnim(R.anim.vertical_exit)
-        setPopEnterAnim(R.anim.vertical_pop_enter)
-        setPopExitAnim(R.anim.vertical_pop_exit)
-        return this
+    fun navigate(@IdRes actionId: Int, block: (NavigationBuilder.() -> Unit)? = null) {
+        activityNavController().navigate(actionId, block)
     }
 
     val defaultArgKey: String get() = "DEFAULT_ARG_KEY"
 
     fun <T> navResultLiveData(key: String = defaultArgKey): MutableLiveData<T>? {
-        return navController().currentBackStackEntry?.savedStateHandle?.getLiveData<T>(key)
+        return activityNavController()?.currentBackStackEntry?.savedStateHandle?.getLiveData(key)
     }
 
     fun <T> setNavResult(key: String?, result: T) {
-        navController().previousBackStackEntry?.savedStateHandle?.set(key ?: defaultArgKey, result)
+        activityNavController()?.previousBackStackEntry?.savedStateHandle?.set(key
+                ?: defaultArgKey, result)
     }
 
     fun <T> setNavResult(result: T) {
-        navController().previousBackStackEntry?.savedStateHandle?.set(defaultArgKey, result)
+        activityNavController()?.previousBackStackEntry?.savedStateHandle?.set(defaultArgKey, result)
     }
 
     fun <T> LiveData<T>.observe(block: (T) -> Unit) {
@@ -128,18 +72,6 @@ interface BaseView {
 
     fun <T> LiveData<T>.removeObservers() {
         removeObservers(lifecycleOwner)
-    }
-
-    fun add(fragment: Fragment, stack: Boolean = true) {
-        baseActivity?.add(fragment, stack)
-    }
-
-    fun replace(fragment: Fragment, stack: Boolean = true) {
-        baseActivity?.replace(fragment, stack)
-    }
-
-    fun <T : Fragment> remove(cls: Class<T>) {
-        baseActivity?.remove(cls)
     }
 
 }

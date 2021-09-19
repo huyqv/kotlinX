@@ -14,7 +14,7 @@ class MainActivity : BaseActivity<MainBinding>() {
 
     private val mainVM by viewModel(MainVM::class)
 
-    override fun navController(): NavController {
+    override fun activityNavController(): NavController {
         return findNavController(R.id.fragment)
     }
 

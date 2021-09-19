@@ -3,6 +3,7 @@ package com.kotlin.app.ui.base
 import android.view.LayoutInflater
 import android.view.View
 import androidx.activity.OnBackPressedCallback
+import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
@@ -17,12 +18,15 @@ interface FragmentView : BaseView {
 
     val fragment: Fragment
 
+    /**
+     * [BaseView] implements
+     */
     override val baseActivity: BaseActivity<*>? get() = fragment.requireActivity() as? BaseActivity<*>
 
     override val lifecycleOwner: LifecycleOwner get() = fragment.viewLifecycleOwner
 
-    override fun navController(): NavController {
-        return fragment.findNavController()
+    override fun activityNavController(): NavController? {
+        return baseActivity?.activityNavController()
     }
 
     override fun add(fragment: Fragment, stack: Boolean) {
@@ -37,6 +41,9 @@ interface FragmentView : BaseView {
         baseActivity?.remove(cls)
     }
 
+    /**
+     * [FragmentView] utils
+     */
     fun <T : ViewBinding> viewBinding(block: (LayoutInflater) -> ViewBinding): Lazy<T> {
         @Suppress("UNCHECKED_CAST")
         return lazy { block.invoke(fragment.layoutInflater) as T }
@@ -46,6 +53,27 @@ interface FragmentView : BaseView {
         launch(240) { v?.requestFocus() }
     }
 
+    /**
+     * Back press handle
+     */
+    val backPressedCallback: OnBackPressedCallback
+
+    fun getBackPressCallBack(): OnBackPressedCallback {
+        return object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                onBackPressed()
+            }
+        }
+    }
+
+    fun onBackPressed() {
+        backPressedCallback.remove()
+        fragment.requireActivity().onBackPressed()
+    }
+
+    /**
+     * LifecycleScope
+     */
     fun launch(delayInterval: Long, block: suspend CoroutineScope.() -> Unit) {
         fragment.lifecycleScope.launch {
             delay(delayInterval)
@@ -61,21 +89,6 @@ interface FragmentView : BaseView {
 
     fun launch(delayInterval: Long, unit: Unit) {
         launch(delayInterval) { unit }
-    }
-
-    val backPressedCallback: OnBackPressedCallback
-
-    fun getBackPressCallBack(): OnBackPressedCallback {
-        return object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                onBackPressed()
-            }
-        }
-    }
-
-    fun onBackPressed() {
-        backPressedCallback.remove()
-        fragment.requireActivity().onBackPressed()
     }
 
 }

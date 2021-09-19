@@ -14,7 +14,9 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
 import com.sample.library.extension.realPathFromURI
 import com.sample.library.extension.safeClose
@@ -100,6 +102,25 @@ abstract class BaseFragment<T : ViewBinding> : Fragment(), FragmentView {
 
     fun inputModeAdjustNothing() {
         requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
+    }
+
+    /**
+     * Navigation
+     */
+    fun childNavigate(@IdRes actionId: Int, block: (NavigationBuilder.() -> Unit)? = null) {
+        fragment.findNavController().navigate(actionId, block)
+    }
+
+    fun childNavigateUp() {
+        fragment.findNavController().navigateUp()
+    }
+
+    fun mainNavigate(@IdRes actionId: Int, block: (NavigationBuilder.() -> Unit)? = null) {
+        activityNavController()?.navigate(actionId, block)
+    }
+
+    fun mainNavigateUp() {
+        activityNavController()?.navigateUp()
     }
 
 }

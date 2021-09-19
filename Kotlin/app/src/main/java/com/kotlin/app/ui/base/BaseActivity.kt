@@ -20,6 +20,11 @@ abstract class BaseActivity<T : ViewBinding> : AppCompatActivity(),
 
     abstract fun inflating(): (LayoutInflater) -> ViewBinding
 
+    protected fun <T : ViewBinding> viewBinding(block: (LayoutInflater) -> ViewBinding): Lazy<T> {
+        @Suppress("UNCHECKED_CAST")
+        return lazy { block.invoke(layoutInflater) as T }
+    }
+
     /**
      * [AppCompatActivity] implements
      */
@@ -63,28 +68,21 @@ abstract class BaseActivity<T : ViewBinding> : AppCompatActivity(),
 
     final override val lifecycleOwner: LifecycleOwner get() = this
 
-    final override fun add(fragment: Fragment, stack: Boolean) {
-        addFragment(fragment, fragmentContainerId(), stack)
-    }
-
-    final override fun replace(fragment: Fragment, stack: Boolean) {
-        replaceFragment(fragment, fragmentContainerId(), stack)
-    }
-
-    final override fun <T : Fragment> remove(cls: Class<T>) {
-        removeFragment(cls)
-    }
-
-    /**
-     * [BaseActivity] properties
-     */
     protected open fun fragmentContainerId(): Int {
         throw NullPointerException("fragmentContainerId no has implement")
     }
 
-    protected fun <T : ViewBinding> viewBinding(block: (LayoutInflater) -> ViewBinding): Lazy<T> {
-        @Suppress("UNCHECKED_CAST")
-        return lazy { block.invoke(layoutInflater) as T }
+    override fun add(fragment: Fragment, stack: Boolean) {
+        addFragment(fragment, fragmentContainerId(), stack)
     }
+
+    override fun replace(fragment: Fragment, stack: Boolean) {
+        replaceFragment(fragment, fragmentContainerId(), stack)
+    }
+
+    override fun <T : Fragment> remove(cls: Class<T>) {
+        removeFragment(cls)
+    }
+
 
 }
