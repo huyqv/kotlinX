@@ -41,11 +41,11 @@ abstract class InputView<B : ViewBinding> : AppCustomView<B>, View.OnFocusChange
     override fun setOnClickListener(listener: OnClickListener?) {
         if (null == listener) {
             enableFocus()
-            editText.addViewClickListener(null)
+            editText?.setOnClickListener(null)
         } else {
             disableFocus()
-            editText.addViewClickListener {
-                listener.onClick(this)
+            editText?.setOnClickListener {
+                listener?.onClick(this)
             }
         }
     }

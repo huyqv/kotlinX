@@ -48,7 +48,7 @@ fun <T> Collection<T?>?.filters(block: (T) -> T?): MutableList<T>? {
 /**
  * Typed T should be override method toString() : String
  */
-fun <T> Collection<T>?.search(s: String?, searchProperty: (T) -> String?): Collection<T>? {
+fun <T> Collection<T>?.search(s: String?, searchProperty: ((T) -> String?) = { it?.toString() }): List<T>? {
     return this?.filter { searchProperty(it).like(s) }
 }
 

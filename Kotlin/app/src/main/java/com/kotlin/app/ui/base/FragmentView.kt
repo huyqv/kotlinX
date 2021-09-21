@@ -5,6 +5,7 @@ import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
@@ -17,6 +18,7 @@ import kotlinx.coroutines.launch
 interface FragmentView : BaseView {
 
     val fragment: Fragment
+
 
     /**
      * [BaseView] implements
@@ -63,15 +65,21 @@ interface FragmentView : BaseView {
     /**
      * LifecycleScope
      */
+    val lifecycleScope get() = fragment.lifecycleScope
+
+    fun addObserver(observer: LifecycleObserver) {
+        lifecycleOwner.lifecycle.addObserver(observer)
+    }
+
     fun launch(delayInterval: Long, block: suspend CoroutineScope.() -> Unit) {
-        fragment.lifecycleScope.launch {
+        lifecycleScope.launch {
             delay(delayInterval)
             block()
         }
     }
 
     fun launch(block: suspend CoroutineScope.() -> Unit) {
-        fragment.lifecycleScope.launch {
+        lifecycleScope.launch {
             block()
         }
     }

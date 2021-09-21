@@ -5,9 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.kotlin.app.data.network.errorBody
 import com.sample.library.extension.stringyJson
 import com.sample.library.util.Logger
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import java.net.SocketException
 import java.net.SocketTimeoutException
@@ -107,6 +107,16 @@ abstract class BaseVM : ViewModel() {
             onHttpException = block
             return this@ResultHandler
         }
+    }
+
+    fun <T> ioFlow(block: () -> T?): Flow<T?> {
+        return flow {
+            try {
+                emit(withContext(Dispatchers.IO) { block() })
+            } catch (e: Exception) {
+                emit(null)
+            }
+        }.flowOn(Dispatchers.Main)
     }
 
 }

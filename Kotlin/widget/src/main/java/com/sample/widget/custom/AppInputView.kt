@@ -56,11 +56,11 @@ class AppInputView : AppCustomView<AppInputBinding>,
     override fun setOnClickListener(listener: OnClickListener?) {
         if (null == listener) {
             enableFocus()
-            editText.addViewClickListener(null)
+            editText.setOnClickListener(null)
         } else {
             disableFocus()
-            editText.addViewClickListener {
-                listener.onClick(this)
+            editText.setOnClickListener {
+                listener?.onClick(this)
             }
         }
     }
@@ -189,7 +189,6 @@ class AppInputView : AppCustomView<AppInputBinding>,
         set(value) {
             isSilent = true
             editText.setText(value)
-            error = null
             onFocusChange(null, isFocused)
             isSilent = false
         }
@@ -297,8 +296,7 @@ class AppInputView : AppCustomView<AppInputBinding>,
     }
 
     fun clear() {
-        editText.text = null
-        updateUiOnFocusChanged()
+        text = null
     }
 
     /**

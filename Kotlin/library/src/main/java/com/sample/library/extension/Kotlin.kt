@@ -26,37 +26,47 @@ fun onUi(interval: Long = 0, block: () -> Unit) {
     }
 }
 
-fun onIo(interval: Long = 0, block: () -> Unit) {
-    flow {
-        if (interval > 0) delay(interval)
-        emit(true)
-    }.flowOn(Dispatchers.IO).onEach {
-        block()
-    }.launchIn(GlobalScope)
+fun launch(interval: Long = 0, block: () -> Unit) {
+    GlobalScope.launch {
+        if (interval > 0) withContext(Dispatchers.IO) {
+            delay(100)
+        }
+        withContext(Dispatchers.Main) {
+            block()
+        }
+    }
 }
 
 typealias ResultLiveData<T> = SingleLiveData<Result<T>>
 
 typealias ResultFlow<T> = Flow<Result<T>>
 
-fun <T : Any> tryFlow(block: suspend FlowCollector<Result<T>>.() -> T): Flow<Result<T>> {
+fun <T : Any> flowResult(block: suspend FlowCollector<Result<T>>.() -> T): Flow<Result<T>> {
     return flow {
-        try {
-            emit(Result.success(this.block()))
-        } catch (e: Throwable) {
-            emit(Result.failure<T>(e))
-        }
+        emit(runCatching { block() })
     }.flowOn(Dispatchers.IO)
 }
 
-fun <T> Flow<T>.globalLaunch(block: suspend (T) -> Unit) {
-    onEach(block).launchIn(GlobalScope)
+fun <T> ioFlow(block: () -> T?): Flow<T?> {
+    return flow {
+        try {
+            emit(withContext(Dispatchers.IO) { block() })
+        } catch (e: Exception) {
+            emit(null)
+        }
+    }.flowOn(Dispatchers.Main)
+}
+
+fun <T> Flow<T>.launch(block: (T) -> Unit) {
+    onEach {
+        block(it)
+    }.launchIn(GlobalScope)
 }
 
 fun sampleTryFlow() {
-    tryFlow<String> {
+    flowResult<String> {
         "Hello World"
-    }.globalLaunch {
+    }.launch {
         toast(it.getOrNull())
     }
 }

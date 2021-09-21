@@ -8,7 +8,7 @@ import com.google.gson.JsonObject
 import com.kotlin.app.app
 import com.kotlin.app.shared.isDebug
 import com.sample.library.extension.parse
-import com.sample.library.extension.tryFlow
+import com.sample.library.extension.flowResult
 import kotlinx.coroutines.flow.Flow
 import okhttp3.Interceptor
 import okhttp3.MediaType
@@ -177,7 +177,7 @@ fun Throwable.isNetworkError(): Boolean {
 }
 
 fun writeFile(response: Response<ResponseBody>, fileName: String): Flow<Result<File>> {
-    return tryFlow {
+    return flowResult {
         val source = response.body()?.source()
             ?: throw NullPointerException("download data is empty")
         val file = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -196,7 +196,7 @@ fun writeFile(response: Response<ResponseBody>, fileName: String): Flow<Result<F
             writeAll(source)
             close()
         }
-        return@tryFlow file
+        return@flowResult file
     }
 }
 

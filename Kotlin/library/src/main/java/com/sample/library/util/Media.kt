@@ -5,7 +5,7 @@ import android.media.AudioAttributes
 import android.media.AudioManager
 import android.media.SoundPool
 import com.sample.library.app
-import com.sample.library.extension.onIo
+import com.sample.library.extension.launch
 
 object Media {
 
@@ -35,7 +35,7 @@ object Media {
         if (soundIndex == -1) {
             soundIndex = soundPool.load(app, raw, 1)
         }
-        onIo(100) {
+        launch(100) {
             if (soundIndex != -1) {
                 soundPool.play(soundIndex, 1f, 1f, 1, 0, 1.0f)
                 isSilent = true

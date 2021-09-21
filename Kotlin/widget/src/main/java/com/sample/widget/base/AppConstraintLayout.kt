@@ -80,36 +80,8 @@ open class AppConstraintLayout : ConstraintLayout {
         render(attrs)
     }
 
-    private fun render(attrs: AttributeSet?) {
-        attrs ?: return
-        val a = context.obtainStyledAttributes(attrs, R.styleable.AppCustomView)
-        val radius = a.pixels(R.styleable.AppCustomView_radius)
-
-        val attrTopLeftRadius = a.pixels(R.styleable.AppCustomView_radiusTopLeft)
-        radiusTopLeft = if (attrTopLeftRadius > 0F) attrTopLeftRadius else radius
-
-        val attrTopRightRadius = a.pixels(R.styleable.AppCustomView_radiusTopRight)
-        radiusTopRight = if (attrTopLeftRadius > 0F) attrTopRightRadius else radius
-
-        val attrBottomLeftRadius = a.pixels(R.styleable.AppCustomView_radiusBottomLeft)
-        radiusBottomLeft = if (attrTopLeftRadius > 0F) attrBottomLeftRadius else radius
-
-        val attrBottomRightRadius = a.pixels(R.styleable.AppCustomView_radiusBottomRight)
-        radiusBottomRight = if (attrTopLeftRadius > 0F) attrBottomRightRadius else radius
-
-        backgroundColor = a.getColor(R.styleable.AppCustomView_android_background, Color.WHITE)
-
-        strokeLineWidth = a.pixels(R.styleable.AppCustomView_strokeLineWidth)
-        strokeLineColor = a.getColor(R.styleable.AppCustomView_strokeLineColor, Color.DKGRAY)
-
-        dashLineWidth = a.pixels(R.styleable.AppCustomView_dashLineWidth)
-        dashLineGap = a.pixels(R.styleable.AppCustomView_dashLineGap)
-
-        a.recycle()
-    }
-
-    private fun TypedArray.pixels(@StyleableRes id: Int): Float {
-        return getDimensionPixelSize(id, 0).toFloat()
+    override fun setBackgroundColor(color: Int) {
+        backgroundColor = color
     }
 
     override fun dispatchDraw(canvas: Canvas) {
@@ -117,7 +89,7 @@ open class AppConstraintLayout : ConstraintLayout {
         path = Path()
 
         clipPathCanvas(
-            canvas, floatArrayOf(
+                canvas, floatArrayOf(
                 radiusTopLeft, radiusTopLeft, radiusTopRight, radiusTopRight, radiusBottomRight,
                 radiusBottomRight, radiusBottomLeft, radiusBottomLeft
             )
@@ -146,19 +118,47 @@ open class AppConstraintLayout : ConstraintLayout {
         super.dispatchDraw(canvas)
     }
 
+    private fun render(attrs: AttributeSet?) {
+        attrs ?: return
+        val a = context.obtainStyledAttributes(attrs, R.styleable.AppCustomView)
+        val radius = a.pixels(R.styleable.AppCustomView_radius)
+
+        val attrTopLeftRadius = a.pixels(R.styleable.AppCustomView_radiusTopLeft)
+        radiusTopLeft = if (attrTopLeftRadius > 0F) attrTopLeftRadius else radius
+
+        val attrTopRightRadius = a.pixels(R.styleable.AppCustomView_radiusTopRight)
+        radiusTopRight = if (attrTopLeftRadius > 0F) attrTopRightRadius else radius
+
+        val attrBottomLeftRadius = a.pixels(R.styleable.AppCustomView_radiusBottomLeft)
+        radiusBottomLeft = if (attrTopLeftRadius > 0F) attrBottomLeftRadius else radius
+
+        val attrBottomRightRadius = a.pixels(R.styleable.AppCustomView_radiusBottomRight)
+        radiusBottomRight = if (attrTopLeftRadius > 0F) attrBottomRightRadius else radius
+
+        backgroundColor = a.getColor(R.styleable.AppCustomView_android_background, Color.WHITE)
+
+        strokeLineWidth = a.pixels(R.styleable.AppCustomView_strokeLineWidth)
+        strokeLineColor = a.getColor(R.styleable.AppCustomView_strokeLineColor, Color.DKGRAY)
+
+        dashLineWidth = a.pixels(R.styleable.AppCustomView_dashLineWidth)
+        dashLineGap = a.pixels(R.styleable.AppCustomView_dashLineGap)
+
+        a.recycle()
+    }
+
     private fun clipPathCanvas(canvas: Canvas, floatArray: FloatArray) {
         path?.let {
             it.addRoundRect(
-                RectF(0F, 0F, canvas.width.toFloat(), canvas.height.toFloat()),
-                floatArray,
-                Path.Direction.CW
+                    RectF(0F, 0F, canvas.width.toFloat(), canvas.height.toFloat()),
+                    floatArray,
+                    Path.Direction.CW
             )
             canvas.clipPath(it)
         }
     }
 
-    override fun setBackgroundColor(color: Int) {
-        backgroundColor = color
+    private fun TypedArray.pixels(@StyleableRes id: Int): Float {
+        return getDimensionPixelSize(id, 0).toFloat()
     }
 
     /** For not showing red underline */

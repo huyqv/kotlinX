@@ -187,8 +187,7 @@ fun EditText.addDateWatcher() {
                 }
             }
             ignore = true
-            this@addDateWatcher.setText(sb.toString())
-            this@addDateWatcher.setSelection(sb.length)
+            setTextSilently(sb.toString())
         }
     })
 }

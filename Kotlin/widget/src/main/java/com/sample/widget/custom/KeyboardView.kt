@@ -69,12 +69,14 @@ class KeyboardView : AppCustomView<KeyboardBinding> {
 
     private val imageView: ImageView get() = bind.imageViewKeyboard
 
+    private var alwaysVisible: Boolean = true
+
     private val Activity.screenHeight: Int
         get() {
             return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                 val windowMetrics: WindowMetrics = this.windowManager.currentWindowMetrics
                 val insets: Insets = windowMetrics.windowInsets
-                    .getInsetsIgnoringVisibility(WindowInsets.Type.systemBars())
+                        .getInsetsIgnoringVisibility(WindowInsets.Type.systemBars())
                 windowMetrics.bounds.height() - insets.top - insets.bottom
             } else {
                 val displayMetrics = DisplayMetrics()
@@ -153,13 +155,18 @@ class KeyboardView : AppCustomView<KeyboardBinding> {
     }
 
     private fun keyboardHasHide() {
+        if (!alwaysVisible) {
+            updateViewHeight(0)
+        }
         onKeyboardVisibilityChanged?.invoke()
         onKeyboardVisibilityChanged = null
         onKeyboardHide?.invoke()
     }
 
     private fun keyboardHasShow(keyboardHeight: Int) {
-        if (keyboardHeight <= 0 || keyboardHeight == savedKeyboardHeight) return
+        if (keyboardHeight <= 0 || keyboardHeight == savedKeyboardHeight) {
+            return
+        }
         savedKeyboardHeight = keyboardHeight
         updateViewHeight(keyboardHeight)
         onKeyboardVisibilityChanged?.invoke()
@@ -209,10 +216,16 @@ class KeyboardView : AppCustomView<KeyboardBinding> {
         return this
     }
 
-    fun requestFocus(v: View?) {
+    fun requestFocus(v: View?): KeyboardView {
         actionFocus = {
             v?.requestFocus()
         }
+        return this
+    }
+
+    fun alwaysVisible(isAlwaysVisible: Boolean = true): KeyboardView {
+        alwaysVisible = isAlwaysVisible
+        return this
     }
 
     fun start() {
