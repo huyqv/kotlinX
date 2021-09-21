@@ -42,12 +42,12 @@ val USERNAME_REGEX
     get() = """[0-9a-zA-Z]+""".toRegex()
 
 val PERSON_NAME_REGEX
-    get() = """[a-zA-Z ]+[a-zA-Z]+""".toRegex()
+    get() = """[a-zA-Z ]+""".toRegex()
 
 private val VN_CHARS get() = "a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ"
 
 val VN_PERSON_NAME_REGEX
-    get() = """[$VN_CHARS ]+[$VN_CHARS]+""".toRegex()
+    get() = """[$VN_CHARS ]+""".toRegex()
 
 val DIGIT_CHARS
     get() = charsFilter(charArrayOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9'))
@@ -93,26 +93,31 @@ val VN_PERSON_NAME_CHARS
         'â', 'ầ', 'ấ', 'ẩ', 'ẫ', 'ậ',
         'è', 'é', 'ẻ', 'ẽ', 'ẹ',
         'ề', 'ế', 'ể', 'ễ', 'ệ',
-        'ì', 'í', 'ỉ', 'ĩ', 'ị',
-        'ò', 'ó', 'ỏ', 'õ', 'ọ',
-        'ơ', 'ờ', 'ớ', 'ở', 'ỡ', 'ợ',
-        'ô', 'ồ', 'ố', 'ổ', 'ỗ', 'ộ',
-        'ù', 'ú', 'ủ', 'ũ', 'ụ',
-        'ư', 'ừ', 'ứ', 'ử', 'ữ', 'ự',
-        'đ',
-        '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ' ', '-'
+            'ì', 'í', 'ỉ', 'ĩ', 'ị',
+            'ò', 'ó', 'ỏ', 'õ', 'ọ',
+            'ơ', 'ờ', 'ớ', 'ở', 'ỡ', 'ợ',
+            'ô', 'ồ', 'ố', 'ổ', 'ỗ', 'ộ',
+            'ù', 'ú', 'ủ', 'ũ', 'ụ',
+            'ư', 'ừ', 'ứ', 'ử', 'ữ', 'ự',
+            'đ',
+            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ' ', '-'
     )
+
+val nameMinLength get() = 1
+
+val nameMaxLength get() = 32
 
 val String?.isPersonName: Boolean
     get() {
-        if (isNullOrEmpty()) return false
-        return this.matches("[0-9a-zA-Z ]".toRegex())
+        val s = this?.trim() ?: ""
+        if (s.isNullOrEmpty()) return false
+        return s.matches(PERSON_NAME_REGEX) && s.length in nameMinLength..nameMaxLength
     }
 
 val String?.isUsername: Boolean
     get() {
         this ?: return false
-        return matches("[a-zA-Z0-9]+".toRegex())
+        return this.trim().matches("[a-zA-Z0-9]+".toRegex())
     }
 
 val String?.isPassword: Boolean
@@ -144,7 +149,7 @@ val String?.isDigit: Boolean
 val String?.isEmail: Boolean
     get() {
         this ?: return false
-        return android.util.Patterns.EMAIL_ADDRESS.matcher(this).matches()
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(this.trim()).matches()
     }
 
 val String?.isNotEmail: Boolean
@@ -153,7 +158,7 @@ val String?.isNotEmail: Boolean
 val String?.isPhoneNumber: Boolean
     get() {
         val first = this?.firstOrNull() ?: return false
-        return first.toString() == "0" && this.length > 9
+        return first.toString() == "0" && this.trim().length > 9
     }
 
 fun String?.isDate(fmt: SimpleDateFormat): Boolean {

@@ -12,9 +12,12 @@ import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 import com.kotlin.app.R
 import com.sample.library.extension.hideKeyboard
+import com.sample.library.util.Logger
 
 abstract class BaseDialogFragment<T : ViewBinding> : DialogFragment(),
     FragmentView {
+
+    protected val log: Logger by lazy { Logger(this::class) }
 
     protected val bind: T by viewBinding(inflating())
 
@@ -61,8 +64,14 @@ abstract class BaseDialogFragment<T : ViewBinding> : DialogFragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        log.d("onViewCreated")
         onViewCreated()
         onLiveDataObserve()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        log.d("onDestroyView")
     }
 
     override fun onStart() {

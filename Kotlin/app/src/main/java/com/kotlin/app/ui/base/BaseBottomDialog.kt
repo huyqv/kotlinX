@@ -16,9 +16,12 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.kotlin.app.R
 import com.sample.library.extension.hideKeyboard
+import com.sample.library.util.Logger
 
 abstract class BaseBottomDialog<T : ViewBinding> : BottomSheetDialogFragment(),
     FragmentView {
+
+    protected val log: Logger by lazy { Logger(this::class) }
 
     protected val bind: T by viewBinding(inflating())
 
@@ -57,8 +60,14 @@ abstract class BaseBottomDialog<T : ViewBinding> : BottomSheetDialogFragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        log.d("onViewCreated")
         onViewCreated()
         onLiveDataObserve()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        log.d("onDestroyView")
     }
 
     override fun onDismiss(dialog: DialogInterface) {

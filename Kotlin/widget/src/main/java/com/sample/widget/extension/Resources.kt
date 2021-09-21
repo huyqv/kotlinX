@@ -1,5 +1,6 @@
 package com.sample.widget.extension
 
+import android.content.res.Resources
 import android.graphics.drawable.Drawable
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
@@ -36,6 +37,14 @@ fun string(@StringRes res: Int, vararg args: Any?): String {
         String.format(app.getString(res), *args)
     } catch (ignore: Exception) {
         ""
+    }
+}
+
+fun resName(id : Int): String{
+    return try {
+        app.resources.getResourceEntryName(id)
+    }catch (e: Resources.NotFoundException){
+        "ResourcesNotFound"
     }
 }
 

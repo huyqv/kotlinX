@@ -12,11 +12,14 @@ import com.sample.library.R
 import com.sample.library.extension.addFragment
 import com.sample.library.extension.removeFragment
 import com.sample.library.extension.replaceFragment
+import com.sample.library.util.Logger
 
 abstract class BaseActivity<T : ViewBinding> : AppCompatActivity(),
     BaseView {
 
-    protected val bind: T by viewBinding(inflating())
+    protected val log: Logger by lazy { Logger(this::class) }
+
+    val bind: T by viewBinding(inflating())
 
     abstract fun inflating(): (LayoutInflater) -> ViewBinding
 
@@ -68,21 +71,23 @@ abstract class BaseActivity<T : ViewBinding> : AppCompatActivity(),
 
     final override val lifecycleOwner: LifecycleOwner get() = this
 
+    /**
+     * SupportFragmentManager transaction
+     */
     protected open fun fragmentContainerId(): Int {
         throw NullPointerException("fragmentContainerId no has implement")
     }
 
-    override fun add(fragment: Fragment, stack: Boolean) {
+    fun add(fragment: Fragment, stack: Boolean) {
         addFragment(fragment, fragmentContainerId(), stack)
     }
 
-    override fun replace(fragment: Fragment, stack: Boolean) {
+    fun replace(fragment: Fragment, stack: Boolean) {
         replaceFragment(fragment, fragmentContainerId(), stack)
     }
 
-    override fun <T : Fragment> remove(cls: Class<T>) {
+    fun <T : Fragment> remove(cls: Class<T>) {
         removeFragment(cls)
     }
-
 
 }

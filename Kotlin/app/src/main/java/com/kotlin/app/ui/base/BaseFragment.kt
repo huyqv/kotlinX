@@ -21,6 +21,7 @@ import androidx.viewbinding.ViewBinding
 import com.sample.library.extension.realPathFromURI
 import com.sample.library.extension.safeClose
 import com.sample.library.extension.statusBarColor
+import com.sample.library.util.Logger
 import com.sample.widget.extension.backgroundColor
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -28,6 +29,8 @@ import java.io.FileInputStream
 import java.io.IOException
 
 abstract class BaseFragment<T : ViewBinding> : Fragment(), FragmentView {
+
+    protected val log: Logger by lazy { Logger(this::class) }
 
     protected val bind: T by viewBinding(inflating())
 
@@ -56,32 +59,15 @@ abstract class BaseFragment<T : ViewBinding> : Fragment(), FragmentView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        launcher = registerForActivityResult(
-            ActivityResultContracts.StartActivityForResult(),
-            ActivityResultCallback { result ->
-                val data: Intent = result?.data ?: return@ActivityResultCallback
-                val uri: Uri = data.data ?: return@ActivityResultCallback
-                val outputStream = ByteArrayOutputStream()
-                try {
-                    val path = realPathFromURI(uri)
-                    val file = File(path)
-                    val inputStream = FileInputStream(file)
-                    val bitmap = BitmapFactory.decodeStream(inputStream)
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
-                    println("")
-                } catch (ignore: IOException) {
-
-                } finally {
-                    outputStream.safeClose()
-                }
-            })
-
+        log.d("onViewCreated")
+        //launcher = getResultLauncher()
         onViewCreated()
         onLiveDataObserve()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
+        log.d("onDestroyView")
         launcher?.unregister()
     }
 
@@ -123,4 +109,25 @@ abstract class BaseFragment<T : ViewBinding> : Fragment(), FragmentView {
         activityNavController()?.navigateUp()
     }
 
+    fun getResultLauncher(): ActivityResultLauncher<Intent> {
+        return registerForActivityResult(
+                ActivityResultContracts.StartActivityForResult(),
+                ActivityResultCallback { result ->
+                    val data: Intent = result?.data ?: return@ActivityResultCallback
+                    val uri: Uri = data.data ?: return@ActivityResultCallback
+                    val outputStream = ByteArrayOutputStream()
+                    try {
+                        val path = realPathFromURI(uri)
+                        val file = File(path)
+                        val inputStream = FileInputStream(file)
+                        val bitmap = BitmapFactory.decodeStream(inputStream)
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+                        println("")
+                    } catch (ignore: IOException) {
+
+                    } finally {
+                        outputStream.safeClose()
+                    }
+                })
+    }
 }

@@ -2,7 +2,6 @@ package com.kotlin.app.ui.base
 
 import android.view.View
 import androidx.annotation.IdRes
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -33,12 +32,6 @@ interface BaseView {
 
     fun onViewClick(v: View?) = Unit
 
-    fun add(fragment: Fragment, stack: Boolean = true)
-
-    fun replace(fragment: Fragment, stack: Boolean = true)
-
-    fun <T : Fragment> remove(cls: Class<T>)
-
     fun NavController?.navigate(@IdRes actionId: Int, block: (NavigationBuilder.() -> Unit)? = null) {
         this ?: return
         NavigationBuilder(this).also {
@@ -49,6 +42,10 @@ interface BaseView {
 
     fun navigate(@IdRes actionId: Int, block: (NavigationBuilder.() -> Unit)? = null) {
         activityNavController().navigate(actionId, block)
+    }
+
+    fun popBackStack(@IdRes fragmentId : Int, inclusive : Boolean = false) {
+        activityNavController()?.popBackStack(fragmentId, inclusive)
     }
 
     val defaultArgKey: String get() = "DEFAULT_ARG_KEY"

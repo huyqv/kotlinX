@@ -9,7 +9,7 @@ abstract class SecondCountdownTimer(private val intervalMillis: Long = 10 * SECO
 
     companion object {
         private const val SECOND = 1000L
-        val now get() = System.currentTimeMillis()
+        private val nowInMillis get() = System.currentTimeMillis()
     }
 
     private var startTime: Long = 0
@@ -19,8 +19,8 @@ abstract class SecondCountdownTimer(private val intervalMillis: Long = 10 * SECO
     private val stickLiveData = MutableLiveData<Long>()
 
     fun start(lifecycleOwner: LifecycleOwner) {
-        startTime = now
-        stickLiveData.value = intervalMillis + startTime - now
+        startTime = nowInMillis
+        stickLiveData.value = intervalMillis + startTime - nowInMillis
         stickLiveData.observe(lifecycleOwner, Observer {
             it ?: return@Observer
             if (it > 0) {
@@ -43,13 +43,13 @@ abstract class SecondCountdownTimer(private val intervalMillis: Long = 10 * SECO
             do {
                 onDoStick()
                 delay(200)
-            } while (now - startTime <= intervalMillis)
-            onDoStick()
+            } while (nowInMillis - startTime <= intervalMillis)
         }
+        onDoStick()
     }
 
     private fun onDoStick() {
-        val remainMillis = intervalMillis + startTime - now
+        val remainMillis = intervalMillis + startTime - nowInMillis
         stickLiveData.postValue(remainMillis)
     }
 

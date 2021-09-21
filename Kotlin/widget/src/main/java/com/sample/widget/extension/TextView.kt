@@ -133,8 +133,8 @@ fun EditText.addEditorActionListener(actionId: Int, block: (String?) -> Unit) {
                 this@addEditorActionListener.post {
                     isSelected = false
                     block(text.toString())
-                    hideKeyboard()
-                    clearFocus()
+                    //hideKeyboard()
+                    //clearFocus()
                 }
                 return true
             }
@@ -223,20 +223,17 @@ fun TextView.setHyperText(@StringRes res: Int, vararg args: Any?) {
 
 fun TextView.setHyperText(s: String?, vararg args: Any?) {
     post {
-        text = when {
-            s.isNullOrEmpty() -> {
-                null
+        text = try {
+            when {
+                s.isNullOrEmpty() -> null
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.N -> Html.fromHtml(s.format(*args), Html.FROM_HTML_MODE_LEGACY)
+                else -> {
+                    @Suppress("DEPRECATION")
+                    Html.fromHtml(s.format(*args))
+                }
             }
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.N -> {
-                Html.fromHtml(
-                    s.format(*args),
-                    Html.FROM_HTML_MODE_LEGACY  /*Html.FROM_HTML_MODE_COMPACT*/
-                )
-            }
-            else -> {
-                @Suppress("DEPRECATION")
-                Html.fromHtml(s.format(*args))
-            }
+        } catch (e: Throwable) {
+            s
         }
     }
 }

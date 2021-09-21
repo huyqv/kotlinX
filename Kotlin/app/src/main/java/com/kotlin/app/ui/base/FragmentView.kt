@@ -29,17 +29,6 @@ interface FragmentView : BaseView {
         return baseActivity?.activityNavController()
     }
 
-    override fun add(fragment: Fragment, stack: Boolean) {
-        baseActivity?.add(fragment, stack)
-    }
-
-    override fun replace(fragment: Fragment, stack: Boolean) {
-        baseActivity?.replace(fragment, stack)
-    }
-
-    override fun <T : Fragment> remove(cls: Class<T>) {
-        baseActivity?.remove(cls)
-    }
 
     /**
      * [FragmentView] utils
@@ -89,6 +78,48 @@ interface FragmentView : BaseView {
 
     fun launch(delayInterval: Long, unit: Unit) {
         launch(delayInterval) { unit }
+    }
+
+    /**
+     * SupportFragmentManager transaction
+     */
+    fun add(fragment: Fragment, stack: Boolean) {
+        baseActivity?.add(fragment, stack)
+    }
+
+    fun replace(fragment: Fragment, stack: Boolean) {
+        baseActivity?.replace(fragment, stack)
+    }
+
+    fun <T : Fragment> remove(cls: Class<T>) {
+        baseActivity?.remove(cls)
+    }
+
+    /**
+     * Navigation
+     */
+    fun childNavigate(@IdRes actionId: Int, block: (NavigationBuilder.() -> Unit)? = null) {
+        fragment.findNavController().navigate(actionId, block)
+    }
+
+    fun childPopBackStack(@IdRes fragmentId: Int = 0, inclusive: Boolean = false) {
+        if (fragmentId != 0) {
+            fragment.findNavController().popBackStack(fragmentId, inclusive)
+        } else {
+            fragment.findNavController().popBackStack()
+        }
+    }
+
+    fun mainNavigate(@IdRes actionId: Int, block: (NavigationBuilder.() -> Unit)? = null) {
+        activityNavController()?.navigate(actionId, block)
+    }
+
+    fun mainPopBackStack(@IdRes fragmentId: Int = 0, inclusive: Boolean = false) {
+        if (fragmentId != 0) {
+            activityNavController()?.popBackStack(fragmentId, inclusive)
+        } else {
+            activityNavController()?.popBackStack()
+        }
     }
 
 }

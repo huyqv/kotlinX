@@ -3,6 +3,7 @@ package com.sample.library.util
 import android.util.Log
 import com.google.gson.JsonObject
 import org.json.JSONObject
+import kotlin.reflect.KClass
 
 open class Logger {
 
@@ -12,8 +13,8 @@ open class Logger {
         this.tag = if (string.length > 23) string.substring(0, 22) else string
     }
 
-    constructor(cls: Class<*>) {
-        val s = cls.simpleName
+    constructor(cls: KClass<*>) {
+        val s = cls.java.simpleName
         this.tag = if (s.length > 23) s.substring(0, 22) else s
     }
 
