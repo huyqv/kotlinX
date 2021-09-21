@@ -26,42 +26,9 @@ import androidx.fragment.app.FragmentActivity
 import com.sample.widget.app
 import kotlin.math.roundToInt
 
-fun Float.dpToPx(): Float {
-    val resources = app.resources
-    val scale = resources.displayMetrics.density
-    return (this * scale + 0.5f)
-}
-
-fun Float.spToPx(): Int {
-    return TypedValue.applyDimension(
-        TypedValue.COMPLEX_UNIT_SP,
-        this,
-        Resources.getSystem().displayMetrics
-    ).roundToInt()
-}
-
-fun Float.dpToSp(): Int {
-    return (this.dpToPx() / this.spToPx().toFloat()).roundToInt()
-}
-
-fun Float.pxToDp(): Float {
-    return this / (app.resources.displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)
-}
-
-fun Float.dipToPx(): Float {
-    return TypedValue.applyDimension(
-        TypedValue.COMPLEX_UNIT_DIP,
-        this,
-        app.resources.displayMetrics
-    )
-}
-
-fun Int.pxToDp(): Int {
-    return (this / Resources.getSystem().displayMetrics.density).roundToInt()
-}
-
-fun Int.pxToSp(): Int {
-    return (this / Resources.getSystem().displayMetrics.density).roundToInt()
+fun View.dpToPx(value: Float): Float {
+    val scale = context.resources.displayMetrics.density
+    return (value * scale + 0.5f)
 }
 
 fun Int.isDarkColor(): Boolean {
