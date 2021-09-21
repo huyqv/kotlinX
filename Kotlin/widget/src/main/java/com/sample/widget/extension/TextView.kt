@@ -226,7 +226,10 @@ fun TextView.setHyperText(s: String?, vararg args: Any?) {
         text = try {
             when {
                 s.isNullOrEmpty() -> null
-                Build.VERSION.SDK_INT >= Build.VERSION_CODES.N -> Html.fromHtml(s.format(*args), Html.FROM_HTML_MODE_LEGACY)
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.N -> Html.fromHtml(
+                    s.format(*args),
+                    Html.FROM_HTML_MODE_LEGACY
+                )
                 else -> {
                     @Suppress("DEPRECATION")
                     Html.fromHtml(s.format(*args))

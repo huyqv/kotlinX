@@ -32,7 +32,10 @@ interface BaseView {
 
     fun onViewClick(v: View?) = Unit
 
-    fun NavController?.navigate(@IdRes actionId: Int, block: (NavigationBuilder.() -> Unit)? = null) {
+    fun NavController?.navigate(
+        @IdRes actionId: Int,
+        block: (NavigationBuilder.() -> Unit)? = null
+    ) {
         this ?: return
         NavigationBuilder(this).also {
             block?.invoke(it)
@@ -44,7 +47,7 @@ interface BaseView {
         activityNavController().navigate(actionId, block)
     }
 
-    fun popBackStack(@IdRes fragmentId : Int, inclusive : Boolean = false) {
+    fun popBackStack(@IdRes fragmentId: Int, inclusive: Boolean = false) {
         activityNavController()?.popBackStack(fragmentId, inclusive)
     }
 
@@ -55,12 +58,17 @@ interface BaseView {
     }
 
     fun <T> setNavResult(key: String?, result: T) {
-        activityNavController()?.previousBackStackEntry?.savedStateHandle?.set(key
-                ?: defaultArgKey, result)
+        activityNavController()?.previousBackStackEntry?.savedStateHandle?.set(
+            key
+                ?: defaultArgKey, result
+        )
     }
 
     fun <T> setNavResult(result: T) {
-        activityNavController()?.previousBackStackEntry?.savedStateHandle?.set(defaultArgKey, result)
+        activityNavController()?.previousBackStackEntry?.savedStateHandle?.set(
+            defaultArgKey,
+            result
+        )
     }
 
     fun <T> LiveData<T>.observe(block: (T) -> Unit) {

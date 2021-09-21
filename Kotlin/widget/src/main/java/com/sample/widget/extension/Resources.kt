@@ -40,10 +40,10 @@ fun string(@StringRes res: Int, vararg args: Any?): String {
     }
 }
 
-fun resName(id : Int): String{
+fun resName(id: Int): String {
     return try {
         app.resources.getResourceEntryName(id)
-    }catch (e: Resources.NotFoundException){
+    } catch (e: Resources.NotFoundException) {
         "ResourcesNotFound"
     }
 }
