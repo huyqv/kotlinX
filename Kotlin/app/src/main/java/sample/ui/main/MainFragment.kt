@@ -3,7 +3,7 @@ package sample.ui.main
 import android.widget.TextView
 import androidx.viewbinding.ViewBinding
 import com.kotlin.app.ui.base.BaseFragment
-import com.sample.library.extension.activityVM
+import com.sample.library.extension.lazyActivityVM
 import com.sample.widget.extension.addViewClickListener
 import sample.ui.date.DateArg
 import sample.ui.selectable.SelectableAdapter
@@ -14,9 +14,9 @@ abstract class MainFragment<B : ViewBinding> : BaseFragment<B>(), MainView {
 
     override val mainActivity get() = requireActivity() as? MainActivity
 
-    override val mainVM by activityVM(MainVM::class)
+    override val mainVM by lazyActivityVM(MainVM::class)
 
-    override val dialogVM by activityVM(DialogVM::class)
+    override val dialogVM by lazyActivityVM(DialogVM::class)
 
     fun buildDatePicker(view: TextView, builder: (DateArg) -> Unit) {
         val arg = DateArg(
