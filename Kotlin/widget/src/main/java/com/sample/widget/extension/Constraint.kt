@@ -108,8 +108,9 @@ class ConstraintBuilder(private val constraintLayout: ConstraintLayout) {
 
 class ItemTransitionListener(private val vh: RecyclerView.ViewHolder, private val position: Int) :
     SimpleMotionTransitionListener {
+
     override fun equals(other: Any?): Boolean {
-        return position === (other as? ItemTransitionListener)?.position
+        return position == (other as? ItemTransitionListener)?.position
     }
 
     override fun onTransitionStarted(layout: MotionLayout, startId: Int, endId: Int) {

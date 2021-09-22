@@ -23,6 +23,8 @@ class MainActivity : BaseActivity<MainBinding>() {
     }
 
     override fun onViewCreated() {
+        bind.statusBarView.observer(this)
+        bind.keyboardView.observer(this)
     }
 
     override fun onLiveDataObserve() {

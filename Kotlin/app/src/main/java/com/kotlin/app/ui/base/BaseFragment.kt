@@ -90,25 +90,6 @@ abstract class BaseFragment<T : ViewBinding> : Fragment(), FragmentView {
         requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
     }
 
-    /**
-     * Navigation
-     */
-    fun childNavigate(@IdRes actionId: Int, block: (NavigationBuilder.() -> Unit)? = null) {
-        fragment.findNavController().navigate(actionId, block)
-    }
-
-    fun childNavigateUp() {
-        fragment.findNavController().navigateUp()
-    }
-
-    fun mainNavigate(@IdRes actionId: Int, block: (NavigationBuilder.() -> Unit)? = null) {
-        activityNavController()?.navigate(actionId, block)
-    }
-
-    fun mainNavigateUp() {
-        activityNavController()?.navigateUp()
-    }
-
     fun getResultLauncher(): ActivityResultLauncher<Intent> {
         return registerForActivityResult(
             ActivityResultContracts.StartActivityForResult(),

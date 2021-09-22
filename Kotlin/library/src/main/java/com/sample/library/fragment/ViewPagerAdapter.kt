@@ -10,11 +10,10 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 /**
  * Base fragment adapter for [androidx.viewpager2.widget.ViewPager2]
  */
-open class FragmentAdapter : FragmentStateAdapter {
+open class ViewPagerAdapter : FragmentStateAdapter {
 
-    /**
-     * [FragmentStateAdapter] override
-     */
+    open var fragments = mutableListOf<Fragment>()
+
     constructor(fragment: Fragment)
             : super(fragment.childFragmentManager, fragment.lifecycle)
 
@@ -36,19 +35,16 @@ open class FragmentAdapter : FragmentStateAdapter {
         return fragments.size
     }
 
-    /**
-     * [FragmentAdapter] properties
-     */
-    open var fragments = mutableListOf<Fragment>()
-
     fun set(position: Int, fragment: Fragment) {
         fragments.removeAt(position)
         fragments.add(position, fragment)
-        notifyDataSetChanged()
+        notifyItemChanged(position)
     }
 
-    fun addFragments(vararg frags: Fragment) {
+    fun add(vararg frags: Fragment): ViewPagerAdapter {
         fragments.addAll(frags)
         notifyDataSetChanged()
+        return this
     }
+
 }

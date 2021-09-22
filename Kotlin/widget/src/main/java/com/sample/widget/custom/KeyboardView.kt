@@ -49,6 +49,10 @@ import kotlinx.coroutines.launch
  */
 class KeyboardView : AppCustomView<KeyboardBinding> {
 
+    companion object {
+        private var savedKeyboardHeight: Int = 0
+    }
+
     var onKeyboardShow: (() -> Unit)? = null
 
     var onKeyboardHide: (() -> Unit)? = null
@@ -254,9 +258,7 @@ class KeyboardView : AppCustomView<KeyboardBinding> {
         }
     }
 
-    companion object {
-        var savedKeyboardHeight: Int = 0
-    }
+
 
 
 }

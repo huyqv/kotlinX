@@ -60,7 +60,7 @@ class AppInputView : AppCustomView<AppInputBinding>,
         } else {
             disableFocus()
             editText.setOnClickListener {
-                listener?.onClick(this)
+                listener.onClick(this)
             }
         }
     }

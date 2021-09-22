@@ -111,7 +111,7 @@
     <style name="EditText" parent="TextView">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/rowHeight</item>
-        <!--<item name="android:background">@null</item>-->
+        <item name="android:background">@null</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:importantForAutofill" tools:targetApi="o">no</item>
         <item name="android:includeFontPadding">true</item>

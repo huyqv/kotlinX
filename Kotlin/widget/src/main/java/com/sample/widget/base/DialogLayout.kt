@@ -3,6 +3,7 @@ package com.sample.widget.base
 import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
+import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 
 class DialogLayout : ConstraintLayout {
@@ -14,7 +15,9 @@ class DialogLayout : ConstraintLayout {
     constructor(context: Context, attrs: AttributeSet? = null) : super(context, attrs) {
         setBackgroundColor(backgroundColor)
         when (context) {
-            is androidx.appcompat.view.ContextThemeWrapper, is android.view.ContextThemeWrapper -> {
+            is androidx.appcompat.view.ContextThemeWrapper,
+            is android.view.ContextThemeWrapper,
+            is AppCompatActivity -> {
                 setPadding(0, statusBarHeight, 0, 0)
             }
         }
