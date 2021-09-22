@@ -5,7 +5,6 @@ import android.util.AttributeSet
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
-import com.sample.widget.R
 import kotlinx.coroutines.delay
 
 class StatusBarView : AppExpandableLayout {
@@ -18,7 +17,7 @@ class StatusBarView : AppExpandableLayout {
         get() {
             val resources = context.resources
             val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
-            if(resourceId > 0) return resources.getDimensionPixelSize(resourceId)
+            if (resourceId > 0) return resources.getDimensionPixelSize(resourceId)
             return 0
         }
 

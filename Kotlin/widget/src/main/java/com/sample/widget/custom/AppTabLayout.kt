@@ -50,8 +50,8 @@ class AppTabLayout : ConstraintLayout {
 
     private fun updateTabSelectView(selectedView: View) {
         val sId = selectionBarView?.id ?: return
-        val height = 2F.dpToPx().toInt()
-        val extraWidth = 2F.dpToPx().toInt()
+        val height = dpToPx(2F).toInt()
+        val extraWidth = dpToPx(1F).toInt()
         val width = selectedView.width + extraWidth
         beginTransition(400) {
             constrainWidth(sId, width)
@@ -70,7 +70,7 @@ class AppTabLayout : ConstraintLayout {
             it.id = View.generateViewId()
         }
         this.addView(selectionBarView)
-        val height = 2F.dpToPx().toInt()
+        val height = dpToPx(2F).toInt()
         val sId = selectionBarView!!.id
         editConstraint {
             constrainWidth(sId, 1)

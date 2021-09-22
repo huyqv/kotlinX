@@ -22,7 +22,6 @@ import androidx.viewbinding.ViewBinding
 import com.sample.widget.R
 import com.sample.widget.extension.DIGIT_CHARS
 import com.sample.widget.extension.addFilter
-import com.sample.widget.extension.addViewClickListener
 
 abstract class InputView<B : ViewBinding> : AppCustomView<B>, View.OnFocusChangeListener {
 

@@ -80,7 +80,7 @@ class KeyboardView : AppCustomView<KeyboardBinding> {
             return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                 val windowMetrics: WindowMetrics = this.windowManager.currentWindowMetrics
                 val insets: Insets = windowMetrics.windowInsets
-                        .getInsetsIgnoringVisibility(WindowInsets.Type.systemBars())
+                    .getInsetsIgnoringVisibility(WindowInsets.Type.systemBars())
                 windowMetrics.bounds.height() - insets.top - insets.bottom
             } else {
                 val displayMetrics = DisplayMetrics()
@@ -257,8 +257,6 @@ class KeyboardView : AppCustomView<KeyboardBinding> {
             imm.hideSoftInputFromWindow(windowToken, 0)
         }
     }
-
-
 
 
 }

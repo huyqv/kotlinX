@@ -1,7 +1,6 @@
 package com.sample.widget.custom
 
 import android.content.Context
-import android.content.res.Resources
 import android.content.res.TypedArray
 import android.graphics.BlendMode
 import android.graphics.BlendModeColorFilter
@@ -10,8 +9,6 @@ import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.util.AttributeSet
-import android.util.DisplayMetrics
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,7 +22,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.viewbinding.ViewBinding
 import com.sample.widget.R
-import kotlin.math.roundToInt
 
 abstract class AppCustomView<B : ViewBinding> : ConstraintLayout {
 
