@@ -57,18 +57,16 @@ interface BaseView {
         return activityNavController()?.currentBackStackEntry?.savedStateHandle?.getLiveData(key)
     }
 
-    fun <T> setNavResult(key: String?, result: T) {
-        activityNavController()?.previousBackStackEntry?.savedStateHandle?.set(
-            key
-                ?: defaultArgKey, result
-        )
+    fun <T> setNavResult(key: String, result: T) {
+        activityNavController()
+                ?.previousBackStackEntry
+                ?.savedStateHandle?.set(key, result)
     }
 
     fun <T> setNavResult(result: T) {
-        activityNavController()?.previousBackStackEntry?.savedStateHandle?.set(
-            defaultArgKey,
-            result
-        )
+        activityNavController()
+                ?.previousBackStackEntry
+                ?.savedStateHandle?.set(defaultArgKey, result)
     }
 
     fun <T> LiveData<T>.observe(block: (T) -> Unit) {

@@ -89,7 +89,7 @@ open class AppConstraintLayout : ConstraintLayout {
         path = Path()
 
         clipPathCanvas(
-                canvas, floatArrayOf(
+            canvas, floatArrayOf(
                 radiusTopLeft, radiusTopLeft, radiusTopRight, radiusTopRight, radiusBottomRight,
                 radiusBottomRight, radiusBottomLeft, radiusBottomLeft
             )
@@ -149,9 +149,9 @@ open class AppConstraintLayout : ConstraintLayout {
     private fun clipPathCanvas(canvas: Canvas, floatArray: FloatArray) {
         path?.let {
             it.addRoundRect(
-                    RectF(0F, 0F, canvas.width.toFloat(), canvas.height.toFloat()),
-                    floatArray,
-                    Path.Direction.CW
+                RectF(0F, 0F, canvas.width.toFloat(), canvas.height.toFloat()),
+                floatArray,
+                Path.Direction.CW
             )
             canvas.clipPath(it)
         }

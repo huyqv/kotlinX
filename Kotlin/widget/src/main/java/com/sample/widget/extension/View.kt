@@ -3,13 +3,10 @@ package com.sample.widget.extension
 import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
-import android.content.res.Resources
 import android.graphics.*
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Build
-import android.util.DisplayMetrics
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,7 +24,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.findViewTreeLifecycleOwner
 import com.sample.widget.app
-import kotlin.math.roundToInt
 
 fun View.requireActivity(): Activity? {
     val lifecycleOwner = this.findViewTreeLifecycleOwner()
