@@ -5,22 +5,12 @@ import java.util.*
 import java.util.regex.Pattern
 import java.util.stream.Collectors
 
-fun <T> List<T>.copyList(): MutableList<T> {
+fun <T> List<T>.copy(): MutableList<T> {
     return if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
         this.stream().collect(Collectors.toList())
     } else {
         this.toMutableList()
     }
-}
-
-fun <T, R> Collection<T>.transform(block: (T) -> R?): List<R> {
-    val list = mutableListOf<R>()
-    for (item in this) {
-        block(item)?.also {
-            list.add(it)
-        }
-    }
-    return list
 }
 
 fun <T> List<T>?.join(collection: Collection<T>?): List<T>? {
@@ -32,17 +22,6 @@ fun <T> List<T>?.join(collection: Collection<T>?): List<T>? {
         list.addAll(collection)
     }
     return if (list.isEmpty()) return null else list
-}
-
-fun <T> Collection<T?>?.filters(block: (T) -> T?): MutableList<T>? {
-    this ?: return null
-    val list = mutableListOf<T>()
-    for (item in this) {
-        item ?: continue
-        val filterItem = block(item) ?: continue
-        list.add(filterItem)
-    }
-    return list
 }
 
 /**
@@ -76,8 +55,4 @@ private fun String?.normalizer(): String? {
     } catch (e: IllegalArgumentException) {
         null
     }
-}
-
-fun <T> List<T>.copy(): List<T> {
-    return this.toList()
 }
