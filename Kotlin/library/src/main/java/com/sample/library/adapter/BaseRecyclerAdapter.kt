@@ -1,7 +1,6 @@
-package com.sample.library.recycler
+package com.sample.library.adapter
 
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -37,8 +36,7 @@ abstract class BaseRecyclerAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHo
         viewType: Int /* also it layout resource id */
     ): RecyclerView.ViewHolder {
         if (viewType != 0) {
-            val v = LayoutInflater.from(parent.context).inflate(viewType, parent, false)
-            return BaseViewHolder(v)
+            return BaseViewHolder(parent = parent, layoutId = viewType)
         }
         return GoneViewHolder(parent)
     }

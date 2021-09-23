@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.kotlin.app.R
 import com.kotlin.app.databinding.SelectableBinding
-import com.sample.library.recycler.initLayoutManager
+import com.sample.library.adapter.initLayoutManager
 import com.sample.widget.extension.isGone
 import sample.ui.main.MainDialogFragment
 

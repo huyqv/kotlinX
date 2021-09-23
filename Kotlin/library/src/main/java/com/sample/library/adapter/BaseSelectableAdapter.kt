@@ -1,4 +1,4 @@
-package com.sample.library.recycler
+package com.sample.library.adapter
 
 import androidx.viewbinding.ViewBinding
 

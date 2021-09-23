@@ -5,9 +5,9 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.kotlin.app.R
 import com.kotlin.app.databinding.DateItemBinding
-import com.sample.library.recycler.BaseListAdapter
-import com.sample.library.recycler.BaseRecyclerAdapter
-import com.sample.library.recycler.ItemOptions
+import com.sample.library.adapter.BaseListAdapter
+import com.sample.library.adapter.BaseRecyclerAdapter
+import com.sample.library.adapter.ItemOptions
 import java.lang.ref.WeakReference
 
 class DateAdapter : BaseListAdapter<Int>() {

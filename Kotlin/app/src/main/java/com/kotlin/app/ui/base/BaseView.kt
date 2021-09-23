@@ -33,8 +33,8 @@ interface BaseView {
     fun onViewClick(v: View?) = Unit
 
     fun NavController?.navigate(
-        @IdRes actionId: Int,
-        block: (NavigationBuilder.() -> Unit)? = null
+            @IdRes actionId: Int,
+            block: (NavigationBuilder.() -> Unit)? = null
     ) {
         this ?: return
         NavigationBuilder(this).also {
@@ -51,22 +51,21 @@ interface BaseView {
         activityNavController()?.popBackStack(fragmentId, inclusive)
     }
 
-    val defaultArgKey: String get() = "DEFAULT_ARG_KEY"
-
-    fun <T> navResultLiveData(key: String = defaultArgKey): MutableLiveData<T>? {
-        return activityNavController()?.currentBackStackEntry?.savedStateHandle?.getLiveData(key)
+    fun <T> navResultLiveData(key: String? = null): MutableLiveData<T>? {
+        return activityNavController()?.currentBackStackEntry?.savedStateHandle?.getLiveData(key
+                ?: "")
     }
 
-    fun <T> setNavResult(key: String, result: T) {
+    fun <T> setNavResult(key: String? = null, result: T) {
         activityNavController()
                 ?.previousBackStackEntry
-                ?.savedStateHandle?.set(key, result)
+                ?.savedStateHandle?.set(key ?: "", result)
     }
 
     fun <T> setNavResult(result: T) {
         activityNavController()
                 ?.previousBackStackEntry
-                ?.savedStateHandle?.set(defaultArgKey, result)
+                ?.savedStateHandle?.set("", result)
     }
 
     fun <T> LiveData<T>.observe(block: (T) -> Unit) {

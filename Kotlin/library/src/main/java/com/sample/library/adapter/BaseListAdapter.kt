@@ -1,6 +1,5 @@
-package com.sample.library.recycler
+package com.sample.library.adapter
 
-import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.*
 import androidx.viewbinding.ViewBinding
@@ -40,8 +39,7 @@ abstract class BaseListAdapter<T> : ListAdapter<T, RecyclerView.ViewHolder> {
         viewType: Int /* also it layout resource id */
     ): RecyclerView.ViewHolder {
         if (viewType != 0) {
-            val v = LayoutInflater.from(parent.context).inflate(viewType, parent, false)
-            return BaseViewHolder(v)
+            return BaseViewHolder(parent = parent, layoutId = viewType)
         }
         return GoneViewHolder(parent)
     }

@@ -202,7 +202,7 @@ class ImagePickerJob(val lifecycleOwner: LifecycleOwner) {
         val uri: Uri = data.data ?: return null
         val outputStream = ByteArrayOutputStream()
         return try {
-            val path = realPathFromURI(uri) ?: return null
+            val path: String? = realPathFromURI(uri) ?: return null
             val file = File(path)
             val inputStream = FileInputStream(file)
             val bitmap = BitmapFactory.decodeStream(inputStream)

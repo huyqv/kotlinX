@@ -3,8 +3,8 @@ package sample.ui.selectable
 import androidx.viewbinding.ViewBinding
 import com.kotlin.app.R
 import com.kotlin.app.databinding.SelectableItemBinding
-import com.sample.library.recycler.BaseListAdapter
-import com.sample.library.recycler.ItemOptions
+import com.sample.library.adapter.BaseListAdapter
+import com.sample.library.adapter.ItemOptions
 import com.sample.widget.extension.bold
 import com.sample.widget.extension.hide
 import com.sample.widget.extension.regular

@@ -119,8 +119,9 @@ class KeyboardView : AppCustomView<KeyboardBinding> {
         val inflater = context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         popupWindow = PopupWindow().also {
             it.contentView = inflater.inflate(R.layout.keyboard_popup, null, false)
-            it.softInputMode =
-                WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE or WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE
+            @Suppress("DEPRECATION")
+            it.softInputMode = WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE or
+                    WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE
             it.inputMethodMode = PopupWindow.INPUT_METHOD_NEEDED
             it.width = 0
             it.height = WindowManager.LayoutParams.MATCH_PARENT

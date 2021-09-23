@@ -41,6 +41,7 @@ abstract class BaseAlertDialog<T : ViewBinding> {
 
     constructor() {
         val activity = currentActivity ?: return
+        @Suppress("UNCHECKED_CAST")
         bind = inflating().invoke(LayoutInflater.from(activity), null, false) as T
         bind.root.also {
             it.isFocusable = false
@@ -126,8 +127,8 @@ abstract class BaseAlertDialog<T : ViewBinding> {
         when {
             android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R -> {
                 this.decorView.windowInsetsController?.hide(
-                    WindowInsets.Type.statusBars()
-                            or WindowInsets.Type.navigationBars()
+                        WindowInsets.Type.statusBars()
+                                or WindowInsets.Type.navigationBars()
                 )
             }
             else -> {

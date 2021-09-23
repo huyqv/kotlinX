@@ -45,9 +45,9 @@ abstract class BaseFragment<T : ViewBinding> : Fragment(), FragmentView {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         val view = bind.root
         view.setOnTouchListener { _, _ -> true }
@@ -85,6 +85,7 @@ abstract class BaseFragment<T : ViewBinding> : Fragment(), FragmentView {
      * [BaseFragment] properties
      */
     fun inputModeAdjustResize() {
+        @Suppress("DEPRECATION")
         requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
 
     }
@@ -95,23 +96,23 @@ abstract class BaseFragment<T : ViewBinding> : Fragment(), FragmentView {
 
     fun getResultLauncher(): ActivityResultLauncher<Intent> {
         return registerForActivityResult(
-            ActivityResultContracts.StartActivityForResult(),
-            ActivityResultCallback { result ->
-                val data: Intent = result?.data ?: return@ActivityResultCallback
-                val uri: Uri = data.data ?: return@ActivityResultCallback
-                val outputStream = ByteArrayOutputStream()
-                try {
-                    val path = realPathFromURI(uri)
-                    val file = File(path)
-                    val inputStream = FileInputStream(file)
-                    val bitmap = BitmapFactory.decodeStream(inputStream)
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
-                    println("")
-                } catch (ignore: IOException) {
+                ActivityResultContracts.StartActivityForResult(),
+                ActivityResultCallback { result ->
+                    val data: Intent = result?.data ?: return@ActivityResultCallback
+                    val uri: Uri = data.data ?: return@ActivityResultCallback
+                    val outputStream = ByteArrayOutputStream()
+                    try {
+                        val path = realPathFromURI(uri)
+                        val file = File(path)
+                        val inputStream = FileInputStream(file)
+                        val bitmap = BitmapFactory.decodeStream(inputStream)
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+                        println("")
+                    } catch (ignore: IOException) {
 
-                } finally {
-                    outputStream.safeClose()
-                }
-            })
+                    } finally {
+                        outputStream.safeClose()
+                    }
+                })
     }
 }
