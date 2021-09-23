@@ -6,7 +6,7 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
 
 abstract class BaseRecyclerAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
-        BaseAdapter<T> {
+    BaseAdapter<T> {
 
     /**
      * [PagingDataAdapter] implements

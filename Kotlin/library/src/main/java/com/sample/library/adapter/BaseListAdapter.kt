@@ -4,7 +4,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.*
 
 abstract class BaseListAdapter<T> : ListAdapter<T, RecyclerView.ViewHolder>,
-        BaseAdapter<T> {
+    BaseAdapter<T> {
 
     private val differ: AsyncListDiffer<T>
 

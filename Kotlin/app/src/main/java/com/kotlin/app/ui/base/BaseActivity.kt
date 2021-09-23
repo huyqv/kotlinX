@@ -15,7 +15,7 @@ import com.sample.library.extension.replaceFragment
 import com.sample.library.util.Logger
 
 abstract class BaseActivity<T : ViewBinding> : AppCompatActivity(),
-        BaseView {
+    BaseView {
 
     protected val log: Logger by lazy { Logger(this::class) }
 

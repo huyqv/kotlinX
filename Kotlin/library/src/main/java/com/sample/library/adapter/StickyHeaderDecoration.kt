@@ -157,7 +157,6 @@ class StickyHeaderDecoration<T : RecyclerView.ViewHolder>(
     }
 
 
-
     companion object {
 
         private fun translatedChildPosition(parent: RecyclerView, position: Int): Int {

@@ -6,7 +6,6 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
 import android.os.*
-import android.text.Editable
 import android.text.InputFilter
 import android.util.AttributeSet
 import android.util.TypedValue
@@ -168,7 +167,7 @@ class AppInputView : AppCustomView<AppInputBinding>,
         it.isLongClickable = false
         it.setOnCreateContextMenuListener { menu, _, _ -> menu.clear() }
         it.setText(types.text)
-        it.addTextChangedListener(object : SimpleTextWatcher(){
+        it.addTextChangedListener(object : SimpleTextWatcher() {
             override fun afterTextChanged(s: String) {
                 onTextChanged?.invoke(s)
                 when {

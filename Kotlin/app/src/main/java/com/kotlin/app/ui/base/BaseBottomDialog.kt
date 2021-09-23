@@ -19,7 +19,7 @@ import com.sample.library.extension.hideKeyboard
 import com.sample.library.util.Logger
 
 abstract class BaseBottomDialog<T : ViewBinding> : BottomSheetDialogFragment(),
-        FragmentView {
+    FragmentView {
 
     protected val log: Logger by lazy { Logger(this::class) }
 
@@ -48,9 +48,9 @@ abstract class BaseBottomDialog<T : ViewBinding> : BottomSheetDialogFragment(),
     }
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         val view = bind.root
         view.setOnTouchListener { _, _ -> true }

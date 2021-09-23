@@ -15,7 +15,7 @@ import com.sample.library.extension.hideKeyboard
 import com.sample.library.util.Logger
 
 abstract class BaseDialogFragment<T : ViewBinding> : DialogFragment(),
-        FragmentView {
+    FragmentView {
 
     protected val log: Logger by lazy { Logger(this::class) }
 
@@ -53,9 +53,9 @@ abstract class BaseDialogFragment<T : ViewBinding> : DialogFragment(),
     }
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         val view = bind.root
         view.setOnTouchListener { _, _ -> true }
