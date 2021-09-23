@@ -33,8 +33,8 @@ interface BaseView {
     fun onViewClick(v: View?) = Unit
 
     fun NavController?.navigate(
-            @IdRes actionId: Int,
-            block: (NavigationBuilder.() -> Unit)? = null
+        @IdRes actionId: Int,
+        block: (NavigationBuilder.() -> Unit)? = null
     ) {
         this ?: return
         NavigationBuilder(this).also {
@@ -52,20 +52,22 @@ interface BaseView {
     }
 
     fun <T> navResultLiveData(key: String? = null): MutableLiveData<T>? {
-        return activityNavController()?.currentBackStackEntry?.savedStateHandle?.getLiveData(key
-                ?: "")
+        return activityNavController()?.currentBackStackEntry?.savedStateHandle?.getLiveData(
+            key
+                ?: ""
+        )
     }
 
     fun <T> setNavResult(key: String? = null, result: T) {
         activityNavController()
-                ?.previousBackStackEntry
-                ?.savedStateHandle?.set(key ?: "", result)
+            ?.previousBackStackEntry
+            ?.savedStateHandle?.set(key ?: "", result)
     }
 
     fun <T> setNavResult(result: T) {
         activityNavController()
-                ?.previousBackStackEntry
-                ?.savedStateHandle?.set("", result)
+            ?.previousBackStackEntry
+            ?.savedStateHandle?.set("", result)
     }
 
     fun <T> LiveData<T>.observe(block: (T) -> Unit) {

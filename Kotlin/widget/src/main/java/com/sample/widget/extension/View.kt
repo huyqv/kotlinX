@@ -1,6 +1,5 @@
 package com.sample.widget.extension
 
-import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
 import android.graphics.*
@@ -31,19 +30,20 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-fun View.requireActivity(): Activity? {
-    val lifecycleOwner = this.findViewTreeLifecycleOwner()
-    if (lifecycleOwner is Activity) return lifecycleOwner
-    if (lifecycleOwner is Fragment) return lifecycleOwner.requireActivity()
-    var context = context
-    while (context is ContextWrapper) {
-        if (context is Activity) {
-            return context
+val View.requireActivity: FragmentActivity?
+    get() {
+        val lifecycleOwner = this.findViewTreeLifecycleOwner()
+        if (lifecycleOwner is FragmentActivity) return lifecycleOwner
+        if (lifecycleOwner is Fragment) return lifecycleOwner.requireActivity()
+        var context = context
+        while (context is ContextWrapper) {
+            if (context is FragmentActivity) {
+                return context
+            }
+            context = context.baseContext
         }
-        context = context.baseContext
+        return null
     }
-    return null
-}
 
 fun View.dpToPx(value: Float): Float {
     val scale = context.resources.displayMetrics.density
@@ -74,10 +74,6 @@ fun hide(vararg views: View) {
 fun gone(vararg views: View) {
     for (v in views) v.gone()
 }
-
-val View.activity: Activity? get() = context as? Activity
-
-val View.fragmentActivity: FragmentActivity? get() = context as? FragmentActivity
 
 val View?.backgroundColor: Int
     get() {

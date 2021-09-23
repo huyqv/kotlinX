@@ -70,8 +70,8 @@ abstract class BasePagerAdapter<T> : PagerAdapter() {
 
     override fun instantiateItem(viewGroup: ViewGroup, position: Int): Any {
         val view =
-                LayoutInflater.from(viewGroup.context)
-                    .inflate(itemLayoutResource(), viewGroup, false)
+            LayoutInflater.from(viewGroup.context)
+                .inflate(itemLayoutResource(), viewGroup, false)
         view.onBind(data[position])
         viewGroup.addView(view, 0)
         return view

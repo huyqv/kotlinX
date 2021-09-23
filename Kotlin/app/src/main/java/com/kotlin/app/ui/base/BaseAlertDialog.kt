@@ -127,8 +127,8 @@ abstract class BaseAlertDialog<T : ViewBinding> {
         when {
             android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R -> {
                 this.decorView.windowInsetsController?.hide(
-                        WindowInsets.Type.statusBars()
-                                or WindowInsets.Type.navigationBars()
+                    WindowInsets.Type.statusBars()
+                            or WindowInsets.Type.navigationBars()
                 )
             }
             else -> {

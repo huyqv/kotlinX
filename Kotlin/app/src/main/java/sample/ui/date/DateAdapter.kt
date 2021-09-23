@@ -15,8 +15,8 @@ class DateAdapter : BaseListAdapter<Int>() {
     /**
      * [BaseRecyclerAdapter] override
      */
-    override fun get(position: Int): Int? {
-        return super.get(position % size)
+    override fun getItemOrNull(position: Int): Int? {
+        return super.getItemOrNull(position % size)
     }
 
     override fun getItemCount(): Int {
@@ -38,7 +38,7 @@ class DateAdapter : BaseListAdapter<Int>() {
      */
     val centerPosition: Int get() = itemCount / 2
 
-    val centerValue: Int get() = get(centerPosition) ?: 1
+    val centerValue: Int get() = getItemOrNull(centerPosition) ?: 1
 
     private val snapHelper = LinearSnapHelper()
 
@@ -49,7 +49,7 @@ class DateAdapter : BaseListAdapter<Int>() {
             val recyclerView = weakRecyclerView.get() ?: return 0
             val view = snapHelper.findSnapView(recyclerView.layoutManager) ?: return 0
             val position = recyclerView.getChildAdapterPosition(view)
-            return get(position) ?: return 0
+            return getItemOrNull(position) ?: return 0
         }
 
     fun snap(view: RecyclerView, onSnap: ((Int) -> Unit)? = null) {

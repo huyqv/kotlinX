@@ -17,7 +17,7 @@ class PageTransformer {
                 // [-1,1] Half the normal speed
                 position <= 1 -> {
                     view.findViewById<View>(parallaxViewId())?.translationX =
-                            -position * (view.width / 2)
+                        -position * (view.width / 2)
                 }
                 // (1,+Infinity] This page is way off-screen to the right.
                 else -> {
