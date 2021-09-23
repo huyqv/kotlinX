@@ -388,14 +388,3 @@ fun TextView.afterTextChanged(block: (String) -> Unit) {
         }
     })
 }
-
-fun TextView.afterTextChanged(delayInterval: Long, block: (String) -> Unit) {
-    addTextChangedListener(object : SimpleTextWatcher() {
-        override fun afterTextChanged(s: String) {
-            lifecycleScope?.launch(Dispatchers.Main) {
-                withContext(Dispatchers.IO) { delay(delayInterval) }
-                block(s)
-            }
-        }
-    })
-}
