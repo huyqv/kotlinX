@@ -14,10 +14,6 @@ import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.util.*
 
-/**
- * Format string pattern ex:    423.016024, 9442.456363,    72
- * To                           423,        9,442           72
- */
 abstract class SimpleTextWatcher : TextWatcher {
 
     private var saveText: String? = null
