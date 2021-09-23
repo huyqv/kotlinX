@@ -74,7 +74,12 @@ abstract class BaseFragment<T : ViewBinding> : Fragment(), FragmentView {
      */
     override val fragment: Fragment get() = this
 
-    override val backPressedCallback: OnBackPressedCallback = getBackPressCallBack()
+    override val backPressedCallback: OnBackPressedCallback by lazy { getBackPressCallBack() }
+
+    override fun onBackPressed() {
+        backPressedCallback.remove()
+        fragment.requireActivity().onBackPressed()
+    }
 
     /**
      * [BaseFragment] properties

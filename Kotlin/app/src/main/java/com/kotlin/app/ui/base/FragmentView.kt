@@ -57,10 +57,7 @@ interface FragmentView : BaseView {
         }
     }
 
-    fun onBackPressed() {
-        backPressedCallback.remove()
-        fragment.requireActivity().onBackPressed()
-    }
+    fun onBackPressed()
 
     /**
      * LifecycleScope

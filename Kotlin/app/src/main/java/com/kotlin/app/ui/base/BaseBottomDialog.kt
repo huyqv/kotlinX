@@ -80,7 +80,12 @@ abstract class BaseBottomDialog<T : ViewBinding> : BottomSheetDialogFragment(),
      */
     override val fragment: Fragment get() = this
 
-    override val backPressedCallback: OnBackPressedCallback = getBackPressCallBack()
+    override val backPressedCallback: OnBackPressedCallback by lazy { getBackPressCallBack() }
+
+    override fun onBackPressed() {
+        backPressedCallback.remove()
+        dismissAllowingStateLoss()
+    }
 
     /**
      * [BaseBottomDialog] properties

@@ -102,4 +102,19 @@
 
     </com.sample.widget.base.AppConstraintLayout>
 
+    <View
+        android:id="@+id/view1"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:background="@drawable/drw_under_line"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:background="@drawable/drw_under_dashed"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view1" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
