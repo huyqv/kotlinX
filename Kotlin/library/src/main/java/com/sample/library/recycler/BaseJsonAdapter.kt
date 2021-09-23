@@ -2,6 +2,7 @@ package com.sample.library.recycler
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -174,27 +175,26 @@ abstract class BaseJsonAdapter<T : JsonElement> : RecyclerView.Adapter<RecyclerV
         notifyDataSetChanged()
     }
 
-    open fun bind(recyclerView: RecyclerView, block: LinearLayoutManager.() -> Unit = {}) {
-        val lm = LinearLayoutManager(recyclerView.context)
-        lm.block()
-        recyclerView.layoutManager = lm
-        recyclerView.adapter = this
+    open fun bind(v: RecyclerView, block: (LinearLayoutManager.() -> Unit)? = null) {
+        val lm = CenterLayoutManager(v.context)
+        block?.invoke(lm)
+        v.itemAnimator = DefaultItemAnimator()
+        v.layoutManager = lm
+        v.adapter = this
     }
 
-    open fun bind(
-        recyclerView: RecyclerView,
-        spanCount: Int,
-        block: GridLayoutManager.() -> Unit = {}
-    ) {
-        val lm = GridLayoutManager(recyclerView.context, spanCount)
-        lm.block()
+    open fun bind(v: RecyclerView, spanCount: Int, block: (GridLayoutManager.() -> Unit)? = null) {
+        val lm = GridLayoutManager(v.context, spanCount)
+        block?.invoke(lm)
         lm.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
                 return if (dataIsEmpty || position == size) lm.spanCount
                 else 1
             }
         }
-        recyclerView.layoutManager = lm
-        recyclerView.adapter = this
+        v.itemAnimator = DefaultItemAnimator()
+        v.layoutManager = lm
+        v.adapter = this
     }
+
 }

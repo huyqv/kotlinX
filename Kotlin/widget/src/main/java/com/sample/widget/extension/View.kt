@@ -2,6 +2,7 @@ package com.sample.widget.extension
 
 import android.app.Activity
 import android.content.Context
+import android.content.ContextWrapper
 import android.content.res.Resources
 import android.graphics.*
 import android.graphics.drawable.ColorDrawable
@@ -22,9 +23,25 @@ import androidx.annotation.StyleRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.findViewTreeLifecycleOwner
 import com.sample.widget.app
 import kotlin.math.roundToInt
+
+fun View.requireActivity(): Activity? {
+    val lifecycleOwner = this.findViewTreeLifecycleOwner()
+    if (lifecycleOwner is Activity) return lifecycleOwner
+    if (lifecycleOwner is Fragment) return lifecycleOwner.requireActivity()
+    var context = context
+    while (context is ContextWrapper) {
+        if (context is Activity) {
+            return context
+        }
+        context = context.baseContext
+    }
+    return null
+}
 
 fun View.dpToPx(value: Float): Float {
     val scale = context.resources.displayMetrics.density

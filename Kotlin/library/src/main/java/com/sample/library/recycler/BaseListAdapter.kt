@@ -102,6 +102,8 @@ abstract class BaseListAdapter<T> : ListAdapter<T, RecyclerView.ViewHolder> {
 
     var lastBindIndex: Int = -1
 
+    val hasFooter get() = footerItemOptions() != null
+
     val lastIndex: Int get() = currentList.lastIndex
 
     val dataIsEmpty: Boolean get() = currentList.isEmpty()
@@ -149,41 +151,44 @@ abstract class BaseListAdapter<T> : ListAdapter<T, RecyclerView.ViewHolder> {
         val adapterCallback = AdapterListUpdateCallback(this)
         val listCallback = object : ListUpdateCallback {
             override fun onChanged(position: Int, count: Int, payload: Any?) {
-                adapterCallback.onChanged(position - 1, count + 2, payload)
+                adapterCallback.onChanged(position, if (hasFooter) count + 1 else count, payload)
             }
 
             override fun onMoved(fromPosition: Int, toPosition: Int) {
-                adapterCallback.onMoved(fromPosition - 1, toPosition + 1)
+                adapterCallback.onMoved(fromPosition, toPosition)
             }
 
             override fun onInserted(position: Int, count: Int) {
-                adapterCallback.onInserted(position - 1, count + 2)
+                adapterCallback.onInserted(position, if (hasFooter) count + 1 else count)
             }
 
             override fun onRemoved(position: Int, count: Int) {
-                adapterCallback.onRemoved(position - 1, count + 2)
+                adapterCallback.onRemoved(position, if (hasFooter) count + 1 else count)
             }
         }
         return AsyncListDiffer<T>(listCallback, AsyncDifferConfig.Builder<T>(itemCallback).build())
     }
 
-    open fun bind(v: RecyclerView, block: LinearLayoutManager.() -> Unit = {}) {
+    open fun bind(v: RecyclerView, block: (LinearLayoutManager.() -> Unit)? = null) {
         val lm = CenterLayoutManager(v.context)
-        lm.block()
+        block?.invoke(lm)
+        v.itemAnimator = DefaultItemAnimator()
         v.layoutManager = lm
         v.adapter = this
     }
 
-    open fun bind(v: RecyclerView, spanCount: Int, block: GridLayoutManager.() -> Unit = {}) {
+    open fun bind(v: RecyclerView, spanCount: Int, block: (GridLayoutManager.() -> Unit)? = null) {
         val lm = GridLayoutManager(v.context, spanCount)
-        lm.block()
+        block?.invoke(lm)
         lm.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
                 return if (dataIsEmpty || position == size) lm.spanCount
                 else 1
             }
         }
+        v.itemAnimator = DefaultItemAnimator()
         v.layoutManager = lm
         v.adapter = this
     }
+
 }

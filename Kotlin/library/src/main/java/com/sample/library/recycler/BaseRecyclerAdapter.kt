@@ -3,6 +3,7 @@ package com.sample.library.recycler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -180,23 +181,26 @@ abstract class BaseRecyclerAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHo
         notifyDataSetChanged()
     }
 
-    open fun bind(v: RecyclerView, block: LinearLayoutManager.() -> Unit = {}) {
-        val lm = LinearLayoutManager(v.context)
-        lm.block()
+    open fun bind(v: RecyclerView, block: (LinearLayoutManager.() -> Unit)? = null) {
+        val lm = CenterLayoutManager(v.context)
+        block?.invoke(lm)
+        v.itemAnimator = DefaultItemAnimator()
         v.layoutManager = lm
         v.adapter = this
     }
 
-    open fun bind(v: RecyclerView, spanCount: Int, block: GridLayoutManager.() -> Unit = {}) {
+    open fun bind(v: RecyclerView, spanCount: Int, block: (GridLayoutManager.() -> Unit)? = null) {
         val lm = GridLayoutManager(v.context, spanCount)
-        lm.block()
+        block?.invoke(lm)
         lm.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
                 return if (dataIsEmpty || position == size) lm.spanCount
                 else 1
             }
         }
+        v.itemAnimator = DefaultItemAnimator()
         v.layoutManager = lm
         v.adapter = this
     }
+
 }

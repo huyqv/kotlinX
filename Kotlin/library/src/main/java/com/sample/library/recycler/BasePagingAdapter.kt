@@ -3,10 +3,7 @@ package com.sample.library.recycler
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.*
 import androidx.viewbinding.ViewBinding
 
 abstract class BasePagingAdapter<T : Any> : PagingDataAdapter<T, RecyclerView.ViewHolder> {
@@ -100,38 +97,26 @@ abstract class BasePagingAdapter<T : Any> : PagingDataAdapter<T, RecyclerView.Vi
         return snapshot().getOrNull(position)
     }
 
-    open fun bind(recyclerView: RecyclerView, block: LinearLayoutManager.() -> Unit = {}) {
-        val lm = LinearLayoutManager(recyclerView.context)
-        lm.block()
-        recyclerView.layoutManager = lm
-        recyclerView.adapter = this
-        addLoadStateListener {
-            //val retryVisible = it.refresh is LoadState.Error
-            //val swipeRefreshLayoutIsRefreshing = it.refresh is LoadState.Loading
-            //val emptyStateIsVisible = it.refresh is LoadState.Loading && itemCount == 0
-        }
+    open fun bind(v: RecyclerView, block: (LinearLayoutManager.() -> Unit)? = null) {
+        val lm = CenterLayoutManager(v.context)
+        block?.invoke(lm)
+        v.itemAnimator = DefaultItemAnimator()
+        v.layoutManager = lm
+        v.adapter = this
     }
 
-    open fun bind(
-        recyclerView: RecyclerView,
-        spanCount: Int,
-        block: GridLayoutManager.() -> Unit = {}
-    ) {
-        val lm = GridLayoutManager(recyclerView.context, spanCount)
-        lm.block()
+    open fun bind(v: RecyclerView, spanCount: Int, block: (GridLayoutManager.() -> Unit)? = null) {
+        val lm = GridLayoutManager(v.context, spanCount)
+        block?.invoke(lm)
         lm.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
                 return if (dataIsEmpty || position == size) lm.spanCount
                 else 1
             }
         }
-        recyclerView.layoutManager = lm
-        recyclerView.adapter = this
-        addLoadStateListener {
-            //val retryVisible = it.refresh is LoadState.Error
-            //val swipeRefreshLayoutIsRefreshing = it.refresh is LoadState.Loading
-            //val emptyStateIsVisible = it.refresh is LoadState.Loading && itemCount == 0
-        }
+        v.itemAnimator = DefaultItemAnimator()
+        v.layoutManager = lm
+        v.adapter = this
     }
 }
 

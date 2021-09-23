@@ -1,20 +1,28 @@
 package com.sample.library.recycler
 
+import android.app.Activity
 import android.content.Context
+import android.content.ContextWrapper
 import android.graphics.Canvas
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.util.DisplayMetrics
 import android.util.TypedValue
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.*
 import android.widget.EditText
 import androidx.annotation.DimenRes
 import androidx.annotation.IntDef
+import androidx.core.view.GravityCompat
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.findViewTreeLifecycleOwner
 import androidx.recyclerview.widget.*
 import androidx.viewbinding.ViewBinding
+import com.sample.library.extension.screenHeight
 
 class BaseViewHolder : RecyclerView.ViewHolder {
     constructor(v: View) : super(v)
@@ -415,6 +423,20 @@ fun RecyclerView.initLayoutManager(
     return lm
 }
 
+fun RecyclerView.setItemAppearAnimation(gravity: Int = Gravity.TOP) {
+    val screenHeight = this.requireActivity()?.screenHeight?.toFloat() ?: this?.bottom.toFloat()
+    val set = AnimationSet(true)
+    set.addAnimation(AlphaAnimation(0.0F, 1.0F).also {
+        it.duration = 600
+        it.fillAfter = true
+    })
+    set.addAnimation(TranslateAnimation(0F, 0F, screenHeight, 0F).also {
+        it.interpolator = DecelerateInterpolator(4F)
+        it.duration = 600
+    })
+    layoutAnimation = LayoutAnimationController(set, 0.2F)
+}
+
 private var lastClickTime: Long = 0
 
 private var lastClickViewId: Int = 0
@@ -466,6 +488,20 @@ fun View?.addViewClickListener(delayedInterval: Long, listener: ((View?) -> Unit
 
 fun View?.addViewClickListener(listener: ((View?) -> Unit)? = null) {
     addViewClickListener(0, listener)
+}
+
+fun View.requireActivity(): Activity? {
+    val lifecycleOwner = this.findViewTreeLifecycleOwner()
+    if (lifecycleOwner is Activity) return lifecycleOwner
+    if (lifecycleOwner is Fragment) return lifecycleOwner.requireActivity()
+    var context = context
+    while (context is ContextWrapper) {
+        if (context is Activity) {
+            return context
+        }
+        context = context.baseContext
+    }
+    return null
 }
 
 fun RecyclerView.scrollToCenter(position: Int) {
