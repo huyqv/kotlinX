@@ -156,23 +156,7 @@ class StickyHeaderDecoration<T : RecyclerView.ViewHolder>(
         return if (renderInline) 0 else header.height
     }
 
-    /**
-     * The adapter to assist the [StickyHeaderDecoration] in creating and binding the header views.
-     */
-    interface StickyHeaderAdapter<T : RecyclerView.ViewHolder> {
 
-        fun getHeaderId(position: Int): Long
-
-        fun onCreateHeaderViewHolder(parent: ViewGroup, position: Int): T
-
-        fun onBindHeaderViewHolder(viewHolder: T, position: Int)
-
-        val itemCount: Int
-
-        companion object {
-            const val NO_HEADER_ID = -1L
-        }
-    }
 
     companion object {
 

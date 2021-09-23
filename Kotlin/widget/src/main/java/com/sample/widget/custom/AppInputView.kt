@@ -27,8 +27,7 @@ import com.sample.widget.extension.*
 
 class AppInputView : AppCustomView<AppInputBinding>,
     SimpleMotionTransitionListener,
-    OnFocusChangeListener,
-    SimpleTextWatcher {
+    OnFocusChangeListener {
 
     private val colorFocused get() = R.color.colorPrimary
 
@@ -46,8 +45,6 @@ class AppInputView : AppCustomView<AppInputBinding>,
 
     override fun onInitialize(context: Context, types: TypedArray) {
         title = types.title
-        bind.inputEditText.setText(types.text)
-        bind.inputEditText.addTextChangedListener(this)
         onIconInitialize(types)
         onEditTextInitialize(bind.inputEditText, types)
         bind.inputViewLayout.addTransitionListener(this)
@@ -170,6 +167,17 @@ class AppInputView : AppCustomView<AppInputBinding>,
         }
         it.isLongClickable = false
         it.setOnCreateContextMenuListener { menu, _, _ -> menu.clear() }
+        it.setText(types.text)
+        it.addTextChangedListener(object : SimpleTextWatcher(){
+            override fun afterTextChanged(s: String) {
+                onTextChanged?.invoke(s)
+                when {
+                    isSilent -> return
+                    hasError && !text.isNullOrEmpty() -> error = null
+                }
+            }
+        })
+
     }
 
     /**
@@ -315,17 +323,6 @@ class AppInputView : AppCustomView<AppInputBinding>,
      */
     var onTextChanged: ((String) -> Unit)? = null
 
-    override fun afterTextChanged(s: Editable?) {
-        onTextChanged?.invoke(s.toString())
-        when {
-            isSilent -> {
-                return
-            }
-            hasError && !text.isNullOrEmpty() -> {
-                error = null
-            }
-        }
-    }
 
     /**
      * ui state on focus change, error change, text change

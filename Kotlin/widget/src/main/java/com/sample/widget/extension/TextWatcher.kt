@@ -2,7 +2,13 @@ package com.sample.widget.extension
 
 import android.text.Editable
 import android.text.InputType
+import android.text.TextWatcher
 import android.widget.EditText
+import android.widget.TextView
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.math.BigDecimal
 import java.math.RoundingMode
 import java.text.DecimalFormat
@@ -14,6 +20,36 @@ import java.util.*
  * Format string pattern ex:    423.016024, 9442.456363,    72
  * To                           423,        9,442           72
  */
+abstract class SimpleTextWatcher : TextWatcher {
+
+    private var saveText: String? = null
+
+    open fun EditText.setTextSilently(s: String?) {
+        removeTextChangedListener(this@SimpleTextWatcher)
+        setText(s)
+        setSelection(s?.length ?: 0)
+        addTextChangedListener(this@SimpleTextWatcher)
+    }
+
+    open fun EditText.handleSelection() {
+        setSelection(text.length)
+    }
+
+    final override fun afterTextChanged(s: Editable?) {
+        if (saveText == s.toString()) return
+        afterTextChanged(s.toString())
+        saveText = s.toString()
+    }
+
+    final override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+    final override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+    }
+
+    abstract fun afterTextChanged(s: String)
+}
+
 private val INT_CASH_FORMAT = (NumberFormat.getInstance(Locale.US) as DecimalFormat).also {
     it.applyPattern("#,###,###,###")
 }
@@ -67,10 +103,10 @@ fun String?.floatCash(): String {
  * Text watcher to apply pattern: #,###,###,###
  */
 fun EditText.addCashWatcher() {
-    inputType =
-        InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL or InputType.TYPE_NUMBER_FLAG_SIGNED
-    addTextChangedListener(object : SimpleTextWatcher {
-        override fun afterTextChanged(s: Editable?) {
+    inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL or
+            InputType.TYPE_NUMBER_FLAG_SIGNED
+    addTextChangedListener(object : SimpleTextWatcher() {
+        override fun afterTextChanged(s: String) {
             setTextSilently(text.toString().intCash())
         }
     })
@@ -92,27 +128,26 @@ val EditText.amount: BigDecimal
  * Text watcher to apply pattern: USD #,###,###,###.##
  */
 fun EditText.addCashWatcher(maxLength: Int, prefix: String = "") {
-    inputType =
-        InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL or InputType.TYPE_NUMBER_FLAG_SIGNED
-    addTextChangedListener(object : SimpleTextWatcher {
+    inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL or InputType.TYPE_NUMBER_FLAG_SIGNED
+    addTextChangedListener(object : SimpleTextWatcher() {
 
         var previousCleanString = ""
 
-        override fun afterTextChanged(s: Editable?) {
+        override fun EditText.handleSelection() {
+            setSelection(if (text.length <= maxLength) text.length else maxLength)
+        }
 
-            val str = s.toString()
-            if (str.length < prefix.length) {
+        override fun afterTextChanged(s: String) {
+            if (s.length < prefix.length) {
                 setText(prefix)
                 setSelection(prefix.length)
                 return
             }
-            if (str == prefix) return
-            val cleanString = str.replace(prefix, "").replace("[,]".toRegex(), "")
+            if (s == prefix) return
+            val cleanString = s.replace(prefix, "").replace("[,]".toRegex(), "")
             if (cleanString == previousCleanString || cleanString.isEmpty()) return
             previousCleanString = cleanString
-            val formattedString: String
-            formattedString =
-                if (cleanString.contains(".")) cleanString.formatDecimal() else cleanString.formatInteger()
+            val formattedString: String = if (cleanString.contains(".")) cleanString.formatDecimal() else cleanString.formatInteger()
             removeTextChangedListener(this)
             setText(formattedString)
             handleSelection()
@@ -130,10 +165,7 @@ fun EditText.addCashWatcher(maxLength: Int, prefix: String = "") {
             this ?: return ""
             if (this == ".") return "$prefix."
             val parsed = BigDecimal(this)
-            val formatter = DecimalFormat(
-                prefix + "#,###." + getDecimalPattern(),
-                DecimalFormatSymbols(Locale.US)
-            )
+            val formatter = DecimalFormat(prefix + "#,###." + getDecimalPattern(), DecimalFormatSymbols(Locale.US))
             formatter.roundingMode = RoundingMode.DOWN
             return formatter.format(parsed)
         }
@@ -148,34 +180,28 @@ fun EditText.addCashWatcher(maxLength: Int, prefix: String = "") {
             }
             return decimalPattern.toString()
         }
-
-        private fun EditText.handleSelection() {
-            setSelection(if (text.length <= maxLength) text.length else maxLength)
-        }
     })
 }
 
 fun EditText.addDateWatcher() {
-    addTextChangedListener(object : SimpleTextWatcher {
+    addTextChangedListener(object : SimpleTextWatcher() {
 
         private val sb: StringBuilder = StringBuilder("")
 
         private var ignore = false
 
-        override fun afterTextChanged(s: Editable?) {
+        override fun afterTextChanged(s: String) {
             if (ignore) {
                 ignore = false
                 return
             }
 
             sb.clear()
-            sb.append(
-                if (s!!.length > 10) {
-                    s.subSequence(0, 10)
-                } else {
-                    s
-                }
-            )
+            sb.append(if (s!!.length > 10) {
+                s.subSequence(0, 10)
+            } else {
+                s
+            })
 
             if (sb.lastIndex == 2) {
                 if (sb[2] != '/') {
@@ -188,6 +214,26 @@ fun EditText.addDateWatcher() {
             }
             ignore = true
             setTextSilently(sb.toString())
+
+        }
+    })
+}
+
+fun TextView.afterTextChanged(block: (String) -> Unit) {
+    addTextChangedListener(object : SimpleTextWatcher() {
+        override fun afterTextChanged(s: String) {
+            block(s)
+        }
+    })
+}
+
+fun TextView.afterTextChanged(delayInterval: Long, block: (String) -> Unit) {
+    addTextChangedListener(object : SimpleTextWatcher() {
+        override fun afterTextChanged(s: String) {
+            lifecycleScope?.launch(Dispatchers.Main) {
+                withContext(Dispatchers.IO) { delay(delayInterval) }
+                block(s)
+            }
         }
     })
 }

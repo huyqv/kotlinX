@@ -20,8 +20,15 @@ import androidx.annotation.*
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
+import androidx.lifecycle.LifecycleCoroutineScope
+import androidx.lifecycle.findViewTreeLifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import androidx.viewbinding.ViewBinding
 import com.sample.widget.R
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 abstract class AppCustomView<B : ViewBinding> : ConstraintLayout {
 
@@ -178,6 +185,22 @@ abstract class AppCustomView<B : ViewBinding> : ConstraintLayout {
     /**
      * Utils
      */
+    val lifecycleScope: LifecycleCoroutineScope?
+        get() = this?.findViewTreeLifecycleOwner()?.lifecycleScope
+
+    fun launch(block: () -> Unit) {
+        lifecycleScope?.launch(Dispatchers.Main) {
+            block()
+        }
+    }
+
+    fun launch(delayInterval: Long, block: () -> Unit) {
+        lifecycleScope?.launch(Dispatchers.Main) {
+            withContext(Dispatchers.IO) { delay(delayInterval) }
+            block()
+        }
+    }
+
     fun getPixels(@DimenRes res: Int): Float {
         return context.resources.getDimensionPixelSize(res).toFloat()
     }

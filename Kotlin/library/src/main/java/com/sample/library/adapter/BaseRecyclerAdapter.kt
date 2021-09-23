@@ -2,105 +2,51 @@ package com.sample.library.adapter
 
 import android.util.Log
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DefaultItemAnimator
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewbinding.ViewBinding
 
-abstract class BaseRecyclerAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+abstract class BaseRecyclerAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
+        BaseAdapter<T> {
 
+    /**
+     * [PagingDataAdapter] implements
+     */
     override fun getItemCount(): Int {
-        var s = size
-        blankItemOptions()?.also { s++ }
-        footerItemOptions()?.also { s++ }
-        return s
+        return extraItemCount
     }
 
     override fun getItemViewType(position: Int): Int {
-        blankItemOptions()?.also {
-            if (it.layoutId != 0 && dataIsEmpty) {
-                return it.layoutId
-            }
-        }
-        footerItemOptions()?.also {
-            if (it.layoutId != 0 && dataNotEmpty && position == size) {
-                return it.layoutId
-            }
-        }
-        val model = get(position) ?: return 0
-        return modelItemOptions(model, position)?.layoutId ?: 0
+        return getBaseItemViewType(position)
     }
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int /* also it layout resource id */
-    ): RecyclerView.ViewHolder {
-        if (viewType != 0) {
-            return BaseViewHolder(parent = parent, layoutId = viewType)
-        }
-        return GoneViewHolder(parent)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return onBaseCreateViewHolder(parent, viewType)
     }
 
     override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
-        val viewType: Int = viewHolder.itemViewType
-        if (viewType == blankItemOptions()?.layoutId) {
-            return
-        }
-        if (viewType == footerItemOptions()?.layoutId) {
-            return
-        }
-        if (viewType == 0) {
-            return
-        }
-        val model = get(position) ?: return
-        val itemView = viewHolder.itemView
-        itemView.addViewClickListener {
-            onItemClick(model, viewHolder.absoluteAdapterPosition)
-        }
-        itemView.setOnLongClickListener {
-            onItemLongClick(model, viewHolder.absoluteAdapterPosition)
-            true
-        }
-        val options = modelItemOptions(model, position) ?: return
-        val binding: ViewBinding = options.inflaterInvoker(itemView)
-        binding.onBindModelItem(model, position)
-        lastBindIndex = position
+        onBaseBindViewHolder(viewHolder, position)
     }
 
     /**
      *
      */
-    open var onItemClick: (T, Int) -> Unit = { _, _ -> }
+    private var currentList: MutableList<T> = mutableListOf()
 
-    var onItemLongClick: (T, Int) -> Unit = { _, _ -> }
+    override var onItemClick: OnItemClick<T> = null
 
-    var onFooterIndexChanged: (Int) -> Unit = {}
+    override var onItemLongClick: OnItemClick<T> = null
 
-    var currentList: MutableList<T> = mutableListOf()
+    override var onFooterIndexChanged: ((Int) -> Unit)? = null
 
-    var lastBindIndex: Int = -1
+    override var lastBindIndex: Int = -1
 
-    val lastIndex: Int get() = currentList.lastIndex
-
-    val size: Int get() = currentList.size
-
-    val dataIsEmpty: Boolean get() = currentList.isNullOrEmpty()
-
-    val dataNotEmpty: Boolean get() = !dataIsEmpty
-
-    protected open fun blankItemOptions(): ItemOptions? = null
-
-    protected open fun footerItemOptions(): ItemOptions? = null
-
-    protected abstract fun modelItemOptions(item: T, position: Int): ItemOptions?
-
-    protected abstract fun ViewBinding.onBindModelItem(item: T, position: Int)
-
-    open fun get(position: Int): T? {
-        return currentList.getOrNull(position)
+    override fun listItem(): MutableList<T> {
+        return currentList
     }
 
+    /**
+     * Utils
+     */
     open fun set(collection: Collection<T>?) {
         currentList = collection?.toMutableList() ?: mutableListOf()
         Log.d("BRA", "=====================")
@@ -177,28 +123,6 @@ abstract class BaseRecyclerAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHo
     open fun clear() {
         currentList = mutableListOf()
         notifyDataSetChanged()
-    }
-
-    open fun bind(v: RecyclerView, block: (LinearLayoutManager.() -> Unit)? = null) {
-        val lm = CenterLayoutManager(v.context)
-        block?.invoke(lm)
-        v.itemAnimator = DefaultItemAnimator()
-        v.layoutManager = lm
-        v.adapter = this
-    }
-
-    open fun bind(v: RecyclerView, spanCount: Int, block: (GridLayoutManager.() -> Unit)? = null) {
-        val lm = GridLayoutManager(v.context, spanCount)
-        block?.invoke(lm)
-        lm.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-            override fun getSpanSize(position: Int): Int {
-                return if (dataIsEmpty || position == size) lm.spanCount
-                else 1
-            }
-        }
-        v.itemAnimator = DefaultItemAnimator()
-        v.layoutManager = lm
-        v.adapter = this
     }
 
 }

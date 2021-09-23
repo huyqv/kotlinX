@@ -15,10 +15,9 @@ import com.sample.library.extension.toArray
 abstract class BaseJsonAdapter<T : JsonElement> : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun getItemCount(): Int {
-        var s = size
-        blankItemOptions()?.also { s++ }
-        footerItemOptions()?.also { s++ }
-        return s
+        if (dataIsEmpty && blankItemOptions() != null) 1
+        if (dataNotEmpty && footerItemOptions() != null) size + 1
+        return size
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -32,14 +31,11 @@ abstract class BaseJsonAdapter<T : JsonElement> : RecyclerView.Adapter<RecyclerV
                 return it.layoutId
             }
         }
-        val model = get(position) ?: return 0
+        val model = getItemOrNull(position) ?: return 0
         return modelItemOptions(model, position)?.layoutId ?: 0
     }
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int /* also it layout resource id */
-    ): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         if (viewType != 0) {
             return BaseViewHolder(parent = parent, layoutId = viewType)
         }
@@ -57,13 +53,13 @@ abstract class BaseJsonAdapter<T : JsonElement> : RecyclerView.Adapter<RecyclerV
         if (viewType == 0) {
             return
         }
-        val model = get(position) ?: return
+        val model = getItemOrNull(position) ?: return
         val itemView = viewHolder.itemView
         itemView.addViewClickListener {
-            onItemClick(model, viewHolder.absoluteAdapterPosition)
+            onItemClick?.invoke(model, viewHolder.absoluteAdapterPosition)
         }
         itemView.setOnLongClickListener {
-            onItemLongClick(model, viewHolder.absoluteAdapterPosition)
+            onItemLongClick?.invoke(model, viewHolder.absoluteAdapterPosition)
             true
         }
         val options = modelItemOptions(model, position) ?: return
@@ -75,11 +71,9 @@ abstract class BaseJsonAdapter<T : JsonElement> : RecyclerView.Adapter<RecyclerV
     /**
      *
      */
-    var onItemClick: (T, Int) -> Unit = { _, _ -> }
+    var onItemClick: OnItemClick<T> = null
 
-    var onItemLongClick: (T, Int) -> Unit = { _, _ -> }
-
-    var onFooterIndexChanged: (Int) -> Unit = {}
+    var onItemLongClick: OnItemClick<T> = null
 
     private var currentList: JsonArray = JsonArray()
 
@@ -101,7 +95,7 @@ abstract class BaseJsonAdapter<T : JsonElement> : RecyclerView.Adapter<RecyclerV
 
     protected abstract fun ViewBinding.onBindModelItem(item: T, position: Int)
 
-    open fun get(position: Int): T? {
+    open fun getItemOrNull(position: Int): T? {
         if (currentList.isEmpty()) return null
         @Suppress("UNCHECKED_CAST")
         if (position in 0..lastIndex) return currentList.get(position) as? T

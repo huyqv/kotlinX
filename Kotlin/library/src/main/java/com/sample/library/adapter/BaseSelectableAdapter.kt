@@ -18,9 +18,9 @@ abstract class BaseSelectableAdapter<T> : BaseListAdapter<T>() {
             return currentList.indexOf(selectedItem)
         }
 
-    var onSelectionChanged: ((T, Int) -> Unit)? = null
+    var onSelectionChanged: OnItemClick<T> = null
 
-    override var onItemClick: (T, Int) -> Unit = { item, position ->
+    override var onItemClick: OnItemClick<T> = { item, position ->
         updateSelectedItem(item, position)
     }
 

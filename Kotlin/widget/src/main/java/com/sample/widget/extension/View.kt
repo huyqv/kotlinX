@@ -22,8 +22,14 @@ import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.findViewTreeLifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import com.sample.widget.app
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 fun View.requireActivity(): Activity? {
     val lifecycleOwner = this.findViewTreeLifecycleOwner()
@@ -86,6 +92,22 @@ val View?.backgroundColor: Int
 /**
  * [View] visible state
  */
+val View?.lifecycleScope: LifecycleCoroutineScope?
+    get() = this?.findViewTreeLifecycleOwner()?.lifecycleScope
+
+fun View?.launch(block: () -> Unit) {
+    lifecycleScope?.launch(Dispatchers.Main) {
+        block()
+    }
+}
+
+fun View?.launch(delayInterval: Long, block: () -> Unit) {
+    lifecycleScope?.launch(Dispatchers.Main) {
+        withContext(Dispatchers.IO) { delay(delayInterval) }
+        block()
+    }
+}
+
 fun View.show() {
     if (visibility != View.VISIBLE) visibility = View.VISIBLE
 }

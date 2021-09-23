@@ -21,6 +21,8 @@ import com.sample.library.extension.screenHeight
 
 class ItemOptions(val layoutId: Int = 1, val inflaterInvoker: (View) -> ViewBinding)
 
+typealias OnItemClick<T> = ((T, Int) -> Unit)?
+
 typealias InflaterInvoker = (LayoutInflater, ViewGroup, Boolean) -> ViewBinding
 
 fun InflaterInvoker?.invokeItem(parent: ViewGroup): ViewBinding? {

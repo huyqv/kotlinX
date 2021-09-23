@@ -44,8 +44,8 @@ abstract class SecondCountdownTimer(private val intervalMillis: Long = 10 * SECO
                 onDoStick()
                 delay(200)
             } while (nowInMillis - startTime <= intervalMillis)
+            onDoStick()
         }
-        onDoStick()
     }
 
     private fun onDoStick() {

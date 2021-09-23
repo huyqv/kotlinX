@@ -22,7 +22,7 @@ class SelectableAdapter<T> : BaseListAdapter<T>() {
         notifyItemChanged(selectedPosition)
         selectedPosition = position
         notifyItemChanged(position)
-        get(position)?.also { onItemSelected(it) }
+        getItemOrNull(position)?.also { onItemSelected(it) }
     }
 
     override fun modelItemOptions(item: T, position: Int): ItemOptions? {
