@@ -47,4 +47,8 @@ open class ViewPagerAdapter : FragmentStateAdapter {
         return this
     }
 
+    fun get(position: Int): Fragment? {
+        return fragments.getOrNull(position)
+    }
+
 }

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.viewbinding.ViewBinding
 import com.sample.widget.databinding.InputMaterialBinding
 
 class InputViewMaterial : InputView<InputMaterialBinding> {
@@ -18,7 +19,7 @@ class InputViewMaterial : InputView<InputMaterialBinding> {
 
     constructor(context: Context, attrs: AttributeSet? = null) : super(context, attrs)
 
-    override fun inflating(): (LayoutInflater, ViewGroup, Boolean) -> InputMaterialBinding {
+    override fun inflating(): (LayoutInflater, ViewGroup, Boolean) -> ViewBinding {
         return InputMaterialBinding::inflate
     }
 }

@@ -9,13 +9,14 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.viewbinding.ViewBinding
 import com.sample.widget.R
 import com.sample.widget.databinding.AppBarBinding
 import com.sample.widget.extension.getSize
 
 class AppBarView : AppCustomView<AppBarBinding> {
 
-    override fun inflating(): (LayoutInflater, ViewGroup, Boolean) -> AppBarBinding {
+    override fun inflating(): (LayoutInflater, ViewGroup, Boolean) -> ViewBinding {
         return AppBarBinding::inflate
     }
 

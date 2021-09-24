@@ -30,7 +30,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-abstract class AppCustomView<B : ViewBinding> : ConstraintLayout {
+abstract class AppCustomView<T : ViewBinding> : ConstraintLayout {
 
     protected abstract fun onInitialize(context: Context, types: TypedArray)
 
@@ -38,9 +38,9 @@ abstract class AppCustomView<B : ViewBinding> : ConstraintLayout {
         return R.styleable.AppCustomView
     }
 
-    protected lateinit var bind: B
+    protected lateinit var bind: T
 
-    abstract fun inflating(): (LayoutInflater, ViewGroup, Boolean) -> B
+    abstract fun inflating(): (LayoutInflater, ViewGroup, Boolean) -> ViewBinding
 
     constructor(context: Context, attrs: AttributeSet? = null) : super(context, attrs) {
         onViewInit(context, attrs)
@@ -49,7 +49,8 @@ abstract class AppCustomView<B : ViewBinding> : ConstraintLayout {
     private fun onViewInit(context: Context, attrs: AttributeSet?) {
         val types = context.theme.obtainStyledAttributes(attrs, styleResource(), 0, 0)
         try {
-            bind = inflating().invoke(LayoutInflater.from(context), this, true)
+            @Suppress("UNCHECKED_CAST")
+            bind = inflating().invoke(LayoutInflater.from(context), this, true) as T
             onInitialize(context, types)
         } finally {
             types.recycle()

@@ -5,13 +5,14 @@ import android.content.res.TypedArray
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.viewbinding.ViewBinding
 import com.sample.widget.databinding.NavItemBinding
 
 class NavigateItemView : AppCustomView<NavItemBinding> {
 
     constructor(context: Context, attrs: AttributeSet? = null) : super(context, attrs)
 
-    override fun inflating(): (LayoutInflater, ViewGroup, Boolean) -> NavItemBinding {
+    override fun inflating(): (LayoutInflater, ViewGroup, Boolean) -> ViewBinding {
         return NavItemBinding::inflate
     }
 

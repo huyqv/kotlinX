@@ -7,13 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
+import androidx.viewbinding.ViewBinding
 import com.sample.widget.databinding.SettingItemBinding
 
 class SettingItemView : AppCustomView<SettingItemBinding> {
 
     constructor(context: Context, attrs: AttributeSet? = null) : super(context, attrs)
 
-    override fun inflating(): (LayoutInflater, ViewGroup, Boolean) -> SettingItemBinding {
+    override fun inflating(): (LayoutInflater, ViewGroup, Boolean) -> ViewBinding {
         return SettingItemBinding::inflate
     }
 
